@@ -46,7 +46,7 @@ class behat_mod_surveypro extends behat_base {
      * Convert page names to URLs for steps like 'When I am on the "[page name]" page'.
      *
      * Recognised page names are:
-     * | None so far!      |                                                              |
+     * | None so far! |                                                              |
      *
      * @param string $page name of the page, with the component name removed e.g. 'Admin notification'.
      * @return moodle_url the corresponding URL.
@@ -63,8 +63,8 @@ class behat_mod_surveypro extends behat_base {
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
      *
      * Recognised page names are:
-     * | pagetype            | name meaning       | description                                            |
-     * | Usertemplate Import | surveypro name     | The page to load user templater (utemplate_import.php) |
+     * | pagetype            | name meaning   | description                                     |
+     * | Usertemplate Import | surveypro name | The page to load user templater (utemplate.php) |
      *
      * @param string $type identifies which type of page this is, e.g. 'Attempt review'.
      * @param string $identifier identifies the particular page, e.g. 'Test surveypro > student > Attempt 1'.
@@ -79,13 +79,13 @@ class behat_mod_surveypro extends behat_base {
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
-            case 'mtemplates page':
-                return new \moodle_url('/mod/surveypro/mtemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
-
             case 'User templates Import':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);
+
+            case 'mtemplates page':
+                return new \moodle_url('/mod/surveypro/mtemplates.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
             case 'Master templates Apply':
                 return new \moodle_url('/mod/surveypro/mtemplates.php',
@@ -147,6 +147,7 @@ class behat_mod_surveypro extends behat_base {
      */
     protected function get_surveypro_by_name(string $name): \stdClass {
         global $DB;
+
         return $DB->get_record('surveypro', ['name' => $name], '*', MUST_EXIST);
     }
 
@@ -272,17 +273,6 @@ class behat_mod_surveypro extends behat_base {
             $item = surveypro_get_item($cm, $surveypro, 0, $type, $plugin);
             $item->item_save($record);
         }
-    }
-
-    /**
-     * Click on the link in the TAB/page bar on top of the page.
-     *
-     * @When /^I follow "(?P<element_string>(?:[^"]|\\")*)" page in tab bar$/
-     * @param string $nodetext Element we look for
-     */
-    public function i_follow_page_in_tab_bar($nodetext) {
-        $xpath = "//ul[contains(@class,'nav-tabs')]//li//a[contains(@title, '".$nodetext."')]";
-        $this->execute('behat_general::i_click_on', [$xpath, 'xpath_element']);
     }
 
     /**

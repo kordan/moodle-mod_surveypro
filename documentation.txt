@@ -80,7 +80,7 @@ In the starting release of surveypro was crafted with:
 • 3 items of type "format"
 
 The 18 fields type are:
-• element type "age" to ask for question like: "How old were you when you learned to ride a bike?"
+• element type "age" to ask for question like: "How old were you when you started cycling?"
 • element type "autofill" to autofill a field with infos from user, course, time, date or surveypro
 • element type "boolean" to ask for question like: "Is it true?"
 • element type "character" to ask for question like: "Write down your email" or "Enter your personal web site URL" or "Enter the PIN code of your card"
@@ -88,9 +88,9 @@ The 18 fields type are:
 • element type "date" to ask for question like: "When were you born?"
 • element type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles."
 • element type "fileupload" to ask for question like: "Upload your CV in PDF format"
-• element type "integer" to ask for question like: "How many people does your family have besides you?"
+• element type "integer" to ask for question like: "How many people does your family counts?"
 • element type "multiselect" to ask for question like: "What do you usually get for breakfast?" A: "milk, sugar, jam, chocolate"
-• element type "numeric" to ask for question like: "Write the best approximation of π you can remember"
+• element type "numeric" to ask for question like: "Write your best approximation of π"
 • element type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
 • element type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother tongue, very confident, not enough, unknown."
 • element type "recurrence" to ask for question like: "When do you usually celebrate your name-day? June, 7"

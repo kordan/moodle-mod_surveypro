@@ -16,8 +16,6 @@
 
 namespace mod_surveypro\output;
 
-use action_link;
-use mod_surveypro\manager;
 use moodle_url;
 use templatable;
 use renderable;
@@ -36,9 +34,6 @@ class view_action_bar implements templatable, renderable {
 
     /** @var \url_select $urlselect The URL selector object. */
     private $urlselect;
-
-    /** @var \action_menu $actionmenu */
-    private $actionmenu;
 
     /**
      * The class constructor.

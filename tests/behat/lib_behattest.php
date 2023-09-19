@@ -45,7 +45,7 @@ function get_dummy_contents($type, $plugin) {
 
     if ($type == SURVEYPRO_TYPEFIELD) {
         if ($plugin == 'age') {
-            $return->content_editor['text'] = 'How old were you when you learned to ride a bike?';
+            $return->content_editor['text'] = 'How old were you when you started cycling?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -166,7 +166,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'integer') {
-            $return->content_editor['text'] = 'How many people does your family have besides you?';
+            $return->content_editor['text'] = 'How many people does your family counts?';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = '2';
@@ -188,7 +188,7 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'numeric') {
-            $return->content_editor['text'] = 'Write the best approximation of π you can remember';
+            $return->content_editor['text'] = 'Write your best approximation of π';
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultvalue = '';

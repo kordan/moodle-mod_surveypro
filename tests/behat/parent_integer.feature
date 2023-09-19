@@ -46,30 +46,30 @@ Feature: test the use of integer as parent item
     And I press "Next page >>"
     Then I should see "Please choose a value"
 
-    And I set the field "How many people does your family have besides you?" to "0"
+    And I set the field "How many people does your family counts?" to "0"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "0"
-    And I set the field "How many people does your family have besides you?" to "1"
+    Then the field "How many people does your family counts?" matches value "0"
+    And I set the field "How many people does your family counts?" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "1"
-    And I set the field "How many people does your family have besides you?" to "5"
+    Then the field "How many people does your family counts?" matches value "1"
+    And I set the field "How many people does your family counts?" to "5"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "5"
-    And I set the field "How many people does your family have besides you?" to "No answer"
+    Then the field "How many people does your family counts?" matches value "5"
+    And I set the field "How many people does your family counts?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "No answer"
+    Then the field "How many people does your family counts?" matches value "No answer"
 
     And I log out
 
@@ -90,30 +90,30 @@ Feature: test the use of integer as parent item
     And I press "Next page >>"
     Then I should see "Please choose a value"
 
-    And I set the field "How many people does your family have besides you?" to "0"
+    And I set the field "How many people does your family counts?" to "0"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "0"
-    And I set the field "How many people does your family have besides you?" to "1"
+    Then the field "How many people does your family counts?" matches value "0"
+    And I set the field "How many people does your family counts?" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "1"
-    And I set the field "How many people does your family have besides you?" to "5"
+    Then the field "How many people does your family counts?" matches value "1"
+    And I set the field "How many people does your family counts?" to "5"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "5"
-    And I set the field "How many people does your family have besides you?" to "No answer"
+    Then the field "How many people does your family counts?" matches value "5"
+    And I set the field "How many people does your family counts?" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "How many people does your family have besides you?" matches value "No answer"
+    Then the field "How many people does your family counts?" matches value "No answer"
 
     And I log out
 
@@ -130,16 +130,16 @@ Feature: test the use of integer as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "0"
+    And I set the field "How many people does your family counts?" to "0"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "How many people does your family have besides you?" to "1"
+    And I set the field "How many people does your family counts?" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "5"
+    And I set the field "How many people does your family counts?" to "5"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "No answer"
+    And I set the field "How many people does your family counts?" to "No answer"
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -160,14 +160,14 @@ Feature: test the use of integer as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "0"
+    And I set the field "How many people does your family counts?" to "0"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "1"
+    And I set the field "How many people does your family counts?" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "How many people does your family have besides you?" to "5"
+    And I set the field "How many people does your family counts?" to "5"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "How many people does your family have besides you?" to "No answer"
+    And I set the field "How many people does your family counts?" to "No answer"
     Then the "Write down your name" "field" should be disabled
