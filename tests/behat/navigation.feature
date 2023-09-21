@@ -144,7 +144,6 @@ Feature: verify urls really redirect to existing pages
     # "User templates" in secondary navigation
     #
     And I am on the "sPro test links" "mod_surveypro > User templates manage" page
-
     # User templates -> Save
     And I select "Save" from the "jump" singleselect
 

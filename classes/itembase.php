@@ -760,8 +760,8 @@ class itembase {
         if ($applyusersettings) {
             $datestring = userdate($time, '%Y_%m_%d_%H_%M', 0);
         } else {
-            $datestring = gmstrftime('%Y_%m_%d_%H_%M', $time);
-            // $datestring = \core_date::strftime('%Y_%m_%d_%H_%M', $time);
+            // $datestring = gmstrftime('%Y_%m_%d_%H_%M', $time); Function gmstrftime() is deprecated in php 8.
+            $datestring = date('Y_m_d_H_i', $time);
         }
 
         // 2012_07_11_16_03.

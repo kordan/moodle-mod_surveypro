@@ -94,7 +94,7 @@ if ($section == 'save') { // It was mtemplate_save.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -148,7 +148,7 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

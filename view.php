@@ -99,7 +99,7 @@ if ($section == 'cover') { // It was view_cover.php
     $PAGE->set_heading($course->shortname);
     // $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('surveypro_dashboard', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -166,7 +166,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('surveypro_responses', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -310,7 +310,7 @@ if ($section == 'submissionform') { // It was view_form.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -391,7 +391,7 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

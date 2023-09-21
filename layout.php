@@ -150,7 +150,7 @@ if ($section == 'preview') { // It was layout_validation.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -298,7 +298,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     $PAGE->set_heading($course->shortname);
     // $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -472,7 +472,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -555,7 +555,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

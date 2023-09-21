@@ -481,7 +481,6 @@ class usertemplate extends templatebase {
 
             // Surveypro_item.
             $xmltable = $xmlitem->addChild('surveypro_item');
-
             $structure = $this->get_table_structure();
             foreach ($structure as $field) {
                 if ($field == 'parentid') {
@@ -515,9 +514,19 @@ class usertemplate extends templatebase {
                 continue;
             }
 
-            $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
+            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-                $val = $item->get_generic_property($field);
+                // If $field == 'content' I can not use the property of the object $item because
+                // in case of pictures, for instance, $item->content has to look like:
+                // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
+                // and not like:
+                // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
+                if ($field != 'content') {
+                    $val = $item->get_generic_property($field);
+                } else {
+                    $val = $DB->get_field($tablename, 'content', ['itemid' => $itemseed->id], MUST_EXIST);
+                }
 
                 if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));

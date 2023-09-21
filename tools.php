@@ -109,7 +109,7 @@ if ($section == 'export') { // It was tools_export.php
     $PAGE->set_heading($course->shortname);
     // $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('tools_export', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -172,7 +172,7 @@ if ($section == 'import') { // It was tools_import.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('tools_import', 'mod_surveypro'));
-    $PAGE->add_body_class('mediumwidth');
+    // $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
