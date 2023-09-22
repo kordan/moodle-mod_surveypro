@@ -77,9 +77,6 @@ class action_bar {
         global $PAGE;
 
         $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_view_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $canview = has_capability('mod/surveypro:view', $this->context);
         $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
@@ -152,9 +149,6 @@ class action_bar {
         global $PAGE, $DB;
 
         $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_layout_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $canpreview = has_capability('mod/surveypro:preview', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
@@ -235,10 +229,8 @@ class action_bar {
     public function draw_tools_action_bar(): string {
         global $PAGE, $DB;
 
+        // At the moment $pageparams is useless here.
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_tools_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
@@ -292,10 +284,8 @@ class action_bar {
     public function draw_utemplates_action_bar(): string {
         global $PAGE, $DB;
 
+        // At the moment $pageparams is useless here.
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_utemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
@@ -376,10 +366,8 @@ class action_bar {
     public function draw_mtemplates_action_bar(): string {
         global $PAGE;
 
+        // At the moment $pageparams is useless here.
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_mtemplates_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
         $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
@@ -434,10 +422,8 @@ class action_bar {
     public function draw_reports_action_bar(): string {
         global $PAGE;
 
+        // At the moment $pageparams is useless here.
         // $pageparams = $PAGE->url->params();
-        // echo 'Sono su draw_reports_action_bar e ho $this->currenturl = '.$this->currenturl.'<br>';
-        // echo '$pageparams =';
-        // print_object($pageparams);
 
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);

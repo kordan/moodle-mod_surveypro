@@ -317,7 +317,7 @@ class itembase {
         if (!empty($record->parentid)) {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
-            unset($record->parentcontent);
+            unset($record->parentcontent); // why do I drop $record->parentcontent?
         }
     }
 
@@ -369,7 +369,7 @@ class itembase {
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
-        // Does this record need to be saved as new record or as un update on a preexisting record?
+        // Does this record need to be saved as new record or as un update of a preexisting record?
         if (empty($record->itemid)) {
             // Item is new.
 
@@ -475,10 +475,11 @@ class itembase {
 
                 if ($DB->update_record('surveypro_item', $record)) {
                     if ($this->uses_db_table()) {
-                        // Before saving to the the plugin table, I validate the variable name.
+                        // Before saving to the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $record->itemid);
 
                         $record->id = $record->pluginid;
+
                         if ($DB->update_record($tablename, $record)) {
                             $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
                         } else {
@@ -752,17 +753,13 @@ class itembase {
      * @param boolean $applyusersettings
      * @return void
      */
-    protected static function item_split_unix_time($time, $applyusersettings=false) {
+    protected static function item_split_unix_time($time) {
         if (!$time) {
             $message = '$time is not set in item_split_unix_time';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        if ($applyusersettings) {
-            $datestring = userdate($time, '%Y_%m_%d_%H_%M', 0);
-        } else {
-            // $datestring = gmstrftime('%Y_%m_%d_%H_%M', $time); Function gmstrftime() is deprecated in php 8.
-            $datestring = date('Y_m_d_H_i', $time);
-        }
+
+        $datestring = date('Y_m_d_H_i', $time);
 
         // 2012_07_11_16_03.
         list(
@@ -1030,7 +1027,10 @@ class itembase {
     public function get_itemform_preset() {
         if (!empty($this->itemid)) {
             $data = get_object_vars($this);
-
+// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
+// echo '$data =';
+// print_object($data);
+// die;
             // Just to save few nanoseconds.
             unset($data['cm']);
             unset($data['surveypro']);

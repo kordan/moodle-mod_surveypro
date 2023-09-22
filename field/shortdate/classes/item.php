@@ -256,7 +256,7 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_shortdate_to_unix_time($month, $year) {
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
+        return (mktime(12, 0, 0, $month, 1, $year));
     }
 
     /**
@@ -452,11 +452,11 @@ EOS;
         }
         if ($this->lowerboundyear == $this->upperboundyear) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         } else {
             for ($i = 1; $i <= 12; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         }
         $yearsrange = range($this->lowerboundyear, $this->upperboundyear);
@@ -536,16 +536,16 @@ EOS;
                     // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
                 case SURVEYPRO_CUSTOMDEFAULT:
                     if ($this->defaultvalue) {
-                        $shortdatearray = self::item_split_unix_time($this->defaultvalue, true);
+                        $shortdatearray = self::item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
-                        $shortdatearray = self::item_split_unix_time($this->lowerbound, true);
+                        $shortdatearray = self::item_split_unix_time($this->lowerbound);
                     } else {
                         $shortdatearray['mon'] = $months[1];
                         $shortdatearray['year'] = $years[1];
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $shortdatearray = self::item_split_unix_time(time(), true);
+                    $shortdatearray = self::item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the last submission I made.
@@ -556,7 +556,7 @@ EOS;
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                         $shortdatearray = self::item_split_unix_time($time);
                     } else { // As in standard default.
-                        $shortdatearray = self::item_split_unix_time(time(), true);
+                        $shortdatearray = self::item_split_unix_time(time());
                     }
                     break;
                 default:

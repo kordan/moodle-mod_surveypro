@@ -74,6 +74,10 @@ class utility_item {
      * @return array
      */
     public function multilinetext_to_array($textareacontent) {
+        if (is_null($textareacontent)) {
+            return '';
+        }
+
         // Begin with a simple trim to drop each starting and closing empty row and spaces.
         $textareacontent = trim($textareacontent);
 

@@ -256,7 +256,7 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_recurrence_to_unix_time($month, $day) {
-        return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT.
+        return (mktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET));
     }
 
     /**
@@ -462,14 +462,14 @@ EOS;
         $days += array_combine($daysrange, $daysrange);
         if ($this->lowerboundmonth <= $this->upperboundmonth) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         } else {
             for ($i = $this->lowerboundmonth; $i <= 12; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
             for ($i = 1; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         }
         // End of: element values.
@@ -556,7 +556,7 @@ EOS;
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $recurrencearray = self::item_split_unix_time(time(), true);
+                    $recurrencearray = self::item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the most recent submission I made.
@@ -567,7 +567,7 @@ EOS;
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                         $recurrencearray = self::item_split_unix_time($time);
                     } else { // As in standard default.
-                        $recurrencearray = self::item_split_unix_time(time(), true);
+                        $recurrencearray = self::item_split_unix_time(time());
                     }
                     break;
                 default:

@@ -258,7 +258,7 @@ class item extends itembase {
      * @param bool $applyusersettings
      * @return void
      */
-    public static function item_split_unix_time($time, $applyusersettings=false) {
+    public static function item_split_unix_time($time, $applyusersettings=true) {
         $getdate = parent::item_split_unix_time($time, $applyusersettings);
 
         $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
@@ -302,7 +302,7 @@ class item extends itembase {
      */
     public function item_age_to_unix_time($year, $month) {
         $year += SURVEYPROFIELD_AGE_YEAROFFSET;
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
+        return (mktime(12, 0, 0, $month, 1, $year));
     }
 
     /**

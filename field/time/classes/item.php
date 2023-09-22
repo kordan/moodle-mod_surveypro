@@ -259,7 +259,7 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_time_to_unix_time($hour, $minute) {
-        return (gmmktime($hour, $minute, 0, SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET)); // This is GMT.
+        return (mktime($hour, $minute, 0, SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET));
     }
 
     /**
@@ -573,7 +573,7 @@ EOS;
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $timearray = self::item_split_unix_time(time(), true);
+                    $timearray = self::item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the last submission I made.
@@ -584,7 +584,7 @@ EOS;
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
                         $timearray = self::item_split_unix_time($time);
                     } else { // As in standard default.
-                        $timearray = self::item_split_unix_time(time(), true);
+                        $timearray = self::item_split_unix_time(time());
                     }
                     break;
                 default:
@@ -769,7 +769,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;

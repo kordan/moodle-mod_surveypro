@@ -64,7 +64,7 @@ class itemsetupform extends item_setupbaseform {
         $days = array_combine($daysrange, $daysrange);
         $months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
         $yearsrange = range($startyear, $stopyear);
         $years = array_combine($yearsrange, $yearsrange);

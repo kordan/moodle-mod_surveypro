@@ -11,7 +11,7 @@ Feature: duplicate a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: duplicate a surveypro with some item
+  Scenario: duplicate a non empty surveypro
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | surveypro test | For testing backup | C1     |

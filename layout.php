@@ -303,8 +303,6 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
 
     echo $OUTPUT->header();
 
-    // echo $OUTPUT->box('Eseguo la sezione \'itemslist\'', 'generalbox description', 'intro');
-
     // If you are changing the order of items, move them and don't think to edit blocks.
     if (!$itemtomove) {
         if (($edit != -1) and $PAGE->user_allowed_editing()) {
@@ -477,8 +475,6 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
 
     echo $OUTPUT->header();
 
-    // echo $OUTPUT->box('Eseguo la sezione \'itemsetup\'', 'generalbox description', 'intro');
-
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();
 
@@ -559,8 +555,6 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
-
-    // echo $OUTPUT->box('Eseguo la sezione \'branchingvalidation\'', 'generalbox description', 'intro');
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();

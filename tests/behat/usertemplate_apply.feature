@@ -19,10 +19,7 @@ Feature: load and apply usertemplates in order to test, among others, partial it
       | activity  | name                 | intro                             | course             |
       | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate |
 
-    When I select "More" from secondary navigation
-    And I select "User templates" from secondary navigation
-    And I select "Import" from the "jump" singleselect
-    # When I am on the "Apply a usertemplate" "mod_surveypro > User templates import" page logged in as "teacher1"
+    When I am on the "Apply a usertemplate" "mod_surveypro > User templates import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 

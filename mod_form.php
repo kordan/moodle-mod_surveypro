@@ -165,7 +165,9 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $fieldname = 'mailroles';
         $options = array();
         $context = \context_course::instance($COURSE->id);
-        $roleoptions = get_role_names_with_caps_in_context($context, ['text' => get_string('mailcontentdefault', 'surveypro')]);
+        // I look for roles belonging to governance.
+        // At the moment the capability 'mod/surveypro:accessreports' seems to be a good indicator of that group.
+        $roleoptions = get_role_names_with_caps_in_context($context, ['mod/surveypro:accessreports']);
         foreach ($roleoptions as $roleid => $rolename) {
             $users = get_role_users($roleid, $context, true);
             $options[$roleid] = $rolename.' ('.count($users).')';
@@ -265,17 +267,19 @@ class mod_surveypro_mod_form extends \moodleform_mod {
             $defaults[$filename]['itemid'] = $draftitemid;
 
             // Mailroles.
-            $filename = 'mailroles';
-            $presetroles = explode(',', $defaults['mailroles']);
-            foreach ($presetroles as $roleid) {
-                $values[] = $roleid;
-            }
-            $defaults[$filename] = $values;
+            if ($defaults['mailroles']) {
+                $filename = 'mailroles';
+                $presetroles = explode(',', $defaults['mailroles']);
+                foreach ($presetroles as $roleid) {
+                    $values[] = $roleid;
+                }
+                $defaults[$filename] = $values;
 
-            // Manage mailcontent editor. No embedded pictures to handle.
-            $filename = 'mailcontenteditor';
-            $defaults[$filename]['text'] = $defaults['mailcontent'];
-            $defaults[$filename]['format'] = $defaults['mailcontentformat'];
+                // Manage mailcontent editor. No embedded pictures to handle.
+                $filename = 'mailcontenteditor';
+                $defaults[$filename]['text'] = $defaults['mailcontent'];
+                $defaults[$filename]['format'] = $defaults['mailcontentformat'];
+            }
         } else {
             // Manage userstyle filemanager.
             $filename = 'userstyle';

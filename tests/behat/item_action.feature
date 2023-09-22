@@ -202,7 +202,7 @@ Feature: test item actions
     Then I should see "10" not searchable items
 
     And I follow "delete_item_9"
-    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Fourth generation unique question"
     And I press "No"
 
@@ -214,7 +214,7 @@ Feature: test item actions
     Then I should see "10" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "First part of the test"
     And I press "Yes"
 
@@ -239,7 +239,7 @@ Feature: test item actions
     Then I should see "9" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Very first parent"
     Then I should see "The current element has child element(s) that are going to be deleted too."
     Then I should see "The child element(s) position is: 2, 6, 3, 7, 4, 5, 8."
@@ -331,7 +331,7 @@ Feature: test item actions
     Then I should see "5" not searchable items
 
     And I follow "delete_item_5"
-    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Second generation, third question"
     And I press "Yes"
 
@@ -343,7 +343,7 @@ Feature: test item actions
     Then I should see "4" not searchable items
 
     And I follow "delete_item_2"
-    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Simple parent"
     Then I should see "The child element(s) position is: 3, 4."
     And I press "Continue"
@@ -356,6 +356,6 @@ Feature: test item actions
     Then I should see "1" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "Second part of the test"
     And I press "Yes"

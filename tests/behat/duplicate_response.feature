@@ -35,7 +35,7 @@ Feature: duplicate response
 
     # Duplicate my original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
-    Then I should see "Are you sure you want duplicate the response created on"
+    Then I should see "Are you sure you want to duplicate the response created on"
     Then I should see "and never modified?"
     And I press "Continue"
 
@@ -47,7 +47,7 @@ Feature: duplicate response
     And I press "Continue to responses list"
     # Duplicate my original edited response
     And I click on "//a[contains(@id,'duplicate_submission_row_2')]" "xpath_element"
-    Then I should see "Are you sure you want duplicate the response created on"
+    Then I should see "Are you sure you want to duplicate the response created on"
     Then I should see "and modified on"
     And I press "No"
 
@@ -57,13 +57,13 @@ Feature: duplicate response
     And I select "Responses" from the "jump" singleselect
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
-    Then I should see "Are you sure you want duplicate the response owned by student1 user1, created on"
+    Then I should see "Are you sure you want to duplicate the response owned by student1 user1, created on"
     Then I should see "and never modified?"
     And I press "No"
 
     # Duplicate other modified response
     And I click on "//a[contains(@id,'duplicate_submission_row_2')]" "xpath_element"
-    Then I should see "Are you sure you want duplicate the response owned by student1 user1, created on"
+    Then I should see "Are you sure you want to duplicate the response owned by student1 user1, created on"
     Then I should see "and modified on"
     And I press "No"
 
