@@ -750,7 +750,6 @@ class itembase {
      * Item split unix time.
      *
      * @param integer $time
-     * @param boolean $applyusersettings
      * @return void
      */
     protected static function item_split_unix_time($time) {
@@ -1027,10 +1026,7 @@ class itembase {
     public function get_itemform_preset() {
         if (!empty($this->itemid)) {
             $data = get_object_vars($this);
-// echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br />';
-// echo '$data =';
-// print_object($data);
-// die;
+
             // Just to save few nanoseconds.
             unset($data['cm']);
             unset($data['surveypro']);
