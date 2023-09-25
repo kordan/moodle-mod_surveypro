@@ -71,7 +71,7 @@ $string['attemptinfo'] = 'Informazioni sull\'indagine e le risposte acquisite';
 $string['availability'] = 'Disponibilità';
 $string['basic_editthanks'] = 'La modifica è stata eseguita correttamente! Grazie';
 $string['basic_submitthanks'] = 'La tua risposta è inviata correttamente. Grazie per aver partecipato all\'indagine.';
-$string['branching'] = 'Ramificazione';
+$string['branching'] = 'Ramo';
 $string['bulkaction'] = 'Azioni di massa';
 $string['calendar_open_description'] = 'Compila il surveypro "{$a}", per favore.';
 $string['calendar_open_time'] = 'Surveypro "{$a}" è disponibile.';
@@ -166,7 +166,6 @@ $string['parentformat'] = 'Definisci il formato del "{$a->fieldname}" come dai s
 $string['pause'] = 'Pausa';
 $string['pauseresume_help'] = 'Consente di interrompere una compilazione per riprenderla ed inviarla in un secondo momento';
 $string['pauseresume'] = 'Consenti Pausa/Ripresa';
-$string['plugin'] = 'Elemento';
 $string['position_help'] = 'Colloca il testo della domanda intorno all\'elemento di acquisizione del dato. La collocazione può essere a sinistra dell\'elemento di input, in una riga dedicata immediatamente sopra all\'elemento di input oppure, sempre sopra all\'elemento di input, ma ricoprendo l\'intera larghezza della pagina.';
 $string['position'] = 'Collocazione della domanda';
 $string['previewmode'] = 'Sei in \'{$a}\'. I bottoni per il salvataggio dei dati non saranno visualizzati';
@@ -194,7 +193,7 @@ $string['runreport'] = '<a href="{$a->href}">Esegui il report {$a->reportname}</
 $string['savemastertemplates'] = '<a href="{$a}">Salva un master template</a>';
 $string['saveusertemplates'] = '<a href="{$a}">Salva il template utente</a>';
 $string['showallitems'] = 'Mostra tutti gli elementi';
-$string['sortindex'] = 'Ordinamento';
+$string['sortindex'] = 'Ord.';
 $string['statusclosed'] = 'chiusa';
 $string['statusinprogress'] = 'in corso';
 $string['submissions_all_1_1'] = '1 risposta inviata da 1 utente';
@@ -208,7 +207,7 @@ $string['submissions_detail_many_many'] = '{$a->submissions} risposte \'{$a->sta
 $string['submissions_welcome'] = 'Risposte acquisite';
 $string['timecreated'] = 'Creato';
 $string['timemodified'] = 'Modificato';
-$string['typeplugin'] = 'Elemento';
+$string['typeplugin'] = 'Tipo';
 $string['unaccesiblepages_note'] = '(Qualche pagina non sarà accessibile per mancanza di permessi)';
 $string['userenrolled'] = 'Utente iscritto: 1';
 $string['usersenrolled'] = 'Utenti iscritti: {$a}';

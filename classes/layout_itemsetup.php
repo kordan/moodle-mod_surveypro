@@ -184,7 +184,7 @@ class layout_itemsetup {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string('plugin', 'mod_surveypro');
+        $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
         $tableheaders[] = get_string('sortindex', 'mod_surveypro');
         $tableheaders[] = get_string('branching', 'mod_surveypro');
         $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
@@ -656,7 +656,7 @@ class layout_itemsetup {
         $table->define_columns($tablecolumns);
 
         $tableheaders = array();
-        $tableheaders[] = get_string('plugin', 'mod_surveypro');
+        $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
         $tableheaders[] = get_string('sortindex', 'mod_surveypro');
         $tableheaders[] = get_string('branching', 'mod_surveypro');
         $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');

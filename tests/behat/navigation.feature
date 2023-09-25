@@ -104,7 +104,7 @@ Feature: verify urls really redirect to existing pages
     And I select "Elements" from the "jump" singleselect
 
     # Layout -> Elements: table headers
-    And I click on "Element" "link" in the ".plugin" "css_element"
+    And I click on "Type" "link" in the ".plugin" "css_element"
     And I click on "Order" "link" in the ".sortindex" "css_element"
     And I click on "Branching" "link" in the ".parentitem" "css_element"
     And I click on "Page" "link" in the ".formpage" "css_element"

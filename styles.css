@@ -32,7 +32,28 @@ div.colorunifier {
     margin-right: 1em;
 }
 
+div.col-form-label {
+    /* background-color: red; */
+    padding-top: 0;
+}
+
+div.userentry {
+    padding: 3em;
+}
+
 /* Begin of: #manageitems, #sortitems and #validaterelations tables*/
+table#manageitems th,
+table#sortitems th,
+table#validaterelations th {
+    vertical-align: inherit;
+}
+
+table#manageitems td,
+table#sortitems td,
+table#validaterelations td {
+    vertical-align: inherit;
+}
+
 table#manageitems,
 table#sortitems,
 table#validaterelations {
@@ -52,21 +73,25 @@ table#manageitems .hide {
 table#manageitems td.plugin,
 table#sortitems td.plugin,
 table#validaterelations td.plugin {
-    width: 90px;
-    white-space: nowrap;
-    vertical-align: middle;
+    width: 0.5em;
+    padding: 0.5em;
+    text-align: center;
 }
 
 table#manageitems td.plugin span.pluginicon,
 table#sortitems td.plugin span.pluginicon,
 table#validaterelations td.plugin span.pluginicon {
-    padding: .2em;
+    /*width: 0.5em;*/
+    padding: 0.5em;
+    margin: 0;
+    text-align: center;
+    vertical-align: middle;
 }
 
 table#manageitems td.sortindex,
 table#sortitems td.sortindex,
 table#validaterelations td.sortindex {
-    min-width: 2.5em;
+    width: 0.5em;
     padding: 0.5em;
     text-align: right;
     white-space: nowrap;
@@ -76,22 +101,25 @@ table#validaterelations td.sortindex {
 table#manageitems td.parentitem,
 table#sortitems td.parentitem,
 table#validaterelations td.parentitem {
-    margin: 0;
+    width: 0.5em;
     padding: 0.5em;
-    text-align: left;
+    margin: 0;
     white-space: nowrap;
     vertical-align: middle;
+    text-align: center;
 }
 
 table#manageitems td.parentitem span.branch .icon,
 table#sortitems td.parentitem span.branch .icon,
 table#validaterelations td.parentitem span.branch .icon {
+    width: 16px;
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
 }
 
 table#manageitems td.customnumber,
 table#sortitems td.customnumber {
+    width: 0.5em;
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
@@ -114,6 +142,7 @@ table#sortitems td.variable {
 
 table#manageitems td.formpage,
 table#sortitems td.formpage {
+    width: 0.5em;
     padding: 0.5em;
     text-align: center;
     white-space: nowrap;
@@ -122,6 +151,7 @@ table#sortitems td.formpage {
 
 table#manageitems td.availability,
 table#sortitems td.availability {
+    width: 0.5em;
     padding: 0.5em;
     text-align: center;
     white-space: nowrap;
@@ -136,12 +166,13 @@ table#sortitems td.availability i.icon {
     height: 16px;
     padding: 0;
     vertical-align: middle;
-    margin-right: .2em;
+    margin-right: 0.2em;
 }
 
 table#manageitems td.actions,
 table#sortitems td.actions,
 table#validaterelations td.actions {
+    width: 3em;
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
@@ -172,19 +203,19 @@ table#sortitems td.actions span.lastspan {
     text-align: right;
     white-space: nowrap;
     float: none;
-    padding-left: .1em;
-    margin-left: .1em;
+    padding-left: 0.1em;
+    margin-left: 0.1em;
 }
 
 table#manageitems span.noactionicon,
 table#sortitems span.noactionicon {
-    padding: .2em;
+    padding: 0.2em;
     white-space: nowrap;
 }
 
 table#manageitems span.spacericon,
 table#sortitems span.spacericon {
-    padding-right: .2em;
+    padding-right: 0.2em;
     white-space: nowrap;
 }
 
@@ -544,14 +575,16 @@ form#userentry .fitem .felement.feditor,
 form#userentry .fitem .felement.fselect,
 form#userentry .fitem .felement.fcheckbox,
 form#userentry .fitem .felement.fstatic {
-    padding-top: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 /* End of: to correct vertical alignment in read only mode */
 
 /* vertical distance between top margin of a row and input elements is too small */
 form#userentry .fitem,
 form#usersearch .fitem {
-    padding-top: 0.7em;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 /* End of: vertical distance between top margin of a row and input elements is too small */
 
