@@ -835,14 +835,14 @@ class submissions_form extends formbase {
                     $this->next_not_empty_page(false); // False means direction = left.
                     $params['formpage'] = $this->get_nextpage();
                     $url = new \moodle_url('/mod/surveypro/view.php', $params);
-                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get', true);
+                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
                 }
 
                 if ($this->formpage < $this->userlastpage) {
                     $this->next_not_empty_page(true); // True means direction = right.
                     $params['formpage'] = $this->get_nextpage();
                     $url = new \moodle_url('/mod/surveypro/view.php', $params);
-                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get', true);
+                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
                 $params = ['class' => 'buttons'];

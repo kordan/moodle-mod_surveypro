@@ -1057,11 +1057,11 @@ class submissions_list {
 
             if ($deleteall) {
                 $label = get_string('deleteallsubmissions', 'mod_surveypro');
-                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, $label, 'get', ['primary' => false]), 'clearfix mdl-align');
+                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, $label, 'get', ['type' => 'secondary']), 'clearfix mdl-align');
             }
         } else {
             $class = ['class' => 'buttons'];
-            $addbutton = new \single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), null, ['primary' => true]);
+            $addbutton = new \single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'post', ['type' => 'primary']);
             $class = ['class' => 'buttons btn-secondary'];
             $deleteallbutton = new \single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'));
 
@@ -1218,7 +1218,7 @@ class submissions_list {
         if ($cansubmitmore) { // If the user is allowed to submit one more response.
             $paramurl = $paramurlbase + ['mode' => SURVEYPRO_NEWRESPONSEMODE, 'begin' => 1, 'section' => 'submissionform'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', ['primary' => true]);
+            $onemore = new \single_button($buttonurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', ['type' => 'primary']);
 
             $paramurl = $paramurlbase + ['section' => 'submissionslist'];
             $buttonurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -1529,7 +1529,7 @@ class submissions_list {
             $findallurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $label = get_string('showallsubmissions', 'mod_surveypro');
 
-            echo $OUTPUT->single_button($findallurl, $label, 'get', ['class' => 'box clearfix mdl-align']);
+            echo $OUTPUT->single_button($findallurl, $label, 'get', ['type' => 'secondary'], ['class' => 'box clearfix mdl-align']);
         }
         echo \html_writer::end_tag('fieldset');
     }
