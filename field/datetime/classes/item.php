@@ -706,7 +706,7 @@ EOS;
                         $datetimearray['mon'] = $months[1];
                         $datetimearray['year'] = $years[1];
                         $datetimearray['hours'] = $hours[1];
-                        $datetimearray['minutes'] = $minute[1];
+                        $datetimearray['minutes'] = $minutes[1];
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:

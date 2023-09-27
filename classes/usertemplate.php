@@ -241,6 +241,8 @@ class usertemplate extends templatebase {
      * @return array $templates
      */
     public function get_utemplates_per_contextlevel($contextid) {
+        global $USER;
+
         $fs = get_file_storage();
         $files = $fs->get_area_files($contextid, 'mod_surveypro', SURVEYPRO_TEMPLATEFILEAREA, 0, 'sortorder', false);
         if (empty($files)) {

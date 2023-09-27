@@ -568,8 +568,8 @@ EOS;
                     } else if ($this->lowerbound) {
                         $timearray = self::item_split_unix_time($this->lowerbound);
                     } else {
-                        $timearray['year'] = $years[1];
-                        $timearray['mon'] = $months[1];
+                        $timearray['hours'] = $hours[1];
+                        $timearray['minutes'] = $minutes[1];
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
