@@ -42,7 +42,7 @@ class backup_surveyprofield_radiobutton_subplugin extends backup_subplugin {
         $subpluginradiobutton = new backup_nested_element('surveyprofield_radiobutton', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'variable', 'extranote',
-            'options', 'labelother', 'defaultoption', 'defaultvalue', 'downloadformat', 'adjustment'));
+            'options', 'labelother', 'defaultoption', 'defaultvalue', 'downloadformat', 'adjustment', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

@@ -38,7 +38,7 @@ use mod_surveypro\layout_preview;
 use mod_surveypro\utility_mform;
 use mod_surveypro\local\form\userform;
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(__FILE__).'/../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT);                          // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                            // Surveypro instance id.
@@ -305,7 +305,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
 
     // If you are changing the order of items, move them and don't think to edit blocks.
     if (!$itemtomove) {
-        if (($edit != -1) and $PAGE->user_allowed_editing()) {
+        if (($edit != -1) && $PAGE->user_allowed_editing()) {
             $USER->editing = $edit;
         }
     }

@@ -58,7 +58,7 @@ class itemsetupform extends item_setupbaseform {
         // Item: style.
         $fieldname = 'style';
         $options = array(SURVEYPROFIELD_RATE_USERADIO => get_string('useradio', 'surveyprofield_rate'),
-                         SURVEYPROFIELD_RATE_USESELECT => get_string('usemenu', 'surveyprofield_rate')
+                         SURVEYPROFIELD_RATE_USESELECT => get_string('usemenu', 'surveyprofield_rate'),
                    );
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_rate'), $options);
         $mform->setDefault($fieldname, '0');

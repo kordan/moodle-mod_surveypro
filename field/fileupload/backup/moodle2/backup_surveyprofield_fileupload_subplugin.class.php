@@ -44,7 +44,7 @@ class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
         $subpluginfileupload = new backup_nested_element('surveyprofield_fileupload', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'maxfiles', 'maxbytes', 'filetypes'));
+            'maxfiles', 'maxbytes', 'filetypes', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

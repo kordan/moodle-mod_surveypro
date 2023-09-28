@@ -137,7 +137,7 @@ class tools_import {
             $error->key = 'import_duplicateheader';
             $error->a = $duplicateheader;
 
-            return $err;
+            return $error;
         }
 
         return false;

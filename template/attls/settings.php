@@ -39,7 +39,7 @@ $settings->add(new admin_setting_configselect('surveyprotemplate_attls/position'
 
 $options = array(
     SURVEYPROTEMPLATE_ATTLSUSERADIO => get_string('useradio', 'surveyprotemplate_attls'),
-    SURVEYPROTEMPLATE_ATTLSUSESELECT => get_string('useselect', 'surveyprotemplate_attls')
+    SURVEYPROTEMPLATE_ATTLSUSESELECT => get_string('useselect', 'surveyprotemplate_attls'),
 );
 
 $name = new lang_string('useritem', 'surveyprotemplate_attls');

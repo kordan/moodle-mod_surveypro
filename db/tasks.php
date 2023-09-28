@@ -33,7 +33,7 @@ $tasks = [
         'hour' => '*',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '*'
+        'dayofweek' => '*',
     ], [
         'classname' => 'mod_surveypro\task\mail_neverstarted',
         'blocking' => 0,
@@ -41,7 +41,7 @@ $tasks = [
         'hour' => '8',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '1'
+        'dayofweek' => '1',
     ], [
         'classname' => 'mod_surveypro\task\mail_pauseresume',
         'blocking' => 0,
@@ -49,7 +49,7 @@ $tasks = [
         'hour' => '8',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '1,3,5'
+        'dayofweek' => '1,3,5',
     ], [
         'classname' => 'mod_surveypro\task\mail_oneshotmp',
         'blocking' => 0,
@@ -57,6 +57,6 @@ $tasks = [
         'hour' => '*/2',
         'day' => '*',
         'month' => '*',
-        'dayofweek' => '*'
-    ]
+        'dayofweek' => '*',
+    ],
 ];

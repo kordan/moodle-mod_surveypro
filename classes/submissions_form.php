@@ -483,7 +483,6 @@ class submissions_form extends formbase {
         // ->   I update/create the corresponding record asking to each item class to manage its informations.
 
         // From now on I am sure I am saving answers to:
-        $surveyproid = $surveyproid;
         $submissionid = $this->get_submissionid();
         foreach ($itemhelperinfo as $iteminfo) {
             $where = ['submissionid' => $submissionid, 'itemid' => $iteminfo->itemid];

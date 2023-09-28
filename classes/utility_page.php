@@ -83,7 +83,7 @@ class utility_page {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        if (($edit != -1) and $PAGE->user_allowed_editing()) {
+        if (($edit != -1) && $PAGE->user_allowed_editing()) {
             $USER->editing = $edit;
         }
         if ($PAGE->user_allowed_editing() && !$PAGE->theme->haseditswitch) {

@@ -40,7 +40,7 @@ use mod_surveypro\local\form\userform;
 use mod_surveypro\submissions_search;
 use mod_surveypro\local\form\usersearch;
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(__FILE__).'/../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT);                      // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                        // Surveypro instance id.

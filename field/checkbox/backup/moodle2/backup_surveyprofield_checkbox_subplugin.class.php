@@ -43,7 +43,7 @@ class backup_surveyprofield_checkbox_subplugin extends backup_subplugin {
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'options', 'labelother', 'defaultvalue', 'noanswerdefault', 'downloadformat',
-            'minimumrequired', 'maximumrequired', 'adjustment'));
+            'minimumrequired', 'maximumrequired', 'adjustment', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

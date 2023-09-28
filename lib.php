@@ -262,7 +262,7 @@ define('SURVEYPRO_EVENT_TYPE_OPEN', 'open');
 // Moodle core API.
 
 require_once($CFG->dirroot.'/lib/formslib.php'); // Needed by unittest.
-require_once(__DIR__.'/deprecatedlib.php');
+require_once($CFG->dirroot.'/mod/surveypro/deprecatedlib.php');
 /* Do not include any libraries here! */
 
 /**

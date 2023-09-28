@@ -600,6 +600,11 @@ EOS;
                     $mform->setDefault($this->itemname.'_noanswer', '1');
                     // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
                 case SURVEYPRO_CUSTOMDEFAULT:
+                    // I need to set a value for the default field even if it disabled.
+                    // When opening this form for the first time, I have:
+                    // $this->defaultoption = SURVEYPRO_INVITEDEFAULT
+                    // so $this->defaultvalue and may be empty.
+                    // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
                         $datearray = self::item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
