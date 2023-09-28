@@ -43,7 +43,7 @@ class filterform extends \moodleform {
      * @return void
      */
     public function definition() {
-        global $DB, $COURSE;
+        global $CFG, $DB, $COURSE;
 
         $mform = $this->_form;
 

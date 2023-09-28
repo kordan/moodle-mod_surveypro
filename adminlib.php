@@ -143,6 +143,34 @@ class mod_surveypro_plugin_manager {
     }
 
     /**
+     * Util function for writing an action icon link
+     *
+     * @param string $action URL parameter to include in the link
+     * @param string $plugin URL parameter to include in the link
+     * @param string $icon The key to the icon to use (e.g. 't/up')
+     * @param string $alt The string description of the link used as the title and alt text
+     * @return string The icon/link
+     */
+    private function format_icon_link($action, $plugin, $icon, $alt) {
+        global $OUTPUT;
+
+        $url = $this->pageurl;
+
+        if ($action === 'delete') {
+            $url = core_plugin_manager::instance()->get_uninstall_url($this->subtype.'_'.$plugin, 'manage');
+            if (!$url) {
+                return '&nbsp;';
+            }
+            return html_writer::link($url, get_string('uninstallplugin', 'core_admin'));
+        }
+
+        return $OUTPUT->action_icon(new moodle_url($url,
+                array('action' => $action, 'plugin' => $plugin, 'sesskey' => sesskey())),
+                new pix_icon($icon, $alt, 'moodle', array('title' => $alt)),
+                null, array('title' => $alt)) . ' ';
+    }
+
+    /**
      * Write the HTML for the submission plugins table.
      *
      * @return void
@@ -207,6 +235,7 @@ class mod_surveypro_plugin_manager {
 
         foreach ($plugins as $plugin) {
             $row = array();
+            $class = '';
 
             // Pluginname.
             $icon = $OUTPUT->pix_icon('icon', $plugin, $this->subtype.'_'.$plugin, ['title' => $plugin, 'class' => 'icon']);
@@ -226,26 +255,19 @@ class mod_surveypro_plugin_manager {
             // Enable/disable.
             $visible = !get_config($this->subtype.'_'.$plugin, 'disabled');
             if ($visible) {
-                $title = get_string('disable');
-                $paramurl = ['action' => 'hide', 'plugin' => $plugin, 'sesskey' => sesskey()];
-                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl, $paramurl),
-                    new pix_icon('t/hide', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
+                $row[] = $this->format_icon_link('hide', $plugin, 't/hide', get_string('disable'));
             } else {
-                $title = get_string('enable');
-                $paramurl = ['action' => 'show', 'plugin' => $plugin, 'sesskey' => sesskey()];
-                $row[] = $OUTPUT->action_icon(new \moodle_url($this->pageurl, $paramurl),
-                    new pix_icon('t/show', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
+                $row[] = $this->format_icon_link('show', $plugin, 't/show', get_string('enable'));
+                $class = 'dimmed_text';
             }
 
             // Delete.
             if (isset($counts[$plugin])) {
                 $row[] = '&nbsp;';
             } else {
-                $title = get_string('delete');
-                $paramurl = ['uninstall' => $this->subtype.'_'.$plugin, 'confirm' => 0, 'return' => 'manage'];
-                $row[] = $OUTPUT->action_icon(new \moodle_url('/admin/plugins.php', $paramurl),
-                    new pix_icon('t/delete', $title, 'moodle', ['title' => $title]), null, ['title' => $title]);
+                $row[] = $this->format_icon_link('delete', $plugin, 't/delete', get_string('delete'));
             }
+
             $exists = file_exists($CFG->dirroot.'/mod/surveypro/'.$shortsubtype.'/'.$plugin.'/settings.php');
             if ($row[1] != '' && $exists) {
                 $row[] = \html_writer::link(new \moodle_url('/admin/settings.php',
@@ -254,7 +276,7 @@ class mod_surveypro_plugin_manager {
                 $row[] = '&nbsp;';
             }
 
-            $table->add_data($row);
+            $table->add_data($row, $class);
         }
 
         $table->finish_output();
@@ -365,43 +387,6 @@ class mod_surveypro_plugin_manager {
         // View.
         if ($action == 'view') {
             $this->view_plugins_table();
-        }
-    }
-
-    /**
-     * This function adds plugin pages to the navigation menu.
-     *
-     * @param string $subtype Type of plugin (submission or feedback)
-     * @param part_of_admin_tree $admin Handle to the admin menu
-     * @param admin_settingpage $settings Handle to current node in the navigation tree
-     * @param \stdClass|plugininfo_mod $module Handle to the current module
-     * @return void
-     */
-    public static function add_admin_surveypro_plugin_settings($subtype,
-                                                               part_of_admin_tree $admin,
-                                                               admin_settingpage $settings,
-                                                               $module) {
-        global $CFG;
-
-        $plugins = core_component::get_plugin_list_with_file($subtype, 'settings.php', false);
-        $pluginsbyname = array();
-        foreach ($plugins as $plugin => $unused) {
-            $pluginname = get_string('pluginname', $subtype.'_'.$plugin);
-            $pluginsbyname[$pluginname] = $plugin;
-        }
-        ksort($pluginsbyname);
-
-        foreach ($pluginsbyname as $pluginname => $plugin) {
-            $settings = new admin_settingpage($subtype.'_'.$plugin,
-                                              $pluginname,
-                                              'moodle/site:config',
-                                              $module->is_enabled() === false);
-            if ($admin->fulltree) {
-                $shortsubtype = core_text::substr($subtype, core_text::strlen('surveypro'));
-                include($CFG->dirroot."/mod/surveypro/$shortsubtype/$plugin/settings.php");
-            }
-
-            $admin->add($subtype.'plugins', $settings);
         }
     }
 }

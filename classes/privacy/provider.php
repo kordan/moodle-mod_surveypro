@@ -24,7 +24,7 @@
 
 namespace mod_surveypro\privacy;
 
-use \core_privacy\local\metadata\collection;
+use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\approved_userlist;
 use core_privacy\local\request\helper;
@@ -55,14 +55,14 @@ class provider implements
             'userid' => 'privacy:metadata:submission:userid',
             'status' => 'privacy:metadata:submission:status',
             'timecreated' => 'privacy:metadata:submission:timecreated',
-            'timemodified' => 'privacy:metadata:submission:timemodified'
+            'timemodified' => 'privacy:metadata:submission:timemodified',
         ];
         $collection->add_database_table('surveypro_submission', $data, 'privacy:metadata:submission');
 
         // Table: surveypro_answer.
         $data = [
             'content' => 'privacy:metadata:answer:content',
-            'contentformat' => 'privacy:metadata:answer:contentformat'
+            'contentformat' => 'privacy:metadata:answer:contentformat',
         ];
         $collection->add_database_table('surveypro_answer', $data, 'privacy:metadata:answer');
 
@@ -157,7 +157,7 @@ class provider implements
                 }
                 // Reset surveyprodata to start again.
                 $surveyprodata = [
-                    'submissions' => []
+                    'submissions' => [],
                 ];
                 $attachments = [];
 
@@ -215,7 +215,7 @@ class provider implements
             $surveyprodata['submissions']['submission_'.$submissionid] = [
                 'items' => [],
                 'timecreated' => $timecreated,
-                'timemodified' => $timemodified
+                'timemodified' => $timemodified,
             ];
         }
         $itemanswer = ['content' => $itemcontent, 'answer' => $surveyproanswer->answer];
@@ -313,7 +313,7 @@ class provider implements
             $DB->delete_records('surveypro_answer', ['submissionid' => $submission->id]);
 
             // Delete related files (if any).
-            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $ubmission->id);
+            $fs->delete_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $submission->id);
         }
         $submissions->close();
         $DB->delete_records('surveypro_submission', $whereparams);

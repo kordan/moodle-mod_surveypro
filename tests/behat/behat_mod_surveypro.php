@@ -25,7 +25,7 @@
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-require_once(__DIR__ . '/../../../../lib/behat/behat_base.php');
+require_once(dirname(__FILE__).'/../../../../lib/behat/behat_base.php');
 
 use Behat\Behat\Context\Step\Given as Given,
     Behat\Gherkin\Node\PyStringNode as PyStringNode,
@@ -41,23 +41,6 @@ use Behat\Behat\Context\Step\Given as Given,
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_surveypro extends behat_base {
-
-    /**
-     * Convert page names to URLs for steps like 'When I am on the "[page name]" page'.
-     *
-     * Recognised page names are:
-     * | None so far! |                                                              |
-     *
-     * @param string $page name of the page, with the component name removed e.g. 'Admin notification'.
-     * @return moodle_url the corresponding URL.
-     * @throws Exception with a meaningful error message if the specified page cannot be found.
-     */
-    protected function resolve_surveypro_page_url(string $page): moodle_url {
-        switch ($page) {
-            default:
-                throw new Exception('Unrecognised surveypro page type "' . $page . '."');
-        }
-    }
 
     /**
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.

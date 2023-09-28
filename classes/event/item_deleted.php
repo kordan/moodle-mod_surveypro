@@ -77,7 +77,7 @@ class item_deleted extends \core\event\base {
     public function get_legacy_logdata() {
         // Override if you are migrating an add_to_log() call.
         return array($this->courseid, 'surveypro', 'item deleted',
-            $this->get_url(), $this->objectid, $this->contextinstanceid);
+            $this->get_url(), $this->objectid, $this->contextinstanceid, );
     }
 
     /**

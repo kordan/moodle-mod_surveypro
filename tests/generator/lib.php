@@ -96,8 +96,8 @@ class mod_surveypro_generator extends testing_module_generator {
             'thankspageeditor' => array(
                 'text' => 'Thank you very much for your commitment on this survey.',
                 'format' => FORMAT_HTML,
-                'itemid' => file_get_unused_draft_itemid()
-            )
+                'itemid' => file_get_unused_draft_itemid(),
+            ),
         );
 
         return parent::create_instance($record, (array)$options);

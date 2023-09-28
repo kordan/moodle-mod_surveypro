@@ -32,12 +32,12 @@ class lib_test extends advanced_testcase {
      *
      * Cases to be tested by surveypro_cutdownstring
      */
-    public function surveypro_cutdownstring_provider() {
+    public function surveypro_cutdownstring_provider(): array {
         return [
             'plain_short_string' => ['Hello world!', 60, 'Hello world!'],
             'utf8_short_string' => ['Hello 🌍 !',   60, 'Hello 🌍 !'],
             'plain_cut_string' => ['Hello world!', 10, 'Hello w...'],
-            'utf8_cut_string' => ['Hello 🌍 !',   9, 'Hello 🌍 !']
+            'utf8_cut_string' => ['Hello 🌍 !',   9, 'Hello 🌍 !'],
         ];
     }
 
@@ -60,11 +60,11 @@ class lib_test extends advanced_testcase {
      *
      * Cases to be tested by surveypro_pre_process_checkboxes
      */
-    public function surveypro_pre_process_checkboxes_provider() {
+    public function surveypro_pre_process_checkboxes_provider(): array {
         return [
             'test01' => [
                 (object) [
-                    'captcha' => 1
+                    'captcha' => 1,
                 ],
                 (object) [
                     'newpageforchild' => 0,
@@ -72,13 +72,13 @@ class lib_test extends advanced_testcase {
                     'keepinprogress' => 0,
                     'history' => 0,
                     'anonymous' => 0,
-                    'captcha' => 1
-                ]
+                    'captcha' => 1,
+                ],
             ],
             'test02' => [
                 (object) [
                     'captcha' => 1,
-                    'history' => 1
+                    'history' => 1,
                 ],
                 (object) [
                     'newpageforchild' => 0,
@@ -86,15 +86,15 @@ class lib_test extends advanced_testcase {
                     'keepinprogress' => 0,
                     'history' => 1,
                     'anonymous' => 0,
-                    'captcha' => 1
-                ]
+                    'captcha' => 1,
+                ],
             ],
             'test03' => [
                 (object) [
                     'newpageforchild' => 1,
                     'neverstartedemail' => 1,
                     'keepinprogress' => 1,
-                    'anonymous' => 1
+                    'anonymous' => 1,
                 ],
                 (object) [
                     'newpageforchild' => 1,
@@ -102,9 +102,9 @@ class lib_test extends advanced_testcase {
                     'keepinprogress' => 1,
                     'history' => 0,
                     'anonymous' => 1,
-                    'captcha' => 0
-                ]
-            ]
+                    'captcha' => 0,
+                ],
+            ],
         ];
     }
 

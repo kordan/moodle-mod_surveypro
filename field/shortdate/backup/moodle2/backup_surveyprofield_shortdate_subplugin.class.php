@@ -42,7 +42,7 @@ class backup_surveyprofield_shortdate_subplugin extends backup_subplugin {
         $subpluginshortdate = new backup_nested_element('surveyprofield_shortdate', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
+            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

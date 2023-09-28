@@ -61,7 +61,7 @@ class item_chooser extends \moodleform {
         asort($formatplugins);
 
         $pluginlist = array(get_string('typefield', 'mod_surveypro') => $fieldplugins,
-                            get_string('typeformat', 'mod_surveypro') => $formatplugins);
+                            get_string('typeformat', 'mod_surveypro') => $formatplugins, );
 
         $elementgroup = array();
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);

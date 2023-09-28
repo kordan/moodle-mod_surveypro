@@ -173,7 +173,7 @@ class mastertemplate extends templatebase {
             'pix/icon.png',
             'pix/icon.svg',
             'template.xml',
-            'version.php'
+            'version.php',
         );
 
         if (array_diff($masterfilelist, $templatemastercontent) || array_diff($templatemastercontent, $masterfilelist)) {
@@ -314,7 +314,7 @@ class mastertemplate extends templatebase {
             'classes/privacy/provider.php',
             'lang/en/surveyprotemplate_'.$pluginname.'.php',
             'pix/icon.png',
-            'pix/icon.svg'
+            'pix/icon.svg',
         );
         if ($userlang != 'en') {
             $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
@@ -332,7 +332,7 @@ class mastertemplate extends templatebase {
         $fp->archive_to_pathname($filelist, $exportfile);
 
         // Zip file has been created. Now clean the temporary folder.
-        $dirnames = ['classes/privacy/', 'classes/', 'lang/en/', 'pix/', ];
+        $dirnames = ['classes/privacy/', 'classes/', 'lang/en/', 'pix/'];
         if ($userlang != 'en') {
             $dirnames[] = 'lang/'.$userlang.'/';
         }
@@ -436,7 +436,7 @@ class mastertemplate extends templatebase {
                 }
 
                 if (\core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
+                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
                     // Otherwise: It is empty, do not evaluate: jump.
                 }
 
@@ -786,7 +786,7 @@ class mastertemplate extends templatebase {
                 $event = \mod_surveypro\event\mastertemplate_saved::create($eventdata);
                 break;
             default:
-                $message = 'Unexpected $event = '.$event;
+                $message = 'Unexpected $eventname = '.$eventname;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         $event->trigger();

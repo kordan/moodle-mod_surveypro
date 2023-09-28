@@ -146,7 +146,7 @@ class itembase {
         'hidden' => true,
         'insearchform' => true,
         'reserved' => true,
-        'parentid' => true
+        'parentid' => true,
     );
 
     /**
@@ -204,7 +204,6 @@ class itembase {
 
             // Special care to fields with format.
             if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
                 foreach ($fieldsusingformat as $fieldname => $filearea) {
                     $this->{$fieldname} = file_rewrite_pluginfile_urls(
                        $this->{$fieldname}, 'pluginfile.php', $context->id,
@@ -317,7 +316,7 @@ class itembase {
         if (!empty($record->parentid)) {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
-            unset($record->parentcontent); // why do I drop $record->parentcontent?
+            unset($record->parentcontent); // Why do I drop $record->parentcontent?
         }
     }
 
@@ -761,6 +760,7 @@ class itembase {
         $datestring = date('Y_m_d_H_i', $time);
 
         // 2012_07_11_16_03.
+        $getdate = [];
         list(
             $getdate['year'],
             $getdate['mon'],
@@ -1543,7 +1543,7 @@ EOS;
             }
         }
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
-            return ($fillinginstruction.'<br>'.$extranote);
+            return $fillinginstruction.'<br>'.$extranote;
         } else {
             if (isset($fillinginstruction) && $fillinginstruction) {
                 return $fillinginstruction;

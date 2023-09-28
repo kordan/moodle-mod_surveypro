@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__).'/../../config.php');
+require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course ID.
 
@@ -111,7 +111,7 @@ foreach ($surveypros as $surveypro) {
         \html_writer::link($url, format_string($surveypro->name), $cellclass),
         \html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
         \html_writer::tag('span', $inprogressresp, $cellclass),
-        \html_writer::tag('span', $closedresp, $cellclass)
+        \html_writer::tag('span', $closedresp, $cellclass),
     );
 
     $table->data[] = $content;

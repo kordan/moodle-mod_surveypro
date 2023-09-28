@@ -42,7 +42,7 @@ class backup_surveyproformat_label_subplugin extends backup_subplugin {
         $subpluginlabel = new backup_nested_element('surveyproformat_label', ['id'], array(
             'content', 'contentformat',
             'indent', 'customnumber',
-            'fullwidth', 'leftlabel'));
+            'fullwidth', 'leftlabel', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

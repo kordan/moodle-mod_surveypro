@@ -42,7 +42,7 @@ class backup_surveyprofield_autofill_subplugin extends backup_subplugin {
         $subpluginautofill = new backup_nested_element('surveyprofield_autofill', ['id'], array(
             'content', 'contentformat',
             'indent', 'position', 'customnumber', 'variable', 'extranote',
-            'hiddenfield', 'element01', 'element02', 'element03', 'element04', 'element05'));
+            'hiddenfield', 'element01', 'element02', 'element03', 'element04', 'element05', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

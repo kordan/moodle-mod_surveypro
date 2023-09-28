@@ -419,7 +419,6 @@ class tools_export {
             $where['plugin'] = 'fileupload';
             if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
                 return SURVEYPRO_NOFIELDSSELECTED;
-                die(); // Never reached.
             }
         } else {
             $conditions = array();
@@ -433,7 +432,6 @@ class tools_export {
 
             if (!$itemseeds = $DB->get_records_select('surveypro_item', $select, $where, 'sortindex', 'id, plugin')) {
                 return SURVEYPRO_NOFIELDSSELECTED;
-                die(); // Never reached.
             }
         }
 

@@ -49,13 +49,13 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
                     'maxentries', 'mailroles', 'mailextraaddresses', 'mailcontent', 'mailcontentformat',
                     'thankspage', 'thankspageformat', 'riskyeditdeadline', 'template', 'completionsubmit',
-                    'timecreated', 'timemodified'));
+                    'timecreated', 'timemodified', ));
 
         $items = new backup_nested_element('items');
 
         $item = new backup_nested_element('item', ['id', 'type', 'plugin'], array(
                     'hidden', 'insearchform', 'reserved', 'sortindex', 'formpage',
-                    'parentid', 'parentvalue', 'timecreated', 'timemodified'));
+                    'parentid', 'parentvalue', 'timecreated', 'timemodified', ));
 
         $submissions = new backup_nested_element('submissions');
 

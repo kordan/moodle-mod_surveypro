@@ -39,7 +39,7 @@ $settings->add(new admin_setting_configselect('surveyprotemplate_collesactual/po
 
 $options = array(
     SURVEYPROTEMPLATE_COLLESACTUALUSERADIO => get_string('useradio', 'surveyprotemplate_collesactual'),
-    SURVEYPROTEMPLATE_COLLESACTUALUSESELECT => get_string('useselect', 'surveyprotemplate_collesactual')
+    SURVEYPROTEMPLATE_COLLESACTUALUSESELECT => get_string('useselect', 'surveyprotemplate_collesactual'),
 );
 
 $name = new lang_string('useritem', 'surveyprotemplate_collesactual');
