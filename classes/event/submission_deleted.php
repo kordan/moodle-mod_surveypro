@@ -69,23 +69,4 @@ class submission_deleted extends \core\event\base {
         $paramurl = ['id' => $this->contextinstanceid, 'section' => 'submissionslist'];
         return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
-
-    /**
-     * Return legacy data for add_to_log().
-     *
-     * @return array
-     */
-    public function get_legacy_logdata() {
-        // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'submission deleted',
-            $this->get_url(), $this->objectid, $this->contextinstanceid, );
-    }
-
-    /**
-     * Return the legacy event name.
-     *
-     * @return string
-     */
-    public static function get_legacy_eventname() {
-    }
 }
