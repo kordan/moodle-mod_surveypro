@@ -91,7 +91,7 @@ Feature: test the use of checkbox setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: What do you usually get for breakfast?"
+    Then I should see "II.a What do you usually get for breakfast?"
     Then the field "id_surveypro_field_checkbox_2_0" matches value "0"
     Then the field "id_surveypro_field_checkbox_2_1" matches value "1"
     Then the field "id_surveypro_field_checkbox_2_2" matches value "0"

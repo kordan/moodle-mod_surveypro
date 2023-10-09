@@ -87,6 +87,6 @@ Feature: test the use of numeric setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Write your best approximation of π"
+    Then I should see "II.a Write your best approximation of π"
     Then the field "id_surveypro_field_numeric_2" matches value "3.14"
     Then I should see "Additional note"

@@ -79,7 +79,7 @@ Feature: test the use of textarea setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Write a short description of yourself"
+    Then I should see "II.a Write a short description of yourself"
     Then I should see "Additional note"
     Then "//div[contains(@id, 'id_surveypro_field_textarea_2editable')]" "xpath_element" should exist
 
@@ -94,6 +94,6 @@ Feature: test the use of textarea setup form
       | Additional note                | One more additional note              |
     And I press "Save as new"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.b: Write a short description of yourself"
+    Then I should see "II.b Write a short description of yourself"
     Then I should see "One more additional note"
     Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist

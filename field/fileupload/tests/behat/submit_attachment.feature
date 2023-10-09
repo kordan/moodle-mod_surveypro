@@ -28,11 +28,10 @@ Feature: make a submission test for "fileupload" item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Please upload your Curriculum Vitae |
-      | Required                 | 1                                   |
-      | Indent                   | 0                                   |
-      | Question position        | left                                |
-      | Element number           | 2                                   |
+      | Content                  | Please upload your CV |
+      | Required                 | 1                     |
+      | Indent                   | 0                     |
+      | Question position        | left                  |
     And I press "Add"
 
     And I log out
@@ -42,7 +41,7 @@ Feature: make a submission test for "fileupload" item
     And I press "New response"
 
     # student1 submits
-    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "2: Please upload your Curriculum Vitae" filemanager
+    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Please upload your CV" filemanager
 
     And I press "Submit"
 

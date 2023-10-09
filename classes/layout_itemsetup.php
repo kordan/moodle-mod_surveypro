@@ -1178,12 +1178,12 @@ class layout_itemsetup {
         $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
 
         $yeslabel = ($yeskey) ? get_string($yeskey, 'mod_surveypro') : get_string('continue');
-        $buttonyes = new \single_button($urlyes, $yeslabel, 'get');
+        $buttonyes = new \single_button($urlyes, $yeslabel);
 
         $optionsno = $optionbase;
         $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
         $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
-        $buttonno = new \single_button($urlno, get_string('no'), 'get');
+        $buttonno = new \single_button($urlno, get_string('no'));
 
         echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
         echo $OUTPUT->footer();
@@ -1261,12 +1261,12 @@ class layout_itemsetup {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
                 $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'), 'get');
+                $buttonno = new \single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
                 echo $OUTPUT->footer();
@@ -1348,12 +1348,12 @@ class layout_itemsetup {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
                 $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'), 'get');
+                $buttonno = new \single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
                 echo $OUTPUT->footer();
@@ -1464,13 +1464,13 @@ class layout_itemsetup {
             $optionsyes['type'] = $this->type;
 
             $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
-            $buttonyes = new \single_button($urlyes, $labelyes, 'get');
+            $buttonyes = new \single_button($urlyes, $labelyes);
 
             $optionsno = $optionbase;
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
 
             $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
-            $buttonno = new \single_button($urlno, get_string('no'), 'get');
+            $buttonno = new \single_button($urlno, get_string('no'));
 
             echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
             echo $OUTPUT->footer();
@@ -1701,12 +1701,12 @@ class layout_itemsetup {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
                 $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'), 'get');
+                $buttonno = new \single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
                 echo $OUTPUT->footer();
@@ -1823,12 +1823,12 @@ class layout_itemsetup {
                 $optionsyes['plugin'] = $this->plugin;
                 $optionsyes['type'] = $this->type;
                 $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'), 'get');
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
 
                 $optionsno = $optionbase;
                 $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
                 $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'), 'get');
+                $buttonno = new \single_button($urlno, get_string('no'));
 
                 echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
                 echo $OUTPUT->footer();

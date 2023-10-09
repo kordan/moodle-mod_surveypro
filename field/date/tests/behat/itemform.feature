@@ -112,7 +112,7 @@ Feature: test the use of date setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: When were you born?"
+    Then I should see "II.a When were you born?"
     Then the field "id_surveypro_field_date_2_day" matches value "1"
     Then the field "id_surveypro_field_date_2_month" matches value "January"
     Then the field "id_surveypro_field_date_2_year" matches value "1980"

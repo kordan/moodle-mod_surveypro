@@ -61,5 +61,5 @@ Feature: test the use of autofill setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Your user ID"
+    Then I should see "II.a Your user ID"
     Then I should see "Additional note"

@@ -131,7 +131,6 @@ if ($section == 'submissionslist') { // It was view_submissions.php
 
     // A response was submitted.
     $justsubmitted = optional_param('justsubmitted', 0, PARAM_INT);
-    $formview = optional_param('formview', 0, PARAM_INT);
     $responsestatus = optional_param('responsestatus', 0, PARAM_INT);
 
     // The list is managed.
@@ -175,7 +174,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     echo $actionbar->draw_view_action_bar();
 
     if (!empty($justsubmitted)) {
-        $submissionlistman->show_thanks_page($responsestatus, $formview, $justsubmitted);
+        $submissionlistman->show_thanks_page($responsestatus, $justsubmitted);
     } else {
         $submissionlistman->actions_feedback(); // Action feedback after PAGE.
 

@@ -91,7 +91,7 @@ Feature: test the use of age setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: How old were you when you started cycling?"
+    Then I should see "II.a How old were you when you started cycling?"
     Then the field "id_surveypro_field_age_2_year" matches value "14"
     Then the field "id_surveypro_field_age_2_month" matches value "7"
     Then I should see "Additional note"

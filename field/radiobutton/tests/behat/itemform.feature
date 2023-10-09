@@ -85,7 +85,7 @@ Feature: test the use of radiobutton setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Which summer holidays place do you prefer?"
+    Then I should see "II.a Which summer holidays place do you prefer?"
     Then the field "id_surveypro_field_radiobutton_2_0" matches value "0"
     Then the field "id_surveypro_field_radiobutton_2_1" matches value "0"
     Then the field "id_surveypro_field_radiobutton_2_2" matches value "0"

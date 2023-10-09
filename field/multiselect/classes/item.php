@@ -501,11 +501,7 @@ EOS;
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
-            if ($this->customnumber) {
-                $elementlabel = $this->include_customnumber_in_content();
-            } else {
-                $elementlabel = $this->get_content();
-            }
+            $elementlabel = $this->get_contentwithnumber();
         } else {
             $elementlabel = '&nbsp;';
         }

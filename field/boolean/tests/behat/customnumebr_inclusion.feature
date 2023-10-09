@@ -33,11 +33,11 @@ Feature: include custom numbers into element question/content
     Then I should see "<output>"
 
     Examples:
-      | content                                                              | customnumber  | output              |
-      | Is it true?                                                          | 1             | 1: Is it true?      |
-      | <p>Is it true?</p>                                                   | 2a            | 2a: Is it true?     |
-      | <p dir="ltr">Is it true?</p>                                         | III           | III: Is it true?    |
-      | <p dir="ltr"><em>Is it true?</em></p>                                | 4th           | 4th: Is it true?    |
-      | <p><p dir="ltr">Is it true?</p></p>                                  | 5)            | 5): Is it true?     |
-      | <p><p dir="ltr"><p class="lookatme">Is it true?</p></p></p>          | 6.a           | 6.a: Is it true?    |
-      | <p><p dir="ltr"><h3><p class="lookatme">Is it true?</p></h3></p></p> | 7.3-II        | 7.3-II: Is it true? |
+      | content                                                              | customnumber  | output             |
+      | Is it true?                                                          | 1             | 1 Is it true?      |
+      | <p>Is it true?</p>                                                   | 2a            | 2a Is it true?     |
+      | <p dir="ltr">Is it true?</p>                                         | III           | III Is it true?    |
+      | <p dir="ltr"><em>Is it true?</em></p>                                | 4th           | 4th Is it true?    |
+      | <p><p dir="ltr">Is it true?</p></p>                                  | 5)            | 5) Is it true?     |
+      | <p><p dir="ltr"><p class="lookatme">Is it true?</p></p></p>          | 6.a           | 6.a Is it true?    |
+      | <p><p dir="ltr"><h3><p class="lookatme">Is it true?</p></h3></p></p> | 7.3-II        | 7.3-II Is it true? |

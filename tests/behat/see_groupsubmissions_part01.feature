@@ -56,14 +56,14 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 1 |
+      | 1 Enter your name | student 1 nogroup answer 1 |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 2 |
+      | 1 Enter your name | student 1 nogroup answer 2 |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -81,7 +81,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 2 nogroup answer 1 |
+      | 1 Enter your name | student 2 nogroup answer 1 |
     And I press "Submit"
 
     Then I press "Continue to responses list"
