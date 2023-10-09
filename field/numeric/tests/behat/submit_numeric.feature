@@ -44,7 +44,7 @@ Feature: make a submission test for "numeric" item
     And I press "New response"
 
     # student1 submits
-    And I set the field "11: Write your best approximation of π" to "3.14"
+    And I set the field "11 Write your best approximation of π" to "3.14"
 
     And I press "Submit"
 

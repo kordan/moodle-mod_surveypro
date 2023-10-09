@@ -815,20 +815,6 @@ class itembase {
     }
 
     /**
-     * Add the custom number at the beginning of the question content.
-     * Take care that the content may start with "<p>" or "<p dir='ltr'>" or ""
-     *
-     * @return string
-     */
-    public function include_customnumber_in_content() {
-        // $regex = '~^((<p[^>]*>)*)~'; // To get <p>1: <p>Question</p></p>.
-        $regex = '~^(<p[^>]*>)*~';
-        $replacement = '\0 '.$this->customnumber.': ';
-
-        return preg_replace($regex, $replacement, $this->get_content());
-    }
-
-    /**
      * This method defines if an item can be switched to mandatory or not.
      *
      * Used by layout_itemsetup->display_items_table() to define the icon to show
@@ -1395,6 +1381,118 @@ class itembase {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns the content of the question anticipated by the question number.
+     *
+     * Given an $elementnumber, like, for instance, 'IIa'
+     *
+     * Case 0: If $questioncontent is very simple like: 'Is it true?' I want 'IIa Is it true?'
+     *
+     * Case 1: If $questioncontent = 'Hello guys<span><div>I like beer</div></span>
+     * <p class="rtl">Share your opinion here, please.</p>
+     * <p><p class="coolclass">Do you like beer, too?</p></p>
+     * <p></p>'
+     * I want: 'IIa Hello guys<span><div>I like beer</div></span>
+     * <p class="rtl">Share your opinion here, please.</p>
+     * <p><p class="coolclass">Do you like beer, too?</p></p>
+     * <p></p>'
+     *
+     * Case 2: If $questioncontent = '<span><div>I like beer</div></span>
+     * <p class="rtl">Share your opinion here, please.</p>
+     * <p><p class="coolclass">Do you like beer, too?</p></p>
+     * <p></p>'
+     * I want: '<span><div>IIa I like beer</div></span>
+     * <p class="rtl">Share your opinion here, please.</p>
+     * <p><p class="coolclass">Do you like beer, too?</p></p>
+     * <p></p>'
+     *
+     * I get:
+     * $matches = array(4) {
+     *   [0] => array(11) {
+     *     [0] => string(10) "Hello guys"
+     *     [1] => string(6) "<span>"
+     *     [2] => string(22) "<div>I like beer</div>"
+     *     [3] => string(12) "</span>"
+     *     [4] => string(50) "<p class="rtl">Share your opinion here, please.</p>"
+     *     [5] => string(5) ""
+     *     [6] => string(3) "<p>"
+     *     [7] => string(48) "<p class="coolclass">Do you like beer, too?</p>"
+     *     [8] => string(9) "</p>"
+     *     [9] => string(7) "<p></p>"
+     *     [10] => string(0) ""
+     *   }
+     *   [1] =>  array(11) {
+     *     [0] => string(0) ""
+     *     [1] => string(6) "<span>"
+     *     [2] => string(5) "<div>"
+     *     [3] => string(7) "</span>"
+     *     [4] => string(15) "<p class="rtl">"
+     *     [5] => string(0) ""
+     *     [6] => string(3) "<p>"
+     *     [7] => string(21) "<p class="coolclass">"
+     *     [8] => string(4) "</p>"
+     *     [9] => string(3) "<p>"
+     *     [10] => string(0) ""
+     *   }
+     *   [2] => array(11) {
+     *     [0] => string(10) "Hello guys"
+     *     [1] => string(0) ""
+     *     [2] => string(11) "I like beer"
+     *     [3] => string(5) ""
+     *     [4] => string(31) "Share your opinion here, please."
+     *     [5] => string(5) ""
+     *     [6] => string(0) ""
+     *     [7] => string(23) "Do you like beer, too?"
+     *     [8] => string(5) ""
+     *     [9] => string(0) ""
+     *     [10] => string(0) ""
+     *   }
+     *   [3] => array(11) {
+     *     [0] => string(0) ""
+     *     [1] => string(0) ""
+     *     [2] => string(6) "</div>"
+     *     [3] => string(0) ""
+     *     [4] => string(4) "</p>"
+     *     [5] => string(0) ""
+     *     [6] => string(0) ""
+     *     [7] => string(4) "</p>"
+     *     [8] => string(0) ""
+     *     [9] => string(4) "</p>"
+     *     [10] => string(0) ""
+     *   }
+     * }
+     *
+     * By omitting 'Hello guys' at the beginning (as in case 2), I miss match[0][0], match[1][0], match[2][0], match[3][0]. Correct.
+     *
+     * @return string $return
+     */
+    public function get_contentwithnumber() {
+        $questioncontent = $this->get_content();
+        $elementnumber = $this->get_customnumber();
+        if (!$elementnumber) {
+            return $questioncontent;
+        }
+
+        $return = $elementnumber.' '.$questioncontent;
+        $regex = '~(<[^>]*>)?([^<]*)?(<\/[^>]*>)?~';
+        if (preg_match_all($regex, $questioncontent, $matches)) {
+            foreach ($matches[2] as $k => $tagcontent) {
+                $cleanedtagcontent = $tagcontent;
+                $cleanedtagcontent = preg_replace('~(^\s+|\s+$)~', '', $cleanedtagcontent);
+                $cleanedtagcontent = trim($cleanedtagcontent, ' '.chr(194).chr(160));
+                if (!empty($cleanedtagcontent)) {
+                    $newcontent = $elementnumber.' '.$tagcontent;
+                    // I don't want regular expression meta-characters to be interpreted.
+                    // I use preg_replace instead of str_replace because I want to replace ONLY the first occurrence of $tagcontent.
+                    $return = preg_replace('~\Q'.$tagcontent.'\E~', $newcontent, $questioncontent, 1);
+                    break;
+                }
+            }
+        }
+
+        return $return;
     }
 
     /**

@@ -69,14 +69,14 @@ Feature: submissions seen from students divided into groups (Part 04)
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 1 |
+      | 1 Enter your name | student 1 nogroup answer 1 |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 2 |
+      | 1 Enter your name | student 1 nogroup answer 2 |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -94,7 +94,7 @@ Feature: submissions seen from students divided into groups (Part 04)
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 2 group 1 answer 1 |
+      | 1 Enter your name | student 2 group 1 answer 1 |
     And I press "Submit"
 
     Then I press "Continue to responses list"
@@ -116,7 +116,7 @@ Feature: submissions seen from students divided into groups (Part 04)
 
     # student3 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 3 group 1 answer 1 |
+      | 1 Enter your name | student 3 group 1 answer 1 |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -137,7 +137,7 @@ Feature: submissions seen from students divided into groups (Part 04)
 
     # student4 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 4 group 2 answer 1 |
+      | 1 Enter your name | student 4 group 2 answer 1 |
     And I press "Submit"
 
     And I press "Continue to responses list"

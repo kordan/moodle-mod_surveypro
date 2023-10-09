@@ -134,31 +134,21 @@ class userform extends \moodleform {
                     $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
                     if ($position == SURVEYPRO_POSITIONTOP) {
                         $itemname = $item->get_itemname().'_extrarow';
-                        $content = $item->get_content();
+                        $content = $item->get_contentwithnumber();
                         $option = ['class' => 'indent-'.$item->get_indent()];
                         $mform->addElement('mod_surveypro_label', $itemname, $elementnumber, $content, $option);
 
                         $item->item_add_color_unifier($mform);
                     }
                     if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
-                        $questioncontent = $item->get_content();
-                        if ($elementnumber) {
-                            // I want to change "4.2:<p dir="ltr" style="text-align:left;">Do you live in NY?</p>"
-                            // to
-                            // "<p dir="ltr" style="text-align:left;">4.2: Do you live in NY?</p>".
-                            if (preg_match('~^<p([^>]*)>(.*)$~', $questioncontent, $match)) {
-                                $questioncontent = '<p'.$match[1].'>'.$elementnumber.' '.$match[2];
-                            } else {
-                                $questioncontent = $elementnumber.' '.$questioncontent;
-                            }
-                        }
-                        $content = '';
-                        $content .= \html_writer::start_tag('div', ['class' => 'fitem row']);
-                        $content .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth']);
-                        $content .= $questioncontent;
-                        $content .= \html_writer::end_tag('div');
-                        $content .= \html_writer::end_tag('div');
-                        $mform->addElement('html', $content);
+                        $content = $item->get_contentwithnumber();
+                        $html = '';
+                        $html .= \html_writer::start_tag('div', ['class' => 'fitem row']);
+                        $html .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth']);
+                        $html .= $content;
+                        $html .= \html_writer::end_tag('div');
+                        $html .= \html_writer::end_tag('div');
+                        $mform->addElement('html', $html);
 
                         $item->item_add_color_unifier($mform);
                     }

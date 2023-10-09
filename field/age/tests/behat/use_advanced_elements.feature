@@ -65,8 +65,8 @@ Feature: test the use of reserved elements
     And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
-    Then I should see "1: First age item"
-    Then I should not see "2: Second age item"
+    Then I should see "1 First age item"
+    Then I should not see ": Second age item"
 
     # user submit a surveypro
     And I set the following fields to these values:
@@ -80,8 +80,8 @@ Feature: test the use of reserved elements
     When I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
-    Then I should see "1: First age item"
-    Then I should see "2: Second age item"
+    Then I should see "1 First age item"
+    Then I should see "2 Second age item"
 
     And I set the following fields to these values:
       | id_surveypro_field_age_2_year  | 24 |

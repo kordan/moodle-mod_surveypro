@@ -67,14 +67,14 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st1grp1ans1@nowhere.net |
+      | 1 Enter your name | st1grp1ans1@nowhere.net |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Enter your name | st1grp1ans2@nowhere.net |
+      | 1 Enter your name | st1grp1ans2@nowhere.net |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -92,7 +92,7 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st2grp1ans1@nowhere.net |
+      | 1 Enter your name | st2grp1ans1@nowhere.net |
     And I press "Submit"
 
     Then I press "Continue to responses list"
@@ -112,7 +112,7 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student3 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st3grp2ans1@nowhere.net |
+      | 1 Enter your name | st3grp2ans1@nowhere.net |
     And I press "Submit"
 
     And I press "Continue to responses list"

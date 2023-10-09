@@ -99,7 +99,7 @@ Feature: test the use of time setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: At what time do you usually get up in the morning in the working days?"
+    Then I should see "II.a At what time do you usually get up in the morning in the working days?"
     Then the field "id_surveypro_field_time_2_hour" matches value "7"
     Then the field "id_surveypro_field_time_2_minute" matches value "40"
     Then I should see "Additional note"
