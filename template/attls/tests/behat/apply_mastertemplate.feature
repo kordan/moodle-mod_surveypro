@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_attls
-Feature: apply ATTLS (20 item version) mastertemplate
+Feature: Apply ATTLS (20 item version) mastertemplate
   In order to verify mastertemplates apply correctly // Why this feature is useful
   As a teacher                                       // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                   // The feature we want
@@ -19,7 +19,7 @@ Feature: apply ATTLS (20 item version) mastertemplate
       | surveypro | To apply ATTLS | To test ATTLS | Apply mastertemplate |
 
   @javascript
-  Scenario: apply ATTLS (20 item version) master template
+  Scenario: Apply ATTLS (20 item version) master template
     Given I am on the "To apply ATTLS" "surveypro activity" page logged in as teacher1
 
     And I set the field "Master templates" to "ATTLS (20 item version)"

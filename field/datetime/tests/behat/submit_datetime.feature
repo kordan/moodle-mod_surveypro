@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_datetime
-Feature: make a submission test for "datetime" item
+Feature: Submit using a datetime item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a datetime item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for datetime item
+  Scenario: Test a submission for datetime item
     Given the following "courses" exist:
       | fullname                          | shortname                | category |
       | Test submission for datetime item | Datetime submission test | 0        |

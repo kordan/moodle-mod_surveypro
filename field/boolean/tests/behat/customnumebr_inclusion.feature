@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: include custom numbers into element question/content
+Feature: Include custom numbers into element question/content
   In order to verify the correct inclusion of the custom number at the beginning of the question
   As a teacher
   I create a surveypro with few boolean items, I assign a custom number to each item and I verify the text displays correctly.

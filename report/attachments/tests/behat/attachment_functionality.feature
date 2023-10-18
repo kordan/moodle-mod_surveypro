@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyproreport @surveyproreport_attachment
-Feature: test functionality of attachment report
+Feature: Test attachment report
   In order to test functionality of attachment report
   As teacher1
   I call the report and verify it
 
   @javascript @_file_upload
-  Scenario: test attachment report
+  Scenario: Test attachment report
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Test attachment report | Test attachment report | 0        | 0         |

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: in read only mode browse a submission jumping now filled pages
+Feature: In read only mode browse a submission jumping not filled pages
   Test during read only browse of responses user jumps pages without answers
   As a teacher
   I create a surveypro and as a student I fill, submit and browse, in read only mode, my submission.
 
   @javascript
-  Scenario: jump unused survepro pages in read only mode
+  Scenario: Jump unused survepro pages in read only mode
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | Jump not allowed pages | Jump not allowed pages | 0        | 0         |

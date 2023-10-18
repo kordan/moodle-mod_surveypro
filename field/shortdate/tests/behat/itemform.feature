@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_shortdate
-Feature: test the use of shortdate setup form
+Feature: Create a shortdate item
   In order to test shortdate setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test shortdate setup form
+  Scenario: Test shortdate setup form
     Given the following "courses" exist:
       | fullname             | shortname            | category | groupmode |
       | Shortdate setup form | Shortdate setup form | 0        | 0         |

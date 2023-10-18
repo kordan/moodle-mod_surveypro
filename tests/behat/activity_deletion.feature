@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: verify instance deletion
+Feature: Delete an instance
   In order to verify the deletion of a surveypro instance
   As a teacher
   I delete a surveypro activity.
 
   @javascript
-  Scenario: delete a surveypro activity
+  Scenario: Delete a surveypro activity
     Given the following "courses" exist:
       | fullname               | shortname         | category | groupmode |
       | Test activity deletion | Activity deletion | 0        | 0         |

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyproformat @surveyprofield_fieldsetend
-Feature: verify a fieldsetend item can be added to a survey
+Feature: Create a fieldsetend item
   In order to verify fieldsetend items can be added to a survey
   As a teacher
   I add a fieldsetend item to a survey
 
   @javascript
-  Scenario: add fieldsetend item
+  Scenario: Add fieldsetend item
     Given the following "courses" exist:
       | fullname             | shortname       | category | groupmode |
       | Add fieldsetend item | Add fieldsetend | 0        | 0         |

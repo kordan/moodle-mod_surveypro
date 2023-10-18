@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_integer
-Feature: test the use of integer setup form
+Feature: Create an integer item
   In order to test integer setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test integer setup form
+  Scenario: Test integer setup form
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Integer setup form | Integer setup form | 0        | 0         |

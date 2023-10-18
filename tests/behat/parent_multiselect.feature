@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of multiselect as parent item
+Feature: Set multiselect as parent item
   In order to test multiselect as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled
 
   @javascript
-  Scenario: test multiselect as parent
+  Scenario: Test multiselect as parent
     Given the following "courses" exist:
       | fullname              | shortname             | category | groupmode |
       | Multiselect as parent | Multiselect as parent | 0        | 0         |

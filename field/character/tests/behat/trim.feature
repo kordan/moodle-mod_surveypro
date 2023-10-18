@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: test the use of character trim
+Feature: Test the use of character trim
   In order to test character trim feature
   As a student
   I fill a field and I verify what is in it
 
   @javascript
-  Scenario: test character trim
+  Scenario: Test character trim
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Character trim test | Character trim test | 0        | 0         |

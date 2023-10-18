@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: verify the thanks page is shown properly
+Feature: Thanks users properly
   In order to test the thankspgae
   As a teacher and as a student
   I fill a surveypro in order to get the thanks page
@@ -30,7 +30,7 @@ Feature: verify the thanks page is shown properly
       | private_files | System       | 1         | my-index        | side-post     |
 
   @javascript
-  Scenario: test the empty thanks page
+  Scenario: Test the empty thanks page
     When I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Inline thanks page" to ""
@@ -51,7 +51,7 @@ Feature: verify the thanks page is shown properly
     Then I should see "Thank you. Your response has been successfully modified!"
 
   @javascript
-  Scenario: test the thanks page with plain text
+  Scenario: Test the thanks page with plain text
     Given I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
@@ -65,7 +65,7 @@ Feature: verify the thanks page is shown properly
     Then I should see "Thank you. Your response has been successfully modified!"
 
   @javascript @_file_upload
-  Scenario: test the thanks page with images
+  Scenario: Test the thanks page with images
     Given I log in as "teacher1"
     And I follow "Manage private files"
     And I upload "mod/surveypro/tests/fixtures/thankyou.png" file to "Files" filemanager

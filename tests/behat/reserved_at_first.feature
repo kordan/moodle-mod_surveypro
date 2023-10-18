@@ -1,12 +1,12 @@
 @mod @mod_surveypro @surveyprofield
-Feature: access a surveypro from the second page if the first one has only reserved items
+Feature: Access a surveypro from the second page if the first one has only reserved items
   Test accessing the surveypro starting from page 2 if the first one has only reserved items
   As a teacher
   I create a surveypro and
   As a student I get it starting from the second page.
 
   @javascript
-  Scenario: get the surveypro starting from page 2
+  Scenario: Get the surveypro starting from page 2
     Given the following "courses" exist:
       | fullname   | shortname  | category | groupmode |
       | Start at 2 | Start at 2 | 0        | 0         |

@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: verify the deletion of old items works as expected during master templates replacement
+Feature: Verify the deletion of old items works as expected during master templates replacement
   In order to verify the overwrite of master templates
   As a teacher
   I need apply mastertemplates one over the previous
 
   @javascript
-  Scenario: deletion of old items works as expected when apply master templates
+  Scenario: Deletion of old items works as expected when apply master templates
     Given the following "courses" exist:
       | fullname                 | shortname                | category | groupmode |
       | Overwrite mastertemplate | Overwrite mastertemplate | 0        | 0         |

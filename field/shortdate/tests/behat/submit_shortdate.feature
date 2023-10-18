@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_shortdate
-Feature: make a submission test for "shortdate" item
+Feature: Submit using a shortdate item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a shortdate item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for short date item
+  Scenario: Test a submission for short date item
     Given the following "courses" exist:
       | fullname                           | shortname                 | category |
       | Test submission for shortdate item | Shortdate submission test | 0        |

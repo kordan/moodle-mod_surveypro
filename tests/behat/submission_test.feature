@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: make a submission test for each available item
+Feature: Submit each available item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I fill a surveypro and go to see responses
 
   @javascript @_file_upload
-  Scenario: test a submission with each core item
+  Scenario: Test a submission with each core item
     Given the following "courses" exist:
       | fullname                                | shortname       | category | groupmode |
       | Test submission for each available item | Submission test | 0        | 0         |

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_numeric
-Feature: verify the input with different number format
+Feature: Validate input with different number format
   In order to verify numbers are correctly handled in different languages // Why this feature is useful
   As student1                                                             // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I submit a numeric field                                                // The feature we want
@@ -23,7 +23,7 @@ Feature: verify the input with different number format
       | field  | numeric |
 
   @javascript
-  Scenario: submit the numeric field using two different formats
+  Scenario: Submit the numeric field using two different formats
     Given I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
     And I set the field "menupack" to "Italiano"

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_autofill
-Feature: test the use of autofill setup form
+Feature: Create an autofill item
   In order to test autofill setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test autofill setup form
+  Scenario: Test autofill setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Autofill setup form | Autofill setup form | 0        | 0         |

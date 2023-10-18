@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: test item actions
+Feature: Execute item actions
   In order to validate each action issues through inline icons
   As teacher1
   I issue them and verify the outcome.
@@ -10,7 +10,7 @@ Feature: test item actions
       | Test item actions | Test IA   | 0        | 3           |
 
   @javascript
-  Scenario: test simple item actions
+  Scenario: Test simple item actions
     Given the following "activities" exist:
       | activity  | name                     | intro                | course  |
       | surveypro | Test simple item actions | To test item actions | Test IA |
@@ -128,7 +128,7 @@ Feature: test item actions
     Then I should see "6" not searchable items
 
   @javascript @_file_upload
-  Scenario: test complex item actions
+  Scenario: Test complex item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  |
       | surveypro | Test complex item actions | To test CIA | Test IA |

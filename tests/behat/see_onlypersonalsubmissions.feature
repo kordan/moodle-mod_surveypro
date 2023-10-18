@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: test each student sees only personal submissions
+Feature: Test each student sees only personal submissions
   In order to test that students can only see their personal submissions
   As student1 and student2
   I fill a surveypro and go to see responses
 
   @javascript
-  Scenario: test each student sees only his/her own submissions
+  Scenario: Test each student sees only his/her own submissions
     Given the following "courses" exist:
       | fullname                      | shortname                 | category | groupmode |
       | See only personal submissions | Only personal submissions | 0        | 0         |

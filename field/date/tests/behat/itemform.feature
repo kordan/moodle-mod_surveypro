@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_date
-Feature: test the use of date setup form
+Feature: Create a date item
   In order to test date setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test date setup form
+  Scenario: Test date setup form
     Given the following "courses" exist:
       | fullname        | shortname       | category | groupmode |
       | Date setup form | Date setup form | 0        | 0         |

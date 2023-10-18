@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
-Feature: test the use of checkbox setup form
+Feature: Create a checkbox item
   In order to test checkbox setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test checkbox setup form
+  Scenario: Test checkbox setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Checkbox setup form | Checkbox setup form | 0        | 0         |
