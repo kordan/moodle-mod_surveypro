@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: submissions seen from students divided into groups (Part 02)
+Feature: Submissions seen from students divided into groups (Part 02)
   In order to test which submissions students in groups can see
   As student1 and student2 and student3
   I fill a surveypro and ask for the submissions list
 
   @javascript
-  Scenario: verify permissions in groups part 02
+  Scenario: Verify permissions in groups part 02
     Given the following "courses" exist:
       | fullname                     | shortname          | category | groupmode |
       | Verify permissions in groups | Groups permissions | 0        | 0         |

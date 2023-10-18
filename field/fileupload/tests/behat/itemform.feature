@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_fileupload
-Feature: test the use of fileupload setup form
+Feature: Create a fileupload item
   In order to test fileupload setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test fileupload setup form
+  Scenario: Test fileupload setup form
     Given the following "courses" exist:
       | fullname              | shortname             | category | groupmode |
       | Fileupload setup form | Fileupload setup form | 0        | 0         |

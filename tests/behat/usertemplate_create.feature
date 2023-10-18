@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: load, apply and save a usertemplate in order to test, among others, usertemplate creation
+Feature: Create a usertemplate
   In order to test partial item deletion
   As teacher1
   I overwite usertemplates with usertemplates
 
   @javascript @_file_upload
-  Scenario: load and save a usertemplate
+  Scenario: Load and save a usertemplate
     Given the following "courses" exist:
       | fullname               | shortname           | category | groupmode |
       | To create usertemplate | Create usertemplate | 0        | 0         |

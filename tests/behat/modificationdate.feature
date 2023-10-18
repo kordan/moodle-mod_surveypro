@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: submission modification time
+Feature: Test submission modification time
   Check that even filling a multipage surveypro moving forward and backword, timemodified is recorded ONLY at modification time
   As a teacher
   I create a multipage surveypro and as a student I fill it going forward and backword, and I submit.
 
   @javascript
-  Scenario: check submission modification time
+  Scenario: Check submission modification time
     Given the following "courses" exist:
       | fullname                               | shortname                              | category | groupmode |
       | Timemodified only at modification time | Timemodified only at modification time | 0        | 0         |

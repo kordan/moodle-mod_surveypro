@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_multiselect
-Feature: validate creation and submit for "multiselect" elements using the principal combinations of settings (2 of 4)
+Feature: Submit using multiselect item and check form validation (2 of 4)
   Setting I check in this test are:
       # required:               0 - 1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
@@ -29,7 +29,7 @@ Feature: validate creation and submit for "multiselect" elements using the princ
     And I expand all fieldsets
 
   @javascript
-  Scenario: test multiselect element using configuration 03
+  Scenario: Test multiselect element using configuration 03
     # Configuration 03 consists in:
       # required:               0
       # Options (fixed):        milk\ncoffee\nbutter\nbread
@@ -74,7 +74,7 @@ Feature: validate creation and submit for "multiselect" elements using the princ
     # End of test number 3
 
   @javascript
-  Scenario: test multiselect element using configuration 04
+  Scenario: Test multiselect element using configuration 04
     # Configuration 04 consists in:
       # required:               0
       # Options (fixed):        milk\ncoffee\nbutter\nbread

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_collesactual
-Feature: apply a COLLES (actual) mastertemplate to test graphs
+Feature: Apply a COLLES (actual) mastertemplate to test graphs
   In order to verify graphs for COLLES mastertemplates // Why this feature is useful
   As a teacher                                         // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                     // The feature we want
@@ -24,7 +24,7 @@ Feature: apply a COLLES (actual) mastertemplate to test graphs
       | surveypro | Run COLLES report | This is to test COLLES graphs | Test graphs |
 
   @javascript
-  Scenario: apply COLLES (Actual) master template, add a record and call reports
+  Scenario: Apply COLLES (Actual) master template, add a record and call reports
     Given I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
 
     And I set the field "Master templates" to "COLLES (Actual)"

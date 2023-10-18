@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_time
-Feature: test the use of time setup form
+Feature: Create a time item
   In order to test time setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test time setup form
+  Scenario: Test time setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Datetime setup form | Datetime setup form | 0        | 0         |

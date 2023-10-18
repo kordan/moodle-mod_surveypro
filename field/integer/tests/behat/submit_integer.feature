@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_integer
-Feature: make a submission test for "integer" item
+Feature: Submit using an integer item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add an integer item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for integer item
+  Scenario: Test a submission for integer item
     Given the following "courses" exist:
       | fullname                         | shortname               | category |
       | Test submission for integer item | Integer submission test | 0        |

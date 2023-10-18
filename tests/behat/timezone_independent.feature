@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: verify answers are not timezone dependent
+Feature: Test answers are not timezone dependent
   In order to verify answers are not timezone dependent
   As a student
   I submit answers and I check other answers.
 
   @javascript
-  Scenario: delete a surveypro activity
+  Scenario: Delete a surveypro activity
     Given the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | TZ free  | noTZ      | 0        | 0         |

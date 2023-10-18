@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_age
-Feature: test the use of age setup form
+Feature: Create an age item
   In order to test age setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test age setup form
+  Scenario: Test age setup form
     Given the following "courses" exist:
       | fullname       | shortname      | category | groupmode |
       | Age setup form | Age setup form | 0        | 0         |

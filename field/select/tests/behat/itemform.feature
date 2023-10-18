@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_select
-Feature: test the use of select setup form
+Feature: Create a select item
   In order to test select setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test select setup form
+  Scenario: Test select setup form
     Given the following "courses" exist:
       | fullname          | shortname         | category | groupmode |
       | Select setup form | Select setup form | 0        | 0         |

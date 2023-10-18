@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: validate creation and submit for "character" elements using the principal combinations of settings (1 of 7)
+Feature: Submit using character item and check form validation (1 of 7)
   Setting I check in this test are:
       # required:                       0 - 1
       # Text pattern:                   free pattern - email address - web page URL - custom
@@ -27,7 +27,7 @@ Feature: validate creation and submit for "character" elements using the princip
     And I expand all fieldsets
 
   @javascript
-  Scenario: test character element using configuration 01
+  Scenario: Test character element using configuration 01
     # Configuration 01 consists in:
       # required:                       0
       # Text pattern:                   free pattern
@@ -58,7 +58,7 @@ Feature: validate creation and submit for "character" elements using the princip
     # End of test number 2
 
   @javascript
-  Scenario: test character element using configuration 02
+  Scenario: Test character element using configuration 02
     # Configuration 02 consists in:
       # required:                       0
       # Text pattern:                   free pattern

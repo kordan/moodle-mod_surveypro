@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: backup and restore of surveyspro
+Feature: Backup a surveypro
   In order to test simple backup procedure
   As a teacher
   I make a simple backup of a course with two instances of surveypro
@@ -14,7 +14,7 @@ Feature: backup and restore of surveyspro
     And I log in as "admin"
 
   @javascript
-  Scenario: backup a course providing options
+  Scenario: Backup a course providing options
     Given I backup "Course 1" course using this options:
       | Confirmation | Filename | test_backup.mbz |
     Then I should see "Restore"

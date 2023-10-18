@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: test the use of textarea setup form
+Feature: Create a textarea item
   In order to test textarea setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test textarea setup form
+  Scenario: Test textarea setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Textarea setup form | Textarea setup form | 0        | 0         |

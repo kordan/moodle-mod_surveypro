@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: verify multilang in mastertemplates
+Feature: Test multilang in mastertemplates
   In order to verify mastertemplates display correctly in different languages // Why this feature is useful
   As a teacher and as a student                                               // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I display a mastertemplate                                                  // The feature we want
@@ -26,7 +26,7 @@ Feature: verify multilang in mastertemplates
       | surveypro | Multilang in Critical Incidents          | To test CI    | ML Mtemplate | 5       |
 
   @javascript
-  Scenario: display each mastertemplate in 2 different languages
+  Scenario: Display each mastertemplate in 2 different languages
     Given I log in as "admin"
     And I navigate to "Language > Language packs" in site administration
     And I set the field "menupack" to "Italiano"

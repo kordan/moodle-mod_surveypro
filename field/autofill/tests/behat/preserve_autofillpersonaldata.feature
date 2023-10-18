@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: editing a submission, autofill userID is not overwritten
+Feature: Editing a submission, autofill userID is not overwritten
   In order to test that personal data is not overwritten editing a submission
   As student1 and student2
   I fill a surveypro and edit it as different user
 
   @javascript
-  Scenario: test autofill userID is not overwritten at submission editing time
+  Scenario: Test autofill userID is not overwritten at submission editing time
     Given the following "courses" exist:
       | fullname                   | shortname      | category | groupmode |
       | Course divided into groups | Course grouped | 0        | 0         |

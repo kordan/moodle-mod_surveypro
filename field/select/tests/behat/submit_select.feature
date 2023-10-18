@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_select
-Feature: make a submission test for "select" item
+Feature: Submit using a select item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a select item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for select item
+  Scenario: Test a submission for select item
     Given the following "courses" exist:
       | fullname                        | shortname              | category |
       | Test submission for select item | Select submission test | 0        |

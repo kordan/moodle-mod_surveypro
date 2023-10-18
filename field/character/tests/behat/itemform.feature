@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
-Feature: test the use of character setup form
+Feature: Create a character item
   In order to test character setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test character setup form
+  Scenario: Test character setup form
     Given the following "courses" exist:
       | fullname             | shortname            | category | groupmode |
       | Character setup form | Character setup form | 0        | 0         |

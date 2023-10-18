@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_recurrence
-Feature: test the use of recurrence setup form
+Feature: Create a recurrence item
   In order to test recurrence setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test recurrence setup form
+  Scenario: Test recurrence setup form
     Given the following "courses" exist:
       | fullname              | shortname             | category | groupmode |
       | Recurrence setup form | Recurrence setup form | 0        | 0         |

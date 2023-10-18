@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
-Feature: validate creation and submit for "checkbox" elements using the principal combinations of settings (4 of 4)
+Feature: Submit using checkbox item and check form validation (4 of 4)
   Setting I check in this test are:
       # required:                 0 - 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
@@ -29,7 +29,7 @@ Feature: validate creation and submit for "checkbox" elements using the principa
     And I expand all fieldsets
 
   @javascript
-  Scenario: test checkbox element using configuration 07
+  Scenario: Test checkbox element using configuration 07
     # Configuration 07 consists in:
       # required:                 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
@@ -67,7 +67,7 @@ Feature: validate creation and submit for "checkbox" elements using the principa
     # End of test number 2
 
   @javascript
-  Scenario: test checkbox element using configuration 08
+  Scenario: Test checkbox element using configuration 08
     # Configuration 08 consists in:
       # required:                 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread

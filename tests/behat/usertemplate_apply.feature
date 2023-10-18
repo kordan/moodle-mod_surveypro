@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: load and apply usertemplates in order to test, among others, partial item deletion
+Feature: Load and apply usertemplates to test partial item deletion
   In order to test partial item deletion
   As teacher1
   I overwite usertemplates with usertemplates
 
   @javascript @_file_upload
-  Scenario: load and apply a usertemplate
+  Scenario: Load and apply a usertemplate
     Given the following "courses" exist:
       | fullname              | shortname          | category | groupmode |
       | To apply usertemplate | Apply usertemplate | 0        | 0         |

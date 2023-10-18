@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: test anonymous surveypro are really anonymous
+Feature: Test anonymous surveypro are really anonymous
   In order to test that an anonymous surveypro is really anonymous
   As teacher
   I go to look for reports and pages showwing user names
 
   @javascript
-  Scenario: anonymous surveypro and user with alwaysseeowner capability
+  Scenario: Anonymous surveypro and user with alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -35,7 +35,7 @@ Feature: test anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: not anonymous surveypro and user with alwaysseeowner capability
+  Scenario: Not anonymous surveypro and user with alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -62,7 +62,7 @@ Feature: test anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: anonymous surveypro and user without alwaysseeowner capability
+  Scenario: Anonymous surveypro and user without alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -97,7 +97,7 @@ Feature: test anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: not anonymous surveypro and user without alwaysseeowner capability
+  Scenario: Not anonymous surveypro and user without alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |

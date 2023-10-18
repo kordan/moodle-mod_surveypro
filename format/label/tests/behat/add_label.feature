@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyproformat @surveyprofield_label
-Feature: verify a label item can be added to a survey
+Feature: Create a label item
   In order to verify label items can be added to a survey
   As a teacher
   I add a label item to a survey
 
   @javascript
-  Scenario: add label item
+  Scenario: Add label item
     Given the following "courses" exist:
       | fullname       | shortname | category | groupmode |
       | Add label item | Add label | 0        | 0         |

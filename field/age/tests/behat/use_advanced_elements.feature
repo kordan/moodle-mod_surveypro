@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_age
-Feature: test the use of reserved elements
+Feature: Use reserved elements
   In order to test reserved elements are only seen by teacher and not students
   As a teacher and student
   I add two items with different availability and go to fill the corresponding survey and edit it
 
   @javascript
-  Scenario: use reserved elements
+  Scenario: Use reserved elements
     Given the following "courses" exist:
       | fullname          | shortname         | category | groupmode |
       | Reserved elements | Reserved elements | 0        | 0         |

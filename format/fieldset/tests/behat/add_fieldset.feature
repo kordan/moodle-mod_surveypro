@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyproformat @surveyprofield_fieldset
-Feature: verify a fieldset item can be added to a survey
+Feature: Create a fieldset item
   In order to verify fieldset items can be added to a survey
   As a teacher
   I add a fieldset item to a survey
 
   @javascript
-  Scenario: add fieldset item
+  Scenario: Add fieldset item
     Given the following "courses" exist:
       | fullname          | shortname    | category | groupmode |
       | Add fieldset item | Add fieldset | 0        | 0         |

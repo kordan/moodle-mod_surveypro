@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_time
-Feature: make a submission test for "time" item
+Feature: Submit using a time item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a time item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for time item
+  Scenario: Test a submission for time item
     Given the following "courses" exist:
       | fullname                      | shortname            | category |
       | Test submission for time item | Time submission test | 0        |

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: validate creation and submit for textarea elements using the principal combinations of settings
+Feature: Submit using textarea item and check form validation
   Setting I check in this test are:
       # required:                       0 - 1
       # Use html editor:                0 - 1
@@ -29,7 +29,7 @@ Feature: validate creation and submit for textarea elements using the principal 
     And I expand all fieldsets
 
   @javascript
-  Scenario: test textarea element using configuration 01
+  Scenario: Test textarea element using configuration 01
     # Configuration 01 consists in:
       # required:                       0
       # Use html editor:                1
@@ -74,7 +74,7 @@ Feature: validate creation and submit for textarea elements using the principal 
     # End of test number 4
 
   @javascript
-  Scenario: test textarea element using configuration 02
+  Scenario: Test textarea element using configuration 02
     # Configuration 02 consists in:
       # required:                       1
       # Use html editor:                1
@@ -111,7 +111,7 @@ Feature: validate creation and submit for textarea elements using the principal 
     # End of test number 7
 
   @javascript
-  Scenario: test textarea element using configuration 03
+  Scenario: Test textarea element using configuration 03
     # Configuration 03 consists in:
       # required:                       0
       # Use html editor:                0
@@ -157,7 +157,7 @@ Feature: validate creation and submit for textarea elements using the principal 
     # End of test number 11
 
   @javascript
-  Scenario: test textarea element using configuration 04
+  Scenario: Test textarea element using configuration 04
     # Configuration 04 consists in:
       # required:                       1
       # Use html editor:                0

@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: backup and restore a surveypro instance
+Feature: Backup and restore a surveypro
   In order to validate backup and restore process
   As a teacher
   I backup and restore a surveypro instance.
@@ -11,7 +11,7 @@ Feature: backup and restore a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: backup and restore a surveypro with items
+  Scenario: Backup and restore a surveypro with items
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | Surveypro test | For testing backup | C1     |

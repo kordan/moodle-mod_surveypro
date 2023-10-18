@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_fileupload
-Feature: make a submission test for "fileupload" item
+Feature: Submit using a fileupload item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add an attachment item, I fill it and I go to see responses
 
   @javascript @_file_upload
-  Scenario: test a submission for attachment item
+  Scenario: Test a submission for attachment item
     Given the following "courses" exist:
       | fullname                            | shortname                  | category |
       | Test submission for attachment item | Attachment submission test | 0        |

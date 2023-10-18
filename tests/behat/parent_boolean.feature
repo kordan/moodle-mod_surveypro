@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of boolean as parent item
+Feature: Set boolean as parent item
   In order to test boolean as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled
 
   @javascript
-  Scenario: test boolean as parent
+  Scenario: Test boolean as parent
     Given the following "courses" exist:
       | fullname          | shortname         | category | groupmode |
       | Boolean as parent | Boolean as parent | 0        | 0         |

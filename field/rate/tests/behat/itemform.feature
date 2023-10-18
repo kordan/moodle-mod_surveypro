@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_rate
-Feature: test the use of rate setup form
+Feature: Create a rate item
   In order to test rate setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test rate setup form
+  Scenario: Test rate setup form
     Given the following "courses" exist:
       | fullname        | shortname       | category | groupmode |
       | Rate setup form | Rate setup form | 0        | 0         |

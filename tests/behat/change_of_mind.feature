@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: deletion of no longer allowed answers on user change of mind
+Feature: Delete of no longer allowed answers on user change of mind
   Test the deletion of no longer allowed answers in a parent-child relation over two pages when user changes his answer
   As a teacher
   I create a parent-child relation and as a student I fill, return back, change my answer and continue.
 
   @javascript
-  Scenario: test change of mind: 1-2-1-2
+  Scenario: Test change of mind: 1-2-1-2
     Given the following "courses" exist:
       | fullname        | shortname     | category | groupmode |
       | Change of mind | Change of mind | 0        | 0         |
@@ -84,7 +84,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should see "1" submissions
 
   @javascript
-  Scenario: test change of mind: 1-2-1-3
+  Scenario: Test change of mind: 1-2-1-3
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | 1-2-1-3 change of mind | 1-2-1-3 change of mind | 0        | 0         |
@@ -197,7 +197,7 @@ Feature: deletion of no longer allowed answers on user change of mind
     Then I should see "1" submissions
 
   @javascript
-  Scenario: test change of mind: 1-3-1-2
+  Scenario: Test change of mind: 1-3-1-2
     Given the following "courses" exist:
       | fullname               | shortname              | category | groupmode |
       | 1-3-1-2 change of mind | 1-3-1-2 change of mind | 0        | 0         |

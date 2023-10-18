@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of checkbox as parent item
+Feature: Set checkbox as parent item
   In order to test checkbox as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled
 
   @javascript
-  Scenario: test checkbox as parent
+  Scenario: Test checkbox as parent
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Checkbox as parent | Checkbox as parent | 0        | 0         |
