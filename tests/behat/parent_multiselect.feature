@@ -23,8 +23,7 @@ Feature: Set multiselect as parent item
     And surveypro "Test multiselect as parent" contains the following items:
       | type   | plugin      |
       | field  | multiselect |
-    And I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test multiselect as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add a short text item
     And I set the field "typeplugin" to "Text (short)"
@@ -123,8 +122,7 @@ Feature: Set multiselect as parent item
 
     And I log out
 
-    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test multiselect as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_2"
     And I expand all fieldsets
@@ -256,8 +254,7 @@ Feature: Set multiselect as parent item
 
     And I log out
 
-    When I am on the "Test multiselect as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test multiselect as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_2"
     And I expand all fieldsets

@@ -19,7 +19,7 @@ Feature: Load and apply usertemplates
       | activity  | name      | intro                                | course                  |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate |
 
-    When I am on the "Apply all" "mod_surveypro > User templates import" page logged in as "teacher1"
+    When I am on the "Apply all" "mod_surveypro > User templates > Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
@@ -43,7 +43,7 @@ Feature: Load and apply usertemplates
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -52,7 +52,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -61,7 +61,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -70,7 +70,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -79,7 +79,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -88,7 +88,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -97,7 +97,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -106,7 +106,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -115,7 +115,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -124,7 +124,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -133,7 +133,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -142,7 +142,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -151,7 +151,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -160,7 +160,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -169,7 +169,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -178,7 +178,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -187,7 +187,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -196,7 +196,7 @@ Feature: Load and apply usertemplates
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:

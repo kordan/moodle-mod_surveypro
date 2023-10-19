@@ -20,8 +20,7 @@ Feature: Submit using a rate item
     And the following "activities" exist:
       | activity  | name      | intro                           | course               |
       | surveypro | Rate test | To test submission of date item | Rate submission test |
-    And I am on the "Rate test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Rate test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Rate"
     And I press "Add"

@@ -20,8 +20,7 @@ Feature: Submit using a fileupload item
     And the following "activities" exist:
       | activity  | name            | intro                                 | course                     |
       | surveypro | Attachment test | To test submission of attachment item | Attachment submission test |
-    And I am on the "Attachment test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Attachment test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Attachment"
     And I press "Add"

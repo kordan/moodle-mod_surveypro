@@ -69,14 +69,13 @@ Feature: Apply a COLLES (preferred) mastertemplate to test graphs
       | Do you have any other comments?                | Am I sexy? |
     And I press "Submit"
 
-    And I select "Reports" from secondary navigation
+    And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page
     And I select "Colles report" from the "jump" singleselect
     Then I should not see "Summary report"
 
     And I log out
 
-    When I am on the "Run COLLES report" "surveypro activity" page logged in as teacher1
-    And I select "Reports" from secondary navigation
+    And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
     And I select "Colles report" from the "jump" singleselect
 
     # now test links provided by img's
@@ -89,27 +88,27 @@ Feature: Apply a COLLES (preferred) mastertemplate to test graphs
     Then I should not see "Scales report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Relevance"
+    # now I should be in front of "Colles report > Relevance"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Reflective thinking"
+    # now I should be in front of "Colles report > Reflective thinking"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Interactivity"
+    # now I should be in front of "Colles report > Interactivity"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Tutor support"
+    # now I should be in front of "Colles report > Tutor support"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Peer support"
+    # now I should be in front of "Colles report > Peer support"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"
-    # now I should be in front of "Colles report > Questions > Interpretation"
+    # now I should be in front of "Colles report > Interpretation"
     Then I should not see "Questions report"
 
     And I click on "div.centerpara a" "css_element"

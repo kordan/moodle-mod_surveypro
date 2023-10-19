@@ -21,8 +21,7 @@ Feature: Create a checkbox item
     And surveypro "Test checkbox setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I am on the "Test checkbox setup form" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test checkbox setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add an checkbox item
     And I set the field "typeplugin" to "Checkbox"

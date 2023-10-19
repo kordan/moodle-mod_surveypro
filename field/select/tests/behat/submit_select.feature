@@ -20,8 +20,7 @@ Feature: Submit using a select item
     And the following "activities" exist:
       | activity  | name        | intro                             | course                 |
       | surveypro | Select test | To test submission of select item | Select submission test |
-    And I am on the "Select test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Select test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Select"
     And I press "Add"

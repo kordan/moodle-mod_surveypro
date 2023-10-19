@@ -20,8 +20,7 @@ Feature: Submit using an autofill item
     And the following "activities" exist:
       | activity  | name          | intro                               | course                   |
       | surveypro | Autofill test | To test submission of autofill item | Autofill submission test |
-    And I am on the "Autofill test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Autofill test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Autofill"
     And I press "Add"

@@ -20,8 +20,7 @@ Feature: Submit using an age item
     And the following "activities" exist:
       | activity  | name     | intro                          | course              |
       | surveypro | Age test | To test submission of age item | Age submission test |
-    And I am on the "Age test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Age test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Age"
     And I press "Add"

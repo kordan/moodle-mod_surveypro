@@ -21,8 +21,7 @@ Feature: Submit using textarea item and check form validation
     And the following "activities" exist:
       | activity  | name           | intro              | course        |
       | surveypro | Surveypro test | For testing backup | Textarea item |
-    And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Text (long)"
     And I press "Add"

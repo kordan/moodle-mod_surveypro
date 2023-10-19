@@ -20,8 +20,7 @@ Feature: Submit using a numeric item
     And the following "activities" exist:
       | activity  | name         | intro                         | course                  |
       | surveypro | Numeric test | To test submission of numeric | Numeric submission test |
-    And I am on the "Numeric test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Numeric test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Numeric"
     And I press "Add"

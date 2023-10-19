@@ -19,7 +19,7 @@ Feature: Create a usertemplate
       | activity  | name                  | intro                              | course              |
       | surveypro | Create a usertemplate | Surveypro to cretae a usertemplate | Create usertemplate |
 
-    When I am on the "Create a usertemplate" "mod_surveypro > User templates import" page logged in as "teacher1"
+    When I am on the "Create a usertemplate" "mod_surveypro > User templates > Import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
@@ -27,7 +27,7 @@ Feature: Create a usertemplate
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I am on the "Create a usertemplate" "mod_surveypro > User templates apply" page
+    And I am on the "Create a usertemplate" "mod_surveypro > User templates > Apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
@@ -37,7 +37,7 @@ Feature: Create a usertemplate
 
     Then I should see "This is a demo survey to quickly see"
 
-    And I am on the "Create a usertemplate" "mod_surveypro > User templates save" page
+    And I am on the "Create a usertemplate" "mod_surveypro > User templates > Save" page
     # And I navigate to "User templates > Save" in current page administration
 
     # now I am in the "Create" page

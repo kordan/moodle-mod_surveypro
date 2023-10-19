@@ -42,8 +42,7 @@ Feature: Verify export type menu after adding a fileupload item
       | field  | character   |
       | field  | time        |
       | format | label       |
-    And I am on the "Export-item test" "surveypro activity" page logged in as teacher1
-    And I select "Tools" from secondary navigation
+    And I am on the "Export-item test" "mod_surveypro > Tools from secondary navigation" page logged in as teacher1
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '2')]" "xpath_element" should exist
@@ -51,10 +50,10 @@ Feature: Verify export type menu after adding a fileupload item
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '4')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '5')]" "xpath_element" should exist
 
-    And I follow "Layout"
+    And I am on the "Export-item test" "mod_surveypro > Layout from secondary navigation" page
     And I follow "delete_item_2"
     And I press "Yes"
-    And I follow "Tools"
+    And I am on the "Export-item test" "mod_surveypro > Tools from secondary navigation" page
 
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '1')]" "xpath_element" should exist
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '2')]" "xpath_element" should exist
