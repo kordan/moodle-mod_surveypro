@@ -59,7 +59,7 @@ class filterform extends \moodleform {
 
         // Only fields.
         // No matter for the page.
-        // I get the list of fields that the user wants to see in the exported file.
+        // I want the list of the fields the user may ask for the report (excluding 'textarea' and 'fileupload').
 
         $where = array();
         $where['surveyproid'] = $surveypro->id;
