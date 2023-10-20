@@ -29,8 +29,7 @@ Feature: In read only mode browse a submission jumping not filled pages
       | field  | character   |
       | format | pagebreak   |
       | field  | boolean     |
-    And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test jump not allowed pages" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_3"
     And I expand all fieldsets

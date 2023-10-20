@@ -27,8 +27,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | select      |
       | field  | character   |
-    And I am on the "Test change of mind" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"
@@ -109,8 +108,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | field  | select      |
       | field  | checkbox    |
       | field  | character   |
-    And I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test 1-2-1-3 change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"
@@ -222,8 +220,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | format | pagebreak   |
       | field  | boolean     |
       | field  | character   |
-    And I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test 1-3-1-2 change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_1"
     And I set the field "Required" to "1"

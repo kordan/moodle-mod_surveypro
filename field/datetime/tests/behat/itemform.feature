@@ -21,8 +21,7 @@ Feature: Create a datetime item
     And surveypro "Test datetime setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I am on the "Test datetime setup form" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test datetime setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add an datetime item
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"

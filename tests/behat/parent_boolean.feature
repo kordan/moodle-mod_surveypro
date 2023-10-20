@@ -23,8 +23,7 @@ Feature: Set boolean as parent item
     And surveypro "Test boolean as parent" contains the following items:
       | type   | plugin  |
       | field  | boolean |
-    And I am on the "Test boolean as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add an boolean item
     And I set the field "typeplugin" to "Text (short)"
@@ -67,8 +66,7 @@ Feature: Set boolean as parent item
 
     And I log out
 
-    When I am on the "Test boolean as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "0"
@@ -128,8 +126,7 @@ Feature: Set boolean as parent item
 
     And I log out
 
-    When I am on the "Test boolean as parent" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "1"

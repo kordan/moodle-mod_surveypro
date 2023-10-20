@@ -26,8 +26,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
       | field  | boolean     |
       | format | pagebreak   |
       | field  | character   |
-    And I am on the "Test start at 2" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test start at 2" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
 

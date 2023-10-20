@@ -20,8 +20,7 @@ Feature: Submit using a shortdate item
     And the following "activities" exist:
       | activity  | name           | intro                           | course                    |
       | surveypro | Shortdate test | To test submission of shortdate | Shortdate submission test |
-    And I am on the "Shortdate test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Shortdate test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
     And I press "Add"

@@ -55,39 +55,39 @@ Feature: Test correctness of urls
 
     # Surveypro -> Dashboard: Reports section
     And I follow "Run Attachments overview report"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Run Late users report"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Run Frequency distribution report"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Run Responses per user report"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Run Users per count of responses report"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     # Surveypro -> Dashboard: User templates section
     And I follow "Manage user templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Save user templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Import user templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Apply user templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     # Surveypro -> Dashboard: Master templates section
     And I follow "Save master templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     And I follow "Apply master templates"
-    And I select "Surveypro" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Surveypro from secondary navigation" page
 
     # Surveypro -> Responses
     And I select "Responses" from the "jump" singleselect
@@ -95,7 +95,7 @@ Feature: Test correctness of urls
     #
     # "Layout" in secondary navigation
     #
-    And I select "Layout" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Layout from secondary navigation" page
 
     # Layout -> Preview
     And I select "Preview" from the "jump" singleselect
@@ -112,7 +112,7 @@ Feature: Test correctness of urls
     #
     # "Reports" in secondary navigation
     #
-    And I select "Reports" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Reports from secondary navigation" page
 
     # Report -> Users per count of responses
     And I select "Users per count of responses" from the "jump" singleselect
@@ -132,7 +132,7 @@ Feature: Test correctness of urls
     #
     # "Tools" in secondary navigation
     #
-    And I select "Tools" from secondary navigation
+    And I am on the "sPro test links" "mod_surveypro > Tools from secondary navigation" page
 
     # Tools -> Import overview
     And I select "Import" from the "jump" singleselect
@@ -143,7 +143,7 @@ Feature: Test correctness of urls
     #
     # "User templates" in secondary navigation
     #
-    And I am on the "sPro test links" "mod_surveypro > User templates manage" page
+    And I am on the "sPro test links" "mod_surveypro > User templates > Manage" page
     # User templates -> Save
     And I select "Save" from the "jump" singleselect
 
@@ -159,7 +159,7 @@ Feature: Test correctness of urls
     #
     # "Master templates" in secondary navigation
     #
-    And I am on the "sPro test links" "mod_surveypro > Master templates apply" page
+    And I am on the "sPro test links" "mod_surveypro > Master templates > Apply" page
 
     # Master templates -> Save
     And I select "Save" from the "jump" singleselect

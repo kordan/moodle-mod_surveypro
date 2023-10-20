@@ -58,59 +58,75 @@ class behat_mod_surveypro extends behat_base {
         global $DB;
 
         switch ($type) {
-            case 'User templates manage':
+            case 'Surveypro from secondary navigation':
+                return new \moodle_url('/mod/surveypro/view.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'Layout from secondary navigation':
+                return new \moodle_url('/mod/surveypro/layout.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'Reports from secondary navigation':
+                return new \moodle_url('/mod/surveypro/reports.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'Tools from secondary navigation':
+                return new \moodle_url('/mod/surveypro/tools.php',
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+
+            case 'User templates > Manage':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'manage']);
 
-            case 'User templates save':
+            case 'User templates > Save':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
 
-            case 'User templates import':
+            case 'User templates > Import':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);
 
-            case 'User templates apply':
+            case 'User templates > Apply':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
 
-            case 'Master templates save':
+            case 'Master templates > Save':
                 return new \moodle_url('/mod/surveypro/mtemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
 
-            case 'Master templates apply':
+            case 'Master templates > Apply':
                 return new \moodle_url('/mod/surveypro/mtemplates.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
 
-            case 'Colles Summary report':
+            case 'Colles > Summary report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'summary']);
 
-            case 'Colles Scales report':
+            case 'Colles > Scales report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'scales']);
 
-            case 'Colles Questions Relevance report':
+            case 'Colles > Relevance report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '0']);
 
-            case 'Colles Questions Reflective thinking report':
+            case 'Colles > Reflective thinking report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '1']);
 
-            case 'Colles Questions Interactivity report':
+            case 'Colles > Interactivity report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '2']);
 
-            case 'Colles Questions Tutor support report':
+            case 'Colles > Tutor support report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '3']);
 
-            case 'Colles Questions Peer support report':
+            case 'Colles > Peer support report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '4']);
 
-            case 'Colles Questions Interpretation report':
+            case 'Colles > Interpretation report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '5']);
 

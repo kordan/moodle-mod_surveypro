@@ -20,8 +20,7 @@ Feature: Submit using character item and check form validation (6 of 7)
     And the following "activities" exist:
       | activity  | name           | intro              | course         |
       | surveypro | Surveypro test | For testing backup | Character item |
-    And I am on the "Surveypro test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"

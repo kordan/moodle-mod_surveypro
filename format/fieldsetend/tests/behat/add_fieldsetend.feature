@@ -18,8 +18,7 @@ Feature: Create a fieldsetend item
     And the following "activities" exist:
       | activity  | name          | intro                                | course          |
       | surveypro | Fieldset test | To test addition of fieldsetend item | Add fieldsetend |
-    And I am on the "Fieldset test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Fieldset test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Fieldset closure"
     And I press "Add"

@@ -48,8 +48,7 @@ Feature: Submit each available item
       | field  | character   |
       | field  | time        |
       | format | label       |
-    And I am on the "Each item submission" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Each item submission" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I select "Preview" from the "jump" singleselect
     And I press "Next page >>"

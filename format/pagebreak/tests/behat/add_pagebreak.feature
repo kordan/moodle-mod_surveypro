@@ -18,8 +18,7 @@ Feature: Create a pagebreak item
     And the following "activities" exist:
       | activity  | name           | intro                              | course        |
       | surveypro | Pagebreak test | To test addition of pagebreak item | Add pagebreak |
-    And I am on the "Pagebreak test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Pagebreak test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Page break"
     And I press "Add"

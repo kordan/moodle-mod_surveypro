@@ -21,8 +21,7 @@ Feature: Create a boolean item
     And surveypro "Test boolean setup form" contains the following items:
       | type  | plugin  |
       | field | boolean |
-    And I am on the "Test boolean setup form" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Test boolean setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add an boolean item
     And I set the field "typeplugin" to "Boolean"

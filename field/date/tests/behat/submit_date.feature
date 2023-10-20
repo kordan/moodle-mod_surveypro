@@ -20,8 +20,7 @@ Feature: Submit using a date item
     And the following "activities" exist:
       | activity  | name         | intro                        | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
-    And I am on the "Date test" "surveypro activity" page logged in as teacher1
-    And I select "Layout" from secondary navigation
+    And I am on the "Date test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
     And I press "Add"
