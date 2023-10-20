@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
-Feature: validate creation and submit for "checkbox" elements using the principal combinations of settings
+Feature: Submit using checkbox item and check form validation
   Setting I check in this test are:
       # Maximum required options: 0 - 3
 
@@ -26,7 +26,7 @@ Feature: validate creation and submit for "checkbox" elements using the principa
     And I expand all fieldsets
 
   @javascript
-  Scenario: test checkbox element having maximumrequired = 0
+  Scenario: Test checkbox element having maximumrequired = 0
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | Unlimited                              |
@@ -49,7 +49,7 @@ Feature: validate creation and submit for "checkbox" elements using the principa
     # End of test number 2
 
   @javascript
-  Scenario: test checkbox element having maximumrequired = 3
+  Scenario: Test checkbox element having maximumrequired = 3
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | 3                                      |

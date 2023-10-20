@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: duplicate response
+Feature: Duplicate a response
   In order to test that response duplication works fine
   As teacher1 and student1
   I fill a surveypro and go to duplicate the submitted response
 
   @javascript
-  Scenario: duplicate a response
+  Scenario: Duplicate a response
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Duplicate response | Duplicate response | 0        | 0         |

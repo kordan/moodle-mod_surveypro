@@ -428,7 +428,7 @@ EOS;
                 $attributes['id'] = $idprefix.'_'.$row;
                 $mform->addElement('select', $uniquename, $option, $rates, $attributes);
 
-                // Don' add a colorunifier div after the last rate element.
+                // Don't add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
                     $this->item_add_color_unifier($mform);
                 }

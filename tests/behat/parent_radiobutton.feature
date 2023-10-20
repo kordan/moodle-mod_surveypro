@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of radiobutton as parent item
+Feature: Set radiobutton as parent item
   In order to test radiobutton as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled
 
   @javascript
-  Scenario: test radiobutton as parent
+  Scenario: Test radiobutton as parent
     Given the following "courses" exist:
       | fullname              | shortname             | category | groupmode |
       | Radiobutton as parent | Radiobutton as parent | 0        | 0         |

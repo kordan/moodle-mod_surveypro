@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_datetime
-Feature: test the use of datetime setup form
+Feature: Create a datetime item
   In order to test datetime setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test datetime setup form
+  Scenario: Test datetime setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Datetime setup form | Datetime setup form | 0        | 0         |
@@ -136,7 +136,7 @@ Feature: test the use of datetime setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Please, write down date and time of your last flight to Los Angeles."
+    Then I should see "II.a Please, write down date and time of your last flight to Los Angeles."
     Then the field "id_surveypro_field_datetime_2_day" matches value "1"
     Then the field "id_surveypro_field_datetime_2_month" matches value "January"
     Then the field "id_surveypro_field_datetime_2_year" matches value "1980"

@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_criticalincidents
-Feature: apply CI mastertemplate
+Feature: Apply CI mastertemplate
   In order to verify mastertemplates apply correctly // Why this feature is useful
   As a teacher                                       // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                   // The feature we want
@@ -19,7 +19,7 @@ Feature: apply CI mastertemplate
       | surveypro | To apply Critical Incidents | To test Critical Incidents | Apply mastertemplate |
 
   @javascript
-  Scenario: apply Critical Incidents master template
+  Scenario: Apply Critical Incidents master template
     Given I am on the "To apply Critical Incidents" "surveypro activity" page logged in as teacher1
 
     And I set the field "Master templates" to "Critical Incidents"

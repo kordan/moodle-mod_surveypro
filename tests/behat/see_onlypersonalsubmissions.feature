@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: test each student sees only personal submissions
+Feature: Test each student sees only personal submissions
   In order to test that students can only see their personal submissions
   As student1 and student2
   I fill a surveypro and go to see responses
 
   @javascript
-  Scenario: test each student sees only his/her own submissions
+  Scenario: Test each student sees only his/her own submissions
     Given the following "courses" exist:
       | fullname                      | shortname                 | category | groupmode |
       | See only personal submissions | Only personal submissions | 0        | 0         |
@@ -59,16 +59,16 @@ Feature: test each student sees only personal submissions
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Write down your email | st11email@st11server.net |
-      | 2: Is it true?           | Yes                      |
+      | 1 Write down your email | st11email@st11server.net |
+      | 2 Is it true?           | Yes                      |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Write down your email | st12email@st12server.net |
-      | 2: Is it true?           | No                       |
+      | 1 Write down your email | st12email@st12server.net |
+      | 2 Is it true?           | No                       |
     And I press "Submit"
 
     And I log out
@@ -83,8 +83,8 @@ Feature: test each student sees only personal submissions
 
     # student2 submits a response
     And I set the following fields to these values:
-      | 1: Write down your email | st21email@st21server.net |
-      | 2: Is it true?           | Yes                      |
+      | 1 Write down your email | st21email@st21server.net |
+      | 2 Is it true?           | Yes                      |
     And I press "Submit"
 
     And I press "Continue to responses list"

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_numeric
-Feature: make a submission test for "numeric" item
+Feature: Submit using a numeric item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a numeric item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for numeric item
+  Scenario: Test a submission for numeric item
     Given the following "courses" exist:
       | fullname                         | shortname               | category |
       | Test submission for numeric item | Numeric submission test | 0        |
@@ -44,7 +44,7 @@ Feature: make a submission test for "numeric" item
     And I press "New response"
 
     # student1 submits
-    And I set the field "11: Write your best approximation of π" to "3.14"
+    And I set the field "11 Write your best approximation of π" to "3.14"
 
     And I press "Submit"
 

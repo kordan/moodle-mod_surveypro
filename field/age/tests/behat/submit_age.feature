@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_age
-Feature: make a submission test for "age" item
+Feature: Submit using an age item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add an age item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for age item
+  Scenario: Test a submission for age item
     Given the following "courses" exist:
       | fullname                     | shortname           | category |
       | Test submission for age item | Age submission test | 0        |

@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: submissions seen from students divided into groups (Part 03)
+Feature: Submissions seen from students divided into groups (Part 03)
   In order to test which submissions students in groups can see
   As student1 and student2 and student3 with mod/surveypro:seeotherssubmissions capability
   I fill a surveypro and ask for the submissions list
 
   @javascript
-  Scenario: verify permissions in groups part 03
+  Scenario: Verify permissions in groups part 03
     Given the following "courses" exist:
       | fullname                     | shortname          | category | groupmode |
       | Verify permissions in groups | Groups permissions | 0        | 0         |
@@ -67,14 +67,14 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st1grp1ans1@nowhere.net |
+      | 1 Enter your name | st1grp1ans1@nowhere.net |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Enter your name | st1grp1ans2@nowhere.net |
+      | 1 Enter your name | st1grp1ans2@nowhere.net |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -92,7 +92,7 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st2grp1ans1@nowhere.net |
+      | 1 Enter your name | st2grp1ans1@nowhere.net |
     And I press "Submit"
 
     Then I press "Continue to responses list"
@@ -112,7 +112,7 @@ Feature: submissions seen from students divided into groups (Part 03)
 
     # student3 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | st3grp2ans1@nowhere.net |
+      | 1 Enter your name | st3grp2ans1@nowhere.net |
     And I press "Submit"
 
     And I press "Continue to responses list"

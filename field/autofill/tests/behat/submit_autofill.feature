@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_autofill
-Feature: make a submission test for "autofill" item
+Feature: Submit using an autofill item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add an autofill item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for autofill item
+  Scenario: Test a submission for autofill item
     Given the following "courses" exist:
       | fullname                          | shortname                | category |
       | Test submission for autofill item | Autofill submission test | 0        |

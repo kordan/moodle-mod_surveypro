@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: adding a fileupload item, two more item are added to export type menu
+Feature: Verify export type menu after adding a fileupload item
   In order to test that adding a fileupload item, two more item are added to export type menu
   As teacher1
   I fill build a surveypro without and, later, with fileupload and go to verify export type menu items
 
   @javascript
-  Scenario: count the number of items of the "Download file type" menu
+  Scenario: Count the number of items of the "Download file type" menu
     Given the following "courses" exist:
       | fullname                     | shortname        | category | groupmode |
       | Count export type menu items | Count menu items | 0        | 0         |

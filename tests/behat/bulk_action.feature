@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: test bulk actions
+Feature: Execute bulk actions
   In order to validate each action issues through inline icons
   As teacher1
   I issue them and verify the outcome.
@@ -11,7 +11,7 @@ Feature: test bulk actions
     And I log in as "admin"
 
   @javascript
-  Scenario: test bulk actions
+  Scenario: Test bulk actions
     Given the following "activities" exist:
       | activity  | name                   | intro                     | course  |
       | surveypro | Test bulk item actions | To test bulk item actions | Test IA |

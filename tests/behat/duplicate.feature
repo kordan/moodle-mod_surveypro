@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: duplicate a surveypro instance
+Feature: Duplicate a surveypro
   In order to validate backup and restore process
   As a teacher
   I duplicate a surveypro instance.
@@ -11,7 +11,7 @@ Feature: duplicate a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: duplicate a non empty surveypro
+  Scenario: Duplicate a non empty surveypro
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | surveypro test | For testing backup | C1     |

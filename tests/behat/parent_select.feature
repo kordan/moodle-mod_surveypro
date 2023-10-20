@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield
-Feature: test the use of select as parent item
+Feature: Set select as parent item
   In order to test select as parent item
   As a teacher
   I create a parent-child relation and I evaluate the outcome when relation is fulfilled and not fulfilled
 
   @javascript
-  Scenario: test select as parent
+  Scenario: Test select as parent
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Select as parent | Select as parent | 0        | 0         |

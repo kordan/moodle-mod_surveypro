@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: load and apply usertemplates in order to test if they apply correctly
+Feature: Load and apply usertemplates
   In order to test if usertemplates apply correctly
   As teacher1
   I apply all available usertemplates
 
   @javascript @_file_upload
-  Scenario: load and apply each usertemplate
+  Scenario: Load and apply each usertemplate
     Given the following "courses" exist:
       | fullname                   | shortname               | category | groupmode |
       | To apply all usertemplates | Apply each usertemplate | 0        | 0         |

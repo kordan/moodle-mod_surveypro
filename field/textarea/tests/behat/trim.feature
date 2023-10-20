@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: test the use of textarea trim
+Feature: Trim textarea content
   In order to test textarea trim feature
   As a student
   I fill a field and I verify what is in it
 
   @javascript
-  Scenario: test textarea trim
+  Scenario: Test textarea trim
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Textarea trim test | Textarea trim test | 0        | 0         |

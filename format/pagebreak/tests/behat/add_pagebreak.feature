@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyproformat @surveyprofield_pagebreak
-Feature: verify a pagebreak item can be added to a survey
+Feature: Create a pagebreak item
   In order to verify pagebreak items can be added to a survey
   As a teacher
   I add a pagebreak item to a survey
 
   @javascript
-  Scenario: add pagebreak item
+  Scenario: Add pagebreak item
     Given the following "courses" exist:
       | fullname           | shortname     | category | groupmode |
       | Add pagebreak item | Add pagebreak | 0        | 0         |

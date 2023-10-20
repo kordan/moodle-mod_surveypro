@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_date
-Feature: test the use of date setup form
+Feature: Create a date item
   In order to test date setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test date setup form
+  Scenario: Test date setup form
     Given the following "courses" exist:
       | fullname        | shortname       | category | groupmode |
       | Date setup form | Date setup form | 0        | 0         |
@@ -112,7 +112,7 @@ Feature: test the use of date setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: When were you born?"
+    Then I should see "II.a When were you born?"
     Then the field "id_surveypro_field_date_2_day" matches value "1"
     Then the field "id_surveypro_field_date_2_month" matches value "January"
     Then the field "id_surveypro_field_date_2_year" matches value "1980"

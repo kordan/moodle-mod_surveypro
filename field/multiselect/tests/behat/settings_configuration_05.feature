@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_multiselect
-Feature: validate creation and submit for "multiselect" elements using the principal combinations of settings
+Feature: Submit using multiselect item and check form validation
   Setting I check in this test are:
       # Maximum required options: 0 - 3
 
@@ -26,7 +26,7 @@ Feature: validate creation and submit for "multiselect" elements using the princ
     And I expand all fieldsets
 
   @javascript
-  Scenario: test multiselect element having maximumrequired = 0
+  Scenario: Test multiselect element having maximumrequired = 0
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | Unlimited                              |
@@ -47,7 +47,7 @@ Feature: validate creation and submit for "multiselect" elements using the princ
     # End of test number 1
 
   @javascript
-  Scenario: test multiselect element having maximumrequired = 3
+  Scenario: Test multiselect element having maximumrequired = 3
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Maximum allowed options  | 3                                      |

@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_boolean
-Feature: test the use of boolean setup form
+Feature: Create a boolean item
   In order to test boolean setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test boolean setup form
+  Scenario: Test boolean setup form
     Given the following "courses" exist:
       | fullname           | shortname          | category | groupmode |
       | Boolean setup form | Boolean setup form | 0        | 0         |
@@ -69,7 +69,7 @@ Feature: test the use of boolean setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Is it true?"
+    Then I should see "II.a Is it true?"
     Then the field "id_surveypro_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
@@ -85,6 +85,6 @@ Feature: test the use of boolean setup form
     And I press "Save as new"
 
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.b: Is it true?"
+    Then I should see "II.b Is it true?"
     Then the field "id_surveypro_field_boolean_3" matches value "Choose..."
     Then I should see "One more additional note"

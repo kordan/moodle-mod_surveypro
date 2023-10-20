@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: verify urls really redirect to existing pages
+Feature: Test correctness of urls
   In order to verify urls really redirect to existing pages // Why this feature is useful
   As a teacher and as a student                             // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I select each link                                        // The feature we want
@@ -45,7 +45,7 @@ Feature: verify urls really redirect to existing pages
       | field  | time        |
 
   @javascript
-  Scenario: select each available link as a teacher
+  Scenario: Select each available link as a teacher
     Given I am on the "sPro test links" "surveypro activity" page logged in as teacher1
 
     #
@@ -168,7 +168,7 @@ Feature: verify urls really redirect to existing pages
     And I select "Apply" from the "jump" singleselect
 
   @javascript
-  Scenario: select each available link as a student
+  Scenario: Select each available link as a student
     Given I am on the "sPro test links" "surveypro activity" page logged in as student1
     And I select "Dashboard" from the "jump" singleselect
     And I select "Responses" from the "jump" singleselect

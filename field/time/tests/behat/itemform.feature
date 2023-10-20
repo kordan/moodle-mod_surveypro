@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_time
-Feature: test the use of time setup form
+Feature: Create a time item
   In order to test time setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test time setup form
+  Scenario: Test time setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Datetime setup form | Datetime setup form | 0        | 0         |
@@ -99,7 +99,7 @@ Feature: test the use of time setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: At what time do you usually get up in the morning in the working days?"
+    Then I should see "II.a At what time do you usually get up in the morning in the working days?"
     Then the field "id_surveypro_field_time_2_hour" matches value "7"
     Then the field "id_surveypro_field_time_2_minute" matches value "40"
     Then I should see "Additional note"

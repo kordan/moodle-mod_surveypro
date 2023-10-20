@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_boolean
-Feature: make a submission test for "boolean" item
+Feature: Submit using a boolean item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a boolean item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for boolean item
+  Scenario: Test a submission for boolean item
     Given the following "courses" exist:
       | fullname                         | shortname               | category |
       | Test submission for boolean item | Boolean submission test | 0        |
@@ -70,7 +70,7 @@ Feature: make a submission test for "boolean" item
 
     # student1 submits
     And I set the following fields to these values:
-      | 4a: Is it true?                | Yes |
+      | 4a Is it true?                 | Yes |
       | id_surveypro_field_boolean_2_0 | 1   |
       | id_surveypro_field_boolean_3_1 | 1   |
 

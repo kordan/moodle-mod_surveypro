@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: editing a submission, autofill userID is not overwritten
+Feature: Editing a submission, autofill userID is not overwritten
   In order to test that personal data is not overwritten editing a submission
   As student1 and student2
   I fill a surveypro and edit it as different user
 
   @javascript
-  Scenario: test autofill userID is not overwritten at submission editing time
+  Scenario: Test autofill userID is not overwritten at submission editing time
     Given the following "courses" exist:
       | fullname                   | shortname      | category | groupmode |
       | Course divided into groups | Course grouped | 0        | 0         |
@@ -95,13 +95,13 @@ Feature: editing a submission, autofill userID is not overwritten
     And I press "New response"
 
     # student1 submits his first response
-    And I set the field "4: Is it true?" to "Yes"
+    And I set the field "4 Is it true?" to "Yes"
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
-    And I set the field "4: Is it true?" to "No"
+    And I set the field "4 Is it true?" to "No"
     And I press "Submit"
 
     And I log out
@@ -112,9 +112,9 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
-    Then the field "4: Is it true?" matches value "Yes"
+    Then the field "4 Is it true?" matches value "Yes"
 
-    And I set the field "4: Is it true?" to "No"
+    And I set the field "4 Is it true?" to "No"
     And I press "Submit"
 
     And I log out
@@ -126,7 +126,7 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
-    Then the field "4: Is it true?" matches value "No"
+    Then the field "4 Is it true?" matches value "No"
 
     And I log out
 
@@ -137,8 +137,8 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
-    Then the field "4: Is it true?" matches value "No"
-    And I set the field "4: Is it true?" to "Yes"
+    Then the field "4 Is it true?" matches value "No"
+    And I set the field "4 Is it true?" to "Yes"
     And I press "Submit"
 
     And I log out
@@ -150,6 +150,6 @@ Feature: editing a submission, autofill userID is not overwritten
     And I follow "edit_submission_row_1"
     Then the field "Your first name" matches value "student1"
     Then the field "Your last name" matches value "user1"
-    Then the field "4: Is it true?" matches value "Yes"
+    Then the field "4 Is it true?" matches value "Yes"
 
     And I log out

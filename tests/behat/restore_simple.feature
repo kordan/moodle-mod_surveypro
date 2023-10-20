@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: simple restore of a surveypro
+Feature: Simple restore of a surveypro
   In order to test simple restore procedure
   As a teacher
   I make a simple restore of a course with two instances of surveypro
@@ -11,7 +11,7 @@ Feature: simple restore of a surveypro
     And I log in as "admin"
 
   @javascript @_file_upload
-  Scenario: restore a course having surveypro
+  Scenario: Restore a course having surveypro
     When I am on the "Demo course" "restore" page
     And I press "Manage backup files"
     And I upload "mod/surveypro/tests/fixtures/demo_course-20160108.mbz" file to "Files" filemanager

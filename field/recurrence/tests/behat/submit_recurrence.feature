@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_recurrence
-Feature: make a submission test for "recurrence" item
+Feature: Submit using a recurrence item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a recurrence item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for recurrence item
+  Scenario: Test a submission for recurrence item
     Given the following "courses" exist:
       | fullname                            | shortname                  | category |
       | Test submission for recurrence item | Recurrence submission test | 0        |

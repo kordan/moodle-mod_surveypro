@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: submissions seen from students not divided into groups (Part 01)
+Feature: Submissions seen from students not divided into groups (Part 01)
   In order to test which submissions students can see
   As teacher, student1 and student2 not part of groups
   I fill a surveypro and ask for the submissions list
 
   @javascript
-  Scenario: verify permissions in groups part 01
+  Scenario: Verify permissions in groups part 01
     Given the following "courses" exist:
       | fullname                     | shortname          | category | groupmode |
       | Verify permissions in groups | Groups permissions | 0        | 0         |
@@ -56,14 +56,14 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 1 |
+      | 1 Enter your name | student 1 nogroup answer 1 |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1: Enter your name | student 1 nogroup answer 2 |
+      | 1 Enter your name | student 1 nogroup answer 2 |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -81,7 +81,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student2 submits his first response
     And I set the following fields to these values:
-      | 1: Enter your name | student 2 nogroup answer 1 |
+      | 1 Enter your name | student 2 nogroup answer 1 |
     And I press "Submit"
 
     Then I press "Continue to responses list"

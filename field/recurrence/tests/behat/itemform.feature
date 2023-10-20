@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_recurrence
-Feature: test the use of recurrence setup form
+Feature: Create a recurrence item
   In order to test recurrence setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test recurrence setup form
+  Scenario: Test recurrence setup form
     Given the following "courses" exist:
       | fullname              | shortname             | category | groupmode |
       | Recurrence setup form | Recurrence setup form | 0        | 0         |
@@ -102,7 +102,7 @@ Feature: test the use of recurrence setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: When do you usually celebrate your name-day?"
+    Then I should see "II.a When do you usually celebrate your name-day?"
     Then the field "id_surveypro_field_recurrence_2_day" matches value "1"
     Then the field "id_surveypro_field_recurrence_2_month" matches value "February"
     Then I should see "Additional note"

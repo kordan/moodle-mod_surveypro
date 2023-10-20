@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
-Feature: test the use of textarea setup form
+Feature: Create a textarea item
   In order to test textarea setup form
   As a teacher
   I fill each its field and I return back to verify all is where I wrote it
 
   @javascript
-  Scenario: test textarea setup form
+  Scenario: Test textarea setup form
     Given the following "courses" exist:
       | fullname            | shortname           | category | groupmode |
       | Textarea setup form | Textarea setup form | 0        | 0         |
@@ -79,7 +79,7 @@ Feature: test the use of textarea setup form
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a: Write a short description of yourself"
+    Then I should see "II.a Write a short description of yourself"
     Then I should see "Additional note"
     Then "//div[contains(@id, 'id_surveypro_field_textarea_2editable')]" "xpath_element" should exist
 
@@ -94,6 +94,6 @@ Feature: test the use of textarea setup form
       | Additional note                | One more additional note              |
     And I press "Save as new"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.b: Write a short description of yourself"
+    Then I should see "II.b Write a short description of yourself"
     Then I should see "One more additional note"
     Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist

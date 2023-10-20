@@ -1,11 +1,11 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_radiobutton
-Feature: make a submission test for "radiobutton" item
+Feature: Submit using a radiobutton item
   In order to test that minimal use of surveypro is guaranteed
   As student1
   I add a radio button item, I fill it and I go to see responses
 
   @javascript
-  Scenario: test a submission for radio button item
+  Scenario: Test a submission for radio button item
     Given the following "courses" exist:
       | fullname                               | shortname                   | category |
       | Test submission for radio buttons item | Radiobutton submission test | 0        |

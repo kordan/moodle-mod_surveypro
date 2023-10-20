@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_collesactual
-Feature: apply COLLES (Actual) mastertemplate
+Feature: Apply COLLES (Actual) mastertemplate
   In order to verify mastertemplates apply correctly // Why this feature is useful
   As a teacher                                       // It can be 'an admin', 'a teacher', 'a student', 'a guest', 'a user', 'a tests writer' and 'a developer'
   I need to apply a mastertemplate                   // The feature we want
@@ -19,7 +19,7 @@ Feature: apply COLLES (Actual) mastertemplate
       | surveypro | To apply COLLES (Actual) | To test COLLES (Actual) | Apply mastertemplate |
 
   @javascript
-  Scenario: apply COLLES (Actual) master template
+  Scenario: Apply COLLES (Actual) master template
     Given I am on the "To apply COLLES (Actual)" "surveypro activity" page logged in as teacher1
 
     And I set the field "Master templates" to "COLLES (Actual)"
