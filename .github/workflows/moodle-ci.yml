@@ -44,11 +44,6 @@ jobs:
         with:
           path: plugin
 
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.15.0'
-
       - name: Setup PHP ${{ matrix.php }}
         uses: shivammathur/setup-php@v2
         with:
