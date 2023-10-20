@@ -166,8 +166,11 @@ class report extends reportbase {
             if (!empty($usersubmission->submissionid)) {
                 $paramurl = array();
                 $paramurl['s'] = $this->surveypro->id;
+                $paramurl['report'] = 'attachments';
+                $paramurl['section'] = 'details';
                 $paramurl['container'] = $usersubmission->id.'_'.$usersubmission->submissionid;
-                $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+                // $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
+                $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
                 $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
                 $cellcontent .= \html_writer::start_tag('a', ['title' => $displayuploadsstr, 'href' => $url]);
                 $cellcontent .= s($displayuploadsstr);
@@ -238,5 +241,20 @@ class report extends reportbase {
             echo $OUTPUT->footer();
             die();
         }
+    }
+
+    /**
+     * set_additionalparams.
+     *
+     * Sets the parameters to be supplied to the url to call the specific report page
+     */
+    public function set_additionalparams() {
+        $this->additionalparams = [
+            'optional' => [],
+            'required' => [
+                'section' => PARAM_ALPHA,
+                'container' => PARAM_ALPHANUMEXT,
+            ],
+        ];
     }
 }

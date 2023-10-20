@@ -26,6 +26,7 @@ $string['absolute'] = 'absolute';
 $string['content'] = 'answer';
 $string['itemid_help'] = 'The variable to calculate its distribution';
 $string['itemid'] = 'Survey question';
+$string['nosubmissionsfound'] = 'No submissions found';
 $string['percentage'] = 'percentage';
 $string['pleasechooseavalue'] = 'Please choose a variable to make its distribution';
 $string['pluginname'] = 'Frequency distribution';

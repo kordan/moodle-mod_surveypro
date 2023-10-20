@@ -23,3 +23,4 @@
  */
 
 $string['pluginname'] = 'Distribuzione di frequenza';
+$string['nosubmissionsfound'] = 'Nessuna risposta trovata.';

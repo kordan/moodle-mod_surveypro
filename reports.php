@@ -45,7 +45,13 @@ require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 if (isset($report)) {
-    $returnurl = new \moodle_url('/mod/surveypro/report/'.$report.'/view.php', ['s' => $cm->instance]);
+    $classname = 'surveyproreport_'.$report.'\report';
+    $reportman = new $classname($cm, $context, $surveypro);
+
+    $reportman->set_additionalparams();
+    $paramurl = $reportman->get_paramurl();
+
+    $returnurl = new \moodle_url('/mod/surveypro/report/'.$report.'/view.php', $paramurl);
     redirect($returnurl);
 }
 
@@ -57,6 +63,9 @@ if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
     }
     redirect($returnurl);
 }
+
+// You should never arrive here because you were redirected to a report.
+// If no report is available, warns the user.
 
 // Output starts here.
 $url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $cm->instance]);
@@ -71,7 +80,7 @@ $PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
 
-echo $OUTPUT->box('Non ci sono report in questa instllazione di surveypro.', 'generalbox description', 'intro', 'centerpara');
+echo $OUTPUT->box('noreportsfound', 'generalbox description', 'intro', 'centerpara');
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
 echo $actionbar->draw_reports_action_bar();

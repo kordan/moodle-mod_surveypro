@@ -344,6 +344,7 @@ $string['nomoresubmissionsallowed'] = 'The maximun number of {$a} responses has 
 $string['nomtemplates_help'] = 'Course creator probably denied the instantiation of each master tempalte. Contact your course creator for further details.';
 $string['nomtemplates_message'] = 'Sorry. Not any master template seems available in this moodle site instance.';
 $string['nomtemplates'] = 'Missing master templates';
+$string['noreportsfound'] = 'There are no reports in this surveypro instillation.';
 $string['nosubmissionsforenrolled'] = 'No responses were found in this survey for enrolled students.';
 $string['note'] = 'Note:';
 $string['nothingtodownload'] = 'Nothing to download';
