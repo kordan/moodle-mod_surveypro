@@ -68,23 +68,4 @@ class form_previewed extends \core\event\base {
     public function get_url() {
         return new \moodle_url('/mod/surveypro/layout.php', ['id' => $this->contextinstanceid, 'section' => 'preview']);
     }
-
-    /**
-     * Return legacy data for add_to_log().
-     *
-     * @return array
-     */
-    public function get_legacy_logdata() {
-        // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'form previewed',
-            $this->get_url(), $this->objectid, $this->contextinstanceid, );
-    }
-
-    /**
-     * Return the legacy event name.
-     *
-     * @return string
-     */
-    public static function get_legacy_eventname() {
-    }
 }

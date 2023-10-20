@@ -70,25 +70,6 @@ class mastertemplate_saved extends \core\event\base {
     }
 
     /**
-     * Return legacy data for add_to_log().
-     *
-     * @return array
-     */
-    public function get_legacy_logdata() {
-        // Override if you are migrating an add_to_log() call.
-        return array($this->courseid, 'surveypro', 'mastertemplate saved',
-            $this->get_url(), $this->objectid, $this->contextinstanceid, );
-    }
-
-    /**
-     * Return the legacy event name.
-     *
-     * @return string
-     */
-    public static function get_legacy_eventname() {
-    }
-
-    /**
      * Custom validation.
      *
      * @throws \coding_exception
