@@ -152,11 +152,15 @@ class cover {
         }
 
         $this->display_messages($messages, get_string('attemptinfo', 'mod_surveypro'));
-        $messages = array();
+        $messages = [];
         // End of: general info.
 
         if ($addnew) {
-            $paramurl = ['s' => $this->cm->instance, 'mode' => SURVEYPRO_NEWRESPONSEMODE, 'section' => 'submissionform', 'begin' => 1];
+            $paramurl = [];
+            $paramurl['s'] = $this->cm->instance;
+            $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
+            $paramurl['section'] = 'submissionform';
+            $paramurl['begin'] = 1;
             $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $message = get_string('addnewsubmission', 'mod_surveypro');
             echo $OUTPUT->box($OUTPUT->single_button($url, $message, 'get', ['type' => 'primary']), 'clearfix mdl-align');

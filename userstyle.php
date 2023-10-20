@@ -24,7 +24,7 @@
 
 define('NO_MOODLE_COOKIES', true); // Session not used here.
 
-require_once('../../config.php');
+require_once(dirname(__FILE__).'/../../config.php');
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT);

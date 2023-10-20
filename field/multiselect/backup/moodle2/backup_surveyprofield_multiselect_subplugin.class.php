@@ -43,7 +43,7 @@ class backup_surveyprofield_multiselect_subplugin extends backup_subplugin {
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
             'options', 'defaultvalue', 'noanswerdefault', 'downloadformat',
-            'minimumrequired', 'maximumrequired', 'heightinrows'));
+            'minimumrequired', 'maximumrequired', 'heightinrows', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

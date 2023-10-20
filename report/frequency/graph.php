@@ -24,7 +24,7 @@
 
 use surveyproreport_frequency\report;
 
-require_once('../../../../config.php');
+require_once(dirname(__FILE__).'/../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 

@@ -26,7 +26,7 @@ use mod_surveypro\utility_layout;
 use surveyproreport_frequency\filterform;
 use surveyproreport_frequency\report;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once(dirname(__FILE__).'/../../../../config.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
 require_once($CFG->libdir.'/tablelib.php');
 

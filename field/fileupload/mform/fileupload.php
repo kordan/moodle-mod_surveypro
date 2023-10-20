@@ -110,7 +110,7 @@ class surveypromform_fileupload extends \MoodleQuickForm_filemanager {
 
         if (empty($draftitemid)) {
             // No existing area info provided - let's use fresh new draft area.
-            require_once("$CFG->libdir/filelib.php");
+            require_once($CFG->libdir/filelib.php);
             $this->setValue(file_get_unused_draft_itemid());
             $draftitemid = $this->getValue();
         }

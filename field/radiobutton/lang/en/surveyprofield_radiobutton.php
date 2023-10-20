@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
+require_once(dirname(__FILE__).'/../../../../lib.php');
 
 $string['adjustment_help'] = 'How this list of items will be shown? In horizontal or in vertical?';
 $string['adjustment'] = 'Adjustment';

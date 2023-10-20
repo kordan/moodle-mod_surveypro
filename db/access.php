@@ -155,9 +155,9 @@ $capabilities = [
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'manager' => CAP_ALLOW,
         ],
-        'clonepermissionsfrom' => 'moodle/course:manageactivities'
+        'clonepermissionsfrom' => 'moodle/course:manageactivities',
     ],
 
     'mod/surveypro:view' => [
@@ -170,8 +170,8 @@ $capabilities = [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:submit' => [
@@ -180,8 +180,8 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'frontpage' => CAP_ALLOW,
-            'student' => CAP_ALLOW
-        ]
+            'student' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:ignoremaxentries' => [
@@ -189,8 +189,8 @@ $capabilities = [
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
-            'teacher' => CAP_ALLOW
-        ]
+            'teacher' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:alwaysseeowner' => [
@@ -200,8 +200,8 @@ $capabilities = [
         'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:seeotherssubmissions' => [
@@ -212,7 +212,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:editownsubmissions' => [
@@ -223,7 +223,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:editotherssubmissions' => [
@@ -234,7 +234,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:duplicateownsubmissions' => [
@@ -245,7 +245,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:duplicateotherssubmissions' => [
@@ -256,7 +256,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:deleteownsubmissions' => [
@@ -267,7 +267,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:deleteotherssubmissions' => [
@@ -278,7 +278,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:savetopdfownsubmissions' => [
@@ -289,8 +289,8 @@ $capabilities = [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:savetopdfotherssubmissions' => [
@@ -301,8 +301,8 @@ $capabilities = [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:searchsubmissions' => [
@@ -313,8 +313,8 @@ $capabilities = [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:preview' => [
@@ -324,8 +324,8 @@ $capabilities = [
         'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
-        ]
+            'manager' => CAP_ALLOW,
+        ],
     ],
 
     'mod/surveypro:manageitems' => [
@@ -336,7 +336,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:accessreserveditems' => [
@@ -346,9 +346,9 @@ $capabilities = [
         'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
-            'manager' => CAP_ALLOW
+            'manager' => CAP_ALLOW,
         ],
-        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems'
+        'clonepermissionsfrom' => 'mod/surveypro:accessadvanceditems',
     ],
 
     'mod/surveypro:additems' => [
@@ -359,7 +359,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:accessownreports' => [
@@ -368,7 +368,7 @@ $capabilities = [
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
             'student' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:accessreports' => [
@@ -379,7 +379,7 @@ $capabilities = [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:importresponses' => [
@@ -413,7 +413,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:deleteusertemplates' => [
@@ -423,7 +423,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:downloadusertemplates' => [
@@ -433,7 +433,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:saveusertemplates' => [
@@ -443,7 +443,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:importusertemplates' => [
@@ -453,7 +453,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:applyusertemplates' => [
@@ -463,7 +463,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:savemastertemplates' => [
@@ -473,7 +473,7 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
+        ],
     ],
 
     'mod/surveypro:applymastertemplates' => [
@@ -483,19 +483,19 @@ $capabilities = [
         'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW,
-        ]
-    ]
+        ],
+    ],
 ];
 
 $deprecatedcapabilities = [
     'mod/surveypro:importdata' => [
         'replacement' => 'mod/surveypro:importresponses',
-        'message' => 'This capability was replaced with mod/surveypro:importresponses '
+        'message' => 'This capability was replaced with mod/surveypro:importresponses ',
     ],
 
     'mod/surveypro:exportdata' => [
         'replacement' => 'mod/surveypro:exportresponses',
-        'message' => 'This capability was replaced with mod/surveypro:exportresponses '
-    ]
+        'message' => 'This capability was replaced with mod/surveypro:exportresponses ',
+    ],
 ];
 

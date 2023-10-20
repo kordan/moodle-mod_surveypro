@@ -531,7 +531,7 @@ class usertemplate extends templatebase {
                 }
 
                 if (core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
+                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
                 } // Otherwise: It is empty, do not evaluate: jump.
 
                 if ($field == 'content') {
@@ -883,15 +883,15 @@ class usertemplate extends templatebase {
                 $filerecord['itemid'] = 0;
                 $filerecord['timemodified'] = time();
                 if (!$templateoptions['subdirs']) {
-                    if ($file->get_filepath() !== '/' or $file->is_directory()) {
+                    if ($file->get_filepath() !== '/' || $file->is_directory()) {
                         continue;
                     }
                 }
-                if ($templateoptions['maxbytes'] and $templateoptions['maxbytes'] < $file->get_filesize()) {
+                if ($templateoptions['maxbytes'] && $templateoptions['maxbytes'] < $file->get_filesize()) {
                     // Oversized file - should not get here at all.
                     continue;
                 }
-                if ($templateoptions['maxfiles'] != -1 and $templateoptions['maxfiles'] <= $filecount) {
+                if ($templateoptions['maxfiles'] != -1 && $templateoptions['maxfiles'] <= $filecount) {
                     // More files - should not get here at all.
                     break;
                 }
@@ -1191,7 +1191,7 @@ class usertemplate extends templatebase {
                 $event = \mod_surveypro\event\usertemplate_deleted::create($eventdata);
                 break;
             default:
-                $message = 'Unexpected $event = '.$event;
+                $message = 'Unexpected $event = '.$eventname;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         $event->trigger();

@@ -1,0 +1,71 @@
+stages:
+  - testSast
+  - test
+  - artifact
+ # - deploy
+
+fortifySast:
+  stage: testSast
+  script:
+    - sourceanalyzer -b ${CI_PROJECT_NAME} -php-version 8.0 .\**\*.php
+    - sourceanalyzer -b ${CI_PROJECT_NAME} --show-files
+    - sourceanalyzer -b ${CI_PROJECT_NAME} -scan -f ${FORTIFY_PATH_REPORT}/${CI_PROJECT_NAME}.fpr
+    - sourceanalyzer -b ${CI_PROJECT_NAME} -clean
+    - fortifyclient.bat uploadFPR -url="${FORTIFY_SSC_URL}" --file="${FORTIFY_PATH_REPORT}"/"${CI_PROJECT_NAME}".fpr -application="${CI_PROJECT_NAME}" -applicationVersion=Current -authtoken="${FORTIFY_AUTHTOKEN}"
+  allow_failure: true
+  only:
+    - require # or the name of your main branch
+  when: manual
+
+sonarqube-check:
+  stage: test
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - require # or the name of your main branch
+
+generate_artifact:
+  stage: artifact
+  script:
+    - echo "generate artifact"
+  environment:
+    name: SVILUPPO
+    url: https://tcms.iss.it/
+  artifacts:
+        name: surveypro
+        paths:
+        - "${CI_PROJECT_DIR}/*"
+        exclude:
+        - ".git*"
+        - ".git/**/*"
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+#deploy_development:
+#  stage: deploy
+#  script:
+#    - echo "Deploy to dev server"
+    #echo delete old files
+    #- ssh -i c:\gitlab-runner\keySSH\keyTransfer tcmsu@tcms.iss.it rm /var/www/html/putDirectory/* -R
+    #copy all files and directories not hidden
+    #- scp -i c:\gitlab-runner\keySSH\keyTransfer -r * tcmsu@tcms.iss.it:/var/www/html/putDirectory
+#  environment:
+#    name: SVILUPPO
+#    url: https://tcms.iss.it
+#  allow_failure: true
+#  rules:
+#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#      when: manual
+

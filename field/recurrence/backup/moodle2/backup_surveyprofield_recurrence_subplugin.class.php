@@ -42,7 +42,7 @@ class backup_surveyprofield_recurrence_subplugin extends backup_subplugin {
         $subpluginrecurrence = new backup_nested_element('surveyprofield_recurrence', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound'));
+            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

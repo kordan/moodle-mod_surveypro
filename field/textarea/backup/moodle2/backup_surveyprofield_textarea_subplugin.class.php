@@ -42,7 +42,7 @@ class backup_surveyprofield_textarea_subplugin extends backup_subplugin {
         $subplugintextarea = new backup_nested_element('surveyprofield_textarea', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote', 'trimonsave',
-            'useeditor', 'arearows', 'areacols', 'minlength', 'maxlength'));
+            'useeditor', 'arearows', 'areacols', 'minlength', 'maxlength', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

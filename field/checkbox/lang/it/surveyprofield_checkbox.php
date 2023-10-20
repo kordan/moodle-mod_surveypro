@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/lib.php');
+require_once(dirname(__FILE__).'/../../../../lib.php');
 
 $string['restrictions_maximumrequired_more'] = 'Non sono consentite più di {$a} spunte';
 $string['restrictions_maximumrequired_one'] = 'Non è contenta più di 1 spunta';

@@ -25,7 +25,7 @@
 use surveyproreport_responsesperuser\groupjumperform;
 use surveyproreport_responsesperuser\report;
 
-require_once(dirname(dirname(dirname(dirname(dirname(__FILE__))))).'/config.php');
+require_once(dirname(__FILE__).'/../../../../config.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);

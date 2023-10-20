@@ -42,7 +42,7 @@ class backup_surveyprofield_rate_subplugin extends backup_subplugin {
         $subpluginrate = new backup_nested_element('surveyprofield_rate', ['id'], array(
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'options', 'rates', 'defaultoption', 'defaultvalue', 'downloadformat', 'style', 'differentrates'));
+            'options', 'rates', 'defaultoption', 'defaultvalue', 'downloadformat', 'style', 'differentrates', ));
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
