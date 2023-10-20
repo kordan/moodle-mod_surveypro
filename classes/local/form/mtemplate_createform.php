@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The class representing the bulkaction form
+ * The class representing the "create master template" form
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
@@ -29,13 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
- * Class to manage the form for bulk action performed agains items
+ * The class representing the form to create a master template
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itembulkactionform extends \moodleform {
+class mtemplate_createform extends \moodleform {
 
     /**
      * Definition.
@@ -45,19 +45,18 @@ class itembulkactionform extends \moodleform {
     public function definition() {
         $mform = $this->_form;
 
-        $fieldname = 'bulkaction';
-        $options = array();
-        $options[SURVEYPRO_NOACTION] = get_string('choosedots');
-        $options[SURVEYPRO_HIDEALLITEMS] = get_string('hideallitems', 'mod_surveypro');
-        $options[SURVEYPRO_SHOWALLITEMS] = get_string('showallitems', 'mod_surveypro');
-        $options[SURVEYPRO_DELETEALLITEMS] = get_string('deleteallitems', 'mod_surveypro');
-        $options[SURVEYPRO_DELETEVISIBLEITEMS] = get_string('deletevisibleitems', 'mod_surveypro');
-        $options[SURVEYPRO_DELETEHIDDENITEMS] = get_string('deletehiddenitems', 'mod_surveypro');
+        // Mtemplatecreate: surveyproid.
+        $fieldname = 'surveyproid';
+        $mform->addElement('hidden', $fieldname, 0);
+        $mform->setType($fieldname, PARAM_INT);
 
-        $elementgroup = array();
-        $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
-        $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
-        $mform->addElement('group', $fieldname.'_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+        // Mtemplatecreate: mastertemplatename.
+        $fieldname = 'mastertemplatename';
+        $mform->addElement('text', $fieldname, get_string($fieldname, 'mod_surveypro'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+        $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
+        $mform->setType($fieldname, PARAM_FILE); // This word is going to be a file name.
+
+        $this->add_action_buttons(false, get_string('save', 'mod_surveypro'));
     }
 }

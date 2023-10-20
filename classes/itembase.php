@@ -25,6 +25,7 @@
 namespace mod_surveypro;
 
 use core_text;
+use core_date;
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_item;
@@ -316,7 +317,7 @@ class itembase {
         if (!empty($record->parentid)) {
             $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
-            unset($record->parentcontent);
+            unset($record->parentcontent); // why do I drop $record->parentcontent?
         }
     }
 
@@ -368,7 +369,7 @@ class itembase {
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
-        // Does this record need to be saved as new record or as un update on a preexisting record?
+        // Does this record need to be saved as new record or as un update of a preexisting record?
         if (empty($record->itemid)) {
             // Item is new.
 
@@ -428,7 +429,7 @@ class itembase {
 
                 // Event: item_created.
                 $eventdata = ['context' => $context, 'objectid' => $itemid];
-                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM];
+                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
             } catch (Exception $e) {
@@ -474,10 +475,11 @@ class itembase {
 
                 if ($DB->update_record('surveypro_item', $record)) {
                     if ($this->uses_db_table()) {
-                        // Before saving to the the plugin table, I validate the variable name.
+                        // Before saving to the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $record->itemid);
 
                         $record->id = $record->pluginid;
+
                         if ($DB->update_record($tablename, $record)) {
                             $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
                         } else {
@@ -496,7 +498,7 @@ class itembase {
 
                 // Event: item_modified.
                 $eventdata = ['context' => $context, 'objectid' => $record->itemid];
-                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_EDITITEM];
+                $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_modified::create($eventdata);
                 $event->trigger();
             } catch (Exception $e) {
@@ -533,8 +535,8 @@ class itembase {
             }
         }
 
-        // Property $this->itemeditingfeedback is going to be part of $returnurl in layout_itemsetup.php
-        // and there it will be send to layout_itemslist.php.
+        // Property $this->itemeditingfeedback is going to be part of $returnurl in layout.php with ['section' => 'itemsetup']
+        // and there it will be send to layout.php. ['section' => 'itemslist']
         return $record->itemid;
     }
 
@@ -623,7 +625,7 @@ class itembase {
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
                 $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_view(SURVEYPRO_NOMODE);
                 $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
@@ -649,7 +651,7 @@ class itembase {
                 $layoutman->set_plugin($this->plugin);
                 $layoutman->set_itemid($itemid);
                 $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOVIEW);
+                $layoutman->set_view(SURVEYPRO_NOMODE);
                 $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.
@@ -748,28 +750,23 @@ class itembase {
      * Item split unix time.
      *
      * @param integer $time
-     * @param boolean $applyusersettings
      * @return void
      */
-    protected static function item_split_unix_time($time, $applyusersettings=false) {
-        if ($applyusersettings) {
-            $datestring = userdate($time, '%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', 0);
-        } else {
-            $datestring = gmstrftime('%B_%A_%j_%Y_%m_%w_%d_%H_%M_%S', $time);
+    protected static function item_split_unix_time($time) {
+        if (!$time) {
+            $message = '$time is not set in item_split_unix_time';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        // May_Tuesday_193_2012_07_3_11_16_03_59.
 
+        $datestring = date('Y_m_d_H_i', $time);
+
+        // 2012_07_11_16_03.
         list(
-            $getdate['month'],
-            $getdate['weekday'],
-            $getdate['yday'],
             $getdate['year'],
             $getdate['mon'],
-            $getdate['wday'],
             $getdate['mday'],
             $getdate['hours'],
             $getdate['minutes'],
-            $getdate['seconds']
         ) = explode('_', $datestring);
 
         return $getdate;
@@ -1546,7 +1543,7 @@ EOS;
             }
         }
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
-            return ($fillinginstruction.'<br />'.$extranote);
+            return ($fillinginstruction.'<br>'.$extranote);
         } else {
             if (isset($fillinginstruction) && $fillinginstruction) {
                 return $fillinginstruction;
@@ -1672,7 +1669,7 @@ EOS;
                             echo '\''.$parentinfo->operator.'\', ';
                         }
                         echo $contentdisplayed.');';
-                        echo '</span><br />';
+                        echo '</span><br>';
                     }
                 }
             }

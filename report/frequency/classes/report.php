@@ -81,7 +81,7 @@ class report extends reportbase {
     public function setup_outputtable($itemid) {
         $this->outputtable = new \flexible_table('frequency');
 
-        $paramurl = ['id' => $this->cm->id];
+        $paramurl = ['s' => $this->cm->instance];
         $paramurl['itemid'] = $itemid;
         $baseurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
@@ -139,7 +139,8 @@ class report extends reportbase {
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
+            $paramurl = ['s' => $this->surveypro->id, 'section' => 'submissionslist'];
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

@@ -21,6 +21,7 @@ Feature: apply COLLES (Actual) mastertemplate
   @javascript
   Scenario: apply COLLES (Actual) master template
     Given I am on the "To apply COLLES (Actual)" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "COLLES (Actual)"
     And I press "Apply"
     Then I should see "In this online unit"

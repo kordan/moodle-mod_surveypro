@@ -34,39 +34,39 @@ Feature: verify the input with different number format
 
     When I am on the "Test multiformat numeric input" "surveypro activity" page logged in as student1
     And I press "New response"
-    And I set the field "Write the best approximation of π you can remember" to "3,14"
+    And I set the field "Write your best approximation of π" to "3,14"
     And I press "Submit"
     Then I should see "Provided value is not a number"
 
-    And I set the field "Write the best approximation of π you can remember" to "3.14"
+    And I set the field "Write your best approximation of π" to "3.14"
     And I press "Submit"
 
     When I follow "Language" in the user menu
     And I follow "Italiano"
 
     And I press "Nuova risposta"
-    And I set the field "Write the best approximation of π you can remember" to "3.14"
+    And I set the field "Write your best approximation of π" to "3.14"
     And I press "Invia"
     Then I should see "Il valore fornito non è un numero"
 
-    And I set the field "Write the best approximation of π you can remember" to "3,14"
+    And I set the field "Write your best approximation of π" to "3,14"
     And I press "Invia"
 
     And I press "Mostra la lista"
     And I follow "view_submission_row_1"
-    Then the field "Write the best approximation of π you can remember" matches value "3,14"
+    Then the field "Write your best approximation of π" matches value "3,14"
 
     And I follow "Raccolta dati"
     And I follow "view_submission_row_2"
-    Then the field "Write the best approximation of π you can remember" matches value "3,14"
+    Then the field "Write your best approximation of π" matches value "3,14"
 
     When I follow "Lingua" in the user menu
     And I follow "English"
 
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "view_submission_row_1"
-    Then the field "Write the best approximation of π you can remember" matches value "3.14"
+    Then the field "Write your best approximation of π" matches value "3.14"
 
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "view_submission_row_2"
-    Then the field "Write the best approximation of π you can remember" matches value "3.14"
+    Then the field "Write your best approximation of π" matches value "3.14"

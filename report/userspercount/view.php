@@ -22,7 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use mod_surveypro\tabs;
 use surveyproreport_userspercount\groupjumperform;
 use surveyproreport_userspercount\report;
 
@@ -63,8 +62,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = ['id' => $cm->id];
-    $formurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
+    $formurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', ['s' => $cm->instance]);
 
     $formparams = new \stdClass();
     $formparams->canaccessallgroups = $canaccessallgroups;
@@ -83,19 +81,21 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/userspercount/view.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'userspercount']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('userspercount', array_keys($surveyproreportlist));
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+
+$actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+echo $actionbar->draw_reports_action_bar();
 
 $reportman->prevent_direct_user_input();
 

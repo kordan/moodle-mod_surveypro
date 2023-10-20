@@ -21,6 +21,7 @@ Feature: apply CI mastertemplate
   @javascript
   Scenario: apply Critical Incidents master template
     Given I am on the "To apply Critical Incidents" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "Critical Incidents"
     And I press "Apply"
     Then I should see "While thinking about recent events in this class, answer the questions below."

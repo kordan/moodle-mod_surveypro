@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['fullwidth'] = 'Ancho completo';
-$string['fullwidth_help'] = 'Use ancho de pantalla completa para mostrar la etiqueta usando tanto espacio como sea posible, comenzando desde la izquierda de la pantalla. Cuando se usa esta opción, la etiqueta del elemento y el número del elemento no se mostrarán.<br />Como alternativa contraria, el elemento se dibujará en el lado derecho de la fila, dejando a su etiqueta  la fila de la izquierda.';
+$string['fullwidth_help'] = 'Use ancho de pantalla completa para mostrar la etiqueta usando tanto espacio como sea posible, comenzando desde la izquierda de la pantalla. Cuando se usa esta opción, la etiqueta del elemento y el número del elemento no se mostrarán.<br>Como alternativa contraria, el elemento se dibujará en el lado derecho de la fila, dejando a su etiqueta  la fila de la izquierda.';
 $string['leftlabel'] = 'Etiqueta';
 $string['leftlabel_help'] = 'El texto que será mostrado a la izquierda de la etiqueta en el formato';
 $string['pluginname'] = 'Etiqueta';

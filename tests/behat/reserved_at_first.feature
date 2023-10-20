@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-Feature: Access a surveypro from the second page if the first one has only reserved items
+Feature: access a surveypro from the second page if the first one has only reserved items
   Test accessing the surveypro starting from page 2 if the first one has only reserved items
   As a teacher
   I create a surveypro and
@@ -27,7 +27,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
       | format | pagebreak   |
       | field  | character   |
     And I am on the "Test start at 2" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
 

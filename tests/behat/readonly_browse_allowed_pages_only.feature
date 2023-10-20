@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-Feature: In read only mode browse a submission jumping now filled pages
+Feature: in read only mode browse a submission jumping now filled pages
   Test during read only browse of responses user jumps pages without answers
   As a teacher
   I create a surveypro and as a student I fill, submit and browse, in read only mode, my submission.
@@ -30,7 +30,7 @@ Feature: In read only mode browse a submission jumping now filled pages
       | format | pagebreak   |
       | field  | boolean     |
     And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     And I follow "edit_item_3"
     And I expand all fieldsets

@@ -252,13 +252,13 @@ class formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        if (!$utilitylayoutman->layout_has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
+        if (!$utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, false, $canaccessreserveditems)) {
             $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
             if ($canmanageitems) {
-                $a = get_string('tablayoutname', 'mod_surveypro');
+                $a = get_string('layout', 'mod_surveypro');
                 $a .= ' > ';
-                $a .= get_string('tabitemspage2', 'mod_surveypro');
+                $a .= get_string('layout_items', 'mod_surveypro');
                 $message = get_string('noitemsfoundadmin', 'mod_surveypro', $a);
                 echo $OUTPUT->notification($message, 'notifyproblem');
             } else {

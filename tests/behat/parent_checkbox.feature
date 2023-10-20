@@ -24,7 +24,7 @@ Feature: test the use of checkbox as parent item
       | type   | plugin   |
       | field  | checkbox |
     And I am on the "Test checkbox as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     # add a short text item
     And I set the field "typeplugin" to "Text (short)"
@@ -139,7 +139,7 @@ Feature: test the use of checkbox as parent item
     And I log out
 
     When I am on the "Test checkbox as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the multiline field "Parent content" to "milk\nchocolate"
@@ -296,7 +296,7 @@ Feature: test the use of checkbox as parent item
     And I log out
 
     When I am on the "Test checkbox as parent" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the field "Parent content" to "milk"

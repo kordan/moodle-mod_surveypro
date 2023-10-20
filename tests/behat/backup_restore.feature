@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Backup and restore a surveypro instance
+Feature: backup and restore a surveypro instance
   In order to validate backup and restore process
   As a teacher
   I backup and restore a surveypro instance.
@@ -11,7 +11,7 @@ Feature: Backup and restore a surveypro instance
     And I log in as "admin"
 
   @javascript
-  Scenario: backup and restore a surveypro with some item
+  Scenario: backup and restore a surveypro with items
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | Surveypro test | For testing backup | C1     |
@@ -53,11 +53,11 @@ Feature: Backup and restore a surveypro instance
     # When I am on the "Surveypro test" "surveypro activity" page
     # because there is more than a copy of "Surveypro test" "surveypro activity" page
     And I follow "Surveypro test"
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
 
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data inside"
-    And I should see "How old were you when you learned to ride a bike?"
+    And I should see "How old were you when you started cycling?"
     And I should see "Just your userid"
     And I should see "Is it true?"
     And I should see "Write down your email"
@@ -65,9 +65,9 @@ Feature: Backup and restore a surveypro instance
     And I should see "When were you born?"
     And I should see "Please, write down date and time of your last flight to Los Angeles."
     And I should see "Upload your CV in PDF format"
-    And I should see "How many people does your family have besides you?"
+    And I should see "How many people does your family counts?"
     And I should see "multiselect_001"
-    And I should see "Write the best approximation of π you can remember"
+    And I should see "Write your best approximation of π"
     And I should see "Where do you usually spend your summer holidays?"
     And I should see "How confident are you with the following languages?"
     And I should see "When do you usually celebrate your name-day?"

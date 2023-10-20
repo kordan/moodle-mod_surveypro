@@ -28,11 +28,11 @@ $string['scales'] = 'Valutazioni';
 $string['areas'] = 'Aree';
 
 $string['useritem'] = 'Tipo di selettore';
-$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br />Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
 $string['useradio'] = 'Bottoni radio';
 $string['useselect'] = 'Menu a tendina';
 $string['position'] = 'Posizione delle domande';
-$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br />Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
 
 $string['label_content_01'] = '<p>L\'obiettivo di questo sondaggio è di aiutarci a capire come lo svolgimento online di questa unità ti sia stato utile nell\'apprendimento.
 

@@ -26,7 +26,7 @@ namespace surveyprofield_shortdate;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_surveypro\local\form\itemsetupbaseform;
+use mod_surveypro\local\form\item_setupbaseform;
 
 require_once($CFG->dirroot.'/lib/formslib.php');
 require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
@@ -38,7 +38,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends itemsetupbaseform {
+class itemsetupform extends item_setupbaseform {
 
     /**
      * Definition.
@@ -61,7 +61,7 @@ class itemsetupform extends itemsetupbaseform {
         $fieldname = 'defaultoption';
         $months = array();
         for ($i = 1; $i <= 12; $i++) {
-            $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+            $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0);
         }
         $yearsrange = range($startyear, $stopyear);
         $years = array_combine($yearsrange, $yearsrange);

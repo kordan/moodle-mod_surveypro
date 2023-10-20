@@ -19,6 +19,7 @@ Feature: verify a label item can be added to a survey
       | activity  | name       | intro                          | course    |
       | surveypro | Label test | To test addition of label item | Add label |
     And I am on the "Label test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Label"
     And I press "Add"

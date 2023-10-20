@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprotemplate @surveyprotemplate_collesactual
-Feature: Test colles report for courses divided into groups not all equipped with answers
+Feature: test colles report for courses divided into groups not all equipped with answers
   In order to test that reports are displayed even for courses divided into groups
   As student11 up to student21
   I fill a surveypro and ask for colles report

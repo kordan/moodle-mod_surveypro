@@ -25,6 +25,9 @@ Feature: verify the thanks page is shown properly
     And surveypro "Thanks surveypro" contains the following items:
       | type  | plugin  |
       | field | boolean |
+    And the following "blocks" exist:
+      | blockname     | contextlevel | reference | pagetypepattern | defaultregion |
+      | private_files | System       | 1         | my-index        | side-post     |
 
   @javascript
   Scenario: test the empty thanks page

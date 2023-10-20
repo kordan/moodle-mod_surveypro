@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Test item actions
+Feature: test item actions
   In order to validate each action issues through inline icons
   As teacher1
   I issue them and verify the outcome.
@@ -39,7 +39,7 @@ Feature: Test item actions
       | format | fieldset    |
       | format | fieldsetend |
     And I am on the "Test simple item actions" "surveypro activity" page logged in as admin
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
 
     Then I should see "0" reserved items
     # 21 and not 22 available items because pagebreak doesn't have <a class"makereserved"...
@@ -132,19 +132,20 @@ Feature: Test item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  |
       | surveypro | Test complex item actions | To test CIA | Test IA |
-    When I am on the "Test complex item actions" "mod_surveypro > User templates Import" page logged in as "admin"
+    When I am on the "Test complex item actions" "mod_surveypro > User templates import" page logged in as "admin"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
 
-    And I set the field "Sharing level" to "Course: Test item actions"
+    And I set the field "Sharing level" to "This course"
+
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Test complex item actions" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates       | (Course) item_action_test.xml |
-      | id_action_0          | 1                             |
+      | User templates | (This course) item_action_test.xml |
+      | id_action_0    | 1                                  |
     And I press "Apply"
 
     And I follow "makereserved_item_2"
@@ -201,7 +202,7 @@ Feature: Test item actions
     Then I should see "10" not searchable items
 
     And I follow "delete_item_9"
-    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Fourth generation unique question"
     And I press "No"
 
@@ -213,7 +214,7 @@ Feature: Test item actions
     Then I should see "10" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "First part of the test"
     And I press "Yes"
 
@@ -238,7 +239,7 @@ Feature: Test item actions
     Then I should see "9" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Very first parent"
     Then I should see "The current element has child element(s) that are going to be deleted too."
     Then I should see "The child element(s) position is: 2, 6, 3, 7, 4, 5, 8."
@@ -330,7 +331,7 @@ Feature: Test item actions
     Then I should see "5" not searchable items
 
     And I follow "delete_item_5"
-    Then I should see "Are you sure you want delete the 'select' element:"
+    Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Second generation, third question"
     And I press "Yes"
 
@@ -342,7 +343,7 @@ Feature: Test item actions
     Then I should see "4" not searchable items
 
     And I follow "delete_item_2"
-    Then I should see "Are you sure you want delete the 'radio button' element:"
+    Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Simple parent"
     Then I should see "The child element(s) position is: 3, 4."
     And I press "Continue"
@@ -355,6 +356,6 @@ Feature: Test item actions
     Then I should see "1" not searchable items
 
     And I follow "delete_item_1"
-    Then I should see "Are you sure you want delete the 'label' element:"
+    Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "Second part of the test"
     And I press "Yes"

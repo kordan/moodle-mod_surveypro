@@ -75,9 +75,7 @@ class utility_layout {
     public function assign_pages() {
         global $DB;
 
-        $where = array();
-        $where['surveyproid'] = $this->surveypro->id;
-        $where['hidden'] = 0;
+        $where = ['surveyproid' => $this->surveypro->id];
 
         $userformpagecount = 0;
         $lastwaspagebreak = true; // Whether 2 page breaks in line, the second one is ignored.
@@ -111,49 +109,19 @@ class utility_layout {
     }
 
     /**
-     * Redirect to layout_itemslist.php?s=xxx the user asking to go to /view.php?id=yyy if the survey has no items.
-     *
-     * I HATE software thinking for me
-     * Because of this I ALWAYS want to go where I ask, even if the place I ask is not supposed to be accessed by me
-     * In this particular case, I want a message explaining WHY the place I asked is not supposed to be accessed by me
-     * I NEVER want to be silently redirected.
-     *
-     * By default accessing a surveypro from a course (/view.php?id=yyy), the "predefined" landing page should be:
-     *     -> for admin/editing teacher:
-     *         -> if no items were created: layout_itemslist.php
-     *         -> if items were already created: view_submissions.php with the submission list
-     *     -> for students: ALWAYS view.php with the welcome and the surveypro cover page
-     *
-     * So the software HAS TO decide where to send the admin/editing teacher when he arrives from a course
-     * So in the view.php I MUST add a code snippet TAKING THE DECISION for the user
-     *
-     * The problem rises up when the admin/editing teacher decides to go where he should not go, alias in:
-     *     -> layout_itemslist.php even if items were already created
-     *     -> view_submissions.php with the submission list even if no items were created
-     *
-     * The first request is a false problem, because the admin/editing teacher is always allowed to go there
-     * The second request is allowed by the introduction of the parameter &force=1 in the URL of the TAB
-     *     When the admin/editing teacher asks for view.php by clicking the corresponding TAB
-     *         he asks for view.php?id=yyy&force=1
-     *         and the software decision is omitted
-     *     As opposite:
-     *     When the admin/editing teacher arrives from a course (so he doesn't ask for a specific page)
-     *         he is sent to view.php?id=yyy
-     *         and the decision is taken here
+     * Redirect to layout.php?s=xxx with ['section' => 'itemslist'] when the admin asks to go to /view.php?id=yyy but the survey has no items.
      *
      * @return void
      */
     public function noitem_redirect() {
-        if (!$this->layout_has_items(0, SURVEYPRO_TYPEFIELD, true, true, true)) {
-            $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
+        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
-            $paramurl = ['id' => $this->cm->id];
-            if ($canmanageitems) {
-                $redirecturl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
-            } else {
-                $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        if ($canmanageitems) {
+            if (!$this->has_items(0, 'field', true, true, true)) {
+                $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+                $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+                redirect($redirecturl);
             }
-            redirect($redirecturl);
         }
     }
 
@@ -167,13 +135,13 @@ class utility_layout {
      * @param int $returncount
      * @return bool|int as required by $returncount
      */
-    public function layout_has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
+    public function has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
         global $DB;
 
         if (!empty($type)) {
-            if (($type != SURVEYPRO_TYPEFIELD) && ($type != SURVEYPRO_TYPEFORMAT)) {
+            if (($type != 'field') && ($type != 'format')) {
                 $message = 'Unexpected value for $type found.';
-                $message .= 'Valid values are only: '.SURVEYPRO_TYPEFIELD.' or '.SURVEYPRO_TYPEFORMAT.'.';
+                $message .= 'Valid values are only: \'field\' or \'format\'';
                 debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         }
@@ -208,9 +176,8 @@ class utility_layout {
     public function has_search_items($returncount=false) {
         global $DB;
 
-        $whereparams = array();
-        $whereparams['surveyproid'] = $this->surveypro->id;
-        $whereparams['type'] = SURVEYPRO_TYPEFIELD;
+        $whereparams = ['surveyproid' => $this->surveypro->id];
+        $whereparams['type'] = 'field';
         $whereparams['hidden'] = 0;
         $whereparams['insearchform'] = 1;
 
@@ -351,7 +318,7 @@ class utility_layout {
             return;
         }
 
-        $whereparams = array();
+        $whereparams = [];
         foreach ($submissions as $submission) {
             $whereparams['submissionid'] = $submission->id;
             $this->delete_answers($whereparams);
@@ -428,21 +395,7 @@ class utility_layout {
             // Before deleting answers, delete their attachments, if they exist.
             $this->drop_uploadfile_attachments($answersidlist);
 
-            // Now, finally, delete answers.
-            if (array_key_exists('content', $whereparams)) {
-                $sql = 'DELETE FROM {surveypro_answer}
-                        WHERE content = '.$DB->sql_compare_text($whereparams['content']);
-                unset($whereparams['content']);
-                foreach ($whereparams as $field => $value) {
-                    $sql .= ' AND '.$field.' = '.$value;
-                }
-                // Here I actually delete a set of answers.
-                $DB->execute($sql);
-            } else {
-                // Here I actually delete a set of answers.
-                $DB->delete_records('surveypro_answer', $whereparams);
-            }
-            // End of: Now, finally, delete answers.
+            $DB->delete_records('surveypro_answer', $whereparams);
 
             // Now that $answers were deleted, kill parent submissions if they have no more children.
             foreach ($submissionsid as $submissionid) {
@@ -557,8 +510,7 @@ class utility_layout {
                         if ($filename == '.') {
                             continue;
                         } else {
-                            $filerecord = array();
-                            $filerecord['contextid'] = $context->id;
+                            $filerecord = ['contextid' => $context->id];
                             $filerecord['component'] = 'surveyprofield_fileupload';
                             $filerecord['filearea'] = 'fileuploadfiles';
                             $filerecord['itemid'] = $newanswerid;
@@ -587,7 +539,7 @@ class utility_layout {
         }
 
         if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
-            $conditions = array();
+            $conditions = [];
             foreach ($whereparams as $field => $unused) {
                 $conditions[$field] = $field.' = :'.$field;
             }
@@ -618,7 +570,7 @@ class utility_layout {
         global $DB;
 
         if (empty($answersid)) {
-            return array();
+            return [];
         }
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
@@ -663,7 +615,7 @@ class utility_layout {
         // End of: Verify input params integrity.
 
         if (array_key_exists('content', $whereparams)) {
-            $conditions = array();
+            $conditions = [];
             foreach ($whereparams as $field => $unused) {
                 $conditions[$field] = $field.' = :'.$field;
             }
@@ -698,7 +650,7 @@ class utility_layout {
             debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
         if (empty($answersid)) {
-            return array();
+            return [];
         }
 
         list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
@@ -743,7 +695,7 @@ class utility_layout {
                 FROM {surveypro_submission} s
                   JOIN {surveypro_answer} a ON a.submissionid = s.id
                 WHERE (s.surveyproid = :surveyproid)';
-        $conditions = array();
+        $conditions = [];
         foreach ($whereparams as $field => $unused) {
             $conditions[$field] = 'a.'.$field.' = :'.$field;
         }
@@ -761,246 +713,6 @@ class utility_layout {
         }
 
         return $DB->get_recordset_sql($sql, $whereparams);
-    }
-
-    /**
-     * Get the list of available URLs for admin menu and for module pages tree both
-     *
-     * @param int $caller of this routine. It can be: SURVEYPRO_TAB, SURVEYPRO_BLOCK.
-     * @return array of boolean permissions to show link in the admin blook or pages in the module tree
-     */
-    public function get_common_links_url($caller) {
-        global $DB;
-
-        $callers = [SURVEYPRO_TAB, SURVEYPRO_BLOCK];
-        if (!in_array($caller, $callers)) {
-            $message = 'Wrong caller passed to get_common_links_url';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
-        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
-        $canview = has_capability('mod/surveypro:view', $this->context);
-        $canpreview = has_capability('mod/surveypro:preview', $this->context);
-        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
-        $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
-        $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
-        $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
-        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
-        $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
-        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
-        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
-        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
-        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
-
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $hassubmissions = $utilitylayoutman->has_submissions();
-
-        $whereparams = ['surveyproid' => $this->surveypro->id];
-        $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> 0', $whereparams);
-
-        $availableurllist = array();
-
-        $paramurlbase = ['id' => $this->cm->id];
-
-        // Tab/Container layout.
-        $elements = array();
-
-        // Layout -> preview.
-        $elements['preview'] = false;
-        if ($canpreview) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurlbase);
-            $elements['preview'] = $elementurl;
-        }
-
-        // Layout -> elements.
-        $elements['manage'] = false;
-        if ($canmanageitems) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
-            $elements['manage'] = $elementurl;
-        }
-
-        // Layout -> validate.
-        $elements['validate'] = false;
-        if ($canmanageitems && empty($this->surveypro->template) && $countparents) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_validation.php', $paramurlbase);
-            $elements['validate'] = $elementurl;
-        }
-
-        // Layout -> itemsetup.
-        $elements['itemsetup'] = false;
-        if ($canmanageitems) {
-            $elements['itemsetup'] = empty($this->surveypro->template);
-        }
-
-        // Layout -> container.
-        $elements['container'] = false;
-        if ($elements['preview'] || $elements['manage'] || $elements['validate'] || $elements['itemsetup']) {
-            $elementurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurlbase);
-            $elements['container'] = $elementurl;
-        }
-
-        $availableurllist['tab_layout'] = $elements;
-        // End of: Tab/Container layout.
-
-        // Tab/Container submissions.
-        $elements = array();
-
-        // Submissions -> cover.
-        $elements['cover'] = false;
-        if ($canview) {
-            $elementurl = new \moodle_url('/mod/surveypro/view.php', $paramurlbase);
-            $elements['cover'] = $elementurl;
-        }
-
-        // Submissions -> responses.
-        $elements['responses'] = false;
-        if (!is_guest($this->context)) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', ['id' => $this->cm->id, 'force' => 1]);
-            $elements['responses'] = $elementurl;
-        }
-
-        // Submissions -> search.
-        $elements['search'] = false;
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        if ($cansearch && $utilitylayoutman->has_search_items()) {
-            $elementurl = new \moodle_url('/mod/surveypro/view_search.php', $paramurlbase);
-            $elements['search'] = $elementurl;
-        }
-
-        // Submissions -> import.
-        $elements['import'] = false;
-        if ($canimportresponses) {
-            $elementurl = new \moodle_url('/mod/surveypro/tools_import.php', $paramurlbase);
-            $elements['import'] = $elementurl;
-        }
-
-        // Submissions -> export.
-        $elements['export'] = false;
-        if ($canexportresponses) {
-            $elementurl = new \moodle_url('/mod/surveypro/tools_export.php', $paramurlbase);
-            $elements['export'] = $elementurl;
-        }
-
-        // Submissions -> report.
-        $elements['report'] = $canaccessreports;
-
-        // Submissions -> container.
-        $elements['container'] = false;
-        if ($caller == SURVEYPRO_TAB) {
-            if ($elements['cover'] || $elements['responses'] || $elements['search'] || $elements['report']) {
-                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
-                $elements['container'] = $elementurl;
-            }
-        }
-        if ($caller == SURVEYPRO_BLOCK) {
-            if ($elements['import'] || $elements['export']) {
-                $elementurl = new \moodle_url('/mod/surveypro/view_submissions.php', $paramurlbase);
-                $elements['container'] = $elementurl;
-            }
-        }
-
-        $availableurllist['tab_submissions'] = $elements;
-        // End of: Tab/Container submissions.
-
-        // Tab/Container user template.
-        $elements = array();
-
-        // User template -> container.
-        $elements['container'] = $canmanageusertemplates && empty($this->surveypro->template);
-
-        // User template -> manage.
-        $elements['manage'] = false;
-        if ($elements['container']) {
-            $elementurl = new \moodle_url('/mod/surveypro/utemplate_manage.php', $paramurlbase);
-            $elements['manage'] = $elementurl;
-        }
-
-        // User template -> save.
-        $elements['save'] = false;
-        if ($elements['container'] && $cansaveusertemplates) {
-            $elementurl = new \moodle_url('/mod/surveypro/utemplate_save.php', $paramurlbase);
-            $elements['save'] = $elementurl;
-        }
-
-        // User template -> import.
-        $elements['import'] = false;
-        if ($elements['container'] && $canimportusertemplates) {
-            $elementurl = new \moodle_url('/mod/surveypro/utemplate_import.php', $paramurlbase);
-            $elements['import'] = $elementurl;
-        }
-
-        // User template -> apply.
-        $elements['apply'] = false;
-        if ($elements['container'] && (!$hassubmissions || $riskyediting) && $canapplyusertemplates) {
-            $elementurl = new \moodle_url('/mod/surveypro/utemplate_apply.php', $paramurlbase);
-            $elements['apply'] = $elementurl;
-        }
-
-        $availableurllist['tab_utemplate'] = $elements;
-        // End of: Tab/Container user template.
-
-        // Tab/Container master template.
-        $elements = array();
-
-        // Master template -> save.
-        $elements['save'] = false;
-        if ($cansavemastertemplates && empty($this->surveypro->template)) {
-            $elementurl = new \moodle_url('/mod/surveypro/mtemplate_save.php', $paramurlbase);
-            $elements['save'] = $elementurl;
-        }
-
-        // Master template -> apply.
-        $elements['apply'] = false;
-        if ((!$hassubmissions || $riskyediting) && $canapplymastertemplates) {
-            $elementurl = new \moodle_url('/mod/surveypro/mtemplate_apply.php', $paramurlbase);
-            $elements['apply'] = $elementurl;
-        }
-
-        // Master template -> container.
-        $elements['container'] = $elements['save'] || $elements['apply'];
-
-        $availableurllist['tab_mtemplate'] = $elements;
-        // End of: Tab/Container master template.
-
-        // Tab/Container report.
-        $elements = array();
-        $counter = 0;
-
-        // Reports -> container.
-        $elements['container'] = false;
-
-        if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-            foreach ($surveyproreportlist as $reportname => $reportpath) {
-                $classname = 'surveyproreport_'.$reportname.'\report';
-                $reportman = new $classname($this->cm, $this->context, $this->surveypro);
-
-                $condition = $canaccessreports;
-                $condition = $condition || ($canaccessownreports && $reportman->get_hasstudentreport());
-                $condition = $condition && $reportman->report_applies_to($this->surveypro->template);
-
-                // GDPR condition.
-                $othercondition = !$reportman->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
-                $condition = $condition && $othercondition;
-                if ($condition) {
-                    $counter++;
-                    $elements[$reportname] = false;
-                    $elementurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
-                    $elements[$reportname] = $elementurl;
-
-                    // Reports -> container.
-                    $elements['container'] = $elements['container'] || $elements[$reportname];
-                }
-            }
-        }
-
-        $availableurllist['tab_reports'] = $elements;
-        // End of: Tab/Container reports.
-
-        return $availableurllist;
     }
 
     /**
@@ -1041,7 +753,7 @@ class utility_layout {
         global $DB;
 
         if (empty($whereparams)) {
-            $whereparams = array();
+            $whereparams = [];
         }
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
@@ -1136,14 +848,12 @@ class utility_layout {
         $submissions = $this->get_submissionsid_from_answers($whereparams);
         foreach ($submissions as $submission) {
             // Change to SURVEYPRO_STATUSINPROGRESS the status of submissions where was answered SURVEYPRO_NOANSWERVALUE.
-            $whereparams = array();
-            $whereparams['surveyproid'] = $this->surveypro->id;
+            $whereparams = ['surveyproid' => $this->surveypro->id];
             $whereparams['id'] = $submission->id;
             $utilitysubmissionman->submissions_set_status($whereparams, SURVEYPRO_STATUSINPROGRESS);
 
             // Delete answers where content == SURVEYPRO_NOANSWERVALUE.
-            $whereparams = array();
-            $whereparams['submissionid'] = $submission->id;
+            $whereparams = ['surveyproid' => $this->surveypro->id];
             $whereparams['content'] = SURVEYPRO_NOANSWERVALUE;
             $this->delete_answers($whereparams);
         }
@@ -1190,7 +900,7 @@ class utility_layout {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
 
-        $itemcount = $this->layout_has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
+        $itemcount = $this->has_items(0, 'field', $canmanageitems, $canaccessreserveditems, true);
 
         $addnew = true;
         $addnew = $addnew && $cansubmit;

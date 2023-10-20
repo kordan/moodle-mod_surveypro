@@ -22,7 +22,7 @@ Feature: test the use of select setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test select setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     # add an select item
     And I set the field "typeplugin" to "Select"
@@ -82,7 +82,7 @@ Feature: test the use of select setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: Which summer holidays place do you prefer?"
     Then the field "id_surveypro_field_select_2" matches value "other"
     Then the field "id_surveypro_field_select_2_text" matches value "specify"

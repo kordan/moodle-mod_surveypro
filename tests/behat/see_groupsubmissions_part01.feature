@@ -25,8 +25,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
       | student2 | Groups permissions | student        |
 
     And I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage
-    And I turn editing mode on
+    And I am on "Verify permissions in groups" course homepage with editing mode on
     And I add a "Surveypro" to section "1" and I fill the form with:
       | Name        | Verify submission selection    |
       | Description | Test what each student can see |
@@ -49,7 +48,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student1 logs in
     When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
 
@@ -74,7 +73,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # student2 logs in
     When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
 
@@ -94,7 +93,7 @@ Feature: submissions seen from students not divided into groups (Part 01)
 
     # teacher1 goes to check for his personal submissions
     When I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     Then I should see "student1" in the "submissions" "table"
     Then I should see "student2" in the "submissions" "table"

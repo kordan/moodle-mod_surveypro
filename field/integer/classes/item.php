@@ -251,7 +251,7 @@ class item extends itembase {
         $constraints[] = get_string('lowerbound', 'surveyprofield_integer').$labelsep.$this->lowerbound;
         $constraints[] = get_string('upperbound', 'surveyprofield_integer').$labelsep.$this->upperbound;
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.

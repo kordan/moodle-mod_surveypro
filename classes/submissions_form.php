@@ -36,25 +36,15 @@ use mod_surveypro\formbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_form extends formbase {
+class submissions_form extends formbase {
 
     /**
-     * @var int $view
+     * @var int $mode
      */
-    protected $view;
+    protected $mode;
 
     /**
-     * @var int Tab of the module where the page will be shown
-     */
-    protected $tabtab;
-
-    /**
-     * @var int This is the page of the module. Nothing to share with $formpage
-     */
-    protected $tabpage;
-
-    /**
-     * @var int Final validation of the submitted response
+     * @var int Status of each answer of the submission
      */
     protected $responsestatus;
 
@@ -69,14 +59,19 @@ class view_form extends formbase {
     public $formdata = null;
 
     /**
+     * @var int The status of the whole submission. It can be: SURVEYPRO_STATUSCLOSED,
+     */
+    public $status;
+
+    /**
      * Setup.
      *
      * @param int $submissionid
      * @param int $formpage
-     * @param int $view
+     * @param int $mode
      * @return void
      */
-    public function setup($submissionid, $formpage, $view) {
+    public function setup($submissionid, $formpage, $mode) {
         global $DB;
 
         // Assign pages to items.
@@ -88,11 +83,10 @@ class view_form extends formbase {
         $this->set_userformpagecount($userformpagecount);
         $this->set_user_boundary_formpages();
 
-        $this->set_view($view);
+        $this->set_mode($mode);
         $this->set_submissionid($submissionid);
         $this->set_formpage($formpage);
 
-        $this->set_tabs_params();
         $this->prevent_direct_user_input();
         $this->trigger_event();
     }
@@ -100,62 +94,24 @@ class view_form extends formbase {
     // MARK set.
 
     /**
-     * Set view.
+     * Set mode.
      *
-     * @param int $view
+     * @param int $mode
      * @return void
      */
-    private function set_view($view) {
-        $this->view = $view;
-    }
-
-    /**
-     * Set TAB tab.
-     *
-     * @param int $tabtab
-     * @return void
-     */
-    public function set_tabtab($tabtab) {
-        $this->tabtab = $tabtab;
-    }
-
-    /**
-     * Set TAB page.
-     *
-     * @param int $tabpage
-     * @return void
-     */
-    public function set_tabpage($tabpage) {
-        $this->tabpage = $tabpage;
+    private function set_mode($mode) {
+        $this->mode = $mode;
     }
 
     // MARK get.
 
     /**
-     * Get view.
+     * Get mode.
      *
-     * @return the content of $view property
+     * @return the content of $mode property
      */
-    public function get_view() {
-        return $this->view;
-    }
-
-    /**
-     * Get TAB tab.
-     *
-     * @return the content of $tabtab property
-     */
-    public function get_tabtab() {
-        return $this->tabtab;
-    }
-
-    /**
-     * Get TAB page.
-     *
-     * @return the content of $tabpage property
-     */
-    public function get_tabpage() {
-        return $this->tabpage;
+    public function get_mode() {
+        return $this->mode;
     }
 
     /**
@@ -188,7 +144,7 @@ class view_form extends formbase {
         if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
-            $url = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&section=collectedsubmissions';
 
             $content = $this->surveypro->mailcontent;
             $originals = ['{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}'];
@@ -204,7 +160,7 @@ class view_form extends formbase {
             $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-            $a->href = $CFG->wwwroot.'/mod/surveypro/view_submissions.php?s='.$this->surveypro->id;
+            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&section=collectedsubmissions';
 
             $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
         }
@@ -213,32 +169,6 @@ class view_form extends formbase {
     }
 
     // MARK general methods.
-
-    /**
-     * Set tabs params.
-     *
-     * @return void
-     */
-    private function set_tabs_params() {
-        $this->set_tabtab(SURVEYPRO_TABSUBMISSIONS); // Needed by tabs.class.php.
-        switch ($this->view) {
-            case SURVEYPRO_NOVIEW:
-                $this->set_tabpage(SURVEYPRO_SUBMISSION_CPANEL); // Needed by tabs.class.php.
-                break;
-            case SURVEYPRO_NEWRESPONSE:
-                $this->set_tabpage(SURVEYPRO_SUBMISSION_INSERT); // Needed by tabs.class.php.
-                break;
-            case SURVEYPRO_EDITRESPONSE:
-                $this->set_tabpage(SURVEYPRO_SUBMISSION_EDIT); // Needed by tabs.class.php.
-                break;
-            case SURVEYPRO_READONLYRESPONSE:
-                $this->set_tabpage(SURVEYPRO_SUBMISSION_READONLY); // Needed by tabs.class.php.
-                break;
-            default:
-                $message = 'Unexpected $this->view = '.$this->view;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
 
     /**
      * Save user submission.
@@ -275,7 +205,7 @@ class view_form extends formbase {
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
 
             $eventdata = ['context' => $this->context, 'objectid' => $submission->id];
-            $eventdata['other'] = ['view' => SURVEYPRO_NEWRESPONSE];
+            $eventdata['other'] = ['mode' => SURVEYPRO_NEWRESPONSEMODE];
             $event = \mod_surveypro\event\submission_created::create($eventdata);
             $event->trigger();
         } else {
@@ -301,7 +231,7 @@ class view_form extends formbase {
             }
 
             $eventdata = ['context' => $this->context, 'objectid' => $submission->id];
-            $eventdata['other'] = ['view' => SURVEYPRO_EDITRESPONSE];
+            $eventdata['other'] = ['mode' => SURVEYPRO_EDITMODE];
             $event = \mod_surveypro\event\submission_modified::create($eventdata);
             $event->trigger();
         }
@@ -616,14 +546,16 @@ class view_form extends formbase {
         // 7) the submission HAS TO BE saved as IN PROGRESS and not as CLOSED
         // even if ($savebutton || $saveasnewbutton) where never pressed
 
+        // Be optimistic. Let's start by assuming user was correct.
+        $this->responsestatus = SURVEYPRO_VALIDRESPONSE;
         // Let's start with the lightest check (lightest in terms of query).
         $this->check_all_was_verified();
-        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) { // If this submission is still considered valid...
-            // ...check more.
+        if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
+            // Each provided answer was validated but, maybe, some answer was not provided.
             $this->check_mandatories_are_in();
         }
 
-        // If all the answers are valid.
+        // If all the answers are still valid.
         if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
             // -> $prevbutton: I am not saving with $verified = true so $this->responsestatus != SURVEYPRO_VALIDRESPONSE
             // and this case should never be verified.
@@ -719,6 +651,7 @@ class view_form extends formbase {
 
     /**
      * Check that each answer of the passed submission was actually verified at submission time.
+     * If at least one answer was not veritied, the responsestatus is SURVEYPRO_MISSINGVALIDATION.
      *
      * @return void
      */
@@ -852,8 +785,7 @@ class view_form extends formbase {
     public function nomoresubmissions_stopexecution() {
         global $OUTPUT;
 
-        $tabpage = $this->get_tabpage();
-        if ($tabpage != SURVEYPRO_SUBMISSION_READONLY) {
+        if ($this->mode != SURVEYPRO_READONLYMODE) {
             // If $this->formdata is available, this means that the form was already displayed and submitted.
             // So it is not the time to verify the user is allowed to submit one more surveypro.
             if ($this->formdata) {
@@ -870,8 +802,8 @@ class view_form extends formbase {
                 $message = get_string('nomoresubmissionsallowed', 'mod_surveypro', $this->surveypro->maxentries);
                 echo $OUTPUT->notification($message, 'notifyproblem');
 
-                $whereparams = ['id' => $this->cm->id];
-                $continueurl = new \moodle_url('/mod/surveypro/view_submissions.php', $whereparams);
+                $whereparams = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
+                $continueurl = new \moodle_url('/mod/surveypro/view.php', $whereparams);
 
                 echo $OUTPUT->continue_button($continueurl);
                 echo $OUTPUT->footer();
@@ -888,12 +820,12 @@ class view_form extends formbase {
     public function add_readonly_browsing_buttons() {
         global $OUTPUT;
 
-        $tabpage = $this->get_tabpage();
-        if ($tabpage == SURVEYPRO_SUBMISSION_READONLY) {
+        if ($this->mode == SURVEYPRO_READONLYMODE) {
             $params = array();
             $params['s'] = $this->surveypro->id;
             $params['submissionid'] = $this->get_submissionid();
-            $params['view'] = SURVEYPRO_READONLYRESPONSE;
+            $params['mode'] = SURVEYPRO_READONLYMODE;
+            $params['section'] = 'submissionform';
 
             $userformpagecount = $this->get_userformpagecount();
             if ($userformpagecount > 1) {
@@ -902,15 +834,15 @@ class view_form extends formbase {
                 if ($this->formpage > $this->userfirstpage) {
                     $this->next_not_empty_page(false); // False means direction = left.
                     $params['formpage'] = $this->get_nextpage();
-                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
-                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get', true);
+                    $url = new \moodle_url('/mod/surveypro/view.php', $params);
+                    $backwardbutton = new \single_button($url, get_string('previousformpage', 'mod_surveypro'), 'get');
                 }
 
                 if ($this->formpage < $this->userlastpage) {
                     $this->next_not_empty_page(true); // True means direction = right.
                     $params['formpage'] = $this->get_nextpage();
-                    $url = new \moodle_url('/mod/surveypro/view_form.php', $params);
-                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get', true);
+                    $url = new \moodle_url('/mod/surveypro/view.php', $params);
+                    $forwardbutton = new \single_button($url, get_string('nextformpage', 'mod_surveypro'), 'get');
                 }
 
                 $params = ['class' => 'buttons'];
@@ -1092,37 +1024,38 @@ class view_form extends formbase {
 
         $debug = false;
         if ($debug) {
-            switch ($this->view) {
-                case SURVEYPRO_NEWRESPONSE:
-                    echo '$this->view = SURVEYPRO_NEWRESPONSE<br />';
+            switch ($this->mode) {
+                case SURVEYPRO_NEWRESPONSEMODE:
+                    echo '$this->mode = SURVEYPRO_NEWRESPONSEMODE<br>';
                     break;
-                case SURVEYPRO_EDITRESPONSE:
-                    echo '$this->view = SURVEYPRO_EDITRESPONSE<br />';
+                case SURVEYPRO_EDITMODE:
+                    echo '$this->mode = SURVEYPRO_EDITMODE<br>';
                     break;
-                case SURVEYPRO_READONLYRESPONSE:
-                    echo '$this->view = SURVEYPRO_READONLYRESPONSE<br />';
+                case SURVEYPRO_READONLYMODE:
+                    echo '$this->mode = SURVEYPRO_READONLYMODE<br>';
                     break;
                 default:
-                    echo '$this->view = '.$this->view;
+                    echo '$this->mode = '.$this->mode;
             }
 
             if ($ismine) {
-                echo '$ismine = true<br />';
+                echo '$ismine = true<br>';
             } else {
-                echo '$ismine = false<br />';
+                echo '$ismine = false<br>';
             }
             if ($mysamegroup) {
-                echo '$mysamegroup = true<br />';
+                echo '$mysamegroup = true<br>';
             } else {
-                echo '$mysamegroup = false<br />';
+                echo '$mysamegroup = false<br>';
             }
             echo '$mysamegroup =';
             // print_object($mysamegroup); // <-- This is better than var_dump but codechecker doesn't like it.
         }
 
         $allowed = false;
-        switch ($this->view) {
-            case SURVEYPRO_NEWRESPONSE:
+        switch ($this->mode) {
+            case SURVEYPRO_NEWRESPONSEMODE:
+
                 $timenow = time();
                 $allowed = $cansubmit;
                 if ($this->surveypro->timeopen) {
@@ -1152,7 +1085,7 @@ class view_form extends formbase {
                     $allowed = $allowed && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
                 }
                 break;
-            case SURVEYPRO_EDITRESPONSE:
+            case SURVEYPRO_EDITMODE:
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     // If $submission->status == SURVEYPRO_STATUSINPROGRESS it is a resume acction.
                     if ($ismine) { // Owner is me
@@ -1173,7 +1106,7 @@ class view_form extends formbase {
                     }
                 }
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
+            case SURVEYPRO_READONLYMODE:
                 // Whether SURVEYPRO_STATUSINPROGRESS, always deny.
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $allowed = false;
@@ -1201,20 +1134,20 @@ class view_form extends formbase {
      * @return void
      */
     private function trigger_event() {
-        switch ($this->view) {
-            case SURVEYPRO_NOVIEW:
-            case SURVEYPRO_EDITRESPONSE: // Item_modified will be, eventually, logged.
-            case SURVEYPRO_NEWRESPONSE:  // Item_created will be, eventually, logged.
+        switch ($this->mode) {
+            case SURVEYPRO_NOMODE:
+            case SURVEYPRO_EDITMODE: // Item_modified will be, eventually, logged.
+            case SURVEYPRO_NEWRESPONSEMODE:  // Item_created will be, eventually, logged.
                 break;
-            case SURVEYPRO_READONLYRESPONSE:
+            case SURVEYPRO_READONLYMODE:
                 // Event: submission_viewed.
                 $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
-                $eventdata['other'] = ['view' => SURVEYPRO_READONLYRESPONSE];
+                $eventdata['other'] = ['mode' => SURVEYPRO_READONLYMODE];
                 $event = \mod_surveypro\event\submission_viewed::create($eventdata);
                 $event->trigger();
                 break;
             default:
-                $message = 'Unexpected $this->view = '.$this->view;
+                $message = 'Unexpected $this->mode = '.$this->mode;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
     }

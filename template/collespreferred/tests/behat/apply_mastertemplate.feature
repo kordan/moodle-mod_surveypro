@@ -21,6 +21,7 @@ Feature: apply COLLES (Preferred) mastertemplate
   @javascript
   Scenario: apply COLLES (Preferred) master template
     Given I am on the "To apply COLLES (Preferred)" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "COLLES (Preferred)"
     And I press "Apply"
     Then I should see "In this online unit"

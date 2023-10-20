@@ -66,9 +66,7 @@ class form_previewed extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        $paramurl = array();
-        $paramurl['id'] = $this->contextinstanceid;
-        return new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        return new \moodle_url('/mod/surveypro/layout.php', ['id' => $this->contextinstanceid, 'section' => 'preview']);
     }
 
     /**

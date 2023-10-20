@@ -66,9 +66,8 @@ class submission_deleted extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        $paramurl = array();
-        $paramurl['id'] = $this->contextinstanceid;
-        return new \moodle_url('/mod/surveypro/view_submissions.php', $paramurl);
+        $paramurl = ['id' => $this->contextinstanceid, 'section' => 'submissionslist'];
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**

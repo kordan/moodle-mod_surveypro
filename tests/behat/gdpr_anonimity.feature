@@ -1,11 +1,11 @@
 @mod @mod_surveypro
-Feature: gdpr anonimitytest anonymous surveypro are really anonymous
+Feature: test anonymous surveypro are really anonymous
   In order to test that an anonymous surveypro is really anonymous
   As teacher
   I go to look for reports and pages showwing user names
 
   @javascript
-  Scenario: Anonymous surveypro and user with alwaysseeowner capability
+  Scenario: anonymous surveypro and user with alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -26,7 +26,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
-    And I follow "Survey" page in tab bar
+
     Then I should see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should see "Run Late users report"
@@ -35,7 +35,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: Not anonymous surveypro and user with alwaysseeowner capability
+  Scenario: not anonymous surveypro and user with alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -53,7 +53,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
       | field | boolean |
 
     When I am on the "Anonymous surveypro" activity page logged in as teacher1
-    And I follow "Survey" page in tab bar
+
     Then I should see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should see "Run Late users report"
@@ -62,7 +62,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: Anonymous surveypro and user without alwaysseeowner capability
+  Scenario: anonymous surveypro and user without alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -89,7 +89,6 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
-    And I follow "Survey" page in tab bar
     Then I should not see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should not see "Run Late users report"
@@ -98,7 +97,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
     And I log out
 
   @javascript
-  Scenario: Not anonymous surveypro and user without alwaysseeowner capability
+  Scenario: not anonymous surveypro and user without alwaysseeowner capability
     Given the following "courses" exist:
       | fullname         | shortname        | category | groupmode |
       | Anonymous course | Anonymous course | 0        | 0         |
@@ -122,6 +121,7 @@ Feature: gdpr anonimitytest anonymous surveypro are really anonymous
       | field | boolean |
 
     When I am on the "Anonymous surveypro" activity page logged in as teacher1
+
     Then I should see "Run Attachments overview report"
     Then I should see "Run Frequency distribution report"
     Then I should see "Run Late users report"

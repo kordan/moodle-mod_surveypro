@@ -283,7 +283,7 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_date_to_unix_time($year, $month, $day) {
-        return (gmmktime(12, 0, 0, $month, $day, $year)); // This is GMT.
+        return (mktime(12, 0, 0, $month, $day, $year));
     }
 
     /**
@@ -317,7 +317,7 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
+            if (!$this->{$field}) {
                 continue;
             }
             $datearray = self::item_split_unix_time($this->{$field});
@@ -511,11 +511,11 @@ EOS;
         // Condition limiting months.
         if ($this->lowerboundyear == $this->upperboundyear) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         } else {
             for ($i = 1; $i <= 12; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         }
         // No condition limiting years.
@@ -589,41 +589,50 @@ EOS;
         // End of: mform element.
 
         // Default section.
-        switch ($this->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                $datearray = self::item_split_unix_time($this->defaultvalue, true);
-                break;
-            case SURVEYPRO_TIMENOWDEFAULT:
-                $datearray = self::item_split_unix_time(time(), true);
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $datearray = self::item_split_unix_time($this->lowerbound, true);
-                $mform->setDefault($this->itemname.'_noanswer', '1');
-                break;
-            case SURVEYPRO_LIKELASTDEFAULT:
-                // Look for the most recent submission I made.
-                $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                $where = ['userid' => $USER->id];
-                $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                    $datearray = self::item_split_unix_time($time, false);
-                } else { // As in standard default.
-                    $datearray = self::item_split_unix_time(time(), true);
-                }
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $datearray['mday'] = SURVEYPRO_INVITEVALUE;
-                $datearray['mon'] = SURVEYPRO_INVITEVALUE;
-                $datearray['year'] = SURVEYPRO_INVITEVALUE;
-                break;
-            default:
-                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        if (!$searchform) {
+            switch ($this->defaultoption) {
+                case SURVEYPRO_INVITEDEFAULT:
+                    $datearray['mday'] = SURVEYPRO_INVITEVALUE;
+                    $datearray['mon'] = SURVEYPRO_INVITEVALUE;
+                    $datearray['year'] = SURVEYPRO_INVITEVALUE;
+                    break;
+                case SURVEYPRO_NOANSWERDEFAULT:
+                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                case SURVEYPRO_CUSTOMDEFAULT:
+                    if ($this->defaultvalue) {
+                        $datearray = self::item_split_unix_time($this->defaultvalue);
+                    } else if ($this->lowerbound) {
+                        $datearray = self::item_split_unix_time($this->lowerbound);
+                    } else {
+                        $datearray['mday'] = $days[1];
+                        $datearray['mon'] = $months[1];
+                        $datearray['year'] = $years[1];
+                    }
+                    break;
+                case SURVEYPRO_TIMENOWDEFAULT:
+                    $datearray = self::item_split_unix_time(time());
+                    break;
+                case SURVEYPRO_LIKELASTDEFAULT:
+                    // Look for the most recent submission I made.
+                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                    $where = ['userid' => $USER->id];
+                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
+                        $datearray = self::item_split_unix_time($time);
+                    } else { // As in standard default.
+                        $datearray = self::item_split_unix_time(time());
+                    }
+                    break;
+                default:
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+            $mform->setDefault($this->itemname.'_day', $datearray['mday']);
+            $mform->setDefault($this->itemname.'_month', $datearray['mon']);
+            $mform->setDefault($this->itemname.'_year', $datearray['year']);
         }
-        $mform->setDefault($this->itemname.'_day', $datearray['mday']);
-        $mform->setDefault($this->itemname.'_month', $datearray['mon']);
-        $mform->setDefault($this->itemname.'_year', $datearray['year']);
         if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');

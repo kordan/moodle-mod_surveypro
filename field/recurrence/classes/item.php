@@ -256,7 +256,7 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_recurrence_to_unix_time($month, $day) {
-        return (gmmktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET)); // This is GMT.
+        return (mktime(12, 0, 0, $month, $day, SURVEYPROFIELD_RECURRENCE_YEAROFFSET));
     }
 
     /**
@@ -270,7 +270,7 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
+            if (!$this->{$field}) {
                 continue;
             }
             $recurrencearray = self::item_split_unix_time($this->{$field});
@@ -462,14 +462,14 @@ EOS;
         $days += array_combine($daysrange, $daysrange);
         if ($this->lowerboundmonth <= $this->upperboundmonth) {
             for ($i = $this->lowerboundmonth; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         } else {
             for ($i = $this->lowerboundmonth; $i <= 12; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
             for ($i = 1; $i <= $this->upperboundmonth; $i++) {
-                $months[$i] = userdate(gmmktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
+                $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
             }
         }
         // End of: element values.
@@ -536,39 +536,47 @@ EOS;
         // End of: mform element.
 
         // Begin of: default section.
-        switch ($this->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                $recurrencearray = self::item_split_unix_time($this->defaultvalue, true);
-                break;
-            case SURVEYPRO_TIMENOWDEFAULT:
-                $recurrencearray = self::item_split_unix_time(time(), true);
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $recurrencearray = self::item_split_unix_time($this->lowerbound, true);
-                $mform->setDefault($this->itemname.'_noanswer', '1');
-                break;
-            case SURVEYPRO_LIKELASTDEFAULT:
-                // Look for the most recent submission I made.
-                $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                $where = ['userid' => $USER->id];
-                $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                    $recurrencearray = self::item_split_unix_time($time, false);
-                } else { // As in standard default.
-                    $recurrencearray = self::item_split_unix_time(time(), true);
-                }
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                $recurrencearray['mday'] = SURVEYPRO_INVITEVALUE;
-                $recurrencearray['mon'] = SURVEYPRO_INVITEVALUE;
-                break;
-            default:
-                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        if (!$searchform) {
+            switch ($this->defaultoption) {
+                case SURVEYPRO_INVITEDEFAULT:
+                    $recurrencearray['mday'] = SURVEYPRO_INVITEVALUE;
+                    $recurrencearray['mon'] = SURVEYPRO_INVITEVALUE;
+                    break;
+                case SURVEYPRO_NOANSWERDEFAULT:
+                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                case SURVEYPRO_CUSTOMDEFAULT:
+                    if ($this->defaultvalue) {
+                        $recurrencearray = self::item_split_unix_time($this->defaultvalue);
+                    } else if ($this->lowerbound) {
+                        $recurrencearray = self::item_split_unix_time($this->lowerbound);
+                    } else {
+                        $recurrencearray['mday'] = $days[1];
+                        $recurrencearray['mon'] = $months[1];
+                    }
+                    break;
+                case SURVEYPRO_TIMENOWDEFAULT:
+                    $recurrencearray = self::item_split_unix_time(time());
+                    break;
+                case SURVEYPRO_LIKELASTDEFAULT:
+                    // Look for the most recent submission I made.
+                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                    $where = ['userid' => $USER->id];
+                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
+                        $recurrencearray = self::item_split_unix_time($time);
+                    } else { // As in standard default.
+                        $recurrencearray = self::item_split_unix_time(time());
+                    }
+                    break;
+                default:
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            }
+            $mform->setDefault($this->itemname.'_day', $recurrencearray['mday']);
+            $mform->setDefault($this->itemname.'_month', $recurrencearray['mon']);
         }
-        $mform->setDefault($this->itemname.'_day', $recurrencearray['mday']);
-        $mform->setDefault($this->itemname.'_month', $recurrencearray['mon']);
         if ($searchform) {
             if (!$this->required) {
                 $mform->setDefault($this->itemname.'_noanswer', '0');

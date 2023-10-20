@@ -40,7 +40,7 @@ class mastertemplate extends templatebase {
     /**
      * @var array
      */
-    protected $langtree = array();
+    protected $langtree = [];
 
     /**
      * Display the welcome message of the apply page.
@@ -110,6 +110,39 @@ class mastertemplate extends templatebase {
     }
 
     /**
+     * Count available user template.
+     *
+     * @return array
+     */
+    public function get_mtemplates() {
+        $utemplates = [];
+        if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
+            foreach ($mtemplatepluginlist as $mtemplatename => $mtemplatepath) {
+                if (!get_config('surveyprotemplate_'.$mtemplatename, 'disabled')) {
+                    $mtemplates[$mtemplatename] = get_string('pluginname', 'surveyprotemplate_'.$mtemplatename);
+                }
+            }
+            asort($mtemplates);
+        }
+
+        return $mtemplates;
+    }
+
+    /**
+     * Count available user template.
+     *
+     * @return array
+     */
+    public function get_mtemplates_count() {
+        $mtemplatescount = 0;
+        if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
+            $mtemplatescount += count($mtemplatepluginlist);
+        }
+
+        return $mtemplatescount;
+    }
+
+    /**
      * Generate master template.
      *
      * @return void
@@ -147,9 +180,8 @@ class mastertemplate extends templatebase {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
             debugging($message, DEBUG_DEVELOPER);
 
-            $paramurl = array();
-            $paramurl['id'] = $this->cm->id;
-            $returnurl = new \moodle_url('/mod/surveypro/layout_itemslist.php', $paramurl);
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             redirect($returnurl);
         }
 
@@ -161,12 +193,6 @@ class mastertemplate extends templatebase {
             make_temp_directory($temppath); // I just created the folder for the current plugin.
 
             $dataabsolutepath = $CFG->tempdir.'/'.$temppath;
-
-            // echo '<hr />Operate on the file: '.$masterfile.'<br />';
-            // echo $masterfileinfo["dirname"] . "<br />";
-            // echo $masterfileinfo["basename"] . "<br />";
-            // echo $masterfileinfo["extension"] . "<br />";
-            // echo dirname($masterfile) . "<br />";
 
             if ($masterfileinfo['basename'] == 'icon.png') {
                 // Simply copy icon.png.
@@ -222,8 +248,6 @@ class mastertemplate extends templatebase {
                     // I need to create the folder lang/it.
                     make_temp_directory($datarelativedir.'/lang/'.$userlang);
                 }
-
-                // echo '$masterbasepath = '.$masterbasepath.'<br />';
 
                 $filecontent = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
 
@@ -296,7 +320,7 @@ class mastertemplate extends templatebase {
             $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
         }
 
-        $filelist = array();
+        $filelist = [];
         foreach ($filenames as $filename) {
             $filelist[$filename] = $dataabsolutedir.'/'.$filename;
         }
@@ -397,9 +421,19 @@ class mastertemplate extends templatebase {
                 continue;
             }
 
-            $xmltable = $xmlitem->addChild('surveypro'.$itemseed->type.'_'.$itemseed->plugin);
+            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-                $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
+                // If $field == 'content' I can not use the property of the object $item because
+                // in case of pictures, for instance, $item->content has to look like:
+                // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
+                // and not like:
+                // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
+                if ($field != 'content') {
+                    $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
+                } else {
+                    $val = $DB->get_field($tablename, 'content', ['itemid' => $itemseed->id], MUST_EXIST);
+                }
 
                 if (\core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, htmlspecialchars($val));
@@ -429,7 +463,7 @@ class mastertemplate extends templatebase {
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
-            // echo '$xmltemplate->asXML() = <br />';
+            // echo '$xmltemplate->asXML() = <br>';
             // print_object($xmltemplate->asXML());
 
             return $xmltemplate->asXML();
@@ -438,9 +472,6 @@ class mastertemplate extends templatebase {
             $dom->preserveWhiteSpace = false;
             $dom->formatOutput = true;
             $dom->loadXML($xmltemplate->asXML());
-
-            // echo '$xmltemplate = <br />';
-            // print_object($xmltemplate);
 
             return $dom->saveXML();
         }
@@ -528,8 +559,8 @@ class mastertemplate extends templatebase {
 
         $this->add_items_from_template();
 
-        $paramurl = ['s' => $this->surveypro->id];
-        $redirecturl = new \moodle_url('/mod/surveypro/layout_preview.php', $paramurl);
+        $paramurl = ['s' => $this->surveypro->id, 'section' => 'preview'];
+        $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         redirect($redirecturl);
     }
 
@@ -547,7 +578,7 @@ class mastertemplate extends templatebase {
 
         if ($hassubmissions && (!$riskyediting)) {
             echo $OUTPUT->notification(get_string('applyusertemplatedenied01', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view_submissions.php', ['s' => $this->surveypro->id]);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'section' => 'submissionslist']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
@@ -649,7 +680,7 @@ class mastertemplate extends templatebase {
                             }
                         }
 
-                        // echo 'I need to add: "'.$filename.'" to the filearea<br />';
+                        // echo 'I need to add: "'.$filename.'" to the filearea<br>';
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.
@@ -679,8 +710,7 @@ class mastertemplate extends templatebase {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
                     if (!empty($record->parentid)) {
-                        $whereparams = array();
-                        $whereparams['surveyproid'] = $this->surveypro->id;
+                        $whereparams = ['surveyproid' => $this->surveypro->id];
                         $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
@@ -727,7 +757,7 @@ class mastertemplate extends templatebase {
      * @return void
      */
     public function get_lang_file_content() {
-        $stringsastext = array();
+        $stringsastext = [];
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $stringcontent) {
                 // Do not use php addslashes() because it adds slashes to " too.
@@ -736,7 +766,7 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n".implode("\n", $stringsastext);
     }
 
     /**
@@ -771,7 +801,7 @@ class mastertemplate extends templatebase {
      * @return void
      */
     public function get_translated_strings($userlang) {
-        $stringsastext = array();
+        $stringsastext = [];
         $a = new \stdClass();
         $a->userlang = $userlang;
         foreach ($this->langtree as $langbranch) {
@@ -785,6 +815,6 @@ class mastertemplate extends templatebase {
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n".implode("\n", $stringsastext);
     }
 }

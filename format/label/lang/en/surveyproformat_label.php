@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['fullwidth_help'] = 'Use full screen width to display the label using as much space as possible starting from the left of the screen. When this option is used the element label and the element number will not be displayed.<br />As opposite alternative, the element will be drawn on the right side of the row leaving to its label the room on the left.';
+$string['fullwidth_help'] = 'Use full screen width to display the label using as much space as possible starting from the left of the screen. When this option is used the element label and the element number will not be displayed.<br>As opposite alternative, the element will be drawn on the right side of the row leaving to its label the room on the left.';
 $string['fullwidth'] = 'Full width';
 $string['leftlabel_help'] = 'The text that will be shown on the left of the label in the form';
 $string['leftlabel'] = 'Label';

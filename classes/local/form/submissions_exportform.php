@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissionexportform extends \moodleform {
+class submissions_exportform extends \moodleform {
 
     /**
      * Definition.
@@ -54,7 +54,7 @@ class submissionexportform extends \moodleform {
         $attachmentshere = $this->_customdata->attachmentshere;
 
         // Submissionexport: settingsheader.
-        $mform->addElement('header', 'settingsheader', get_string('download'));
+        $mform->addElement('header', 'settingsheader', get_string('tools_export', 'mod_surveypro'));
 
         // Submissionexport: groupid.
         if ($activityisgrouped) {
@@ -138,7 +138,7 @@ class submissionexportform extends \moodleform {
         $rawstr = get_string('raw', 'mod_surveypro', $a);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $verbosestr, SURVEYPRO_VERBOSE);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $rawstr, SURVEYPRO_RAW);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br />', false);
+        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br>', false);
         $mform->setDefault($fieldname, SURVEYPRO_VERBOSE);
         $mform->disabledIf($fieldname.'_group', 'downloadtype', 'eq', SURVEYPRO_FILESBYUSER);
         $mform->disabledIf($fieldname.'_group', 'downloadtype', 'eq', SURVEYPRO_FILESBYITEM);

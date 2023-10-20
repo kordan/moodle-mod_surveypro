@@ -21,6 +21,7 @@ Feature: make a submission test for "autofill" item
       | activity  | name          | intro                               | course                   |
       | surveypro | Autofill test | To test submission of autofill item | Autofill submission test |
     And I am on the "Autofill test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Autofill"
     And I press "Add"

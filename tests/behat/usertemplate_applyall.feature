@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Load and apply usertemplates in order to test if they apply correctly
+Feature: load and apply usertemplates in order to test if they apply correctly
   In order to test if usertemplates apply correctly
   As teacher1
   I apply all available usertemplates
@@ -19,7 +19,7 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
       | activity  | name      | intro                                | course                  |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate |
 
-    When I am on the "Apply all" "mod_surveypro > User templates Import" page logged in as "teacher1"
+    When I am on the "Apply all" "mod_surveypro > User templates import" page logged in as "teacher1"
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
@@ -39,169 +39,169 @@ Feature: Load and apply usertemplates in order to test if they apply correctly
     And I upload "mod/surveypro/tests/fixtures/usertemplate/textshort_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/time_only_2015123000.xml" file to "Choose files to import" filemanager
 
-    And I set the field "Sharing level" to "Course: To apply all usertemplates"
+    And I set the field "Sharing level" to "This course"
     And I press "Import"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) age_only_2015123000.xml |
-      | id_action_15   | 1                                |
-    And I press "Apply"
-
-    # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
-
-    # now I am in the "Apply" page
-    And I set the following fields to these values:
-      | User templates | (Course) attachment_only_2015123000.xml |
-      | id_action_15   | 1                                       |
-    And I press "Apply"
-
-    # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
-
-    # now I am in the "Apply" page
-    And I set the following fields to these values:
-      | User templates | (Course) autofill_only_2015123000.xml |
+      | User templates | (This course) age_only_2015123000.xml |
       | id_action_15   | 1                                     |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) boolean_only_2015123000.xml |
-      | id_action_15   | 1                                    |
+      | User templates | (This course) attachment_only_2015123000.xml |
+      | id_action_15   | 1                                            |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) checkbox_only_2015123000.xml |
-      | id_action_15   | 1                                     |
+      | User templates | (This course) autofill_only_2015123000.xml |
+      | id_action_15   | 1                                          |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) date_only_2015123000.xml |
-      | id_action_15   | 1                                 |
+      | User templates | (This course) boolean_only_2015123000.xml |
+      | id_action_15   | 1                                         |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) dateshort_only_2015123000.xml |
+      | User templates | (This course) checkbox_only_2015123000.xml |
+      | id_action_15   | 1                                          |
+    And I press "Apply"
+
+    # now I am in the "Manage" page
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates | (This course) date_only_2015123000.xml |
       | id_action_15   | 1                                      |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) datetime_only_2015123000.xml |
-      | id_action_15   | 1                                     |
+      | User templates | (This course) dateshort_only_2015123000.xml |
+      | id_action_15   | 1                                           |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) integer_only_2015123000.xml |
-      | id_action_15   | 1                                    |
+      | User templates | (This course) datetime_only_2015123000.xml |
+      | id_action_15   | 1                                          |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) multiselect_only_2015123000.xml |
-      | id_action_15   | 1                                        |
+      | User templates | (This course) integer_only_2015123000.xml |
+      | id_action_15   | 1                                         |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) numeric_only_2015123000.xml |
-      | id_action_15   | 1                                    |
+      | User templates | (This course) multiselect_only_2015123000.xml |
+      | id_action_15   | 1                                             |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) radiobutton_only_2015123000.xml |
-      | id_action_15   | 1                                        |
+      | User templates | (This course) numeric_only_2015123000.xml |
+      | id_action_15   | 1                                         |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) rate_only_2015123000.xml |
-      | id_action_15   | 1                                 |
+      | User templates | (This course) radiobutton_only_2015123000.xml |
+      | id_action_15   | 1                                             |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) recurrence_only_2015123000.xml |
-      | id_action_15   | 1                                       |
-    And I press "Apply"
-
-    # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
-
-    # now I am in the "Apply" page
-    And I set the following fields to these values:
-      | User templates | (Course) select_only_2015123000.xml |
-      | id_action_15   | 1                                   |
-    And I press "Apply"
-
-    # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
-
-    # now I am in the "Apply" page
-    And I set the following fields to these values:
-      | User templates | (Course) textarea_only_2015123000.xml |
-      | id_action_15   | 1                                     |
-    And I press "Apply"
-
-    # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
-
-    # now I am in the "Apply" page
-    And I set the following fields to these values:
-      | User templates | (Course) textshort_only_2015123000.xml |
+      | User templates | (This course) rate_only_2015123000.xml |
       | id_action_15   | 1                                      |
     And I press "Apply"
 
     # now I am in the "Manage" page
-    And I navigate to "User templates > Apply" in current page administration
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
 
     # now I am in the "Apply" page
     And I set the following fields to these values:
-      | User templates | (Course) time_only_2015123000.xml |
-      | id_action_15   | 1                                 |
+      | User templates | (This course) recurrence_only_2015123000.xml |
+      | id_action_15   | 1                                            |
+    And I press "Apply"
+
+    # now I am in the "Manage" page
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates | (This course) select_only_2015123000.xml |
+      | id_action_15   | 1                                        |
+    And I press "Apply"
+
+    # now I am in the "Manage" page
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates | (This course) textarea_only_2015123000.xml |
+      | id_action_15   | 1                                          |
+    And I press "Apply"
+
+    # now I am in the "Manage" page
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates | (This course) textshort_only_2015123000.xml |
+      | id_action_15   | 1                                           |
+    And I press "Apply"
+
+    # now I am in the "Manage" page
+    And I am on the "Apply all" "mod_surveypro > User templates apply" page
+
+    # now I am in the "Apply" page
+    And I set the following fields to these values:
+      | User templates | (This course) time_only_2015123000.xml |
+      | id_action_15   | 1                                      |
     And I press "Apply"
 
     And I log out

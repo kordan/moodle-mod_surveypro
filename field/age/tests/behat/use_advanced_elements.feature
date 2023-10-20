@@ -21,6 +21,7 @@ Feature: test the use of reserved elements
       | activity  | name                  | intro                    | course            |
       | surveypro | Reserved element test | To test reserved element | Reserved elements |
     And I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     # add the first age item generally available
     And I set the field "typeplugin" to "Age [yy/mm]"
@@ -61,7 +62,7 @@ Feature: test the use of reserved elements
 
     # test the user sees only the first age item
     When I am on the "Reserved element test" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
     Then I should see "1: First age item"
@@ -77,7 +78,7 @@ Feature: test the use of reserved elements
 
     # test the teacher sees the first and the second age items both
     When I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     Then I should see "1: First age item"
     Then I should see "2: Second age item"

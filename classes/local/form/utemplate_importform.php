@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplateimportform extends \moodleform {
+class utemplate_importform extends \moodleform {
 
     /**
      * Definition.
@@ -62,10 +62,11 @@ class utemplateimportform extends \moodleform {
 
         // Templateimport: sharinglevel.
         $fieldname = 'sharinglevel';
-        $options = array();
-
-        $options = $utemplateman->get_sharinglevel_options();
-
+        $contexts = $utemplateman->get_sharingcontexts();
+        $options = [];
+        foreach ($contexts as $k => $context) {
+            $options[$k] = $utemplateman->contextlevel_to_scontextlabel($context->contextlevel);
+        }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
@@ -128,10 +129,9 @@ class utemplateimportform extends \moodleform {
         }
 
         // Get all template files in the specified context.
-        $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
-        $componentfiles = $utemplateman->get_available_templates($contextid);
+        $contextfiles = $utemplateman->get_utemplates_per_contextlevel($data['sharinglevel']);
 
-        foreach ($componentfiles as $xmlfile) {
+        foreach ($contextfiles as $xmlfile) {
             $filename = $xmlfile->get_filename();
             if (in_array($filename, $importedfiles)) {
                 if (isset($data['overwrite'])) {

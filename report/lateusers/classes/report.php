@@ -78,7 +78,7 @@ class report extends reportbase {
     public function setup_outputtable() {
         $this->outputtable = new \flexible_table('lateusers');
 
-        $paramurl = ['id' => $this->cm->id];
+        $paramurl = ['s' => $this->cm->instance];
         if ($this->groupid) {
             $paramurl['groupid'] = $this->groupid;
         }
@@ -172,8 +172,7 @@ class report extends reportbase {
                             GROUP BY userid, surveyproid
                             HAVING count(*) >= :completionsubmit';
 
-        $whereparams = [];
-        $whereparams['subsurveyproid'] = $this->surveypro->id;
+        $whereparams = ['subsurveyproid' => $this->surveypro->id];
         $whereparams['status'] = SURVEYPRO_STATUSCLOSED;
         $whereparams['completionsubmit'] = $this->surveypro->completionsubmit;
 

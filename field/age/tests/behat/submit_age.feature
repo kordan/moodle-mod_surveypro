@@ -21,21 +21,22 @@ Feature: make a submission test for "age" item
       | activity  | name     | intro                          | course              |
       | surveypro | Age test | To test submission of age item | Age submission test |
     And I am on the "Age test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Age"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How old were you when you learned to ride a bike? |
-      | Required                 | 1                                                 |
-      | Indent                   | 0                                                 |
-      | Question position        | left                                              |
-      | Element number           | 1                                                 |
-      | Hide filling instruction | 1                                                 |
-      | id_defaultoption_2       | Custom                                            |
-      | id_defaultvalueyear      | 14                                                |
-      | id_defaultvaluemonth     | 4                                                 |
+      | Content                  | How old were you when you started cycling? |
+      | Required                 | 1                                          |
+      | Indent                   | 0                                          |
+      | Question position        | left                                       |
+      | Element number           | 1                                          |
+      | Hide filling instruction | 1                                          |
+      | id_defaultoption_2       | Custom                                     |
+      | id_defaultvalueyear      | 14                                         |
+      | id_defaultvaluemonth     | 4                                          |
     And I press "Add"
 
     And I log out

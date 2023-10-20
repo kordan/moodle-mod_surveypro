@@ -258,7 +258,7 @@ class item extends itembase {
      * @param bool $applyusersettings
      * @return void
      */
-    public static function item_split_unix_time($time, $applyusersettings=false) {
+    public static function item_split_unix_time($time, $applyusersettings=true) {
         $getdate = parent::item_split_unix_time($time, $applyusersettings);
 
         $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
@@ -302,7 +302,7 @@ class item extends itembase {
      */
     public function item_age_to_unix_time($year, $month) {
         $year += SURVEYPROFIELD_AGE_YEAROFFSET;
-        return (gmmktime(12, 0, 0, $month, 1, $year)); // This is GMT.
+        return (mktime(12, 0, 0, $month, 1, $year));
     }
 
     /**
@@ -316,7 +316,7 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (is_null($this->{$field})) {
+            if (!$this->{$field}) {
                 continue;
             }
             $agearray = self::item_split_unix_time($this->{$field});
@@ -537,22 +537,30 @@ EOS;
 
         // Begin of: default section.
         if (!$searchform) {
-            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $mform->setDefault($this->itemname.'_year', SURVEYPRO_INVITEVALUE);
-                $mform->setDefault($this->itemname.'_month', SURVEYPRO_INVITEVALUE);
-            } else {
-                switch ($this->defaultoption) {
-                    case SURVEYPRO_CUSTOMDEFAULT:
+            switch ($this->defaultoption) {
+                case SURVEYPRO_INVITEDEFAULT:
+                    $agearray['year'] = SURVEYPRO_INVITEVALUE;
+                    $agearray['mon'] = SURVEYPRO_INVITEVALUE;
+                    break;
+                case SURVEYPRO_NOANSWERDEFAULT:
+                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                case SURVEYPRO_CUSTOMDEFAULT:
+                    if ($this->defaultvalue) {
                         $agearray = self::item_split_unix_time($this->defaultvalue);
-                        break;
-                    case SURVEYPRO_NOANSWERDEFAULT:
+                    } else if ($this->lowerbound) {
                         $agearray = self::item_split_unix_time($this->lowerbound);
-                        $mform->setDefault($this->itemname.'_noanswer', '1');
-                        break;
-                }
-                $mform->setDefault($this->itemname.'_year', $agearray['year']);
-                $mform->setDefault($this->itemname.'_month', $agearray['mon']);
+                    } else {
+                        $agearray['year'] = $years[1];
+                        $agearray['mon'] = $months[1];
+                    }
+                    break;
+                default:
+                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
+            $mform->setDefault($this->itemname.'_year', $agearray['year']);
+            $mform->setDefault($this->itemname.'_month', $agearray['mon']);
         } else {
             $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
             $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);

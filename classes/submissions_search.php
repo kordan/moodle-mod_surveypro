@@ -33,7 +33,7 @@ use mod_surveypro\utility_item;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_search {
+class submissions_search {
 
     /**
      * @var object Course module object
@@ -71,7 +71,7 @@ class view_search {
     /**
      * Get the searchparamurl.
      *
-     * At the submission time of the seach form, define the $searchparamurl to send to view_submissions.php
+     * At the submission time of the seach form, define the $searchparamurl to send to view.php ['section' => 'submissionslist']
      *
      * @return mixed $searchquery if a search was requested, void otherwise
      */

@@ -35,29 +35,30 @@ $string['surveyproname'] = 'Nombre de Surveypro';
 $string['surveyproname_help'] = 'Elegir el nombre de este surveypro.';
 $string['surveypro'] = 'survey';
 
-$string['tablayoutname'] = 'Diseño';
-    $string['tabitemspage1'] = 'Previsualización';
-    $string['tabitemspage2'] = 'Elementos';
-    $string['tabitemspage3'] = 'Configuración de elemento';
-    $string['tabitemspage4'] = 'Validación ramificada';
-$string['tabsubmissionsname'] = 'Survey';
-    $string['tabsubmissionspage1'] = 'Tablero'; // Maybe 'Overview' is better?
-    $string['tabsubmissionspage2'] = 'Respuestas';
-    $string['tabsubmissionspage3'] = 'Insertar';
-    $string['tabsubmissionspage4'] = 'Editar';
-    $string['tabsubmissionspage5'] = 'Solo lectura';
-    $string['tabsubmissionspage6'] = 'Buscar';
-    $string['tabsubmissionspage7'] = 'Reportes';
-    $string['tabsubmissionspage8'] = 'Importar';
-    $string['tabsubmissionspage9'] = 'Exportar';
-$string['tabutemplatename'] = 'Plantillas del usuario';
-    $string['tabutemplatepage1'] = 'Gestionar';
-    $string['tabutemplatepage2'] = 'Guardar';
-    $string['tabutemplatepage3'] = 'Importar';
-    $string['tabutemplatepage4'] = 'Aplicar';
-$string['tabmtemplatename'] = 'Plantillas maestras';
-    $string['tabmtemplatepage1'] = 'Guardar';
-    $string['tabmtemplatepage2'] = 'Aplicar';
+// $string['surveypro_view'] = 'Use';
+    $string['surveypro_dashboard'] = 'Tablero'; // Maybe 'Overview' is better?
+    $string['surveypro_responses'] = 'Respuestas';
+    $string['surveypro_insert'] = 'Insertar';
+    $string['surveypro_edit'] = 'Editar';
+    $string['surveypro_readonly'] = 'Solo lectura';
+    $string['surveypro_view_search'] = 'Buscar';
+$string['layout'] = 'Diseño';
+    $string['layout_preview'] = 'Previsualización';
+    $string['layout_items'] = 'Elementos';
+    $string['layout_itemsetup'] = 'Configuración de elemento';
+    $string['layout_branchingvalidation'] = 'Validación ramificada';
+$string['reports'] = 'Reportes';
+$string['tools'] = 'Tools';
+    $string['tools_import'] = 'Importar';
+    $string['tools_export'] = 'Exportar';
+$string['utemplate'] = 'User plantillas';
+    $string['utemplate_manage'] = 'Gestionar';
+    $string['utemplate_save'] = 'Guardar';
+    $string['utemplate_import'] = 'Importar';
+    $string['utemplate_apply'] = 'Aplicar';
+$string['mtemplate'] = 'Master plantillas';
+    $string['mtemplate_save'] = 'Guardar';
+    $string['mtemplate_apply'] = 'Aplicar';
 
 $string['action_help'] = 'Operar sobre elementos que ya están presentes en la encuesta con la acción siguiente.';
 $string['action'] = 'Elementos pre-existentes';
@@ -76,7 +77,7 @@ $string['attemptinfo'] = 'Información de encuesta y respuestas';
 $string['availability'] = 'Disponibilidad';
 $string['availability_fs'] = 'Disponibilidad';
 $string['available_title'] = 'Elemento de acceso libre. Haga clic para reservar.';
-$string['badchildparentvalue'] = 'Condición malformada: "{$a}".<br />Podría ser que nunca sea verificada.';
+$string['badchildparentvalue'] = 'Condición malformada: "{$a}".<br>Podría ser que nunca sea verificada.';
 $string['badtablenamefound'] = 'Error de procesamiento al leer XML. "{$a}" se ha encontrado como nombre de tabla y, lo más probable, es inválido.';
 $string['basic_editthanks'] = 'Gracias. ¡Su respuesta ha sido modificada exitosamente!';
 $string['basic_submitthanks'] = 'Gracias. ¡Su respuesta ha sido enviada exitosamente!';
@@ -110,23 +111,23 @@ $string['confirm_deleteallresponses'] = '¿Está seguro de querer eliminar TODAS
 $string['confirm_deletechainitems'] = 'El elemento actual tiene elemento(s) hijo(s) que también van a ser eliminados. La posición del/de los elemento(s) hijo es: {$a}.';
 $string['confirm_deletehiddenitems'] = '¿Confirma la eliminación de TODOS los elementos  ocultos?';
 $string['confirm_deletevisibleitems'] = '¿Confirma  la eliminación de TODOS los elementos  visibles?';
-$string['confirm_dropmultilang'] = 'La encuesta actual soporta multi-idioma como importación desde una plantilla maestra.<br />Esto significa que la encuesta muestra preguntas y etiquetas de acuerdo al idioma preferido del usuario (si estuviera disponible).<br />Al editar este tipo de encuesta, Usted perderá el soporte multi-idioma, regresando a las etiquetas indiferenciadas estándares para toda la encuesta.<br />Sea advertido de que una vez que pierda el soporte multi-idioma dado al generar nuevamente una plantilla maestra, Usted ya no tendrá idiomas faltantes y, finalmente, la pérdida del soporte multi-idioma no puede deshacerse.<br />\'Está Usted seguro de querer editar esta encuesta multi-idioma?';
+$string['confirm_dropmultilang'] = 'La encuesta actual soporta multi-idioma como importación desde una plantilla maestra.<br>Esto significa que la encuesta muestra preguntas y etiquetas de acuerdo al idioma preferido del usuario (si estuviera disponible).<br>Al editar este tipo de encuesta, Usted perderá el soporte multi-idioma, regresando a las etiquetas indiferenciadas estándares para toda la encuesta.<br>Sea advertido de que una vez que pierda el soporte multi-idioma dado al generar nuevamente una plantilla maestra, Usted ya no tendrá idiomas faltantes y, finalmente, la pérdida del soporte multi-idioma no puede deshacerse.<br>\'Está Usted seguro de querer editar esta encuesta multi-idioma?';
 $string['confirm_duplicateotherresponse_original'] = '¿Está seguro de querer duplicar la respuesta peerteneciente a {$a->fullname}, creada en {$a->timecreated} y nunca modificada?';
 $string['confirm_duplicateotherresponse_modified'] = '¿Está  seguro de querer duplicar la respuesta peerteneciente a {$a->fullname}, creada en {$a->timecreated} y modificada en {$a->timemodified}?';
 $string['confirm_duplicatemyresponse_modified'] = '¿Está seguro de querer duplicar la respuesta creada en {$a->timecreated} y modificada en {$a->timemodified}?';
 $string['confirm_duplicatemyresponse_original'] = '¿Está seguro de querer duplicar la respuesta creada en {$a->timecreated} y nunca modificada?';
-$string['confirm_free1item'] = 'Liberando al elemento "{$a->itemcontent}" Usted va a liberar a su ancestro.<br />Ancestro es el elemento en posición: {$a->ancestors}.<br />¿Confirma Usted esta acción?';
-$string['confirm_freechainitems_newparent'] = 'Haciendo disponible el elemento "{$a->itemcontent}", todas las dependencias del elemento "{$a->parentcontent}" serán hechas disponibles también.<br />So, Además del elemento seleccionado, Usted va a hacer disponiblees los elementos en posición: {$a->dependencies}.<br />¿Confirma esta acción?';
-$string['confirm_freechainitems'] = 'Haciendo disponible el elemento "{$a->itemcontent}" Usted va a hacer disponible todas sus dependencias.<br />Las dependencias son los elementos en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
-$string['confirm_hide1item'] = 'Ocultando al elementot "{$a->itemcontent}" su dependencia se ocultará también.<br />Dependencia es el elemento en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
+$string['confirm_free1item'] = 'Liberando al elemento "{$a->itemcontent}" Usted va a liberar a su ancestro.<br>Ancestro es el elemento en posición: {$a->ancestors}.<br>¿Confirma Usted esta acción?';
+$string['confirm_freechainitems_newparent'] = 'Haciendo disponible el elemento "{$a->itemcontent}", todas las dependencias del elemento "{$a->parentcontent}" serán hechas disponibles también.<br>So, Además del elemento seleccionado, Usted va a hacer disponiblees los elementos en posición: {$a->dependencies}.<br>¿Confirma esta acción?';
+$string['confirm_freechainitems'] = 'Haciendo disponible el elemento "{$a->itemcontent}" Usted va a hacer disponible todas sus dependencias.<br>Las dependencias son los elementos en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
+$string['confirm_hide1item'] = 'Ocultando al elementot "{$a->itemcontent}" su dependencia se ocultará también.<br>Dependencia es el elemento en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
 $string['confirm_hideallitems'] = '¿Confirma el ocultamiento de TODOS los elementos?';
-$string['confirm_hidechainitems'] = 'Al ocultar el elementot "{$a->itemcontent}" todas sus dependencias se ocultarán también.<br />Dependencias son los elementos en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
-$string['confirm_reserve1item'] = 'Al reservar el elemento {$a->parentcontent}, Usted también va a reservar sus dependencias.<br />Dependencia es el elemento en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
-$string['confirm_reservechainitems_newparent'] = 'Al reservar el elemento "{$a->itemcontent}", Usted también va a reservar las dependencias del elemento "{$a->parentcontent}" .<br />Así, además del elemento elegido, Usted va a reservar los elementos en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
-$string['confirm_reservechainitems'] = 'Al reservar el elemento "{$a->itemcontent}" Usted también va a reservar todas sus dependencias.<br />Dependencias son los elementos en posición: {$a->dependencies}.<br />¿Confirma Usted esta acción?';
-$string['confirm_show1item'] = 'Mostrando el elemento {$a->lastitem}, Usted va a mostrar a su ancestro.<br />Ancestro es el elemento en posición: {$a->ancestors}.<br />¿Confirma Usted esta acción?';
+$string['confirm_hidechainitems'] = 'Al ocultar el elementot "{$a->itemcontent}" todas sus dependencias se ocultarán también.<br>Dependencias son los elementos en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
+$string['confirm_reserve1item'] = 'Al reservar el elemento {$a->parentcontent}, Usted también va a reservar sus dependencias.<br>Dependencia es el elemento en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
+$string['confirm_reservechainitems_newparent'] = 'Al reservar el elemento "{$a->itemcontent}", Usted también va a reservar las dependencias del elemento "{$a->parentcontent}" .<br>Así, además del elemento elegido, Usted va a reservar los elementos en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
+$string['confirm_reservechainitems'] = 'Al reservar el elemento "{$a->itemcontent}" Usted también va a reservar todas sus dependencias.<br>Dependencias son los elementos en posición: {$a->dependencies}.<br>¿Confirma Usted esta acción?';
+$string['confirm_show1item'] = 'Mostrando el elemento {$a->lastitem}, Usted va a mostrar a su ancestro.<br>Ancestro es el elemento en posición: {$a->ancestors}.<br>¿Confirma Usted esta acción?';
 $string['confirm_showallitems'] = '¿Confirma el mostrar TODOS los elementos  ?';
-$string['confirm_showchainitems'] = 'Mostrando el elemento {$a->lastitem}, Usted va a mostrar todos sus ancestros.<br />Ancestros son los elementos en posición: {$a->ancestors}.<br />¿Confirma Usted esta acción?';
+$string['confirm_showchainitems'] = 'Mostrando el elemento {$a->lastitem}, Usted va a mostrar todos sus ancestros.<br>Ancestros son los elementos en posición: {$a->ancestors}.<br>¿Confirma Usted esta acción?';
 $string['content_editor_err'] = 'El contenido es obligatorio';
 $string['content_editor_help'] = 'El contenido del elemento tal como será mostrado al usuario remoto.';
 $string['content_editor'] = 'Contenido';
@@ -138,7 +139,7 @@ $string['count_hiddenitems'] = '({$a} ocultos)';
 $string['count_pages'] = 'Dividida en {$a} páginas.';
 $string['course'] = 'Curso';
 $string['crontask'] = 'Trabajos de mantenimiento de Surveypro';
-$string['currenttotemplate'] = 'Guardar encuesta actual como plantilla maestra en formato ZIP.<br />Para instalar una plantilla maestra, descomprímala a mod/surveypro/template/ y visite la página de notificaciones.';
+$string['currenttotemplate'] = 'Guardar encuesta actual como plantilla maestra en formato ZIP.<br>Para instalar una plantilla maestra, descomprímala a mod/surveypro/template/ y visite la página de notificaciones.';
 $string['customnumber_header'] = '#';
 $string['customnumber_help'] = 'Use este campo para darle un número personalizado al elemento. Puede ser un número natural como 1 o cualquier otro que Usted necesite: 1a, A, 1.1.a, #1, A, A.1... Tome en cuenta que Usted es responsable por la coherencia de esos números. Debido a esto, tenga cuidado si Usted planea cambiar el orden de los elementos.';
 $string['customnumber'] = 'Elemento número';
@@ -219,9 +220,9 @@ $string['formatplugin'] = 'Plugin de formato';
 $string['free'] = 'libre';
 $string['fullwidth'] = 'superior izquierdo (ancho completo)';
 $string['gotolist'] = 'Continuar hacia lista de respuestas';
-$string['hassubmissions_alert_activitycompletion'] = '<br />Simplemente añadiendo un nuevo elemento o cambiando la visibilidad a uno de los conjuntos de elementos existentes CAMBIARÁ el estatus de finalización de actividad de estudiantes. <br />Usted ha sido advertido.';
-$string['hassubmissions_alert'] = 'Esta encuesta ya ha sido contestada al menos una vez.<br />Por favor proceda con extrema cautela y sólamente haga cambios neutros que no comprometan la validez de toda la encuesta.';
-$string['hassubmissions_danger'] = '<br />Las respuestas "En progreso"...<ul><li>están sujetas a eliminación en 4 horas si no estuvierapermitido guardar/continuar;</li><li>están sujetas a eliminación en el número de horas configurado en la página de configuraciones de surveypro settings page si gguardar/continuar está permitido.</li></ul>';
+$string['hassubmissions_alert_activitycompletion'] = '<br>Simplemente añadiendo un nuevo elemento o cambiando la visibilidad a uno de los conjuntos de elementos existentes CAMBIARÁ el estatus de finalización de actividad de estudiantes. <br>Usted ha sido advertido.';
+$string['hassubmissions_alert'] = 'Esta encuesta ya ha sido contestada al menos una vez.<br>Por favor proceda con extrema cautela y sólamente haga cambios neutros que no comprometan la validez de toda la encuesta.';
+$string['hassubmissions_danger'] = '<br>Las respuestas "En progreso"...<ul><li>están sujetas a eliminación en 4 horas si no estuvierapermitido guardar/continuar;</li><li>están sujetas a eliminación en el número de horas configurado en la página de configuraciones de surveypro settings page si gguardar/continuar está permitido.</li></ul>';
 $string['hidden_help'] = 'Use esta opción para ocultar el elemento. Los elementos ocultos no estarán disponibles para nadie. Usted puede considerar a estos elementos como que no son parte de la encuesta.';
 $string['hidden'] = 'Oculto';
 $string['hideallitems'] = 'Ocultar todos los elementos';
@@ -237,25 +238,25 @@ $string['ierr_missingparentcontent'] = 'Usted necesita especificar un contenido 
 $string['ierr_missingparentid'] = 'Usted necesita seleccionar un elemento para ramificar la encuesta. De lo contario, vaciar el campo "{$a}"';
 $string['ierr_notalloweddefault'] = '"{$a}" no es un valor predeterminado permitido para elementos "requeridos"';
 $string['ignoreitems'] = 'Ignorar';
-$string['import_attachmentsnotallowed'] = 'Parece que Usted está tratando de importar anexos para los siguientes elementos:{$a}<br />Esto no está permitido al momento.';
+$string['import_attachmentsnotallowed'] = 'Parece que Usted está tratando de importar anexos para los siguientes elementos:{$a}<br>Esto no está permitido al momento.';
 $string['import_breakingmaxentries'] = 'La importación asignará {$a->totalentries} respuestas al usuario con ID {$a->userid}. Esto excede el número máximo permitido que ha sido configurado a {$a->maxentries}';
 $string['import_columnscountchanges'] = 'El número de las columnas cambia en el archivo';
 $string['import_duplicateheader'] = 'El encabezado "{$a}" fue encontrado, al menos, dos veces';
-$string['import_emptyrequiredvalue'] = 'La cadena de caracteres vacía en la columna {$a->col} no está permitida. La contestación al elemento "{$a->plugin}" :<br />{$a->content} es necesaria.<br />La fila culpable es:<br />"{$a->row}"';
-$string['import_extraheaderfound'] = 'Algunos campos en el archivo seleccionado no se encontraron entre las variables de este surveypro.<br />Ellos son:{$a}';
+$string['import_emptyrequiredvalue'] = 'La cadena de caracteres vacía en la columna {$a->col} no está permitida. La contestación al elemento "{$a->plugin}" :<br>{$a->content} es necesaria.<br>La fila culpable es:<br>"{$a->row}"';
+$string['import_extraheaderfound'] = 'Algunos campos en el archivo seleccionado no se encontraron entre las variables de este surveypro.<br>Ellos son:{$a}';
 $string['import_invalidtimecreated'] = 'La hora_de_creación (timecreated "{$a}" es inválida';
 $string['import_invalidtimemodified'] = 'La hora_de_modificación (timemodified) "{$a}" es inválida';
 $string['import_invaliduserid'] = 'El userid "{$a}" es inválido';
 $string['import_missingheaders'] = '{$a->childheader} (era esperado: {$a->missingparentheader})';
 $string['import_missingtimecreated'] = 'Hora de creación vacía es inválida';
 $string['import_missinguserid'] = 'Userid vacío es inválido';
-$string['import_noanswertorequired'] = 'El valor "{$a->value}" encontrado en la columna {$a->col} no está permitido. La contestación al "{$a->plugin}" elemento :<br />{$a->content} es necesaria.<br />La fila culpable es:<br />"{$a->row}"';
-$string['import_nullnotallowed'] = 'El valor "{$a->value}" encontrado en la columna {$a->col}no está permitido. La contestación al "{$a->plugin}" elemento :<br />{$a->content} no puede ser nula porque el elemento no está prohibido por su padre en esta respuesta.<br />La fila culpable es:<br />"{$a->row}"';
-$string['import_nullwithoutparent'] = 'El valor "{$a->value}" encontrado en la columna {$a->col} no está permitido. La contestación al "{$a->plugin}" elemento:<br />{$a->content} no puede ser nula porque el elemento no está condicionado por una relación padre/hijo.<br />La fila culpable es:<br />"{$a->row}"';
-$string['import_orphanchild'] = 'Parece que los siguientes elementos hijos son huérfanos:{$a}<br />Las respuestas no serán importadas.';
-$string['import_positionnotinteger'] = 'La posición "{$a->position}" para el "{$a->plugin}" elemento:<br />{$a->content} encontrado en la columna {$a->csvcol} no es un número entero.{$a->prettywarning}';
-$string['import_positionoutofbound'] = 'La posición "{$a->position}" para el "{$a->plugin}" elemento:<br />{$a->content} encontrado en la columna {$a->csvcol} está fuera de los límites. Los límites son: "{$a->bounds}".{$a->prettywarning}';
-$string['import_prettywarning'] = '<br /><br />¿Está Usted seguro de que está importando datos crudos y no un archivo bonito con estilo ?';
+$string['import_noanswertorequired'] = 'El valor "{$a->value}" encontrado en la columna {$a->col} no está permitido. La contestación al "{$a->plugin}" elemento :<br>{$a->content} es necesaria.<br>La fila culpable es:<br>"{$a->row}"';
+$string['import_nullnotallowed'] = 'El valor "{$a->value}" encontrado en la columna {$a->col}no está permitido. La contestación al "{$a->plugin}" elemento :<br>{$a->content} no puede ser nula porque el elemento no está prohibido por su padre en esta respuesta.<br>La fila culpable es:<br>"{$a->row}"';
+$string['import_nullwithoutparent'] = 'El valor "{$a->value}" encontrado en la columna {$a->col} no está permitido. La contestación al "{$a->plugin}" elemento:<br>{$a->content} no puede ser nula porque el elemento no está condicionado por una relación padre/hijo.<br>La fila culpable es:<br>"{$a->row}"';
+$string['import_orphanchild'] = 'Parece que los siguientes elementos hijos son huérfanos:{$a}<br>Las respuestas no serán importadas.';
+$string['import_positionnotinteger'] = 'La posición "{$a->position}" para el "{$a->plugin}" elemento:<br>{$a->content} encontrado en la columna {$a->csvcol} no es un número entero.{$a->prettywarning}';
+$string['import_positionoutofbound'] = 'La posición "{$a->position}" para el "{$a->plugin}" elemento:<br>{$a->content} encontrado en la columna {$a->csvcol} está fuera de los límites. Los límites son: "{$a->bounds}".{$a->prettywarning}';
+$string['import_prettywarning'] = '<br><br>¿Está Usted seguro de que está importando datos crudos y no un archivo bonito con estilo ?';
 $string['import_rawwarning'] = '(Advertencia: Los archivos con nombre de propietario no pueden ser re-importados)';
 $string['importfile'] = 'Elegir archivos a importar';
 $string['importusertemplates'] = '<a href="{$a}">Importar plantilas de usuario</a>';
@@ -279,7 +280,7 @@ $string['keepinprogress'] = 'Conservar respuestas "en progreso" ';
 $string['keepinprogress_help'] = 'No eliminar respuestas "en progreso" aún a pesar de política del módulo. Las respuestas "En progreso" se suponía que fueran descartadas para garantizar siempre una buena confibilidad a la base de datos final. Si, por cualquier razón, Usted necesitara colectartambién las respuestas "en progreso" , active esta casilla.';
 $string['left'] = 'izquierda';
 $string['likelast'] = 'Como la última respuesta';
-$string['mailcontenteditor_help'] = 'El contenido del mensaje personalizado que será enviado al momento del envío de la respuesta. Si se solicita un correo de notificación al momento de envío de la respuesta y este mensaje no es proporcionado, se usará el contenido predeterminado del Email.<br /><br />Use:<ul><li>{FIRSTNAME}</li><li>{LASTNAME}</li><li>{FULLNAME}</li><li>{COURSENAME}</li><li>{SURVEYPRONAME}</li><li>{SURVEYPROURL}</li></ul>para obtener<ul><li>el nombre del usuario</li><li>los apellidos</li><li>el nombre completo del usuario</li><li>the name of the course</li><li>the name of this surveypro</li><li>la url de este surveypro</li></ul>Tenga cuidado: el mensaje predeterminado es multi-idioma, su mensaje personalizado será usado tal como Usted  lo escriba y nunca será traducido.';
+$string['mailcontenteditor_help'] = 'El contenido del mensaje personalizado que será enviado al momento del envío de la respuesta. Si se solicita un correo de notificación al momento de envío de la respuesta y este mensaje no es proporcionado, se usará el contenido predeterminado del Email.<br><br>Use:<ul><li>{FIRSTNAME}</li><li>{LASTNAME}</li><li>{FULLNAME}</li><li>{COURSENAME}</li><li>{SURVEYPRONAME}</li><li>{SURVEYPROURL}</li></ul>para obtener<ul><li>el nombre del usuario</li><li>los apellidos</li><li>el nombre completo del usuario</li><li>the name of the course</li><li>the name of this surveypro</li><li>la url de este surveypro</li></ul>Tenga cuidado: el mensaje predeterminado es multi-idioma, su mensaje personalizado será usado tal como Usted  lo escriba y nunca será traducido.';
 $string['mailcontenteditor'] = 'Mensaje de notificación';
 $string['mailcontentdefault'] = 'Usuario {FULLNAME} añadió una respuesta a "{SURVEYPRONAME}"';
 $string['mailextraaddresses_help'] = 'Algunas direcciones de Email a notificarles acerca de nuevas respuestas. Las direcciones se supone que son una por fila.';
@@ -292,11 +293,11 @@ $string['managesurveyproreportplugins'] = 'Gestionar plugins de reporte';
 $string['managesurveyprotemplateplugins'] = 'Gestionar plugins de plantilla';
 $string['manageusertemplates'] = '<a href="{$a}">Gestionar plantillas de usuario</a>';
 $string['mastertemplate_help'] = 'Elija una plantilla maestra, como por ejemplo una de las clásicas proporcionadas por defecto, o una personalizada añadida a esta instancia de surveypro. Los tipos de encuesta clásicos son:<ul>
-<li>ATTLS: Attitudes To Thinking and Learning Survey (Encuesta de Actitudes Hacia el Pensamiento y Aprendizaje).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
-<li>COLLES: Constructivist On-Line Learning Environment Survey (Encuesta Constructivista de Ambiente de Aprendizaje En-Línea).<br />Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
-<li>INCIDENTES CRÍTICOS.<br />ara más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
+<li>ATTLS: Attitudes To Thinking and Learning Survey (Encuesta de Actitudes Hacia el Pensamiento y Aprendizaje).<br>Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
+<li>COLLES: Constructivist On-Line Learning Environment Survey (Encuesta Constructivista de Ambiente de Aprendizaje En-Línea).<br>Para más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
+<li>INCIDENTES CRÍTICOS.<br>ara más detalles, vea la documentación en <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplate'] = 'Plantillas maestras';
-$string['mastertemplateaddendum'] = '<br />Usted no puede aplicar esta plantilla_maestra hasta que la des-instale, le arregle todos los problemas y la re-instale.';
+$string['mastertemplateaddendum'] = '<br>Usted no puede aplicar esta plantilla_maestra hasta que la des-instale, le arregle todos los problemas y la re-instale.';
 $string['mastertemplatename_help'] = 'Elija el nombre de la plantilla maestra que será descargada en formato ZIP.';
 $string['mastertemplatename'] = 'Nombre de plantilla maestra';
 $string['mastertemplateplugin'] = 'Plugin de plantilla maestra';
@@ -308,8 +309,8 @@ $string['missingfile'] = 'Al parecer no se seleccionó ningun archivo';
 $string['missingitemplugin'] = 'A uno o más ítems de la plantilla les falta el plugin';
 $string['missingitemtype'] = 'A uno o más ítems de la plantilla les falta el tipo';
 $string['missingitemversion'] = 'A uno o más ítems de la plantilla les falta la versión';
-$string['missingmandatory'] = 'No se ha encontrado alguna contestación obligatoria de esta respuesta. Por esto, las respuestas generales se han marcado como "{$a}".<br />Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
-$string['missingvalidation'] = 'Algunas contestaciones de esta respuesta han sido encontradas como no-verificadas. Por esto, la respuesta general la sido marcada como "{$a}".<br />Sus datos no son necesariamente incorrectos, pero necesitan validación antes del almacenamiento definitivo.<br />Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
+$string['missingmandatory'] = 'No se ha encontrado alguna contestación obligatoria de esta respuesta. Por esto, las respuestas generales se han marcado como "{$a}".<br>Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
+$string['missingvalidation'] = 'Algunas contestaciones de esta respuesta han sido encontradas como no-verificadas. Por esto, la respuesta general la sido marcada como "{$a}".<br>Sus datos no son necesariamente incorrectos, pero necesitan validación antes del almacenamiento definitivo.<br>Para corregir este problema, por favor edite la respuesta y revise los contenidos de los ítems página por página.';
 $string['module'] = 'Esta instancia de encuesta';
 $string['modulesettinghdr'] = 'Configuraciones de Encuestapro (Surveypro)';
 $string['mtemplatessection'] = 'Sección de plantillas maestras';
@@ -320,10 +321,10 @@ $string['newsubmissionsubject'] = 'Nueva respuesta';
 $string['nextformpage'] = 'Página siguiente >>';
 $string['noanswer'] = 'Sin contestación';
 $string['noattachmentfound'] = 'No se han encontrado adjuntos';
-$string['noitemsfound'] = 'Esta plantilla aun es un trabajo en progreso.<br />Por favor inténtelo nuevamente despues.';
+$string['noitemsfound'] = 'Esta plantilla aun es un trabajo en progreso.<br>Por favor inténtelo nuevamente despues.';
 $string['noitemsfoundadmin'] = 'Esta plantilla no tiene elementos. Por favor añádalos desde "{$a}".';
-$string['nomoreitems'] = 'Con base en las contestaciones proporcionadas, ya no quedan más elementos para mostrar.<br />Su encuesta está terminada. Usted solamente necesita enviar {$a}.';
-$string['nomoresubmissionsallowed'] = 'El número máximo de {$a} respuestas ya fue alcanzado.<br />No se permiten más intentos';
+$string['nomoreitems'] = 'Con base en las contestaciones proporcionadas, ya no quedan más elementos para mostrar.<br>Su encuesta está terminada. Usted solamente necesita enviar {$a}.';
+$string['nomoresubmissionsallowed'] = 'El número máximo de {$a} respuestas ya fue alcanzado.<br>No se permiten más intentos';
 $string['nomtemplates'] = 'Faltan plantillas maestras';
 $string['nomtemplates_help'] = 'El creador del curso probablemente negó la instalación de cada plantilla maestra. Contacte a su creador del curso para más detalles.';
 $string['nomtemplates_message'] = 'Lo sentimos. No aparece ninguna plantilla maestra disponible en esta instancia de sitio Moodle.';
@@ -347,7 +348,7 @@ $string['parentelement_help'] = 'El elemento cuya respuesta, durante la compilac
 $string['parentelement_title'] = 'Elemento paterno';
 $string['parentformat'] = 'Defina el formato "{$a->fieldname}" tal y como se muestra aquí: {$a->examples}';
 $string['parentid_header'] = 'Relación';
-$string['parentid_help'] = 'Los elementos paternos le permiten a Usted crear ramificación condicional. Los elementos atenuados en la lista identifican elementos paternos ocultos. Muéstrelos para tenerlos disponibles en la lista.<br />Elementos precedidos por un asterisco se supone que pertenecen SOLAMENTE a formato reservado.';
+$string['parentid_help'] = 'Los elementos paternos le permiten a Usted crear ramificación condicional. Los elementos atenuados en la lista identifican elementos paternos ocultos. Muéstrelos para tenerlos disponibles en la lista.<br>Elementos precedidos por un asterisco se supone que pertenecen SOLAMENTE a formato reservado.';
 $string['parentid'] = 'Elemento paterno';
 $string['pause'] = 'Pausa';
 $string['pauseresume'] = 'Permitir Guardar/Continuar';
@@ -469,10 +470,9 @@ $string['top'] = 'superior';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'Traducción al Inglés de la cadena de caracteres correspondiente del archivo de idioma "{$a->userlang}" \';';
 $string['trimonsave'] = 'Contestación limpia al momento de guardar';
 $string['trimonsave_help'] = 'Eliminar espacios sobrantes al principio y final de la entrada del usuario.';
-$string['type'] = 'Tipo';
+$string['typeplugin'] = 'Tipo';
 $string['typefield'] = 'Campos';
 $string['typeformat'] = 'Formatos';
-$string['typeplugin'] = 'Elementos';
 $string['typeplugin_help'] = 'Esta es la lista de elementos disponibles. Los elementos de la encuesta son de dos tipos: tipo "campo" y tipo "formato". Elija el elemento que mejor se adapte a sus necesidades.';
 $string['uerr_willbetrimmed'] = 'La contestación será limpiada de espacios sobrantes';
 $string['unavailableelement_title'] = 'Elemento no disponible. Des-ocúltelo para hacerlo disponible.';
@@ -495,26 +495,26 @@ $string['verbose'] = 'Bonito (para lectura por humanos)';
 $string['versionmismatch'] = 'No concuerda versión para plugin {$a->plugin} {$a->type}. La plantilla usa la versión: {$a->currentversion} mientras que su  plugin surveypro usa la versión {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Incluir en la plantilla solamente elementos visibles.';
 $string['visiblesonly'] = 'Solamente elementos visibles';
-$string['welcome_emptysurvey'] = 'Para crear una encuesta nueva Usted puede añadir elementos de-uno-en-uno para construir la encuesta que mejor se acomode a sus necesidades<br />o aplicar una plantilla maestra para tener una encuesta estandar completa de un jalón.';
-$string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br />
+$string['welcome_emptysurvey'] = 'Para crear una encuesta nueva Usted puede añadir elementos de-uno-en-uno para construir la encuesta que mejor se acomode a sus necesidades<br>o aplicar una plantilla maestra para tener una encuesta estandar completa de un jalón.';
+$string['welcome_dataexport'] = 'Use esta página para exportar respuestas de esta encuesta. <br>
 Están disponibles tanto un formato de software estadístico como uno más legible por humanos. El contenido exportable depende del "{$a}" elegido para cada elemento (si estuviera disponible).';
-$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br />
-Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br />
-Actualmente no está permitida la importación de elementos anexos.<br />
-Los encabezados desconocidos romperán el proceso de importación.<br />
-"Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br />
-Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br />
-Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br />
-Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br />
+$string['welcome_dataimport'] = 'Use esta página para importar respuestas a esta encuesta. <br>
+Los encabezados del archivo CSV a importar se supone que coinciden con los  "nombres de variables" de los elementos de la encuesta.<br>
+Actualmente no está permitida la importación de elementos anexos.<br>
+Los encabezados desconocidos romperán el proceso de importación.<br>
+"Ownerid" (ID_del_propietario) puede ser incluido entre los encabezados. Asignará la propiedad de cada respuesta importada (aunque la encuesta fuese anónima).<br>
+Si falta la columna de "Ownerid" en el archivo CSV, las respuestas importadas serán automáticamente asignadas al usuario que está ejecutando la importación.<br>
+Se permite la importación de archivos CSV a los que les falten elementos requeridos, pero si fueran incluídos, estos deben de poseer valores válidos y no-vacíos.<br>
+Los archivos de importación a los que les falten elementos requeridos están permitidos y las respuestas importadas serán marcadas como "in progress" (en progreso).<br>
 El proceso de importación se rompe si condujese a exceder el número máximo de respuestas permitidas a los usuarios (si estuviera configurado)';
-$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br />
+$string['welcome_mtemplateapply'] = 'Usted puede construir su encuesta aplicando un conjunto de elementos tomados de una plantilla maestra.<br>
 Tenga cuidado: todoslos demás elementos pre-existentes (si hubiera) serán eliminados definitivamente JUNTO CON TODOS LOS DATOS QUE YA HABÍAN COLECTADO.';
 $string['welcome_relationvalidation'] = 'Este reporte le permite a Usted verificar la confiabilidad de la encuesta actual. Revisa la validez de cada relación padre-hijo, marcando las malas relaciones, que nunca le permitirían al elemento hijo ser parte de la encuesta, con un mensaje en la columna "{$a}".';
-$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br />
+$string['welcome_utemplateapply'] = 'Usted puede construir sus encuestas aplicando un conjunto de elementos tomados de una plantilla maestra.<br>
 Las plantillas de usuario ya deberían de haberse subido desde la página "{$a->uploadpage}" o guardadas desde la página  "{$a->savepage}".';
-$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br />
+$string['welcome_utemplateimport'] = 'Usted puede importar plantillas de usuario para aplicarlas después.<br>
 Las plantillas de usuario son archivos  XML como los que Usted puede guardar desde la página "{$a}".';
-$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br />
+$string['welcome_utemplatesave'] = 'Guardar una plantilla de usuario con la estructura de la encuesta actual.<br>
 Las plantillas de usuario son útiles para añadir rápidamente a su encuesta conjuntos estáticos de ítems pre-definidos. En cualquier momento Usted puede descargarlas y compartirlas con otros usuarios de Moodle o re-utilizarlas en sus propias encuestas. Sea cuidadoso con el "{$a}" si Usted quiere re-utilizar sus plantillas sin descargarlas y subirlas otra vez.';
 $string['willclose'] = 'Hora de cierre';
 $string['willopen'] = 'Esta encuesta se abrirá en';
@@ -523,7 +523,7 @@ $string['wrong_sharinglevel_found'] = '$sharinglevel = "{$a->sharinglevel}" inv�
 $string['wrong_userdatarec_found'] = '$userdatarec = \'{$a}\' inválida no ha sido remplazada';
 $string['wrongrelation'] = '"{$a}" nunca coincidirá';
 $string['xmltemplate_help'] = 'Elija la plantilla que quiera descargar como archivo ZIP para compartirlo con otros usuarios de Moodle.';
-$string['xsdnotfound'] = 'No se encontró esquema de validación XSD para su plantilla XML<br />Su código necesita ser arreglado por un desarrollador';
+$string['xsdnotfound'] = 'No se encontró esquema de validación XSD para su plantilla XML<br>Su código necesita ser arreglado por un desarrollador';
 $string['yoursubmissions'] = 'Sus respuestas \'{$a->status}\': {$a->responsescount}';
 
 $string['privacy:metadata:submission'] = 'Respuestas a surveypros.';

@@ -35,7 +35,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplatecreateform extends \moodleform {
+class utemplate_createform extends \moodleform {
 
     /**
      * Definition.
@@ -72,10 +72,11 @@ class utemplatecreateform extends \moodleform {
 
         // Utemplatecreate: sharinglevel.
         $fieldname = 'sharinglevel';
-        $options = array();
-
-        $options = $utemplateman->get_sharinglevel_options();
-
+        $contexts = $utemplateman->get_sharingcontexts();
+        $options = [];
+        foreach ($contexts as $context) {
+            $options[$context->id] = $utemplateman->contextlevel_to_scontextlabel($context->contextlevel);
+        }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->setDefault($fieldname, CONTEXT_SYSTEM);
@@ -119,26 +120,29 @@ class utemplatecreateform extends \moodleform {
 
         $errors = parent::validation($data, $files);
 
-        // Get all template files.
-        $contextid = $utemplateman->get_contextid_from_sharinglevel($data['sharinglevel']);
-        $componentfiles = $utemplateman->get_available_templates($contextid);
-
+        // Add the extension to the file name whether missing.
         $comparename = str_replace(' ', '_', $data['templatename']);
         if (!preg_match('~\.xml$~', $comparename)) {
             $comparename .= '.xml';
         }
 
-        foreach ($componentfiles as $xmlfile) {
-            if ($xmlfile->get_filename() == $comparename) {
-                if (isset($data['overwrite'])) {
-                    $xmlfile->delete();
-                } else {
-                    $a = new \stdClass();
-                    $a->filename = $comparename;
-                    $a->overwrite = get_string('overwrite', 'mod_surveypro');
-                    $errors['templatename'] = get_string('enteruniquename', 'mod_surveypro', $a);
+        // Get all template files.
+        $xmlfiles = $utemplateman->get_xmlfiles_list($data['sharinglevel']);
+
+        foreach ($xmlfiles as $contextid => $xmlfile) {
+            foreach ($xmlfiles[$contextid] as $xmlfile) {
+                $existingname = $xmlfile->get_filename();
+                if ($existingname == $comparename) {
+                    if (isset($data['overwrite'])) {
+                        $xmlfile->delete();
+                    } else {
+                        $a = new \stdClass();
+                        $a->filename = $comparename;
+                        $a->overwrite = get_string('overwrite', 'mod_surveypro');
+                        $errors['templatename'] = get_string('enteruniquename', 'mod_surveypro', $a);
+                    }
+                    break;
                 }
-                break;
             }
         }
 

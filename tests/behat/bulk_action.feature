@@ -1,5 +1,5 @@
 @mod @mod_surveypro
-Feature: Test bulk actions
+Feature: test bulk actions
   In order to validate each action issues through inline icons
   As teacher1
   I issue them and verify the outcome.
@@ -41,21 +41,21 @@ Feature: Test bulk actions
       | format | fieldsetend |
 
     And I am on the "Test bulk item actions" "surveypro activity" page
-    And I follow "Layout" page in tab bar
+    And I follow "Layout"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items
 
     And I set the field "bulkaction" to "Hide all elements"
     And I press "Go"
-    And I press "Continue"
+    And I press "Hide each element"
 
     Then I should see "0" visible items
     Then I should see "22" hidden items
 
     And I set the field "bulkaction" to "Show all elements"
     And I press "Go"
-    And I press "Continue"
+    And I press "Show each element"
 
     Then I should see "22" visible items
     Then I should see "0" hidden items
@@ -77,7 +77,7 @@ Feature: Test bulk actions
 
     And I set the field "bulkaction" to "Delete hidden elements"
     And I press "Go"
-    And I press "Continue"
+    And I press "Delete each hidden element"
 
     Then I should see "11" visible items
     Then I should see "0" hidden items
@@ -90,11 +90,11 @@ Feature: Test bulk actions
 
     And I set the field "bulkaction" to "Delete visible elements"
     And I press "Go"
-    And I press "Continue"
+    And I press "Delete each visible element"
 
     Then I should see "0" visible items
     Then I should see "5" hidden items
 
     And I set the field "bulkaction" to "Delete all elements"
     And I press "Go"
-    And I press "Continue"
+    And I press "Delete each element"

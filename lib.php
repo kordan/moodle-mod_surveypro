@@ -39,48 +39,6 @@ define('SURVEYPRO_VALUELABELSEPARATOR', '::');
 define('SURVEYPRO_OTHERSEPARATOR'     , '->');
 
 /**
- * TABS
- */
-define('SURVEYPRO_TABLAYOUT'     , 1);
-define('SURVEYPRO_TABSUBMISSIONS', 2);
-define('SURVEYPRO_TABUTEMPLATES' , 3);
-define('SURVEYPRO_TABMTEMPLATES' , 4);
-define('SURVEYPRO_TABREPORTS'    , 5);
-
-/**
- * PAGES
- */
-// PAGES in tab LAYOUT.
-define('SURVEYPRO_LAYOUT_PREVIEW'  , 1);
-define('SURVEYPRO_LAYOUT_ITEMS'    , 2);
-define('SURVEYPRO_LAYOUT_ITEMSETUP', 3);
-define('SURVEYPRO_LAYOUT_VALIDATE' , 4);
-
-// PAGES in tab SUBMISSION.
-define('SURVEYPRO_SUBMISSION_CPANEL'  , 1);
-define('SURVEYPRO_SUBMISSION_MANAGE'  , 2);
-define('SURVEYPRO_SUBMISSION_INSERT'  , 3);
-define('SURVEYPRO_SUBMISSION_EDIT'    , 4);
-define('SURVEYPRO_SUBMISSION_READONLY', 5);
-define('SURVEYPRO_SUBMISSION_SEARCH'  , 6);
-define('SURVEYPRO_SUBMISSION_REPORT'  , 7);
-define('SURVEYPRO_SUBMISSION_IMPORT'  , 8);
-define('SURVEYPRO_SUBMISSION_EXPORT'  , 9);
-
-// PAGES in tab USER TEMPLATES.
-define('SURVEYPRO_UTEMPLATES_MANAGE', 1);
-define('SURVEYPRO_UTEMPLATES_BUILD' , 2);
-define('SURVEYPRO_UTEMPLATES_IMPORT', 3);
-define('SURVEYPRO_UTEMPLATES_APPLY' , 4);
-
-// PAGES in tab MASTER TEMPLATES.
-define('SURVEYPRO_MTEMPLATES_BUILD', 1);
-define('SURVEYPRO_MTEMPLATES_APPLY', 2);
-
-// PAGES in tab REPORTS.
-// I can not define constants for report pages because they are a subplugin and can be integrated with additional reports.
-
-/**
  * ITEM TYPES
  */
 define('SURVEYPRO_TYPEFIELD' , 'field');
@@ -134,15 +92,17 @@ define('SURVEYPRO_EXPORTUTEMPLATE'   , '22');
 /**
  * VIEW
  */
-// VIEW in USER FORM section.
-define('SURVEYPRO_NOVIEW'          , '0');
-define('SURVEYPRO_NEWRESPONSE'     , '1');
-define('SURVEYPRO_EDITRESPONSE'    , '2');
-define('SURVEYPRO_READONLYRESPONSE', '3');
+// MODE in which the USER FORM is going to be used.
+define('SURVEYPRO_NOMODE'         , '0');
+define('SURVEYPRO_NEWRESPONSEMODE', '1');
+define('SURVEYPRO_EDITMODE'       , '2');
+define('SURVEYPRO_READONLYMODE'   , '3');
+define('SURVEYPRO_PREVIEWMODE'    , '4');
 
 // VIEW in ITEM section.
-define('SURVEYPRO_EDITITEM'        , '4');
-define('SURVEYPRO_CHANGEORDERASK'  , '5');
+define('SURVEYPRO_NEWITEM'        , '5');
+define('SURVEYPRO_EDITITEM'       , '6');
+define('SURVEYPRO_CHANGEORDERASK' , '7');
 
 /**
  * SENDERS
@@ -376,7 +336,7 @@ function surveypro_update_instance($surveypro, $mform) {
 
     surveypro_pre_process_checkboxes($surveypro);
 
-    // I don't think classes are available here!
+    // Classes are not available here!
     // So, I can't use $utilitylayoutman->reset_items_pages();
     $whereparams = ['surveyproid' => $surveypro->id];
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
@@ -594,6 +554,8 @@ function surveypro_supports($feature) {
             return true;
         case FEATURE_SHOW_DESCRIPTION:
             return true;
+        case FEATURE_MOD_PURPOSE:
+            return MOD_PURPOSE_COMMUNICATION;
         default:
             return null;
     }
@@ -802,135 +764,69 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 // Navigation API.
 
 /**
- * extend a surveypro navigation settings
+ * Adds module specific settings to the settings block
  *
  * @param settings_navigation $settings
- * @param navigation_node $navref
+ * @param navigation_node $surveypronode
  * @return void
  */
-function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $navref) {
+function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
         return;
     }
 
-    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
+    $paramurl = ['s' => $cm->instance];
 
-    $utilitylayoutman = new utility_layout($cm, $surveypro);
-    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
-
-    $paramurlbase = ['s' => $cm->instance];
-
-    // SURVEYPRO_TABLAYOUT.
-    if ($nodeurl['tab_layout']['container']) {
-        // Parent.
-        $nodelabel = get_string('tablayoutname', 'mod_surveypro');
-        $navnode = $navref->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
-
-        // Children.
-        if ($elementurl = $nodeurl['tab_layout']['preview']) {
-            $nodelabel = get_string('tabitemspage1', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_layout']['manage']) {
-            $nodelabel = get_string('tabitemspage2', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_layout']['validate']) {
-            $nodelabel = get_string('tabitemspage4', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
+    // First tab; "Surveypro".
+    $condition = surveypro_get_link_visibility_condition('surveypro');
+    if ($condition) {
+        $label = get_string('modulename', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        // Do not add it. It is added by moodle core with the modulename label.
+        $navnode->set_show_in_secondary_navigation(false);
     }
 
-    // SURVEYPRO_TABSUBMISSIONS.
-    if ($nodeurl['tab_submissions']['container']) {
-        // Parent.
-        $nodelabel = get_string('tabsubmissionsname', 'mod_surveypro');
-        $navnode = $navref->add($nodelabel,  null, navigation_node::TYPE_CONTAINER);
-
-        // Children.
-        if ($elementurl = $nodeurl['tab_submissions']['import']) { // Import.
-            $nodelabel = get_string('tabsubmissionspage8', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_submissions']['export']) { // Export.
-            $nodelabel = get_string('tabsubmissionspage9', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
+    // Layout.
+    $condition = surveypro_get_link_visibility_condition('layout');
+    if ($condition) {
+        $label = get_string('layout', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // SURVEYPRO_TABUTEMPLATES.
-    if ($nodeurl['tab_utemplate']['container']) {
-        // Parent.
-        $nodelabel = get_string('tabutemplatename', 'mod_surveypro');
-        $navnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-
-        // Children.
-        if ($elementurl = $nodeurl['tab_utemplate']['manage']) {
-            $nodelabel = get_string('tabutemplatepage1', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_utemplate']['save']) {
-            $nodelabel = get_string('tabutemplatepage2', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_utemplate']['import']) {
-            $nodelabel = get_string('tabutemplatepage3', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_utemplate']['apply']) {
-            $nodelabel = get_string('tabutemplatepage4', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
+    // Reports.
+    $condition = surveypro_get_link_visibility_condition('reports');
+    if ($condition) {
+        $label = get_string('reports', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // SURVEYPRO_TABMTEMPLATES.
-    if ($nodeurl['tab_mtemplate']['container']) {
-        // Parent.
-        $nodelabel = get_string('tabmtemplatename', 'mod_surveypro');
-        $navnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-
-        // Children.
-        if ($elementurl = $nodeurl['tab_mtemplate']['save']) {
-            $nodelabel = get_string('tabmtemplatepage1', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
-        if ($elementurl = $nodeurl['tab_mtemplate']['apply']) {
-            $nodelabel = get_string('tabmtemplatepage2', 'mod_surveypro');
-            $navnode->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
-        }
+    // Tools.
+    $condition = surveypro_get_link_visibility_condition('tools');
+    if ($condition) {
+        $label = get_string('tools', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // SURVEYPRO REPORTS.
-    $context = \context_module::instance($cm->id);
+    // User templates. (Maybe "User presets" is better?).
+    $condition = surveypro_get_link_visibility_condition('utemplates');
+    if ($condition) {
+        $label = get_string('utemplate', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+    }
 
-    if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
-
-        $icon = new \pix_icon('i/report', '', 'moodle');
-        foreach ($surveyproreportlist as $reportname => $reportpath) {
-            $classname = 'surveyproreport_'.$reportname.'\report';
-            $reportman = new $classname($cm, $context, $surveypro);
-
-            if ($reportman->is_report_allowed($reportname)) {
-                if (!isset($reportnode)) {
-                    $nodelabel = get_string('report');
-                    $reportnode = $navref->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-                }
-                if ($childrenreports = $reportman->get_haschildrenreports()) {
-                    $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                    $childnode = $reportnode->add($nodelabel, null, navigation_node::TYPE_CONTAINER);
-                    surveypro_add_report_link($surveypro->template, $childrenreports, $childnode, $reportname, $icon);
-                } else {
-                    $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $paramurlbase);
-                    $nodelabel = get_string('pluginname', 'surveyproreport_'.$reportname);
-                    $reportnode->add($nodelabel, $url, navigation_node::TYPE_SETTING, null, null, $icon);
-                }
-            }
-        }
+    // Master templates. (Maybe "Master presets" is better?).
+    $condition = surveypro_get_link_visibility_condition('mtemplates');
+    if ($condition) {
+        $label = get_string('mtemplate', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 }
 
@@ -948,7 +844,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @param pix_icon $icon
  * @return void
  */
-function surveypro_add_report_link($templatename, $childrenreports, $childnode, $reportname, $icon) {
+/*function surveypro_add_report_link($templatename, $childrenreports, $childnode, $reportname, $icon) {
     global $PAGE;
 
     foreach ($childrenreports as $reportkey => $reportparams) {
@@ -962,36 +858,66 @@ function surveypro_add_report_link($templatename, $childrenreports, $childnode, 
             $childnode->add($label, $url, navigation_node::TYPE_SETTING, null, null, $icon);
         }
     }
-}
+}*/
 
 /**
- * Extends the global navigation tree by adding surveypro nodes if there is a relevant content
+ * Extends the global navigation tree in the Navigation block
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
  *
- * @param navigation_node $navref An object representing the navigation tree node of the surveypro module instance
+ * @param navigation_node $navigation An object representing the navigation tree node of the surveypro module instance
  * @param \stdClass $course
  * @param \stdClass $surveypro
  * @param cm_info $cm
  * @return void
  */
-function surveypro_extend_navigation(navigation_node $navref, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
-    $utilitylayoutman = new utility_layout($cm, $surveypro);
-    $nodeurl = $utilitylayoutman->get_common_links_url(SURVEYPRO_BLOCK);
+function surveypro_extend_navigation(navigation_node $navigation, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
+    // Surveypro.
+    $condition = surveypro_get_link_visibility_condition('surveypro');
+    if ($condition) {
+        $label = get_string('modulename', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'cover']);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
+    }
 
-    // SURVEYPRO_TABSUBMISSIONS.
-    // Children only.
-    if ($elementurl = $nodeurl['tab_submissions']['cover']) {
-        $nodelabel = get_string('tabsubmissionspage1', 'mod_surveypro');
-        $navref->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
+    // Layout.
+    $condition = surveypro_get_link_visibility_condition('layout');
+    if ($condition) {
+        $label = get_string('layout', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $cm->instance, 'section' => 'itemslist']);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
-    if ($elementurl = $nodeurl['tab_submissions']['responses']) {
-        $nodelabel = get_string('tabsubmissionspage2', 'mod_surveypro');
-        $navref->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
+
+    // Report.
+    $condition = surveypro_get_link_visibility_condition('reports');
+    if ($condition) {
+        $label = get_string('reports', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/layout_itemlist.php', ['s' => $cm->instance, 'section' => 'itemlist']);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
-    if ($elementurl = $nodeurl['tab_submissions']['search']) {
-        $nodelabel = get_string('tabsubmissionspage6', 'mod_surveypro');
-        $navref->add($nodelabel, $elementurl, navigation_node::TYPE_SETTING);
+
+    // Tools.
+    $condition = surveypro_get_link_visibility_condition('tools');
+    if ($condition) {
+        $label = get_string('tools', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'export']);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
+    }
+
+    // User templates. (Maybe "User presets" is better?).
+    $condition = surveypro_get_link_visibility_condition('utemplates');
+    if ($condition) {
+        $label = get_string('utemplate', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
+    }
+
+    // Master templates. (Maybe "Master presets" is better?).
+    $condition = surveypro_get_link_visibility_condition('mtemplates');
+    if ($condition) {
+        $label = get_string('mtemplate', 'mod_surveypro');
+        $url = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
+        $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 }
 
@@ -999,6 +925,68 @@ function surveypro_extend_navigation(navigation_node $navref, \stdClass $course,
 
 /**
  * Is re-captcha enabled at site level
+ *
+ * @param string $linkid
+ * @return boolean true if the link can be added to blocks. False otherwise.
+ */
+function surveypro_get_link_visibility_condition($linkid) {
+    global $PAGE, $DB;
+
+    if (!$cm = $PAGE->cm) {
+        return;
+    }
+
+    $context = \context_module::instance($cm->id);
+
+    $paramurl = ['s' => $cm->instance];
+
+    switch ($linkid) {
+        case 'surveypro':
+            $condition = has_capability('mod/surveypro:submit', $context);
+            break;
+        case 'layout':
+            $condition = has_capability('mod/surveypro:manageitems', $context);
+            break;
+        case 'reports':
+            $condition = has_capability('mod/surveypro:accessreports', $context);
+            break;
+        case 'tools':
+            $canimportresponses = has_capability('mod/surveypro:importresponses', $context);
+            $canexportresponses = has_capability('mod/surveypro:exportresponses', $context);
+
+            $condition = ($canimportresponses || $canexportresponses);
+            break;
+        case 'utemplates':
+            $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $context);
+            $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
+
+            $condition = ($canmanageusertemplates && empty($surveypro->template));
+            break;
+        case 'mtemplates':
+            $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $context);
+            $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $context);
+            $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
+
+            $utilitylayoutman = new utility_layout($cm, $surveypro);
+            $hassubmissions = $utilitylayoutman->has_submissions();
+
+            $riskyediting = ($surveypro->riskyeditdeadline > time());
+
+            $condition = false;
+            $condition = $condition || ($cansavemastertemplates && empty($surveypro->template));
+            $condition = $condition || ($canapplymastertemplates && (!$hassubmissions || $riskyediting));
+
+            break;
+        default:
+            $message = 'Unexpected $linkid = '.$linkid;
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    }
+
+    return $condition;
+}
+
+/**
+ * Can the "Surveypro" link be added to Navigation block and to Administration block?
  *
  * @return boolean true if true
  */

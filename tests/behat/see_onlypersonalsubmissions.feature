@@ -23,6 +23,7 @@ Feature: test each student sees only personal submissions
       | activity  | name                        | intro                                                  | course                    |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
     And I am on the "Get only my own submissions" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Text (short)"
     And I press "Add"
@@ -74,7 +75,7 @@ Feature: test each student sees only personal submissions
 
     # student2 logs in
     When I am on the "Get only my own submissions" "surveypro activity" page logged in as student2
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
 
@@ -95,7 +96,7 @@ Feature: test each student sees only personal submissions
 
     # student1 goes to check for his personal submissions
     When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
 
     Then I should see "Never" in the "Student1 user1" "table_row"
     Then I should not see "Student2" in the "submissions" "table"

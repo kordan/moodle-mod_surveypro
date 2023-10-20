@@ -305,7 +305,7 @@ class item extends itembase {
             $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.
@@ -615,16 +615,16 @@ EOS;
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
             $labelcount = count($labels);
             if ($labelcount > 1) {
-                $separator = array_fill(0, $labelcount - 1, '<br />');
+                $separator = array_fill(0, $labelcount - 1, '<br>');
             } else {
                 $separator = array();
             }
             if (!empty($this->labelother)) {
-                // $separator[] = '<br />';
+                // $separator[] = '<br>';
                 $separator[] = '';
             }
             if (!$this->required) {
-                $separator[] = '<br />';
+                $separator[] = '<br>';
             }
         } else { // SURVEYPRO_HORIZONTAL.
             $separator = ' ';

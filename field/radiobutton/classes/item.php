@@ -270,7 +270,7 @@ class item extends itembase {
             $constraints[] = $labelotherstr.$labelsep.$allowedstr;
         }
 
-        return implode('<br />', $constraints);
+        return implode('<br>', $constraints);
     }
 
     // MARK get.
@@ -578,16 +578,16 @@ EOS;
         // Begin of: definition of separator.
         $labelcount = count($labels);
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            $separator = array_fill(0, $labelcount - 1, '<br />');
+            $separator = array_fill(0, $labelcount - 1, '<br>');
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                array_unshift($separator, '<br />');
+                array_unshift($separator, '<br>');
             }
             if (!empty($this->labelother)) {
-                // $separator[] = '<br />';
+                // $separator[] = '<br>';
                 $separator[] = '';
             }
             if (!$this->required) {
-                $separator[] = '<br />';
+                $separator[] = '<br>';
             }
         } else { // SURVEYPRO_HORIZONTAL.
             $separator = ' ';

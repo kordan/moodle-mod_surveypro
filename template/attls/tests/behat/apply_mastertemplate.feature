@@ -21,6 +21,7 @@ Feature: apply ATTLS (20 item version) mastertemplate
   @javascript
   Scenario: apply ATTLS (20 item version) master template
     Given I am on the "To apply ATTLS" "surveypro activity" page logged in as teacher1
+
     And I set the field "Master templates" to "ATTLS (20 item version)"
     And I press "Apply"
     Then I should see "Attitudes Towards Thinking and Learning"

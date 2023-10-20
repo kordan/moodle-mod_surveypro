@@ -49,8 +49,9 @@ Feature: make a submission test for each available item
       | field  | time        |
       | format | label       |
     And I am on the "Each item submission" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
-    And I follow "Preview" page in tab bar
+    And I select "Layout" from secondary navigation
+
+    And I select "Preview" from the "jump" singleselect
     And I press "Next page >>"
     And I press "<< Previous page"
 
@@ -58,7 +59,7 @@ Feature: make a submission test for each available item
 
     # student1 logs in
     When I am on the "Each item submission" "surveypro activity" page logged in as student1
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
     # student1 submits his first response
@@ -84,21 +85,21 @@ Feature: make a submission test for each available item
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | How many people does your family have besides you? | 7               |
-      | id_surveypro_field_multiselect_11                  | milk            |
-      | Write the best approximation of π you can remember | 3.14            |
-      | id_surveypro_field_radiobutton_13_3                | 1               |
-      | id_surveypro_field_rate_15_0_0                     | 1               |
-      | id_surveypro_field_rate_15_1_1                     | 1               |
-      | id_surveypro_field_rate_15_2_2                     | 1               |
-      | id_surveypro_field_rate_15_3_3                     | 1               |
-      | id_surveypro_field_recurrence_17_day               | 7               |
-      | id_surveypro_field_recurrence_17_month             | June            |
-      | Where do you usually spend your summer holidays?   | hills           |
-      | Write a short description of yourself              | Super!          |
-      | Write down your email                              | me@myserver.net |
-      | id_surveypro_field_time_21_hour                    | 7               |
-      | id_surveypro_field_time_21_minute                  | 15              |
+      | How many people does your family counts?         | 7               |
+      | id_surveypro_field_multiselect_11                | milk            |
+      | Write your best approximation of π               | 3.14            |
+      | id_surveypro_field_radiobutton_13_3              | 1               |
+      | id_surveypro_field_rate_15_0_0                   | 1               |
+      | id_surveypro_field_rate_15_1_1                   | 1               |
+      | id_surveypro_field_rate_15_2_2                   | 1               |
+      | id_surveypro_field_rate_15_3_3                   | 1               |
+      | id_surveypro_field_recurrence_17_day             | 7               |
+      | id_surveypro_field_recurrence_17_month           | June            |
+      | Where do you usually spend your summer holidays? | hills           |
+      | Write a short description of yourself            | Super!          |
+      | Write down your email                            | me@myserver.net |
+      | id_surveypro_field_time_21_hour                  | 7               |
+      | id_surveypro_field_time_21_minute                | 15              |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -107,7 +108,8 @@ Feature: make a submission test for each available item
     And I follow "view_submission_row_1"
     And I press "Next page >>"
     And I press "<< Previous page"
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
+
     And I should see "1" submissions
 
     And I follow "duplicate_submission_row_1"
@@ -122,7 +124,7 @@ Feature: make a submission test for each available item
 
     When I am on the "Test submission for each available item" course page logged in as teacher1
     And I follow "Each item submission"
-    And I follow "Responses" page in tab bar
+    And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     And I press "Next page >>"
     And I set the field "id_surveypro_field_multiselect_11" to "sugar, jam"

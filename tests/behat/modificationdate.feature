@@ -1,5 +1,5 @@
 @mod @mod_surveypro @surveyprofield
-Feature: Submission modification time
+Feature: submission modification time
   Check that even filling a multipage surveypro moving forward and backword, timemodified is recorded ONLY at modification time
   As a teacher
   I create a multipage surveypro and as a student I fill it going forward and backword, and I submit.

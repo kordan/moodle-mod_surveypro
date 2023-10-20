@@ -21,17 +21,18 @@ Feature: make a submission test for "integer" item
       | activity  | name         | intro                           | course                  |
       | surveypro | Integer test | To test submission of date item | Integer submission test |
     And I am on the "Integer test" "surveypro activity" page logged in as teacher1
+    And I select "Layout" from secondary navigation
 
     And I set the field "typeplugin" to "Integer (small)"
     And I press "Add"
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How many people does your family have besides you? |
-      | Required                 | 1                                                  |
-      | Indent                   | 0                                                  |
-      | Question position        | left                                               |
-      | Element number           | 9                                                  |
+      | Content                  | How many people does your family counts? |
+      | Required                 | 1                                        |
+      | Indent                   | 0                                        |
+      | Question position        | left                                     |
+      | Element number           | 9                                        |
     And I press "Add"
 
     And I log out
@@ -41,7 +42,7 @@ Feature: make a submission test for "integer" item
     And I press "New response"
 
     # student1 submits
-    And I set the field "9: How many people does your family have besides you?" to "3"
+    And I set the field "9: How many people does your family counts?" to "3"
 
     And I press "Submit"
 

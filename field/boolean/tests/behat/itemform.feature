@@ -22,7 +22,7 @@ Feature: test the use of boolean setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test boolean setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     # add an boolean item
     And I set the field "typeplugin" to "Boolean"
@@ -68,12 +68,12 @@ Feature: test the use of boolean setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: Is it true?"
     Then the field "id_surveypro_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
-    And I follow "Elements" page in tab bar
+    And I select "Elements" from the "jump" singleselect
     And I follow "edit_item_2"
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -84,7 +84,7 @@ Feature: test the use of boolean setup form
       | id_defaultoption_2 | 1                        |
     And I press "Save as new"
 
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.b: Is it true?"
     Then the field "id_surveypro_field_boolean_3" matches value "Choose..."
     Then I should see "One more additional note"

@@ -22,7 +22,7 @@ Feature: test the use of shortdate setup form
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test shortdate setup form" "surveypro activity" page logged in as teacher1
-    And I follow "Layout" page in tab bar
+    And I select "Layout" from secondary navigation
 
     # add an shortdate item
     And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
@@ -101,7 +101,7 @@ Feature: test the use of shortdate setup form
     And I press "Cancel"
 
     And I follow "show_item_2"
-    And I follow "Preview" page in tab bar
+    And I select "Preview" from the "jump" singleselect
     Then I should see "II.a: When did you buy your current car?"
     Then the field "id_surveypro_field_shortdate_2_month" matches value "January"
     Then the field "id_surveypro_field_shortdate_2_year" matches value "2014"

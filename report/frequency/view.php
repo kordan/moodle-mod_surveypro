@@ -23,7 +23,6 @@
  */
 
 use mod_surveypro\utility_layout;
-use mod_surveypro\tabs;
 use surveyproreport_frequency\filterform;
 use surveyproreport_frequency\report;
 
@@ -53,20 +52,19 @@ $context = \context_module::instance($cm->id);
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
 
-$utilitylayoutman = new utility_layout($cm, $surveypro);
 $reportman = new report($cm, $context, $surveypro);
 
 // Begin of: instance filterform.
 $showjumper = $reportman->is_groupjumper_needed();
 
-$paramurl = ['id' => $cm->id];
-$formurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
+$formurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', ['s' => $cm->instance]);
 
 $formparams = new \stdClass();
 $formparams->surveypro = $surveypro;
 $formparams->showjumper = $showjumper;
 if ($showjumper) {
     $canaccessallgroups = has_capability('moodle/site:accessallgroups', $context);
+
     $jumpercontent = $reportman->get_groupjumper_items();
 
     $formparams->canaccessallgroups = $canaccessallgroups;
@@ -77,19 +75,21 @@ $filterform = new filterform($formurl, $formparams); // No autosubmit, here.
 // End of: instance filterform.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/report/frequency/view.php', ['s' => $surveypro->id]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'frequency']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
-// echo $OUTPUT->heading(format_string($surveypro->name), 2, null);
 
 $surveyproreportlist = get_plugin_list('surveyproreport');
 $reportkey = array_search('frequency', array_keys($surveyproreportlist));
-new tabs($cm, $context, $surveypro, SURVEYPRO_TABREPORTS, $reportkey);
+
+$actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+echo $actionbar->draw_reports_action_bar();
 
 $reportman->prevent_direct_user_input();
 $reportman->stop_if_textareas_only();
