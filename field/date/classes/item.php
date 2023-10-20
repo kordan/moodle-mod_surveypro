@@ -599,7 +599,7 @@ EOS;
                     // I need to set a value for the default field even if it disabled.
                     // When opening this form for the first time, I have:
                     // $this->defaultoption = SURVEYPRO_INVITEDEFAULT
-                    // so $this->defaultvalue and may be empty.
+                    // so $this->defaultvalue may be empty.
                     // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
                         $datearray = self::item_split_unix_time($this->defaultvalue);
