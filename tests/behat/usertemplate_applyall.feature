@@ -19,7 +19,10 @@ Feature: Load and apply usertemplates
       | activity  | name      | intro                                | course                  |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate |
 
-    When I am on the "Apply all" "mod_surveypro > User templates > Import" page logged in as "teacher1"
+    When I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
+    # now I am in the "Manage" page
+
+    And I select "Import" from the "jump" singleselect
     And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
@@ -42,163 +45,163 @@ Feature: Load and apply usertemplates
     And I set the field "Sharing level" to "This course"
     And I press "Import"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) age_only_2015123000.xml |
       | id_action_15   | 1                                     |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) attachment_only_2015123000.xml |
       | id_action_15   | 1                                            |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) autofill_only_2015123000.xml |
       | id_action_15   | 1                                          |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) boolean_only_2015123000.xml |
       | id_action_15   | 1                                         |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) checkbox_only_2015123000.xml |
       | id_action_15   | 1                                          |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) date_only_2015123000.xml |
       | id_action_15   | 1                                      |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) dateshort_only_2015123000.xml |
       | id_action_15   | 1                                           |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) datetime_only_2015123000.xml |
       | id_action_15   | 1                                          |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) integer_only_2015123000.xml |
       | id_action_15   | 1                                         |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) multiselect_only_2015123000.xml |
       | id_action_15   | 1                                             |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) numeric_only_2015123000.xml |
       | id_action_15   | 1                                         |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) radiobutton_only_2015123000.xml |
       | id_action_15   | 1                                             |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) rate_only_2015123000.xml |
       | id_action_15   | 1                                      |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) recurrence_only_2015123000.xml |
       | id_action_15   | 1                                            |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) select_only_2015123000.xml |
       | id_action_15   | 1                                        |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) textarea_only_2015123000.xml |
       | id_action_15   | 1                                          |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) textshort_only_2015123000.xml |
       | id_action_15   | 1                                           |
     And I press "Apply"
 
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply all" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) time_only_2015123000.xml |
       | id_action_15   | 1                                      |

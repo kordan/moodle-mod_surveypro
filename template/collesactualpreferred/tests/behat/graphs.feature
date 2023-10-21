@@ -100,17 +100,15 @@ Feature: Apply a COLLES (actual and preferred) mastertemplate to test graphs
     And I press "Submit"
 
     And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page
-    And I select "Colles report" from the "jump" singleselect
     Then I should not see "Summary report"
 
     And I log out
 
     And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
-    And I select "Colles report" from the "jump" singleselect
 
+    # now I should be in front of "Attachments overview"
+    And I select "Colles" from the "jump" singleselect
     # now test links provided by img's
-
-    # now I should be in front of "Colles report > Summary"
     Then I should not see "Summary report"
 
     And I click on "div.centerpara a" "css_element"
