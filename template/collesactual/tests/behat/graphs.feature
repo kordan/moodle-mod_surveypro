@@ -70,7 +70,6 @@ Feature: Apply a COLLES (actual) mastertemplate to test graphs
     And I press "Submit"
 
     And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page
-    And I select "Colles report" from the "jump" singleselect
     Then I should not see "Summary report"
 
     And I log out

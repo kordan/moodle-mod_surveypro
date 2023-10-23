@@ -74,29 +74,13 @@ class behat_mod_surveypro extends behat_base {
                 return new \moodle_url('/mod/surveypro/tools.php',
                         ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
-            case 'User templates > Manage':
+            case 'User templates from secondary navigation':
                 return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'manage']);
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
-            case 'User templates > Save':
-                return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
-
-            case 'User templates > Import':
-                return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'import']);
-
-            case 'User templates > Apply':
-                return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
-
-            case 'Master templates > Save':
+            case 'Master templates from secondary navigation':
                 return new \moodle_url('/mod/surveypro/mtemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'save']);
-
-            case 'Master templates > Apply':
-                return new \moodle_url('/mod/surveypro/mtemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'section' => 'apply']);
+                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
 
             case 'Colles > Summary report':
                 return new \moodle_url('/mod/surveypro/report/colles/view.php',

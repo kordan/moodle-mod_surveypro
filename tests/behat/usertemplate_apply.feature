@@ -19,17 +19,20 @@ Feature: Load and apply usertemplates to test partial item deletion
       | activity  | name                 | intro                             | course             |
       | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate |
 
-    When I am on the "Apply a usertemplate" "mod_surveypro > User templates > Import" page logged in as "teacher1"
+    When I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
+    # now I am in the "Manage" page
+
+    And I select "Import" from the "jump" singleselect
     And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2015123000.xml" file to "Choose files to import" filemanager
     And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2015123000.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
     And I press "Import"
 
+    And I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page
     # now I am in the "Manage" page
-    And I am on the "Apply a usertemplate" "mod_surveypro > User templates > Apply" page
 
-    # now I am in the "Apply" page
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) MMM_2015123000.xml |
       | id_action_0    | 1                                |
@@ -43,7 +46,10 @@ Feature: Load and apply usertemplates to test partial item deletion
     And I follow "hide_item_60"
     And I press "Continue"
 
-    And I am on the "Apply a usertemplate" "mod_surveypro > User templates > Apply" page
+    And I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page
+    # now I am in the "Manage" page
+
+    And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) parent-child_2015123000.xml |
       | id_action_17   | 1                                         |
