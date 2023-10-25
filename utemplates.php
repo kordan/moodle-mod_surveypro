@@ -75,7 +75,6 @@ if ($section == 'manage') { // It was utemplate_manage.php
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:manageusertemplates', $context);

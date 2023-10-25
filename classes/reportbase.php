@@ -54,6 +54,11 @@ abstract class reportbase {
     public $groupid = 0;
 
     /**
+     * @var array $additionalparams
+     */
+    public $additionalparams;
+
+    /**
      * Class constructor.
      *
      * @param object $cm
@@ -323,5 +328,34 @@ abstract class reportbase {
 
         $whereparams = array_merge($whereparams, $eparams);
         return [$sql, $whereparams];
+    }
+
+    /**
+     * set_additionalparams.
+     *
+     * Sets the parameters to be supplied to the url to call the specific report page
+     */
+    public function set_additionalparams() {
+        $this->additionalparams = ['optional' => [], 'required' => []];
+    }
+
+    /**
+     * get_paramurl.
+     *
+     * @return $paramurl to be supplied to the url to call the specific report page
+     */
+    public function get_paramurl(): array {
+        $paramurl = ['s' => $cm->instance];
+
+        foreach ($params['optional'] as $variable => $type) {
+            $value = optional_param($variable, '', $type);
+            $paramurl[$variable] = $value;
+        }
+        foreach ($params['required'] as $variable => $type) {
+            $value = required_param($variable, $type);
+            $paramurl[$variable] = $value;
+        }
+
+        return $paramurl;
     }
 }

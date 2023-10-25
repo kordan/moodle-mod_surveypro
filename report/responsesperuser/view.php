@@ -43,7 +43,6 @@ if (!empty($id)) {
 $cm = cm_info::create($cm);
 
 $groupid = optional_param('groupid', 0, PARAM_INT);
-$edit = optional_param('edit', -1, PARAM_BOOL);
 
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
@@ -90,9 +89,6 @@ $PAGE->set_heading($course->shortname);
 $PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
-
-$surveyproreportlist = get_plugin_list('surveyproreport');
-$reportkey = array_search('responsesperuser', array_keys($surveyproreportlist));
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
 echo $actionbar->draw_reports_action_bar();

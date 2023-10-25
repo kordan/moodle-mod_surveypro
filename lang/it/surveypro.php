@@ -152,6 +152,7 @@ $string['noitemsfound'] = 'This survey is still a work in progress.<br>Please tr
 $string['noitemsfoundadmin'] = 'Questa indagine non contiene domande. Si acceda a "{$a}" per aggiungerne qualcuna.';
 $string['nomoreitems'] = 'In base alle risposte fornite non ci sono ulteriori domande da sottoporre.<br>Il tuo contributo è completo. Non ti resta che inviarlo{$a}.';
 $string['nomoresubmissionsallowed'] = 'Il massimo numero di {$a} risposte è stato raggiunto.<br>Non sono consentite nuove risposte';
+$string['noreportsfound'] = 'Non ci sono report in questa instllazione di surveypro.';
 $string['note'] = 'Nota:';
 $string['onlyfinalizationallowed'] = ' ma solo la chiusura di quelle ancora "{$a->inprogress}" attraverso la pagina "{$a->surveyproresponses}".';
 $string['onlyreview'] = ' o rivederlo';

@@ -61,11 +61,7 @@ class filterform extends \moodleform {
         // No matter for the page.
         // I want the list of the fields the user may ask for the report (excluding 'textarea' and 'fileupload').
 
-        $where = array();
-        $where['surveyproid'] = $surveypro->id;
-        $where['type'] = SURVEYPRO_TYPEFIELD;
-        $where['reserved'] = 0;
-        $where['hidden'] = 0;
+        $where = ['surveyproid' => $surveypro->id, 'type' => SURVEYPRO_TYPEFIELD, 'reserved' => 0, 'hidden' => 0];
         $itemseeds = $DB->get_recordset('surveypro_item', $where, 'sortindex');
 
         // Build options array.

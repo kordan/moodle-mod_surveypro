@@ -127,21 +127,22 @@ class report extends reportbase {
     public function stop_if_textareas_only() {
         global $DB, $OUTPUT;
 
-        $where = 'surveyproid = :surveyproid AND type = :type AND reserved = :reserved AND hidden = :hidden AND plugin <> :plugin';
+        $where = 'surveyproid = :surveyproid AND type = :type';
+        $where .= ' AND reserved = :reserved AND hidden = :hidden';
+        $where .= ' AND plugin <> :plugin1 AND plugin <> :plugin2';
 
         $params = array();
         $params['surveyproid'] = $this->surveypro->id;
         $params['type'] = SURVEYPRO_TYPEFIELD;
         $params['reserved'] = 0;
         $params['hidden'] = 0;
-        $params['plugin'] = 'textarea';
+        $params['plugin1'] = 'textarea';
+        $params['plugin2'] = 'fileupload';
 
         $countfields = $DB->count_records_select('surveypro_item', $where, $params);
+
         if (!$countfields) {
             echo $OUTPUT->box(get_string('textareasarenotallowed', 'surveyproreport_frequency'));
-            $paramurl = ['s' => $this->surveypro->id, 'section' => 'submissionslist'];
-            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();
         }

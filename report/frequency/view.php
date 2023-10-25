@@ -44,13 +44,21 @@ if (!empty($id)) {
 }
 $cm = cm_info::create($cm);
 
-$edit = optional_param('edit', -1, PARAM_BOOL);
-
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
+
+// Begin of: set $PAGE deatils.
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'frequency']);
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
+$PAGE->set_title($surveypro->name);
+$PAGE->set_heading($course->shortname);
+$PAGE->add_body_class('mediumwidth');
+// End of: set $PAGE deatils.
 
 $reportman = new report($cm, $context, $surveypro);
 
@@ -71,22 +79,12 @@ if ($showjumper) {
     $formparams->addnotinanygroup = $reportman->add_notinanygroup();
     $formparams->jumpercontent = $jumpercontent;
 }
+
 $filterform = new filterform($formurl, $formparams); // No autosubmit, here.
 // End of: instance filterform.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'frequency']);
-$PAGE->set_url($url);
-$PAGE->set_context($context);
-$PAGE->set_cm($cm);
-$PAGE->set_title($surveypro->name);
-$PAGE->set_heading($course->shortname);
-$PAGE->add_body_class('mediumwidth');
-
 echo $OUTPUT->header();
-
-$surveyproreportlist = get_plugin_list('surveyproreport');
-$reportkey = array_search('frequency', array_keys($surveyproreportlist));
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
 echo $actionbar->draw_reports_action_bar();

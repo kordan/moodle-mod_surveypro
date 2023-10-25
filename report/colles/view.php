@@ -45,7 +45,6 @@ $cm = cm_info::create($cm);
 
 $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
 $area = optional_param('area', false, PARAM_INT);  // Area ID.
-$edit = optional_param('edit', -1, PARAM_BOOL);
 $groupid = optional_param('groupid', false, PARAM_INT);  // Group ID.
 
 require_course_login($course, false, $cm);
@@ -104,9 +103,6 @@ $PAGE->set_heading($course->shortname);
 $PAGE->add_body_class('mediumwidth');
 
 echo $OUTPUT->header();
-
-$surveyproreportlist = get_plugin_list('surveyproreport');
-$reportkey = array_search('colles', array_keys($surveyproreportlist));
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
 echo $actionbar->draw_reports_action_bar();

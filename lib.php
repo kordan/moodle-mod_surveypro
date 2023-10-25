@@ -831,36 +831,6 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
 }
 
 /**
- * Recursive function to add links for reports nested as much times as wanted
- *
- * Uncomment lines of get_haschildrenreports method in the surveyproreport_colles\report
- * class of report/colles/classes/report.php file
- * to see this function in action.
- *
- * @param string $templatename
- * @param array $childrenreports
- * @param navigation_node $childnode
- * @param string $reportname
- * @param pix_icon $icon
- * @return void
- */
-/*function surveypro_add_report_link($templatename, $childrenreports, $childnode, $reportname, $icon) {
-    global $PAGE;
-
-    foreach ($childrenreports as $reportkey => $reportparams) {
-        $label = get_string($reportkey, 'surveyprotemplate_'.$templatename);
-        if (is_array(reset($reportparams))) { // If the first element of $reportparams is an array.
-            $childnode = $childnode->add($label, null, navigation_node::TYPE_CONTAINER);
-            surveypro_add_report_link($templatename, $reportparams, $childnode, $reportname, $icon);
-        } else {
-            $reportparams['s'] = $PAGE->cm->instance;
-            $url = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', $reportparams);
-            $childnode->add($label, $url, navigation_node::TYPE_SETTING, null, null, $icon);
-        }
-    }
-}*/
-
-/**
  * Extends the global navigation tree in the Navigation block
  *
  * This can be called by an AJAX request so do not rely on $PAGE as it might not be set up properly.
