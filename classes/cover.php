@@ -75,11 +75,8 @@ class cover {
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
 
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', \context_course::instance($COURSE->id));
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);

@@ -237,7 +237,6 @@ class action_bar {
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
-        $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
 
         $paramurl = ['s' => $this->surveypro->id];
 
@@ -294,7 +293,6 @@ class action_bar {
 
         $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
-        $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();

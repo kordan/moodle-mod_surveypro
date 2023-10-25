@@ -181,9 +181,9 @@ class submissions_form extends formbase {
         $timenow = time();
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
-        $nextbutton = isset($this->formdata->nextbutton);
+        // $nextbutton = isset($this->formdata->nextbutton);
         $pausebutton = isset($this->formdata->pausebutton);
-        $prevbutton = isset($this->formdata->prevbutton);
+        // $prevbutton = isset($this->formdata->prevbutton);
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }
@@ -828,8 +828,6 @@ class submissions_form extends formbase {
 
             $userformpagecount = $this->get_userformpagecount();
             if ($userformpagecount > 1) {
-                $formpage = $this->get_formpage();
-
                 if ($this->formpage > $this->userfirstpage) {
                     $this->next_not_empty_page(false); // False means direction = left.
                     $params['formpage'] = $this->get_nextpage();

@@ -61,8 +61,8 @@ class layout_customnumber extends \core\output\inplace_editable {
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newreserved = clean_param($newcnumber, PARAM_TEXT);
-        $DB->set_field($tablename, 'customnumber', $newcnumber, ['itemid' => $itemid]);
+        $DB->set_field($tablename, 'customnumber', $newreserved, ['itemid' => $itemid]);
 
-        return new static($itemid, $newcnumber);
+        return new static($itemid, $newreserved);
     }
 }

@@ -461,12 +461,10 @@ class layout_itemsetup {
                 if (empty($itemishidden)) {
                     $paramurl['act'] = SURVEYPRO_HIDEITEM;
                     $paramurl['sortindex'] = $sortindex;
-                    $message = $hidestr;
                     $linkidprefix = 'hide_item_';
                 } else {
                     $paramurl['act'] = SURVEYPRO_SHOWITEM;
                     $paramurl['sortindex'] = $sortindex;
-                    $message = $showstr;
                     $linkidprefix = 'show_item_';
                 }
                 $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$sortindex, $paramurl);
@@ -1389,7 +1387,6 @@ class layout_itemsetup {
             $utilitylayoutman->reset_items_pages();
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
-            $childrenids = array();
 
             $itemstodelete = $this->get_children();
             array_shift($itemstodelete);

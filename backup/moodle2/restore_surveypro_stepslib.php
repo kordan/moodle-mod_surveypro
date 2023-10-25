@@ -79,7 +79,6 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
         global $DB;
 
         $data = (object)$data;
-        $oldid = $data->id;
         $data->course = $this->get_courseid();
         $moduleversion = $this->task->get_old_moduleversion();
 

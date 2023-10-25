@@ -1478,7 +1478,7 @@ class itembase {
         $return = $elementnumber.' '.$questioncontent;
         $regex = '~(<[^>]*>)?([^<]*)?(<\/[^>]*>)?~';
         if (preg_match_all($regex, $questioncontent, $matches)) {
-            foreach ($matches[2] as $k => $tagcontent) {
+            foreach ($matches[2] as $tagcontent) {
                 $cleanedtagcontent = $tagcontent;
                 $cleanedtagcontent = preg_replace('~(^\s+|\s+$)~', '', $cleanedtagcontent);
                 $cleanedtagcontent = trim($cleanedtagcontent, ' '.chr(194).chr(160));

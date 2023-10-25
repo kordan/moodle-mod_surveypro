@@ -115,7 +115,7 @@ class mastertemplate extends templatebase {
      * @return array
      */
     public function get_mtemplates() {
-        $utemplates = [];
+        $mtemplates = [];
         if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
             foreach ($mtemplatepluginlist as $mtemplatename => $mtemplatepath) {
                 if (!get_config('surveyprotemplate_'.$mtemplatename, 'disabled')) {
