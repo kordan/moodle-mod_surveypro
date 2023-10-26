@@ -583,8 +583,7 @@ form#userentry .fitem .felement.fstatic {
 /* vertical distance between top margin of a row and input elements is too small */
 form#userentry .fitem,
 form#usersearch .fitem {
-    padding-top: 2px;
-    padding-bottom: 2px;
+    padding: .5em;
 }
 /* End of: vertical distance between top margin of a row and input elements is too small */
 
