@@ -908,8 +908,6 @@ function surveypro_get_link_visibility_condition($linkid) {
 
     $context = \context_module::instance($cm->id);
 
-    $paramurl = ['s' => $cm->instance];
-
     switch ($linkid) {
         case 'surveypro':
             $condition = has_capability('mod/surveypro:submit', $context);

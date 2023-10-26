@@ -225,7 +225,7 @@ class mod_surveypro_plugin_manager {
             $whereparams = ['type' => $type];
             $counts = $DB->get_records_sql($countsql, $whereparams);
         }
-        if (($this->subtype == 'surveyprotemplate')) {
+        if ($this->subtype == 'surveyprotemplate') {
             $countsql = 'SELECT template, COUNT(1) as numinstances
                 FROM {surveypro}
                 WHERE template IS NOT NULL

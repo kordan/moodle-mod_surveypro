@@ -55,9 +55,6 @@ class itemsetupform extends item_setupbaseform {
         // Get _customdata.
         $item = $this->_customdata['item'];
 
-        $startyear = $item->surveypro->startyear;
-        $stopyear = $item->surveypro->stopyear;
-
         // Item: defaultoption.
         $fieldname = 'defaultoption';
         $daysrange = range(1, 31);

@@ -796,7 +796,6 @@ EOS;
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         // I need to verify (checkbox per checkbox) if they hold the same value the user entered.
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 2;3;shark.
 
         // Build the local $parentconstrain variable that will be used to evaluate the status.

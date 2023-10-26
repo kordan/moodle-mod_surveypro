@@ -88,9 +88,6 @@ class submissions_list {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
     }
 
     /**
@@ -248,8 +245,6 @@ class submissions_list {
 
                     list($ingroupsql, $groupsparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
                     // $groupsparams is ready to array_merge $whereparams if ((!$canaccessallgroups) && count($mygroups)).
-
-                    $sqlgroups = ' AND gm.groupid '.$ingroupsql;
                 }
             } else {
                 $mygroups = [];
@@ -381,10 +376,7 @@ class submissions_list {
         global $DB, $COURSE, $USER;
 
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
-
-        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
         $coursecontext = \context_course::instance($COURSE->id);
         list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
@@ -670,7 +662,6 @@ class submissions_list {
         $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
         $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
         $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
-        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
         $cansavetopdfownsubmissions = has_capability('mod/surveypro:savetopdfownsubmissions', $this->context);
@@ -1000,13 +991,10 @@ class submissions_list {
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
-        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
-        $timenow = time();
         $userid = ($canseeotherssubmissions) ? null : $USER->id;
 
         $countclosed = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSCLOSED, $userid);
@@ -1577,7 +1565,6 @@ class submissions_list {
         // In the next line I could use MUST_EXIST but I prefer to always have homogeneous errors messages.
         $submission = $DB->get_record('surveypro_submission', ['id' => $this->submissionid], $fields, IGNORE_MISSING);
         $ownerid = $submission->userid;
-        $status = $submission->status;
         if (!$ownerid) {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
@@ -1796,7 +1783,6 @@ class submissions_list {
         $regex = addslashes($regex);
         preg_match_all($regex, $content, $httpurls, PREG_SET_ORDER);
 
-        $tempsubdir = $CFG->tempdir.'/mod_surveypro/PDF_temp/';
         make_temp_directory('mod_surveypro/PDF_temp');
         foreach ($httpurls as $httpurl) {
             $fileurl = $httpurl[0];

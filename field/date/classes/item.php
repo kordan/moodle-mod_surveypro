@@ -474,7 +474,6 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         global $DB, $USER;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {

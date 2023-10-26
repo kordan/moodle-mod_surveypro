@@ -74,10 +74,10 @@ class surveypromform_radiobutton extends \MoodleQuickForm_radio {
         $output = parent::getFrozenHtml();
 
         if (isset($this->_attributes['class'])) {
-            $pattern = '~disabled="disabled"~';
+            $pattern = 'disabled="disabled"';
             $class = $this->_attributes['class'];
             $replacement = 'disabled="disabled" class="'.$class.'"';
-            $output = preg_replace($pattern, $replacement, $output);
+            $output = str_replace($pattern, $replacement, $output);
         }
 
         return $output;
