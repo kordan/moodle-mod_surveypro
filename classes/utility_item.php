@@ -75,7 +75,7 @@ class utility_item {
      */
     public function multilinetext_to_array($textareacontent) {
         if (is_null($textareacontent)) {
-            return '';
+            return [];
         }
 
         // Begin with a simple trim to drop each starting and closing empty row and spaces.
@@ -88,7 +88,7 @@ class utility_item {
         $textareacontent = preg_replace('~\n\n+~', "\n", $textareacontent);
 
         if (!core_text::strlen($textareacontent)) {
-            return array();
+            return [];
         }
 
         // Build the array.
