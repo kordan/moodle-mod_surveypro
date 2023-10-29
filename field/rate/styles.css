@@ -1,14 +1,24 @@
+/*
+ * Legenda:
+ *     .path-mod-surveypro #userentry              form to preview and to submit a response;
+ *     .path-mod-surveypro #usersearch             form to search a response;
+ *     .path-mod-surveypro #userentry .frozen      readonly response
+ *     .path-mod-surveypro table#manageitems       table to manage items
+ *     .path-mod-surveypro table#sortitems         table to sort items
+ *     .path-mod-surveypro table#validaterelations table to validate relations
+ */
+
 /* reduce vertical distance between selects in rate elements */
-form#userentry select.rate_select,
-form#usersearch select.rate_select {
+.path-mod-surveypro #userentry select.rate_select,
+.path-mod-surveypro #usersearch select.rate_select {
     margin-bottom: 0.2em;
     margin-top: 0.2em;
 }
 /* End of: reduce vertical distance between selects in rate elements */
 
 /* padding top for div opening to rate elements */
-form#userentry div.rate_select,
-form#usersearch div.rate_select {
+.path-mod-surveypro #userentry div.rate_select,
+.path-mod-surveypro #usersearch div.rate_select {
     padding-top: 0;
 }
 /* End of: padding top for div opening to rate elements */

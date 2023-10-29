@@ -1,8 +1,17 @@
+/*
+ * Legenda:
+ *     .path-mod-surveypro #userentry              form to preview and to submit a response;
+ *     .path-mod-surveypro #usersearch             form to search a response;
+ *     .path-mod-surveypro #userentry .frozen      readonly response
+ *     .path-mod-surveypro table#manageitems       table to manage items
+ *     .path-mod-surveypro table#sortitems         table to sort items
+ *     .path-mod-surveypro table#validaterelations table to validate relations
+ */
+
 /* Begin of: move horizontal checkbox label closer to corresponding checkboxes */
-/* useful in case of heckboxes horizontally aligned */
-/* NOTE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
-#userentry .fitem .felement input[type='checkbox'],
-#usersearch .fitem .felement input[type='checkbox'] {
+/* Useful in case of heckboxes horizontally aligned */
+.path-mod-surveypro #userentry .fitem .felement input[type='checkbox'],
+.path-mod-surveypro #usersearch .fitem .felement input[type='checkbox'] {
     margin-right: .2em;
 }
 /* End of: move horizontal checkbox and radio label closer to corresponding checkboes */
