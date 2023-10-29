@@ -292,7 +292,7 @@ class item extends itembase {
      */
     public function item_list_constraints() {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $constraints = array();
+        $constraints = [];
 
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_checkbox');
@@ -325,7 +325,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_checkbox');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_checkbox');
@@ -349,7 +349,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
@@ -427,7 +427,7 @@ EOS;
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
-        $labels = array();
+        $labels = [];
         foreach ($parentcontents as $parentcontent) {
             $key = array_search($parentcontent, $values);
             if ($key !== false) {
@@ -466,7 +466,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
-        $childparentcontent = array();
+        $childparentcontent = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
@@ -553,12 +553,12 @@ EOS;
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
-        $attributes = array();
+        $attributes = [];
         $attributes['class'] = 'indent-'.$this->indent.' checkbox_check';
         $attributes['group'] = 1;
 
         $options = ['0', '1'];
-        $elementgroup = array();
+        $elementgroup = [];
         $i = 0;
         foreach ($labels as $label) {
             $itemname = $this->itemname.'_'.$i;
@@ -613,7 +613,7 @@ EOS;
             if ($labelcount > 1) {
                 $separator = array_fill(0, $labelcount - 1, '<br>');
             } else {
-                $separator = array();
+                $separator = [];
             }
             if (!empty($this->labelother)) {
                 // $separator[] = '<br>';
@@ -720,12 +720,12 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $disabilitationinfo = array();
+        $disabilitationinfo = [];
 
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 1;1;0;.
 
-        $indexsubset = array();
-        $labelsubset = array();
+        $indexsubset = [];
+        $labelsubset = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             $indexsubset = array_slice($parentvalues, 0, $key);
@@ -799,7 +799,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: 2;3;shark.
 
         // Build the local $parentconstrain variable that will be used to evaluate the status.
-        $parentconstrain = array();
+        $parentconstrain = [];
         if (!empty($this->labelother)) {
             $parentconstrain[$this->itemname.'_other'] = '0';
         }
@@ -838,7 +838,7 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        $arrayinstruction = array();
+        $arrayinstruction = [];
 
         if (!empty($this->minimumrequired)) {
             if ($this->minimumrequired == 1) {
@@ -907,7 +907,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -987,7 +987,7 @@ EOS;
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
                 foreach ($values as $k => $value) {
@@ -1010,7 +1010,7 @@ EOS;
                 break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 foreach ($values as $k => $value) {
@@ -1050,7 +1050,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;

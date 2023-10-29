@@ -334,7 +334,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
         $timenow = time();
 
         for ($i = 1; $i < 4; $i++) {
@@ -361,7 +361,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -440,8 +440,8 @@ EOS;
         $idprefix = 'id_surveypro_field_recurrence_'.$this->sortindex;
 
         // Begin of: element values.
-        $days = array();
-        $months = array();
+        $days = [];
+        $months = [];
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $days[SURVEYPRO_INVITEVALUE] = get_string('inviteday', 'surveyprofield_recurrence');
@@ -470,8 +470,8 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
-        $attributes = array();
-        $elementgroup = array();
+        $attributes = [];
+        $elementgroup = [];
 
         $itemname = $this->itemname.'_day';
         $attributes['id'] = $idprefix.'_day';
@@ -755,7 +755,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -821,7 +821,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;

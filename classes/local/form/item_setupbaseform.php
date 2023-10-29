@@ -123,7 +123,7 @@ class item_setupbaseform extends \moodleform {
         // Itembase: position.
         $fieldname = 'position';
         if ($item->get_insetupform($fieldname)) {
-            $options = array();
+            $options = [];
             $default = SURVEYPRO_POSITIONTOP;
             if ($item->item_left_position_allowed()) { // Position can even be SURVEYPRO_POSITIONLEFT.
                 $options[SURVEYPRO_POSITIONLEFT] = get_string('left', 'mod_surveypro');
@@ -327,7 +327,7 @@ class item_setupbaseform extends \moodleform {
         $itemid = $item->get_itemid();
         if (!empty($itemid)) {
             $fieldname = 'buttons';
-            $elementgroup = array();
+            $elementgroup = [];
             $elementgroup[] = $mform->createElement('submit', 'save', get_string('savechanges'));
             if (!$hassubmissions || $riskyediting) {
                 $elementgroup[] = $mform->createElement('submit', 'saveasnew', get_string('saveasnew', 'mod_surveypro'));

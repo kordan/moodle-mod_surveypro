@@ -50,8 +50,8 @@ list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);
 $answers = $DB->get_recordset_sql($sql, $whereparams);
 $item = surveypro_get_item($cm, $surveypro, $itemid);
 
-$content = array();
-$absolute = array();
+$content = [];
+$absolute = [];
 foreach ($answers as $answer) {
     $content[] = $item->userform_db_to_export($answer);
     $absolute[] = $answer->absolute;
@@ -64,7 +64,7 @@ $graph->parameter['title'] = '';
 
 $graph->x_data = $content;
 $graph->y_data['answers1'] = $absolute;
-$answer1format = array();
+$answer1format = [];
 $answer1format['colour'] = 'ltblue';
 $answer1format['bar'] = 'fill';
 $answer1format['legend'] = strip_tags($item->get_content());

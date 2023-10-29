@@ -27,20 +27,20 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 require_once($CFG->dirroot.'/mod/surveypro/template/collespreferred/lib.php');
 
-$options = array(
+$options = [
     SURVEYPRO_POSITIONLEFT => get_string('left', 'mod_surveypro'),
     SURVEYPRO_POSITIONTOP => get_string('top', 'mod_surveypro'),
     SURVEYPRO_POSITIONFULLWIDTH => get_string('fullwidth', 'mod_surveypro'),
-);
+];
 
 $name = get_string('position', 'surveyprotemplate_collespreferred');
 $description = get_string('position_desc', 'surveyprotemplate_collespreferred');
 $settings->add(new admin_setting_configselect('surveyprotemplate_collespreferred/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
 
-$options = array(
+$options = [
     SURVEYPROTEMPLATE_COLLESPREFERREDUSERADIO => get_string('useradio', 'surveyprotemplate_collespreferred'),
     SURVEYPROTEMPLATE_COLLESPREFERREDUSESELECT => get_string('useselect', 'surveyprotemplate_collespreferred'),
-);
+];
 
 $name = new lang_string('useritem', 'surveyprotemplate_collespreferred');
 $description = new lang_string('useritem_desc', 'surveyprotemplate_collespreferred');

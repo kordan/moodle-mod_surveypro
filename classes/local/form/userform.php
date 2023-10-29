@@ -185,7 +185,7 @@ class userform extends \moodleform {
         }
 
         // Buttons.
-        $buttonlist = array();
+        $buttonlist = [];
         if ($formpage > $userfirstpage) {
             $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
         }
@@ -227,7 +227,7 @@ class userform extends \moodleform {
         }
 
         if (count($buttonlist) > 1) {
-            $buttonarray = array();
+            $buttonarray = [];
             foreach ($buttonlist as $name => $label) {
                 $buttonarray[] = $mform->createElement('submit', $name, $label);
             }
@@ -247,7 +247,7 @@ class userform extends \moodleform {
     public function validation($data, $files) {
         if (isset($data['prevbutton']) || isset($data['pausebutton'])) {
             // Skip validation.
-            return array();
+            return [];
         }
 
         // $mform = $this->_form;
@@ -267,13 +267,13 @@ class userform extends \moodleform {
 
         if ($mode == SURVEYPRO_PREVIEWMODE) {
             // Skip validation.
-            return array();
+            return [];
         }
 
         $errors = parent::validation($data, $files);
 
         // Validate an item only if it is enabled, alias: only if its content matches the parent-child constrain.
-        $warnings = array();
+        $warnings = [];
         $olditemid = 0;
         foreach ($data as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {

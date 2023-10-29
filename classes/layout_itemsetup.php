@@ -171,7 +171,7 @@ class layout_itemsetup {
         $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $table->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'plugin';
         $tablecolumns[] = 'sortindex';
         $tablecolumns[] = 'parentid';
@@ -183,7 +183,7 @@ class layout_itemsetup {
         $tablecolumns[] = 'actions';
         $table->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
         $tableheaders[] = get_string('sortindex', 'mod_surveypro');
         $tableheaders[] = get_string('branching', 'mod_surveypro');
@@ -222,7 +222,7 @@ class layout_itemsetup {
         $table->setup();
 
         // Strings.
-        $iconparams = array();
+        $iconparams = [];
         // Icons for further use.
         $editstr = get_string('edit');
         $iconparams = ['title' => $editstr];
@@ -281,7 +281,7 @@ class layout_itemsetup {
         $lockedgreenicn = new \pix_icon('lockedgreen', $forcedoptionalitemstr, 'surveypro', $iconparams);
 
         // Begin of: $paramurlmove definition.
-        $paramurlmove = array();
+        $paramurlmove = [];
         $paramurlmove['s'] = $this->cm->instance;
         $paramurlmove['act'] = SURVEYPRO_CHANGEORDER;
         $paramurlmove['itm'] = $this->itemtomove;
@@ -304,7 +304,7 @@ class layout_itemsetup {
             $paramlink = ['id' => 'moveafter_0', 'title' => $moveherestr];
             $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
 
-            $tablerow = array();
+            $tablerow = [];
             $tablerow[] = $icons;
             $tablerow = array_pad($tablerow, count($table->columns), '');
 
@@ -320,14 +320,14 @@ class layout_itemsetup {
             $sortindex = $item->get_sortindex();
 
             // Begin of: $paramurlbase definition.
-            $paramurlbase = array();
+            $paramurlbase = [];
             $paramurlbase['s'] = $this->cm->instance;
             $paramurlbase['itemid'] = $item->get_itemid();
             $paramurlbase['type'] = $item->get_type();
             $paramurlbase['plugin'] = $item->get_plugin();
             // End of: $paramurlbase definition.
 
-            $tablerow = array();
+            $tablerow = [];
 
             if (($this->mode == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
                 // Do not draw the item you are going to move.
@@ -611,7 +611,7 @@ class layout_itemsetup {
                     $paramlink = ['id' => 'move_item_'.$sortindex, 'title' => $moveherestr];
                     $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
 
-                    $tablerow = array();
+                    $tablerow = [];
                     $tablerow[] = $icons;
                     $tablerow = array_pad($tablerow, count($table->columns), '');
 
@@ -642,7 +642,7 @@ class layout_itemsetup {
         $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $table->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'plugin';
         $tablecolumns[] = 'sortindex';
         $tablecolumns[] = 'parentitem';
@@ -653,7 +653,7 @@ class layout_itemsetup {
         $tablecolumns[] = 'actions';
         $table->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
         $tableheaders[] = get_string('sortindex', 'mod_surveypro');
         $tableheaders[] = get_string('branching', 'mod_surveypro');
@@ -680,7 +680,7 @@ class layout_itemsetup {
 
         $okstr = get_string('ok');
 
-        $iconparams = array();
+        $iconparams = [];
 
         $editstr = get_string('edit');
         $iconparams = ['title' => $editstr];
@@ -733,7 +733,7 @@ class layout_itemsetup {
                 $parentitem = surveypro_get_item($this->cm, $this->surveypro, $item->get_parentid());
             }
 
-            $tablerow = array();
+            $tablerow = [];
 
             // Plugin.
             $component = 'surveypro'.$item->get_type().'_'.$item->get_plugin();
@@ -805,7 +805,7 @@ class layout_itemsetup {
 
             // Actions.
             // Begin of: $paramurlbase definition.
-            $paramurlbase = array();
+            $paramurlbase = [];
             $paramurlbase['s'] = $this->cm->instance;
             $paramurlbase['itemid'] = $item->get_itemid();
             $paramurlbase['type'] = $item->get_type();
@@ -849,7 +849,7 @@ class layout_itemsetup {
         }
 
         if (empty($where)) {
-            $where = array();
+            $where = [];
         }
 
         if (!is_array($where)) {
@@ -1228,7 +1228,7 @@ class layout_itemsetup {
         $itemstoprocess = count($itemstohide);
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $dependencies = array();
+                $dependencies = [];
                 $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
                 $a = new \stdClass();
@@ -1333,7 +1333,7 @@ class layout_itemsetup {
                     $message = get_string('confirm_showchainitems', 'mod_surveypro', $a);
                 }
 
-                $optionbase = array();
+                $optionbase = [];
                 $optionbase['s'] = $this->cm->instance;
                 $optionbase['act'] = SURVEYPRO_SHOWITEM;
                 $optionbase['itemid'] = $this->rootitemid;
@@ -1539,7 +1539,7 @@ class layout_itemsetup {
             $surveypro->template = null;
             $DB->update_record('surveypro', $surveypro);
 
-            $paramurl = array();
+            $paramurl = [];
             $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DROPMULTILANG;
             $paramurl['section'] = 'itemslist';
@@ -1686,7 +1686,7 @@ class layout_itemsetup {
                     }
                 }
 
-                $optionbase = array();
+                $optionbase = [];
                 $optionbase['s'] = $this->cm->instance;
                 $optionbase['act'] = SURVEYPRO_MAKERESERVED;
                 $optionbase['section'] = 'itemslist';
@@ -1807,7 +1807,7 @@ class layout_itemsetup {
                     }
                 }
 
-                $optionbase = array();
+                $optionbase = [];
                 $optionbase['s'] = $this->cm->instance;
                 $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
                 $optionbase['itemid'] = $this->rootitemid;
@@ -1937,7 +1937,7 @@ class layout_itemsetup {
             $whereparams = ['surveyproid' => $this->surveypro->id];
             $utilitylayoutman->delete_items($whereparams);
 
-            $paramurl = array();
+            $paramurl = [];
             $paramurl['s'] = $this->cm->instance;
             $paramurl['section'] = 'itemslist';
             $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -1987,7 +1987,7 @@ class layout_itemsetup {
 
             $utilitylayoutman->items_reindex();
 
-            $paramurl = array();
+            $paramurl = [];
             $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DELETEVISIBLEITEMS;
             $paramurl['section'] = 'itemslist';
@@ -2040,7 +2040,7 @@ class layout_itemsetup {
 
             $utilitylayoutman->items_reindex();
 
-            $paramurl = array();
+            $paramurl = [];
             $paramurl['s'] = $this->cm->instance;
             $paramurl['act'] = SURVEYPRO_DELETEHIDDENITEMS;
             $paramurl['section'] = 'itemslist';

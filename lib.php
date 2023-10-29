@@ -381,7 +381,7 @@ function create_event_on_calendar($surveypro, $type) {
 
     require_once($CFG->dirroot.'/calendar/lib.php');
 
-    $types = array('open', 'close');
+    $types = ['open', 'close'];
     if (!in_array($type, $types)) {
         $message = 'Wrong type passed to create_event_on_calendar';
         debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
@@ -394,7 +394,7 @@ function create_event_on_calendar($surveypro, $type) {
         $event = new stdClass(); // Event class created.
 
         // If the same old event has already been added to calendar, reuse it.
-        $conditions = array('instance' => $surveypro->id, 'eventtype' => $type);
+        $conditions = ['instance' => $surveypro->id, 'eventtype' => $type];
         if ($oldevent = $DB->get_record('event', $conditions, 'id', 'id', IGNORE_MISSING)) {
             $event->id = $oldevent->id;
             $editing = true;
@@ -718,7 +718,7 @@ function surveypro_update_grades(\stdClass $surveypro, $userid = 0) {
  * @return array
  */
 function surveypro_get_file_areas($course, $cm, $context) {
-    return array();
+    return [];
 }
 
 /**
@@ -733,7 +733,7 @@ function surveypro_get_file_areas($course, $cm, $context) {
  * @param array $options additional options affecting the file serving
  * @return bool false if the file is not found, just send the file otherwise returning nothing
  */
-function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=[]) {
     global $DB;
 
     require_login($course, true, $cm);
@@ -974,8 +974,8 @@ function surveypro_site_recaptcha_enabled() {
  */
 function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=false) {
     $plugincount = 0;
-    $fieldplugins = array();
-    $formatplugins = array();
+    $fieldplugins = [];
+    $formatplugins = [];
 
     if ($plugintype == SURVEYPRO_TYPEFIELD || is_null($plugintype)) {
         if ($count) {
@@ -1051,8 +1051,8 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  */
 function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false,
                                      $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
-    $params = array();
-    $conditions = array();
+    $params = [];
+    $conditions = [];
 
     $conditions[] = 'surveyproid = :surveyproid';
     $params['surveyproid'] = (int)$surveyproid;
@@ -1125,7 +1125,7 @@ function surveypro_get_editor_options() {
  * @return $filemanageroptions
  */
 function surveypro_get_user_style_options() {
-    $filemanageroptions = array();
+    $filemanageroptions = [];
     $filemanageroptions['accepted_types'] = '.css';
     $filemanageroptions['maxbytes'] = 0;
     $filemanageroptions['maxfiles'] = -1;

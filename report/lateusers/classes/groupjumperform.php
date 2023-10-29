@@ -53,7 +53,7 @@ class groupjumperform extends \moodleform {
         $jumpercontent = $this->_customdata->jumpercontent;
 
         $fieldname = 'groupid';
-        $options = array();
+        $options = [];
         if ($canaccessallgroups) {
             $options[] = get_string('allgroups');
         }

@@ -283,7 +283,7 @@ class formbase {
     public function get_prefill_data() {
         global $DB;
 
-        $prefill = array();
+        $prefill = [];
         if (empty($this->submissionid)) {
             return $prefill;
         }

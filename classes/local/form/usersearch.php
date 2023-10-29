@@ -115,7 +115,7 @@ class usersearch extends \moodleform {
 
         // Buttons.
         // $this->add_action_buttons(true, get_string('search')) does not allow me to give a label to the cancel button!
-        $buttonarray = array();
+        $buttonarray = [];
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('search'));
         $buttonarray[] = $mform->createElement('cancel', 'cancel', get_string('showallsubmissions', 'mod_surveypro'));
         $mform->addGroup($buttonarray, 'buttonar', '', [' '], false);

@@ -39,7 +39,7 @@ class restore_surveyprofield_radiobutton_subplugin extends restore_subplugin {
      * Define new path for item subplugin
      */
     protected function define_item_subplugin_structure() {
-        $paths = array();
+        $paths = [];
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);

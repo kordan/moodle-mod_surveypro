@@ -132,7 +132,7 @@ class itembase {
      *
      * @var array
      */
-    protected $insetupform = array(
+    protected $insetupform = [
         'common_fs' => true,
         'content' => true,
         'customnumber' => true,
@@ -147,7 +147,7 @@ class itembase {
         'insearchform' => true,
         'reserved' => true,
         'parentid' => true,
-    );
+    ];
 
     /**
      * Class constructor.
@@ -576,7 +576,7 @@ class itembase {
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
-        $usednames = array();
+        $usednames = [];
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
             $sql = 'SELECT p.itemid, p.variable
@@ -1018,7 +1018,7 @@ class itembase {
             unset($data['surveypro']);
             unset($data['insetupform']);
         } else {
-            $data = array();
+            $data = [];
             $data['type'] = $this->type;
             $data['plugin'] = $this->plugin;
         }
@@ -1204,7 +1204,7 @@ class itembase {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->{$field});
 
-        $values = array();
+        $values = [];
         foreach ($options as $option) {
             if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
                 $values[] = $match[$index];
@@ -1223,8 +1223,8 @@ class itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
-        $fieldlist[$this->plugin] = array();
+        $fieldlist = [];
+        $fieldlist[$this->plugin] = [];
 
         return $fieldlist;
     }
@@ -1717,7 +1717,7 @@ EOS;
 
         $fieldnames = $this->userform_get_root_elements_name();
 
-        $parentrestrictions = array();
+        $parentrestrictions = [];
 
         // If I am here this means I have a parent FOR SURE.
         // Instead of making one more query, I assign two variables manually.

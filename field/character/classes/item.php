@@ -320,7 +320,7 @@ class item extends itembase {
      * @return array of fields
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote', 'defaultvalue'];
 
         return $fieldlist;
@@ -428,7 +428,7 @@ EOS;
 
         $thresholdsize = 37;
         $lengthtochar = 1.3;
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' character_text';
         if (!empty($this->maxlength)) {
@@ -455,7 +455,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup = array();
+            $elementgroup = [];
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
 
             $itemname = $this->itemname.'_ignoreme';
@@ -546,7 +546,7 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        $arrayinstruction = array();
+        $arrayinstruction = [];
 
         if (!empty($this->minlength)) {
             if (!empty($this->maxlength)) {
@@ -632,7 +632,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -655,7 +655,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname;
 
         return $elementnames;

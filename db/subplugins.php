@@ -23,10 +23,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$subplugins = array('surveyprofield' => 'mod/surveypro/field',
+$subplugins = ['surveyprofield' => 'mod/surveypro/field',
                     'surveyproformat' => 'mod/surveypro/format',
                     'surveyprotemplate' => 'mod/surveypro/template',
-                    'surveyproreport' => 'mod/surveypro/report', );
+                    'surveyproreport' => 'mod/surveypro/report', ];
 
 // TODO: this file is here because of compatibility with versions earlier than 3.7.
 // Remember to drop it once $plugin->requires will be set to require Moodle 3.8 in versione.php.

@@ -85,13 +85,13 @@ class report extends reportbase {
         $baseurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'picture';
         $tablecolumns[] = 'fullname';
         $tablecolumns[] = 'uploads';
         $this->outputtable->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = '';
         $tableheaders[] = get_string('fullname');
         $tableheaders[] = get_string('uploads', 'surveyproreport_attachments');
@@ -146,7 +146,7 @@ class report extends reportbase {
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
-            $tablerow = array();
+            $tablerow = [];
 
             // Picture.
             $tablerow[] = $OUTPUT->user_picture($usersubmission, ['courseid' => $COURSE->id]);
@@ -164,7 +164,7 @@ class report extends reportbase {
 
             // Users with $usersubmission->submissionid == null have no submissions.
             if (!empty($usersubmission->submissionid)) {
-                $paramurl = array();
+                $paramurl = [];
                 $paramurl['s'] = $this->surveypro->id;
                 $paramurl['report'] = 'attachments';
                 $paramurl['section'] = 'details';
@@ -196,7 +196,7 @@ class report extends reportbase {
         global $COURSE, $DB;
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-        $whereparams = array();
+        $whereparams = [];
         $sql = 'SELECT s.id as submissionid'.$userfieldsapi->selects.'
                 FROM {user} u
                 JOIN {surveypro_submission} s ON s.userid = u.id';
@@ -230,7 +230,7 @@ class report extends reportbase {
     public function check_attachmentitems() {
         global $OUTPUT, $DB;
 
-        $params = array();
+        $params = [];
         $params['surveyproid'] = $this->surveypro->id;
         $params['plugin'] = 'fileupload';
         $attachmentitems = $DB->count_records('surveypro_item', $params);

@@ -54,18 +54,18 @@ class itemsetupform extends item_setupbaseform {
         // Get _customdata.
         $item = $this->_customdata['item'];
 
-        $hoptions = array();
+        $hoptions = [];
         for ($i = 0; $i <= 23; $i++) {
             $hoptions[$i] = sprintf("%02d", $i);
         }
-        $moptions = array();
+        $moptions = [];
         for ($i = 0; $i <= 59; $i++) {
             $moptions[$i] = sprintf("%02d", $i);
         }
 
         // Item: step.
         $fieldname = 'step';
-        $options = array();
+        $options = [];
         $options[1] = get_string('oneminute', 'surveyprofield_time');
         $options[5] = get_string('fiveminutes', 'surveyprofield_time');
         $options[10] = get_string('tenminutes', 'surveyprofield_time');
@@ -83,7 +83,7 @@ class itemsetupform extends item_setupbaseform {
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $likelaststr = get_string('likelast', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $currenttimedefaultstr, SURVEYPRO_TIMENOWDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
@@ -95,7 +95,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
@@ -116,7 +116,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: lowerbound.
         $fieldname = 'lowerbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);
@@ -126,7 +126,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: upperbound.
         $fieldname = 'upperbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'hour', '', $hoptions);
         $elementgroup[] = $mform->createElement('select', $fieldname.'minute', '', $moptions);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_time'), ' ', false);

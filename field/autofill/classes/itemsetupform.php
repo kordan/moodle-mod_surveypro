@@ -62,7 +62,7 @@ class itemsetupform extends item_setupbaseform {
             $index = sprintf('%02d', $i);
             $fieldname = 'element'.$index;
 
-            $elementgroup = array();
+            $elementgroup = [];
             $elementgroup[] = $mform->createElement('selectgroups', $fieldname.'select', '', $options);
             $elementgroup[] = $mform->createElement('text', $fieldname.'text', '');
             $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_autofill'), ' ', false);

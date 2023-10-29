@@ -284,7 +284,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -400,7 +400,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_textarea_'.$this->sortindex;
 
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['rows'] = $this->arearows;
         $attributes['cols'] = $this->areacols;
@@ -412,7 +412,7 @@ EOS;
                 $mform->addElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
                 $mform->setType($fieldname, PARAM_TEXT);
             } else {
-                $elementgroup = array();
+                $elementgroup = [];
                 $elementgroup[] = $mform->createElement('mod_surveypro_textarea_plain', $fieldname, $elementlabel, $attributes);
 
                 $itemname = $this->itemname.'_ignoreme';
@@ -498,7 +498,7 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        $arrayinstruction = array();
+        $arrayinstruction = [];
 
         if ($this->minlength > 0) {
             if (isset($this->maxlength) && ($this->maxlength > 0)) {
@@ -558,7 +558,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -568,7 +568,7 @@ EOS;
             if (!empty($this->useeditor)) {
                 $context = \context_module::instance($this->cm->id);
 
-                $editoroptions = array();
+                $editoroptions = [];
                 $editoroptions['trusttext'] = true;
                 $editoroptions['subdirs'] = true;
                 $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
@@ -591,7 +591,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         if (!empty($this->useeditor)) {
             $elementnames[] = $this->itemname.'_editor';
         } else {

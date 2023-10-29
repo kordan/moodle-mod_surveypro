@@ -84,7 +84,7 @@ class filterform extends \moodleform {
         $coursecontext = \context_course::instance($COURSE->id);
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
-        $whereparams = array();
+        $whereparams = [];
         $whereparams['surveyproid'] = $surveypro->id;
         $sql = 'SELECT DISTINCT u.id as userid'.$userfieldsapi->selects.'
                 FROM {user} u
@@ -103,10 +103,10 @@ class filterform extends \moodleform {
         }
         $users = $DB->get_recordset_sql($sql, $whereparams);
 
-        $options = array();
+        $options = [];
 
         // Get submissions of $userid.
-        $options = array();
+        $options = [];
         $whereparams = ['surveyproid' => $surveypro->id, 'userid' => $userid];
         $submissions = $DB->get_records('surveypro_submission', $whereparams);
 
@@ -157,7 +157,7 @@ class filterform extends \moodleform {
         $mform->setDefault('container', $container);
 
         // Button.
-        $buttonarray = array();
+        $buttonarray = [];
         $buttonarray[] = $mform->createElement('submit', 'changeuser', get_string('changeuser', 'surveyproreport_attachments'));
         $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('reload'));
         $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);

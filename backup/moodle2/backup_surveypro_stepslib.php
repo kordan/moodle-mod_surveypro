@@ -43,19 +43,19 @@ class backup_surveypro_activity_structure_step extends backup_activity_structure
 
         // Define each element separated.
         // Root element describing surveypro instance.
-        $surveypro = new backup_nested_element('surveypro', ['id'], array(
+        $surveypro = new backup_nested_element('surveypro', ['id'], [
                     'name', 'intro', 'introformat', 'newpageforchild', 'neverstartedemail',
                     'pauseresume', 'keepinprogress', 'captcha', 'history', 'anonymous',
                     'timeopen', 'timeclose', 'startyear', 'stopyear',
                     'maxentries', 'mailroles', 'mailextraaddresses', 'mailcontent', 'mailcontentformat',
                     'thankspage', 'thankspageformat', 'riskyeditdeadline', 'template', 'completionsubmit',
-                    'timecreated', 'timemodified', ));
+                    'timecreated', 'timemodified', ]);
 
         $items = new backup_nested_element('items');
 
-        $item = new backup_nested_element('item', ['id', 'type', 'plugin'], array(
+        $item = new backup_nested_element('item', ['id', 'type', 'plugin'], [
                     'hidden', 'insearchform', 'reserved', 'sortindex', 'formpage',
-                    'parentid', 'parentvalue', 'timecreated', 'timemodified', ));
+                    'parentid', 'parentvalue', 'timecreated', 'timemodified', ]);
 
         $submissions = new backup_nested_element('submissions');
 

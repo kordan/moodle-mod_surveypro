@@ -159,7 +159,7 @@ class action_bar {
         $canpreview = has_capability('mod/surveypro:preview', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
         $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> :parentid', $whereparams);
 
         $paramurl = ['s' => $this->surveypro->id];
@@ -241,7 +241,7 @@ class action_bar {
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
 
         $paramurl = ['s' => $this->surveypro->id];
@@ -297,7 +297,7 @@ class action_bar {
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
         $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
 
-        $whereparams = array('surveyproid' => $this->surveypro->id, 'parentid' => 0);
+        $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);

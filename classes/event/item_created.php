@@ -66,7 +66,7 @@ class item_created extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['itemid'] = $this->objectid;
         $paramurl['type'] = $this->other['type'];

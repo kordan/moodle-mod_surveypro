@@ -78,7 +78,7 @@ class utility_submission {
         global $DB;
 
         if (empty($whereparams)) {
-            $whereparams = array();
+            $whereparams = [];
         }
         // Just in case the call is missing the surveypro id, I add it.
         if (!array_key_exists('surveyproid', $whereparams)) {
@@ -128,7 +128,7 @@ class utility_submission {
     public function get_used_plugin_list($type='') {
         global $DB;
 
-        $whereparams = array();
+        $whereparams = [];
         $sql = 'SELECT plugin
                 FROM {surveypro_item}
                 WHERE surveyproid = :surveyproid';
@@ -158,7 +158,7 @@ class utility_submission {
             $userid = $USER->id;
         }
 
-        $groupusers = array();
+        $groupusers = [];
         if ($currentgroups = groups_get_all_groups($COURSE->id, $USER->id)) {
             foreach ($currentgroups as $currentgroup) {
                 $groupusers += groups_get_members($currentgroup->id, 'u.id');

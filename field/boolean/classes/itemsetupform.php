@@ -56,7 +56,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: style.
         $fieldname = 'style';
-        $options = array();
+        $options = [];
         $options[SURVEYPROFIELD_BOOLEAN_USERADIOH] = get_string('useradioh', 'surveyprofield_boolean');
         $options[SURVEYPROFIELD_BOOLEAN_USERADIOV] = get_string('useradiov', 'surveyprofield_boolean');
         $options[SURVEYPROFIELD_BOOLEAN_USESELECT] = get_string('usemenu', 'surveyprofield_boolean');
@@ -70,7 +70,7 @@ class itemsetupform extends item_setupbaseform {
         $customdefaultstr = get_string('customdefault', 'surveyprofield_boolean');
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);

@@ -166,7 +166,7 @@ class mastertemplate extends templatebase {
         $xmlcontent = str_replace("\r\n", "\n", $xmlcontent); // Fix line ending.
 
         // Before starting, verify that the current structure of templatemaster folder === structure expected here.
-        $templatemastercontent = array(
+        $templatemastercontent = [
             'classes/privacy/provider.php',
             'classes/template.php',
             'lang/en/surveyprotemplate_pluginname.php',
@@ -174,7 +174,7 @@ class mastertemplate extends templatebase {
             'pix/icon.svg',
             'template.xml',
             'version.php',
-        );
+        ];
 
         if (array_diff($masterfilelist, $templatemastercontent) || array_diff($templatemastercontent, $masterfilelist)) {
             $message = 'The "templatemaster" folder does not match the expected one. This is a security issue. I must stop.';
@@ -307,7 +307,7 @@ class mastertemplate extends templatebase {
             }
         }
 
-        $filenames = array(
+        $filenames = [
             'template.xml',
             'version.php',
             'classes/template.php',
@@ -315,7 +315,7 @@ class mastertemplate extends templatebase {
             'lang/en/surveyprotemplate_'.$pluginname.'.php',
             'pix/icon.png',
             'pix/icon.svg',
-        );
+        ];
         if ($userlang != 'en') {
             $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
         }

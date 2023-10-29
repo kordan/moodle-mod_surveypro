@@ -29,7 +29,7 @@
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_setup_testcase extends advanced_testcase {
+class setup_test extends advanced_testcase {
 
     /**
      * Test that all the global settings are stored properly and with expected defaults.

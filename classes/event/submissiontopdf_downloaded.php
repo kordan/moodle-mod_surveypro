@@ -66,7 +66,7 @@ class submissiontopdf_downloaded extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['id'] = $this->contextinstanceid;
         $paramurl['submissionid'] = $this->objectid;
         $paramurl['section'] = 'submissionslist';

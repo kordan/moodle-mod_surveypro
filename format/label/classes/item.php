@@ -217,7 +217,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'leftlabel'];
 
         return $fieldlist;
@@ -300,7 +300,7 @@ EOS;
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
             $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
             $elementlabel = $elementnumber.$this->leftlabel;
-            $attributes = array();
+            $attributes = [];
             $attributes['class'] = 'indent-'.$this->indent.' label_static';
             $mform->addElement('mod_surveypro_label', $this->itemname, $elementlabel, $this->get_content(), $attributes);
         }
@@ -325,7 +325,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         return $prefill;
     }
@@ -347,7 +347,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
 
         if (empty($this->fullwidth)) {
             $elementnames[] = $this->itemname;

@@ -108,7 +108,7 @@ if (!empty($itemid)) {
     $reportman->setup_outputtable($itemid);
     $reportman->fetch_data($itemid);
 
-    $paramurl = array();
+    $paramurl = [];
     $paramurl['id'] = $cm->id;
     if ($showjumper) {
         $paramurl['groupid'] = $groupid;

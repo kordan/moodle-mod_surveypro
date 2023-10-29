@@ -63,7 +63,7 @@ class itemsetupform extends item_setupbaseform {
         $customdefaultstr = get_string('customdefault', 'surveyprofield_integer');
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);

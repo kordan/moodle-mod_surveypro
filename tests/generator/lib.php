@@ -61,7 +61,7 @@ class mod_surveypro_generator extends testing_module_generator {
         require_once($CFG->dirroot.'/mod/surveypro/tests/behat/lib_behattest.php');
 
         // Add default values for surveypro.
-        $record = (array)$record + array(
+        $record = (array)$record + [
             'newpageforchild' => 0,
             'neverstartedemail' => 0,
             'pauseresume' => 0,
@@ -89,16 +89,16 @@ class mod_surveypro_generator extends testing_module_generator {
             'groupmode' => 0,
 
             'userstyle_filemanager' => file_get_unused_draft_itemid(),
-            'mailcontenteditor' => array(
+            'mailcontenteditor' => [
                 'text' => 'User {FULLNAME} added a response to "{SURVEYPRONAME}".',
                 'format' => FORMAT_HTML,
-            ),
-            'thankspageeditor' => array(
+            ],
+            'thankspageeditor' => [
                 'text' => 'Thank you very much for your commitment on this survey.',
                 'format' => FORMAT_HTML,
                 'itemid' => file_get_unused_draft_itemid(),
-            ),
-        );
+            ],
+        ];
 
         return parent::create_instance($record, (array)$options);
     }

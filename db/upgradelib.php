@@ -48,7 +48,7 @@ function surveypro_delete_supposed_blank_answers() {
                 WHERE child.itemid = :childid
                     AND parent.itemid = :parentid
                     AND parent.content <> :parentcontent';
-        $whereparams = array();
+        $whereparams = [];
         $whereparams['childid'] = $brancheditem->childid;
         $whereparams['parentid'] = $brancheditem->parentid;
         $whereparams['parentcontent'] = $brancheditem->parentvalue;
@@ -80,7 +80,7 @@ function surveypro_delete_supposed_blank_answers() {
     foreach ($parentitems as $parentitem) {
         // Get all submissions for this surveyproid.
         if ($parentitem->surveyproid != $oldsurveyproid) {
-            $whereparams = array();
+            $whereparams = [];
             $whereparams['surveyproid'] = $parentitem->surveyproid;
             $submissions = $DB->get_recordset('surveypro_submission', $whereparams, 'id', 'id');
 
@@ -88,7 +88,7 @@ function surveypro_delete_supposed_blank_answers() {
         }
         foreach ($submissions as $submission) {
             // Get all the answers given to the parent item.
-            $whereparams = array();
+            $whereparams = [];
             $whereparams['submissionid'] = $submission->id;
             $whereparams['itemid'] = $parentitem->parentid;
             if (!$DB->count_records('surveypro_answer', $whereparams)) {
@@ -151,7 +151,7 @@ function surveypro_old_restore_fix($surveypro) {
                 continue;
             }
 
-            $filerecord = array();
+            $filerecord = [];
             $filerecord['contextid'] = $file->get_contextid();
             $filerecord['component'] = 'mod_surveypro';
             $filerecord['filearea'] = $area;

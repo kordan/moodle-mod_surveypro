@@ -58,42 +58,42 @@ class report extends reportbase {
     /**
      * @var array $xlabels
      */
-    public $xlabels = array();
+    public $xlabels = [];
 
     /**
      * @var array $ylabels
      */
-    public $ylabels = array();
+    public $ylabels = [];
 
     /**
      * @var array $trend1
      */
-    public $trend1 = array();
+    public $trend1 = [];
 
     /**
      * @var array $trend1stdev
      */
-    public $trend1stdev = array();
+    public $trend1stdev = [];
 
     /**
      * @var array $trend2
      */
-    public $trend2 = array();
+    public $trend2 = [];
 
     /**
      * @var array $trend2stdev
      */
-    public $trend2stdev = array();
+    public $trend2stdev = [];
 
     /**
      * @var array $studenttrend1
      */
-    public $studenttrend1 = array();
+    public $studenttrend1 = [];
 
     /**
      * @var array $studenttrend2
      */
-    public $studenttrend2 = array();
+    public $studenttrend2 = [];
 
     /**
      * Class constructor.
@@ -175,7 +175,7 @@ class report extends reportbase {
      * @return $childrenreports
      */
     public function get_haschildrenreports() {
-        $questionreports = array();
+        $questionreports = [];
         $questionreports['fieldset_content_01'] = ['type' => 'questions', 'area' => 0];
         $questionreports['fieldset_content_02'] = ['type' => 'questions', 'area' => 1];
         $questionreports['fieldset_content_03'] = ['type' => 'questions', 'area' => 2];
@@ -183,7 +183,7 @@ class report extends reportbase {
         $questionreports['fieldset_content_05'] = ['type' => 'questions', 'area' => 4];
         $questionreports['fieldset_content_06'] = ['type' => 'questions', 'area' => 5];
 
-        $childrenreports = array();
+        $childrenreports = [];
         $childrenreports['summary'] = ['type' => 'summary'];
         $childrenreports['scales'] = ['type' => 'scales'];
         $childrenreports['areas'] = $questionreports;
@@ -220,7 +220,7 @@ class report extends reportbase {
             $strseemoredetail = get_string('seemoredetail', 'surveyproreport_colles');
         }
 
-        $imgparams = array();
+        $imgparams = [];
         $imgparams['class'] = 'resultgraph';
         $imgparams['height'] = SURVEYPROREPORT_COLLES_GHEIGHT;
         $imgparams['width'] = SURVEYPROREPORT_COLLES_GWIDTH;
@@ -247,8 +247,8 @@ class report extends reportbase {
     public function get_qid_per_area() {
         global $DB;
 
-        $qid1area = array(); // Array of id of items referring to the trend 1.
-        $qid2area = array(); // Array of id of items referring to the trend 2.
+        $qid1area = []; // Array of id of items referring to the trend 1.
+        $qid2area = []; // Array of id of items referring to the trend 2.
         $sql = 'SELECT i.id, i.sortindex, i.plugin
                 FROM {surveypro_item} i
                 WHERE i.surveyproid = :surveyproid
@@ -259,8 +259,8 @@ class report extends reportbase {
         $itemseeds = $DB->get_recordset_sql($sql, $where);
 
         if ($this->template == 'collesactualpreferred') {
-            $id1 = array(); // Id of items referring to preferred trend.
-            $id2 = array(); // Id of items referring to actual trend.
+            $id1 = []; // Id of items referring to preferred trend.
+            $id2 = []; // Id of items referring to actual trend.
             $i = 0;
             foreach ($itemseeds as $itemseed) {
                 $i++;
@@ -271,20 +271,20 @@ class report extends reportbase {
                 }
                 if (count($id1) == 4) {
                     $qid1area[] = $id1;
-                    $id1 = array();
+                    $id1 = [];
                 }
                 if (count($id2) == 4) {
                     $qid2area[] = $id2;
-                    $id2 = array();
+                    $id2 = [];
                 }
             }
         } else {
-            $id1 = array(); // Id of items referring to the trend 1 (it may be preferred such as actual).
+            $id1 = []; // Id of items referring to the trend 1 (it may be preferred such as actual).
             foreach ($itemseeds as $itemseed) {
                 $id1[] = $itemseed->id;
                 if (count($id1) == 4) {
                     $qid1area[] = $id1;
-                    $id1 = array();
+                    $id1 = [];
                 }
             }
         }
@@ -302,7 +302,7 @@ class report extends reportbase {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
 
         if ($canaccessreports) {
-            $paramnexturl = array();
+            $paramnexturl = [];
             $paramnexturl['s'] = $this->surveypro->id;
             $paramnexturl['type'] = 'scales';
             $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
@@ -310,7 +310,7 @@ class report extends reportbase {
             $nexturl = null;
         }
 
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['s'] = $this->cm->instance;
         $paramurl['type'] = 'summary';
         $paramurl['groupid'] = $this->groupid;
@@ -447,11 +447,11 @@ class report extends reportbase {
      * @return void
      */
     public function output_scalesdata() {
-        $paramnexturl = array();
+        $paramnexturl = [];
         $paramnexturl['s'] = $this->surveypro->id;
         $paramnexturl['type'] = 'questions';
 
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['s'] = $this->cm->instance;
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'scales';
@@ -558,7 +558,7 @@ class report extends reportbase {
      * @return void
      */
     public function output_questionsdata($area) {
-        $paramnexturl = array();
+        $paramnexturl = [];
         $paramnexturl['s'] = $this->surveypro->id;
         if ($area == 5) {
             $paramnexturl['type'] = 'summary';
@@ -568,7 +568,7 @@ class report extends reportbase {
         }
         $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['s'] = $this->cm->instance;
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'questions';

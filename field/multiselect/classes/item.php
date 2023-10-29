@@ -246,7 +246,7 @@ class item extends itembase {
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
-        $constraints = array();
+        $constraints = [];
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
@@ -275,7 +275,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_multiselect');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_multiselect');
@@ -299,7 +299,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'defaultvalue'];
 
         return $fieldlist;
@@ -376,7 +376,7 @@ EOS;
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
-        $labels = array();
+        $labels = [];
         foreach ($parentcontents as $parentcontent) {
             $key = array_search($parentcontent, $values);
             if ($key !== false) {
@@ -415,7 +415,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
-        $childparentcontent = array();
+        $childparentcontent = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
@@ -508,7 +508,7 @@ EOS;
         $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
 
         $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' multiselect_select';
         $attributes['size'] = $this->heightinrows;
@@ -517,7 +517,7 @@ EOS;
                 $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
                 $select->setMultiple(true);
             } else {
-                $elementgroup = array();
+                $elementgroup = [];
                 $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
                 $select->setMultiple(true);
                 $elementgroup[] = $select;
@@ -535,7 +535,7 @@ EOS;
                 $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
             }
         } else {
-            $elementgroup = array();
+            $elementgroup = [];
             $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
             $select->setMultiple(true);
             $elementgroup[] = $select;
@@ -569,7 +569,7 @@ EOS;
         // Begin of: defaults.
         if (!$searchform) {
             if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
-                $defaultkeys = array();
+                $defaultkeys = [];
                 foreach ($defaults as $default) {
                     $defaultkeys[] = array_search($default, $labels);
                 }
@@ -649,12 +649,12 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $disabilitationinfo = array();
+        $disabilitationinfo = [];
 
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;0;1;0.
 
-        $indexsubset = array();
-        $labelsubset = array();
+        $indexsubset = [];
+        $labelsubset = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             $indexsubset = array_slice($parentvalues, 0, $key);
@@ -737,7 +737,7 @@ EOS;
      */
     public function userform_get_filling_instructions() {
 
-        $arrayinstruction = array();
+        $arrayinstruction = [];
 
         if ($this->minimumrequired) {
             if ($this->minimumrequired == 1) {
@@ -806,7 +806,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -819,7 +819,7 @@ EOS;
             }
 
             $contentarray = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
-            $preset = array();
+            $preset = [];
             foreach ($contentarray as $k => $v) {
                 if ($v == 1) {
                     $preset[] = $k;
@@ -867,7 +867,7 @@ EOS;
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
                 foreach ($answers as $k => $answer) {
                     if ($answer == 1) {
@@ -878,7 +878,7 @@ EOS;
                 break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 foreach ($answers as $k => $answer) {
@@ -907,7 +907,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname.'[]';
         $elementnames[] = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
 

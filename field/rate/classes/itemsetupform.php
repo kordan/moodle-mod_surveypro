@@ -57,9 +57,9 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: style.
         $fieldname = 'style';
-        $options = array(SURVEYPROFIELD_RATE_USERADIO => get_string('useradio', 'surveyprofield_rate'),
+        $options = [SURVEYPROFIELD_RATE_USERADIO => get_string('useradio', 'surveyprofield_rate'),
                          SURVEYPROFIELD_RATE_USESELECT => get_string('usemenu', 'surveyprofield_rate'),
-                   );
+                   ];
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_rate'), $options);
         $mform->setDefault($fieldname, '0');
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_rate');
@@ -86,7 +86,7 @@ class itemsetupform extends item_setupbaseform {
         $customdefaultstr = get_string('customdefault', 'surveyprofield_rate');
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
@@ -144,8 +144,8 @@ class itemsetupform extends item_setupbaseform {
         $cleanrates = $utilityitemman->multilinetext_to_array($data['rates']);
         $cleandefaultvalue = isset($data['defaultvalue']) ? $utilityitemman->multilinetext_to_array($data['defaultvalue']) : '';
 
-        $values = array();
-        $labels = array();
+        $values = [];
+        $labels = [];
         foreach ($cleanrates as $rate) {
             if (strpos($rate, SURVEYPRO_VALUELABELSEPARATOR) === false) {
                 $values[] = $rate;

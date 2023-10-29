@@ -76,7 +76,7 @@ class itemsetupform extends item_setupbaseform {
         $customdefaultstr = get_string('customdefault', 'surveyprofield_select');
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
@@ -86,7 +86,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = array();
+        $elementgroup = [];
         $mform->addElement('text', $fieldname, null);
         $mform->setType($fieldname, PARAM_RAW);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
@@ -125,8 +125,8 @@ class itemsetupform extends item_setupbaseform {
         $cleandefaultvalue = isset($data['defaultvalue']) ? trim($data['defaultvalue']) : '';
 
         // Build $value and $label arrays starting from $cleanoptions and $cleanlabelother.
-        $values = array();
-        $labels = array();
+        $values = [];
+        $labels = [];
 
         foreach ($cleanoptions as $option) {
             if (strpos($option, SURVEYPRO_VALUELABELSEPARATOR) === false) {

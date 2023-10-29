@@ -380,7 +380,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -460,8 +460,8 @@ EOS;
         $idprefix = 'id_surveypro_field_age_'.$this->sortindex;
 
         // Begin of: element values.
-        $years = array();
-        $months = array();
+        $years = [];
+        $months = [];
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_age');
@@ -482,8 +482,8 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
-        $elementgroup = array();
-        $attributes = array();
+        $elementgroup = [];
+        $attributes = [];
 
         $itemname = $this->itemname.'_year';
         $attributes['id'] = $idprefix.'_year';
@@ -716,7 +716,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;

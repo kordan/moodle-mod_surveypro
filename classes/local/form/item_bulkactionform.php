@@ -46,7 +46,7 @@ class item_bulkactionform extends \moodleform {
         $mform = $this->_form;
 
         $fieldname = 'bulkaction';
-        $options = array();
+        $options = [];
         $options[SURVEYPRO_NOACTION] = get_string('choosedots');
         $options[SURVEYPRO_HIDEALLITEMS] = get_string('hideallitems', 'mod_surveypro');
         $options[SURVEYPRO_SHOWALLITEMS] = get_string('showallitems', 'mod_surveypro');
@@ -54,7 +54,7 @@ class item_bulkactionform extends \moodleform {
         $options[SURVEYPRO_DELETEVISIBLEITEMS] = get_string('deletevisibleitems', 'mod_surveypro');
         $options[SURVEYPRO_DELETEHIDDENITEMS] = get_string('deletehiddenitems', 'mod_surveypro');
 
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
         $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
         $mform->addElement('group', $fieldname.'_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);

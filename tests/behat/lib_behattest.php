@@ -38,7 +38,7 @@ function get_dummy_contents($type, $plugin) {
     $return->pluginid = 0;
     $return->type = $type;
     $return->plugin = $plugin;
-    $return->content_editor = array();
+    $return->content_editor = [];
     $return->content_editor['format'] = 1;
     $return->parentid = 0;
     $return->parentcontent = '';

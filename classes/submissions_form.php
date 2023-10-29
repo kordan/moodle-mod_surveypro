@@ -440,7 +440,7 @@ class submissions_form extends formbase {
             }
         }
 
-        $itemhelperinfo = array();
+        $itemhelperinfo = [];
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {
                 // With the introduction of interactive fieldset...
@@ -597,7 +597,7 @@ class submissions_form extends formbase {
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
         // Begin of: get the list of all mandatory fields.
-        $requireditems = array();
+        $requireditems = [];
         foreach ($pluginlist as $plugin) {
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
             $canbemandatory = $classname::item_uses_mandatory_dbfield();
@@ -725,14 +725,14 @@ class submissions_form extends formbase {
         $attributes = array_merge($attributes, \core_user\fields::get_name_fields(true));
         $fields = implode(', u.', $attributes);
 
-        $recipients = array();
+        $recipients = [];
         if ($this->surveypro->mailroles) {
             $rolesid = explode(',', $this->surveypro->mailroles);
             // For each roles (as selected in mod_form.php) get the list of users.
             foreach ($rolesid as $roleid) {
                 $recipients += get_role_users($roleid, $context, false, $fields);
             }
-            $firstlist = array();
+            $firstlist = [];
             foreach ($recipients as $recipient) {
                 $firstlist[] = $recipient->email;
             }
@@ -820,7 +820,7 @@ class submissions_form extends formbase {
         global $OUTPUT;
 
         if ($this->mode == SURVEYPRO_READONLYMODE) {
-            $params = array();
+            $params = [];
             $params['s'] = $this->surveypro->id;
             $params['submissionid'] = $this->get_submissionid();
             $params['mode'] = SURVEYPRO_READONLYMODE;
@@ -884,7 +884,7 @@ class submissions_form extends formbase {
         $dirtydata = (array)$this->formdata;
         $elementnames = array_keys($dirtydata);
 
-        $disposelist = array();
+        $disposelist = [];
         $olditemid = 0;
         foreach ($elementnames as $elementname) {
             if ($matches = utility_item::get_item_parts($elementname)) {

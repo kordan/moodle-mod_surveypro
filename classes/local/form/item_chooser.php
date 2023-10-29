@@ -60,10 +60,10 @@ class item_chooser extends \moodleform {
         }
         asort($formatplugins);
 
-        $pluginlist = array(get_string('typefield', 'mod_surveypro') => $fieldplugins,
-                            get_string('typeformat', 'mod_surveypro') => $formatplugins, );
+        $pluginlist = [get_string('typefield', 'mod_surveypro') => $fieldplugins,
+                            get_string('typeformat', 'mod_surveypro') => $formatplugins, ];
 
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
         // $attributes = ['id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'];
         // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, $attributes);

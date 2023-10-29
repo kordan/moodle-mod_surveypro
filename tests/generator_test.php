@@ -29,7 +29,7 @@
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_generator_testcase extends advanced_testcase {
+class generator_test extends advanced_testcase {
 
     /**
      * Test_create_instance.

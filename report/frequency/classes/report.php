@@ -86,13 +86,13 @@ class report extends reportbase {
         $baseurl = new \moodle_url('/mod/surveypro/report/frequency/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'content';
         $tablecolumns[] = 'absolute';
         $tablecolumns[] = 'percentage';
         $this->outputtable->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = get_string('content', 'surveyproreport_frequency');
         $tableheaders[] = get_string('absolute', 'surveyproreport_frequency');
         $tableheaders[] = get_string('percentage', 'surveyproreport_frequency');
@@ -131,7 +131,7 @@ class report extends reportbase {
         $where .= ' AND reserved = :reserved AND hidden = :hidden';
         $where .= ' AND plugin <> :plugin1 AND plugin <> :plugin2';
 
-        $params = array();
+        $params = [];
         $params['surveyproid'] = $this->surveypro->id;
         $params['type'] = SURVEYPRO_TYPEFIELD;
         $params['reserved'] = 0;
@@ -179,7 +179,7 @@ class report extends reportbase {
 
         $decimalseparator = get_string('decsep', 'langconfig');
         foreach ($answers as $answer) {
-            $tablerow = array();
+            $tablerow = [];
 
             // Answer.
             $itemvalue = new \stdClass();
@@ -209,7 +209,7 @@ class report extends reportbase {
     public function get_submissions_sql($itemid) {
         global $COURSE, $DB;
 
-        $whereparams = array();
+        $whereparams = [];
         $sql = 'SELECT '.$DB->sql_compare_text('a.content', 255).', MIN(a.id) as id, COUNT(a.id) as absolute
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id
@@ -284,7 +284,7 @@ class report extends reportbase {
         if (empty($CFG->gdversion)) {
             echo '('.get_string('gdneed').')';
         } else {
-            $imgparams = array();
+            $imgparams = [];
             $imgparams['class'] = 'resultgraph';
             $imgparams['height'] = SURVEYPROREPORT_FREQUENCY_GHEIGHT;
             $imgparams['width'] = SURVEYPROREPORT_FREQUENCY_GWIDTH;
