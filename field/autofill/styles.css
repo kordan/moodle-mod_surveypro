@@ -1,6 +1,16 @@
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
 /* makeup to autofill input to make it look like a label */
 /* DON'T INCLUDE THE SEARCH FORM because, at search time, autofill has to look like a regular field */
-form#userentry input.autofill_text {
+#page-mod-surveypro-layout form#userentry input.autofill_text,
+#page-mod-surveypro-view form#userentry input.autofill_text {
     background-color: transparent;
     border: 0 transparent none;
     box-shadow: none;

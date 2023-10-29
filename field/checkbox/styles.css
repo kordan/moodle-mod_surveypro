@@ -1,8 +1,21 @@
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
 /* Begin of: move horizontal checkbox label closer to corresponding checkboxes */
 /* useful in case of heckboxes horizontally aligned */
 /* NOTE: I have to add #userentry and #usersearch because I want to leave read-only layout untouched */
-#userentry .fitem .felement input[type='checkbox'],
-#usersearch .fitem .felement input[type='checkbox'] {
+#page-mod-surveypro-layout #userentry .fitem .felement input[type='checkbox'],
+#page-mod-surveypro-view #usersearch .fitem .felement input[type='checkbox'],
+#page-mod-surveypro-layout #userentry .fitem .felement input[type='checkbox'],
+#page-mod-surveypro-view #usersearch .fitem .felement input[type='checkbox'],
+#page-mod-surveypro-layout #userentry .fitem .felement input[type='checkbox'],
+#page-mod-surveypro-view #usersearch .fitem .felement input[type='checkbox'] {
     margin-right: .2em;
 }
 /* End of: move horizontal checkbox and radio label closer to corresponding checkboes */

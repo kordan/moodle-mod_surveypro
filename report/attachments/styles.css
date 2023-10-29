@@ -1,17 +1,26 @@
-table#attachments .picture {
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
+#page-mod-surveypro-reports table#attachments .picture {
     padding: 0.5em;
     width: 1.2em;
 }
 
-#page-mod-surveypro-report-attachments-uploads .info-indent {
+#page-mod-surveypro-reports .info-indent {
     display: table-cell;
 }
 
-#page-mod-surveypro-report-attachments-uploads .info-indent-1 {
+#page-mod-surveypro-reports .info-indent-1 {
     width: 30px;
 }
 
-#page-mod-surveypro-report-attachments-uploads label {
+#page-mod-surveypro-reports .label {
     display: inline-block;
     margin-top: .5rem;
 }

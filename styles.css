@@ -1,12 +1,24 @@
-/* Begin of: colours alternation for #layout_preview, #view_form, #view_search forms and read-only table*/
-#userentry div.row:nth-of-type(odd),
-#usersearch div.row:nth-of-type(odd) {
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
+/* Begin of: colours alternation for #layout_preview, #view_userentry, #view_usersearch forms and read-only table */
+#page-mod-surveypro-layout #userentry div.row:nth-of-type(odd),
+#page-mod-surveypro-view #userentry div.row:nth-of-type(odd),
+#page-mod-surveypro-view #usersearch div.row:nth-of-type(odd) {
     background-color: #ededed;
 }
-/* End of: colours alternation for #userentry, #usersearch forms and read-only table*/
+/* End of: colours alternation for #userentry, #usersearch forms and read-only table */
 
 /* Begin of: hacky coluorunifier html element */
-div.colorunifier {
+#page-mod-surveypro-layout #userentry div.colorunifier,
+#page-mod-surveypro-view #userentry div.colorunifier,
+#page-mod-surveypro-view #usersearch div.colorunifier {
     line-height: 0;
     margin-bottom: 0;
     padding: 0;
@@ -14,73 +26,80 @@ div.colorunifier {
 /* End of: hacky coluorunifier html element */
 
 /* Begin of: connect note to question */
-#userentry > div.fitem,
-#usersearch > div.fitem,
-#userentry > fieldset > div > div.fitem,
-#usersearch > fieldset > div > div.fitem {
+#page-mod-surveypro-layout #userentry > div.fitem,
+#page-mod-surveypro-view #userentry > div.fitem,
+#page-mod-surveypro-view #usersearch > div.fitem,
+#page-mod-surveypro-layout #userentry > fieldset > div > div.fitem,
+#page-mod-surveypro-view #userentry > fieldset > div > div.fitem,
+#page-mod-surveypro-view #usersearch > fieldset > div > div.fitem {
     margin: 0;
 }
 /* End of: connect note to question */
 
 /* Begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
-.mform .fitem > div.fullwidth > p {
+#page-mod-surveypro-layout .mform .fitem > div.fullwidth > p,
+#page-mod-surveypro-view .mform .fitem > div.fullwidth > p {
     margin: 0 1em 0 1em;
 }
 /* End of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
 
-.mform .fitem .felement label {
+#page-mod-surveypro-layout .mform .fitem .felement label,
+#page-mod-surveypro-view .mform .fitem .felement label {
     margin-right: 1em;
 }
 
-div.col-form-label {
+/* The box on the left usually displaying the question */
+#page-mod-surveypro-layout div.col-form-label,
+#page-mod-surveypro-view div.col-form-label {
     /* background-color: red; */
     padding-top: 0;
 }
 
-div.userentry {
+#page-mod-surveypro-layout div.userentry,
+#page-mod-surveypro-view div.userentry {
     padding: 3em;
 }
 
 /* Begin of: #manageitems, #sortitems and #validaterelations tables*/
-table#manageitems th,
-table#sortitems th,
-table#validaterelations th {
+#page-mod-surveypro-layout table#manageitems th,
+#page-mod-surveypro-layout table#sortitems th,
+#page-mod-surveypro-layout table#validaterelations th {
     vertical-align: inherit;
 }
 
-table#manageitems td,
-table#sortitems td,
-table#validaterelations td {
+#page-mod-surveypro-layout table#manageitems td,
+#page-mod-surveypro-layout table#sortitems td,
+#page-mod-surveypro-layout table#validaterelations td {
     vertical-align: inherit;
 }
 
-table#manageitems,
-table#sortitems,
-table#validaterelations {
+#page-mod-surveypro-layout table#manageitems,
+#page-mod-surveypro-layout table#sortitems,
+#page-mod-surveypro-layout table#validaterelations {
     width: 100%;
 }
 
-table#manageitems .plugin,
-table#sortitems .plugin,
-table#validaterelations .plugin {
+#page-mod-surveypro-layout table#manageitems .plugin,
+#page-mod-surveypro-layout table#sortitems .plugin,
+#page-mod-surveypro-layout table#validaterelations .plugin {
     text-align: center;
 }
 
-table#manageitems .hide {
+#page-mod-surveypro-layout table#manageitems .hide {
     display: none;
 }
 
-table#manageitems td.plugin,
-table#sortitems td.plugin,
-table#validaterelations td.plugin {
+#page-mod-surveypro-layout table#manageitems td.plugin,
+#page-mod-surveypro-layout table#sortitems td.plugin,
+#page-mod-surveypro-layout table#validaterelations td.plugin {
     width: 0.5em;
     padding: 0.5em;
     text-align: center;
 }
 
-table#manageitems td.plugin span.pluginicon,
-table#sortitems td.plugin span.pluginicon,
-table#validaterelations td.plugin span.pluginicon {
+#page-mod-surveypro-layout table#manageitems td.plugin span.pluginicon,
+#page-mod-surveypro-layout table#sortitems td.plugin span.pluginicon,
+#page-mod-surveypro-layout table#validaterelations td.plugin span.pluginicon {
     /*width: 0.5em;*/
     padding: 0.5em;
     margin: 0;
@@ -88,9 +107,9 @@ table#validaterelations td.plugin span.pluginicon {
     vertical-align: middle;
 }
 
-table#manageitems td.sortindex,
-table#sortitems td.sortindex,
-table#validaterelations td.sortindex {
+#page-mod-surveypro-layout table#manageitems td.sortindex,
+#page-mod-surveypro-layout table#sortitems td.sortindex,
+#page-mod-surveypro-layout table#validaterelations td.sortindex {
     width: 0.5em;
     padding: 0.5em;
     text-align: right;
@@ -98,9 +117,9 @@ table#validaterelations td.sortindex {
     vertical-align: middle;
 }
 
-table#manageitems td.parentitem,
-table#sortitems td.parentitem,
-table#validaterelations td.parentitem {
+#page-mod-surveypro-layout table#manageitems td.parentitem,
+#page-mod-surveypro-layout table#sortitems td.parentitem,
+#page-mod-surveypro-layout table#validaterelations td.parentitem {
     width: 0.5em;
     padding: 0.5em;
     margin: 0;
@@ -109,39 +128,39 @@ table#validaterelations td.parentitem {
     text-align: center;
 }
 
-table#manageitems td.parentitem span.branch .icon,
-table#sortitems td.parentitem span.branch .icon,
-table#validaterelations td.parentitem span.branch .icon {
+#page-mod-surveypro-layout table#manageitems td.parentitem span.branch .icon,
+#page-mod-surveypro-layout table#sortitems td.parentitem span.branch .icon,
+#page-mod-surveypro-layout table#validaterelations td.parentitem span.branch .icon {
     width: 16px;
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
 }
 
-table#manageitems td.customnumber,
-table#sortitems td.customnumber {
+#page-mod-surveypro-layout table#manageitems td.customnumber,
+#page-mod-surveypro-layout table#sortitems td.customnumber {
     width: 0.5em;
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
 }
 
-table#manageitems td.content,
-table#sortitems td.content,
-table#validaterelations td.content {
+#page-mod-surveypro-layout table#manageitems td.content,
+#page-mod-surveypro-layout table#sortitems td.content,
+#page-mod-surveypro-layout table#validaterelations td.content {
     padding: 0.5em;
     vertical-align: middle;
 }
 
-table#manageitems td.variable,
-table#sortitems td.variable {
+#page-mod-surveypro-layout table#manageitems td.variable,
+#page-mod-surveypro-layout table#sortitems td.variable {
     padding: 0.5em;
     text-align: left;
     white-space: nowrap;
     vertical-align: middle;
 }
 
-table#manageitems td.formpage,
-table#sortitems td.formpage {
+#page-mod-surveypro-layout table#manageitems td.formpage,
+#page-mod-surveypro-layout table#sortitems td.formpage {
     width: 0.5em;
     padding: 0.5em;
     text-align: center;
@@ -149,8 +168,8 @@ table#sortitems td.formpage {
     vertical-align: middle;
 }
 
-table#manageitems td.availability,
-table#sortitems td.availability {
+#page-mod-surveypro-layout table#manageitems td.availability,
+#page-mod-surveypro-layout table#sortitems td.availability {
     width: 0.5em;
     padding: 0.5em;
     text-align: center;
@@ -158,10 +177,10 @@ table#sortitems td.availability {
     vertical-align: middle;
 }
 
-table#manageitems td.availability img.icon,
-table#manageitems td.availability i.icon,
-table#sortitems td.availability img.icon,
-table#sortitems td.availability i.icon {
+#page-mod-surveypro-layout table#manageitems td.availability img.icon,
+#page-mod-surveypro-layout table#manageitems td.availability i.icon,
+#page-mod-surveypro-layout table#sortitems td.availability img.icon,
+#page-mod-surveypro-layout table#sortitems td.availability i.icon {
     width: 16px;
     height: 16px;
     padding: 0;
@@ -169,22 +188,22 @@ table#sortitems td.availability i.icon {
     margin-right: 0.2em;
 }
 
-table#manageitems td.actions,
-table#sortitems td.actions,
-table#validaterelations td.actions {
+#page-mod-surveypro-layout table#manageitems td.actions,
+#page-mod-surveypro-layout table#sortitems td.actions,
+#page-mod-surveypro-layout table#validaterelations td.actions {
     width: 3em;
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
 }
 
-table#manageitems td.actions span.reorder,
-table#sortitems td.actions span.reorder {
+#page-mod-surveypro-layout table#manageitems td.actions span.reorder,
+#page-mod-surveypro-layout table#sortitems td.actions span.reorder {
     padding: .2em;
 }
 
-table#manageitems td.actions span.fatspan,
-table#sortitems td.actions span.fatspan {
+#page-mod-surveypro-layout table#manageitems td.actions span.fatspan,
+#page-mod-surveypro-layout table#sortitems td.actions span.fatspan {
     display: inline;
     border-collapse: collapse;
     border-spacing: 0 0;
@@ -194,8 +213,8 @@ table#sortitems td.actions span.fatspan {
     float: none;
 }
 
-table#manageitems td.actions span.lastspan,
-table#sortitems td.actions span.lastspan {
+#page-mod-surveypro-layout table#manageitems td.actions span.lastspan,
+#page-mod-surveypro-layout table#sortitems td.actions span.lastspan {
     display: inline;
     border-collapse: collapse;
     border-spacing: 0 0;
@@ -207,32 +226,32 @@ table#sortitems td.actions span.lastspan {
     margin-left: 0.1em;
 }
 
-table#manageitems span.noactionicon,
-table#sortitems span.noactionicon {
+#page-mod-surveypro-layout table#manageitems span.noactionicon,
+#page-mod-surveypro-layout table#sortitems span.noactionicon {
     padding: 0.2em;
     white-space: nowrap;
 }
 
-table#manageitems span.spacericon,
-table#sortitems span.spacericon {
+#page-mod-surveypro-layout table#manageitems span.spacericon,
+#page-mod-surveypro-layout table#sortitems span.spacericon {
     padding-right: 0.2em;
     white-space: nowrap;
 }
 
-table#manageitems td.actions span.spacericon img.icon,
-table#sortitems td.actions span.spacericon i.icon {
+#page-mod-surveypro-layout table#manageitems td.actions span.spacericon img.icon,
+#page-mod-surveypro-layout table#sortitems td.actions span.spacericon i.icon {
     width: 1.3em;
 }
 
-table#sortitems td.plugin img.placeholder {
+#page-mod-surveypro-layout table#sortitems td.plugin img.placeholder {
     height: 16px;
     width: 80px;
 }
 
-table#manageitems td.actions img.icon,
-table#manageitems td.actions i.icon,
-table#sortitems td.actions img.icon,
-table#sortitems td.actions i.icon {
+#page-mod-surveypro-layout table#manageitems td.actions img.icon,
+#page-mod-surveypro-layout table#manageitems td.actions i.icon,
+#page-mod-surveypro-layout table#sortitems td.actions img.icon,
+#page-mod-surveypro-layout table#sortitems td.actions i.icon {
     width: 16px;
     height: 16px;
     padding: 0;
@@ -240,66 +259,70 @@ table#sortitems td.actions i.icon {
     margin-right: 0;
 }
 
-table#manageitems td.actions a.icon,
-table#sortitems td.actions a.icon,
-table#validaterelations td.actions a.icon {
+#page-mod-surveypro-layout table#manageitems td.actions a.icon,
+#page-mod-surveypro-layout table#sortitems td.actions a.icon,
+#page-mod-surveypro-layout table#validaterelations td.actions a.icon {
     margin-right: 0;
 }
 
-table#manageitems .header,
-table#sortitems .header,
-table#validaterelations .header {
+#page-mod-surveypro-layout table#manageitems .header,
+#page-mod-surveypro-layout table#sortitems .header,
+#page-mod-surveypro-layout table#validaterelations .header {
     text-align: center;
 }
 
-table#manageitems .dimmed,
-table#sortitems .dimmed,
-table#validaterelations .dimmed {
+#page-mod-surveypro-layout table#manageitems .dimmed,
+#page-mod-surveypro-layout table#sortitems .dimmed,
+#page-mod-surveypro-layout table#validaterelations .dimmed {
     color: #cdcdcd;
 }
 
-table#validaterelations td.parentconstraints {
+#page-mod-surveypro-layout table#validaterelations .header {
+    text-align: center;
+}
+
+#page-mod-surveypro-layout table#validaterelations td.parentconstraints {
     padding: 0.5em;
     text-align: left;
     white-space: nowrap;
 }
 
-table#validaterelations td.status {
+#page-mod-surveypro-layout table#validaterelations td.status {
     padding: 0.5em;
     white-space: nowrap;
 }
 
-table#validaterelations td.status .warningmessage {
+#page-mod-surveypro-layout table#validaterelations td.status .warningmessage {
     color: yellow;
 }
 
-table#validaterelations td.status .errormessage {
+#page-mod-surveypro-layout table#validaterelations td.status .errormessage {
     color: red;
 }
 /* End of: #manageitems, #sortitems, #managetemplates and #validaterelations tables*/
 
 /* Begin of: submissions table */
-table#submissions {
+#page-mod-surveypro-view table#submissions {
     width: 100%;
 }
 
-table#submissions td.actions {
+#page-mod-surveypro-view table#submissions td.actions {
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
 }
 
-table#submissions .cell {
+#page-mod-surveypro-view table#submissions .cell {
     vertical-align: middle;
 }
 
-table#submissions .picture {
+#page-mod-surveypro-view table#submissions .picture {
     padding: 0.5em;
     width: 1.2em;
 }
 
-table#submissions .actions img.icon,
-table#submissions .actions i.icon {
+#page-mod-surveypro-view table#submissions .actions img.icon,
+#page-mod-surveypro-view table#submissions .actions i.icon {
     width: 16px;
     height: 16px;
     margin: 0 0 0 0.45em;
@@ -309,45 +332,45 @@ table#submissions .actions i.icon {
 /* End of: submissions table */
 
 /* Begin of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
-form#itemsetup table.exampletable {
+#page-mod-surveypro-layout form#itemsetup table.exampletable {
     padding: 0;
     margin: 0 0 0 20px;
     width: auto;
 }
 
-form#itemsetup td.pluginname {
+#page-mod-surveypro-layout form#itemsetup td.pluginname {
     padding: 0 20px 0 0;
     vertical-align: top;
     /* width: 60%; */
 }
 
-form#itemsetup td.inputformat {
+#page-mod-surveypro-layout form#itemsetup td.inputformat {
     padding: 0;
     vertical-align: top;
     /* width: 40%; */
 }
 
-form#itemsetup .felement.fstatic ul {
+#page-mod-surveypro-layout form#itemsetup .felement.fstatic ul {
     line-height: 1.2em;
 }
 
-form#itemsetup .felement .longfield {
+#page-mod-surveypro-layout form#itemsetup .felement .longfield {
     width: 25em;
 }
 /* End of: selectors for the static field explaining the format needed by each plugin in parentcontent field */
 
 /* Begin of: #managetemplates table*/
-table#managetemplates {
+#page-mod-surveypro-utemplates table#managetemplates {
     width: 100%;
 }
 
-table#managetemplates td.actions {
+#page-mod-surveypro-utemplates table#managetemplates td.actions {
     padding: 0.5em;
     white-space: nowrap;
     vertical-align: middle;
 }
 
-table#managetemplates td.actions i.icon {
+#page-mod-surveypro-utemplates table#managetemplates td.actions i.icon {
     width: 16px;
     height: 16px;
     padding: 0;
@@ -355,191 +378,262 @@ table#managetemplates td.actions i.icon {
     margin-right: 0;
 }
 
-table#managetemplates td.actions a.icon {
+#page-mod-surveypro-utemplates table#managetemplates td.actions a.icon {
     margin-right: 0;
 }
 
-table#managetemplates .header {
-    text-align: center;
-}
-
-table#validaterelations .header {
+#page-mod-surveypro-utemplates table#managetemplates .header {
     text-align: center;
 }
 /* End of: #managetemplates table */
 
 /* classes = indent-n */
-.fitem .felement .indent-1 {
+#page-mod-surveypro-layout .fitem .felement .indent-1,
+#page-mod-surveypro-view .fitem .felement .indent-1 {
     margin-left: 1.5em;
 }
 /* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-1 > div > select,
-div.indent-1 > div > textarea,
-div.indent-1 > div > input[type='text'],
-div.indent-1 > div > div > label,
-.form-group div.fitem.indent-1 {
+#page-mod-surveypro-layout div.indent-1 > div > select,
+#page-mod-surveypro-layout div.indent-1 > div > textarea,
+#page-mod-surveypro-layout div.indent-1 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-1 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-1,
+#page-mod-surveypro-view div.indent-1 > div > select,
+#page-mod-surveypro-view div.indent-1 > div > textarea,
+#page-mod-surveypro-view div.indent-1 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-1 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-1 {
     margin-left: 1.5em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-1.fileupload_filemanager ~ div,
-div.indent-1.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-1.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-1.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-1.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-1.fileupload_filemanager ~ p {
     margin-left: 1.5em;
 }
 
 /* class = indent-2 */
-.fitem .felement .indent-2 {
+#page-mod-surveypro-layout .fitem .felement .indent-2,
+#page-mod-surveypro-view .fitem .felement .indent-2 {
     margin-left: 3em;
 }
 /* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-2 > div > select,
-div.indent-2 > div > textarea,
-div.indent-2 > div > input[type='text'],
-div.indent-2 > div > div > label,
-.form-group div.fitem.indent-2 {
+#page-mod-surveypro-layout div.indent-2 > div > select,
+#page-mod-surveypro-layout div.indent-2 > div > textarea,
+#page-mod-surveypro-layout div.indent-2 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-2 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-2,
+#page-mod-surveypro-view div.indent-2 > div > select,
+#page-mod-surveypro-view div.indent-2 > div > textarea,
+#page-mod-surveypro-view div.indent-2 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-2 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-2 {
     margin-left: 3em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-2.fileupload_filemanager ~ div,
-div.indent-2.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-2.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-2.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-2.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-2.fileupload_filemanager ~ p {
     margin-left: 3em;
 }
 
 /* class = indent-3 */
-.fitem .felement .indent-3 {
+#page-mod-surveypro-layout .fitem .felement .indent-3,
+#page-mod-surveypro-view .fitem .felement .indent-3 {
     margin-left: 4.5em;
 }
 /* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-3 > div > select,
-div.indent-3 > div > textarea,
-div.indent-3 > div > input[type='text'],
-div.indent-3 > div > div > label,
-.form-group div.fitem.indent-3 {
+#page-mod-surveypro-layout div.indent-3 > div > select,
+#page-mod-surveypro-layout div.indent-3 > div > textarea,
+#page-mod-surveypro-layout div.indent-3 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-3 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-3,
+#page-mod-surveypro-view div.indent-3 > div > select,
+#page-mod-surveypro-view div.indent-3 > div > textarea,
+#page-mod-surveypro-view div.indent-3 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-3 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-3 {
     margin-left: 4.5em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-3.fileupload_filemanager ~ div,
-div.indent-3.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-3.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-3.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-3.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-3.fileupload_filemanager ~ p {
     margin-left: 4.5em;
 }
 
 /* class = indent-4 */
-.fitem .felement .indent-4 {
+#page-mod-surveypro-layout .fitem .felement .indent-4,
+#page-mod-surveypro-view .fitem .felement .indent-4 {
     margin-left: 6em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-4 > div > select,
-div.indent-4 > div > textarea,
-div.indent-4 > div > input[type='text'],
-div.indent-4 > div > div > label,
-.form-group div.fitem.indent-4 {
+#page-mod-surveypro-layout div.indent-4 > div > select,
+#page-mod-surveypro-layout div.indent-4 > div > textarea,
+#page-mod-surveypro-layout div.indent-4 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-4 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-4,
+#page-mod-surveypro-view div.indent-4 > div > select,
+#page-mod-surveypro-view div.indent-4 > div > textarea,
+#page-mod-surveypro-view div.indent-4 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-4 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-4 {
     margin-left: 6em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-4.fileupload_filemanager ~ div,
-div.indent-4.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-4.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-4.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-4.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-4.fileupload_filemanager ~ p {
     margin-left: 6em;
 }
 
 /* class = indent-5 */
-.fitem .felement .indent-5 {
+#page-mod-surveypro-layout .fitem .felement .indent-5,
+#page-mod-surveypro-view .fitem .felement .indent-5 {
     margin-left: 7.5em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-5 > div > select,
-div.indent-5 > div > textarea,
-div.indent-5 > div > input[type='text'],
-div.indent-5 > div > div > label,
-.form-group div.fitem.indent-5 {
+#page-mod-surveypro-layout div.indent-5 > div > select,
+#page-mod-surveypro-layout div.indent-5 > div > textarea,
+#page-mod-surveypro-layout div.indent-5 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-5 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-5,
+#page-mod-surveypro-view div.indent-5 > div > select,
+#page-mod-surveypro-view div.indent-5 > div > textarea,
+#page-mod-surveypro-view div.indent-5 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-5 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-5 {
     margin-left: 7.5em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-5.fileupload_filemanager ~ div,
-div.indent-5.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-5.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-5.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-5.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-5.fileupload_filemanager ~ p {
     margin-left: 7.5em;
 }
 
 /* class = indent-6 */
-.fitem .felement .indent-6 {
+#page-mod-surveypro-layout .fitem .felement .indent-6,
+#page-mod-surveypro-view .fitem .felement .indent-6 {
     margin-left: 9em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-6 > div > select,
-div.indent-6 > div > textarea,
-div.indent-6 > div > input[type='text'],
-div.indent-6 > div > div > label,
-.form-group div.fitem.indent-6 {
+#page-mod-surveypro-layout div.indent-6 > div > select,
+#page-mod-surveypro-layout div.indent-6 > div > textarea,
+#page-mod-surveypro-layout div.indent-6 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-6 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-6,
+#page-mod-surveypro-view div.indent-6 > div > select,
+#page-mod-surveypro-view div.indent-6 > div > textarea,
+#page-mod-surveypro-view div.indent-6 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-6 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-6 {
     margin-left: 9em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-6.fileupload_filemanager ~ div,
-div.indent-6.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-6.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-6.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-6.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-6.fileupload_filemanager ~ p {
     margin-left: 9em;
 }
 
 /* class = indent-7 */
-.fitem .felement .indent-7 {
+#page-mod-surveypro-layout .fitem .felement .indent-7,
+#page-mod-surveypro-view .fitem .felement .indent-7 {
     margin-left: 10.5em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-7 > div > select,
-div.indent-7 > div > textarea,
-div.indent-7 > div > input[type='text'],
-div.indent-7 > div > div > label,
-.form-group div.fitem.indent-7 {
+#page-mod-surveypro-layout div.indent-7 > div > select,
+#page-mod-surveypro-layout div.indent-7 > div > textarea,
+#page-mod-surveypro-layout div.indent-7 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-7 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-7,
+#page-mod-surveypro-view div.indent-7 > div > select,
+#page-mod-surveypro-view div.indent-7 > div > textarea,
+#page-mod-surveypro-view div.indent-7 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-7 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-7 {
     margin-left: 10.5em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-7.fileupload_filemanager ~ div,
-div.indent-7.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-7.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-7.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-7.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-7.fileupload_filemanager ~ p {
     margin-left: 10.5em;
 }
 
 /* class = indent-8 */
-.fitem .felement .indent-8 {
+#page-mod-surveypro-layout .fitem .felement .indent-8,
+#page-mod-surveypro-view .fitem .felement .indent-8 {
     margin-left: 12em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-8 > div > select,
-div.indent-8 > div > textarea,
-div.indent-8 > div > input[type='text'],
-div.indent-8 > div > div > label,
-.form-group div.fitem.indent-8 {
+#page-mod-surveypro-layout div.indent-8 > div > select,
+#page-mod-surveypro-layout div.indent-8 > div > textarea,
+#page-mod-surveypro-layout div.indent-8 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-8 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-8,
+#page-mod-surveypro-view div.indent-8 > div > select,
+#page-mod-surveypro-view div.indent-8 > div > textarea,
+#page-mod-surveypro-view div.indent-8 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-8 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-8 {
     margin-left: 12em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-8.fileupload_filemanager ~ div,
-div.indent-8.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-8.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-8.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-8.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-8.fileupload_filemanager ~ p {
     margin-left: 12em;
 }
 
 /* class = indent-9 */
-.fitem .felement .indent-9 {
+#page-mod-surveypro-layout .fitem .felement .indent-9,
+#page-mod-surveypro-view .fitem .felement .indent-9 {
     margin-left: 13.5em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-div.indent-9 > div > select,
-div.indent-9 > div > textarea,
-div.indent-9 > div > input[type='text'],
-div.indent-9 > div > div > label,
-.form-group div.fitem.indent-9 {
+#page-mod-surveypro-layout div.indent-9 > div > select,
+#page-mod-surveypro-layout div.indent-9 > div > textarea,
+#page-mod-surveypro-layout div.indent-9 > div > input[type='text'],
+#page-mod-surveypro-layout div.indent-9 > div > div > label,
+#page-mod-surveypro-layout .form-group div.fitem.indent-9,
+#page-mod-surveypro-view div.indent-9 > div > select,
+#page-mod-surveypro-view div.indent-9 > div > textarea,
+#page-mod-surveypro-view div.indent-9 > div > input[type='text'],
+#page-mod-surveypro-view div.indent-9 > div > div > label,
+#page-mod-surveypro-view .form-group div.fitem.indent-9 {
     margin-left: 13.5em;
 }
 /* correction for fileupload_filemanager specifications that resist to the general selector */
-div.indent-9.fileupload_filemanager ~ div,
-div.indent-9.fileupload_filemanager ~ p {
+#page-mod-surveypro-layout div.indent-9.fileupload_filemanager ~ div,
+#page-mod-surveypro-layout div.indent-9.fileupload_filemanager ~ p,
+#page-mod-surveypro-view div.indent-9.fileupload_filemanager ~ div,
+#page-mod-surveypro-view div.indent-9.fileupload_filemanager ~ p {
     margin-left: 13.5em;
 }
 
 /* This is for checkboxes affected by MDL-62634 */
-label.indent-1 > input[type='checkbox'].indent-1,
-label.indent-2 > input[type='checkbox'].indent-2,
-label.indent-3 > input[type='checkbox'].indent-3,
-label.indent-4 > input[type='checkbox'].indent-4,
-label.indent-5 > input[type='checkbox'].indent-5,
-label.indent-6 > input[type='checkbox'].indent-6,
-label.indent-7 > input[type='checkbox'].indent-7,
-label.indent-8 > input[type='checkbox'].indent-8,
-label.indent-9 > input[type='checkbox'].indent-9 {
+#page-mod-surveypro-layout label.indent-1 > input[type='checkbox'].indent-1,
+#page-mod-surveypro-view label.indent-1 > input[type='checkbox'].indent-1,
+#page-mod-surveypro-layout label.indent-2 > input[type='checkbox'].indent-2,
+#page-mod-surveypro-view label.indent-2 > input[type='checkbox'].indent-2,
+#page-mod-surveypro-layout label.indent-3 > input[type='checkbox'].indent-3,
+#page-mod-surveypro-view label.indent-3 > input[type='checkbox'].indent-3,
+#page-mod-surveypro-layout label.indent-4 > input[type='checkbox'].indent-4,
+#page-mod-surveypro-view label.indent-4 > input[type='checkbox'].indent-4,
+#page-mod-surveypro-layout label.indent-5 > input[type='checkbox'].indent-5,
+#page-mod-surveypro-view label.indent-5 > input[type='checkbox'].indent-5,
+#page-mod-surveypro-layout label.indent-6 > input[type='checkbox'].indent-6,
+#page-mod-surveypro-view label.indent-6 > input[type='checkbox'].indent-6,
+#page-mod-surveypro-layout label.indent-7 > input[type='checkbox'].indent-7,
+#page-mod-surveypro-view label.indent-7 > input[type='checkbox'].indent-7,
+#page-mod-surveypro-layout label.indent-8 > input[type='checkbox'].indent-8,
+#page-mod-surveypro-view label.indent-8 > input[type='checkbox'].indent-8,
+#page-mod-surveypro-layout label.indent-9 > input[type='checkbox'].indent-9,
+#page-mod-surveypro-view label.indent-9 > input[type='checkbox'].indent-9 {
     margin-left: 0;
 }
 /* End of: classes = indent-n */
@@ -569,36 +663,36 @@ table.surveypro_index td span.dimmed {
 }
 /* End of: table with list of surveypro in index.php */
 
-/* to correct vertical alignment in read only mode */
-form#userentry .fitem .felement.fgroup,
-form#userentry .fitem .felement.feditor,
-form#userentry .fitem .felement.fselect,
-form#userentry .fitem .felement.fcheckbox,
-form#userentry .fitem .felement.fstatic {
+/* to correct vertical alignment */
+#page-mod-surveypro-view form#userentry .fitem .felement.fgroup,
+#page-mod-surveypro-view form#userentry .fitem .felement.feditor,
+#page-mod-surveypro-view form#userentry .fitem .felement.fselect,
+#page-mod-surveypro-view form#userentry .fitem .felement.fcheckbox,
+#page-mod-surveypro-view form#userentry .fitem .felement.fstatic {
     padding-top: 2px;
     padding-bottom: 2px;
 }
-/* End of: to correct vertical alignment in read only mode */
+/* End of: to correct vertical alignment */
 
 /* vertical distance between top margin of a row and input elements is too small */
-form#userentry .fitem,
-form#usersearch .fitem {
+#page-mod-surveypro-view form#userentry .fitem,
+#page-mod-surveypro-view form#usersearch .fitem {
     padding-top: 2px;
     padding-bottom: 2px;
 }
 /* End of: vertical distance between top margin of a row and input elements is too small */
 
 /* padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements (but not only) */
-form#userentry div.rate_check,
-form#usersearch div.rate_check {
+#page-mod-surveypro-view form#userentry div.rate_check,
+#page-mod-surveypro-view form#usersearch div.rate_check {
     padding-bottom: 0.5em;
     padding-top: 0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements (but not only) */
 
 /* padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements (but not only) */
-form#userentry div.fitem_fstatic,
-form#usersearch div.fitem_fstatic {
+#page-mod-surveypro-view form#userentry div.fitem_fstatic,
+#page-mod-surveypro-view form#usersearch div.fitem_fstatic {
     padding-top: 0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements (but not only) */

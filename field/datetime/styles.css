@@ -1,9 +1,19 @@
-/* Begin of: horizontal align of labels inside age elements in read-only mode */
-.datetime_separator_comma {
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
+/* Begin of: horizontal align of labels inside datetime elements in read-only mode */
+#page-mod-surveypro-view #userentry .frozen .datetime_separator_comma {
     margin-top: .7em;
     margin-right: .5em;
 }
-.datetime_separator_colon {
+
+#page-mod-surveypro-view #userentry .frozen .datetime_separator_colon {
     margin-top: .7em;
 }
 /* End of: horizontal align of labels inside age elements in read-only mode */

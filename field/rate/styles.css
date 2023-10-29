@@ -1,14 +1,25 @@
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
 /* reduce vertical distance between selects in rate elements */
-form#userentry select.rate_select,
-form#usersearch select.rate_select {
+#page-mod-surveypro-layout form#userentry select.rate_select,
+#page-mod-surveypro-view form#userentry select.rate_select,
+#page-mod-surveypro-view form#usersearch select.rate_select {
     margin-bottom: 0.2em;
     margin-top: 0.2em;
 }
 /* End of: reduce vertical distance between selects in rate elements */
 
 /* padding top for div opening to rate elements */
-form#userentry div.rate_select,
-form#usersearch div.rate_select {
+#page-mod-surveypro-layout form#userentry div.rate_select,
+#page-mod-surveypro-view form#userentry div.rate_select,
+#page-mod-surveypro-view form#usersearch div.rate_select {
     padding-top: 0;
 }
 /* End of: padding top for div opening to rate elements */

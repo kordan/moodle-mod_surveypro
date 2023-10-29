@@ -1,4 +1,13 @@
-table#lateusers .picture {
+/*
+ * Legenda:
+ *     #page-mod-surveypro-layout #userentry          form preview;
+ *     #page-mod-surveypro-view #userentry:           form to submit a response;
+ *     #page-mod-surveypro-view #usersearch           form to search a response;
+ *     #page-mod-surveypro-view #userentry .frozen    readonly response
+ *     #page-mod-surveypro-layout table#manageitems   manage items table
+ */
+
+#page-mod-surveypro-reports table#lateusers .picture {
     padding: 0.5em;
     width: 1.2em;
 }
