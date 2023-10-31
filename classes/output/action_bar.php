@@ -158,13 +158,6 @@ class action_bar {
 
         $paramurl = ['s' => $this->surveypro->id];
 
-        // Layout -> preview.
-        if ($canpreview) {
-            $paramurl['section'] = 'preview';
-            $linktopreview = new moodle_url('/mod/surveypro/layout.php', $paramurl);
-            $menu[$linktopreview->out(false)] = get_string('layout_preview', 'mod_surveypro');
-        }
-
         // Layout -> itemslist.
         if ($canmanageitems) {
             $paramurl['section'] = 'itemslist';
@@ -194,6 +187,13 @@ class action_bar {
             $paramurl['section'] = 'branchingvalidation';
             $linktobranchingvalidation = new moodle_url('/mod/surveypro/layout.php', $paramurl);
             $menu[$linktobranchingvalidation->out(false)] = get_string('layout_branchingvalidation', 'mod_surveypro');
+        }
+
+        // Layout -> preview.
+        if ($canpreview) {
+            $paramurl['section'] = 'preview';
+            $linktopreview = new moodle_url('/mod/surveypro/layout.php', $paramurl);
+            $menu[$linktopreview->out(false)] = get_string('layout_preview', 'mod_surveypro');
         }
 
         $activeurl = $this->currenturl;
