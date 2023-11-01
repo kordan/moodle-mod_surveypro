@@ -134,6 +134,9 @@ switch ($type) {
     case 'students':
     case 'student':
         break;
+    default:
+        $message = 'Unexpected $type = '.$type;
+        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
 }
 
 // Finish the page.

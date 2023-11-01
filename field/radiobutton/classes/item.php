@@ -505,7 +505,6 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $choosedotsstr = get_string('choosedots');
         $starsstr = get_string('star', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');

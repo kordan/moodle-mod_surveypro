@@ -363,8 +363,6 @@ class tools_export {
         $worksheet = array();
         $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'mod_surveypro'));
 
-        $itemseeds = $this->export_get_field_list();
-
         // Get headers and placeholders.
         list($headerlabels, $placeholders) = $this->export_get_output_headers();
         $rowcounter = 0;

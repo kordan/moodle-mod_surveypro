@@ -497,7 +497,6 @@ EOS;
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
@@ -711,7 +710,6 @@ EOS;
      */
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         // I need to verify (item per item) if they hold the same value the user entered.
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 2;3.
 
         if (isset($data[$this->itemname])) {

@@ -259,7 +259,6 @@ class utility_layout {
             return;
         }
 
-        $context = \context_module::instance($this->cm->id);
         // Delete answers to this/these item/s.
         foreach ($items as $item) {
             $this->delete_answers(['itemid' => $item->id], $item);

@@ -202,7 +202,6 @@ class tools_import {
      */
     public function are_children_orphans($surveyheaders) {
         $orphansheader = array();
-        $missingheader = array();
         foreach ($this->itemhelperinfo as $k => $itemhelper) {
             // Is this item a child?
             if (!empty($itemhelper->parentid)) {

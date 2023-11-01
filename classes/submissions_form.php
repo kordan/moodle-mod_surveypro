@@ -1045,7 +1045,6 @@ class submissions_form extends formbase {
             } else {
                 echo '$mysamegroup = false<br>';
             }
-            echo '$mysamegroup =';
             // print_object($mysamegroup); // <-- This is better than var_dump but codechecker doesn't like it.
         }
 

@@ -197,6 +197,8 @@ class behat_mod_surveypro extends behat_base {
             case 'hidden':
                 $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and contains(@class, 'dimmed')]");
                 break;
+            default:
+                throw new Exception('Unrecognised status "' . $status . '."');
         }
         $tablerows = count($nodes);
 
@@ -223,6 +225,8 @@ class behat_mod_surveypro extends behat_base {
             case 'hidden':
                 $message = sprintf('%d hidden items found in the "item" table, but should be %d.', $tablerows, $givennumber);
                 break;
+            default:
+                throw new Exception('Unrecognised status "' . $status . '."');
         }
         throw new ExpectationException($message, $this->getsession());
     }

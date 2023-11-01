@@ -152,7 +152,6 @@ class usertemplate extends templatebase {
         $xmlfiles = $this->get_xmlfiles_list($acontextid);
         $items = [];
         foreach ($xmlfiles as $contextid => $xmlfile) {
-            $contextlabel = $this->contextlevel_to_scontextlabel($contextid);
             foreach ($xmlfiles[$contextid] as $xmlfile) {
                 $items[] = $xmlfile->get_filename();
             }

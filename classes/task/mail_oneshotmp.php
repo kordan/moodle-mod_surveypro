@@ -68,7 +68,6 @@ class mail_oneshotmp extends crontaskbase {
             // But with surveys spanning multiple pages each time the student goes to a different page,
             // the answers to the elements of the previous page are saved to db and submission status is set to "in progress"
             // as if the pause/resume option was actually enabled.
-            $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
             $sofar = 3600 * 2;
             $sofar = time() - $sofar;
             $from = $USER;

@@ -50,7 +50,6 @@ class filterform extends \moodleform {
         // Get _customdata.
         $surveypro = $this->_customdata->surveypro;
         $userid = $this->_customdata->userid;
-        $submissionid = $this->_customdata->submissionid;
         $container = $this->_customdata->container;
         $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
         $canviewhiddenactivities = $this->_customdata->canviewhiddenactivities;
@@ -79,7 +78,6 @@ class filterform extends \moodleform {
         }
         $itemseeds->close();
 
-        $elementgroup = array();
         $mform->addElement('select', 'itemid', get_string('item', 'surveypro'), $options);
 
         // Get users.
