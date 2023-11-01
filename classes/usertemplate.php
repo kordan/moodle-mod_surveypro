@@ -581,7 +581,7 @@ class usertemplate extends templatebase {
         if ($action != SURVEYPRO_DELETEALLITEMS) {
             // Dispose assignemnt of pages.
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
         }
 
         $this->trigger_event('usertemplate_applied', $action);
@@ -594,7 +594,7 @@ class usertemplate extends templatebase {
                 $whereparams = ['surveyproid' => $this->surveypro->id];
                 $utilitylayoutman->items_set_visibility($whereparams, 0);
 
-                $utilitylayoutman->reset_items_pages();
+                $utilitylayoutman->reset_pages();
 
                 break;
             case SURVEYPRO_DELETEALLITEMS:

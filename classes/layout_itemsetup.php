@@ -954,9 +954,9 @@ class layout_itemsetup {
             $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
         }
 
-        // You changed item order. Don't forget to reset items per page.
+        // You changed item order. Don't forget to reset the page of each items.
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_items_pages();
+        $utilitylayoutman->reset_pages();
     }
 
     /**
@@ -1209,7 +1209,7 @@ class layout_itemsetup {
                 $DB->set_field('surveypro_item', 'hidden', 1, ['id' => $itemtohide->id]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
         }
     }
 
@@ -1298,7 +1298,7 @@ class layout_itemsetup {
                 $DB->set_field('surveypro_item', 'hidden', 0, ['id' => $toshowitemid]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
         }
     }
 
@@ -1384,7 +1384,7 @@ class layout_itemsetup {
             }
 
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
 
@@ -1625,7 +1625,7 @@ class layout_itemsetup {
                 $DB->set_field('surveypro_item', 'reserved', 1, ['id' => $itemtoreserve->id]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
         }
     }
 
@@ -1746,7 +1746,7 @@ class layout_itemsetup {
                 $DB->set_field('surveypro_item', 'reserved', 0, ['id' => $itemtoavailable->id]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
         }
     }
 
@@ -1847,7 +1847,7 @@ class layout_itemsetup {
             $whereparams = ['surveyproid' => $this->surveypro->id];
             $utilitylayoutman->items_set_visibility($whereparams, 0);
 
-            $utilitylayoutman->reset_items_pages();
+            $utilitylayoutman->reset_pages();
 
             $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
         }

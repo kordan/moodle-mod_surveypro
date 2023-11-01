@@ -275,7 +275,7 @@ class itembase {
         // You are going to change item content (maybe sortindex, maybe the parentitem)
         // so, do not forget to reset items per page.
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_items_pages();
+        $utilitylayoutman->reset_pages();
 
         $timenow = time();
 
@@ -747,16 +747,22 @@ class itembase {
 
     /**
      * Item split unix time.
+     * Unix timestamps do not handle timezones
+     * Since php 8.0.0 timestamp is nullable.
+     *
+     * Take in mind that date('Y_m_d_H_i', 0) returns:
+     * Array (
+     *     [year] => 1970
+     *     [mon] => 01
+     *     [mday] => 01
+     *     [hours] => 01
+     *     [minutes] => 00
+     * )
      *
      * @param integer $time
      * @return void
      */
-    protected static function item_split_unix_time($time) {
-        if (!$time) {
-            $message = '$time is not set in item_split_unix_time';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
+    protected function item_split_unix_time($time) {
         $datestring = date('Y_m_d_H_i', $time);
 
         // 2012_07_11_16_03.

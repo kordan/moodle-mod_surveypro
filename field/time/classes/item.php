@@ -270,11 +270,9 @@ class item extends itembase {
     public function item_custom_fields_to_form() {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
+
         foreach ($fieldlist as $field) {
-            if (!$this->{$field}) {
-                continue;
-            }
-            $timearray = self::item_split_unix_time($this->{$field});
+            $timearray = $this->item_split_unix_time($this->{$field});
             $this->{$field.'hour'} = $timearray['hours'];
             $this->{$field.'minute'} = $timearray['minutes'];
         }
@@ -302,7 +300,7 @@ class item extends itembase {
         // 2. Override few values.
         // Begin of: round defaultvalue according to step.
         if ($this->defaultvalue) {
-            $timearray = self::item_split_unix_time($record->defaultvalue);
+            $timearray = $this->item_split_unix_time($record->defaultvalue);
             $defaultvaluehour = $timearray['hours'];
             $defaultvalueminute = $timearray['minutes'];
 
@@ -564,16 +562,16 @@ EOS;
                     // so $this->defaultvalue may be empty.
                     // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
-                        $timearray = self::item_split_unix_time($this->defaultvalue);
+                        $timearray = $this->item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
-                        $timearray = self::item_split_unix_time($this->lowerbound);
+                        $timearray = $this->item_split_unix_time($this->lowerbound);
                     } else {
                         $timearray['hours'] = $hours[1];
                         $timearray['minutes'] = $minutes[1];
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $timearray = self::item_split_unix_time(time());
+                    $timearray = $this->item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the last submission I made.
@@ -582,9 +580,9 @@ EOS;
                     $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                     $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                        $timearray = self::item_split_unix_time($time);
+                        $timearray = $this->item_split_unix_time($time);
                     } else { // As in standard default.
-                        $timearray = self::item_split_unix_time(time());
+                        $timearray = $this->item_split_unix_time(time());
                     }
                     break;
                 default:
@@ -626,7 +624,7 @@ EOS;
 
         $errorkey = $this->itemname.'_group';
 
-        // Begin of: verify the content of each drop down menu.
+        // Begin of: verify the content of each drop down menu is not SURVEYPRO_INVITEVALUE.
         if (!$searchform) {
             $testpassed = true;
             $testpassed = $testpassed && ($data[$this->itemname.'_hour'] != SURVEYPRO_INVITEVALUE);
@@ -659,7 +657,6 @@ EOS;
 
         $haslowerbound = ($this->lowerbound != $this->item_time_to_unix_time(0, 0));
         $hasupperbound = ($this->upperbound != $this->item_time_to_unix_time(23, 59));
-
         $userinput = $this->item_time_to_unix_time($data[$this->itemname.'_hour'], $data[$this->itemname.'_minute']);
 
         if ($haslowerbound && $hasupperbound) {
@@ -701,11 +698,12 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_time_to_unix_time(0, 0));
         $hasupperbound = ($this->upperbound != $this->item_time_to_unix_time(23, 59));
 
-        $format = get_string('strftimetime', 'langconfig');
+        $fillinginstruction = ''; // Even if nothing happen, I have something to return.
+        $format = 'H:i';
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = userdate($this->lowerbound, $format, 0);
-            $a->upperbound = userdate($this->upperbound, $format, 0);
+            $a->lowerbound = date($format, $this->lowerbound);
+            $a->upperbound = date($format, $this->upperbound);
 
             if ($this->lowerbound < $this->upperbound) {
                 // Internal range.
@@ -717,13 +715,12 @@ EOS;
                 $fillinginstruction = get_string('restriction_upperlower', 'surveyprofield_time', $a);
             }
         } else {
-            $fillinginstruction = '';
             if ($haslowerbound) {
-                $a = userdate($this->lowerbound, $format, 0);
+                $a = date($format, $this->lowerbound);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_time', $a);
             }
             if ($hasupperbound) {
-                $a = userdate($this->upperbound, $format, 0);
+                $a = date($format, $this->upperbound);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_time', $a);
             }
         }
@@ -781,7 +778,7 @@ EOS;
                 return $prefill;
             }
 
-            $datearray = self::item_split_unix_time($fromdb->content);
+            $datearray = $this->item_split_unix_time($fromdb->content);
             $prefill[$this->itemname.'_hour'] = $datearray['hours'];
             $prefill[$this->itemname.'_minute'] = $datearray['minutes'];
         }
@@ -823,6 +820,8 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
+            // The last param "0" means: don't care of time zone.
+            // The time I love to have dinner is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_time'), 0);
         }
 

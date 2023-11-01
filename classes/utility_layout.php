@@ -68,6 +68,18 @@ class utility_layout {
     }
 
     /**
+     * Reset the pages assigned to items.
+     *
+     * @return void
+     */
+    public function reset_pages() {
+        global $DB;
+
+        $whereparams = ['surveyproid' => $this->surveypro->id];
+        $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
+    }
+
+    /**
      * Assign pages to item writing them in the db.
      *
      * @return void
@@ -75,12 +87,13 @@ class utility_layout {
     public function assign_pages() {
         global $DB;
 
-        $where = ['surveyproid' => $this->surveypro->id];
+        $where = ['surveyproid' => $this->surveypro->id, 'hidden' => 0];
 
         $userformpagecount = 0;
         $lastwaspagebreak = true; // Whether 2 page breaks in line, the second one is ignored.
         $pagenumber = 1;
         $items = $DB->get_recordset('surveypro_item', $where, 'sortindex', 'id, type, plugin, parentid, formpage, sortindex');
+
         if ($items) {
             foreach ($items as $item) {
                 if ($item->plugin == 'pagebreak') { // It is a page break.
@@ -264,7 +277,7 @@ class utility_layout {
             $this->delete_answers(['itemid' => $item->id], $item);
         }
 
-        $this->reset_items_pages();
+        $this->reset_pages();
     }
 
     /**
@@ -790,6 +803,9 @@ class utility_layout {
         // If I ask for visibility == 0, I want hidden = 1.
         // If I ask for visibility == 1, I want hidden = 0.
         $DB->set_field('surveypro_item', 'hidden', 1 - $visibility, $whereparams);
+
+        // You changed the visibility of some item. Don't forget to reset the page of each items.
+        $this->reset_pages();
     }
 
     /**
@@ -821,18 +837,6 @@ class utility_layout {
             $currentsortindex++;
         }
         $itemlist->close();
-    }
-
-    /**
-     * Reset the pages assigned to items.
-     *
-     * @return void
-     */
-    public function reset_items_pages() {
-        global $DB;
-
-        $whereparams = ['surveyproid' => $this->surveypro->id];
-        $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
     }
 
     /**

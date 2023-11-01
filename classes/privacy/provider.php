@@ -391,9 +391,9 @@ class provider implements
         list($insql, $inparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
         $where = "surveyproid = :instanceid AND userid {$insql}";
-        $sqlparams = $inparams + ['instanceid' => (int)$instanceid];
+        $whereparams = $inparams + ['instanceid' => (int)$instanceid];
 
-        $rs = $DB->get_recordset_select('surveypro_submission', $where, $sqlparams, 'id', 'id');
+        $rs = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'id', 'id');
         $submissions = [];
         foreach ($rs as $submission) {
             $submissions[] = $submission->id;

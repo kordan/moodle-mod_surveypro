@@ -337,7 +337,7 @@ function surveypro_update_instance($surveypro, $mform) {
     surveypro_pre_process_checkboxes($surveypro);
 
     // Classes are not available here!
-    // So, I can't use $utilitylayoutman->reset_items_pages();
+    // So, I can't use $utilitylayoutman->reset_pages();
     $whereparams = ['surveyproid' => $surveypro->id];
     $DB->set_field('surveypro_item', 'formpage', 0, $whereparams);
 

@@ -320,7 +320,7 @@ class item extends itembase {
             if (!$this->{$field}) {
                 continue;
             }
-            $datearray = self::item_split_unix_time($this->{$field});
+            $datearray = $this->item_split_unix_time($this->{$field});
             $this->{$field.'year'} = $datearray['year'];
             $this->{$field.'month'} = $datearray['mon'];
             $this->{$field.'day'} = $datearray['mday'];
@@ -601,9 +601,9 @@ EOS;
                     // so $this->defaultvalue may be empty.
                     // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
-                        $datearray = self::item_split_unix_time($this->defaultvalue);
+                        $datearray = $this->item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
-                        $datearray = self::item_split_unix_time($this->lowerbound);
+                        $datearray = $this->item_split_unix_time($this->lowerbound);
                     } else {
                         $datearray['mday'] = $days[1];
                         $datearray['mon'] = $months[1];
@@ -611,7 +611,7 @@ EOS;
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $datearray = self::item_split_unix_time(time());
+                    $datearray = $this->item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the most recent submission I made.
@@ -620,9 +620,9 @@ EOS;
                     $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                     $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                        $datearray = self::item_split_unix_time($time);
+                        $datearray = $this->item_split_unix_time($time);
                     } else { // As in standard default.
-                        $datearray = self::item_split_unix_time(time());
+                        $datearray = $this->item_split_unix_time(time());
                     }
                     break;
                 default:
@@ -736,21 +736,21 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_date_to_unix_time($this->surveypro->startyear, 1, 1));
         $hasupperbound = ($this->upperbound != $this->item_date_to_unix_time($this->surveypro->stopyear, 12, 31));
 
-        $format = get_string('strftimedate', 'langconfig');
+        $format = 'd/m/Y';
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = userdate($this->lowerbound, $format, 0);
-            $a->upperbound = userdate($this->upperbound, $format, 0);
+            $a->lowerbound = date($format, $this->lowerbound);
+            $a->upperbound = date($format, $this->upperbound);
 
             $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_date', $a);
         } else {
             $fillinginstruction = '';
             if ($haslowerbound) {
-                $a = userdate($this->lowerbound, $format, 0);
+                $a = date($format, $this->lowerbound);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_date', $a);
             }
             if ($hasupperbound) {
-                $a = userdate($this->upperbound, $format, 0);
+                $a = date($format, $this->upperbound);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_date', $a);
             }
         }
@@ -814,7 +814,7 @@ EOS;
                 return $prefill;
             }
 
-            $datearray = self::item_split_unix_time($fromdb->content);
+            $datearray = $this->item_split_unix_time($fromdb->content);
             $prefill[$this->itemname.'_day'] = $datearray['mday'];
             $prefill[$this->itemname.'_month'] = $datearray['mon'];
             $prefill[$this->itemname.'_year'] = $datearray['year'];
@@ -857,6 +857,8 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
+            // The last param "0" means: don't care of time zone.
+            // My birthday is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_date'), 0);
         }
 

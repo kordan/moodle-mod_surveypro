@@ -258,7 +258,7 @@ class item extends itembase {
      * @param bool $applyusersettings
      * @return void
      */
-    public static function item_split_unix_time($time, $applyusersettings=true) {
+    public function item_split_unix_time($time, $applyusersettings=true) {
         $getdate = parent::item_split_unix_time($time, $applyusersettings);
 
         $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
@@ -276,7 +276,7 @@ class item extends itembase {
      * @param array $agearray
      * @return void
      */
-    public static function item_age_to_text($agearray) {
+    public function item_age_to_text($agearray) {
         $stryears = get_string('years');
         $strmonths = get_string('months', 'surveyprofield_age');
 
@@ -319,7 +319,7 @@ class item extends itembase {
             if (!$this->{$field}) {
                 continue;
             }
-            $agearray = self::item_split_unix_time($this->{$field});
+            $agearray = $this->item_split_unix_time($this->{$field});
             $this->{$field.'year'} = $agearray['year'];
             $this->{$field.'month'} = $agearray['mon'];
         }
@@ -547,9 +547,9 @@ EOS;
                     // so $this->defaultvalue may be empty.
                     // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
-                        $agearray = self::item_split_unix_time($this->defaultvalue);
+                        $agearray = $this->item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
-                        $agearray = self::item_split_unix_time($this->lowerbound);
+                        $agearray = $this->item_split_unix_time($this->lowerbound);
                     } else {
                         $agearray['year'] = $years[1];
                         $agearray['mon'] = $months[1];
@@ -653,24 +653,24 @@ EOS;
         $hasupperbound = ($this->upperbound != $this->item_age_to_unix_time($maximumage, 11));
 
         $a = '';
-        $lowerbound = self::item_split_unix_time($this->lowerbound);
-        $upperbound = self::item_split_unix_time($this->upperbound);
+        $lowerbound = $this->item_split_unix_time($this->lowerbound);
+        $upperbound = $this->item_split_unix_time($this->upperbound);
 
         $fillinginstruction = '';
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = self::item_age_to_text($lowerbound);
-            $a->upperbound = self::item_age_to_text($upperbound);
+            $a->lowerbound = $this->item_age_to_text($lowerbound);
+            $a->upperbound = $this->item_age_to_text($upperbound);
 
             $fillinginstruction .= get_string('restriction_lowerupper', 'surveyprofield_age', $a);
         } else {
             if ($haslowerbound) {
-                $a = self::item_age_to_text($lowerbound);
+                $a = $this->item_age_to_text($lowerbound);
                 $fillinginstruction .= get_string('restriction_lower', 'surveyprofield_age', $a);
             }
 
             if ($hasupperbound) {
-                $a = self::item_age_to_text($upperbound);
+                $a = $this->item_age_to_text($upperbound);
                 $fillinginstruction .= get_string('restriction_upper', 'surveyprofield_age', $a);
             }
         }
@@ -728,7 +728,7 @@ EOS;
                 return $prefill;
             }
 
-            $datearray = self::item_split_unix_time($fromdb->content);
+            $datearray = $this->item_split_unix_time($fromdb->content);
             $prefill[$this->itemname.'_month'] = $datearray['mon'];
             $prefill[$this->itemname.'_year'] = $datearray['year'];
         }
@@ -759,8 +759,8 @@ EOS;
         }
 
         // Output.
-        $agearray = self::item_split_unix_time($content);
-        $return = self::item_age_to_text($agearray);
+        $agearray = $this->item_split_unix_time($content);
+        $return = $this->item_age_to_text($agearray);
 
         return $return;
     }
