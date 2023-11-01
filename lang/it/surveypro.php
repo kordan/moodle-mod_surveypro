@@ -77,6 +77,7 @@ $string['calendar_open_description'] = 'Compila il surveypro "{$a}", per favore.
 $string['calendar_open_time'] = 'Surveypro "{$a}" è disponibile.';
 $string['calendar_close_description'] = 'Surveypro "{$a}" chiude.';
 $string['calendar_close_time'] = 'Surveypro "{$a}" non è più disponibile.';
+$string['cannotsubmittoolate'] = 'Questo surveypro è stato chiuso il {$a}';
 $string['completiondetail:entries'] = 'Risposte da inviare: {$a}';
 $string['confirm_deleteallitems'] = 'Si conferma l\'eliminazione di TUTTI gli elementi?';
 $string['confirm_deleteallresponses'] = 'Si conferma la cancellazione di TUTTE le risposte?';
