@@ -181,9 +181,9 @@ class submissions_form extends formbase {
         $timenow = time();
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
-        // $nextbutton = isset($this->formdata->nextbutton);
+        // Useless: $nextbutton = isset($this->formdata->nextbutton);
         $pausebutton = isset($this->formdata->pausebutton);
-        // $prevbutton = isset($this->formdata->prevbutton);
+        // Useless: $prevbutton = isset($this->formdata->prevbutton);
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }
@@ -431,7 +431,7 @@ class submissions_form extends formbase {
                 // If among returned fields there is a place holder...
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
                     $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
-                    // but not the corresponding field, drop the placeholder and set to null the unexisting item.
+                    // But not the corresponding field, drop the placeholder and set to null the unexisting item.
                     if (!isset($this->formdata->$newelement)) {
                         $this->formdata->$newelement = null;
                     }
@@ -482,7 +482,7 @@ class submissions_form extends formbase {
         // Once $itemhelperinfo is onboard...
         // ->   I update/create the corresponding record asking to each item class to manage its informations.
 
-        // From now on I am sure I am saving answers to:
+        // From now on I am sure I am saving answers.
         $submissionid = $this->get_submissionid();
         foreach ($itemhelperinfo as $iteminfo) {
             $where = ['submissionid' => $submissionid, 'itemid' => $iteminfo->itemid];
@@ -543,7 +543,7 @@ class submissions_form extends formbase {
         // 5) Page 2 is saved WITHOUT the mandatory field because when the user moves back, the form VALIDATION is not executed.
         // 6) I use the breadcrumb to go somewhere else
         // 7) the submission HAS TO BE saved as IN PROGRESS and not as CLOSED
-        // even if ($savebutton || $saveasnewbutton) where never pressed
+        // even if ($savebutton || $saveasnewbutton) where never pressed.
 
         // Be optimistic. Let's start by assuming user was correct.
         $this->responsestatus = SURVEYPRO_VALIDRESPONSE;
@@ -1084,7 +1084,7 @@ class submissions_form extends formbase {
             case SURVEYPRO_EDITMODE:
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     // If $submission->status == SURVEYPRO_STATUSINPROGRESS it is a resume acction.
-                    if ($ismine) { // Owner is me
+                    if ($ismine) { // Owner is me.
                         $allowed = true;
                     } else {
                         if ($mysamegroup) { // Owner is from a group of mine.
@@ -1093,7 +1093,7 @@ class submissions_form extends formbase {
                     }
                 } else {
                     // If $submission->status == SURVEYPRO_STATUSCLOSED it is an edit acction.
-                    if ($ismine) { // Owner is me
+                    if ($ismine) { // Owner is me.
                         $allowed = $caneditownsubmissions;
                     } else {
                         if ($mysamegroup) { // Owner is from a group of mine.
@@ -1107,7 +1107,7 @@ class submissions_form extends formbase {
                 if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                     $allowed = false;
                 } else {
-                    if ($ismine) { // Owner is me
+                    if ($ismine) { // Owner is me.
                         $allowed = true;
                     } else {
                         if ($mysamegroup) { // Owner is from a group of mine.

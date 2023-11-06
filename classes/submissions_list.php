@@ -853,7 +853,7 @@ class submissions_list {
                     if ($mysamegroup) { // Owner is from a group of mine.
                         // I should be here only if $canseeotherssubmissions = true.
                         if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                            // You always MUST have the possibility to close an inprogress submission of someone from your same group.
+                            // You always have the possibility to close an inprogress submission from someone of your same group.
                             $displayediticon = $canseeotherssubmissions;
                         } else {
                             $displayediticon = $caneditotherssubmissions;

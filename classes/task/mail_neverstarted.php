@@ -50,7 +50,7 @@ class mail_neverstarted extends crontaskbase {
      * @return void
      */
     public function execute() {
-        // Get the list of enrolled users that NEVER started the required surveypro
+        // Get the list of enrolled users that NEVER started the required surveypro.
         global $DB, $USER, $SITE, $CFG;
 
         $surveyprofields = ['s.id', 's.name', 's.course'];

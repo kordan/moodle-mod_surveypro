@@ -122,7 +122,7 @@ class usertemplate extends templatebase {
 
         $contexts = $this->get_sharingcontexts();
         // I am allowed to "see" usertemplates if they belong to one of my parent contextid
-        // or if their uid is $USER->id
+        // or if their uid is $USER->id.
         foreach ($contexts as $context) {
             $contextid = $context->id;
             if (is_null($acontextid) || ($contextid == $acontextid)) {

@@ -348,7 +348,7 @@ class provider implements
             }
             $rs->close();
 
-            // $submissions is the list of the submissions ID of the users found.
+            // Note: $submissions is the list of the submissions ID of the users found.
             if (!$submissions) {
                 return;
             }
@@ -400,7 +400,7 @@ class provider implements
         }
         $rs->close();
 
-        // $submissions is the list of the submissions ID of the users found.
+        // Note: $submissions is the list of the submissions ID of the users found.
         if (!$submissions) {
             return;
         }

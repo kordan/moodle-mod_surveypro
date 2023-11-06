@@ -26,14 +26,18 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/mod/surveypro/adminlib.php');
 
-$ADMIN->add('modsettings', new admin_category('modsurveyprofolder', new lang_string('pluginname', 'mod_surveypro'), !$module->is_enabled()));
+$ADMIN->add(
+    'modsettings',
+    new admin_category('modsurveyprofolder', new lang_string('pluginname', 'mod_surveypro'), !$module->is_enabled())
+);
 
 $settings = new admin_settingpage($section, get_string('settings', 'mod_surveypro'), 'moodle/site:config', !$module->is_enabled());
 
 if ($ADMIN->fulltree) {
     $name = new lang_string('maxinputdelay', 'mod_surveypro');
     $description = new lang_string('maxinputdelay_descr', 'mod_surveypro');
-    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT)); // 1 week in hours.
+    // Note: 168 is a week in hours.
+    $settings->add(new admin_setting_configtext('mod_surveypro/maxinputdelay', $name, $description, 168, PARAM_INT));
 
     $name = new lang_string('extranoteinsearch', 'mod_surveypro');
     $description = new lang_string('extranoteinsearch_descr', 'mod_surveypro');

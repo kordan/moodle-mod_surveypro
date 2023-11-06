@@ -95,7 +95,7 @@ class templatebase {
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // Example: <item type="format" plugin="label" version="2014030201">
+                // Example: <item type="format" plugin="label" version="2014030201">.
                 // echo 'Found: '.$attribute.' = '.$value.'<br>';
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;

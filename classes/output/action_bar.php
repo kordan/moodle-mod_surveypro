@@ -113,7 +113,7 @@ class action_bar {
                 $gosthlink = new moodle_url('/mod/surveypro/view.php'); // URL is useless. It can't be used.
                 $menu[$gosthlink->out(false)] = get_string('surveypro_insert', 'mod_surveypro');
             }
-            // View -> edit submission
+            // View -> edit submission.
             if ($pageparams['mode'] == SURVEYPRO_EDITMODE) {
                 // Optional gosth item.
                 $gosthlink = new moodle_url('/mod/surveypro/view.php'); // URL is useless. It can't be used.

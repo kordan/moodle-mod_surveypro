@@ -109,7 +109,8 @@ class utility_layout {
     }
 
     /**
-     * Redirect to layout.php?s=xxx with ['section' => 'itemslist'] when the admin asks to go to /view.php?id=yyy but the survey has no items.
+     * Redirect to layout.php?s=xxx with ['section' => 'itemslist']
+     * when the admin asks to go to /view.php?id=yyy but the survey has no items.
      *
      * @return void
      */
