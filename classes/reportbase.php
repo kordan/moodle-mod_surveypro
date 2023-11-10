@@ -345,13 +345,13 @@ abstract class reportbase {
      * @return $paramurl to be supplied to the url to call the specific report page
      */
     public function get_paramurl(): array {
-        $paramurl = ['s' => $cm->instance];
+        $paramurl = ['s' => $this->cm->instance];
 
-        foreach ($params['optional'] as $variable => $type) {
+        foreach ($this->additionalparams['optional'] as $variable => $type) {
             $value = optional_param($variable, '', $type);
             $paramurl[$variable] = $value;
         }
-        foreach ($params['required'] as $variable => $type) {
+        foreach ($this->additionalparams['required'] as $variable => $type) {
             $value = required_param($variable, $type);
             $paramurl[$variable] = $value;
         }

@@ -250,10 +250,11 @@ class report extends reportbase {
      */
     public function set_additionalparams() {
         $this->additionalparams = [
-            'optional' => [],
+            'optional' => [
+                'container' => PARAM_ALPHANUMEXT,
+            ],
             'required' => [
                 'section' => PARAM_ALPHA,
-                'container' => PARAM_ALPHANUMEXT,
             ],
         ];
     }
