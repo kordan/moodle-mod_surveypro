@@ -13,9 +13,10 @@ fortifySast:
     - sourceanalyzer -b ${CI_PROJECT_NAME} -clean
     - fortifyclient.bat uploadFPR -url="${FORTIFY_SSC_URL}" --file="${FORTIFY_PATH_REPORT}"/"${CI_PROJECT_NAME}".fpr -application="${CI_PROJECT_NAME}" -applicationVersion=Current -authtoken="${FORTIFY_AUTHTOKEN}"
   allow_failure: true
-  only:
-    - require # or the name of your main branch
-  when: manual
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_COMMIT_BRANCH
+      when: manual
+
 
 sonarqube-check:
   stage: test
@@ -32,8 +33,9 @@ sonarqube-check:
   script:
     - sonar-scanner
   allow_failure: true
-  only:
-    - require # or the name of your main branch
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_COMMIT_BRANCH
+
 
 generate_artifact:
   stage: artifact
@@ -52,20 +54,3 @@ generate_artifact:
 
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-
-#deploy_development:
-#  stage: deploy
-#  script:
-#    - echo "Deploy to dev server"
-    #echo delete old files
-    #- ssh -i c:\gitlab-runner\keySSH\keyTransfer tcmsu@tcms.iss.it rm /var/www/html/putDirectory/* -R
-    #copy all files and directories not hidden
-    #- scp -i c:\gitlab-runner\keySSH\keyTransfer -r * tcmsu@tcms.iss.it:/var/www/html/putDirectory
-#  environment:
-#    name: SVILUPPO
-#    url: https://tcms.iss.it
-#  allow_failure: true
-#  rules:
-#    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-#      when: manual
-
