@@ -130,7 +130,7 @@ class surveyprotemplate extends base {
 
         if ($adminroot->fulltree) {
             $shortsubtype = \core_text::substr($this->type, core_text::strlen('surveypro'));
-            include($this->full_path('settings.php'));
+            include_once($this->full_path('settings.php'));
         }
 
         $adminroot->add($this->type.'plugins', $settings);
