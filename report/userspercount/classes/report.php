@@ -82,12 +82,12 @@ class report extends reportbase {
         $baseurl = new \moodle_url('/mod/surveypro/report/userspercount/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'userresponses';
         $tablecolumns[] = 'userscount';
         $this->outputtable->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = get_string('userresponses', 'surveyproreport_userspercount');
         $tableheaders[] = get_string('users');
         $this->outputtable->define_headers($tableheaders);
@@ -136,7 +136,7 @@ class report extends reportbase {
         $userspercounts = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($userspercounts as $userspercount) {
-            $tablerow = array();
+            $tablerow = [];
 
              // Count of responses.
             $tablerow[] = $userspercount->userresponses;

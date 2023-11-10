@@ -61,7 +61,7 @@ class templatebase {
     /**
      * @var array
      */
-    protected $langtree = array();
+    protected $langtree = [];
 
     /**
      * Class constructor.
@@ -255,7 +255,7 @@ class templatebase {
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        $fieldlist = array();
+        $fieldlist = [];
         if (empty($type) && empty($plugin)) {
             $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
             $targettable = 'surveypro_item';
@@ -303,7 +303,7 @@ class templatebase {
      * @return versions of each field and format plugin
      */
     public static function get_subplugin_versions() {
-        $versions = array();
+        $versions = [];
         $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
 
         foreach ($types as $type) {

@@ -88,7 +88,7 @@ class filterform extends \moodleform {
 
         if ($showjumper) {
             $fieldname = 'groupid';
-            $options = array();
+            $options = [];
             if ($canaccessallgroups) {
                 $options[] = get_string('allgroups');
             }

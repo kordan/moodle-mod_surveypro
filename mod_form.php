@@ -163,7 +163,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
 
         // Mailroles.
         $fieldname = 'mailroles';
-        $options = array();
+        $options = [];
         $context = \context_course::instance($COURSE->id);
         // I look for roles belonging to governance.
         // At the moment the capability 'mod/surveypro:accessreports' seems to be a good indicator of that group.
@@ -348,7 +348,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // If completionsubmit is not empty it is checked otherwise it is not checked.
         // See data_preprocessing method just few lines above.
         $fieldname = 'completionsubmit';
-        $elementgroup = array();
+        $elementgroup = [];
         $checklabel = get_string($fieldname.'_check', 'mod_surveypro');
         $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', $checklabel);
         $elementgroup[] = $mform->createElement('text', $fieldname, '', ['size' => 3]);

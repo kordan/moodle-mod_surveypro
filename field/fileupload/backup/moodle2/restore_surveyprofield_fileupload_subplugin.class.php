@@ -39,7 +39,7 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
      * Define new path for subplugin at item level
      */
     protected function define_item_subplugin_structure() {
-        $paths = array();
+        $paths = [];
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);
@@ -74,7 +74,7 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
      * Define new path for subplugin at answer level
      */
     protected function define_answer_subplugin_structure() {
-        $paths = array();
+        $paths = [];
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);

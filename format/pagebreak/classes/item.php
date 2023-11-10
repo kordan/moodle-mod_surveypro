@@ -63,7 +63,7 @@ class item extends itembase {
         $this->plugin = 'pagebreak';
 
         // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = array();
+        $this->fieldsusingformat = [];
 
         // Other element specific properties.
         // No properties here.
@@ -220,7 +220,7 @@ class item extends itembase {
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         return $prefill;
     }
@@ -242,6 +242,6 @@ class item extends itembase {
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return array();
+        return [];
     }
 }

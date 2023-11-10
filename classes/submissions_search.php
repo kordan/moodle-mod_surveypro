@@ -76,7 +76,7 @@ class submissions_search {
      * @return mixed $searchquery if a search was requested, void otherwise
      */
     public function get_searchparamurl() {
-        $itemhelperinfo = array();
+        $itemhelperinfo = [];
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {
                 // With the introduction of interactive fieldset...
@@ -106,7 +106,7 @@ class submissions_search {
             }
         }
 
-        $searchfields = array();
+        $searchfields = [];
         foreach ($itemhelperinfo as $iteminfo) {
             if (isset($iteminfo->contentperelement['ignoreme'])) {
                 if ($iteminfo->contentperelement['ignoreme']) {

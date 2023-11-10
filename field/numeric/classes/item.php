@@ -311,7 +311,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -383,7 +383,7 @@ EOS;
 
         $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
 
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' numeric_text';
 
@@ -407,7 +407,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup = array();
+            $elementgroup = [];
             $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
             $mform->setType($this->itemname, PARAM_RAW);
 
@@ -499,7 +499,7 @@ EOS;
 
         $haslowerbound = (core_text::strlen($this->lowerbound));
         $hasupperbound = (core_text::strlen($this->upperbound));
-        $arrayinstruction = array();
+        $arrayinstruction = [];
 
         if (!empty($this->signed)) {
             $arrayinstruction[] = get_string('restriction_hassign', 'surveyprofield_numeric');
@@ -576,7 +576,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -596,7 +596,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname;
 
         return $elementnames;

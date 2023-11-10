@@ -294,7 +294,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_rate');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_rate');
@@ -318,7 +318,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'rates', 'defaultvalue'];
 
         return $fieldlist;
@@ -401,12 +401,12 @@ EOS;
             }
         }
 
-        $attributes = array();
+        $attributes = [];
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
                 $attributes['class'] = 'indent-'.$this->indent.' rate_radio';
                 $uniquename = $this->itemname.'_'.$row;
-                $elementgroup = array();
+                $elementgroup = [];
                 foreach ($rates as $col => $rate) {
                     $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
                     $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $uniquename, '', $rate, $col, $attributes);
@@ -530,7 +530,7 @@ EOS;
 
         if (!empty($this->differentrates)) {
             $optionscount = count($this->get_content_array(SURVEYPRO_LABELS, 'options'));
-            $rates = array();
+            $rates = [];
             for ($i = 0; $i < $optionscount; $i++) {
                 $rates[] = $data[$this->itemname.'_'.$i];
             }
@@ -580,7 +580,7 @@ EOS;
         if (isset($answer['noanswer'])) {
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
-            $return = array();
+            $return = [];
             foreach ($answer as $answeredrate) {
                 $return[] = $answeredrate;
             }
@@ -595,7 +595,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -647,7 +647,7 @@ EOS;
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 $rates = $this->get_content_array(SURVEYPRO_VALUES, 'rates');
@@ -659,7 +659,7 @@ EOS;
                 break;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
-                $output = array();
+                $output = [];
                 $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
 
                 $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
@@ -688,7 +688,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
 
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);

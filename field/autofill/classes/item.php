@@ -353,7 +353,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -454,7 +454,7 @@ EOS;
             $mform->setDefault($this->itemname, $value);
 
             if (!$this->hiddenfield) {
-                $attributes = array();
+                $attributes = [];
                 $attributes['id'] = $idprefix;
                 $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
                 $attributes['disabled'] = 'disabled';
@@ -463,8 +463,8 @@ EOS;
                 $mform->setDefault($this->itemname.'_static', $value);
             }
         } else {
-            $attributes = array();
-            $elementgroup = array();
+            $attributes = [];
+            $elementgroup = [];
 
             $itemname = $this->itemname;
             $attributes['id'] = $idprefix;
@@ -531,7 +531,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -627,7 +627,7 @@ EOS;
                         $label .= implode(', ', $usergroups[0]);
                         break;
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT10: // Usergroupname.
-                        $names = array();
+                        $names = [];
                         $usergroups = groups_get_user_groups($COURSE->id, $user->id);
                         foreach ($usergroups[0] as $groupid) {
                              $names[] = groups_get_group_name($groupid);
@@ -661,7 +661,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname;
         if (!$this->hiddenfield) {
             $elementnames[] = $this->itemname.'_static';

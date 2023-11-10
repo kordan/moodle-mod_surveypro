@@ -45,9 +45,9 @@ class surveyprofield extends base {
 
         $plugins = core_plugin_manager::instance()->get_installed_plugins('surveyprofield');
         if (!$plugins) {
-            return array();
+            return [];
         }
-        $installed = array();
+        $installed = [];
         foreach ($plugins as $plugin => $version) {
             $installed[] = 'surveyprofield_'.$plugin;
         }
@@ -62,7 +62,7 @@ class surveyprofield extends base {
             unset($plugins[$name]);
         }
 
-        $enabled = array();
+        $enabled = [];
         foreach ($plugins as $plugin => $version) {
             $enabled[$plugin] = $plugin;
         }

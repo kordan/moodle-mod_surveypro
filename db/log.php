@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$logs = array(
+$logs = [
     ['module' => 'surveypro', 'action' => 'add', 'mtable' => 'surveypro', 'field' => 'name'],
     ['module' => 'surveypro', 'action' => 'update', 'mtable' => 'surveypro', 'field' => 'name'],
     ['module' => 'surveypro', 'action' => 'view', 'mtable' => 'surveypro', 'field' => 'name'],
@@ -65,4 +65,4 @@ $logs = array(
     ['module' => 'surveypro', 'action' => 'usertemplate imported', 'mtable' => 'surveypro', 'field' => 'name'],
     ['module' => 'surveypro', 'action' => 'usertemplate saved', 'mtable' => 'surveypro', 'field' => 'name'],
     ['module' => 'surveypro', 'action' => 'usertemplate deleted', 'mtable' => 'surveypro', 'field' => 'name'],
-);
+];

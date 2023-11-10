@@ -60,7 +60,7 @@ class submissions_exportform extends \moodleform {
         if ($activityisgrouped) {
             if ($allgroups = groups_get_all_groups($COURSE->id)) {
                 $fieldname = 'groupid';
-                $options = array();
+                $options = [];
                 if (has_capability('moodle/site:accessallgroups', $context)) {
                     $options[] = get_string('allgroups');
                 } else {
@@ -79,7 +79,7 @@ class submissions_exportform extends \moodleform {
         $fieldname = 'status';
         $where = ['surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS];
         if ($DB->get_records('surveypro_submission', $where)) {
-            $options = array();
+            $options = [];
             $options[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
             $options[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
             $options[SURVEYPRO_STATUSALL] = get_string('statusboth', 'mod_surveypro');
@@ -120,7 +120,7 @@ class submissions_exportform extends \moodleform {
 
         // Submissionexport: downloadtype.
         $fieldname = 'downloadtype';
-        $pluginlist = array();
+        $pluginlist = [];
         $pluginlist[SURVEYPRO_DOWNLOADCSV] = get_string('downloadtocsv', 'mod_surveypro');
         $pluginlist[SURVEYPRO_DOWNLOADTSV] = get_string('downloadtotsv', 'mod_surveypro');
         $pluginlist[SURVEYPRO_DOWNLOADXLS] = get_string('downloadtoxls', 'mod_surveypro');
@@ -132,7 +132,7 @@ class submissions_exportform extends \moodleform {
 
         // Submissionexport: outputstyle.
         $fieldname = 'outputstyle';
-        $elementgroup = array();
+        $elementgroup = [];
         $verbosestr = get_string('verbose', 'mod_surveypro');
         $a = get_string('downloadformat', 'mod_surveypro');
         $rawstr = get_string('raw', 'mod_surveypro', $a);

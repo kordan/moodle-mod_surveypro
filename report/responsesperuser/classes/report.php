@@ -85,13 +85,13 @@ class report extends reportbase {
         $baseurl = new \moodle_url('/mod/surveypro/report/responsesperuser/view.php', $paramurl);
         $this->outputtable->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'picture';
         $tablecolumns[] = 'fullname';
         $tablecolumns[] = 'attempts';
         $this->outputtable->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = '';
         $tableheaders[] = get_string('fullname');
         $tableheaders[] = get_string('submissions', 'mod_surveypro');
@@ -142,7 +142,7 @@ class report extends reportbase {
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
-            $tablerow = array();
+            $tablerow = [];
 
             // Picture.
             $tablerow[] = $OUTPUT->user_picture($usersubmission, ['courseid' => $COURSE->id]);

@@ -79,7 +79,7 @@ class tools_import {
     /**
      * @var array itemhelperinfo
      */
-    private $itemhelperinfo = array();
+    private $itemhelperinfo = [];
 
     /**
      * @var int The dafault status of the submission to import
@@ -201,7 +201,7 @@ class tools_import {
      * @return mixed error object or bool false
      */
     public function are_children_orphans($surveyheaders) {
-        $orphansheader = array();
+        $orphansheader = [];
         foreach ($this->itemhelperinfo as $k => $itemhelper) {
             // Is this item a child?
             if (!empty($itemhelper->parentid)) {
@@ -503,8 +503,8 @@ class tools_import {
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
 
-        $requireditems = array();
-        $surveyheaders = array();
+        $requireditems = [];
+        $surveyheaders = [];
         $surveyheaders[SURVEYPRO_OWNERIDLABEL] = SURVEYPRO_OWNERIDLABEL;
         $surveyheaders[SURVEYPRO_TIMECREATEDLABEL] = SURVEYPRO_TIMECREATEDLABEL;
         $surveyheaders[SURVEYPRO_TIMEMODIFIEDLABEL] = SURVEYPRO_TIMEMODIFIEDLABEL;
@@ -584,10 +584,10 @@ class tools_import {
      * @return array $nonmatchingheaders
      */
     public function get_columntoitemid($foundheaders, $surveyheaders) {
-        $this->columntoitemid = array();
+        $this->columntoitemid = [];
 
-        $nonmatchingheaders = array();
-        $this->environmentheaders = array();
+        $nonmatchingheaders = [];
+        $this->environmentheaders = [];
 
         foreach ($foundheaders as $k => $foundheader) {
             $key = array_search($foundheader, $surveyheaders);
@@ -621,7 +621,7 @@ class tools_import {
      * @return $optionscountpercol ($optionscountpercol is available only for items using positional answer)
      */
     public function buil_item_helpers() {
-        $optionscountpercol = array(); // Elements only for items saving position to db.
+        $optionscountpercol = []; // Elements only for items saving position to db.
         foreach ($this->columntoitemid as $col => $itemid) {
             if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
                 continue;
@@ -817,7 +817,7 @@ class tools_import {
 
         // Begin of: DOES EACH RECORD provide a valid value?
         // Start here a looooooooong list of validations against founded values, record per record.
-        $submissionsperuser = array();
+        $submissionsperuser = [];
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {
             foreach ($foundheaders as $col => $unused) {
@@ -942,7 +942,7 @@ class tools_import {
         }
 
         // Create helper $contentformattocol.
-        $contentformattocol = array();
+        $contentformattocol = [];
         foreach ($this->columntoitemid as $col => $itemid) {
             if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
                 $contentformattocol[$itemid] = $col;
@@ -973,8 +973,8 @@ class tools_import {
 
         // F I N A L L Y   I M P O R T .
         // Init csv import helper.
-        $gooduserids = array();
-        $baduserids = array();
+        $gooduserids = [];
+        $baduserids = [];
 
         $this->cir->init();
         while ($csvrow = $this->cir->next()) {

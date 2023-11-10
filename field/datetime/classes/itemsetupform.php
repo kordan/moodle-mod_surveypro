@@ -60,7 +60,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: step.
         $fieldname = 'step';
-        $options = array();
+        $options = [];
         $options[1] = get_string('oneminute', 'surveyprofield_datetime');
         $options[5] = get_string('fiveminutes', 'surveyprofield_datetime');
         $options[10] = get_string('tenminutes', 'surveyprofield_datetime');
@@ -76,7 +76,7 @@ class itemsetupform extends item_setupbaseform {
         $separator = [' ', ' ', ', ', ':'];
         $daysrange = range(1, 31);
         $days = array_combine($daysrange, $daysrange);
-        $months = array();
+        $months = [];
         for ($i = 1; $i <= 12; $i++) {
             $months[$i] = userdate(mktime(12, 0, 0, $i, 1, 2000), "%B", 0); // January, February, March...
         }
@@ -92,7 +92,7 @@ class itemsetupform extends item_setupbaseform {
         $invitedefaultstr = get_string('invitedefault', 'mod_surveypro');
         $likelaststr = get_string('likelast', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $currentdatetimedefaultstr, SURVEYPRO_TIMENOWDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
@@ -104,7 +104,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
@@ -131,7 +131,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: lowerbound.
         $fieldname = 'lowerbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
@@ -147,7 +147,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: upperbound.
         $fieldname = 'upperbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'day', '', $days);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);

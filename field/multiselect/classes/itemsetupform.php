@@ -141,8 +141,8 @@ class itemsetupform extends item_setupbaseform {
         $cleandefaultvalue = $utilityitemman->multilinetext_to_array($data['defaultvalue']);
 
         // Build $value array (I do not care about $label) starting from $cleanoptions.
-        $values = array();
-        $labels = array();
+        $values = [];
+        $labels = [];
 
         foreach ($cleanoptions as $option) {
             if (strpos($option, SURVEYPRO_VALUELABELSEPARATOR) === false) {

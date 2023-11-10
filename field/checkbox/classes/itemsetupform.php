@@ -85,7 +85,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: adjustment.
         $fieldname = 'adjustment';
-        $options = array();
+        $options = [];
         $options[SURVEYPRO_HORIZONTAL] = get_string('horizontal', 'surveyprofield_checkbox');
         $options[SURVEYPRO_VERTICAL] = get_string('vertical', 'surveyprofield_checkbox');
         $mform->addElement('select', $fieldname, get_string($fieldname, 'surveyprofield_checkbox'), $options);
@@ -150,8 +150,8 @@ class itemsetupform extends item_setupbaseform {
         $cleanlabelother = trim($data['labelother']);
 
         // Build $value and $label arrays starting from $cleanoptions and $cleanlabelother.
-        $values = array();
-        $labels = array();
+        $values = [];
+        $labels = [];
 
         foreach ($cleanoptions as $option) {
             if (strpos($option, SURVEYPRO_VALUELABELSEPARATOR) === false) {

@@ -79,7 +79,7 @@ class mail_pauseresume extends crontaskbase {
                 $context = \context_module::instance($cm->id);
 
                 // Search for users with in progress surveypro.
-                $whereparams = array();
+                $whereparams = [];
                 $submissiontable = 'SELECT userid, surveyproid
                                     FROM {surveypro_submission} ss
                                     WHERE ss.surveyproid = :surveyproid

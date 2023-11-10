@@ -82,7 +82,7 @@ if ($type == 'summary') {
     $graph->y_tick_labels = $reportman->ylabels;
 
     // $graph1params.
-    $graph1params = array();
+    $graph1params = [];
     $graph1params['colour'] = 'ltblue';
     $graph1params['line'] = 'line';
     $graph1params['point'] = 'square';
@@ -94,7 +94,7 @@ if ($type == 'summary') {
     $graph->y_format['answers1'] = $graph1params;
 
     // $graph2params.
-    $graph2params = array();
+    $graph2params = [];
     $graph2params['colour'] = 'ltltblue';
     $graph2params['bar'] = 'fill';
     $graph2params['shadow_offset'] = 4;
@@ -203,7 +203,7 @@ if ($type == 'scales') {
     $graph->y_tick_labels = $reportman->ylabels;
 
     // $graph1params.
-    $graph1params = array();
+    $graph1params = [];
     $graph1params['colour'] = 'ltblue';
     $graph1params['line'] = 'line';
     $graph1params['point'] = 'square';
@@ -215,7 +215,7 @@ if ($type == 'scales') {
     $graph->y_format['answers1'] = $graph1params;
 
     // $graph2params.
-    $graph2params = array();
+    $graph2params = [];
     $graph2params['colour'] = 'ltltblue';
     $graph2params['bar'] = 'fill';
     $graph2params['shadow_offset'] = 4;
@@ -285,7 +285,7 @@ if ($type == 'questions') {
     $graph->x_data = $reportman->xlabels; // array('focus on interesting issues', 'important to my practice'...
 
     // $graph1params.
-    $graph1params = array();
+    $graph1params = [];
     $graph1params['colour'] = 'ltblue';
     $graph1params['bar'] = 'fill';
     $graph1params['legend'] = $legendgraph1;
@@ -305,7 +305,7 @@ if ($type == 'questions') {
         $graph->y_data['answers2'] = $reportman->trend2; // array(1.5, 2.5...
         $graph->y_format['answers2'] = $graph1params;
 
-        $graph->y_order = array('answers1', 'answers2');
+        $graph->y_order = ['answers1', 'answers2'];
     } else {
         $graph->y_order = ['answers1'];
     }

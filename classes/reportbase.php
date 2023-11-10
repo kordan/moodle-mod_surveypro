@@ -274,7 +274,7 @@ abstract class reportbase {
         $coursecontext = \context_course::instance($COURSE->id);
         $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $coursecontext);
 
-        $whereparams = array();
+        $whereparams = [];
         if ($actualrelation) {
             $whereparams['surveyproid'] = $this->surveypro->id;
         } else {
@@ -307,7 +307,7 @@ abstract class reportbase {
             }
         }
 
-        $conditions = array();
+        $conditions = [];
         foreach ($whereparams as $k => $v) {
             if ($v === null) {
                 $conditions[] = $k.' IS NULL';

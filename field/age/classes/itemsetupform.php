@@ -66,7 +66,7 @@ class itemsetupform extends item_setupbaseform {
         $strcustomdefault = get_string('customdefault', 'surveyprofield_age');
         $strinvitedefault = get_string('invitedefault', 'mod_surveypro');
         $strnoanswer = get_string('noanswer', 'mod_surveypro');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strcustomdefault, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strinvitedefault, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $strnoanswer, SURVEYPRO_NOANSWERDEFAULT);
@@ -76,7 +76,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
@@ -90,7 +90,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: lowerbound.
         $fieldname = 'lowerbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);
@@ -100,7 +100,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: upperbound.
         $fieldname = 'upperbound';
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
         $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_age'), ' ', false);

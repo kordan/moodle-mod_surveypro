@@ -90,7 +90,7 @@ class cover {
         $hassubmissions = $utilitylayoutman->has_submissions();
         $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
-        $messages = array();
+        $messages = [];
         $timenow = time();
 
         // User submitted responses.
@@ -213,7 +213,7 @@ class cover {
         }
 
         $this->display_messages($messages, get_string('reportsection', 'mod_surveypro'));
-        $messages = array();
+        $messages = [];
         // End of: report section.
 
         // Begin of: user templates section.
@@ -242,7 +242,7 @@ class cover {
         }
 
         $this->display_messages($messages, get_string('utemplatessection', 'mod_surveypro'));
-        $messages = array();
+        $messages = [];
         // End of: user templates section.
 
         // Begin of: master templates section.

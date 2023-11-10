@@ -260,7 +260,7 @@ class submissions_list {
 
         // Initialize $whereparams.
         if ($canviewhiddenactivities) { // You are a student so make the selection among enrolled users only.
-            $whereparams = array();
+            $whereparams = [];
         } else {
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
             $whereparams = $eparams;
@@ -277,7 +277,7 @@ class submissions_list {
 
             // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
             // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
-            $userquery = array();
+            $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
@@ -399,7 +399,7 @@ class submissions_list {
             // but this user was not added to any group.
         }
 
-        $whereparams = array();
+        $whereparams = [];
 
         $sql = 'SELECT s.status, COUNT(s.id) submissions, COUNT(DISTINCT(u.id)) users';
         $sql .= ' FROM {surveypro_submission} s
@@ -420,7 +420,7 @@ class submissions_list {
 
             // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
             // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
-            $userquery = array();
+            $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
@@ -471,7 +471,7 @@ class submissions_list {
 
         $counters = $DB->get_records_sql($sql, $whereparams);
 
-        $counter = array();
+        $counter = [];
         $counter['enrolled'] = $enrolledusers;
         if (isset($counters[SURVEYPRO_STATUSINPROGRESS])) {
             $counter['inprogresssubmissions'] = $counters[SURVEYPRO_STATUSINPROGRESS]->submissions;
@@ -635,8 +635,8 @@ class submissions_list {
      * @return list() of width of each column
      */
     private function get_border_style() {
-        $border = array();
-        $border['T'] = array();
+        $border = [];
+        $border['T'] = [];
         $border['T']['width'] = 0.2;
         $border['T']['cap'] = 'butt';
         $border['T']['join'] = 'miter';
@@ -680,7 +680,7 @@ class submissions_list {
         $baseurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
         $table->define_baseurl($baseurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
             $tablecolumns[] = 'picture';
             $tablecolumns[] = 'fullname';
@@ -693,7 +693,7 @@ class submissions_list {
         $tablecolumns[] = 'actions';
         $table->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
             $tableheaders[] = '';
             $tableheaders[] = get_string('fullname');
@@ -731,7 +731,7 @@ class submissions_list {
         $table->set_attribute('align', 'center');
         $table->setup();
 
-        $status = array();
+        $status = [];
         $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
         $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
 
@@ -748,7 +748,7 @@ class submissions_list {
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
         if ($submissions->valid()) {
 
-            $iconparams = array();
+            $iconparams = [];
 
             $nonhistoryeditstr = get_string('edit');
             $iconparams['title'] = $nonhistoryeditstr;
@@ -808,7 +808,7 @@ class submissions_list {
                     }
                 }
 
-                $tablerow = array();
+                $tablerow = [];
 
                 // Icon.
                 if ($canalwaysseeowner || empty($this->surveypro->anonymous)) {
@@ -1088,7 +1088,7 @@ class submissions_list {
                     $utilitylayoutman->duplicate_submissions(['id' => $this->submissionid]);
 
                     // Redirect.
-                    $paramurl = array();
+                    $paramurl = [];
                     $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
@@ -1104,7 +1104,7 @@ class submissions_list {
                     $utilitylayoutman->delete_submissions(['id' => $this->submissionid]);
 
                     // Redirect.
-                    $paramurl = array();
+                    $paramurl = [];
                     $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
@@ -1120,7 +1120,7 @@ class submissions_list {
                     $utilitylayoutman->delete_submissions(['surveyproid' => $this->surveypro->id]);
 
                     // Redirect.
-                    $paramurl = array();
+                    $paramurl = [];
                     $paramurl['s'] = $this->cm->instance;
                     $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
                     $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
@@ -1827,7 +1827,7 @@ class submissions_list {
         $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
         $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 
-        $pdf->SetDrawColorArray(array(0, 64, 128));
+        $pdf->SetDrawColorArray([0, 64, 128]);
         // Set auto page breaks.
         $pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 

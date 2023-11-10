@@ -350,7 +350,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
         $timenow = time();
 
         for ($i = 1; $i < 3; $i++) {
@@ -377,7 +377,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -452,8 +452,8 @@ EOS;
         $idprefix = 'id_surveypro_field_time_'.$this->sortindex;
 
         // Begin of: element values.
-        $hours = array();
-        $minutes = array();
+        $hours = [];
+        $minutes = [];
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $hours[SURVEYPRO_INVITEVALUE] = get_string('invitehour', 'surveyprofield_time');
@@ -485,8 +485,8 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
-        $attributes = array();
-        $elementgroup = array();
+        $attributes = [];
+        $elementgroup = [];
 
         $itemname = $this->itemname.'_hour';
         $attributes['id'] = $idprefix.'_hour';
@@ -835,7 +835,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname.'_group';
 
         return $elementnames;

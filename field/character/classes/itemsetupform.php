@@ -67,13 +67,13 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: pattern.
         $fieldname = 'pattern';
-        $options = array();
+        $options = [];
         $options[SURVEYPROFIELD_CHARACTER_FREEPATTERN] = get_string('free', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_EMAILPATTERN] = get_string('mail', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_URLPATTERN] = get_string('url', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN] = get_string('custompattern', 'surveyprofield_character');
         $options[SURVEYPROFIELD_CHARACTER_REGEXPATTERN] = get_string('regex', 'surveyprofield_character');
-        $elementgroup = array();
+        $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname, '', $options);
         $elementgroup[] = $mform->createElement('text', $fieldname.'text', '', ['size' => 55]);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);

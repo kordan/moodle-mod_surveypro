@@ -75,10 +75,10 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
         if ($found) {
             $result = new \stdClass();
             $result->page = $this;
-            $result->settings = array();
+            $result->settings = [];
             return [$this->name => $result];
         } else {
-            return array();
+            return [];
         }
     }
 }
@@ -125,7 +125,7 @@ class mod_surveypro_plugin_manager {
     public function get_sorted_plugins_list() {
         $names = core_component::get_plugin_list($this->subtype);
 
-        $result = array();
+        $result = [];
 
         foreach ($names as $name => $unused) {
             $idx = get_config($this->subtype.'_'.$name, 'sortorder');
@@ -165,9 +165,9 @@ class mod_surveypro_plugin_manager {
         }
 
         return $OUTPUT->action_icon(new moodle_url($url,
-                array('action' => $action, 'plugin' => $plugin, 'sesskey' => sesskey())),
-                new pix_icon($icon, $alt, 'moodle', array('title' => $alt)),
-                null, array('title' => $alt)) . ' ';
+                ['action' => $action, 'plugin' => $plugin, 'sesskey' => sesskey()]),
+                new pix_icon($icon, $alt, 'moodle', ['title' => $alt]),
+                null, ['title' => $alt]) . ' ';
     }
 
     /**
@@ -186,7 +186,7 @@ class mod_surveypro_plugin_manager {
         $table = new \flexible_table($this->subtype.'pluginsadminttable');
         $table->define_baseurl($this->pageurl);
 
-        $tablecolumns = array();
+        $tablecolumns = [];
         $tablecolumns[] = 'pluginname';
         $tablecolumns[] = 'version';
         $tablecolumns[] = 'numinstances';
@@ -195,7 +195,7 @@ class mod_surveypro_plugin_manager {
         $tablecolumns[] = 'settings';
         $table->define_columns($tablecolumns);
 
-        $tableheaders = array();
+        $tableheaders = [];
         $tableheaders[] = get_string($this->subtype.'pluginname', 'mod_surveypro');
         $tableheaders[] = get_string('version');
         $tableheaders[] = get_string('numinstances', 'mod_surveypro');
@@ -234,7 +234,7 @@ class mod_surveypro_plugin_manager {
         }
 
         foreach ($plugins as $plugin) {
-            $row = array();
+            $row = [];
             $class = '';
 
             // Pluginname.

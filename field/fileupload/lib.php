@@ -36,7 +36,7 @@ define('SURVEYPROFIELD_FILEUPLOAD_FILEAREA', 'fileuploadfiles');
  * @param array $options
  * @return bool false if file not found, does not return if found - just send the file
  */
-function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function surveyprofield_fileupload_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=[]) {
     global $DB;
 
     if ($context->contextlevel != CONTEXT_MODULE) {

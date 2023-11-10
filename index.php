@@ -63,13 +63,13 @@ $table->attributes['class'] = 'generaltable mod_index surveypro_index';
 
 if ($course->format == 'weeks') {
     $strweek = get_string('week');
-    $table->head = array ($strweek, $strname, $strintro, $inprogress, $closed);
+    $table->head = [$strweek, $strname, $strintro, $inprogress, $closed];
 } else if ($course->format == 'topics') {
     $strtopic = get_string('topic');
-    $table->head = array ($strtopic, $strname, $strintro, $inprogress, $closed);
+    $table->head = [$strtopic, $strname, $strintro, $inprogress, $closed];
 } else {
     $strsectionname = get_string('sectionname', 'format_'.$course->format);
-    $table->head = array ($strsectionname, $strname, $strintro, $inprogress, $closed);
+    $table->head = [$strsectionname, $strname, $strintro, $inprogress, $closed];
 }
 $table->colclasses = ['col1', 'col2', 'col3', 'col4', 'col5'];
 
@@ -107,12 +107,12 @@ foreach ($surveypros as $surveypro) {
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 
-    $content = array(html_writer::tag('span', $printsection, $sectionclass),
+    $content = [html_writer::tag('span', $printsection, $sectionclass),
         \html_writer::link($url, format_string($surveypro->name), $cellclass),
         \html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
         \html_writer::tag('span', $inprogressresp, $cellclass),
         \html_writer::tag('span', $closedresp, $cellclass),
-    );
+    ];
 
     $table->data[] = $content;
 }

@@ -242,7 +242,7 @@ class item extends itembase {
      * @return list of contraints of the plugin (as parent) in text format
      */
     public function item_list_constraints() {
-        $constraints = array();
+        $constraints = [];
 
         $optionstr = get_string('option', 'surveyprofield_boolean');
         $constraints[] = $optionstr.': 0';
@@ -268,7 +268,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
 
         for ($i = 1; $i < 11; $i++) {
             $strname = 'strfbool'.str_pad($i, 2, '0', STR_PAD_LEFT);
@@ -293,7 +293,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -357,8 +357,8 @@ EOS;
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = ['0', '1'];
 
-        $childparentvalue = array();
-        $labels = array();
+        $childparentvalue = [];
+        $labels = [];
         foreach ($parentcontents as $parentcontent) {
             $key = array_search($parentcontent, $values);
             if ($key !== false) {
@@ -397,7 +397,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
-        $childparentcontent = array();
+        $childparentcontent = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
@@ -481,12 +481,12 @@ EOS;
         $nolabel = get_string('no');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
 
-        $attributes = array();
+        $attributes = [];
         $attributes['class'] = 'indent-'.$this->indent.' boolean_radio';
 
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
             // Begin of: element values.
-            $options = array();
+            $options = [];
             if (!$searchform) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $options[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
@@ -517,7 +517,7 @@ EOS;
             // End of: mform element.
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br>' : ' ';
-            $elementgroup = array();
+            $elementgroup = [];
 
             // Begin of: mform element.
             if (!$searchform) {
@@ -631,7 +631,7 @@ EOS;
     public function userform_get_parent_disabilitation_info($childparentvalue) {
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
-        $disabilitationinfo = array();
+        $disabilitationinfo = [];
         $mformelementinfo = new \stdClass();
         $mformelementinfo->parentname = $this->itemname;
         $mformelementinfo->operator = 'neq';
@@ -685,7 +685,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -736,7 +736,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
             $elementnames[] = $this->itemname;
         } else {

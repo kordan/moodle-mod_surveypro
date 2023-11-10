@@ -102,7 +102,7 @@ class utemplate_importform extends \moodleform {
             return $errors;
         }
 
-        $importedfiles = array();
+        $importedfiles = [];
         foreach ($draftfiles as $file) {
             $xmlfilename = $file->get_filename();
             $importedfiles[] = $xmlfilename;

@@ -287,7 +287,7 @@ if ($section == 'submissionform') { // It was view_form.php
         // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it&section=collectedsubmissions
         // alias it goes to the page to get one more response
         // instead of remaining in the view submissions page.
-        $paramurl = array();
+        $paramurl = [];
         $paramurl['s'] = $surveypro->id;
         // $paramurl['responsestatus'] = $userformman->get_responsestatus();
         $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();

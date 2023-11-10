@@ -51,13 +51,13 @@ function surveypro_autofill_get_elements($surveyproid) {
     $cm = get_coursemodule_from_instance('surveypro', $surveyproid, $COURSE->id, false, MUST_EXIST);
     $groupmode = groups_get_activity_groupmode($cm, $COURSE);
 
-    $options = array();
+    $options = [];
     $options[''] = ['' => get_string('choosedots')];
 
     // Submission date and time.
     $begin = 1;
     $end = $begin + 3; // 3 == ('number of cycles' - 1).
-    $subelements = array();
+    $subelements = [];
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');
@@ -72,7 +72,7 @@ function surveypro_autofill_get_elements($surveyproid) {
         $menuelements += 2; // Add 'group ID' and 'group name'.
     }
     $end = $begin + $menuelements;
-    $subelements = array();
+    $subelements = [];
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');
@@ -87,7 +87,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     }
     $end = $begin + 1; // 1 == ('number of cycles' - 1).
 
-    $subelements = array();
+    $subelements = [];
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');
@@ -98,7 +98,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     // Course.
     $begin = $end + 1;
     $end = $begin + 1; // 1 == ('number of cycles' - 1).
-    $subelements = array();
+    $subelements = [];
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');
@@ -111,7 +111,7 @@ function surveypro_autofill_get_elements($surveyproid) {
     // Custom info.
     $begin = $end + 1;
     $end = $begin; // 0 == ('number of cycles' - 1).
-    $subelements = array();
+    $subelements = [];
     for ($i = $begin; $i <= $end; $i++) {
         $value = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
         $subelements[$value] = get_string($value, 'surveyprofield_autofill');

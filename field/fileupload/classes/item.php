@@ -234,7 +234,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote'];
 
         return $fieldlist;
@@ -309,7 +309,7 @@ EOS;
 
         $filetypes = array_map('trim', explode(',', $this->filetypes));
 
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
         $attributes['maxbytes'] = $this->maxbytes;
@@ -367,7 +367,7 @@ EOS;
         if (!empty($answer)) {
             $context = \context_module::instance($this->cm->id);
 
-            $attributes = array();
+            $attributes = [];
             $attributes['maxbytes'] = $this->maxbytes;
             $attributes['accepted_types'] = $this->filetypes;
             $attributes['subdirs'] = false;
@@ -386,7 +386,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -396,7 +396,7 @@ EOS;
         $fieldname = $this->itemname.'_filemanager';
 
         $draftitemid = 0;
-        $attributes = array();
+        $attributes = [];
         $attributes['maxbytes'] = $this->maxbytes;
         $attributes['accepted_types'] = $this->filetypes;
         $attributes['subdirs'] = false;
@@ -422,7 +422,7 @@ EOS;
 
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $answer->id);
-        $filename = array();
+        $filename = [];
         foreach ($files as $file) {
             if ($file->is_directory()) {
                 continue;
@@ -439,7 +439,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         $elementnames[] = $this->itemname.'_filemanager';
 
         return $elementnames;

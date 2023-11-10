@@ -62,7 +62,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultstatus.
         $fieldname = 'defaultstatus';
-        $options = array();
+        $options = [];
         $options[] = get_string('forceclosed', 'surveyproformat_fieldset');
         $options[] = get_string('forceopened', 'surveyproformat_fieldset');
         $options[] = get_string('moodledefault', 'surveyproformat_fieldset');

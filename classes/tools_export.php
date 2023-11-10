@@ -255,7 +255,7 @@ class tools_export {
         global $DB;
 
         $itemseeds = $this->export_get_field_list();
-        $headerlabels = array();
+        $headerlabels = [];
         if (empty($this->surveypro->anonymous)) {
             $headerlabels[] = SURVEYPRO_OWNERIDLABEL;
             if (isset($this->formdata->includenames)) {
@@ -264,7 +264,7 @@ class tools_export {
             }
         }
 
-        $itemseedskeys = array();
+        $itemseedskeys = [];
         foreach ($itemseeds as $itemseed) {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
             $where = ['itemid' => $itemseed->id];
@@ -360,7 +360,7 @@ class tools_export {
         $workbook = new \MoodleExcelWorkbook('-');
         $workbook->send($filename);
 
-        $worksheet = array();
+        $worksheet = [];
         $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'mod_surveypro'));
 
         // Get headers and placeholders.
@@ -403,7 +403,7 @@ class tools_export {
         global $DB;
 
         // No matter for the page.
-        $where = array();
+        $where = [];
         $where['surveyproid'] = $this->surveypro->id;
         $where['type'] = SURVEYPRO_TYPEFIELD;
         if (!isset($this->formdata->includereserved)) {
@@ -419,7 +419,7 @@ class tools_export {
                 return SURVEYPRO_NOFIELDSSELECTED;
             }
         } else {
-            $conditions = array();
+            $conditions = [];
             foreach ($where as $field => $value) {
                 $conditions[] = $field.' = :'.$field;
             }
@@ -443,7 +443,7 @@ class tools_export {
      * @return $owner
      */
     public function export_add_ownerid($richsubmission) {
-        $owner = array();
+        $owner = [];
         if (empty($this->surveypro->anonymous)) {
             // If NOT anonymous.
             $owner[SURVEYPRO_OWNERIDLABEL] = $richsubmission->userid;
@@ -459,7 +459,7 @@ class tools_export {
      * @return array $names
      */
     public function export_add_names($richsubmission) {
-        $names = array();
+        $names = [];
         if (empty($this->surveypro->anonymous) && isset($this->formdata->includenames)) {
             $names['firstname'] = $richsubmission->firstname;
             $names['lastname'] = $richsubmission->lastname;
@@ -475,7 +475,7 @@ class tools_export {
      * @return array $dates
      */
     public function export_add_dates($richsubmission) {
-        $dates = array();
+        $dates = [];
         if (isset($this->formdata->includedates)) {
             if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
                 $dates['timecreated'] = userdate($richsubmission->timecreated);
@@ -505,7 +505,7 @@ class tools_export {
      * @return void
      */
     public function export_begin_newrecord($richsubmission, $placeholders) {
-        $recordtoexport = array();
+        $recordtoexport = [];
         $recordtoexport += $this->export_add_ownerid($richsubmission);
         $recordtoexport += $this->export_add_names($richsubmission);
         $recordtoexport += $placeholders;
@@ -623,8 +623,8 @@ class tools_export {
         $itemstr = get_string('item', 'mod_surveypro');
         $submissionstr = get_string('submission', 'mod_surveypro');
         $dummyuserid = 0;
-        $dirnames = array();
-        $filelist = array();
+        $dirnames = [];
+        $filelist = [];
 
         $fs = get_file_storage();
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
@@ -732,8 +732,8 @@ class tools_export {
         $itemstr = get_string('item', 'mod_surveypro');
         $submissionstr = get_string('submission', 'mod_surveypro');
         $dummyuserid = 0;
-        $dirnames = array();
-        $filelist = array();
+        $dirnames = [];
+        $filelist = [];
 
         $fs = get_file_storage();
         list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);

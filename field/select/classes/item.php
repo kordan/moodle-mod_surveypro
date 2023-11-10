@@ -251,7 +251,7 @@ class item extends itembase {
      */
     public function item_list_constraints() {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $constraints = array();
+        $constraints = [];
 
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_select');
@@ -284,7 +284,7 @@ class item extends itembase {
      * @return array of downloadformats
      */
     public function get_downloadformats() {
-        $options = array();
+        $options = [];
 
         $options[SURVEYPRO_ITEMSRETURNSVALUES] = get_string('returnvalues', 'surveyprofield_select');
         $options[SURVEYPRO_ITEMRETURNSLABELS] = get_string('returnlabels', 'surveyprofield_select');
@@ -308,7 +308,7 @@ class item extends itembase {
      * @return array of felds
      */
     public function get_multilang_fields() {
-        $fieldlist = array();
+        $fieldlist = [];
         $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
@@ -382,8 +382,8 @@ EOS;
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
         $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
 
-        $childparentvalue = array();
-        $labels = array();
+        $childparentvalue = [];
+        $labels = [];
         foreach ($parentcontents as $parentcontent) {
             $key = array_search($parentcontent, $values);
             if ($key !== false) {
@@ -422,7 +422,7 @@ EOS;
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
-        $childparentcontent = array();
+        $childparentcontent = [];
         $key = array_search('>', $parentvalues);
         if ($key !== false) {
             for ($i = 0; $i < $key; $i++) {
@@ -524,13 +524,13 @@ EOS;
         }
         // End of: element values.
 
-        $attributes = array();
+        $attributes = [];
         $attributes['id'] = $idprefix;
         $attributes['class'] = 'indent-'.$this->indent.' select_select';
         if (!$this->labelother) {
             $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
         } else {
-            $elementgroup = array();
+            $elementgroup = [];
             $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
 
             $attributes['id'] = $idprefix.'_text';
@@ -619,7 +619,7 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $disabilitationinfo = array();
+        $disabilitationinfo = [];
 
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
 
@@ -707,7 +707,7 @@ EOS;
      * @return associative array with disaggregate element values
      */
     public function userform_set_prefill($fromdb) {
-        $prefill = array();
+        $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
             return $prefill;
@@ -791,7 +791,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = array();
+        $elementnames = [];
         if (!$this->labelother) {
             $elementnames[] = $this->itemname;
         } else {

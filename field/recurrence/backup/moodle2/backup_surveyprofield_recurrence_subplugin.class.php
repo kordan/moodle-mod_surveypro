@@ -39,10 +39,10 @@ class backup_surveyprofield_recurrence_subplugin extends backup_subplugin {
         // XML nodes declaration.
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'recurrence'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
-        $subpluginrecurrence = new backup_nested_element('surveyprofield_recurrence', ['id'], array(
+        $subpluginrecurrence = new backup_nested_element('surveyprofield_recurrence', ['id'], [
             'content', 'contentformat',
             'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound', ));
+            'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound', ]);
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);
