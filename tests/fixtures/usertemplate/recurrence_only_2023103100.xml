@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -43,12 +43,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_001</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -62,7 +63,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -78,13 +79,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_002</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>13608000</defaultvalue>
+      <defaultvalue>13600800</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -98,7 +99,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -114,12 +115,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_003</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -133,7 +135,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -149,12 +151,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_004</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -168,7 +171,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -184,12 +187,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_005</variable>
       <defaultoption>3</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -203,7 +207,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -219,12 +223,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_006</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -238,7 +243,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -254,13 +259,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_007</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>13608000</defaultvalue>
+      <defaultvalue>13600800</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -274,7 +279,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -290,12 +295,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_008</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -309,7 +315,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -325,9 +331,10 @@
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_009</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime03</downloadformat>
-      <lowerbound>43200</lowerbound>
-      <upperbound>31492800</upperbound>
+      <lowerbound>39600</lowerbound>
+      <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
 </items>

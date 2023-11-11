@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -27,14 +27,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -43,12 +43,12 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_001</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-1186056000</defaultvalue>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-1186059600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -62,14 +62,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -78,12 +78,12 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_002</variable>
       <defaultoption>2</defaultoption>
-      <defaultvalue>-1</defaultvalue>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -97,14 +97,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -113,33 +113,33 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_003</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-1033560000</defaultvalue>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-1033563600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: &quot;No answer&quot;.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -148,33 +148,33 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_004</variable>
       <defaultoption>2</defaultoption>
-      <defaultvalue>-1</defaultvalue>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;user answer is limited only by module level age limit&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -183,11 +183,12 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_005</variable>
       <defaultoption>3</defaultoption>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -201,14 +202,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -217,12 +218,12 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_006</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-1186056000</defaultvalue>
-      <lowerbound>-1517400000</lowerbound>
-      <upperbound>-886248000</upperbound>
+      <defaultvalue>-1186059600</defaultvalue>
+      <lowerbound>-1517403600</lowerbound>
+      <upperbound>-886255200</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -236,14 +237,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -252,12 +253,12 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_007</variable>
       <defaultoption>2</defaultoption>
-      <defaultvalue>-1</defaultvalue>
-      <lowerbound>-1754136000</lowerbound>
-      <upperbound>-1580558400</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-1754139600</lowerbound>
+      <upperbound>-1580562000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -271,14 +272,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -287,33 +288,33 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_008</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-1033560000</defaultvalue>
-      <lowerbound>-1580558400</lowerbound>
-      <upperbound>1193918400</upperbound>
+      <defaultvalue>-1033563600</defaultvalue>
+      <lowerbound>-1580562000</lowerbound>
+      <upperbound>1193914800</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 0 and 3 months&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: &quot;No answer&quot;.&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"Choose..." is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 0 and 3 months&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select an age corresponding to his/her answer. Being the item not required, the user can choose as answer: "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -322,33 +323,33 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_009</variable>
       <defaultoption>2</defaultoption>
-      <defaultvalue>-1</defaultvalue>
-      <lowerbound>-2148552000</lowerbound>
-      <upperbound>-2140776000</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-2148555600</lowerbound>
+      <upperbound>-2140779600</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 18 and 65&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;user answer is limited between 18 and 65&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_age>
-      <content>&lt;p&gt;How old are you?&lt;/p&gt;</content>
+      <content>How old are you?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -357,8 +358,9 @@
       <hideinstructions>0</hideinstructions>
       <variable>age_010</variable>
       <defaultoption>3</defaultoption>
-      <lowerbound>-1580558400</lowerbound>
-      <upperbound>-97329600</upperbound>
+      <defaultvalue>-2148555600</defaultvalue>
+      <lowerbound>-1580562000</lowerbound>
+      <upperbound>-97333200</upperbound>
     </surveyprofield_age>
   </item>
 </items>

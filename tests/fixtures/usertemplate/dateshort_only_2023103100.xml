@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -13,28 +13,28 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different date or tick the "No answer" checkbox.</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different date or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -43,33 +43,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_001</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>2 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -78,34 +79,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_002</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>1254398400</defaultvalue>
+      <defaultvalue>1254391200</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -114,33 +115,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_003</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date or to tick the "No answer" checkbox.</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date or to tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -149,33 +151,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_004</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox and setting a different date.</content>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox and setting a different date.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -184,33 +187,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_005</variable>
       <defaultoption>3</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different date.</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different date.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -219,33 +223,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_006</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>7 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -254,34 +259,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_007</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>1254398400</defaultvalue>
+      <defaultvalue>1254391200</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -290,33 +295,34 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_008</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is limited to last 15 years&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date.</content>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;input is forced in the time window 1990-2014&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date.</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_shortdate>
-      <content>&lt;p&gt;When did you buy your current car?&lt;/p&gt;</content>
+      <content>When did you buy your current car?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -325,9 +331,10 @@
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_009</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>631195200</lowerbound>
-      <upperbound>1417435200</upperbound>
+      <lowerbound>631191600</lowerbound>
+      <upperbound>1417431600</upperbound>
     </surveyprofield_shortdate>
   </item>
 </items>

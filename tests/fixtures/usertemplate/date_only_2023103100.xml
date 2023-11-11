@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -27,14 +27,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -43,12 +43,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_001</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -62,14 +63,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -78,13 +79,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_002</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-599659200</defaultvalue>
+      <defaultvalue>1420110000</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -98,14 +99,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -114,12 +115,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_003</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -133,14 +135,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -149,12 +151,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_004</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -168,14 +171,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -184,12 +187,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_005</variable>
       <defaultoption>3</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -203,14 +207,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -219,12 +223,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_006</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -238,14 +243,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -254,13 +259,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_007</variable>
       <defaultoption>1</defaultoption>
-      <defaultvalue>-599659200</defaultvalue>
+      <defaultvalue>1420110000</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -274,14 +279,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -290,12 +295,13 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_008</variable>
       <defaultoption>4</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -309,14 +315,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_date>
-      <content>&lt;p&gt;When did you get your degree?&lt;/p&gt;</content>
+      <content>When did you get your degree?</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -325,9 +331,10 @@
       <hideinstructions>0</hideinstructions>
       <variable>date_009</variable>
       <defaultoption>5</defaultoption>
+      <defaultvalue>39600</defaultvalue>
       <downloadformat>strftime09</downloadformat>
-      <lowerbound>1414843200</lowerbound>
-      <upperbound>1446292800</upperbound>
+      <lowerbound>1414839600</lowerbound>
+      <upperbound>1446289200</upperbound>
     </surveyprofield_date>
   </item>
 </items>

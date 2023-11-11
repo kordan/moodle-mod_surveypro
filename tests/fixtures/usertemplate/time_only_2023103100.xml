@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;h5&gt;TIME&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only two &lt;b&gt;time specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Step&lt;/li&gt;&lt;li&gt;Default&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lower bound&lt;/li&gt;&lt;li&gt;Upper bound&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
+      <content>&lt;h5&gt;TIME&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only three &lt;b&gt;time specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Step&lt;/li&gt;&lt;li&gt;Default&lt;br&gt;&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lower bound&lt;/li&gt;&lt;li&gt;Upper bound&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -44,13 +44,13 @@
       <variable>time_001</variable>
       <step>15</step>
       <defaultoption>2</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -64,7 +64,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -83,11 +83,11 @@
       <defaultoption>1</defaultoption>
       <defaultvalue>26100</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -101,7 +101,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -118,13 +118,13 @@
       <variable>time_003</variable>
       <step>15</step>
       <defaultoption>4</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -138,7 +138,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -155,13 +155,13 @@
       <variable>time_004</variable>
       <step>15</step>
       <defaultoption>5</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -175,7 +175,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -192,13 +192,13 @@
       <variable>time_005</variable>
       <step>15</step>
       <defaultoption>3</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -212,7 +212,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -229,13 +229,13 @@
       <variable>time_006</variable>
       <step>15</step>
       <defaultoption>2</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -249,7 +249,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -268,11 +268,11 @@
       <defaultoption>1</defaultoption>
       <defaultvalue>26100</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -286,7 +286,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -303,13 +303,13 @@
       <variable>time_008</variable>
       <step>15</step>
       <defaultoption>4</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -323,7 +323,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -340,10 +340,10 @@
       <variable>time_009</variable>
       <step>15</step>
       <defaultoption>5</defaultoption>
-      <defaultvalue>0</defaultvalue>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
-      <lowerbound>14400</lowerbound>
-      <upperbound>32340</upperbound>
+      <lowerbound>10800</lowerbound>
+      <upperbound>28740</upperbound>
     </surveyprofield_time>
   </item>
 </items>

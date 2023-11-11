@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -17,7 +17,7 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -40,7 +40,7 @@
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -66,7 +66,7 @@
       <upperbound>1004616000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -92,7 +92,7 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -118,7 +118,7 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2015123000">
+  <item type="field" plugin="age" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -150,7 +150,7 @@
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="autofill" version="2015123000">
+  <item type="field" plugin="autofill" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -175,7 +175,7 @@
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -196,7 +196,7 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -217,7 +217,7 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -233,11 +233,12 @@
       <variable>boolean_003</variable>
       <extranote>The same boolean question using drop down menu as user interface and "No answer" as default</extranote>
       <defaultoption>3</defaultoption>
+      <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -258,7 +259,7 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -351,7 +352,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -371,7 +372,7 @@ Apple juice</defaultvalue>
       <upperbound>1378036800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="field" plugin="shortdate" version="2015123000">
+  <item type="field" plugin="shortdate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -398,7 +399,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -413,12 +414,13 @@ Apple juice</defaultvalue>
       <hideinstructions>0</hideinstructions>
       <variable>date_001</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>43200</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="field" plugin="date" version="2015123000">
+  <item type="field" plugin="date" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -433,6 +435,7 @@ Apple juice</defaultvalue>
       <hideinstructions>0</hideinstructions>
       <variable>date_002</variable>
       <defaultoption>3</defaultoption>
+      <defaultvalue>43200</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>1262347200</upperbound>
@@ -445,7 +448,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -461,6 +464,7 @@ Apple juice</defaultvalue>
       <variable>datetime_001</variable>
       <step>1</step>
       <defaultoption>2</defaultoption>
+      <defaultvalue>0</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>0</lowerbound>
       <upperbound>1609459140</upperbound>
@@ -473,7 +477,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="fileupload" version="2015123000">
+  <item type="field" plugin="fileupload" version="2018060501">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -493,7 +497,7 @@ Apple juice</defaultvalue>
       <filetypes>*</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item type="field" plugin="fileupload" version="2015123000">
+  <item type="field" plugin="fileupload" version="2018060501">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -520,7 +524,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="integer" version="2015123000">
+  <item type="field" plugin="integer" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -535,11 +539,12 @@ Apple juice</defaultvalue>
       <hideinstructions>1</hideinstructions>
       <variable>integer_001</variable>
       <defaultoption>3</defaultoption>
+      <defaultvalue>0</defaultvalue>
       <lowerbound>0</lowerbound>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="integer" version="2015123000">
+  <item type="field" plugin="integer" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -600,7 +605,7 @@ chocolate</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="numeric" version="2015123000">
+  <item type="field" plugin="numeric" version="2017112201">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
@@ -614,7 +619,7 @@ chocolate</defaultvalue>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_001</variable>
-      <defaultvalue>25.6</defaultvalue>
+      <defaultvalue>25</defaultvalue>
       <signed>0</signed>
       <lowerbound>12</lowerbound>
       <upperbound>30</upperbound>
@@ -628,7 +633,7 @@ chocolate</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="radiobutton" version="2015123000">
+  <item type="field" plugin="radiobutton" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -651,7 +656,7 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2015123000">
+  <item type="field" plugin="radiobutton" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -675,7 +680,7 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2015123000">
+  <item type="field" plugin="radiobutton" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -706,7 +711,7 @@ Lake</options>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="rate" version="2015123000">
+  <item type="field" plugin="rate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -737,7 +742,7 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2015123000">
+  <item type="field" plugin="rate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -773,7 +778,7 @@ Good</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2015123000">
+  <item type="field" plugin="rate" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -811,7 +816,7 @@ Optimum</rates>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="recurrence" version="2015123000">
+  <item type="field" plugin="recurrence" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -826,6 +831,7 @@ Optimum</rates>
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_001</variable>
       <defaultoption>2</defaultoption>
+      <defaultvalue>43200</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>43200</lowerbound>
       <upperbound>31492800</upperbound>
@@ -838,7 +844,7 @@ Optimum</rates>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="select" version="2015123000">
+  <item type="field" plugin="select" version="2017112201">
     <surveypro_item>
       <hidden>1</hidden>
       <insearchform>1</insearchform>
@@ -867,7 +873,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="textarea" version="2015123000">
+  <item type="field" plugin="textarea" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -889,7 +895,7 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2015123000">
+  <item type="field" plugin="textarea" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -918,7 +924,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
@@ -940,7 +946,7 @@ hill</options>
       <upperbound>35940</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="field" plugin="time" version="2015123000">
+  <item type="field" plugin="time" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -969,7 +975,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="character" version="2015123000">
+  <item type="field" plugin="character" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -989,7 +995,7 @@ hill</options>
       <maxlength>16</maxlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2015123000">
+  <item type="field" plugin="character" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1008,7 +1014,7 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2015123000">
+  <item type="field" plugin="character" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1034,7 +1040,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1068,7 +1074,7 @@ hill</options>
       <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2015123000">
+  <item type="field" plugin="select" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -1107,7 +1113,7 @@ C::for tracks</options>
       <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2015123000">
+  <item type="field" plugin="select" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>

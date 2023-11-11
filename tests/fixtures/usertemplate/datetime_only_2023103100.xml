@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -27,14 +27,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -44,12 +44,13 @@
       <variable>datetime_001</variable>
       <step>1</step>
       <defaultoption>2</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -63,14 +64,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -86,7 +87,7 @@
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -100,14 +101,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -117,12 +118,13 @@
       <variable>datetime_003</variable>
       <step>1</step>
       <defaultoption>4</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -136,14 +138,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -153,12 +155,13 @@
       <variable>datetime_004</variable>
       <step>1</step>
       <defaultoption>5</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -172,14 +175,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -189,12 +192,13 @@
       <variable>datetime_005</variable>
       <step>1</step>
       <defaultoption>3</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -208,14 +212,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -225,12 +229,13 @@
       <variable>datetime_006</variable>
       <step>1</step>
       <defaultoption>2</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -244,14 +249,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -267,7 +272,7 @@
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -281,14 +286,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -298,12 +303,13 @@
       <variable>datetime_008</variable>
       <step>1</step>
       <defaultoption>4</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
@@ -317,14 +323,14 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="datetime" version="2015123000">
+  <item type="field" plugin="datetime" version="2017112201">
     <surveypro_item>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_datetime>
-      <content>&lt;p&gt;Please, write down date and time of your last flight to Los Angeles.&lt;/p&gt;</content>
+      <content>Please, write down date and time of your last flight to Los Angeles.</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -334,6 +340,7 @@
       <variable>datetime_009</variable>
       <step>1</step>
       <defaultoption>5</defaultoption>
+      <defaultvalue>-3600</defaultvalue>
       <downloadformat>strftime01</downloadformat>
       <lowerbound>1442275200</lowerbound>
       <upperbound>1442966340</upperbound>
