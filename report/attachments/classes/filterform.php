@@ -89,11 +89,9 @@ class filterform extends \moodleform {
         $sql = 'SELECT DISTINCT u.id as userid'.$userfieldsapi->selects.'
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id';
-        if (!$canviewhiddenactivities) {
+        if (!$canviewhiddenactivities) { // Exclude global admins and managers.
             list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
-
-            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id
-                      JOIN {role_assignments} ra ON ra.userid = u.id';
+            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
 
         $sql .= ' WHERE surveyproid = :surveyproid';
