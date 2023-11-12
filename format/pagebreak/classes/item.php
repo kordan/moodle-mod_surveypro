@@ -109,15 +109,6 @@ class item extends itembase {
     }
 
     /**
-     * Get content.
-     *
-     * @return the content of $content property
-     */
-    public function get_content() {
-        return $this->content;
-    }
-
-    /**
      * Item save.
      *
      * @param object $record
@@ -155,7 +146,25 @@ class item extends itembase {
         return false;
     }
 
+    /**
+     * Return the xml schema for surveypro_<<plugin>> table.
+     *
+     * @return string $schema
+     */
+    public static function item_get_plugin_schema() {
+        return;
+    }
+
     // MARK get.
+
+    /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        return $this->content;
+    }
 
     /**
      * Is this item available as a parent?
@@ -166,6 +175,8 @@ class item extends itembase {
         return self::$canbeparent;
     }
 
+    // MARK userform.
+
     /**
      * Get if the plugin uses a table into the db.
      *
@@ -174,17 +185,6 @@ class item extends itembase {
     public function uses_db_table() {
         return false;
     }
-
-    /**
-     * Return the xml schema for surveypro_<<plugin>> table.
-     *
-     * @return string $schema
-     */
-    public static function item_get_plugin_schema() {
-        return;
-    }
-
-    // MARK userform.
 
     /**
      * Define the mform element for the userform and the searchform.

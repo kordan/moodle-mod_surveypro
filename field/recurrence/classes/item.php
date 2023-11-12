@@ -273,7 +273,7 @@ class item extends itembase {
             if (!$this->{$field}) {
                 continue;
             }
-            $recurrencearray = self::item_split_unix_time($this->{$field});
+            $recurrencearray = $this->item_split_unix_time($this->{$field});
             $this->{$field.'month'} = $recurrencearray['mon'];
             $this->{$field.'day'} = $recurrencearray['mday'];
         }
@@ -547,16 +547,16 @@ EOS;
                     // so $this->defaultvalue may be empty.
                     // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
                     if ($this->defaultvalue) {
-                        $recurrencearray = self::item_split_unix_time($this->defaultvalue);
+                        $recurrencearray = $this->item_split_unix_time($this->defaultvalue);
                     } else if ($this->lowerbound) {
-                        $recurrencearray = self::item_split_unix_time($this->lowerbound);
+                        $recurrencearray = $this->item_split_unix_time($this->lowerbound);
                     } else {
                         $recurrencearray['mday'] = $days[1];
                         $recurrencearray['mon'] = $months[1];
                     }
                     break;
                 case SURVEYPRO_TIMENOWDEFAULT:
-                    $recurrencearray = self::item_split_unix_time(time());
+                    $recurrencearray = $this->item_split_unix_time(time());
                     break;
                 case SURVEYPRO_LIKELASTDEFAULT:
                     // Look for the most recent submission I made.
@@ -565,9 +565,9 @@ EOS;
                     $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
                     $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
                     if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                        $recurrencearray = self::item_split_unix_time($time);
+                        $recurrencearray = $this->item_split_unix_time($time);
                     } else { // As in standard default.
-                        $recurrencearray = self::item_split_unix_time(time());
+                        $recurrencearray = $this->item_split_unix_time(time());
                     }
                     break;
                 default:
@@ -687,12 +687,12 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_recurrence_to_unix_time(1, 1));
         $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
-        $fillinginstruction = '';
-        $format = get_string('strftimedateshort', 'langconfig');
+        $fillinginstruction = ''; // Even if nothing happen, I have something to return.
+        $format = 'd m';
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = userdate($this->lowerbound, $format, 0);
-            $a->upperbound = userdate($this->upperbound, $format, 0);
+            $a->lowerbound = date($format, $this->lowerbound);
+            $a->upperbound = date($format, $this->upperbound);
 
             if ($this->lowerbound < $this->upperbound) {
                 // Internal range.
@@ -705,11 +705,11 @@ EOS;
             }
         } else {
             if ($haslowerbound) {
-                $a = userdate($this->lowerbound, $format, 0);
+                $a = date($format, $this->lowerbound);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_recurrence', $a);
             }
             if ($hasupperbound) {
-                $a = userdate($this->upperbound, $format, 0);
+                $a = date($format, $this->upperbound);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_recurrence', $a);
             }
         }
@@ -767,7 +767,7 @@ EOS;
                 return $prefill;
             }
 
-            $recurrencearray = self::item_split_unix_time($fromdb->content);
+            $recurrencearray = $this->item_split_unix_time($fromdb->content);
             $prefill[$this->itemname.'_day'] = $recurrencearray['mday'];
             $prefill[$this->itemname.'_month'] = $recurrencearray['mon'];
         }
@@ -809,6 +809,8 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
+            // The last param "0" means: don't care of time zone.
+            // The worker's day is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_recurrence'), 0);
         }
 
