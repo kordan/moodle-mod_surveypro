@@ -157,7 +157,7 @@ class itemsetupform extends item_setupbaseform {
                     }
                     break;
                 case SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN:
-                    if (!surveypro_character_validate_against_pattern($data['defaultvalue'], $this->patterntext)) {
+                    if (!surveypro_character_validate_against_pattern($data['defaultvalue'], $data['patterntext'])) {
                         $errors['defaultvalue'] = get_string('ierr_nopatternmatch', 'surveyprofield_character');
                     }
                     break;
