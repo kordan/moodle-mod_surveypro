@@ -47,6 +47,7 @@ class utemplate_createform extends \moodleform {
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
+        $defaultname = $this->_customdata->defaultname;
 
         // Utemplatecreate: surveyproid.
         $fieldname = 'surveyproid';
@@ -59,6 +60,7 @@ class utemplate_createform extends \moodleform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_FILE); // Templatename is going to be a file name.
+        $mform->setDefault($fieldname, $defaultname);
 
         // Utemplatecreate: overwrite.
         $fieldname = 'overwrite';
