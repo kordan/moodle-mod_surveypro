@@ -80,12 +80,12 @@ class userform extends \moodleform {
         $mform->setType('formpage', PARAM_INT);
 
         if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
-            // $canaccessreserveditems, $searchform=false, $type=false, $formpage
+            // $canaccessreserveditems, $searchform=false, $type=false, $formpage.
             list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
             $fields = 'id, type, plugin, parentid, parentvalue';
             $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
 
-            // There are no items in this page
+            // There are no items in this page.
             if ( (!$itemseeds->valid()) || ($overflowpage) ) {
                 $oneshotsurvey = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
                 $oneshotsurvey = $oneshotsurvey || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);

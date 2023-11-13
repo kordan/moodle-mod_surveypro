@@ -87,7 +87,7 @@ class utility_page {
             $USER->editing = $edit;
         }
         if ($PAGE->user_allowed_editing() && !$PAGE->theme->haseditswitch) {
-            // Change URL parameter and block display string value depending on whether editing is enabled or not
+            // Change URL parameter and block display string value depending on whether editing is enabled or not.
             if ($PAGE->user_is_editing()) {
                 $urlediting = 'off';
                 $strediting = get_string('blockseditoff');

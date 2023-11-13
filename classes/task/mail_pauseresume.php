@@ -64,7 +64,7 @@ class mail_pauseresume extends crontaskbase {
         $surveypros = $DB->get_recordset_sql($sql, $whereparams);
         if ($surveypros->valid()) {
             $maxinputdelay = get_config('mod_surveypro', 'maxinputdelay');
-            // pauseresume == SURVEYPRO_PAUSERESUMEEMAIL means: You are allowed to pause.
+            // Pauseresume == SURVEYPRO_PAUSERESUMEEMAIL means: You are allowed to pause.
             // BUT you are still supposed to submit your survey in $maxinputdelay hours.
             // I remind your survey if you wait more than 25% of the allowed delay.
             // Issue: if $maxinputdelay is short enough...
@@ -112,7 +112,7 @@ class mail_pauseresume extends crontaskbase {
                     // Your survey named is paused since a long time.
                     $message = get_string('reminderpaused_content1', 'surveypro', $a);
                     if (empty($surveypro->keepinprogress)) {
-                        // There is a concrete risk to have it dropped
+                        // There is a concrete risk to have it dropped.
                         $message .= $warningstr;
                     }
                     // Please consider to login again and submit it.

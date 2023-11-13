@@ -122,7 +122,7 @@ class tools_import {
         echo $OUTPUT->notification($message, 'notifymessage');
     }
 
-    // MARK validations
+    // MARK validations.
 
     /**
      * Verify uniqueness columns.
@@ -489,7 +489,7 @@ class tools_import {
         return false;
     }
 
-    // MARK get
+    // MARK get.
 
     /**
      * Get survey infos.

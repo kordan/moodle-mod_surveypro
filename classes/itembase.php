@@ -535,7 +535,7 @@ class itembase {
         }
 
         // Property $this->itemeditingfeedback is going to be part of $returnurl in layout.php with ['section' => 'itemsetup']
-        // and there it will be send to layout.php. ['section' => 'itemslist']
+        // ... and there it will be send to layout.php. ['section' => 'itemslist'].
         return $record->itemid;
     }
 

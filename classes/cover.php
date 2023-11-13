@@ -265,7 +265,8 @@ class cover {
     /**
      * Recursive function to populate the $messages array for reports nested as much times as wanted
      *
-     * Uncomment lines of get_haschildrenreports method in surveyproreport_colles\report class of report/colles/classes/report.php file
+     * Uncomment lines of get_haschildrenreports method
+     * in surveyproreport_colles\report class of report/colles/classes/report.php file
      * to see this function in action.
      *
      * @param string $childrenreports

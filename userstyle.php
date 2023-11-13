@@ -41,7 +41,7 @@ if ($surveypro = $DB->get_record('surveypro', ['id' => $id])) {
     header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $lifetime) . ' GMT');
     header('Cache-control: max_age = '. $lifetime);
     header('Pragma: ');
-    header('Content-type: text/css; charset=utf-8');  // Correct MIME type
+    header('Content-type: text/css; charset=utf-8');  // Correct MIME type.
 
     // Test.
     // echo 'body {background-color:green;}';

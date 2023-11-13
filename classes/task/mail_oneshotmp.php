@@ -63,7 +63,7 @@ class mail_oneshotmp extends crontaskbase {
 
         $surveypros = $DB->get_recordset_sql($sql, $whereparams);
         if ($surveypros->valid()) {
-            // pauseresume == SURVEYPRO_ONESHOTEMAIL means: You are in a "one shot" survey where, usually, reminder is useless
+            // Pauseresume == SURVEYPRO_ONESHOTEMAIL means: You are in a "one shot" survey where, usually, reminder is useless
             // because you can only login, fill and submit.
             // But with surveys spanning multiple pages each time the student goes to a different page,
             // the answers to the elements of the previous page are saved to db and submission status is set to "in progress"

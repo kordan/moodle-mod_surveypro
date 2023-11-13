@@ -251,7 +251,7 @@ class mastertemplate extends templatebase {
 
                 $filecontent = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
 
-                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname
+                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
                 $filecontent = $this->replace_package($filecontent, $pluginname);
 
                 $savedstrings = $filecontent.$this->get_lang_file_content();
@@ -286,7 +286,7 @@ class mastertemplate extends templatebase {
                 $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
                 $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
 
-                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname
+                // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
                 $filecontent = $this->replace_package($filecontent, $pluginname);
 
                 $oldstring = '$plugin->version = 1965100401;';
@@ -652,7 +652,7 @@ class mastertemplate extends templatebase {
                 foreach ($xmltable->children() as $xmlfield) {
                     $fieldname = $xmlfield->getName();
 
-                    // Tag <parent> always belong to surveypro_item table
+                    // Tag <parent> always belong to surveypro_item table.
                     if ($fieldname == 'parent') {
                         // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
                         foreach ($xmlfield->children() as $xmlparentattribute) {
@@ -679,8 +679,6 @@ class mastertemplate extends templatebase {
                                 $filecontent = base64_decode($xmlfileattribute);
                             }
                         }
-
-                        // echo 'I need to add: "'.$filename.'" to the filearea<br>';
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.
