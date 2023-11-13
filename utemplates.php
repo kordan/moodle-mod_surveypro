@@ -140,6 +140,7 @@ if ($section == 'save') { // It was utemplate_save.php
     // Begin of: prepare params for the form.
     $formparams = new \stdClass();
     $formparams->utemplateman = $utemplateman;
+    $formparams->defaultname = $surveypro->name;
     $createutemplate = new utemplate_createform($formurl, $formparams);
     // End of: prepare params for the form.
 
