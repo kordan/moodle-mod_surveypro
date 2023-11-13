@@ -93,15 +93,6 @@ class userform extends \moodleform {
                 $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
             }
 
-            // This dummy item is needed for the colours alternation
-            // because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH)
-            // as first item are out from the a fieldset
-            // so they are not selected by the css3 selector: fieldset div.fitem:nth-of-type(even) {.
-            // $readonly page is not a form. The alternation is inverted. I need to jump this element.
-            if ($mode != SURVEYPRO_READONLYMODE) {
-                $mform->addElement('static', 'beginning_extrarow', '', '');
-            }
-
             foreach ($itemseeds as $itemseed) {
                 if ($mode == SURVEYPRO_PREVIEWMODE) {
                     $itemaschildisallowed = true;

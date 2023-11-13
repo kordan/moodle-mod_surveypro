@@ -199,6 +199,8 @@ class item extends itembase {
 
         $mform->addElement('static', $this->itemname, '', $label);
         $mform->closeHeaderBefore($this->itemname);
+
+        $this->item_add_color_unifier($mform);
     }
 
     /**
