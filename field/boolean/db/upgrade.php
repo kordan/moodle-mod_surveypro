@@ -34,7 +34,6 @@ function xmldb_surveyprofield_boolean_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_boolean.
         $table = new xmldb_table('surveyprofield_boolean');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);

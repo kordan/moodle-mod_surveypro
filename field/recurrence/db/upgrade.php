@@ -34,7 +34,6 @@ function xmldb_surveyprofield_recurrence_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_recurrence.
         $table = new xmldb_table('surveyprofield_recurrence');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);

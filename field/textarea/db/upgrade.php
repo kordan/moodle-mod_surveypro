@@ -34,7 +34,6 @@ function xmldb_surveyprofield_textarea_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_textarea.
         $table = new xmldb_table('surveyprofield_textarea');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -59,7 +58,6 @@ function xmldb_surveyprofield_textarea_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2016062401) {
-
         // Define field trimonsave to be added to surveyprofield_textarea.
         $table = new xmldb_table('surveyprofield_textarea');
         $field = new xmldb_field('trimonsave', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');

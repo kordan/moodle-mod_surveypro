@@ -34,7 +34,6 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyproformat_fieldset.
         $table = new xmldb_table('surveyproformat_fieldset');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -56,7 +55,6 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018091301) {
-
         // Define field defaultstatus to be added to surveyproformat_fieldset.
         $table = new xmldb_table('surveyproformat_fieldset');
         $field = new xmldb_field('defaultstatus', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'content');

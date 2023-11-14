@@ -34,7 +34,6 @@ function xmldb_surveyprofield_integer_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_integer.
         $table = new xmldb_table('surveyprofield_integer');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -56,7 +55,6 @@ function xmldb_surveyprofield_integer_upgrade($oldversion) {
     }
 
     if ($oldversion < 2014090401) {
-
         // Define field hideinstructions to be dropped from surveyprofield_integer.
         $table = new xmldb_table('surveyprofield_integer');
         $field = new xmldb_field('hideinstructions');
@@ -71,7 +69,6 @@ function xmldb_surveyprofield_integer_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016072001) {
-
         // Define field hideinstructions to be added to surveyprofield_fileupload.
         $table = new xmldb_table('surveyprofield_integer');
         $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
