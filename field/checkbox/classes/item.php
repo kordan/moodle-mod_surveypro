@@ -585,6 +585,7 @@ EOS;
 
             unset($attributes['group']);
             $attributes['id'] = $idprefix.'_text';
+            $attributes['class'] = 'checkbox_check';
             $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
 
