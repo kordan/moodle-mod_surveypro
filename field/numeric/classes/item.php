@@ -229,13 +229,13 @@ class item extends itembase {
 
         // 2. float numbers need more attention because I can write them using , or .
         if (core_text::strlen($this->defaultvalue)) {
-            $this->defaultvalue = (float)format_float($this->defaultvalue, $this->decimals);
+            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
         }
         if (core_text::strlen($this->lowerbound)) {
-            $this->lowerbound = (float)format_float($this->lowerbound, $this->decimals);
+            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
         }
         if (core_text::strlen($this->upperbound)) {
-            $this->upperbound = (float)format_float($this->upperbound, $this->decimals);
+            $this->upperbound = format_float($this->upperbound, $this->decimals);
         }
     }
 
