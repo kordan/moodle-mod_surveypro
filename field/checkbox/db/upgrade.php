@@ -34,7 +34,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -56,7 +55,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     }
 
     if ($oldversion < 2014090501) {
-
         // Define field hideinstructions to be added to surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
@@ -71,7 +69,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     }
 
     if ($oldversion < 2014090502) {
-
         // Define field required to be dropped from surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('required');
@@ -86,7 +83,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     }
 
     if ($oldversion < 2014111701) {
-
         // Define field noanswerdefault to be added to surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'defaultvalue');
@@ -101,7 +97,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     }
 
     if ($oldversion < 2015123000) {
-
         // Define field required to be added to surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('required', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '2', 'extranote');
@@ -116,7 +111,6 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018091301) {
-
         // Define field maximumrequired to be added to surveyprofield_checkbox.
         $table = new xmldb_table('surveyprofield_checkbox');
         $field = new xmldb_field('maximumrequired', XMLDB_TYPE_INTEGER, '4', null, XMLDB_NOTNULL, null, '0', 'minimumrequired');
@@ -128,6 +122,26 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
 
         // Checkbox savepoint reached.
         upgrade_plugin_savepoint(true, 2018091301, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2023111401) {
+        // Changing the default of field noanswerdefault on table surveyprofield_checkbox to 0.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Update old records still having noanswerdefault == 2.
+        $sql = 'UPDATE {surveyprofield_checkbox}
+                SET noanswerdefault = :newnoanswerdefault
+                WHERE noanswerdefault = :oldnoanswerdefault';
+        $whereparams = ['newnoanswerdefault' => 1, 'oldnoanswerdefault' => 2];
+
+        $DB->execute($sql, $whereparams);
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2023111401, 'surveyprofield', 'checkbox');
     }
 
     return true;
