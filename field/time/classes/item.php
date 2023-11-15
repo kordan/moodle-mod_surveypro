@@ -699,11 +699,13 @@ EOS;
         $hasupperbound = ($this->upperbound != $this->item_time_to_unix_time(23, 59));
 
         $fillinginstruction = ''; // Even if nothing happen, I have something to return.
-        $format = 'H:i';
+        $formatkey = $this->get_friendlyformat();
+        $format = get_string($formatkey, 'surveyprofield_time');
+
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = date($format, $this->lowerbound);
-            $a->upperbound = date($format, $this->upperbound);
+            $a->lowerbound = userdate($this->lowerbound, $format, 0);
+            $a->upperbound = userdate($this->upperbound, $format, 0);
 
             if ($this->lowerbound < $this->upperbound) {
                 // Internal range.
@@ -716,11 +718,11 @@ EOS;
             }
         } else {
             if ($haslowerbound) {
-                $a = date($format, $this->lowerbound);
+                $a = userdate($this->lowerbound, $format, 0);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_time', $a);
             }
             if ($hasupperbound) {
-                $a = date($format, $this->upperbound);
+                $a = userdate($this->upperbound, $format, 0);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_time', $a);
             }
         }
@@ -820,7 +822,7 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
-            // The last param "0" means: don't care of time zone.
+            // Last param "0" means: don't care of time zone.
             // The time I love to have dinner is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_time'), 0);
         }

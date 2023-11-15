@@ -352,7 +352,7 @@ class item extends itembase {
      * @return the friendly format
      */
     public function get_friendlyformat() {
-        return 'strftime03';
+        return 'strftime01';
     }
 
     /**
@@ -688,12 +688,13 @@ EOS;
         $hasupperbound = ($this->upperbound != $this->item_recurrence_to_unix_time(12, 31));
 
         $fillinginstruction = ''; // Even if nothing happen, I have something to return.
-        $format = 'd m';
+        $formatkey = $this->get_friendlyformat();
+        $format = get_string($formatkey, 'surveyprofield_recurrence');
+
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = date($format, $this->lowerbound);
-            $a->upperbound = date($format, $this->upperbound);
-
+            $a->lowerbound = userdate($this->lowerbound, $format, 0);
+            $a->upperbound = userdate($this->upperbound, $format, 0);
             if ($this->lowerbound < $this->upperbound) {
                 // Internal range.
                 $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_recurrence', $a);
@@ -705,11 +706,11 @@ EOS;
             }
         } else {
             if ($haslowerbound) {
-                $a = date($format, $this->lowerbound);
+                $a = userdate($this->lowerbound, $format, 0);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_recurrence', $a);
             }
             if ($hasupperbound) {
-                $a = date($format, $this->upperbound);
+                $a = userdate($this->upperbound, $format, 0);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_recurrence', $a);
             }
         }
@@ -809,7 +810,7 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
-            // The last param "0" means: don't care of time zone.
+            // Last param "0" means: don't care of time zone.
             // The worker's day is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_recurrence'), 0);
         }
