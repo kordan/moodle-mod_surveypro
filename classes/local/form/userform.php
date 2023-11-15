@@ -153,7 +153,7 @@ class userform extends \moodleform {
 
                         $itemname = $item->get_itemname().'_note';
                         $attributes = ['class' => 'indent-'.$item->get_indent().' label_static'];
-                        $mform->addElement('mod_surveypro_label', $itemname, $notestr, $fullinfo, $attributes);
+                        $mform->addElement('mod_surveypro_label', $itemname, '', $fullinfo, $attributes);
                     }
 
                     if (!$surveypro->newpageforchild) {
