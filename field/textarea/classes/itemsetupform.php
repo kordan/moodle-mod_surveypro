@@ -110,15 +110,29 @@ class itemsetupform extends item_setupbaseform {
         // Useless: $item = $this->_customdata['item'];.
 
         $errors = parent::validation($data, $files);
+        $hasminlength = core_text::strlen($data['minlength']);
+        $hasmaxlength = core_text::strlen($data['maxlength']);
 
-        if (core_text::strlen($data['maxlength'])) {
+        if ($hasminlength) {
+            $isinteger = (bool)(strval(intval($data['minlength'])) == strval($data['minlength']));
+            if (!$isinteger) {
+                $errors['minlength'] = get_string('ierr_minlengthnotinteger', 'surveyprofield_textarea');
+            }
+            if (($data['minlength'] == 0) && isset($data['required'])) {
+                $errors['minlength'] = get_string('ierr_requirednozerolength', 'surveyprofield_textarea');
+            }
+        }
+
+        if ($hasmaxlength) {
             $isinteger = (bool)(strval(intval($data['maxlength'])) == strval($data['maxlength']));
             if (!$isinteger) {
                 $errors['maxlength'] = get_string('ierr_maxlengthnotinteger', 'surveyprofield_textarea');
-            } else {
-                if ($data['maxlength'] <= $data['minlength']) {
-                    $errors['maxlength'] = get_string('ierr_maxlengthlowerthanminlength', 'surveyprofield_textarea');
-                }
+            }
+        }
+
+        if ($hasminlength && $hasmaxlength) {
+            if ($data['maxlength'] <= $data['minlength']) {
+                $errors['maxlength'] = get_string('ierr_maxlengthlowerthanminlength', 'surveyprofield_textarea');
             }
         }
 
