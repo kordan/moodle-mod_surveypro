@@ -436,11 +436,24 @@ EOS;
         }
 
         if (!$this->required) { // This is the last if it exists.
+            // $this->item_add_color_unifier($mform);
+            // $uniquename = $this->itemname.'_noanswer';
+            // $noanswerstr = get_string('noanswer', 'mod_surveypro');
+            // $attributes['id'] = $idprefix.'_noanswer';
+            // $attributes['class'] = 'indent-'.$this->indent.' rate_check';
+            // $mform->addElement('mod_surveypro_checkbox', $uniquename, '', $noanswerstr, $attributes);
+
             $this->item_add_color_unifier($mform);
+
+            // Bloody hack to align the noanswer checkbox according to the indent.
+            $elementgroup = [];
+            $uniquename = 'checkbox';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'indent-'.$this->indent.' rate_check';
-            $mform->addElement('mod_surveypro_checkbox', $this->itemname.'_noanswer', '', $noanswerstr, $attributes);
+            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniquename, '', $noanswerstr, $attributes);
+            // $mform->addGroup($elementgroup, $this->itemname.'_group');
+            $mform->addGroup($elementgroup, $this->itemname.'_noanswer');
         }
 
         if ($this->required) {
@@ -452,18 +465,17 @@ EOS;
         } else {
             // Disable if $this->itemname.'_noanswer' is selected.
             $optionindex = 0;
-            foreach ($options as $option) {
+            foreach ($options as $row => $option) {
                 if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                    $uniquename = $this->itemname.'_'.$optionindex.'_group';
+                    $uniquename = $this->itemname.'_'.$row.'_group';
                 } else {
-                    $uniquename = $this->itemname.'_'.$optionindex;
+                    $uniquename = $this->itemname.'_'.$row;
                 }
 
-                $mform->disabledIf($uniquename, $this->itemname.'_noanswer', 'checked');
-                $optionindex++;
+                $mform->disabledIf($uniquename, $this->itemname.'_noanswer[checkbox]', 'checked');
             }
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
-                $mform->setDefault($this->itemname.'_noanswer', '1');
+                $mform->setDefault($this->itemname.'_noanswer[checkbox]', '1');
             }
         }
 
@@ -482,8 +494,8 @@ EOS;
                 }
                 break;
             case SURVEYPRO_NOANSWERDEFAULT:
-                $uniquename = $this->itemname.'_noanswer';
-                $mform->setDefault($uniquename, SURVEYPRO_NOANSWERVALUE);
+                $uniquename = $this->itemname.'_noanswer[checkbox]';
+                $mform->setDefault($uniquename, 1);
                 break;
             default:
                 $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
@@ -510,8 +522,7 @@ EOS;
         // If different rates were requested, it is time to verify this.
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
-
-        if (isset($data[$this->itemname.'_noanswer'])) {
+        if ((isset($data[$this->itemname.'_noanswer']['checkbox'])) && ($data[$this->itemname.'_noanswer']['checkbox'] == 1)) {
             return; // Nothing to validate.
         }
 
@@ -577,12 +588,14 @@ EOS;
      * @return void
      */
     public function userform_get_user_answer($answer, &$olduseranswer, $searchform) {
-        if (isset($answer['noanswer'])) {
+        if (isset($answer['noanswer']['checkbox']) && ($answer['noanswer']['checkbox'] == 1)) {
             $olduseranswer->content = SURVEYPRO_NOANSWERVALUE;
         } else {
             $return = [];
             foreach ($answer as $answeredrate) {
-                $return[] = $answeredrate;
+                if (!is_array($answeredrate)) {
+                    $return[] = $answeredrate;
+                }
             }
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $return);
         }
@@ -603,7 +616,7 @@ EOS;
 
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                $prefill[$this->itemname.'_noanswer'] = 1;
+                $prefill[$this->itemname.'_noanswer']['checkbox'] = 1;
             } else {
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
@@ -705,7 +718,7 @@ EOS;
         }
 
         if (!$this->required) {
-            $elementnames[] = $this->itemname.'_noanswer';
+            $elementnames[] = $this->itemname.'_noanswer[checkbox]';
         }
 
         return $elementnames;
