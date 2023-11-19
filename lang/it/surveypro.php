@@ -37,7 +37,7 @@ $string['surveypro'] = 'surveypro';
 
 // $string['surveypro_view'] = 'Use';
     $string['surveypro_dashboard'] = 'Stato'; // Maybe 'Overview' is better?
-    $string['surveypro_responses'] = 'Raccolta dati';
+    $string['surveypro_responses'] = 'Risposte';
     $string['surveypro_insert'] = 'Nuovo inserimento';
     $string['surveypro_edit'] = 'Modifica';
     $string['surveypro_readonly'] = 'Sola lettura';
