@@ -25,6 +25,7 @@
 namespace mod_surveypro\local\ipe;
 
 use core_text;
+use core_external\external_api;
 
 /**
  * Class to prepare a usertemplate name for display and in-place editing
@@ -82,7 +83,7 @@ class usertemplate_name extends \core\output\inplace_editable {
 
         $filerecord = $DB->get_record('files', ['id' => $xmlfileid], 'id, contextid', MUST_EXIST);
         $context = \context::instance_by_id($filerecord->contextid);
-        \external_api::validate_context($context);
+        external_api::validate_context($context);
 
         return new static($xmlfileid, $givenname);
     }

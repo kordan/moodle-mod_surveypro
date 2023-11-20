@@ -24,6 +24,8 @@
 
 namespace mod_surveypro\local\ipe;
 
+use core_external\external_api;
+
 /**
  * Class to prepare an item custom number for display and in-place editing
  *
@@ -57,7 +59,7 @@ class layout_customnumber extends \core\output\inplace_editable {
         $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
-        \external_api::validate_context($context);
+        external_api::validate_context($context);
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newcnumber = clean_param($newcnumber, PARAM_TEXT);
