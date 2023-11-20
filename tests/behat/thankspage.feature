@@ -64,7 +64,7 @@ Feature: Thanks users properly
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
 
-  @javascript @_file_upload
+  @javascript @_file_upload @editor_tiny
   Scenario: Test the thanks page with images
     Given I log in as "teacher1"
     And I follow "Manage private files"
@@ -75,9 +75,8 @@ Feature: Thanks users properly
     And I expand all fieldsets
 
     # Atto needs focus to add image, select empty p tag to do so.
-    And I select the text in the "id_thankspageeditor" Atto editor
-    And I click on "Insert or edit image" "button"
-    And I click on "Browse repositories..." "button"
+    And I click on the "Image" button for the "Inline thanks page" TinyMCE editor
+    And I click on "Browse repositories..." "button" in the "Image properties" "dialogue"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
     And I click on "thankyou.png" "link"
     And I click on "Select this file" "button"
