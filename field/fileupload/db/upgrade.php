@@ -34,7 +34,6 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyprofield_fileupload.
         $table = new xmldb_table('surveyprofield_fileupload');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -56,7 +55,6 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016072001) {
-
         // Define field hideinstructions to be added to surveyprofield_fileupload.
         $table = new xmldb_table('surveyprofield_fileupload');
         $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
@@ -72,7 +70,6 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
 
     // Moodle core added the list of allowed extensions to fileupload elements, so my instructions are no longer needed.
     if ($oldversion < 2018042401) {
-
         // Define field hideinstructions to be dropped from surveyprofield_fileupload.
         $table = new xmldb_table('surveyprofield_fileupload');
         $field = new xmldb_field('hideinstructions');
@@ -87,7 +84,6 @@ function xmldb_surveyprofield_fileupload_upgrade($oldversion) {
     }
 
     if ($oldversion < 2018060501) {
-
         // Changing precision of field filetypes on table surveyprofield_fileupload to (64).
         $table = new xmldb_table('surveyprofield_fileupload');
         $field = new xmldb_field('filetypes', XMLDB_TYPE_CHAR, '64', null, null, null, null, 'maxbytes');

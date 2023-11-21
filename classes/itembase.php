@@ -825,17 +825,30 @@ class itembase {
      *
      * Used by layout_itemsetup->display_items_table() to define the icon to show
      *
+     * There are two types of fields.
+     * 1) those for which (like the boolean)
+     * defaultoption discriminates on the desired type of default: "Custom", "Invite", "No response"
+     * and, if defaultoption == "Custom", defaultvalue intervenes and declares which custom default is chosen.
+     *
+     * 2) those for which (like multiselect).
+     * noanswerdefault = 1 means "No response".
+     *
      * @return boolean
      */
     public function item_canbemandatory() {
-        if (property_exists($this, 'defaultoption')) {
+        $return = true;
+        if (isset($this->defaultoption)) {
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
                 $return = false;
             } else {
                 $return = true;
             }
-        } else {
-            $return = true;
+        } else if (isset($this->noanswerdefault)) {
+            if ($this->noanswerdefault == 1) {
+                $return = false;
+            } else {
+                $return = true;
+            }
         }
 
         return $return;

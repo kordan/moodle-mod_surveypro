@@ -93,11 +93,6 @@ class item extends itembase {
     protected $options;
 
     /**
-     * @var string Value of the field when the form is initially displayed
-     */
-    protected $defaultvalue;
-
-    /**
      * @var string Format of the content once downloaded
      */
     protected $downloadformat;

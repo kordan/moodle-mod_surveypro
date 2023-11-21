@@ -34,7 +34,6 @@ function xmldb_surveyproformat_fieldsetend_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
     if ($oldversion < 2014051701) {
-
         // Define key surveyproid (foreign) to be dropped form surveyproformat_fieldsetend.
         $table = new xmldb_table('surveyproformat_fieldsetend');
         $key = new xmldb_key('surveyproid', XMLDB_KEY_FOREIGN, ['surveyproid'], 'surveypro', ['id']);
@@ -56,7 +55,6 @@ function xmldb_surveyproformat_fieldsetend_upgrade($oldversion) {
     }
 
     if ($oldversion < 2019031901) {
-
         // Define table surveyproformat_fieldsetend to be dropped.
         $table = new xmldb_table('surveyproformat_fieldsetend');
 
