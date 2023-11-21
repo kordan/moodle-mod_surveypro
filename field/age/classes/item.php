@@ -627,7 +627,6 @@ EOS;
         $userinput = $this->item_age_to_unix_time($data[$this->itemname.'_year'], $data[$this->itemname.'_month']);
 
         if ($haslowerbound && $hasupperbound) {
-            // Internal range.
             if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_age');
             }
