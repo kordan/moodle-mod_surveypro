@@ -558,6 +558,7 @@ EOS;
                                                     $otherlabel, 'other', $attributes);
 
             $attributes['id'] = $idprefix.'_text';
+            $attributes['class'] = 'radiobutton_radio';
             $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
@@ -565,17 +566,19 @@ EOS;
 
         if (!$this->required) {
             $attributes['id'] = $idprefix.'_noanswer';
+            $attributes['class'] = 'indent-'.$this->indent.' radiobutton_radio';
             $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '',
                                                     $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
         }
         // End of: mform element.
 
         // Begin of: definition of separator.
-        $labelcount = count($labels);
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            $separator = array_fill(0, $labelcount - 1, '<br>');
-            if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                array_unshift($separator, '<br>');
+            $labelcount = count($labels);
+            if ($labelcount > 2) {
+                $separator = array_fill(0, $labelcount - 2, '<br>');
+            } else {
+                $separator = [];
             }
             if (!empty($this->labelother)) {
                 // $separator[] = '<br>';
