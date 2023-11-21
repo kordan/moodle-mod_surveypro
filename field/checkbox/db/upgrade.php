@@ -124,5 +124,25 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018091301, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2023111401) {
+        // Changing the default of field noanswerdefault on table surveyprofield_checkbox to 0.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Update old records still having noanswerdefault == 2.
+        $sql = 'UPDATE {surveyprofield_checkbox}
+                SET noanswerdefault = :newnoanswerdefault
+                WHERE noanswerdefault = :oldnoanswerdefault';
+        $whereparams = ['newnoanswerdefault' => 1, 'oldnoanswerdefault' => 2];
+
+        $DB->execute($sql, $whereparams);
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2023111401, 'surveyprofield', 'checkbox');
+    }
+
     return true;
 }
