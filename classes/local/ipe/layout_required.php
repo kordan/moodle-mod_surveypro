@@ -25,6 +25,7 @@
 namespace mod_surveypro\local\ipe;
 
 use mod_surveypro\utility_layout;
+use core_external\external_api;
 
 /**
  * Class to prepare an item variable for display and in-place editing
@@ -94,7 +95,7 @@ class layout_required extends \core\output\inplace_editable {
         $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], 'id, course', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
-        \external_api::validate_context($context);
+        external_api::validate_context($context);
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newrequired = clean_param($newrequired, PARAM_INT);

@@ -24,6 +24,8 @@
 
 namespace mod_surveypro\local\ipe;
 
+use core_external\external_api;
+
 /**
  * Class to prepare an item custom number for display and in-place editing
  *
