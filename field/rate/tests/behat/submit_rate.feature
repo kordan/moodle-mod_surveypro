@@ -68,7 +68,6 @@ Feature: Submit using a rate item
       | id_surveypro_field_rate_2_2   | Not enought        |
       | id_surveypro_field_rate_2_3   | Completely unknown |
       | id_surveypro_field_rate_2_4   | Not enought        |
-
     And I press "Submit"
 
     And I press "Continue to responses list"
