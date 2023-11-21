@@ -1,6 +1,16 @@
+/*
+ * Legenda:
+ *     .path-mod-surveypro #userentry              form to preview and to submit a response;
+ *     .path-mod-surveypro #usersearch             form to search a response;
+ *     .path-mod-surveypro #userentry .frozen      readonly response
+ *     .path-mod-surveypro table#manageitems       table to manage items
+ *     .path-mod-surveypro table#sortitems         table to sort items
+ *     .path-mod-surveypro table#validaterelations table to validate relations
+ */
+
 /* makeup to autofill input to make it look like a label */
 /* DON'T INCLUDE THE SEARCH FORM because, at search time, autofill has to look like a regular field */
-form#userentry input.autofill_text {
+.path-mod-surveypro #userentry input.autofill_text {
     background-color: transparent;
     border: 0 transparent none;
     box-shadow: none;

@@ -1,7 +1,16 @@
+/*
+ * Legenda:
+ *     .path-mod-surveypro #userentry              form to preview and to submit a response;
+ *     .path-mod-surveypro #usersearch             form to search a response;
+ *     .path-mod-surveypro #userentry .frozen      readonly response
+ *     .path-mod-surveypro table#manageitems       table to manage items
+ *     .path-mod-surveypro table#sortitems         table to sort items
+ *     .path-mod-surveypro table#validaterelations table to validate relations
+ */
+
 /* Begin of: Fieldset presentation in the items table and during deletion confirmation */
 /* taken from: http://www.techrepublic.com/blog/web-designer/customize-horizontal-rules-to-add-some-flair/ */
-table#manageitems hr.fieldsetendcontent,
-table#validaterelations hr.fieldsetendcontent {
+.path-mod-surveypro table hr.fieldsetendcontent {
     border: 2px dotted #000;
     border-style: none none dotted;
     width: 90%;
