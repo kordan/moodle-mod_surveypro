@@ -87,17 +87,17 @@ The 18 fields type are:
 • element type "checkbox" to ask for question like: "What do you usually get for breakfast?" A: "milk, sugar, jam, chocolate, other..."
 • element type "date" to ask for question like: "When were you born?"
 • element type "datetime" to ask for question like: "Please, write down date and time of your last flight to Los Angeles."
-• element type "fileupload" to ask for question like: "Upload your CV in PDF format"
+• element type "fileupload" to ask for question like: "Please, upload your CV in PDF format"
 • element type "integer" to ask for question like: "How many people does your family counts?"
 • element type "multiselect" to ask for question like: "What do you usually get for breakfast?" A: "milk, sugar, jam, chocolate"
-• element type "numeric" to ask for question like: "Write your best approximation of π"
+• element type "numeric" to ask for question like: "Type the best approximation of π you know"
 • element type "radiobutton" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
 • element type "rate" to ask for question like: "How confident are you with the following languages? EN, ES, IT, FR. Mother tongue, very confident, not enough, unknown."
 • element type "recurrence" to ask for question like: "When do you usually celebrate your name-day? June, 7"
 • element type "select" to ask for question like: "Where do you usually spend your summer holidays?" A: "sea, mountain, lake, hills, desert..."
 • element type "shortdate" to ask for question like: "When did you buy your current car?" A: "September 2004"
 • element type "textarea" to ask for question like: "Write a short description of yourself"
-• element type "time" to ask for question like: "At what time do you usually get up in the morning in the working days?"" A: "7:00"
+• element type "time" to ask for question like: "At what time do you usually get up in the morning in a working day?"" A: "7:00"
 
 The 4 format type are:
 • element type "fieldset" to group your question

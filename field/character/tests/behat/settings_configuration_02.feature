@@ -33,9 +33,9 @@ Feature: Submit using character item and check form validation (2 of 7)
       # Text pattern:                   email address
       # Minimum length (in characters): empty
     Given I set the following fields to these values:
-      | Content    | Write down your email |
-      | Required   | 0                     |
-      | id_pattern | email address         |
+      | Content    | Write down your email, please |
+      | Required   | 0                             |
+      | id_pattern | email address                 |
     And I press "Add"
 
     And I log out
@@ -51,10 +51,10 @@ Feature: Submit using character item and check form validation (2 of 7)
 
     # Test number 2: Student submits a standard answer
     And I press "New response"
-    And I set the field "Write down your email" to "myserver.net"
+    And I set the field "Write down your email, please" to "myserver.net"
     And I press "Submit"
     Then I should see "Text is not a valid email"
-    And I set the field "Write down your email" to "me@myserver.net"
+    And I set the field "Write down your email, please" to "me@myserver.net"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions
@@ -67,10 +67,10 @@ Feature: Submit using character item and check form validation (2 of 7)
       # Text pattern:                   email address
       # Minimum length (in characters): 20
     Given I set the following fields to these values:
-      | Content                        | Write down your email |
-      | Required                       | 0                     |
-      | id_pattern                     | email address         |
-      | Minimum length (in characters) | 20                    |
+      | Content                        | Write down your email, please |
+      | Required                       | 0                             |
+      | id_pattern                     | email address                 |
+      | Minimum length (in characters) | 20                            |
     And I press "Add"
 
     And I log out
@@ -88,10 +88,10 @@ Feature: Submit using character item and check form validation (2 of 7)
     # Test number 4: Student submits a standard answer
     And I press "New response"
     Then I should see "Text is supposed to be longer-equal than 20 characters"
-    And I set the field "Write down your email" to "me@myserver.net"
+    And I set the field "Write down your email, please" to "me@myserver.net"
     And I press "Submit"
     Then I should see "Text is too short"
-    And I set the field "Write down your email" to "myname.myfamilyname@myserver.net"
+    And I set the field "Write down your email, please" to "myname.myfamilyname@myserver.net"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

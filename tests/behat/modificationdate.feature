@@ -33,7 +33,7 @@ Feature: Test submission modification time
     And I set the field "Is it true?" to "1"
     And I press "Next page >>"
 
-    And I set the field "Write down your email" to "su@nowhere.net"
+    And I set the field "Write down your email, please" to "su@nowhere.net"
     And I press "<< Previous page"
 
     And I set the field "Is it true?" to "0"

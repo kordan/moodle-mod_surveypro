@@ -66,7 +66,7 @@ Feature: Submit each available item
       | id_surveypro_field_age_1_year        | 23      |
       | id_surveypro_field_age_1_month       | 8       |
 
-    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Upload your CV in PDF format" filemanager
+    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Please, upload your CV in PDF format" filemanager
 
     And I set the following fields to these values:
       | Is it true?                          | Yes     |
@@ -86,7 +86,7 @@ Feature: Submit each available item
     And I set the following fields to these values:
       | How many people does your family counts?         | 7               |
       | id_surveypro_field_multiselect_11                | milk            |
-      | Write your best approximation of π               | 3.14            |
+      | Type the best approximation of π you know        | 3.14            |
       | id_surveypro_field_radiobutton_13_3              | 1               |
       | id_surveypro_field_rate_15_0_0                   | 1               |
       | id_surveypro_field_rate_15_1_1                   | 1               |
@@ -96,7 +96,7 @@ Feature: Submit each available item
       | id_surveypro_field_recurrence_17_month           | June            |
       | Where do you usually spend your summer holidays? | hills           |
       | Write a short description of yourself            | Super!          |
-      | Write down your email                            | me@myserver.net |
+      | Write down your email, please                    | me@myserver.net |
       | id_surveypro_field_time_21_hour                  | 7               |
       | id_surveypro_field_time_21_minute                | 15              |
     And I press "Submit"

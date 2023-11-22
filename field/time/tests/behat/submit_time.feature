@@ -27,10 +27,10 @@ Feature: Submit using a time item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | At what time do you usually get up in the morning in the working days? |
-      | Required                 | 1                                                                      |
-      | Element number           | 18                                                                     |
-      | Hide filling instruction | 1                                                                      |
+      | Content                  | At what time do you usually get up in the morning in a working day? |
+      | Required                 | 1                                                                   |
+      | Element number           | 18                                                                  |
+      | Hide filling instruction | 1                                                                   |
     And I press "Add"
 
     And I log out
