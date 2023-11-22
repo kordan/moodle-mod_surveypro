@@ -247,11 +247,12 @@ class mod_surveypro_mod_form extends \moodleform_mod {
     public function data_preprocessing(&$defaults) {
         parent::data_preprocessing($defaults);
 
+        // Manage userstyle filemanager.
+        $filename = 'userstyle';
+        $filemanageroptions = surveypro_get_user_style_options();
+        $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
+
         if ($this->current->instance) {
-            // Manage userstyle filemanager.
-            $filename = 'userstyle';
-            $filemanageroptions = surveypro_get_user_style_options();
-            $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
             file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
                 SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;
@@ -281,10 +282,6 @@ class mod_surveypro_mod_form extends \moodleform_mod {
                 $defaults[$filename]['format'] = $defaults['mailcontentformat'];
             }
         } else {
-            // Manage userstyle filemanager.
-            $filename = 'userstyle';
-            $filemanageroptions = surveypro_get_user_style_options();
-            $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
             file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
                                     SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
             $defaults[$filename.'_filemanager'] = $draftitemid;

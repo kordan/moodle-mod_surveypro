@@ -119,6 +119,7 @@ class utemplate_createform extends \moodleform {
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
+        // Useless: $defaultname = $this->_customdata->defaultname;
 
         $errors = parent::validation($data, $files);
 

@@ -56,7 +56,7 @@ Feature: Validate input with different number format
     And I follow "view_submission_row_1"
     Then the field "Write your best approximation of π" matches value "3,14"
 
-    And I select "Raccolta dati" from the "jump" singleselect
+    And I select "Risposte" from the "jump" singleselect
     And I follow "view_submission_row_2"
     Then the field "Write your best approximation of π" matches value "3,14"
 
