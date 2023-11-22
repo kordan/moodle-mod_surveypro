@@ -658,22 +658,22 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear));
         $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear));
 
-        $format = 'm Y';
+        $formatkey = $this->get_friendlyformat();
+        $format = get_string($formatkey, 'surveyprofield_shortdate');
+
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = date($format, $this->lowerbound);
-            $a->upperbound = date($format, $this->upperbound);
-
-            // Internal range.
+            $a->lowerbound = userdate($this->lowerbound, $format, 0);
+            $a->upperbound = userdate($this->upperbound, $format, 0);
             $fillinginstruction = get_string('restriction_lowerupper', 'surveyprofield_shortdate', $a);
         } else {
             $fillinginstruction = '';
             if ($haslowerbound) {
-                $a = date($format, $this->lowerbound);
+                $a = userdate($this->lowerbound, $format, 0);
                 $fillinginstruction = get_string('restriction_lower', 'surveyprofield_shortdate', $a);
             }
             if ($hasupperbound) {
-                $a = date($format, $this->upperbound);
+                $a = userdate($this->upperbound, $format, 0);
                 $fillinginstruction = get_string('restriction_upper', 'surveyprofield_shortdate', $a);
             }
         }
@@ -773,7 +773,7 @@ EOS;
         if ($format == 'unixtime') {
             $return = $content;
         } else {
-            // The last param "0" means: don't care of time zone.
+            // Last param "0" means: don't care of time zone.
             // The month and year of my last car purchase is the same all around the world.
             $return = userdate($content, get_string($format, 'surveyprofield_shortdate'), 0);
         }
