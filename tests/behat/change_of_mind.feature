@@ -20,7 +20,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And the following "activities" exist:
       | activity  | name                | intro               | newpageforchild | course         |
       | surveypro | Test change of mind | Test change of mind | 1               | Change of mind |
-    And surveypro "Test change of mind" contains the following items:
+    And surveypro "Test change of mind" has the following items:
       | type   | plugin      |
       | field  | character   |
       | field  | boolean     |
@@ -98,7 +98,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And the following "activities" exist:
       | activity  | name                        | intro                       | newpageforchild | course                 |
       | surveypro | Test 1-2-1-3 change of mind | Test 1-2-1-3 change of mind | 1               | 1-2-1-3 change of mind |
-    And surveypro "Test 1-2-1-3 change of mind" contains the following items:
+    And surveypro "Test 1-2-1-3 change of mind" has the following items:
       | type   | plugin      |
       | field  | character   |
       | field  | boolean     |
@@ -210,7 +210,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And the following "activities" exist:
       | activity  | name                        | intro                       | newpageforchild | course                 |
       | surveypro | Test 1-3-1-2 change of mind | Test 1-3-1-2 change of mind | 1               | 1-3-1-2 change of mind |
-    And surveypro "Test 1-3-1-2 change of mind" contains the following items:
+    And surveypro "Test 1-3-1-2 change of mind" has the following items:
       | type   | plugin      |
       | field  | character   |
       | field  | radiobutton |

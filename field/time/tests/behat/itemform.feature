@@ -18,7 +18,7 @@ Feature: Create a time item
     And the following "activities" exist:
       | activity  | name                 | intro                | course              |
       | surveypro | Test time setup form | Test time setup form | Datetime setup form |
-    And surveypro "Test time setup form" contains the following items:
+    And surveypro "Test time setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test time setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

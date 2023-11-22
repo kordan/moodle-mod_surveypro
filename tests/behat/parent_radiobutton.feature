@@ -20,7 +20,7 @@ Feature: Set radiobutton as parent item
     And the following "activities" exist:
       | activity  | name                       | intro                      | newpageforchild | course                |
       | surveypro | Test radiobutton as parent | Test radiobutton as parent | 1               | Radiobutton as parent |
-    And surveypro "Test radiobutton as parent" contains the following items:
+    And surveypro "Test radiobutton as parent" has the following items:
       | type   | plugin      |
       | field  | radiobutton |
     And I am on the "Test radiobutton as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

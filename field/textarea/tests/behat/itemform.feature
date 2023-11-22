@@ -18,7 +18,7 @@ Feature: Create a textarea item
     And the following "activities" exist:
       | activity  | name                     | intro                    | course              |
       | surveypro | Test textarea setup form | Test textarea setup form | Textarea setup form |
-    And surveypro "Test textarea setup form" contains the following items:
+    And surveypro "Test textarea setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test textarea setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

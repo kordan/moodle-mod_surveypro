@@ -22,7 +22,7 @@ Feature: Thanks users properly
     And the following "activities" exist:
       | activity  | name             | intro            | course |
       | surveypro | Thanks surveypro | Test thanks page | Thanks |
-    And surveypro "Thanks surveypro" contains the following items:
+    And surveypro "Thanks surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
     And the following "blocks" exist:

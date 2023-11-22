@@ -18,7 +18,7 @@ Feature: Validate input with different number format
     And the following "activities" exist:
       | activity  | name                           | intro                          | course    |
       | surveypro | Test multiformat numeric input | Test multiformat numeric input | MF Number |
-    And surveypro "Test multiformat numeric input" contains the following items:
+    And surveypro "Test multiformat numeric input" has the following items:
       | type   | plugin  |
       | field  | numeric |
 

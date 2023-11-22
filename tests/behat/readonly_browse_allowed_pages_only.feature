@@ -20,7 +20,7 @@ Feature: In read only mode browse a submission jumping not filled pages
     And the following "activities" exist:
       | activity  | name                        | intro                       | newpageforchild | course                 |
       | surveypro | Test jump not allowed pages | Test jump not allowed pages | 1               | Jump not allowed pages |
-    And surveypro "Test jump not allowed pages" contains the following items:
+    And surveypro "Test jump not allowed pages" has the following items:
       | type   | plugin      |
       | field  | boolean     |
       | format | pagebreak   |

@@ -18,7 +18,7 @@ Feature: Create an integer item
     And the following "activities" exist:
       | activity  | name                    | intro                   | course             |
       | surveypro | Test integer setup form | Test integer setup form | Integer setup form |
-    And surveypro "Test integer setup form" contains the following items:
+    And surveypro "Test integer setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test integer setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

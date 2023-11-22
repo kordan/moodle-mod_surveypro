@@ -20,7 +20,7 @@ Feature: Set select as parent item
     And the following "activities" exist:
       | activity  | name                  | intro                 | newpageforchild | course           |
       | surveypro | Test select as parent | Test select as parent | 1               | Select as parent |
-    And surveypro "Test select as parent" contains the following items:
+    And surveypro "Test select as parent" has the following items:
       | type   | plugin |
       | field  | select |
     And I am on the "Test select as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

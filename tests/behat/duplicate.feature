@@ -15,7 +15,7 @@ Feature: Duplicate a surveypro
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | surveypro test | For testing backup | C1     |
-    And surveypro "surveypro test" contains the following items:
+    And surveypro "surveypro test" has the following items:
       | type   | plugin      |
       | format | label       |
       | format | fieldset    |

@@ -14,7 +14,7 @@ Feature: Execute item actions
     Given the following "activities" exist:
       | activity  | name                     | intro                | course  |
       | surveypro | Test simple item actions | To test item actions | Test IA |
-    And surveypro "Test simple item actions" contains the following items:
+    And surveypro "Test simple item actions" has the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | autofill    |

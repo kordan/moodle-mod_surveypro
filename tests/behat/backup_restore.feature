@@ -15,7 +15,7 @@ Feature: Backup and restore a surveypro
     Given the following "activities" exist:
       | activity  | name           | intro              | course |
       | surveypro | Surveypro test | For testing backup | C1     |
-    And surveypro "Surveypro test" contains the following items:
+    And surveypro "Surveypro test" has the following items:
       | type   | plugin      |
       | format | label       |
       | format | fieldset    |

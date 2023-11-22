@@ -18,7 +18,7 @@ Feature: Create a boolean item
     And the following "activities" exist:
       | activity  | name                    | intro                   | course             |
       | surveypro | Test boolean setup form | Test boolean setup form | Boolean setup form |
-    And surveypro "Test boolean setup form" contains the following items:
+    And surveypro "Test boolean setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test boolean setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

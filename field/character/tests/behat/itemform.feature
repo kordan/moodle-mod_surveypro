@@ -18,7 +18,7 @@ Feature: Create a character item
     And the following "activities" exist:
       | activity  | name                      | intro                     | course               |
       | surveypro | Test character setup form | Test character setup form | Character setup form |
-    And surveypro "Test character setup form" contains the following items:
+    And surveypro "Test character setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test character setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

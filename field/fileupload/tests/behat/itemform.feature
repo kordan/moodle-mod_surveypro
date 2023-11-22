@@ -18,7 +18,7 @@ Feature: Create a fileupload item
     And the following "activities" exist:
       | activity  | name                       | intro                      | course                |
       | surveypro | Test fileupload setup form | Test fileupload setup form | Fileupload setup form |
-    And surveypro "Test fileupload setup form" contains the following items:
+    And surveypro "Test fileupload setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test fileupload setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

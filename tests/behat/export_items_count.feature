@@ -18,7 +18,7 @@ Feature: Verify export type menu after adding a fileupload item
     And the following "activities" exist:
       | activity  | name             | intro                     | course           |
       | surveypro | Export-item test | To check export type menu | Count menu items |
-    And surveypro "Export-item test" contains the following items:
+    And surveypro "Export-item test" has the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | fileupload  |

@@ -18,7 +18,7 @@ Feature: Create a shortdate item
     And the following "activities" exist:
       | activity  | name                      | intro                     | course               |
       | surveypro | Test shortdate setup form | Test shortdate setup form | Shortdate setup form |
-    And surveypro "Test shortdate setup form" contains the following items:
+    And surveypro "Test shortdate setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test shortdate setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
