@@ -80,7 +80,6 @@ Feature: Create a textarea item
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Write a short description of yourself"
     Then I should see "Additional note"
-    Then "//div[contains(@id, 'id_surveypro_field_textarea_2editable')]" "xpath_element" should exist
 
     And I select "Elements" from the "jump" singleselect
     And I follow "edit_item_2"

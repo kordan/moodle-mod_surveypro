@@ -26,6 +26,9 @@ Feature: Test attachment report
     And the following "permission overrides" exist:
       | capability                       | permission | role    | contextlevel | reference              |
       | mod/surveypro:editownsubmissions | Allow      | student | Course       | Test attachment report |
+    And the following "user preferences" exist:
+      | user     | preference | value    |
+      | teacher1 | htmleditor | textarea |
     And the following "activities" exist:
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
