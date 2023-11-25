@@ -1001,7 +1001,7 @@ class submissions_form extends formbase {
                     $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
                     if (count($mygroups)) {
                         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                        $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+                        $mygroupmates = $utilitysubmissionman->get_groupmates();
                         $mysamegroup = in_array($ownerid, $mygroupmates);
                     } else {
                         // My group is the world so, for sure you are in my group.

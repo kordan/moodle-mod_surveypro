@@ -147,11 +147,10 @@ class utility_submission {
     /**
      * surveypro_groupmates
      *
-     * @param object $cm
      * @param int $userid Optional $userid: the user you want to know his/her groupmates
      * @return Array with the list of groupmates of the user
      */
-    public function get_groupmates($cm, $userid=0) {
+    public function get_groupmates($userid=0) {
         global $COURSE, $USER;
 
         if (empty($userid)) {

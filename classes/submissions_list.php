@@ -783,7 +783,7 @@ class submissions_list {
             $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
             if ($groupmode) { // Activity is divided into groups.
                 $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+                $mygroupmates = $utilitysubmissionman->get_groupmates();
             } else {
                 $mygroupmates = [];
             }
@@ -1574,7 +1574,7 @@ class submissions_list {
             $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
             if ($groupmode) { // Activity is divided into groups.
                 $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                $mygroupmates = $utilitysubmissionman->get_groupmates($this->cm);
+                $mygroupmates = $utilitysubmissionman->get_groupmates();
                 $mysamegroup = in_array($ownerid, $mygroupmates);
             } else {
                 $mysamegroup = false;
