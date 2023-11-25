@@ -20,7 +20,7 @@ Feature: Set boolean as parent item
     And the following "activities" exist:
       | activity  | name                   | intro                  | newpageforchild | course            |
       | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent |
-    And surveypro "Test boolean as parent" contains the following items:
+    And surveypro "Test boolean as parent" has the following items:
       | type   | plugin  |
       | field  | boolean |
     And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

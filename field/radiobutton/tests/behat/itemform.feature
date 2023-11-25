@@ -18,7 +18,7 @@ Feature: Create a radiobutton item
     And the following "activities" exist:
       | activity  | name                        | intro                       | course                 |
       | surveypro | Test radiobutton setup form | Test radiobutton setup form | Radiobutton setup form |
-    And surveypro "Test radiobutton setup form" contains the following items:
+    And surveypro "Test radiobutton setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test radiobutton setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

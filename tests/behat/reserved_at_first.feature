@@ -21,7 +21,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
     And the following "activities" exist:
       | activity  | name            | intro           | newpageforchild | course     |
       | surveypro | Test start at 2 | Test start at 2 | 1               | Start at 2 |
-    And surveypro "Test start at 2" contains the following items:
+    And surveypro "Test start at 2" has the following items:
       | type   | plugin      |
       | field  | boolean     |
       | format | pagebreak   |

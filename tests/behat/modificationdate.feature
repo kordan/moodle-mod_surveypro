@@ -20,7 +20,7 @@ Feature: Test submission modification time
     And the following "activities" exist:
       | activity  | name                   | intro                  | newpageforchild | course                                 |
       | surveypro | Test modification time | Test modification time | 1               | Timemodified only at modification time |
-    And surveypro "Test modification time" contains the following items:
+    And surveypro "Test modification time" has the following items:
       | type   | plugin      |
       | field  | boolean     |
       | format | pagebreak   |

@@ -19,7 +19,7 @@ Feature: Test correctness of urls
     And the following "activities" exist:
       | activity  | name            | intro           | course    |
       | surveypro | sPro test links | To verify links | Tl course |
-    And surveypro "sPro test links" contains the following items:
+    And surveypro "sPro test links" has the following items:
       | type   | plugin      |
       | format | label       |
       | format | fieldset    |

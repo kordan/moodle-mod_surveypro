@@ -24,7 +24,7 @@ Feature: Duplicate a response
     And the following "activities" exist:
       | activity  | name                  | intro                     | course             |
       | surveypro | Duplicate response sp | Test response duplication | Duplicate response |
-    And surveypro "Duplicate response sp" contains the following items:
+    And surveypro "Duplicate response sp" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Duplicate response sp" "surveypro activity" page logged in as student1

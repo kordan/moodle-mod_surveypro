@@ -20,7 +20,7 @@ Feature: Set checkbox as parent item
     And the following "activities" exist:
       | activity  | name                    | intro                   | newpageforchild | course             |
       | surveypro | Test checkbox as parent | Test checkbox as parent | 1               | Checkbox as parent |
-    And surveypro "Test checkbox as parent" contains the following items:
+    And surveypro "Test checkbox as parent" has the following items:
       | type   | plugin   |
       | field  | checkbox |
     And I am on the "Test checkbox as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

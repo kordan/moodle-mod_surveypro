@@ -20,7 +20,7 @@ Feature: Set multiselect as parent item
     And the following "activities" exist:
       | activity  | name                       | intro                      | newpageforchild | course                |
       | surveypro | Test multiselect as parent | Test multiselect as parent | 1               | Multiselect as parent |
-    And surveypro "Test multiselect as parent" contains the following items:
+    And surveypro "Test multiselect as parent" has the following items:
       | type   | plugin      |
       | field  | multiselect |
     And I am on the "Test multiselect as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

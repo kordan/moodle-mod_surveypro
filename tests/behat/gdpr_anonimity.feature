@@ -18,7 +18,7 @@ Feature: Test anonymous surveypro are really anonymous
     And the following "activities" exist:
       | activity  | name                | intro               | course           |
       | surveypro | Anonymous surveypro | Anonymous surveypro | Anonymous course |
-    And surveypro "Anonymous surveypro" contains the following items:
+    And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
 
@@ -48,7 +48,7 @@ Feature: Test anonymous surveypro are really anonymous
     And the following "activities" exist:
       | activity  | name                | intro               | course           |
       | surveypro | Anonymous surveypro | Anonymous surveypro | Anonymous course |
-    And surveypro "Anonymous surveypro" contains the following items:
+    And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
 
@@ -81,7 +81,7 @@ Feature: Test anonymous surveypro are really anonymous
     And the following "activities" exist:
       | activity  | name                | intro               | course           |
       | surveypro | Anonymous surveypro | Anonymous surveypro | Anonymous course |
-    And surveypro "Anonymous surveypro" contains the following items:
+    And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
 
@@ -116,7 +116,7 @@ Feature: Test anonymous surveypro are really anonymous
     And the following "activities" exist:
       | activity  | name                | intro               | course           |
       | surveypro | Anonymous surveypro | Anonymous surveypro | Anonymous course |
-    And surveypro "Anonymous surveypro" contains the following items:
+    And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
 

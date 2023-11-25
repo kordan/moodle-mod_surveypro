@@ -18,7 +18,7 @@ Feature: Create a date item
     And the following "activities" exist:
       | activity  | name                 | intro                | course          |
       | surveypro | Test date setup form | Test date setup form | Date setup form |
-    And surveypro "Test date setup form" contains the following items:
+    And surveypro "Test date setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test date setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

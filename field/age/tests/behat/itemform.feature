@@ -18,7 +18,7 @@ Feature: Create an age item
     And the following "activities" exist:
       | activity  | name                | intro               | course         |
       | surveypro | Test age setup form | Test age setup form | Age setup form |
-    And surveypro "Test age setup form" contains the following items:
+    And surveypro "Test age setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test age setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

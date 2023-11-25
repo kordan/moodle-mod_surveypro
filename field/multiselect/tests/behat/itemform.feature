@@ -18,7 +18,7 @@ Feature: Create a multiselect item
     And the following "activities" exist:
       | activity  | name                        | intro                       | course                 |
       | surveypro | Test multiselect setup form | Test multiselect setup form | Multiselect setup form |
-    And surveypro "Test multiselect setup form" contains the following items:
+    And surveypro "Test multiselect setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test multiselect setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

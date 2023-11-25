@@ -32,7 +32,7 @@ Feature: Test attachment report
     And the following "activities" exist:
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
-    And surveypro "Attachment report test" contains the following items:
+    And surveypro "Attachment report test" has the following items:
       | type   | plugin     | content                            |
       | field  | fileupload | Upload a passport photo            |
       | field  | fileupload | Upload your CV                     |

@@ -32,7 +32,7 @@ Feature: Test answers are not timezone dependent
     And the following "activities" exist:
       | activity  | name        | intro    | course |
       | surveypro | sameanswers | To trash | noTZ   |
-    And surveypro "sameanswers" contains the following items:
+    And surveypro "sameanswers" has the following items:
       | type   | plugin      |
       | format | label       |
       | field  | age         |

@@ -18,7 +18,7 @@ Feature: Delete an instance
     And the following "activities" exist:
       | activity  | name                 | intro    | course            |
       | surveypro | Activity delenda est | To trash | Activity deletion |
-    And surveypro "Activity delenda est" contains the following items:
+    And surveypro "Activity delenda est" has the following items:
       | type   | plugin      |
       | format | label       |
       | format | fieldset    |

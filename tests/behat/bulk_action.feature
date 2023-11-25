@@ -15,7 +15,7 @@ Feature: Execute bulk actions
     Given the following "activities" exist:
       | activity  | name                   | intro                     | course  |
       | surveypro | Test bulk item actions | To test bulk item actions | Test IA |
-    And surveypro "Test bulk item actions" contains the following items:
+    And surveypro "Test bulk item actions" has the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | autofill    |

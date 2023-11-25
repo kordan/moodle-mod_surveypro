@@ -24,7 +24,7 @@ Feature: Submit each available item
       | capability                            | permission | role    | contextlevel | reference       |
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Submission test |
       | mod/surveypro:deleteownsubmissions    | Allow      | student | Course       | Submission test |
-    And surveypro "Each item submission" contains the following items:
+    And surveypro "Each item submission" has the following items:
       | type   | plugin      |
       | field  | age         |
       | field  | fileupload  |

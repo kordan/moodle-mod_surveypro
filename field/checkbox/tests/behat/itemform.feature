@@ -18,7 +18,7 @@ Feature: Create a checkbox item
     And the following "activities" exist:
       | activity  | name                     | intro                    | course              |
       | surveypro | Test checkbox setup form | Test checkbox setup form | Checkbox setup form |
-    And surveypro "Test checkbox setup form" contains the following items:
+    And surveypro "Test checkbox setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test checkbox setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

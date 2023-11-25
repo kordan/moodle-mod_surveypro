@@ -18,7 +18,7 @@ Feature: Create a rate item
     And the following "activities" exist:
       | activity  | name                 | intro                | course          |
       | surveypro | Test rate setup form | Test rate setup form | Rate setup form |
-    And surveypro "Test rate setup form" contains the following items:
+    And surveypro "Test rate setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "Test rate setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

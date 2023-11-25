@@ -20,7 +20,7 @@ Feature: Set integer as parent item
     And the following "activities" exist:
       | activity  | name                   | intro                  | newpageforchild | course            |
       | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent |
-    And surveypro "Test integer as parent" contains the following items:
+    And surveypro "Test integer as parent" has the following items:
       | type   | plugin  |
       | field  | integer |
     And I am on the "Test integer as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1

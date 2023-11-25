@@ -18,7 +18,7 @@ Feature: Include custom numbers into element question/content
     And the following "activities" exist:
       | activity  | name            | intro                        | course   |
       | surveypro | VerifyCN survey | Verify custom numbers survey | VerifyCN |
-    And surveypro "VerifyCN survey" contains the following items:
+    And surveypro "VerifyCN survey" has the following items:
       | type  | plugin  |
       | field | boolean |
     And I am on the "VerifyCN survey" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
