@@ -27,13 +27,13 @@ Feature: Submit using a numeric item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Write your best approximation of π |
-      | Required                 | 1                                  |
-      | Indent                   | 0                                  |
-      | Question position        | left                               |
-      | Element number           | 11                                 |
-      | Hide filling instruction | 1                                  |
-      | Decimal positions        | 2                                  |
+      | Content                  | Type the best approximation of π you know |
+      | Required                 | 1                                         |
+      | Indent                   | 0                                         |
+      | Question position        | left                                      |
+      | Element number           | 11                                        |
+      | Hide filling instruction | 1                                         |
+      | Decimal positions        | 2                                         |
     And I press "Add"
 
     And I log out
@@ -43,7 +43,7 @@ Feature: Submit using a numeric item
     And I press "New response"
 
     # student1 submits
-    And I set the field "11 Write your best approximation of π" to "3.14"
+    And I set the field "11 Type the best approximation of π you know" to "3.14"
 
     And I press "Submit"
 

@@ -29,42 +29,42 @@ Feature: Create a numeric item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Write your best approximation of π |
-      | Required                 | 1                                  |
-      | Indent                   | 1                                  |
-      | Question position        | left                               |
-      | Element number           | II.a                               |
-      | Hide filling instruction | 1                                  |
-      | Variable                 | A1                                 |
-      | Additional note          | Additional note                    |
-      | Hidden                   | 1                                  |
-      | Search form              | 1                                  |
-      | Reserved                 | 1                                  |
-      | Parent element           | Boolean [1]: Is it true?           |
-      | Parent content           | 1                                  |
-      | Default                  | 3h14                               |
-      | Signed value             | 1                                  |
-      | Decimal positions        | 5                                  |
-      | Minimum value            | 4                                  |
-      | Maximum value            | 3                                  |
+      | Content                  | Type the best approximation of π you know |
+      | Required                 | 1                                         |
+      | Indent                   | 1                                         |
+      | Question position        | left                                      |
+      | Element number           | II.a                                      |
+      | Hide filling instruction | 1                                         |
+      | Variable                 | A1                                        |
+      | Additional note          | Additional note                           |
+      | Hidden                   | 1                                         |
+      | Search form              | 1                                         |
+      | Reserved                 | 1                                         |
+      | Parent element           | Boolean [1]: Is it true?                  |
+      | Parent content           | 1                                         |
+      | Default                  | 3h14                                      |
+      | Signed value             | 1                                         |
+      | Decimal positions        | 5                                         |
+      | Minimum value            | 4                                         |
+      | Maximum value            | 3                                         |
     And I press "Add"
 
     Then I should see "This is not a number"
     Then I should see "Lower bound must be lower than upper bound"
     And I set the following fields to these values:
-      | Default                  | 3.14                                               |
-      | Minimum value            | 4                                                  |
-      | Maximum value            | 5                                                  |
+      | Default                  | 3.14 |
+      | Minimum value            | 4    |
+      | Maximum value            | 5    |
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"
     And I set the following fields to these values:
-      | Minimum value            | 3                                                  |
-      | Maximum value            | 4                                                  |
+      | Minimum value            | 3 |
+      | Maximum value            | 4 |
     And I press "Add"
 
     And I follow "edit_item_2"
-    Then the field "Content" matches value "Write your best approximation of π"
+    Then the field "Content" matches value "Type the best approximation of π you know"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
@@ -86,6 +86,6 @@ Feature: Create a numeric item
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a Write your best approximation of π"
+    Then I should see "II.a Type the best approximation of π you know"
     Then the field "id_surveypro_field_numeric_2" matches value "3.14"
     Then I should see "Additional note"

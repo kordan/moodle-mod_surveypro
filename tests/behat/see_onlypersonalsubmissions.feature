@@ -29,12 +29,12 @@ Feature: Test each student sees only personal submissions
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Write down your email |
-      | Indent                   | 0                     |
-      | Question position        | left                  |
-      | Element number           | 1                     |
-      | Hide filling instruction | 0                     |
-      | id_pattern               | email address         |
+      | Content                  | Write down your email, please |
+      | Indent                   | 0                             |
+      | Question position        | left                          |
+      | Element number           | 1                             |
+      | Hide filling instruction | 0                             |
+      | id_pattern               | email address                 |
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"
@@ -58,16 +58,16 @@ Feature: Test each student sees only personal submissions
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | 1 Write down your email | st11email@st11server.net |
-      | 2 Is it true?           | Yes                      |
+      | 1 Write down your email, please | st11email@st11server.net |
+      | 2 Is it true?                   | Yes                      |
     And I press "Submit"
 
     And I press "New response"
 
     # student1 submits his second response
     And I set the following fields to these values:
-      | 1 Write down your email | st12email@st12server.net |
-      | 2 Is it true?           | No                       |
+      | 1 Write down your email, please | st12email@st12server.net |
+      | 2 Is it true?                   | No                       |
     And I press "Submit"
 
     And I log out
@@ -82,8 +82,8 @@ Feature: Test each student sees only personal submissions
 
     # student2 submits a response
     And I set the following fields to these values:
-      | 1 Write down your email | st21email@st21server.net |
-      | 2 Is it true?           | Yes                      |
+      | 1 Write down your email, please | st21email@st21server.net |
+      | 2 Is it true?                   | Yes                      |
     And I press "Submit"
 
     And I press "Continue to responses list"

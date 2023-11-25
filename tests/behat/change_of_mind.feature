@@ -61,7 +61,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     When I am on the "Test change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "Write down your email" to "su@nowhere.net"
+    And I set the field "Write down your email, please" to "su@nowhere.net"
     And I set the field "Is it true?" to "0"
     And I press "Next page >>"
     Then I should see "Choose a direction"
@@ -160,7 +160,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     When I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "Write down your email" to "su@nowhere.net"
+    And I set the field "Write down your email, please" to "su@nowhere.net"
     And I set the field "Is it true?" to "1"
     And I press "Next page >>"
     Then I should see "Which pet do you like more?"
@@ -274,7 +274,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     When I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "Write down your email" to "su@nowhere.net"
+    And I set the field "Write down your email, please" to "su@nowhere.net"
 
     And I set the following fields to these values:
       | id_surveypro_field_radiobutton_2_1 | 1 |

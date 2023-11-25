@@ -11,7 +11,7 @@ This is a list of the 22 built-in elements with their supposed use.
 | age         | How old were you when you started cycling?                                   | 4 years, 6 months      |
 | autofill    | Autofill the response with infos from user, course, time, date or surveypro  | userid=528             |
 | boolean     | Is it true?                                                                  | yes                    |
-| character   | Write down your email                                                        | thisisme@myservet.net  |
+| character   | Write down your email, please                                                | thisisme@myservet.net  |
 | checkbox    | What do you usually get for breakfast? milk, sugar, jam, chocolate, other... | milk, chocolate        |
 | date        | When were you born?                                                          | October 12, 1492       |
 | datetime    | Write down date and time of your last flight to Los Angeles                  | October 12, 2008 14:45 |
@@ -25,7 +25,7 @@ This is a list of the 22 built-in elements with their supposed use.
 | select      | Which summer holidays place do you prefer? sea, mountain, lake, hills        | lake                   |
 | shortdate   | When did you buy your current car?                                           | October 2012           |
 | textarea    | Write a short description of yourself                                        | This is me             |
-| time        | At what time do you usually get up in the morning in the working days?       | 7:15                   |
+| time        | At what time do you usually get up in the morning in a working day?          | 7:15                   |
 |---------------------------------------------------------------------------------------------------------------------|
 
 | -- format - | ------------------- Use ------------------ |

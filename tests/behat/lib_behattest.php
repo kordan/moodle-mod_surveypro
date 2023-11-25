@@ -29,9 +29,10 @@
  *
  * @param string $type
  * @param string $plugin
+ * @param string $content
  * @return object
  */
-function get_dummy_contents($type, $plugin) {
+function get_dummy_contents($type, $plugin, $content=null) {
 
     $return = new \stdClass();
     $return->itemid = 0;
@@ -45,7 +46,10 @@ function get_dummy_contents($type, $plugin) {
 
     if ($type == SURVEYPRO_TYPEFIELD) {
         if ($plugin == 'age') {
-            $return->content_editor['text'] = 'How old were you when you started cycling?';
+            if (!$content) {
+                $content = 'How old were you when you started cycling?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -63,7 +67,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'autofill') {
-            $return->content_editor['text'] = 'Just your userid';
+            if (!$content) {
+                $content = 'Your userid';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -79,7 +86,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'boolean') {
-            $return->content_editor['text'] = 'Is it true?';
+            if (!$content) {
+                $content = 'Is it true?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -92,7 +102,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'character') {
-            $return->content_editor['text'] = 'Write down your email';
+            if (!$content) {
+                $content = 'Write down your email, please';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->pattern = 'PATTERN_EMAIL';
@@ -102,7 +115,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'checkbox') {
-            $return->content_editor['text'] = 'What do you usually get for breakfast?';
+            if (!$content) {
+                $content = 'What do you usually get for breakfast?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->options = "milk\nsugar\njam\nchocolate";
@@ -115,7 +131,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'date') {
-            $return->content_editor['text'] = 'When were you born?';
+            if (!$content) {
+                $content = 'When were you born?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = 2;
@@ -130,7 +149,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'datetime') {
-            $return->content_editor['text'] = 'Please, write down date and time of your last flight to Los Angeles.';
+            if (!$content) {
+                $content = 'Please, write down date and time of your last flight to Los Angeles.';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->step = '1';
@@ -150,7 +172,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'fileupload') {
-            $return->content_editor['text'] = 'Upload your CV in PDF format';
+            if (!$content) {
+                $content = 'Please, upload your CV in PDF format';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->position = 0;
@@ -166,7 +191,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'integer') {
-            $return->content_editor['text'] = 'How many people does your family counts?';
+            if (!$content) {
+                $content = 'How many people does your family counts?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = '2';
@@ -176,7 +204,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'multiselect') {
-            $return->content_editor['text'] = 'What do you usually get for breakfast?';
+            if (!$content) {
+                $content = 'What do you usually get for breakfast?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->options = "milk\nsugar\njam\nchocolate";
@@ -188,7 +219,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'numeric') {
-            $return->content_editor['text'] = 'Write your best approximation of π';
+            if (!$content) {
+                $content = 'Type the best approximation of π you know';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultvalue = '';
@@ -199,7 +233,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'radiobutton') {
-            $return->content_editor['text'] = 'Where do you usually spend your summer holidays?';
+            if (!$content) {
+                $content = 'Where do you usually spend your summer holidays?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->options = "sea\nmountain\nlake\nhills";
@@ -211,7 +248,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'rate') {
-            $return->content_editor['text'] = 'How confident are you with the following languages?';
+            if (!$content) {
+                $content = 'How confident are you with the following languages?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->options = "EN\nES\nIT\nFR";
@@ -223,7 +263,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'recurrence') {
-            $return->content_editor['text'] = 'When do you usually celebrate your name-day?';
+            if (!$content) {
+                $content = 'When do you usually celebrate your name-day?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = 2;
@@ -236,7 +279,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'select') {
-            $return->content_editor['text'] = 'Where do you usually spend your summer holidays?';
+            if (!$content) {
+                $content = 'Where do you usually spend your summer holidays?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->options = "sea\nmountain\nlake\nhills";
@@ -247,7 +293,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'shortdate') {
-            $return->content_editor['text'] = 'When did you buy your current car?';
+            if (!$content) {
+                $content = 'When did you buy your current car?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->defaultoption = '2';
@@ -260,7 +309,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'textarea') {
-            $return->content_editor['text'] = 'Write a short description of yourself';
+            if (!$content) {
+                $content = 'Write a short description of yourself';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->useeditor = 1;
@@ -272,7 +324,10 @@ function get_dummy_contents($type, $plugin) {
             return $return;
         }
         if ($plugin == 'time') {
-            $return->content_editor['text'] = 'At what time do you usually get up in the morning in the working days?';
+            if (!$content) {
+                $content = 'At what time do you usually get up in the morning in a working day?';
+            }
+            $return->content_editor['text'] = $content;
             $return->contentformat = 1;
             $return->indent = 0;
             $return->step = '1';
@@ -289,7 +344,10 @@ function get_dummy_contents($type, $plugin) {
 
     if ($type == SURVEYPRO_TYPEFORMAT) {
         if ($plugin == 'label') {
-            $return->content_editor['text'] = 'Welcome to this new instance of surveypro';
+            if (!$content) {
+                $content = 'Welcome to this new instance of surveypro';
+            }
+            $return->content_editor['text'] = $content;
             $return->indent = 0;
             $return->customnumber = '';
             $return->leftlabel = '';

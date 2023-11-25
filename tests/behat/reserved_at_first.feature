@@ -36,13 +36,13 @@ Feature: Access a surveypro from the second page if the first one has only reser
     When I am on the "Test start at 2" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    Then I should see "Write down your email"
+    Then I should see "Write down your email, please"
 
-    And I set the field "Write down your email" to "su@nowhere.net"
+    And I set the field "Write down your email, please" to "su@nowhere.net"
     And I press "Submit"
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
     And I follow "view_submission_row_1"
-    Then I should see "Write down your email"
+    Then I should see "Write down your email, please"

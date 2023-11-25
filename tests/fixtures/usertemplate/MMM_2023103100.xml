@@ -931,7 +931,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_time>
-      <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
+      <content>&lt;p&gt;At what time do you usually get up in the morning in a working day?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -953,7 +953,7 @@ hill</options>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_time>
-      <content>&lt;p&gt;At what time do you usually get up in the morning in the working days?&lt;/p&gt;</content>
+      <content>&lt;p&gt;At what time do you usually get up in the morning in a working day?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>

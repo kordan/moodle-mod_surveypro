@@ -34,6 +34,6 @@ Feature: Duplicate a surveypro
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data"
     And I should see "What do you usually get for breakfast?"
-    And I should see "Write your best approximation of π"
+    And I should see "Type the best approximation of π you know"
     And I should see "Is it true?"
     And I should see "Where do you usually spend your summer holidays?"

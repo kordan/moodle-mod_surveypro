@@ -29,27 +29,27 @@ Feature: Create a time item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | At what time do you usually get up in the morning in the working days? |
-      | Required                 | 1                                                                      |
-      | Indent                   | 1                                                                      |
-      | Question position        | left                                                                   |
-      | Element number           | II.a                                                                   |
-      | Hide filling instruction | 1                                                                      |
-      | Variable                 | T1                                                                     |
-      | Additional note          | Additional note                                                        |
-      | Hidden                   | 1                                                                      |
-      | Search form              | 1                                                                      |
-      | Reserved                 | 1                                                                      |
-      | Parent element           | Boolean [1]: Is it true?                                               |
-      | Parent content           | 1                                                                      |
-      | Step                     | five minutes                                                           |
-      | Custom                   | 1                                                                      |
-      | id_defaultvaluehour      | 7                                                                      |
-      | id_defaultvalueminute    | 40                                                                     |
-      | id_lowerboundhour        | 6                                                                      |
-      | id_lowerboundminute      | 0                                                                      |
-      | id_upperboundhour        | 6                                                                      |
-      | id_upperboundminute      | 0                                                                      |
+      | Content                  | At what time do you usually get up in the morning in a working day? |
+      | Required                 | 1                                                                   |
+      | Indent                   | 1                                                                   |
+      | Question position        | left                                                                |
+      | Element number           | II.a                                                                |
+      | Hide filling instruction | 1                                                                   |
+      | Variable                 | T1                                                                  |
+      | Additional note          | Additional note                                                     |
+      | Hidden                   | 1                                                                   |
+      | Search form              | 1                                                                   |
+      | Reserved                 | 1                                                                   |
+      | Parent element           | Boolean [1]: Is it true?                                            |
+      | Parent content           | 1                                                                   |
+      | Step                     | five minutes                                                        |
+      | Custom                   | 1                                                                   |
+      | id_defaultvaluehour      | 7                                                                   |
+      | id_defaultvalueminute    | 40                                                                  |
+      | id_lowerboundhour        | 6                                                                   |
+      | id_lowerboundminute      | 0                                                                   |
+      | id_upperboundhour        | 6                                                                   |
+      | id_upperboundminute      | 0                                                                   |
     And I press "Add"
 
     Then I should see "Lower and upper bounds must be different"
@@ -69,7 +69,7 @@ Feature: Create a time item
     And I press "Add"
 
     And I follow "edit_item_2"
-    Then the field "Content" matches value "At what time do you usually get up in the morning in the working days?"
+    Then the field "Content" matches value "At what time do you usually get up in the morning in a working day?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
@@ -98,7 +98,7 @@ Feature: Create a time item
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a At what time do you usually get up in the morning in the working days?"
+    Then I should see "II.a At what time do you usually get up in the morning in a working day?"
     Then the field "id_surveypro_field_time_2_hour" matches value "7"
     Then the field "id_surveypro_field_time_2_minute" matches value "40"
     Then I should see "Additional note"
