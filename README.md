@@ -155,45 +155,42 @@ You should have read a copy of the GNU General Public License along with Moodle.
 
 Report issue
 ------------
-Please report issues about this module on [GitHub](https://github.com/kordan/moodle-mod_surveypro/issues).
+Please report issues about this module on [Surveypro on GitHub](https://github.com/kordan/moodle-mod_surveypro/issues).
 
 Documentation
 -------------
-Refer to the [Moodle documentation](https://docs.moodle.org/dev/Survey_2_module) (please note that it may be outdated).
+Refer to the [Moodle documentation](https://docs.moodle.org/dev/Survey_2_module) (incomplete and be outdated).
 
 Known bugs
 ----------
-- Long text (using HTML editor) as a child is not disabled by the parent even if on the same page.
-- Style problem with file upload window.
-- Failing server-side mform validation does not scroll to the first error using clean.
-- Theme boost duplicates classes for checkbox mform elements.
+- Failing server-side mform validation does not scroll to the first error.
 
 **Fixed issues**
-- Multiselect mform doesn't work (MDL-30940).
-- How to disable fields upon checkboxes sets (MDL-34760, MDL-38975).
-- $mform->disabledIf doesn't work for 'multiselect' mform elements (MDL-39280).
-- Uniformize the handling of SVGs in resolve_image_location() calls (MDL-45723).
+- (MDL-30940) Multiselect mform doesn't work.
+- (MDL-34760, MDL-38975) How to disable fields upon checkboxes sets.
+- (MDL-39280) $mform->disabledIf doesn't work for 'multiselect' mform elements.
+- (MDL-45723) Uniformize the handling of SVGs in resolve_image_location() calls.
 
 **Issues that are still a problem**
-- mform editor element cannot be disabled with mform->disabledIf method (MDL-25067).
-- Style problem with file upload window (MDL-56944).
-- Failing server-side mform validation does not scroll to the first error using clean (MDL-61938).
-- Theme boost duplicates classes for checkbox mform elements (MDL-62634).
+- (MDL-25067) mform editor element cannot be disabled with mform->disabledIf method.
+- (MDL-56944) Style problem with file upload window.
+- (MDL-61938) Failing server-side mform validation does not scroll to the first error using clean.
+- (MDL-62634) Theme boost duplicates classes for checkbox mform elements.
 
 **Issues that were not fixed but are no longer a problem**
-- Form elements editor and file picker do not support freezing (MDL-29421).
-- $mform->disabledIf doesn't work for 'filemanager' mform elements (MDL-31796).
-- Filemanager mform elements are completely discarded in readonly forms (MDL-45815).
-- mform multiselect element is not disabled by the grouped checkbox (MDL-43704).
-- Trouble assigning styles to some mform elements (MDL-28194).
-- Disabled mform items need to be skipped during validation (MDL-34815).
-- With a set of advanced checkboxes, if the set is disabled each single checkbox returns its default value instead of its current value (MDL-43689).
-- A missing <label> tag in mform causes wrong display (MDL-40418).
-- The height of the same mform element changes with the content of other mform elements (MDL-44138).
-- It is not possible to provide a CSS style for a static mform element (MDL-42946).
-- Allow checkboxes to be styled even when frozen (MDL-50739).
-- Allow advcheckboxes to be styled even when frozen (MDL-50740).
-- Allow radiobuttons to be styled even when frozen (MDL-50741).
+- (MDL-29421) Form elements editor and file picker do not support freezing.
+- (MDL-31796) $mform->disabledIf doesn't work for 'filemanager' mform elements.
+- (MDL-45815) Filemanager mform elements are completely discarded in readonly forms.
+- (MDL-43704) mform multiselect element is not disabled by the grouped checkbox.
+- (MDL-28194) Trouble assigning styles to some mform elements.
+- (MDL-34815) Disabled mform items need to be skipped during validation.
+- (MDL-43689) With a set of advanced checkboxes, if the set is disabled each single checkbox returns its default value instead of its current value.
+- (MDL-40418) A missing <label> tag in mform causes wrong display.
+- (MDL-44138) The height of the same mform element changes with the content of other mform elements.
+- (MDL-42946) It is not possible to provide a CSS style for a static mform element.
+- (MDL-50739) Allow checkboxes to be styled even when frozen.
+- (MDL-50740) Allow advcheckboxes to be styled even when frozen.
+- (MDL-50741) Allow radiobuttons to be styled even when frozen.
 
 Credits
 -------
