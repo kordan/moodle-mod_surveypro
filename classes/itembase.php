@@ -431,7 +431,7 @@ class itembase {
                 $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Extra cleanup steps.
                 $transaction->rollback($e); // Rethrows exception.
             }
@@ -500,7 +500,7 @@ class itembase {
                 $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_modified::create($eventdata);
                 $event->trigger();
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // Extra cleanup steps.
                 $transaction->rollback($e); // Rethrows exception.
             }

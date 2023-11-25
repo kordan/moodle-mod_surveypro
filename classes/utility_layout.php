@@ -452,7 +452,7 @@ class utility_layout {
             // End of: If no error rise up, execution continue and I can log events.
 
             $transaction->allow_commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Extra cleanup steps.
             $transaction->rollback($e); // Rethrows exception.
         }
@@ -541,7 +541,7 @@ class utility_layout {
             $submissions->close();
 
             $transaction->allow_commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Extra cleanup steps.
             $transaction->rollback($e); // Rethrows exception.
         }
