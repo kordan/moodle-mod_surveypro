@@ -60,9 +60,9 @@ class layout_customnumber extends \core\output\inplace_editable {
         \external_api::validate_context($context);
 
         $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
-        $newreserved = clean_param($newcnumber, PARAM_TEXT);
-        $DB->set_field($tablename, 'customnumber', $newreserved, ['itemid' => $itemid]);
+        $newcnumber = clean_param($newcnumber, PARAM_TEXT);
+        $DB->set_field($tablename, 'customnumber', $newcnumber, ['itemid' => $itemid]);
 
-        return new static($itemid, $newreserved);
+        return new static($itemid, $newcnumber);
     }
 }
