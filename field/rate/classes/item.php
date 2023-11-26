@@ -426,7 +426,8 @@ EOS;
             foreach ($options as $row => $option) {
                 $uniquename = $this->itemname.'_'.$row;
                 $attributes['id'] = $idprefix.'_'.$row;
-                $mform->addElement('select', $uniquename, $option, $rates, $attributes);
+                $elementgroup = [$mform->createElement('select', $uniquename, '', $rates, $attributes)];
+                $mform->addGroup($elementgroup, $uniquename.'_group', $option, '', false);
 
                 // Don't add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
@@ -436,13 +437,6 @@ EOS;
         }
 
         if (!$this->required) { // This is the last if it exists.
-            // $this->item_add_color_unifier($mform);
-            // $uniquename = $this->itemname.'_noanswer';
-            // $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            // $attributes['id'] = $idprefix.'_noanswer';
-            // $attributes['class'] = 'indent-'.$this->indent.' rate_check';
-            // $mform->addElement('mod_surveypro_checkbox', $uniquename, '', $noanswerstr, $attributes);
-
             $this->item_add_color_unifier($mform);
 
             // Bloody hack to align the noanswer checkbox according to the indent.
@@ -466,12 +460,7 @@ EOS;
             // Disable if $this->itemname.'_noanswer' is selected.
             $optionindex = 0;
             foreach ($options as $row => $option) {
-                if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                    $uniquename = $this->itemname.'_'.$row.'_group';
-                } else {
-                    $uniquename = $this->itemname.'_'.$row;
-                }
-
+                $uniquename = $this->itemname.'_'.$row.'_group';
                 $mform->disabledIf($uniquename, $this->itemname.'_noanswer[checkbox]', 'checked');
             }
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
@@ -529,7 +518,7 @@ EOS;
         $return = false;
         foreach ($options as $optionindex => $unused) {
             $uniquename = $this->itemname.'_'.$optionindex;
-            $elementname = ($this->style == SURVEYPROFIELD_RATE_USERADIO) ? $uniquename.'_group' : $uniquename;
+            $elementname = $uniquename.'_group';
             if ($data[$uniquename] == SURVEYPRO_INVITEVALUE) {
                 $errors[$elementname] = get_string('uerr_optionnotset', 'surveyprofield_rate');
                 $return = true;
@@ -550,11 +539,7 @@ EOS;
             $duplicaterates = array_diff_assoc($rates, $uniquerates);
 
             foreach ($duplicaterates as $row => $unused) {
-                if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-                    $elementname = $this->itemname.'_'.$row.'_group';
-                } else {
-                    $elementname = $this->itemname.'_'.$row;
-                }
+                $elementname = $this->itemname.'_'.$optionindex.'_group';
                 $errors[$elementname] = get_string('uerr_duplicaterate', 'surveyprofield_rate');
             }
         }
@@ -705,16 +690,9 @@ EOS;
 
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
-        if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
-            foreach ($options as $row => $option) {
-                $elementnames[] = $this->itemname.'_'.$row.'_group';
-            }
-        }
 
-        if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
-            foreach ($options as $row => $option) {
-                $elementnames[] = $this->itemname.'_'.$row;
-            }
+        foreach ($options as $row => $option) {
+            $elementnames[] = $this->itemname.'_'.$row.'_group';
         }
 
         if (!$this->required) {
