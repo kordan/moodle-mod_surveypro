@@ -24,6 +24,8 @@
 
 namespace mod_surveypro\local\ipe;
 
+use core_external\external_api;
+
 /**
  * Class to prepare an item variable for display and in-place editing
  *
@@ -92,7 +94,7 @@ class layout_insearchform extends \core\output\inplace_editable {
         $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
-        \external_api::validate_context($context);
+        external_api::validate_context($context);
 
         $newinsearchform = clean_param($newinsearchform, PARAM_INT);
         $DB->set_field('surveypro_item', 'insearchform', $newinsearchform, ['id' => $itemid]);
