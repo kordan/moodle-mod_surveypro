@@ -524,22 +524,16 @@ EOS;
         }
         // End of: element values.
 
-        $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' select_select';
-        if (!$this->labelother) {
-            $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
-        } else {
-            $elementgroup = [];
-            $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
-
-            $attributes['id'] = $idprefix.'_text';
-            $attributes['class'] = 'select_select';
+        $elementgroup = [];
+        $attributes = ['id' => $idprefix, 'class' => 'indent-'.$this->indent.' select_select'];
+        $elementgroup[] = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
+        if ($this->labelother) {
+            $attributes = ['id' => $idprefix.'_text', 'class' => 'select_select'];
             $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
             $mform->setType($this->itemname.'_text', PARAM_RAW);
             $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
         }
+        $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
 
         if (!$searchform) {
             if ($this->required) {
@@ -555,6 +549,7 @@ EOS;
                 $mform->_required[] = $starplace;
             }
 
+            // Default section.
             switch ($this->defaultoption) {
                 case SURVEYPRO_CUSTOMDEFAULT:
                     if ($key = array_search($this->defaultvalue, $labels)) {
@@ -598,7 +593,7 @@ EOS;
             return;
         }
 
-        $errorkey = empty($this->labelother) ? $this->itemname : $this->itemname.'_group';
+        $errorkey = $this->itemname.'_group';
 
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
@@ -791,12 +786,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
-        if (!$this->labelother) {
-            $elementnames[] = $this->itemname;
-        } else {
-            $elementnames[] = $this->itemname.'_group';
-        }
+        $elementnames = [$this->itemname.'_group'];
 
         return $elementnames;
     }

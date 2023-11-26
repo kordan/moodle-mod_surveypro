@@ -67,7 +67,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Choose a direction"
     Then I should see "Question without parent"
 
-    And I set the field "Choose a direction" to "South"
+    And I set the field "id_surveypro_field_select_4" to "South"
     And I set the field "Question without parent" to "This should remain"
     And I press "<< Previous page"
 
@@ -187,7 +187,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Choose a direction"
     Then I should see "Question without parent"
 
-    And I set the field "Choose a direction" to "South"
+    And I set the field "id_surveypro_field_select_6" to "South"
     And I press "Submit"
     Then I should not see "Some answers of this response have been found as unverified."
 
