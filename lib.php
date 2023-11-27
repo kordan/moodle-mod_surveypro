@@ -307,8 +307,8 @@ function surveypro_add_instance($surveypro, $mform) {
 
     $DB->update_record('surveypro', $surveypro);
 
-    create_event_on_calendar($surveypro, 'open');
-    create_event_on_calendar($surveypro, 'close');
+    surveypro_create_event_on_calendar($surveypro, 'open');
+    surveypro_create_event_on_calendar($surveypro, 'close');
 
     return $surveypro->id;
 }
@@ -360,8 +360,8 @@ function surveypro_update_instance($surveypro, $mform) {
 
     $DB->update_record('surveypro', $surveypro);
 
-    create_event_on_calendar($surveypro, 'open');
-    create_event_on_calendar($surveypro, 'close');
+    surveypro_create_event_on_calendar($surveypro, 'open');
+    surveypro_create_event_on_calendar($surveypro, 'close');
 
     return true;
 }
@@ -370,20 +370,18 @@ function surveypro_update_instance($surveypro, $mform) {
  * Create a calendar event from the newly
  * created surveypro module
  *
- * create_event_on_calendar
- *
  * @param object $surveypro instance
  * @param string $type
  * @return void
  */
-function create_event_on_calendar($surveypro, $type) {
+function surveypro_create_event_on_calendar($surveypro, $type) {
     global $CFG, $DB, $USER;
 
     require_once($CFG->dirroot.'/calendar/lib.php');
 
     $types = ['open', 'close'];
     if (!in_array($type, $types)) {
-        $message = 'Wrong type passed to create_event_on_calendar';
+        $message = 'Wrong type passed to surveypro_create_event_on_calendar';
         debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
     }
 
