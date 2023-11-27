@@ -84,11 +84,9 @@ if ($section == 'cover') { // It was view_cover.php
     // If you are an admin and no items are in this surveypro, you will be redireted.
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $utilitylayoutman->noitem_redirect();
+    $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
     $coverman = new cover($cm, $context, $surveypro);
-
-    $utilitylayoutman = new utility_layout($cm, $surveypro);
-    $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
     // Output starts here.
     $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance, 'section' => 'cover']);
