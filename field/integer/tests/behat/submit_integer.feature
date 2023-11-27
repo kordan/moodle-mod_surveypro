@@ -41,7 +41,7 @@ Feature: Submit using an integer item
     And I press "New response"
 
     # student1 submits
-    And I set the field "9 How many people does your family counts?" to "3"
+    And I set the field "id_surveypro_field_integer_1" to "3"
 
     And I press "Submit"
 

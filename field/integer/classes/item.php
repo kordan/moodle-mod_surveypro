@@ -462,10 +462,9 @@ EOS;
         }
         // End of: element values.
 
-        $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' integer_select';
-        $mform->addElement('select', $this->itemname, $elementlabel, $integers, $attributes);
+        $attributes = ['id' => $idprefix, 'class' => 'indent-'.$this->indent.' integer_select'];
+        $elementgroup = [$mform->createElement('select', $this->itemname, '', $integers, $attributes)];
+        $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
 
         if (!$searchform) {
             if ($this->required) {
@@ -515,7 +514,7 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
         $userinput = $data[$this->itemname];
 
-        $errorkey = $this->itemname;
+        $errorkey = $this->itemname.'_group';
 
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
 
@@ -659,8 +658,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
-        $elementnames[] = $this->itemname;
+        $elementnames = [$this->itemname.'_group'];
 
         return $elementnames;
     }
