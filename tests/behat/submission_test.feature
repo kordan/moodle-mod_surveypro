@@ -84,7 +84,7 @@ Feature: Submit each available item
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | How many people does your family counts?  | 7               |
+      | id_surveypro_field_integer_10             | 7               |
       | id_surveypro_field_multiselect_11         | milk            |
       | Type the best approximation of π you know | 3.14            |
       | id_surveypro_field_radiobutton_13_3       | 1               |
