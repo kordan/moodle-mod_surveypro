@@ -1,7 +1,13 @@
 moodle-mod_surveypro
 ====================
 
-This module has been developed to address the need for highly validated data collection to gather customized information. It enables the creation of custom surveys by assembling fields and format elements.
+This module has been developed to address the need for highly validated data collection to gather customized information.
+It was developed to solve data collection problems in the author's work environment.
+What it was needed was, basically:
+- an extremely controlled data collection;
+- the ability to create web surveys quickly;
+- a product that was adaptable as quickly as possible.
+Surveypro plugin enables the creation of custom surveys by assembling fields and format elements.
 
 Fields and formats, referred to as "elements" here, are two of the four managed plugins. Surveypro plugins include fields, formats, templates, and reports.
 
@@ -125,12 +131,6 @@ Several features are available at the surveypro instance level for different are
 
 Contributing
 ------------
-This tool was developed to solve data collection problems in the author's work environment.
-We needed, basically, three things:
-- extremely controlled data collection;
-- the ability to create web surveys quickly;
-- a product that we could adapt as quickly as possible.
-
 Contributions are welcome and can be made by:
 - Using the tool and reporting issues.
 - Requesting reasonable new features.
