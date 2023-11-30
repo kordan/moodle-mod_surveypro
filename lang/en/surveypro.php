@@ -24,43 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['modulename'] = 'Surveypro';
-$string['modulename_help'] = 'Surveypro allows the creation of custom surveys as far as built in surveys like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom survey.';
-$string['modulename_link'] = 'mod/surveypro/view';
-$string['modulenameplural'] = 'surveys';
-$string['pluginname'] = 'Surveypro';
-$string['pluginadministration'] = 'Surveypro administration';
-
-$string['surveyproname'] = 'Surveypro name';
-$string['surveyproname_help'] = 'Choose the name of this surveypro.';
-$string['surveypro'] = 'survey';
-
-// $string['surveypro_view'] = 'Use';
-    $string['surveypro_dashboard'] = 'Dashboard'; // Maybe 'Overview' is better?
-    $string['surveypro_responses'] = 'Responses';
-    $string['surveypro_insert'] = 'New response';
-    $string['surveypro_edit'] = 'Edit response';
-    $string['surveypro_readonly'] = 'Read only';
-    $string['surveypro_view_search'] = 'Search';
-$string['layout'] = 'Layout';
-    $string['layout_preview'] = 'Preview';
-    $string['layout_items'] = 'Elements';
-    $string['layout_edititem'] = 'Edit element';
-    $string['layout_itemsetup'] = 'Element setup';
-    $string['layout_branchingvalidation'] = 'Branching validation';
-$string['reports'] = 'Reports';
-$string['tools'] = 'Tools';
-    $string['tools_import'] = 'Import';
-    $string['tools_export'] = 'Export';
-$string['utemplate'] = 'User templates';
-    $string['utemplate_manage'] = 'Manage';
-    $string['utemplate_save'] = 'Save';
-    $string['utemplate_import'] = 'Import';
-    $string['utemplate_apply'] = 'Apply';
-$string['mtemplate'] = 'Master templates';
-    $string['mtemplate_save'] = 'Save';
-    $string['mtemplate_apply'] = 'Apply';
-
 $string['abandoned_submission_deleted'] = 'Deleted abandoned response';
 $string['action_help'] = 'Operate on elements already present in the survey with the following action.';
 $string['action'] = 'Preexisting elements';
@@ -102,28 +65,28 @@ $string['closedsubmissions'] = 'Closed responses';
 $string['collesactual'] = 'COLLES (Actual)';
 $string['collespreferred'] = 'COLLES (Preferred)';
 $string['common_fs'] = 'General settings';
-$string['completionsubmitdesc'] = 'Minimum number of submissions required: {$a}';
 $string['completiondetail:entries'] = 'Make entries: {$a}';
 $string['completionsubmit_check'] = 'Student must submit the survey at least ';
 $string['completionsubmit_group_help'] = 'This survey is considered completed when the student submit it at least as much as times how it is written here.';
 $string['completionsubmit_group'] = 'Require submission';
 $string['completionsubmit'] = 'this is the title of the \'help\'. Where does it appear?';
+$string['completionsubmitdesc'] = 'Minimum number of submissions required: {$a}';
 $string['confirm_delete1item'] = 'Are you sure you want to delete the \'{$a->pluginname}\' element: {$a->content}';
-$string['confirm_deletemyresponse_original'] = 'Are you sure you want to delete the response created on {$a->timecreated} and never modified?';
-$string['confirm_deletemyresponse_modified'] = 'Are you sure you want to delete the response created on {$a->timecreated} and modified on {$a->timemodified}?';
-$string['confirm_deleteotherresponse_original'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
-$string['confirm_deleteotherresponse_modified'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
 $string['confirm_delete1utemplate'] = 'Are you sure you want to delete the user template "{$a}"';
 $string['confirm_deleteallitems'] = 'Do you confirm you want to delete EACH element?';
 $string['confirm_deleteallresponses'] = 'Are you sure you want to delete EACH saved responses?';
 $string['confirm_deletechainitems'] = 'The current element has child element(s) that are going to be deleted too. The child element(s) position is: {$a}.';
 $string['confirm_deletehiddenitems'] = 'Do you confirm you want to delete EACH hidden element?';
+$string['confirm_deletemyresponse_modified'] = 'Are you sure you want to delete the response created on {$a->timecreated} and modified on {$a->timemodified}?';
+$string['confirm_deletemyresponse_original'] = 'Are you sure you want to delete the response created on {$a->timecreated} and never modified?';
+$string['confirm_deleteotherresponse_modified'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
+$string['confirm_deleteotherresponse_original'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
 $string['confirm_deletevisibleitems'] = 'Are you sure you want to delete EACH visible element?';
 $string['confirm_dropmultilang'] = 'Current survey supports multilanguage as imported from a master template.<br>This means that the survey displays questions and labels according to the user preferred language (if available).<br>By editing this kind of survey you will lose the multilanguage support returning to the standard indifferenciated labels all along the survey.<br>Be warned that once you drop the multilanguage support even by generating again a master template, you still no longer get missed languages and, last but not least, the drop of the multilanguage support is not undoable.<br>Are you sure you want to edit this multilanguage survey?';
-$string['confirm_duplicateotherresponse_original'] = 'Are you sure you want to duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
-$string['confirm_duplicateotherresponse_modified'] = 'Are you sure you want to duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
-$string['confirm_duplicatemyresponse_original'] = 'Are you sure you want to duplicate the response created on {$a->timecreated} and never modified?';
 $string['confirm_duplicatemyresponse_modified'] = 'Are you sure you want to duplicate the response created on {$a->timecreated} and modified on {$a->timemodified}?';
+$string['confirm_duplicatemyresponse_original'] = 'Are you sure you want to duplicate the response created on {$a->timecreated} and never modified?';
+$string['confirm_duplicateotherresponse_modified'] = 'Are you sure you want to duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
+$string['confirm_duplicateotherresponse_original'] = 'Are you sure you want to duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
 $string['confirm_free1item'] = 'Making available the element "{$a->itemcontent}" you are going to make available its ancestor.<br>Ancestor is the element in position: {$a->ancestors}.<br>Do you confirm this action?';
 $string['confirm_freechainitems_newparent'] = 'Making available the element "{$a->itemcontent}", all the dependencies of element "{$a->parentcontent}" will be made available too.<br>So, in addition to the chosen element, you are going to make available the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
 $string['confirm_freechainitems'] = 'Making available the element "{$a->itemcontent}" you are going to make available all its dependencies.<br>Dependencies are the elements in position: {$a->dependencies}.<br>Do you confirm this action?';
@@ -192,8 +155,8 @@ $string['event_submission_created'] = 'A response has been created';
 $string['event_submission_deleted'] = 'A response has been deleted';
 $string['event_submission_modified'] = 'A response has been modified';
 $string['event_submission_viewed'] = 'A response has been viewed';
-$string['event_submissiontopdf_downloaded'] = 'A response has been downloaded to pdf';
 $string['event_submissions_imported'] = 'Responses imported';
+$string['event_submissiontopdf_downloaded'] = 'A response has been downloaded to pdf';
 $string['event_usertemplate_applied'] = 'A user template has been applied';
 $string['event_usertemplate_deleted'] = 'A user template has been deleted';
 $string['event_usertemplate_exported'] = 'A user template has been exported';
@@ -292,6 +255,12 @@ $string['item'] = 'Element';
 $string['itemlist'] = 'Elements list';
 $string['keepinprogress_help'] = 'Do not delete "in progress" responses in spite of module policy. "In progress" responses are supposed to be dropped to always guarantee a good reliability to the final database. If, for any reason, you need to collect also the "in progress" responses, check this box.';
 $string['keepinprogress'] = 'Keep "in progress" responses';
+$string['layout_branchingvalidation'] = 'Branching validation';
+$string['layout_edititem'] = 'Edit element';
+$string['layout_items'] = 'Elements';
+$string['layout_itemsetup'] = 'Element setup';
+$string['layout_preview'] = 'Preview';
+$string['layout'] = 'Layout';
 $string['left'] = 'left';
 $string['likelast'] = 'Like last response';
 $string['mailcontentdefault'] = 'User {FULLNAME} added a response to "{SURVEYPRONAME}"';
@@ -306,10 +275,7 @@ $string['managesurveyproformatplugins'] = 'Manage format plugins';
 $string['managesurveyproreportplugins'] = 'Manage report plugins';
 $string['managesurveyprotemplateplugins'] = 'Manage template plugins';
 $string['manageusertemplates'] = '<a href="{$a}">Manage user templates</a>';
-$string['mastertemplate_help'] = 'Choose a master template like one of the classical ones provided by default or a custom one added to this instance of surveypro. The classical survey types are:<ul>
-<li>ATTLS: Attitudes To Thinking and Learning Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li>
-<li>COLLES: Constructivist On-Line Learning Environment Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li>
-<li>CRITICAL INCIDENTS.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
+$string['mastertemplate_help'] = 'Choose a master template like one of the classical ones provided by default or a custom one added to this instance of surveypro. The classical survey types are:<ul><li>ATTLS: Attitudes To Thinking and Learning Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#ATTLS_-_Attitudes_to_Thinking_and_Learning_Survey" name="ATTLS" title="ATTLS">ATTLS</a>.</li><li>COLLES: Constructivist On-Line Learning Environment Survey.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#COLLES_-_Constructivist_On-Line_Learning_Environment_Survey" name="COLLES" title="COLLES">COLLES</a>.</li><li>CRITICAL INCIDENTS.<br>For more details, see the documentation on <a href="https://docs.moodle.org/31/en/Survey_settings#Critical_incidents" name="Critical incidents" title="Critical incidents">Critical incidents</a></li></ul>';
 $string['mastertemplate'] = 'Master templates';
 $string['mastertemplateaddendum'] = '<br>You can not apply this mastertemplate until you uninstall it, fix all the issues and reinstall it.';
 $string['mastertemplatename_help'] = 'Choose the name of the master template name that is going to be downloaded in zip format.';
@@ -326,10 +292,17 @@ $string['missingitemversion'] = 'One or more items of the template is missing th
 $string['missingmandatory'] = 'Some mandatory answer of this response has not been found. Because of this, the overall response has been marked as "{$a}".<br>To fix this issue, please edit the response and review item contents page per page.';
 $string['missingvalidation'] = 'Some answers of this response have been found as unverified. Because of this, the overall response has been marked as "{$a}".<br>Your data is not necessarily incorrect but needs validation before definitive storage.<br>To fix this issue, please edit the response and review item contents page per page.';
 $string['module'] = 'This instance of survey';
+$string['modulename_help'] = 'Surveypro allows the creation of custom surveys as far as built in surveys like ATTLS, COLLES and CRITICAL INCIDENTS. You can also save and reuse parts or whole of your own custom survey.';
+$string['modulename_link'] = 'mod/surveypro/view';
+$string['modulename'] = 'Surveypro';
+$string['modulenameplural'] = 'surveys';
 $string['modulesettinghdr'] = 'Surveypro settings';
+$string['mtemplate_apply'] = 'Apply';
+$string['mtemplate_save'] = 'Save';
+$string['mtemplate'] = 'Master templates';
 $string['mtemplatessection'] = 'Master templates section';
-$string['neverstartedemail'] = 'Email for not started survey';
 $string['neverstartedemail_help'] = 'Send a reminder email to users not starting their first submission';
+$string['neverstartedemail'] = 'Email for not started survey';
 $string['newpageforchild_help'] = 'Use this option to force a new page after each branching element.';
 $string['newpageforchild'] = 'Branches increase pages';
 $string['newsubmissionbody'] = '{$a->username} submitted a new response in "{$a->surveyproname}". You can review it <a title="{$a->title}" href="{$a->href}">here</a>';
@@ -376,24 +349,38 @@ $string['pauseresume'] = 'Allow Pause/Resume';
 $string['pauseresumeemail'] = 'Allow pause/resume with reminder email';
 $string['pauseresumenoemail'] = 'Allow pause/resume without reminder email';
 $string['plugin'] = 'Element';
+$string['pluginadministration'] = 'Surveypro administration';
 $string['pluginname_help'] = 'Write here the name of the survey plugin you are going to save.';
+$string['pluginname'] = 'Surveypro';
 $string['plugintype'] = 'Plugin type';
+$string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row.<br>Note: The left position forces the element contents to plain text without images.<br>The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
 $string['position'] = 'Question position';
-$string['position_help'] = 'Use this option to choose the position of the content of the element. It can be to the left of the user interface, in a dedicated row just upper the interface to enter the answer or in a dedicated row just upper the interface spanning all the row.
-Note: The left position forces the element contents to plain text without images.
-The two \'top\' positions are usually needed for contents longer than few words and are required for questions containing images!';
 $string['previewmode'] = 'You are in \'{$a}\': buttons to save data are not supposed to display';
 $string['previousformpage'] = '<< Previous page';
+$string['privacy:metadata:answer:content'] = 'Field where the answers to items are stored.';
+$string['privacy:metadata:answer:contentformat'] = 'Field storing the format of the answers to items.';
+$string['privacy:metadata:answer'] = 'Answers to items of surveypros.';
+$string['privacy:metadata:submission:status'] = 'The overall status of the response provided by the user.';
+$string['privacy:metadata:submission:timecreated'] = 'The time when the response was posted.';
+$string['privacy:metadata:submission:timemodified'] = 'The time when the response was modified.';
+$string['privacy:metadata:submission:userid'] = 'The ID of the user who submitted his/her answer.';
+$string['privacy:metadata:submission'] = 'Responses to surveypros.';
+$string['privacy:metadata:surveyprofieldpluginsummary'] = 'Field data for the surveypro.';
+$string['privacy:metadata:surveyproformatpluginsummary'] = 'Format data for the surveypro.';
+$string['privacy:metadata:surveyproreportpluginsummary'] = 'Report data for the surveypro.';
+$string['privacy:metadata:surveyprotemplatepluginsummary'] = 'Template data for the surveypro.';
+$string['privacy:metadata:uploadedfiles'] = 'Files uploaded in the frame of responses.';
+$string['privacy:path:fileupload'] = 'Response {$a}';
 $string['raw'] = 'Raw (for further import in surveypro; "{$a}" may not be respected;)';
 $string['readonlyaccess'] = 'Read only access';
 $string['relation_status'] = 'Status';
+$string['reminder_neverstarted_task'] = 'Reminder for never started survey';
+$string['reminder_oneshot_task'] = 'Reminder for stopped survey';
+$string['reminder_pauseresume_task'] = 'Reminder for survey paused for too long';
 $string['reminder_subject'] = 'Surveypro reminder from {$a}';
 $string['reminderoneshot_content1'] = 'Dear {$a->fullname}<br>it seems your contribution to the survey "{$a->surveyproname}" is still not submitted.';
 $string['reminderoneshot_content2'] = '<br>It is going to deleted in less than two hours.';
 $string['reminderoneshot_content3'] = '<br>Please consider to login again at {$a} and submit it soon.<br><br>The staff for online learning';
-$string['reminder_oneshot_task'] = 'Reminder for stopped survey';
-$string['reminder_pauseresume_task'] = 'Reminder for survey paused for too long';
-$string['reminder_neverstarted_task'] = 'Reminder for never started survey';
 $string['reminderpaused_content1'] = 'Dear {$a->fullname}<br>it seems your contribution to the survey "{$a->surveyproname}" is paused since a long time.';
 $string['reminderpaused_content2'] = '<br>There is a concrete risk to have it dropped.';
 $string['reminderpaused_content3'] = '<br>Please consider to login again at {$a} and submit it.<br><br>The staff for online learning';
@@ -402,6 +389,7 @@ $string['reportederror'] = '{$a}';
 $string['reportederroritembase'] = '%s performing the xsd validation of the "surveypro_item" for the "%s" plugin';
 $string['reportederrorplugin'] = '%s performing the xsd validation of the "%s" plugin';
 $string['reportplugin'] = 'Report plugin';
+$string['reports'] = 'Reports';
 $string['reportsection'] = 'Reports section';
 $string['required_help'] = 'Will the user be forced to answer this element?';
 $string['required'] = 'Required';
@@ -453,6 +441,13 @@ $string['submissions_detail_many_many'] = '{$a->submissions} \'{$a->status}\' re
 $string['submissions_welcome'] = 'Responses overview';
 $string['submissions'] = 'Responses';
 $string['submissionslist'] = 'Responses list';
+$string['surveypro_dashboard'] = 'Dashboard'; // Maybe 'Overview' is better?
+$string['surveypro_edit'] = 'Edit response';
+$string['surveypro_insert'] = 'New response';
+$string['surveypro_readonly'] = 'Read only';
+$string['surveypro_responses'] = 'Responses';
+$string['surveypro_view_search'] = 'Search';
+// $string['surveypro_view'] = 'Use';
 $string['surveypro:accessownreports'] = 'Access own reports';
 $string['surveypro:accessreports'] = 'Access reports';
 $string['surveypro:accessreserveditems'] = 'Access reserved items';
@@ -477,15 +472,18 @@ $string['surveypro:manageitems'] = 'Manage survey elements';
 $string['surveypro:manageusertemplates'] = 'Manage user templates';
 $string['surveypro:preview'] = 'Preview a survey';
 $string['surveypro:savemastertemplates'] = 'Save master template';
-$string['surveypro:savetopdfownsubmissions'] = 'Download to PDF own submission';
 $string['surveypro:savetopdfotherssubmissions'] = 'Download to PDF responses from other users';
+$string['surveypro:savetopdfownsubmissions'] = 'Download to PDF own submission';
 $string['surveypro:saveusertemplates'] = 'Save user templates';
 $string['surveypro:searchsubmissions'] = 'Search responses';
 $string['surveypro:seeotherssubmissions'] = 'See responses from other users';
 $string['surveypro:submit'] = 'Submit responses';
 $string['surveypro:view'] = 'View surveys';
+$string['surveypro'] = 'survey';
 $string['surveyprofieldpluginname'] = 'Field element plugin';
 $string['surveyproformatpluginname'] = 'Item element plugin';
+$string['surveyproname_help'] = 'Choose the name of this surveypro.';
+$string['surveyproname'] = 'Surveypro name';
 $string['surveyproreportpluginname'] = 'Report plugin';
 $string['surveyprotemplatepluginname'] = 'Master template plugin';
 $string['system'] = 'Site';
@@ -500,14 +498,17 @@ $string['timecreated'] = 'Created';
 $string['timemodified'] = 'Modified';
 $string['timeopen_help'] = 'The first date available for students to fill a survey.';
 $string['timeopen'] = 'Available from';
+$string['tools_export'] = 'Export';
+$string['tools_import'] = 'Import';
+$string['tools'] = 'Tools';
 $string['top'] = 'top';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'English translation of corresponding string from "{$a->userlang}" language file\';';
 $string['trimonsave_help'] = 'Delete trailing spaces at the beginning and at the end of the user input.';
 $string['trimonsave'] = 'Clean answer at save time';
-$string['typeplugin'] = 'Type';
 $string['typefield'] = 'Fields';
 $string['typeformat'] = 'Formats';
 $string['typeplugin_help'] = 'This is the list of available elements. Survey elements are of two types: "field" type and "format" type. Choose the element that better suite your needs.';
+$string['typeplugin'] = 'Type';
 $string['uerr_willbetrimmed'] = 'Answer will be cleaned up from trailing spaces';
 $string['unaccesiblepages_note'] = '(Few pages may not be accessible due to lack of permissions)';
 $string['unavailableelement_title'] = 'Unavailable element. Unhide it to make it available.';
@@ -524,6 +525,11 @@ $string['userstyle_help'] = 'Add here one or more cascade style sheet (css) you 
 $string['userstyle'] = 'Custom style sheet';
 $string['usertemplateinfo_help'] = 'Choose the user template you want to add to your survey.';
 $string['usertemplateinfo'] = 'User templates';
+$string['utemplate_apply'] = 'Apply';
+$string['utemplate_import'] = 'Import';
+$string['utemplate_manage'] = 'Manage';
+$string['utemplate_save'] = 'Save';
+$string['utemplate'] = 'User templates';
 $string['utemplatessection'] = 'User templates section';
 $string['validation'] = 'Validation options';
 $string['variable_help'] = 'The name of the variable once downloaded.';
@@ -532,27 +538,14 @@ $string['verbose'] = 'Pretty (for human reading)';
 $string['versionmismatch'] = 'Version mismatch for {$a->plugin} {$a->type} plugin. Template uses version: {$a->currentversion} while your surveypro plugin uses version {$a->versiondisk}';
 $string['visiblesonly_help'] = 'Include in this template only visibles elements.';
 $string['visiblesonly'] = 'Visibles elements only';
+$string['welcome_dataexport'] = 'Use this page to export responses of this survey.<br>A statistic software format is available such as a human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
+$string['welcome_dataimport'] = 'Use this page to import responses into this survey.<br>The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br>Currently it is not allowed the import of attachment elements.<br>Unknown headers will break the import process.<br>"Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br>If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br>It is allowed to import csv files missing required elements but, whether included, they must provide valid and non empty values.<br>Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br>The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
 $string['welcome_emptysurvey'] = 'To create a new survey you can add elements one by one to build the survey that best suits your needs<br>or apply a user, or master, template to get a standard survey all at once.';
-$string['welcome_dataexport'] = 'Use this page to export responses of this survey. <br>
-A statistic software format is available such as a human readable one. Export content depends on the "{$a}" choosen for each element (whether available).';
-$string['welcome_dataimport'] = 'Use this page to import responses into this survey. <br>
-The headers of the csv file to import are supposed to match the "variable names" of the elements of the survey.<br>
-Currently it is not allowed the import of attachment elements.<br>
-Unknown headers will break the import process.<br>
-"Ownerid" can be included among headers. It will assign the ownership of each imported response (even if the survey is anonymous).<br>
-If the "Ownerid" column is missing from the csv file, the imported responses will be assigned to the user executing the import.<br>
-It is allowed to import csv files missing required elements but, whether included, they must provide valid and non empty values.<br>
-Import files missing required elements are allowed and the imported responses will be marked as "in progress".<br>
-The import process breaks if it lead to exceed the maximum number of responses allowed to users (if set).';
-$string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br>
-Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
+$string['welcome_mtemplateapply'] = 'You can build your survey applying set of elements taken from a master template.<br>Take care: all other preexisting elements (if any) will be definitely deleted WITH ALL THE DATA ALREADY GATHERED.';
 $string['welcome_relationvalidation'] = 'This report let you verify the reliability of the current survey. It checks the validity of each parent-child relation marking bad relations, that will never allow child element to be part of the survey, with a message in the "{$a}" column.';
-$string['welcome_utemplateapply'] = 'You can build your surveys applying set of elements taken from a user template.<br>
-User templates should already be uploaded from "{$a->uploadpage}" page or saved from the "{$a->savepage}" one.';
-$string['welcome_utemplateimport'] = 'You can import user templates to apply them later.<br>
-User templates are XML files as the ones you can save from "{$a}" page.';
-$string['welcome_utemplatesave'] = 'Save a user template with the structure of the current survey.<br>
-User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
+$string['welcome_utemplateapply'] = 'You can build your surveys applying set of elements taken from a user template.<br>User templates should already be uploaded from "{$a->uploadpage}" page or saved from the "{$a->savepage}" one.';
+$string['welcome_utemplateimport'] = 'You can import user templates to apply them later.<br>User templates are XML files as the ones you can save from "{$a}" page.';
+$string['welcome_utemplatesave'] = 'Save a user template with the structure of the current survey.<br>User templates are useful to quickly add to your surveys static sets of predefined items. At any time you can download and share it with other moodle users or reuse it into your own surveys. Be careful to "{$a}" if you want to reuse your templates without downloading and uploading them again.';
 $string['willclose'] = 'Closure time';
 $string['willopen'] = 'This survey will open at';
 $string['wrong_direction_found'] = 'Invalid $direction provided in {$a->methodname} in conjunction with $startingpage == {$a->startingpage}';
@@ -567,19 +560,3 @@ $string['yes_deletevisibleitems'] = 'Delete each visible element';
 $string['yes_hideallitems'] = 'Hide each element';
 $string['yes_showallitems'] = 'Show each element';
 $string['yoursubmissions'] = 'Your \'{$a->status}\' responses: {$a->responsescount}';
-
-$string['privacy:metadata:submission'] = 'Responses to surveypros.';
-$string['privacy:metadata:submission:userid'] = 'The ID of the user who submitted his/her answer.';
-$string['privacy:metadata:submission:status'] = 'The overall status of the response provided by the user.';
-$string['privacy:metadata:submission:timecreated'] = 'The time when the response was posted.';
-$string['privacy:metadata:submission:timemodified'] = 'The time when the response was modified.';
-$string['privacy:metadata:answer'] = 'Answers to items of surveypros.';
-$string['privacy:metadata:answer:content'] = 'Field where the answers to items are stored.';
-$string['privacy:metadata:answer:contentformat'] = 'Field storing the format of the answers to items.';
-$string['privacy:metadata:uploadedfiles'] = 'Files uploaded in the frame of responses.';
-$string['privacy:path:fileupload'] = 'Response {$a}';
-$string['privacy:metadata:surveyprofieldpluginsummary'] = 'Field data for the surveypro.';
-$string['privacy:metadata:surveyproformatpluginsummary'] = 'Format data for the surveypro.';
-$string['privacy:metadata:surveyprotemplatepluginsummary'] = 'Template data for the surveypro.';
-$string['privacy:metadata:surveyproreportpluginsummary'] = 'Report data for the surveypro.';
-
