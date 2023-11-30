@@ -136,37 +136,35 @@ class form {
         $user = $DB->get_record('user', ['id' => $submission->userid], '*', MUST_EXIST);
 
         $layout = <<<EOS
-<div class="mform">
-    <!-- <fieldset class="hidden"> -->
-        <div>
-            <div class="fitem">
-                <div class="fitemtitle">
-                    <div class="fstaticlabel">
-                        <label>
-                            <strong>@@left@@</strong>
-                        </label>
-                    </div>
-                </div>
-                <div class="mod-indent info-indent-1">
-                </div>
-                <div class="felement fstatic info-indent">
-                    @@right@@
-                </div>
-            </div>
-        </div>
-    <!-- </fieldset> -->
+<div id="fitem_id_container_@@id@@" class="form-group row fitem">
+    <div class="col-md-3 col-form-label d-flex pb-0 pr-md-0">
+        <label id="@@id@@_container" class="d-inline word-break " for="@@id@@_container">
+            @@left@@
+        </label>
+    </div>
+    <div class="col-md-9 form-inline align-items-start felement">
+        @@right@@
+    </div>
 </div>
 EOS;
 
+        // Define id.
+        $id = $user->id;
+        // Define left.
         $left = get_string('fullnameuser');
+        // Define right.
         $right = fullname($user);
         if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
             $right .= ' - id: '.$user->id;
         }
-        $output = str_replace('@@left@@', $left, $layout);
-        $output = str_replace('@@right@@', $right, $output);
+        // Replace.
+        $output = str_replace(['@@id@@', '@@left@@', '@@right@@'], ['user_'.$id, $left, $right], $layout);
 
+        // Define id.
+        $id = $submission->id;
+        // Define left.
         $left = get_string('submissioninfo', 'surveyproreport_attachments');
+        // Define right.
         $right = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br>';
         $right .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br>';
         if ($submission->timemodified) {
@@ -174,9 +172,8 @@ EOS;
         } else {
             $right .= get_string('timemodified', 'mod_surveypro').': '.get_string('never');
         }
-
-        $output .= str_replace('@@left@@', $left, $layout);
-        $output = str_replace('@@right@@', $right, $output);
+        // Replace.
+        $output .= str_replace(['@@id@@', '@@left@@', '@@right@@'], ['submission_'.$id, $left, $right], $layout);
 
         $whereparams = ['submissionid' => $submissionid, 'plugin' => 'fileupload'];
         $sql = 'SELECT i.id, a.id as answerid, fu.content
@@ -200,25 +197,33 @@ EOS;
             if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $item->answerid, 'timemodified', false)) {
                 foreach ($files as $file) {
                     $filename = $file->get_filename();
-                    $iconimage = $OUTPUT->pix_icon(file_file_icon($file, 80), get_mimetype_description($file));
+                    $iconimage = $OUTPUT->pix_icon(file_file_icon($file), get_mimetype_description($file), null, ['class' => 'iconlarge']);
 
                     $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.$filearea.'/'.$item->answerid.'/'.$filename;
                     $url = file_encode_url($CFG->wwwroot.'/pluginfile.php', $path);
 
+                    // Define id.
+                    $id = $item->id;
+                    // Define left.
                     $left = $item->content;
-                    $right = '<a href="'.$url.'">'.$iconimage.'</a>';
-                    $right .= '<a href="'.$url.'">'.s($filename).'</a>';
-                    $output .= str_replace('@@left@@', $left, $layout);
-                    $output = str_replace('@@right@@', $right, $output);
+                    // Define right.
+                    $inter = \html_writer::tag('span', $iconimage.s($filename));
+                    $right = \html_writer::tag('a', $inter, ['href' => $url]);
+                    // Replace.
+                    $output .= str_replace(['@@id@@', '@@left@@', '@@right@@'], ['item_'.$id, $left, $right], $layout);
                 }
             } else {
+                // Define id.
+                $id = $item->id;
+                // Define left.
                 $left = $item->content;
+                // Define right.
                 $right = $nofilesfound;
-                $output .= str_replace('@@left@@', $left, $layout);
-                $output = str_replace('@@right@@', $right, $output);
+                // Replace.
+                $output .= str_replace(['@@id@@', '@@left@@', '@@right@@'], ['item_'.$id, $left, $right], $layout);
             }
         }
 
-        echo $output;
+        echo '<div id="global_container" class="form-group row fitem"></div>'.$output;
     }
 }
