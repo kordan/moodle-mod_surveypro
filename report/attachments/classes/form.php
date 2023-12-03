@@ -26,6 +26,8 @@ namespace surveyproreport_attachments;
 
 defined('MOODLE_INTERNAL') || die();
 
+use surveyproreport_attachments\output\view_report_paragraph;
+
 require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
 
 /**
@@ -128,55 +130,45 @@ class form {
      * @return void
      */
     public function display_attachment($submissionid, $itemid) {
-        global $CFG, $DB, $OUTPUT;
-
-        $nofilesfound = get_string('nofilesfound', 'surveyproreport_attachments');
+        global $CFG, $DB, $OUTPUT, $PAGE;
 
         $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], '*', MUST_EXIST);
         $user = $DB->get_record('user', ['id' => $submission->userid], '*', MUST_EXIST);
 
-        $layout = <<<EOS
-<div class="mform">
-    <!-- <fieldset class="hidden"> -->
-        <div>
-            <div class="fitem">
-                <div class="fitemtitle">
-                    <div class="fstaticlabel">
-                        <label>
-                            <strong>@@left@@</strong>
-                        </label>
-                    </div>
-                </div>
-                <div class="mod-indent info-indent-1">
-                </div>
-                <div class="felement fstatic info-indent">
-                    @@right@@
-                </div>
-            </div>
-        </div>
-    <!-- </fieldset> -->
-</div>
-EOS;
+        $renderer = $PAGE->get_renderer('surveyproreport_attachments');
 
-        $left = get_string('fullnameuser');
-        $right = fullname($user);
-        if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
-            $right .= ' - id: '.$user->id;
-        }
-        $output = str_replace('@@left@@', $left, $layout);
-        $output = str_replace('@@right@@', $right, $output);
+        // Separation at the beginning.
+        echo \html_writer::tag('div', '<br>', ['id' => 'global_container', 'class' => 'form-group row fitem']);
 
-        $left = get_string('submissioninfo', 'surveyproreport_attachments');
-        $right = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br>';
-        $right .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br>';
-        if ($submission->timemodified) {
-            $right .= get_string('timemodified', 'mod_surveypro').': '.userdate($submission->timemodified);
+        $data = [];
+        $data['elementid'] = 'user_'.$user->id;
+        $data['paragraphlabel'] = get_string('fullnameuser');
+        if ($this->surveypro->anonymous) {
+            $paragraphcontent = get_string('user').': '.$user->id;
         } else {
-            $right .= get_string('timemodified', 'mod_surveypro').': '.get_string('never');
+            $paragraphcontent = fullname($user);
         }
+        $data['paragraphcontent'] = $paragraphcontent;
 
-        $output .= str_replace('@@left@@', $left, $layout);
-        $output = str_replace('@@right@@', $right, $output);
+        // Paragraph describing the user.
+        $viewreportparagraph = new view_report_paragraph($this->surveypro->id, $data);
+        echo $renderer->render_report_paragraph($viewreportparagraph);
+
+        $data = [];
+        $data['elementid'] = 'submission_'.$submission->id;
+        $data['paragraphlabel'] = get_string('submissioninfo', 'surveyproreport_attachments');
+        $paragraphcontent = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br>';
+        $paragraphcontent .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br>';
+        if ($submission->timemodified) {
+            $paragraphcontent .= get_string('timemodified', 'mod_surveypro').': '.userdate($submission->timemodified);
+        } else {
+            $paragraphcontent .= get_string('timemodified', 'mod_surveypro').': '.get_string('never');
+        }
+        $data['paragraphcontent'] = $paragraphcontent;
+
+        // Paragraph describing the submission.
+        $viewreportparagraph = new view_report_paragraph($this->surveypro->id, $data);
+        echo $renderer->render_report_paragraph($viewreportparagraph);
 
         $whereparams = ['submissionid' => $submissionid, 'plugin' => 'fileupload'];
         $sql = 'SELECT i.id, a.id as answerid, fu.content
@@ -196,29 +188,39 @@ EOS;
         $fs = get_file_storage();
         $component = 'surveyprofield_fileupload';
         $filearea = 'fileuploadfiles';
+        $nofilesfound = get_string('nofilesfound', 'surveyproreport_attachments');
         foreach ($items as $item) {
             if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $item->answerid, 'timemodified', false)) {
                 foreach ($files as $file) {
                     $filename = $file->get_filename();
-                    $iconimage = $OUTPUT->pix_icon(file_file_icon($file, 80), get_mimetype_description($file));
+                    $mimetype = get_mimetype_description($file);
+                    $iconparams = ['class' => 'fp-icon inlineicon'];
+                    $iconimage = $OUTPUT->pix_icon(file_file_icon($file), $mimetype, 'core', $iconparams);
 
                     $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.$filearea.'/'.$item->answerid.'/'.$filename;
                     $url = file_encode_url($CFG->wwwroot.'/pluginfile.php', $path);
 
-                    $left = $item->content;
-                    $right = '<a href="'.$url.'">'.$iconimage.'</a>';
-                    $right .= '<a href="'.$url.'">'.s($filename).'</a>';
-                    $output .= str_replace('@@left@@', $left, $layout);
-                    $output = str_replace('@@right@@', $right, $output);
+                    $data = [];
+                    $data['elementid'] = 'answer_'.$item->answerid;
+                    $data['paragraphlabel'] = $item->content;
+                    $tagacontent = \html_writer::tag('span', $iconimage.s($filename));
+                    $paragraphcontent = \html_writer::tag('a', $tagacontent, ['href' => $url]);
+                    $data['paragraphcontent'] = $paragraphcontent;
+
+                    // Paragraph describing the answer.
+                    $viewreportparagraph = new view_report_paragraph($this->surveypro->id, $data);
+                    echo $renderer->render_report_paragraph($viewreportparagraph);
                 }
             } else {
-                $left = $item->content;
-                $right = $nofilesfound;
-                $output .= str_replace('@@left@@', $left, $layout);
-                $output = str_replace('@@right@@', $right, $output);
+                $data = [];
+                $data['elementid'] = 'answer_'.$item->answerid;
+                $data['paragraphlabel'] = $item->content;
+                $data['paragraphcontent'] = $nofilesfound;
+
+                // Paragraph describing the answer.
+                $viewreportparagraph = new view_report_paragraph($this->surveypro->id, $data);
+                echo $renderer->render_report_paragraph($viewreportparagraph);
             }
         }
-
-        echo $output;
     }
 }

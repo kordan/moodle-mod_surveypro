@@ -14,36 +14,43 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace mod_surveypro\output;
+namespace surveyproreport_attachments\output;
 
-use moodle_url;
 use templatable;
 use renderable;
 
 /**
  * Renderable class for the action bar elements in the view pages in the database activity.
  *
- * @package    mod_surveypro
+ * @package    surveyproreport_attachments
  * @copyright  2013 onwards kordan <stringapiccola@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_action_bar implements templatable, renderable {
+class view_report_paragraph implements templatable, renderable {
 
     /** @var int $id The surveypro module id. */
     private $id;
 
-    /** @var \url_select $urlselect The URL selector object. */
-    private $urlselect;
+    /** @var string $elementid The unique id for html element. */
+    private $elementid;
+
+    /** @var array $paragraphlabel The labels of the row of the paragraph. */
+    private $paragraphlabel;
+
+    /** @var array $paragraphcontent The content of the row of the paragraph. */
+    private $paragraphcontent;
 
     /**
      * The class constructor.
      *
      * @param int $surveyproid The surveypro module id.
-     * @param \url_select $urlselect The URL selector object.
+     * @param array $data The content of the paragraph.
      */
-    public function __construct(int $surveyproid, \url_select $urlselect) {
+    public function __construct(int $surveyproid, array $data) {
         $this->id = $surveyproid;
-        $this->urlselect = $urlselect;
+        $this->elementid = $data['elementid'];
+        $this->paragraphlabel = $data['paragraphlabel'];
+        $this->paragraphcontent = $data['paragraphcontent'];
     }
 
     /**
@@ -53,8 +60,11 @@ class view_action_bar implements templatable, renderable {
      * @return array
      */
     public function export_for_template(\renderer_base $output): array {
-
-        $data = ['urlselect' => $this->urlselect->export_for_template($output)];
+        $data = [
+            'elementid' => format_text($this->elementid, FORMAT_HTML),
+            'paragraphlabel' => format_text($this->paragraphlabel, FORMAT_HTML),
+            'paragraphcontent' => format_text($this->paragraphcontent, FORMAT_HTML),
+        ];
 
         return $data;
     }
