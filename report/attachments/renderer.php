@@ -14,17 +14,30 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+use mod_surveypro\local\importer\preset_existing_importer;
+use mod_surveypro\manager;
+use mod_surveypro\output\view_action_bar;
+
+defined('MOODLE_INTERNAL') || die();
+
 /**
- * Defines the version of surveypro attachments report subplugin
+ * Surveypro report attachments renderer.
  *
  * @package   surveyproreport_attachments
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+class surveyproreport_attachments_renderer extends plugin_renderer_base {
 
-defined('MOODLE_INTERNAL') || die();
+    /**
+     * Renders the action bar for the view page.
+     *
+     * @param \surveyproreport_attachments\output\view_report_paragraph $reportparagraph
+     * @return null
+     */
+    public function render_report_paragraph(\surveyproreport_attachments\output\view_report_paragraph $reportparagraph): string {
+        $data = $reportparagraph->export_for_template($this);
 
-$plugin->version = 2023120101;
-$plugin->release = '1.0';
-$plugin->requires = 2015111600; // Requires this Moodle version.
-$plugin->component = 'surveyproreport_attachments'; // Full name of the plugin (used for diagnostics).
+        return $this->render_from_template('surveyproreport_attachments/report_details', $data);
+    }
+}
