@@ -12,15 +12,6 @@
     width: 1.2em;
 }
 
-#page-mod-surveypro-reports .info-indent {
-    display: table-cell;
-}
-
-#page-mod-surveypro-reports .info-indent-1 {
-    width: 30px;
-}
-
-#page-mod-surveypro-reports .label {
-    display: inline-block;
-    margin-top: .5rem;
+#page-mod-surveypro-reports .inlineicon {
+    margin-top: 0;
 }
