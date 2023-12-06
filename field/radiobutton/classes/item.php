@@ -574,19 +574,7 @@ EOS;
 
         // Begin of: definition of separator.
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            $labelcount = count($labels);
-            if ($labelcount > 2) {
-                $separator = array_fill(0, $labelcount - 2, '<br>');
-            } else {
-                $separator = [];
-            }
-            if (!empty($this->labelother)) {
-                // $separator[] = '<br>';
-                $separator[] = '';
-            }
-            if (!$this->required) {
-                $separator[] = '<br>';
-            }
+            $separator = $this->userform_get_separator();
         } else { // SURVEYPRO_HORIZONTAL.
             $separator = ' ';
         }
@@ -630,6 +618,55 @@ EOS;
             $mform->setDefault($this->itemname.'_text', $othervalue);
         }
         // End of: default section.
+    }
+
+    public function userform_get_separator(): array {
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $optioncount = count($labels);
+        $invitation = ($this->defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $addother = !empty($this->labelother);
+        $mandatory = $this->required;
+
+        $condition = true;
+        $condition = $condition && ($optioncount == 1);
+        $condition = $condition && (!$invitation);
+        $condition = $condition && (!$addother);
+        $condition = $condition && ($mandatory);
+        if ($condition) {
+            $message = 'Mandatory radio buttons with only one option and with no invite, no "other" option are not allowed';
+            debugging($message, DEBUG_DEVELOPER);
+        }
+
+        $separator = [];
+
+        // Invitation.
+        if ($invitation) {
+            $separator[] = '<br>'; // From "Invitation" to "Option 1".
+        }
+
+        // Options.
+        for ($i = 1; $i < $optioncount; $i++) {
+            $separator[] = '<br>'; // From "Option i" to "Option i+1".
+        }
+
+        if ( $addother || (!$mandatory) ) {
+            array_pop($separator); // Bloody workaround: drop a break.
+        }
+
+        // Other and no answer.
+        if ($addother) {
+            $separator[] = '<br>'; // From "Option N" to "Other".
+            $separator[] = ' '; // From "Other" to the corresponding "text field".
+            if (!$mandatory) {
+                $separator[] = '<br>'; // From the "text field" to "No answer".
+            }
+        } else {
+            if (!$mandatory) {
+                $separator[] = '<br>'; // From Option N to No answer.
+            }
+        }
+
+        return $separator;
     }
 
     /**
