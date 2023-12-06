@@ -106,19 +106,19 @@ class itemsetupform extends item_setupbaseform {
 
         $errors = parent::validation($data, $files);
 
-        $draftnumber = $data['lowerbound'];
         // Get lowerbound.
-        if (core_text::strlen($draftnumber)) {
-            if (!$lowerbound = $item->get_correct_number($draftnumber)) {
+        if (core_text::strlen($data['lowerbound'])) {
+            $lowerbound = $item->get_correct_number($data['lowerbound']);
+            if (!is_numeric($lowerbound)) {
                 $errors['lowerbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
             }
         }
 
-        $draftnumber = $data['upperbound'];
         // Get upperbound.
-        if (core_text::strlen($draftnumber)) {
-            if (!$upperbound = $item->get_correct_number($draftnumber)) {
+        if (core_text::strlen($data['upperbound'])) {
+            $upperbound = $item->get_correct_number($data['upperbound']);
+            if (!is_numeric($upperbound)) {
                 $errors['upperbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
             }
@@ -142,10 +142,10 @@ class itemsetupform extends item_setupbaseform {
             }
         }
 
-        $draftnumber = $data['defaultvalue'];
         // Get defaultvalue.
-        if (core_text::strlen($draftnumber)) {
-            if (!$defaultvalue = $item->get_correct_number($draftnumber)) {
+        if (core_text::strlen($data['defaultvalue'])) {
+            $defaultvalue = $item->get_correct_number($data['defaultvalue']);
+            if (!is_numeric($defaultvalue)) {
                 $errors['defaultvalue'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
             } else {
                 // Constrain default between boundaries.
