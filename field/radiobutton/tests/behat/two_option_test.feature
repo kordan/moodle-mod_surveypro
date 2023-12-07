@@ -39,3 +39,4 @@ Feature: Load and apply mum_or_dad_test usertemplates to test preview do not ris
 
     # now I am in the Element > Manage page
     And I select "Preview" from the "jump" singleselect
+    And I should see "Who do you love the most?"

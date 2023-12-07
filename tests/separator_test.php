@@ -19,8 +19,10 @@ namespace mod_surveypro;
 use advanced_testcase;
 use surveyprofield_radiobutton;
 
-require_once(dirname(__FILE__).'/../../../config.php');
-require_once(dirname(__FILE__).'/../lib.php');
+defined('MOODLE_INTERNAL') || die;
+
+global $CFG;
+require_once($CFG->dirroot.'/mod/surveypro/lib.php');
 
 /**
  * The class to verify all the lib.php global functions do work as expected.
