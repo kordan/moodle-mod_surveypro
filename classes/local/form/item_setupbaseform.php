@@ -164,6 +164,7 @@ class item_setupbaseform extends \moodleform {
             $mform->setType($fieldname, PARAM_TEXT);
         }
 
+        // Itembase: trimonsave.
         $fieldname = 'trimonsave';
         if ($item->get_insetupform($fieldname)) {
             $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
