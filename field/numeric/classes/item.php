@@ -255,17 +255,17 @@ class item extends itembase {
 
         // 4. Other: float numbers need more attention because I can write them using , or .
         if (core_text::strlen($record->defaultvalue)) {
-            $record->defaultvalue = $this->get_correct_number($record->defaultvalue);
+            $record->defaultvalue = $this->get_international_number($record->defaultvalue);
         } else {
             $record->defaultvalue = null;
         }
         if (core_text::strlen($record->lowerbound)) {
-            $record->lowerbound = $this->get_correct_number($record->lowerbound);
+            $record->lowerbound = $this->get_international_number($record->lowerbound);
         } else {
             $record->lowerbound = null;
         }
         if (core_text::strlen($record->upperbound)) {
-            $record->upperbound = $this->get_correct_number($record->upperbound);
+            $record->upperbound = $this->get_international_number($record->upperbound);
         } else {
             $record->upperbound = null;
         }
@@ -283,23 +283,47 @@ class item extends itembase {
     }
 
     /**
-     * Item_atomize_number
-     * starting from justanumber, this function returns it splitted into an array
+     * Get the requested property.
      *
-     * @param double $justanumber
-     * @return void
+     * @param string $field
+     * @return the content of the field or false if the field is not set.
      */
-    public function get_correct_number($justanumber) {
-        $pattern = '~^\s*(-?)([0-9]+)'.preg_quote($this->decimalseparator).'?([0-9]*)\s*$~';
-        if (preg_match($pattern, $justanumber, $matches)) {
-            if (empty($matches[3])) {
-                return $matches[1].$matches[2];
+    public function get_generic_property($field) {
+        if (isset($this->{$field})) {
+            $condition = false;
+            $condition = $condition || ($field == 'lowerbound');
+            $condition = $condition || ($field == 'upperbound');
+            $condition = $condition || ($field == 'defaultvalue');
+            if ($condition) {
+                $return = $this->get_international_number($this->{$field});
             } else {
-                return $matches[1].$matches[2].'.'.$matches[3];
+                $return = $this->{$field};
             }
         } else {
-            return false;
+            $return = false;
         }
+
+        return $return;
+    }
+
+    /**
+     * get_international_number
+     * starting from justanumber written using local decimal separator,
+     * this function returns the same number written using the dot as decimal separator.
+     *
+     * @param double $localnumber
+     * @return void or double $internationalnumber
+     */
+    public function get_international_number($localnumber) {
+        $localnumber = trim($localnumber);
+        $internationalnumber = str_replace($this->decimalseparator, '.', $localnumber);
+        if (is_numeric($internationalnumber)) {
+            $return = $internationalnumber;
+        } else {
+            $return = false;
+        }
+
+        return $return;
     }
 
     /**
@@ -442,7 +466,7 @@ EOS;
             return;
         }
 
-        $userinput = $this->get_correct_number($draftuserinput);
+        $userinput = $this->get_international_number($draftuserinput);
         if (!is_numeric($userinput)) {
             // It is not a number, shouts.
             $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
@@ -561,7 +585,7 @@ EOS;
         if (!core_text::strlen($content)) {
             $olduseranswer->content = '';
         } else {
-            $content = $this->get_correct_number($content);
+            $content = $this->get_international_number($content);
             $olduseranswer->content = round($content, $this->decimals);
         }
     }
