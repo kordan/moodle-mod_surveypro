@@ -17,6 +17,9 @@ Feature: Submit using a fileupload item
       | user     | course                     | role           |
       | teacher1 | Attachment submission test | editingteacher |
       | student1 | Attachment submission test | student        |
+    And the following "user preferences" exist:
+      | user     | preference | value    |
+      | teacher1 | htmleditor | textarea |
     And the following "activities" exist:
       | activity  | name            | intro                                 | course                     |
       | surveypro | Attachment test | To test submission of attachment item | Attachment submission test |
