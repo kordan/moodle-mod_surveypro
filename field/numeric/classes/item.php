@@ -231,12 +231,9 @@ class item extends itembase {
         if (core_text::strlen($this->defaultvalue)) {
             $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
         }
-        if (core_text::strlen($this->lowerbound)) {
-            $this->lowerbound = format_float($this->lowerbound, $this->decimals);
-        }
-        if (core_text::strlen($this->upperbound)) {
-            $this->upperbound = format_float($this->upperbound, $this->decimals);
-        }
+        // $this->lowerbound and $this->upperbound comes from db and are correctly written.
+        // I am not going to put them in a field so I can leave them well written
+        // instead of changing them according to the local language.
     }
 
     /**
@@ -260,17 +257,17 @@ class item extends itembase {
         if (core_text::strlen($record->defaultvalue)) {
             $record->defaultvalue = $this->get_correct_number($record->defaultvalue);
         } else {
-            unset($record->defaultvalue);
+            $record->defaultvalue = null;
         }
         if (core_text::strlen($record->lowerbound)) {
             $record->lowerbound = $this->get_correct_number($record->lowerbound);
         } else {
-            unset($record->lowerbound);
+            $record->lowerbound = null;
         }
         if (core_text::strlen($record->upperbound)) {
             $record->upperbound = $this->get_correct_number($record->upperbound);
         } else {
-            unset($record->upperbound);
+            $record->upperbound = null;
         }
     }
 
@@ -446,7 +443,7 @@ EOS;
         }
 
         $userinput = $this->get_correct_number($draftuserinput);
-        if ($userinput === false) {
+        if (!is_numeric($userinput)) {
             // It is not a number, shouts.
             $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
             return;
