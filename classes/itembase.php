@@ -182,9 +182,9 @@ class itembase {
 
         $context = \context_module::instance($this->cm->id);
 
-        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
         if ($this->uses_db_table()) {
+            $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
@@ -1600,11 +1600,68 @@ EOS;
      * Set variable.
      *
      * @param string $variable
-     * @return the content of $variable property
+     * @return void
      */
     public function set_variable($variable) {
         $variable = format_string($variable);
         $this->variable = $variable;
+    }
+
+    /**
+     * Set defaultoption.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            $message = 'Passed defaultoption is not allowed.';
+            debugging($message, DEBUG_DEVELOPER);
+        }
+
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set labelother.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $labelother
+     * @return void
+     */
+    public function set_labelother($labelother) {
+        $this->labelother = (string)$labelother;
+    }
+
+    /**
+     * Set required.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $required
+     * @return void
+     */
+    public function set_required($required) {
+        $this->labelother = $required;
+    }
+
+    /**
+     * Set options.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $options
+     * @return void
+     */
+    public function set_options($options) {
+        $this->options = $options;
     }
 
     // MARK parent.
