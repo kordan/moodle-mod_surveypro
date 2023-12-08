@@ -23,24 +23,24 @@ Feature: Load and apply usertemplates
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/age_only_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/boolean_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/checkbox_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/date_only_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/dateshort_only_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/datetime_only_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/integer_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/multiselect_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/numeric_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/radiobutton_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/rate_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/recurrence_only_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/select_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/textarea_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/textshort_only_2015123000.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/time_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/age/tests/fixtures/usertemplate/age_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/fileupload/tests/fixtures/usertemplate/attachment_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/autofill/tests/fixtures/usertemplate/autofill_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/boolean/tests/fixtures/usertemplate/boolean_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/checkbox/tests/fixtures/usertemplate/checkbox_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/date/tests/fixtures/usertemplate/date_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/shortdate/tests/fixtures/usertemplate/dateshort_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/datetime/tests/fixtures/usertemplate/datetime_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/integer/tests/fixtures/usertemplate/integer_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/multiselect/tests/fixtures/usertemplate/multiselect_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/numeric/tests/fixtures/usertemplate/numeric_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/radiobutton/tests/fixtures/usertemplate/radiobutton_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/rate/tests/fixtures/usertemplate/rate_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/recurrence/tests/fixtures/usertemplate/recurrence_only_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/select/tests/fixtures/usertemplate/select_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/textarea/tests/fixtures/usertemplate/textarea_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/character/tests/fixtures/usertemplate/textshort_only_2015123000.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/time/tests/fixtures/usertemplate/time_only_2023103100.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
     And I press "Import"
