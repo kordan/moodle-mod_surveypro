@@ -108,7 +108,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Get lowerbound.
         if (core_text::strlen($data['lowerbound'])) {
-            $lowerbound = $item->get_correct_number($data['lowerbound']);
+            $lowerbound = $item->get_international_number($data['lowerbound']);
             if (!is_numeric($lowerbound)) {
                 $errors['lowerbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
@@ -117,7 +117,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Get upperbound.
         if (core_text::strlen($data['upperbound'])) {
-            $upperbound = $item->get_correct_number($data['upperbound']);
+            $upperbound = $item->get_international_number($data['upperbound']);
             if (!is_numeric($upperbound)) {
                 $errors['upperbound'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
                 return $errors;
@@ -144,7 +144,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Get defaultvalue.
         if (core_text::strlen($data['defaultvalue'])) {
-            $defaultvalue = $item->get_correct_number($data['defaultvalue']);
+            $defaultvalue = $item->get_international_number($data['defaultvalue']);
             if (!is_numeric($defaultvalue)) {
                 $errors['defaultvalue'] = get_string('ierr_notanumber', 'surveyprofield_numeric');
             } else {
