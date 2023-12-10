@@ -77,7 +77,7 @@ class itemsetupform extends item_setupbaseform {
         $elementgroup[] = $mform->createElement('select', $fieldname, '', $options);
         $elementgroup[] = $mform->createElement('text', $fieldname.'text', '', ['size' => 55]);
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);
-        // $mform->setDefault($fieldname, SURVEYPROFIELD_CHARACTER_FREEPATTERN);
+
         $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_FREEPATTERN);
         $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_EMAILPATTERN);
         $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_URLPATTERN);

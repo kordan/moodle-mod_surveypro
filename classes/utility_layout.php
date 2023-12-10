@@ -503,7 +503,7 @@ class utility_layout {
                 $submissionid = $submission->id;
 
                 unset($submission->id);
-                // $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
+                // Option? $submission->userid = $USER->id; // Assign the duplicate to the user performing the action.
                 $submission->timecreated = time();
                 unset($submission->timemodified);
                 $newsubmissionid = $DB->insert_record('surveypro_submission', $submission);
@@ -637,7 +637,7 @@ class utility_layout {
             $sql = 'SELECT id
                     FROM {surveypro_answer}
                     WHERE content = '.$DB->sql_compare_text(':content');
-            // $whereparams['content'] is never alone.
+            // Note: $whereparams['content'] is never alone.
             $sql .= ' AND '.implode(' AND ', $conditions);
             $answers = $DB->get_records_sql($sql, $whereparams);
         } else {
@@ -672,7 +672,6 @@ class utility_layout {
                 WHERE id '.$insql.'
                 GROUP BY submissionid
                 ORDER BY submissionid';
-        // $submissionsid = $DB->get_records_select('surveypro_answer', "id {$insql}", $inparams, 'submissionid', 'id, submissionid');
         $submissionsid = $DB->get_records_sql_menu($sql, $inparams);
         $submissionsid = array_keys($submissionsid);
 
