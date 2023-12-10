@@ -129,7 +129,6 @@ class usertemplate extends templatebase {
                 $xmlfiles = $this->get_utemplates_per_contextlevel($contextid);
                 if (count($xmlfiles)) {
                     foreach ($xmlfiles as $xmlfile) {
-                        // $utemplates[$contextlabel][] = $xmlfile;
                         $utemplates[$context->contextlevel][] = $xmlfile;
                     }
                 }
@@ -675,7 +674,7 @@ class usertemplate extends templatebase {
         $templatecontent = $this->get_utemplate_content();
 
         $simplexml = new \SimpleXMLElement($templatecontent);
-        // echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';
+        // Debug: echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';.
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', ['surveyproid' => $this->surveypro->id])) {
             $sortindexoffset = 0;
@@ -724,7 +723,8 @@ class usertemplate extends templatebase {
 
                     // Tag <parent> always belong to surveypro_item table.
                     if ($fieldname == 'parent') {
-                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
+                        // Debug: $label = 'Count of attributes of the field '.$fieldname;.
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
                         foreach ($xmlfield->children() as $xmlparentattribute) {
                             $fieldname = $xmlparentattribute->getName();
                             $fieldexists = in_array($fieldname, $currenttablestructure);
@@ -739,7 +739,8 @@ class usertemplate extends templatebase {
                     // so: ($fieldname == 'embedded') only when surveypro_item has already been saved...
                     // so: $itemid is known.
                     if ($fieldname == 'embedded') {
-                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
+                        // Debug: $label = 'Count of attributes of the field '.$fieldname;.
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
                         foreach ($xmlfield->children() as $xmlfileattribute) {
                             $fileattributename = $xmlfileattribute->getName();
                             if ($fileattributename == 'filename') {
@@ -750,7 +751,7 @@ class usertemplate extends templatebase {
                             }
                         }
 
-                        // echo 'I need to add: "'.$filename.'" to the filearea<br>';
+                        // Debug: echo 'I need to add: "'.$filename.'" to the filearea<br>';.
 
                         // Add the file described by $filename and $filecontent to filearea,
                         // alias, add pictures found in the utemplate to filearea.
@@ -815,7 +816,7 @@ class usertemplate extends templatebase {
         $filename = $xmlfile->get_filename();
         $content = $xmlfile->get_content();
 
-        // echo '<textarea rows="10" cols="100">'.$content.'</textarea>';
+        // Debug: echo '<textarea rows="10" cols="100">'.$content.'</textarea>';.
 
         $templatename = clean_filename('temptemplate-' . gmdate("Ymd_Hi"));
         $exportsubdir = "mod_surveypro/templateexport";
@@ -940,7 +941,7 @@ class usertemplate extends templatebase {
             $this->templatename .= '.xml';
         }
         $xmlcontent = $this->write_template_content($this->formdata->visiblesonly);
-        // echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';
+        // Debug: echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';.
 
         $fs = get_file_storage();
         $filerecord = new \stdClass;

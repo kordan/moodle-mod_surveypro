@@ -81,7 +81,7 @@ class utility_item {
         // Begin with a simple trim to drop each starting and closing empty row and spaces.
         $textareacontent = trim($textareacontent);
 
-        // \r are not welcome.
+        // Drop \r that are not welcome.
         $textareacontent = str_replace("\r", '', $textareacontent);
 
         // Use preg_replace (and not str_replace) because of eventual multiple instances of "\n\n".

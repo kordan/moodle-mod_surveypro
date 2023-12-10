@@ -84,7 +84,7 @@ class utemplate_importform extends \moodleform {
     public function validation($data, $files) {
         global $USER;
 
-        // $mform = $this->_form;
+        // Useless: $mform = $this->_form;.
 
         // Get _customdata.
         $utemplateman = $this->_customdata->utemplateman;
@@ -109,7 +109,6 @@ class utemplate_importform extends \moodleform {
 
             $xmlfileid = $file->get_id();
             $xml = $utemplateman->get_utemplate_content($xmlfileid);
-            // $xml = @new \SimpleXMLElement($templatecontent);
             $errormessage = $utemplateman->validate_xml($xml);
             if ($errormessage !== false) {
                 if (isset($errormessage->a)) {
