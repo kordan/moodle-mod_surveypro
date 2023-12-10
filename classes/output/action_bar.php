@@ -128,7 +128,7 @@ class action_bar {
         }
 
         // If section = 'submissionform', set $activeurl according to the way the form is going to be used.
-        if (strpos($this->currenturl->out(false), 'submissionform')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'submissionform')) {
             if (isset($gosthlink)) {
                 $activeurl = $gosthlink;
             } else {
@@ -208,14 +208,14 @@ class action_bar {
             $activeurl = $gosthlink;
         } else {
             // Select the menu item according to section.
-            if (strpos($this->currenturl->out(false), 'preview')) { // If strpos is not null, for sure it will never be zero.
-                $activeurl = $linktopreview;
-            }
-            if (strpos($this->currenturl->out(false), 'itemslist')) { // If strpos is not null, for sure it will never be zero.
+            if (strpos($this->currenturl->out(false), 'itemslist')) {
                 $activeurl = $linktoitemslist;
             }
-            if (strpos($this->currenturl->out(false), 'branchingvalidation')) { // If strpos is not null, for sure it will not be zero.
+            if (strpos($this->currenturl->out(false), 'branchingvalidation') && isset($linktobranchingvalidation)) {
                 $activeurl = $linktobranchingvalidation;
+            }
+            if (strpos($this->currenturl->out(false), 'preview')) {
+                $activeurl = $linktopreview;
             }
         }
 
@@ -264,10 +264,10 @@ class action_bar {
         $activeurl = $this->currenturl;
 
         // Select the menu item according to section.
-        if (strpos($this->currenturl->out(false), 'import')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'import')) {
             $activeurl = $linktoimport;
         }
-        if (strpos($this->currenturl->out(false), 'export')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'export')) {
             $activeurl = $linktoexport;
         }
 
@@ -339,16 +339,16 @@ class action_bar {
         $activeurl = $this->currenturl;
 
         // Select the menu item according to section.
-        if (strpos($this->currenturl->out(false), 'manage')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'manage')) {
             $activeurl = $linktomanage;
         }
-        if (strpos($this->currenturl->out(false), 'save')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'save')) {
             $activeurl = $linktosave;
         }
-        if (strpos($this->currenturl->out(false), 'import')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'import')) {
             $activeurl = $linktoimport;
         }
-        if (strpos($this->currenturl->out(false), 'apply')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'apply') && isset($linktoapply)) {
             $activeurl = $linktoapply;
         }
 
@@ -401,10 +401,10 @@ class action_bar {
         $activeurl = $this->currenturl;
 
         // Select the menu item according to section.
-        if (strpos($this->currenturl->out(false), 'save')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'save') && isset($linktosave)) {
             $activeurl = $linktosave;
         }
-        if (strpos($this->currenturl->out(false), 'apply')) { // If strpos is not null, for sure it will never be zero.
+        if (strpos($this->currenturl->out(false), 'apply') && isset($linktoapply)) {
             $activeurl = $linktoapply;
         }
 
