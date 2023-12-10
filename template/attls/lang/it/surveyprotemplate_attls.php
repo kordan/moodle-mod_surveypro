@@ -66,7 +66,7 @@ $string['radiobutton_content_21'] = '<p>Passo il tempo a cercare cosa c\'è di s
 
 $string['item_parentvalue_01'] = '';
 
-$string['radiobutton_options_01'] = '1::Fortemente in disaccordo'."\n".'2::Un po\' in disaccordo'."\n".'3::Né d\'accordo né in disaccordo'."\n".'4::Abbastanza d\'accordo'."\n".'5::Completamente d\'accordo';
+$string['radiobutton_options_01'] = "1::Fortemente in disaccordo\n2::Un po\' in disaccordo\n3::Né d\'accordo né in disaccordo\n4::Abbastanza d\'accordo\n5::Completamente d\'accordo";
 $string['radiobutton_labelother_01'] = '';
 $string['radiobutton_defaultvalue_01'] = '';
 

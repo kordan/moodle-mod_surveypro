@@ -67,7 +67,7 @@ $string['radiobutton_content_21'] = '<p>I spend time figuring out what\'s \'wron
 
 $string['item_parentvalue_01'] = '';
 
-$string['radiobutton_options_01'] = '1::Strongly disagree'."\n".'2::Somewhat disagree'."\n".'3::Neither agree nor disagree'."\n".'4::Somewhat agree'."\n".'5::Strongly agree';
+$string['radiobutton_options_01'] = "1::Strongly disagree\n2::Somewhat disagree\n3::Neither agree nor disagree\n4::Somewhat agree\n5::Strongly agree";
 $string['radiobutton_labelother_01'] = '';
 $string['radiobutton_defaultvalue_01'] = '';
 
