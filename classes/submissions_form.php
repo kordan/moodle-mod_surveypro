@@ -181,9 +181,9 @@ class submissions_form extends formbase {
         $timenow = time();
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
-        // Useless: $nextbutton = isset($this->formdata->nextbutton);
+        // Useless: $nextbutton = isset($this->formdata->nextbutton);.
         $pausebutton = isset($this->formdata->pausebutton);
-        // Useless: $prevbutton = isset($this->formdata->prevbutton);
+        // Useless: $prevbutton = isset($this->formdata->prevbutton);.
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }
@@ -223,7 +223,7 @@ class submissions_form extends formbase {
                     $submission->timecreated = $timenow;
                 }
 
-                // $DB->update_record must be inside brackets otherwise
+                // Note: $DB->update_record must be inside curly brackets otherwise
                 // using "<< previous" or "next >>" to browse the submission
                 // I get the error:
                 // moodle_database::update_record_raw() no fields found.
@@ -493,7 +493,7 @@ class submissions_form extends formbase {
                 $useranswer->submissionid = $submissionid;
                 $useranswer->itemid = $iteminfo->itemid;
                 $useranswer->content = SURVEYPRO_DUMMYCONTENT;
-                // $useranswer->contentformat = null; // Useless, as null is the default.
+                // Note: $useranswer->contentformat = null; is useless, as null is the default.
 
                 $useranswer->id = $DB->insert_record('surveypro_answer', $useranswer);
             }
@@ -556,11 +556,11 @@ class submissions_form extends formbase {
 
         // If all the answers are still valid.
         if ($this->responsestatus == SURVEYPRO_VALIDRESPONSE) {
-            // -> $prevbutton: I am not saving with $verified = true so $this->responsestatus != SURVEYPRO_VALIDRESPONSE
+            // Case: $prevbutton: I am not saving with $verified = true so $this->responsestatus != SURVEYPRO_VALIDRESPONSE
             // and this case should never be verified.
-            // -> $pausebutton: Yes, all is fine but I want to pause the submission because I am not sure
+            // Case: $pausebutton: Yes, all is fine but I want to pause the submission because I am not sure
             // so the submission needs to be saved as "in progress".
-            // -> $nextbutton: Even if the overall response status is valid I can not close the submission
+            // Case: $nextbutton: Even if the overall response status is valid I can not close the submission
             // because I can close it using $savebutton or $saveasnewbutton ONLY.
             if ($prevbutton || $pausebutton || $nextbutton) {
                 $this->status = SURVEYPRO_STATUSINPROGRESS;
@@ -763,7 +763,6 @@ class submissions_form extends formbase {
             }
         }
 
-        // $noreplyuser = \core_user::get_noreply_user();
         $supportuser = \core_user::get_support_user();
 
         $body = $this->get_message();

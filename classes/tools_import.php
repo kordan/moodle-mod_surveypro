@@ -521,20 +521,20 @@ class tools_import {
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
-            $itemvariables = $DB->get_records_sql($sql, $whereparams);
+            $itemvars = $DB->get_records_sql($sql, $whereparams);
 
-            foreach ($itemvariables as $itemvariable) {
-                $surveyheaders[$itemvariable->itemid] = $itemvariable->variable;
+            foreach ($itemvars as $itemvar) {
+                $surveyheaders[$itemvar->itemid] = $itemvar->variable;
                 if ($classname::response_uses_format()) {
-                    $surveyheaders[$itemvariable->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $itemvariable->variable.SURVEYPRO_IMPFORMATSUFFIX;
+                    $surveyheaders[$itemvar->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $itemvar->variable.SURVEYPRO_IMPFORMATSUFFIX;
                 }
                 if ($canbemandatory) {
-                    if ($itemvariable->required > 0) {
-                        $requireditems[] = $itemvariable->itemid;
+                    if ($itemvar->required > 0) {
+                        $requireditems[] = $itemvar->itemid;
                     }
                 } else {
-                    // It is autofill, so it is always mandatory.
-                    $requireditems[] = $itemvariable->itemid;
+                    // It is autofill so it is always mandatory.
+                    $requireditems[] = $itemvar->itemid;
                 }
             }
         }

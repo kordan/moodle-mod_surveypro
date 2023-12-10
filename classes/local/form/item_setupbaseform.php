@@ -367,13 +367,14 @@ class item_setupbaseform extends \moodleform {
             }
 
             // You choosed a parentid but you are missing the parentcontent.
-            if ( empty($data['parentid']) && (core_text::strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be '0'.
+            // Take care: $data['parentcontent'] can be '0'.
+            if ( empty($data['parentid']) && (core_text::strlen($data['parentcontent'])) ) {
                 $a = get_string('parentcontent', 'mod_surveypro');
                 $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
             }
 
             // You did not choose a parent item but you entered an answer.
-            if ( !empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) { // $data['parentcontent'] can be '0'.
+            if ( !empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) {
                 $a = get_string('parentid', 'mod_surveypro');
                 $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
             }

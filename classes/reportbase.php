@@ -300,7 +300,7 @@ abstract class reportbase {
         } else { // You are a teacher.
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
 
-            // $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
+            // Case $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
             if ($this->groupid > 0) {
                 $sql .= ' JOIN {groups_members} gm ON gm.userid = u.id';
                 $whereparams['groupid'] = $this->groupid;

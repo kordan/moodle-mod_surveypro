@@ -1513,10 +1513,10 @@ class layout_itemsetup {
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
                 $itemsmlfields = $item->get_multilang_fields(); // Pagebreak and fieldsetend have no multilang_fields.
                 if ($itemsmlfields[$plugin]) {
-                    // ml means multi language.
-                    foreach ($itemsmlfields as $itemmlfield) { // $itemmlfield is an array of fields.
+                    // Note: ml means multi language.
+                    foreach ($itemsmlfields as $itemmlfield) { // Note: $itemmlfield is an array of fields.
                         $record = new \stdClass();
-                        $record->id = $item->get_pluginid(); // Id of the item child record (for instance: surveyproformat_label).
+                        $record->id = $item->get_pluginid();
 
                         $where = ['id' => $record->id];
                         $fieldlist = implode(',', $itemmlfield);

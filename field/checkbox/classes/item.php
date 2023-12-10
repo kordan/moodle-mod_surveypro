@@ -599,11 +599,12 @@ EOS;
         }
 
         if (!$this->required) {
+            $elementtype = 'mod_surveypro_advcheckbox';
             $itemname = $this->itemname.'_noanswer';
             $attributes['id'] = $idprefix.'_noanswer';
             $noanswerstr = get_string('noanswer', 'surveypro');
             $options = ['0', '1'];
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $itemname, '', $noanswerstr, $attributes, $options);
+            $elementgroup[] = $mform->createElement($elementtype, $itemname, '', $noanswerstr, $attributes, $options);
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($itemname, '1');
             }

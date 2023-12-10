@@ -216,7 +216,7 @@ class restore_surveypro_activity_structure_step extends restore_activity_structu
     }
 
     /**
-     * Hook to execute assignment upgrade after restore.
+     * Hook to execute surveypro upgrade after restore.
      */
     protected function after_restore() {
         global $DB;

@@ -244,7 +244,7 @@ class submissions_list {
                     $mygroups = array_keys($mygroups);
 
                     list($ingroupsql, $groupsparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
-                    // $groupsparams is ready to array_merge $whereparams if ((!$canaccessallgroups) && count($mygroups)).
+                    // Note: $groupsparams is ready to array_merge $whereparams if ((!$canaccessallgroups) && count($mygroups)).
                 }
             } else {
                 $mygroups = [];
@@ -275,8 +275,8 @@ class submissions_list {
             $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
               FROM {surveypro_answer} a';
 
-            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
-            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
+            // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
+            // Example: (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
             $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
@@ -314,7 +314,7 @@ class submissions_list {
                 echo '$canaccessallgroups = false<br>';
             }
             echo '$mygroups =';
-            // print_object($mygroups); // <-- This is better than var_dump but codechecker doesn't like it.
+            // Note: print_object($mygroups); // <-- This is better than var_dump but codechecker doesn't like it.
             echo '<br>count($mygroups) = '.count($mygroups).'<br>';
         }
 
@@ -354,12 +354,11 @@ class submissions_list {
         if ($debug) {
             global $CFG;
 
-            // echo '$sql = '.$sql.'<br><br>';
             $sql2display = preg_replace('~{([a-z_]*)}~', $CFG->prefix.'\1', $sql);
             $sql2display = str_replace('JOIN', '<br>&nbsp;&nbsp;&nbsp;&nbsp;JOIN', $sql2display);
             echo '$sql2display = '.$sql2display.'<br>';
             echo '$whereparams =';
-            // print_object($whereparams); // <-- This is better than var_dump but codechecker doesn't like it.
+            // Note: print_object($whereparams); // <-- This is better than var_dump but codechecker doesn't like it.
             var_dump($whereparams);
         }
 
@@ -394,7 +393,7 @@ class submissions_list {
         if ($groupmode && (!$canaccessallgroups)) {
             $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
             $mygroups = array_keys($mygroups);
-            // if count($mygroups) == 0
+            // Note: if count($mygroups) == 0
             // then the course is divided into groups
             // but this user was not added to any group.
         }
@@ -418,8 +417,8 @@ class submissions_list {
             $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
               FROM {surveypro_answer} a';
 
-            // (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1))
-            // (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false));
+            // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
+            // Example: (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
             $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
@@ -1045,7 +1044,8 @@ class submissions_list {
 
             if ($deleteall) {
                 $label = get_string('deleteallsubmissions', 'mod_surveypro');
-                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, $label, 'post', ['type' => 'secondary']), 'clearfix mdl-align');
+                $class = 'clearfix mdl-align';
+                echo $OUTPUT->box($OUTPUT->single_button($deleteurl, $label, 'post', ['type' => 'secondary']), $class);
             }
         } else {
             $class = ['class' => 'buttons'];
@@ -1185,7 +1185,7 @@ class submissions_list {
         if ($justsubmitted == 1) {
             $message = get_string('basic_editthanks', 'mod_surveypro');
         } else {
-            // $justsubmitted == 2. User deserves thanks if available.
+            // If $justsubmitted == 2 then the user deserves thanks.
             if (!empty($this->surveypro->thankspage)) {
                 $htmlbody = $this->surveypro->thankspage;
                 $contextid = $this->context->id;
@@ -1712,14 +1712,14 @@ class submissions_list {
             // Second column.
             $content = $item->get_content();
             $content = $this->replace_http_url($content);
-            // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+            // I still don't understand if I need: $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');.
             $html = str_replace('@@col2@@', $content, $html);
 
             if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {
                 // Third column.
                 if (isset($userdatarecord[$itemseed->id])) {
                     $content = $item->userform_db_to_export($userdatarecord[$itemseed->id], SURVEYPRO_FRIENDLYFORMAT);
-                    // $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
+                    // Do I need: $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8'); ?
                     $content = str_replace(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, '<br>', $content);
                 } else {
                     $content = $answernotprovided;
@@ -1748,7 +1748,7 @@ class submissions_list {
      * Stored in DB:
      * '<p><img src="@@PLUGINFILE@@/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
      * Returned by $item->get_content():
-     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="...
      * What I am supposed to rewrite:
      * '<p><img src="$CFG->tempdir.'/mod_surveypro/PDF_temp/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
      *
@@ -1763,7 +1763,7 @@ class submissions_list {
      * Stored in DB:
      * '<p><img src="@@PLUGINFILE@@/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
      * Returned by $item->get_content():
-     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="..." width="212" height="160" /></p>';
+     * '<p><img src="http://localhost/master/pluginfile.php/150/mod_surveypro/itemcontent/1458/apple.jpg" alt="apple" class="...
      * What I am supposed to rewrite:
      * '<p><img src="@base64_encode" alt="apple" class="..." width="212" height="160" /></p>';
      *

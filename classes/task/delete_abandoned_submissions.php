@@ -87,7 +87,9 @@ class delete_abandoned_submissions extends crontaskbase {
                 // filter only submissions having 'status' = SURVEYPRO_STATUSINPROGRESS and timecreated < :sofar.
                 $where = 'surveyproid = :surveyproid AND status = :status AND timecreated < :sofar';
                 $whereparams = ['surveyproid' => $surveypro->id, 'status' => SURVEYPRO_STATUSINPROGRESS, 'sofar' => $sofar];
-                if ($submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', 'id, userid')) {
+                $orderby = 'id, userid';
+                $submissions = $DB->get_recordset_select('surveypro_submission', $where, $whereparams, 'surveyproid', $orderby);
+                if ($submissions) {
                     // Those submissions all belong to THE SAME surveypro because $where = 'surveyproid = :surveyproid.
                     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
                     $context = \context_module::instance($cm->id);
