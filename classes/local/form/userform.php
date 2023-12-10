@@ -76,12 +76,14 @@ class userform extends \moodleform {
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.
-        $mform->addElement('hidden', 'formpage', 0); // Value is provided by $userform->set_data($prefill); from view.php ['section' => 'submissionform'].
+        // Value is provided by $userform->set_data($prefill); in view.php ['section' => 'submissionform'].
+        $mform->addElement('hidden', 'formpage', 0);
         $mform->setType('formpage', PARAM_INT);
 
         if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
-            // $canaccessreserveditems, $searchform=false, $type=false, $formpage.
-            list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, null, null, $formpage);
+            // Case: $canaccessreserveditems, $searchform=false, $type=false, $formpage.
+            list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true,
+                                        $canaccessreserveditems, null, null, $formpage);
             $fields = 'id, type, plugin, parentid, parentvalue';
             $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
 
@@ -241,7 +243,7 @@ class userform extends \moodleform {
             return [];
         }
 
-        // $mform = $this->_form;
+        // Useless: $mform = $this->_form;.
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
@@ -251,9 +253,9 @@ class userform extends \moodleform {
         // Useless: $userformpagecount = $this->_customdata->userformpagecount;.
         // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
         // Useless: $formpage = $this->_customdata->formpage;.
-        // Useless: $userfirstpage = $this->_customdata->userfirstpage;
-        // Useless: $userlastpage = $this->_customdata->userlastpage;
-        // Useless: $overflowpage = $this->_customdata->overflowpage;
+        // Useless: $userfirstpage = $this->_customdata->userfirstpage;.
+        // Useless: $userlastpage = $this->_customdata->userlastpage;.
+        // Useless: $overflowpage = $this->_customdata->overflowpage;.
         $mode = $this->_customdata->mode;
 
         if ($mode == SURVEYPRO_PREVIEWMODE) {
@@ -309,8 +311,8 @@ class userform extends \moodleform {
                     $item->userform_mform_validation($data, $errors, false);
                 }
                 // Otherwise...
-                // echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;
-                // echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';
+                // Code: echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;.
+                // Code: echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';.
             }
         }
 
