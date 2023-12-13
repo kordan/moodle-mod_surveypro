@@ -620,6 +620,11 @@ EOS;
         // End of: default section.
     }
 
+    /**
+     * Define the separator needed to create the userform element.
+     *
+     * @return array $separator
+     */
     public function userform_get_separator(): array {
         $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $optioncount = count($labels);
@@ -632,7 +637,7 @@ EOS;
         $condition = $condition && (!$invitation);
         $condition = $condition && (!$addother);
         $condition = $condition && ($mandatory);
-        if ($condition) {
+        if ($condition) { // This message should never appear because corresponding item setupform should not allow this case.
             $message = 'Mandatory radio buttons with only one option and with no invite, no "other" option are not allowed';
             debugging($message, DEBUG_DEVELOPER);
         }
@@ -650,7 +655,7 @@ EOS;
         }
 
         if ( $addother || (!$mandatory) ) {
-            array_pop($separator); // Bloody workaround: drop a break.
+            array_pop($separator); // Bloody workaround: drop last break.
         }
 
         // Other and no answer.
@@ -662,7 +667,7 @@ EOS;
             }
         } else {
             if (!$mandatory) {
-                $separator[] = '<br>'; // From Option N to No answer.
+                $separator[] = '<br>'; // From "Option N" to "No answer".
             }
         }
 
