@@ -610,19 +610,7 @@ EOS;
         }
 
         if ($this->adjustment == SURVEYPRO_VERTICAL) {
-            $labelcount = count($labels);
-            if ($labelcount > 1) {
-                $separator = array_fill(0, $labelcount - 1, '<br>');
-            } else {
-                $separator = [];
-            }
-            if (!empty($this->labelother)) {
-                // $separator[] = '<br>';
-                $separator[] = '';
-            }
-            if (!$this->required) {
-                $separator[] = '<br>';
-            }
+            $separator = $this->userform_get_separator();
         } else { // SURVEYPRO_HORIZONTAL.
             $separator = ' ';
         }
@@ -652,6 +640,47 @@ EOS;
                 $mform->_required[] = $starplace;
             }
         }
+    }
+
+    /**
+     * Define the separator needed to create the userform element.
+     *
+     * There is an issue I do not raise up because it is definitely not relevant.
+     * Checkbox type items with the "Other" option in addition to a single option
+     * cannot be shown vertically unless I miss the alignment between
+     * the "Other" option and the corresponding text field.
+     *
+     * @return array $separator
+     */
+    public function userform_get_separator(): array {
+        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $optioncount = count($labels);
+        $addother = !empty($this->labelother);
+        $mandatory = $this->required;
+
+        $separator = [];
+
+        // Options.
+        for ($i = 1; $i < $optioncount; $i++) {
+            $separator[] = '<br>'; // From "Option i" to "Option i+1".
+        }
+
+        // Other and no answer.
+        if ($addother) {
+            $separator[] = '<br>'; // From "Option N" to "Other".
+            $separator[] = ' '; // From "Other" to the corresponding "text field".
+            if (!$mandatory) {
+                $separator[] = '<br>'; // From the "text field" to "No answer".
+            }
+        } else {
+            if (!$mandatory) {
+                $separator[] = '<br>'; // From Option N to "No answer".
+            }
+        }
+
+        array_shift($separator); // Bloody workaround: drop first break.
+
+        return $separator;
     }
 
     /**
