@@ -101,7 +101,7 @@ $string['radiobutton_content_25'] = '<p>I make good sense of the tutor\'s messag
 $string['radiobutton_content_26'] = '<p>the tutor makes good sense of my messages.</p>';
 
 $string['select_content_27'] = '<p>How long did this survey take you to complete?</p>';
-$string['select_options_01'] = '1::under 1 min'."\n".'2::1-2 min'."\n".'3::2-3 min'."\n".'4::3-4 min'."\n".'5::4-5-min'."\n".'6::5-10 min'."\n".'7::more than 10';
+$string['select_options_01'] = "1::under 1 min\n2::1-2 min\n3::2-3 min\n4::3-4 min\n5::4-5-min\n6::5-10 min\n7::more than 10";
 
 $string['textarea_content_28'] = '<p>Do you have any other comments?</p>';
 
@@ -110,7 +110,7 @@ $string['item_parentvalue_01'] = '';
 
 $string['label_leftlabel_01'] = '';
 
-$string['radiobutton_options_01'] = '1::Almost never'."\n".'2::Seldom'."\n".'3::Sometimes'."\n".'4::Often'."\n".'5::Almost always';
+$string['radiobutton_options_01'] = "1::Almost never\n2::Seldom\n3::Sometimes\n4::Often\n5::Almost always";
 $string['radiobutton_labelother_01'] = '';
 $string['radiobutton_defaultvalue_01'] = '';
 
