@@ -4,8 +4,8 @@ moodle-mod_surveypro
 This module has been developed to address the need for highly validated data collection to gather customized information.
 It was developed to solve data collection problems in the author's work environment.
 What it was needed was, basically:
-- an extremely controlled data collection;
-- the ability to create web surveys quickly;
+- an extremely controlled data collection.
+- the ability to create web surveys quickly.
 - a product that was adaptable as quickly as possible.
 Surveypro plugin enables the creation of custom surveys by assembling fields and format elements.
 
@@ -19,11 +19,11 @@ Here is a list of the 22 built-in elements with their intended use:
 | age         | How old were you when you started cycling?                                   | 4 years, 6 months      |
 | autofill    | Autofill the response with infos from user, course, time, date or surveypro  | userid=528             |
 | boolean     | Is it true?                                                                  | yes                    |
-| character   | Write down your email, please                                                | thisisme@myservet.net  |
+| character   | Write down your email, please                                                | thisisme@myserver.net  |
 | checkbox    | What do you usually get for breakfast? milk, sugar, jam, chocolate, other... | milk, chocolate        |
 | date        | When were you born?                                                          | October 12, 1492       |
 | datetime    | Write down date and time of your last flight to Los Angeles                  | October 12, 2008 14:45 |
-| fileupload  | Upload your CV in PDF format                                                 | The file with your CV  |
+| fileupload  | Upload your CV in PDF format                                                 | myCV.pdf               |
 | integer     | How many people does your family counts?                                     | 5                      |
 | multiselect | What do you usually get for breakfast? milk, sugar, jam, chocolate, other... | jam, other=bread       |
 | numeric     | What do you think is the ideal workplace temperature?                        | 25.5                   |
@@ -53,7 +53,7 @@ Less common properties include:
 
 User templates
 --------------
-A user template is a plugin for editing teachers to quickly create snapshots of their surveys for sharing and later application.
+A user template is a sub-plugin for editing teachers to quickly create snapshots of their surveys for sharing and later application.
 
 Use cases for user templates include:
 1) An editing teacher is frequently called to create custom surveys where a fixed set of elements is included. Let's say: First name, Last name, Date of birth, Gender. To save time, the editing teacher can create a surveypro including this set of elements and then save the corresponding user-template. Later, whenever he/she is called to create a new instance of surveypro with the set of elements of the first surveypro, he/she will apply the generated user-template to the new surveypro instance. All fields of the user-template will be included at once.
@@ -62,7 +62,7 @@ Use cases for user templates include:
 
 Master templates
 ----------------
-Master template is the plugin to quickly create a classic survey such as ATTLS, COLLES's or Critical Incidents.
+Master template is the sub-plugin to quickly create a classic survey such as ATTLS, COLLES's or Critical Incidents.
 Editing teacher is allowed to create his own master templates based on a manually created surveypro. The added value of master templates is the multilanguage behaviour. Once a course creator saves a surveypro as master template, in order to use it in a different moodle instance, he needs to copy it to the filesystem of the target moodle instance and to navigate the notification page. Each language added to the lang folder of the copied master template package will be available to students in the target moodle instance. This means that the same surveypro will be served to students in their own language, whether available.
 
 Report
@@ -76,6 +76,11 @@ Each element can be defined as a "child" of a different element based on a condi
 Relational databases
 --------------------
 While Surveypro cannot strictly create a relational database, it provides a way to assist in this purpose. Editing teachers can include an autofill element to auto-answer information about the user, Moodle course, or surveypro instance. This enables the establishment of relations between data downloaded from different surveypro instances.
+Let's suppose, for instance, that in the frame of a project, it is necessary to keep track of the disease history of patients through the collection of clinical information taken from swabs during the pandemic from covid19.
+To achieve this goal, each user could be asked to complete two different instances of surveypro.
+The first instance focused on personal data.
+The second instance preposed to collect data on swabs taken during the pandemic from covid19.
+If in both the first and second surveypro the surveypro designer includes an autofill type field that automatically adds the ID of the user submitting a response, once the responses collected by the two surveypros have been exported, it will be easy to create a relationship between them.
 
 Groups
 ------
@@ -89,21 +94,22 @@ Several features are available at the surveypro instance level for different are
 - Develop new questions, formats, reports, or mastertemplates as sub-plugins of this activity.
 
 **Design**
-- Branches;
-- Automatic page increment at branching;
-- Assign an indent to questions to make parent-child relations clearer;
-- Check the effectiveness of parent-child relations;
-- Share in-progress surveypro definitions in XML with partners;
-- Option to preserve history (allow the users to change their response BUT forcing them to save the modified response to a new one in order to preserve the history of what they do?);
-- Keep "In progress" responses (do not drop "in progress" responses even if they should be dropped due to surveypro policies);
-- Custom style sheet;
-- Option for anonymous responses;
-- Mandatory or optional questions;
-- Notes (filling instructions) for each item;
-- Format of short text items (email, URL, or custom regular expressions);
-- Assign a name and custom number to each question;
-- Define a custom question number;
-- Tool to reorder items;
+- Branches.
+- Automatic page increment at branching.
+- Assign an indent to questions to make parent-child relations clearer.
+- Check the effectiveness of parent-child relations.
+- Share in-progress surveypro definitions in XML with partners.
+- Option to preserve history (allow the users to change their response BUT forcing them to save the modified response to a new one in order to preserve the history of what they did.).
+- Automatic drop of abandoned responses.
+- Keep "In progress" responses (do not drop "in progress" responses even if they should be, because of surveypro policies).
+- Split a surveypro across multiple pages.
+- Custom style sheet.
+- Option for anonymous responses.
+- Mandatory or optional questions.
+- Notes (filling instructions) for each item.
+- Format of short text items (email, URL, or custom regular expressions).
+- Assign a name and custom number to each question.
+- Tool to reorder items.
 - Hide items still in progress or not ready to show.
 - Custom thanks webpage.
 - Tool to duplicate an item.
@@ -112,11 +118,10 @@ Several features are available at the surveypro instance level for different are
 - Limit the input range of each item at the item level.
 - Use "classic" surveys like COLLES, ATTLS, Critical Incidents.
 - Have COLLES built using radio buttons or select items.
-- Automatic drop of abandoned responses.
 - Choose whether the label or value of checkboxes and selects should be in the response export file.
 - Get positional answers of ticks in checkbox questions in the response export file.
-- Mark items for form population to search among submitted responses.
-- Have a surveypro from a mastertemplate offering the multilanguage feature.
+- Mark items to include in the search form to search among submitted responses.
+- Have a surveypro from a mastertemplate offering the multi-language feature.
 - Open a period of risk in which "what should not be allowed" is allowed. To explain it better: a surveypro is online. Users started to submit their responses. I found an error. I need to correct it but... take care: if you edit an already submitted surveypro you risk to make a mess. What happens to already submitted answers if you add or drop an item? What happen to answers if you change the number or the content or the options of a select? Well it is really dangerous BUT if you know what you are doing and you really need to make changes (I did it only once in 10 years) you can ask to surveypro a "risky modification period" in which you are allowed to do what, generally, you shouldn't do.
 
 **Submission**
@@ -128,21 +133,33 @@ Several features are available at the surveypro instance level for different are
 
 **Management**
 - Submitted responses can be modified, duplicated, deleted, searched and exported.
+- Export of a single response in PDF format.
+- Tool to export gathered responses.
+- Tool to import new responses.
+- Tool to create a custom user-template.
+- Tool to create a custom master-template.
+- Five built-in reports.
 
 Contributing
 ------------
 Contributions are welcome and can be made by:
-- Using the tool and reporting issues.
+- Using the plugin and reporting issues.
 - Requesting reasonable new features.
 - Fixing code and sharing solutions via pull requests on [GitHub](https://github.com/kordan/moodle-mod_surveypro/pulls).
+- Developing tests and proposing improvements.
 - Writing the user's manual.
 - Contributing to translation.
 
+I wrote this plugin to fulfill my personal needs. It does what I need by pandering exactly to my needs and following my way of thinking. It works well, very well, in everything I daily use. On the flip side, it may be riddled with errors in all the areas I have never used enough.
+Also, I am an old programmer and the technology I use is never state-of-the-art no matter how hard I try to read and update.
+
+For this reason, I believe the best contribution for this plugin is the addition of unit tests to best increase the percentage of verified code and the proposal of innovative changes to the code to increase its efficiency.
+
 What is missing
 ---------------
-- Unit tests
-- Extending the parent-child relation to more than a single parent.
-- Compatibility with the Moodle app.
+- Unit tests.
+- Extending the parent-child relation to more than a single parent (child is allowed if ( (parent1 = 1) or (parent2 = 0) ) or more complex relations (child is allowed if (parent1 > 10)).
+- Compatibility with Moodle app for mobile.
 
 License
 -------
@@ -195,6 +212,6 @@ Known bugs
 Credits
 -------
 - Thanks to stronk7 for his continued support. His suggestions are milestones, his corrections are 100% reliable and his patience is unlimited. His involvement as "integrator" is one of the main quality assurance for this tool. His reflections are the main reason for the improvements of this moodle plugin.
-- Thanks to Joseph Rézeau for text revision and English translation.
+- Thanks to Joseph Rézeau for his original text revision.
 - Thanks to Germán Valero for the Spanish and Spanish-Mexican translations.
 - Thanks to those who reported issues and provided feedback.
