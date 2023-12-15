@@ -539,7 +539,7 @@ EOS;
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
                     $mform->setDefault($this->itemname.'_noanswer', '1');
-                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT.
                 case SURVEYPRO_CUSTOMDEFAULT:
                     // I need to set a value for the default field even if it disabled.
                     // When opening this form for the first time, I have:

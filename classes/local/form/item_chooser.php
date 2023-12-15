@@ -40,6 +40,10 @@ class item_chooser extends \moodleform {
     /**
      * Definition.
      *
+     * To get advantages of autosubmit, the code for the 'selectgroups' should be:
+     * $attributes = ['id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'];
+     * $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, $attributes);
+     *
      * @return void
      */
     public function definition() {
@@ -65,8 +69,6 @@ class item_chooser extends \moodleform {
 
         $elementgroup = [];
         $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
-        // $attributes = ['id' => 'type_plugin', 'class' => 'autosubmit ignoredirty'];
-        // $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist, $attributes);
         $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('add'));
         $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
         $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');

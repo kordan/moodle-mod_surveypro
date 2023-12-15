@@ -463,9 +463,6 @@ class mastertemplate extends templatebase {
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
-            // echo '$xmltemplate->asXML() = <br>';
-            // print_object($xmltemplate->asXML());
-
             return $xmltemplate->asXML();
         } else {
             $dom = new \DOMDocument('1.0');
@@ -654,7 +651,6 @@ class mastertemplate extends templatebase {
 
                     // Tag <parent> always belong to surveypro_item table.
                     if ($fieldname == 'parent') {
-                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
                         foreach ($xmlfield->children() as $xmlparentattribute) {
                             $fieldname = $xmlparentattribute->getName();
                             $fieldexists = in_array($fieldname, $currenttablestructure);
@@ -669,7 +665,8 @@ class mastertemplate extends templatebase {
                     // So: ($fieldname == 'embedded') only when surveypro_item has already been saved.
                     // So: $itemid is known.
                     if ($fieldname == 'embedded') {
-                        // echo '<h5>Count of attributes of the field '.$fieldname.': '.count($xmlfield->children()).'</h5>';
+                        // Debug: $label = 'Count of attributes of the field '.$fieldname;
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
                         foreach ($xmlfield->children() as $xmlfileattribute) {
                             $fileattributename = $xmlfileattribute->getName();
                             if ($fileattributename == 'filename') {

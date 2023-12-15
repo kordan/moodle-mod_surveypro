@@ -87,7 +87,7 @@ class mtemplate_applyform extends \moodleform {
     public function validation($data, $files) {
         global $CFG;
 
-        // $mform = $this->_form;
+        // Useless: $mform = $this->_form;.
 
         // Get _customdata.
         $mtemplateman = $this->_customdata->mtemplateman;
@@ -99,7 +99,6 @@ class mtemplate_applyform extends \moodleform {
         $templatename = $data['mastertemplate'];
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
-        // $xml = @new \SimpleXMLElement($templatecontent);
         $errormessage = $mtemplateman->validate_xml($xml);
         if ($errormessage !== false) {
             $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');

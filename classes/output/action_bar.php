@@ -45,10 +45,14 @@ class action_bar {
      */
     protected $surveypro;
 
-    /** @var moodle_url $currenturl The URL of the current page. */
+    /**
+     * @var moodle_url $currenturl The URL of the current page
+     */
     private $currenturl;
 
-    /** @var moodle_url $hostingpage The page going to host the menu. */
+    /**
+     * @var moodle_url $hostingpage The page going to host the menu.
+     */
     private $hostingpage;
 
     /**
@@ -160,7 +164,8 @@ class action_bar {
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
 
         $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
-        $countparents = $DB->count_records_select('surveypro_item', 'surveyproid = :surveyproid AND parentid <> :parentid', $whereparams);
+        $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
+        $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
 
         $paramurl = ['s' => $this->surveypro->id];
 
@@ -235,14 +240,8 @@ class action_bar {
     public function draw_tools_action_bar(): string {
         global $PAGE, $DB;
 
-        // At the moment $pageparams is useless here.
-        // $pageparams = $PAGE->url->params();
-
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
-
-        $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
-        $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
 
         $paramurl = ['s' => $this->surveypro->id];
 
@@ -289,16 +288,10 @@ class action_bar {
     public function draw_utemplates_action_bar(): string {
         global $PAGE, $DB;
 
-        // At the moment $pageparams is useless here.
-        // $pageparams = $PAGE->url->params();
-
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
         $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
         $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
-
-        $whereparams = ['surveyproid' => $this->surveypro->id, 'parentid' => 0];
-        $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
@@ -370,9 +363,6 @@ class action_bar {
     public function draw_mtemplates_action_bar(): string {
         global $PAGE;
 
-        // At the moment $pageparams is useless here.
-        // $pageparams = $PAGE->url->params();
-
         $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
         $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
 
@@ -426,9 +416,6 @@ class action_bar {
     public function draw_reports_action_bar(): string {
         global $PAGE;
 
-        // At the moment $pageparams is useless here.
-        // $pageparams = $PAGE->url->params();
-
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
@@ -453,7 +440,6 @@ class action_bar {
         }
 
         // Select the menu item according to the currenturl.
-        // $regex = '~report\/([^\/]*)\/view\.php~';
         $regex = '~report=([a-z]*)$~';
         if (preg_match($regex, $this->currenturl->out(true), $match)) {
             $activeurl = new \moodle_url('/mod/surveypro/report/'.$match[1].'/view.php', ['s' => $this->cm->instance]);
