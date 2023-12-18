@@ -233,7 +233,7 @@ class item extends itembase {
         }
         // $this->lowerbound and $this->upperbound comes from db and are correctly written.
         // I am not going to put them in a field so I can leave them well written
-        // instead of changing them according to the local language
+        // instead of changing them according to the local language.
     }
 
     /**
