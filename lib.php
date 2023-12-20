@@ -716,7 +716,63 @@ function surveypro_update_grades(\stdClass $surveypro, $userid = 0) {
  * @return array
  */
 function surveypro_get_file_areas($course, $cm, $context) {
-    return [];
+    $fileareas = [
+        SURVEYPRO_STYLEFILEAREA => get_string('cssstylefilearea', 'mod_surveypro'),
+        SURVEYPRO_TEMPLATEFILEAREA => get_string('templatesfilearea', 'mod_surveypro'),
+        SURVEYPRO_THANKSPAGEFILEAREA => get_string('thankspagefilearea', 'mod_surveypro'),
+        SURVEYPRO_ITEMCONTENTFILEAREA => get_string('itemcontentfilearea', 'mod_surveypro'),
+    ];
+
+    return $fileareas;
+}
+
+/**
+ * File browsing support for surveypro module.
+ *
+ * @param file_browser $browser
+ * @param array $areas
+ * @param stdClass $course
+ * @param cm_info $cm
+ * @param context $context
+ * @param string $filearea
+ * @param int $itemid
+ * @param string $filepath
+ * @param string $filename
+ * @return file_info_stored file_info_stored instance or null if not found
+ */
+function surveypro_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+    global $CFG, $DB, $USER;
+
+    if ($context->contextlevel != CONTEXT_MODULE) {
+        return null;
+    }
+
+    if (!isset($areas[$filearea])) {
+        return null;
+    }
+
+    if (is_null($itemid)) {
+        require_once($CFG->dirroot.'/mod/surveypro/locallib.php');
+        return new surveypro_file_info_container($browser, $course, $cm, $context, $areas, $filearea);
+    }
+
+    $filepath = is_null($filepath) ? '/' : $filepath;
+    $filename = is_null($filename) ? '.' : $filename;
+
+    $fs = get_file_storage();
+    if (!($storedfile = $fs->get_file($context->id, 'mod_surveypro', $filearea, $itemid, $filepath, $filename))) {
+        return null;
+    }
+
+    // Checks to see if the user can manage files or is the owner.
+    // TODO MDL-33805 - Do not use userid here and move the capability check above.
+    if (!has_capability('moodle/course:managefiles', $context) && $storedfile->get_userid() != $USER->id) {
+        return null;
+    }
+
+    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+
+    return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
 }
 
 /**
