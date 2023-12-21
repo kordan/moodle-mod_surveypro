@@ -716,7 +716,68 @@ function surveypro_update_grades(\stdClass $surveypro, $userid = 0) {
  * @return array
  */
 function surveypro_get_file_areas($course, $cm, $context) {
-    return [];
+    $fileareas = [
+        SURVEYPRO_STYLEFILEAREA => get_string('cssstylefilearea', 'mod_surveypro'),
+        SURVEYPRO_TEMPLATEFILEAREA => get_string('templatesfilearea', 'mod_surveypro'),
+        SURVEYPRO_THANKSPAGEFILEAREA => get_string('thankspagefilearea', 'mod_surveypro'),
+        SURVEYPRO_ITEMCONTENTFILEAREA => get_string('itemcontentfilearea', 'mod_surveypro'),
+    ];
+
+    return $fileareas;
+}
+
+/**
+ * File browsing support for surveypro module.
+ *
+ * @param file_browser $browser
+ * @param array $areas
+ * @param stdClass $course
+ * @param cm_info $cm
+ * @param context $context
+ * @param string $filearea
+ * @param int $itemid
+ * @param string $filepath
+ * @param string $filename
+ * @return file_info_stored file_info_stored instance or null if not found
+ */
+function surveypro_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+    global $CFG, $DB, $USER;
+
+    // Checks to see if the user can manage files.
+    if (!has_capability('moodle/course:managefiles', $context)) {
+        // No peaking here for students!
+        return null;
+    }
+
+    if ($context->contextlevel != CONTEXT_MODULE) {
+        return null;
+    }
+
+    // Condition to drop requests for files belonging to submitted responses.
+    // It should never be verified.
+    if ($areas == 'surveyprofield_fileupload') {
+        return null;
+    }
+
+    if (!isset($areas[$filearea])) {
+        return null;
+    }
+
+    if (is_null($itemid)) {
+        return new mod_surveypro_file_info($browser, $course, $cm, $context, $areas, $filearea);
+    }
+
+    $filepath = is_null($filepath) ? '/' : $filepath;
+    $filename = is_null($filename) ? '.' : $filename;
+
+    $fs = get_file_storage();
+    if (!($storedfile = $fs->get_file($context->id, 'mod_surveypro', $filearea, $itemid, $filepath, $filename))) {
+        return null;
+    }
+
+    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+
+    return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
 }
 
 /**
