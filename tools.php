@@ -75,7 +75,7 @@ if ($section == 'export') { // It was tools_export.php
     $exportman = new tools_export($cm, $context, $surveypro);
 
     // Begin of: define exportform return url.
-    $formurl = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'export']);
+    $formurl = new \moodle_url('/mod/surveypro/tools.php', ['s' => $surveypro->id, 'section' => 'export']);
     // End of: define $mform return url.
 
     // Begin of: prepare params for the form.
@@ -103,13 +103,15 @@ if ($section == 'export') { // It was tools_export.php
     // Output starts here.
     $url = new \moodle_url('/mod/surveypro/tools.php', ['s' => $surveypro->id, 'section' => 'export']);
     $PAGE->set_url($url);
+    // $PAGE->set_pagetype();
+    // $PAGE->set_pagelayout('incourse');
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     // $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('tools_export', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -145,7 +147,7 @@ if ($section == 'import') { // It was tools_import.php
     $importman = new tools_import($cm, $context, $surveypro);
 
     // Begin of: define $mform return url.
-    $formurl = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'import']);
+    $formurl = new \moodle_url('/mod/surveypro/tools.php', ['s' => $surveypro->id, 'section' => 'import']);
     // End of: define $mform return url.
 
     // Begin of: prepare params for the form.
@@ -157,22 +159,24 @@ if ($section == 'import') { // It was tools_import.php
         $err = $importman->validate_csvcontent();
         if (empty($err)) {
             $importman->import_csv();
-            $redirecturl = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance, 'section' => 'submissionslist']);
+            $redirecturl = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'submissionslist']);
             redirect($redirecturl);
         }
     }
     // End of: manage form submission.
 
     // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'import']);
+    $url = new \moodle_url('/mod/surveypro/tools.php', ['s' => $surveypro->id, 'section' => 'import']);
     $PAGE->set_url($url);
+    // $PAGE->set_pagetype();
+    // $PAGE->set_pagelayout('incourse');
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('tools', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('tools_import', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

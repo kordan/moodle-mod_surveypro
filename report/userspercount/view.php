@@ -86,7 +86,7 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
-$PAGE->add_body_class('mediumwidth');
+// Is it useful? $PAGE->add_body_class('mediumwidth');.
 
 echo $OUTPUT->header();
 
