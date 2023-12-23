@@ -775,55 +775,41 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         return;
     }
 
-    $paramurl = ['s' => $cm->instance];
-
-    // First tab; "Surveypro".
-    $condition = surveypro_get_link_visibility_condition('surveypro');
+    // Surveypro.
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('surveypro');
     if ($condition) {
-        $label = get_string('modulename', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
         // Do not add it. It is added by moodle core with the modulename label.
         $navnode->set_show_in_secondary_navigation(false);
     }
 
     // Layout.
-    $condition = surveypro_get_link_visibility_condition('layout');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('layout');
     if ($condition) {
-        $label = get_string('layout', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Reports.
-    $condition = surveypro_get_link_visibility_condition('reports');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('reports');
     if ($condition) {
-        $label = get_string('reports', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    $condition = surveypro_get_link_visibility_condition('tools');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('tools');
     if ($condition) {
-        $label = get_string('tools', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    $condition = surveypro_get_link_visibility_condition('utemplates');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('utemplates');
     if ($condition) {
-        $label = get_string('utemplate', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    $condition = surveypro_get_link_visibility_condition('mtemplates');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('mtemplates');
     if ($condition) {
-        $label = get_string('mtemplate', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 }
@@ -841,50 +827,38 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  */
 function surveypro_extend_navigation(navigation_node $navigation, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
     // Surveypro.
-    $condition = surveypro_get_link_visibility_condition('surveypro');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('surveypro');
     if ($condition) {
-        $label = get_string('modulename', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'cover']);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Layout.
-    $condition = surveypro_get_link_visibility_condition('layout');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('layout');
     if ($condition) {
-        $label = get_string('layout', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $cm->instance, 'section' => 'itemslist']);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Report.
-    $condition = surveypro_get_link_visibility_condition('reports');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('reports');
     if ($condition) {
-        $label = get_string('reports', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/layout_itemlist.php', ['s' => $cm->instance, 'section' => 'itemlist']);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    $condition = surveypro_get_link_visibility_condition('tools');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('tools');
     if ($condition) {
-        $label = get_string('tools', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/tools.php', ['s' => $cm->instance, 'section' => 'export']);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    $condition = surveypro_get_link_visibility_condition('utemplates');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('utemplates');
     if ($condition) {
-        $label = get_string('utemplate', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    $condition = surveypro_get_link_visibility_condition('mtemplates');
+    list($condition, $label, $url) = surveypro_get_link_visibility_condition('mtemplates');
     if ($condition) {
-        $label = get_string('mtemplate', 'mod_surveypro');
-        $url = new \moodle_url('/mod/surveypro/upreset_manage.php', ['s' => $cm->instance]);
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 }
@@ -895,7 +869,7 @@ function surveypro_extend_navigation(navigation_node $navigation, \stdClass $cou
  * Is re-captcha enabled at site level
  *
  * @param string $linkid
- * @return boolean true if the link can be added to blocks. False otherwise.
+ * @return array [$condition, $label, $url]
  */
 function surveypro_get_link_visibility_condition($linkid) {
     global $PAGE, $DB;
@@ -905,28 +879,51 @@ function surveypro_get_link_visibility_condition($linkid) {
     }
 
     $context = \context_module::instance($cm->id);
+    $paramurl = ['s' => $cm->instance];
 
+    $label = '';
+    $url = '';
     switch ($linkid) {
         case 'surveypro':
             $condition = has_capability('mod/surveypro:submit', $context);
+            if ($condition) {
+                $label = get_string('modulename', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            }
             break;
         case 'layout':
             $condition = has_capability('mod/surveypro:manageitems', $context);
+            if ($condition) {
+                $label = get_string('layout', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            }
             break;
         case 'reports':
             $condition = has_capability('mod/surveypro:accessreports', $context);
+            if ($condition) {
+                $label = get_string('reports', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+            }
             break;
         case 'tools':
             $canimportresponses = has_capability('mod/surveypro:importresponses', $context);
             $canexportresponses = has_capability('mod/surveypro:exportresponses', $context);
 
             $condition = ($canimportresponses || $canexportresponses);
+            if ($condition) {
+                $label = get_string('tools', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
+            }
             break;
         case 'utemplates':
             $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $context);
             $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
             $condition = ($canmanageusertemplates && empty($surveypro->template));
+            if ($condition) {
+                $label = get_string('utemplate', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+            }
             break;
         case 'mtemplates':
             $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $context);
@@ -942,13 +939,17 @@ function surveypro_get_link_visibility_condition($linkid) {
             $condition = $condition || ($cansavemastertemplates && empty($surveypro->template));
             $condition = $condition || ($canapplymastertemplates && (!$hassubmissions || $riskyediting));
 
+            if ($condition) {
+                $label = get_string('mtemplate', 'mod_surveypro');
+                $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
+            }
             break;
         default:
             $message = 'Unexpected $linkid = '.$linkid;
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
     }
 
-    return $condition;
+    return [$condition, $label, $url];
 }
 
 /**
