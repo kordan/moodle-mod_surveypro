@@ -446,7 +446,6 @@ EOS;
             $attributes['id'] = $idprefix.'_noanswer';
             $attributes['class'] = 'indent-'.$this->indent.' rate_check';
             $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniquename, '', $noanswerstr, $attributes);
-            // $mform->addGroup($elementgroup, $this->itemname.'_group');
             $mform->addGroup($elementgroup, $this->itemname.'_noanswer');
         }
 

@@ -231,9 +231,9 @@ class item extends itembase {
         if (core_text::strlen($this->defaultvalue)) {
             $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
         }
-        // $this->lowerbound and $this->upperbound comes from db and are correctly written.
-        // I am not going to put them in a field so I can leave them well written
-        // instead of changing them according to the local language.
+        // Note: $this->lowerbound and $this->upperbound comes from db and are correctly written.
+        // I am not going to put them in a field so I can leave them well written...
+        // ...instead of changing them according to the local language.
     }
 
     /**
@@ -410,7 +410,7 @@ EOS;
 
         // Cool for browsers supporting html 5.
         // $attributes['type'] = 'number';
-        // But it doesn't work because "type" property is reserved to mform library
+        // But it doesn't work because "type" property is reserved to mform library.
 
         if (!$searchform) {
             $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
