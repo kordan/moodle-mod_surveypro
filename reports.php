@@ -68,7 +68,7 @@ if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
 // If no report is available, warns the user.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $cm->instance]);
+$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
@@ -76,7 +76,7 @@ $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
 $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
-$PAGE->add_body_class('mediumwidth');
+// Is it useful? $PAGE->add_body_class('mediumwidth');.
 
 echo $OUTPUT->header();
 
