@@ -99,9 +99,9 @@ if ($section == 'preview') { // It was layout_validation.php
     $formparams->mode = SURVEYPRO_PREVIEWMODE;
     $formparams->userformpagecount = $previewman->get_userformpagecount();
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $formparams->formpage = $formpage; // The page of the form to select subset of fields
-    $formparams->userfirstpage = $previewman->get_userfirstpage(); // The user first page
-    $formparams->userlastpage = $previewman->get_userlastpage(); // The user last page
+    $formparams->formpage = $formpage; // The page of the form to select subset of fields.
+    $formparams->userfirstpage = $previewman->get_userfirstpage(); // The user first page.
+    $formparams->userlastpage = $previewman->get_userlastpage(); // The user last page.
     $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
     // End of: prepare params for the form.
 
@@ -150,7 +150,7 @@ if ($section == 'preview') { // It was layout_validation.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -174,7 +174,7 @@ if ($section == 'preview') { // It was layout_validation.php
 }
 
 // MARK itemslist.
-if ($section == 'itemslist') { // It was layout_itemlist.php
+if ($section == 'itemslist') { // It was layout_itemlist.php.
     $edit = optional_param('edit', -1, PARAM_BOOL);
     // Get additional specific params.
     $type = optional_param('type', null, PARAM_TEXT);
@@ -289,16 +289,15 @@ if ($section == 'itemslist') { // It was layout_itemlist.php
     }
 
     // Output starts here.
-    $paramurl = ['s' => $cm->instance, 'section' => 'itemslist'];
-    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+    $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'itemslist']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
+    // Q: $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -385,28 +384,28 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $layoutman->set_mode($mode);
     $layoutman->set_hassubmissions($hassubmissions);
     // Property itemtomove is useless (it is set to its default), do not set it.
-    // $layoutman->set_itemtomove(0);
+    // So, jump: $layoutman->set_itemtomove(0);
 
     // Property lastitembefore is useless (it is set to its default), do not set it.
-    // $layoutman->set_lastitembefore(0);
+    // So, jump: $layoutman->set_lastitembefore(0);
 
     // Property confirm is useless (it is set to its default), do not set it.
-    // $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
+    // So, jump: $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
     // Property nextindent is useless (it is set to its default), do not set it.
-    // $layoutman->set_nextindent(0);
+    // So, jump: $layoutman->set_nextindent(0);
 
     // Property parentid is useless (it is set to its default), do not set it.
-    // $layoutman->set_parentid(0);
+    // So, jump: $layoutman->set_parentid(0);
 
     // Property itemeditingfeedback is useless (it is set to its default), do not set it.
-    // $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
+    // So, jump: $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
     // Property hassubmissions is useless (it is set to its default), do not set it.
-    // $layoutman->set_hassubmissions($hassubmissions);
+    // So, jump: $layoutman->set_hassubmissions($hassubmissions);
 
     // Property itemcount is useless (it is set to its default), do not set it.
-    // $layoutman->set_itemcount($itemcount);
+    // So, jump: $layoutman->set_itemcount($itemcount);
 
     $layoutman->prevent_direct_user_input();
 
@@ -455,7 +454,8 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     // End of: manage form submission.
 
     // Output starts here.
-    $paramurl = ['s' => $cm->instance];
+    $paramurl = [];
+    $paramurl['s'] = $surveypro->id;
     $paramurl['itemid'] = $itemid;
     $paramurl['type'] = $layoutman->get_type();
     $paramurl['plugin'] = $layoutman->get_plugin();
@@ -470,7 +470,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -504,43 +504,43 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $layoutman = new layout_itemsetup($cm, $context, $surveypro);
 
     // Property type is useless, do not set it.
-    // $layoutman->set_type('');
+    // So, jump: $layoutman->set_type('');
 
     // Property plugin is useless, do not set it
-    // $layoutman->set_plugin('');
+    // So, jump: $layoutman->set_plugin('');
 
     // Property itemid is useless (it is set to its default), do not set it
-    // $layoutman->set_itemid(0);
+    // So, jump: $layoutman->set_itemid(0);
 
     // Property action is useless (it is set to its default), do not set it
-    // $layoutman->set_action(SURVEYPRO_NOACTION);
+    // So, jump: $layoutman->set_action(SURVEYPRO_NOACTION);
 
     // Property mode is useless (it is set to its default), do not set it
-    // $layoutman->set_mode(SURVEYPRO_NEWRESPONSEMODE);
+    // So, jump: $layoutman->set_mode(SURVEYPRO_NEWRESPONSEMODE);
 
     // Property itemtomove is useless (it is set to its default), do not set it
-    // $layoutman->set_itemtomove(0);
+    // So, jump: $layoutman->set_itemtomove(0);
 
     // Property lastitembefore is useless (it is set to its default), do not set it
-    // $layoutman->set_lastitembefore(0);
+    // So, jump: $layoutman->set_lastitembefore(0);
 
     // Property confirm is useless (it is set to its default), do not set it
-    // $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
+    // So, jump: $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
     // Property nextindent is useless (it is set to its default), do not set it
-    // $layoutman->set_nextindent(0);
+    // So, jump: $layoutman->set_nextindent(0);
 
     // Property parentid is useless (it is set to its default), do not set it
-    // $layoutman->set_parentid(0);
+    // So, jump: $layoutman->set_parentid(0);
 
     // Property itemeditingfeedback is useless (it is set to its default), do not set it
-    // $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
+    // So, jump: $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
     // Property hassubmissions is useless (it is set to its default), do not set it.
-    // $layoutman->set_hassubmissions($hassubmissions);
+    // So, jump: $layoutman->set_hassubmissions($hassubmissions);
 
     // Property itemcount is useless (it is set to its default), do not set it.
-    // $layoutman->set_itemcount($itemcount);
+    // So, jump: $layoutman->set_itemcount($itemcount);
 
     // Output starts here.
     $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'branchingvalidation']);
@@ -551,7 +551,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

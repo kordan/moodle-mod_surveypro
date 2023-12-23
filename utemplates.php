@@ -99,7 +99,7 @@ if ($section == 'manage') { // It was utemplate_manage.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_manage', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -163,7 +163,7 @@ if ($section == 'save') { // It was utemplate_save.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_save', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -230,7 +230,7 @@ if ($section == 'import') { // It was utemplate_import.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_import', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -287,7 +287,7 @@ if ($section == 'apply') { // It was utemplate_apply.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
