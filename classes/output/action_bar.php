@@ -246,14 +246,14 @@ class action_bar {
         $paramurl = ['s' => $this->surveypro->id];
 
         // Begin of definition for urlselect.
-        // Tools -> export.
+        // Tools -> import.
         if ($canexportresponses) {
             $paramurl['section'] = 'import';
             $linktoimport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
             $menu[$linktoimport->out(false)] = get_string('tools_import', 'mod_surveypro');
         }
 
-        // Tools -> import.
+        // Tools -> export.
         if ($canimportresponses) {
             $paramurl['section'] = 'export';
             $linktoexport = new moodle_url('/mod/surveypro/tools.php', $paramurl);

@@ -169,7 +169,6 @@ class report extends reportbase {
                 $paramurl['report'] = 'attachments';
                 $paramurl['section'] = 'details';
                 $paramurl['container'] = $usersubmission->id.'_'.$usersubmission->submissionid;
-                // $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
                 $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
                 $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
                 $cellcontent .= \html_writer::start_tag('a', ['title' => $displayuploadsstr, 'href' => $url]);

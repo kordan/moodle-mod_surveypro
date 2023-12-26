@@ -23,6 +23,7 @@
  */
 
 $string['changeuser'] = 'Choose a different user';
+$string['details'] = 'Details';
 $string['display_uploads'] = 'Display attachments';
 $string['eachitem'] = 'Each item';
 $string['missing_uploads'] = 'No attachments found';

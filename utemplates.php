@@ -90,7 +90,7 @@ if ($section == 'manage') { // It was utemplate_manage.php
         die();
     }
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'manage']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
@@ -100,8 +100,11 @@ if ($section == 'manage') { // It was utemplate_manage.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_manage', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -154,7 +157,7 @@ if ($section == 'save') { // It was utemplate_save.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'save']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
@@ -164,8 +167,11 @@ if ($section == 'save') { // It was utemplate_save.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_save', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -221,7 +227,7 @@ if ($section == 'import') { // It was utemplate_import.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'import']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
@@ -231,8 +237,11 @@ if ($section == 'import') { // It was utemplate_import.php
     $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_import', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -280,16 +289,21 @@ if ($section == 'apply') { // It was utemplate_apply.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'apply']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
+    $PAGE->navbar->add(get_string('utemplate_apply', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

@@ -73,6 +73,8 @@ if ($section == 'view') { // It was view_cover.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+    $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
 
@@ -154,6 +156,10 @@ if ($section == 'details') { // It was report/attachments/uploads.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    // $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+    $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $cm->instance]);
+    $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'), $url);
+    $PAGE->navbar->add(get_string('details', 'surveyproreport_attachments'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
 

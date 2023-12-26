@@ -80,15 +80,19 @@ if ($showjumper) {
 }
 // End of: prepare params for the form.
 
-// Output starts here.
+// Begin of: set $PAGE deatils.
 $url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'userspercount']);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_userspercount'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
+// End of: set $PAGE deatils.
 
+// Output starts here.
 echo $OUTPUT->header();
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

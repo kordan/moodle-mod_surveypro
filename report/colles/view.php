@@ -89,7 +89,7 @@ if ($showjumper) {
 }
 // End of: prepare params for the form.
 
-// Output starts here.
+// Begin of: set $PAGE deatils.
 $paramurl = ['s' => $surveypro->id, 'type' => $type];
 if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
     $paramurl['area'] = $area;
@@ -101,8 +101,12 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_colles'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
+// End of: set $PAGE deatils.
 
+// Output starts here.
 echo $OUTPUT->header();
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

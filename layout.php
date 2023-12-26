@@ -45,7 +45,7 @@ $s = optional_param('s', 0, PARAM_INT);                            // Surveypro 
 $section = optional_param('section', 'itemslist', PARAM_ALPHAEXT); // The section of code to execute.
 
 // Verify I used correct names all along the module code.
-$validsections = ['preview', 'itemslist', 'itemsetup', 'branchingvalidation'];
+$validsections = ['itemslist', 'itemsetup', 'branchingvalidation', 'preview'];
 if (!in_array($section, $validsections)) {
     $message = 'The section param \''.$section.'\' is invalid.';
     debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
@@ -68,110 +68,6 @@ $context = \context_module::instance($cm->id);
 
 // Utilitypage is going to be used in each section. This is the reason why I load it here.
 $utilitypageman = new utility_page($cm, $surveypro);
-
-// MARK preview.
-if ($section == 'preview') { // It was layout_validation.php
-    // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
-    $submissionid = optional_param('submissionid', 0, PARAM_INT);
-    $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
-    $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
-
-    // Calculations.
-    mod_surveypro\utility_mform::register_form_elements();
-
-    $previewman = new layout_preview($cm, $context, $surveypro);
-    $previewman->setup($submissionid, $formpage);
-
-    $utilitylayoutman = new utility_layout($cm, $surveypro);
-    $utilitylayoutman->add_custom_css();
-
-    // Begin of: define $user_form return url.
-    $paramurl = ['s' => $cm->instance, 'section' => 'preview'];
-    $formurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-    // End of: define $user_form return url.
-
-    // Begin of: prepare params for the form.
-    $formparams = new \stdClass();
-    $formparams->cm = $cm;
-    $formparams->surveypro = $surveypro;
-    $formparams->submissionid = $submissionid;
-    $formparams->mode = SURVEYPRO_PREVIEWMODE;
-    $formparams->userformpagecount = $previewman->get_userformpagecount();
-    $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $formparams->formpage = $formpage; // The page of the form to select subset of fields.
-    $formparams->userfirstpage = $previewman->get_userfirstpage(); // The user first page.
-    $formparams->userlastpage = $previewman->get_userlastpage(); // The user last page.
-    $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
-    // End of: prepare params for the form.
-
-    $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry']);
-
-    // Begin of: manage form submission.
-    if ($data = $userform->get_data()) {
-        $paramurl['submissionid'] = $submissionid;
-
-        // We are in preview. I always have to see page by page with no care to relations.
-        // If "previous" button has been pressed, redirect.
-        $prevbutton = isset($data->prevbutton);
-        if ($prevbutton) {
-            $formpage = max(1, $formpage - 1);
-            $paramurl['formpage'] = $formpage;
-            $paramurl['overflowpage'] = $previewman->get_overflowpage();
-            $paramurl['section'] = 'preview';
-            $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($redirecturl); // Go to the previous page of the form.
-        }
-
-        // If "next" button has been pressed, redirect.
-        $nextbutton = isset($data->nextbutton);
-        if ($nextbutton) {
-            $userformpagecount = $previewman->get_userformpagecount();
-            $formpage = min($userformpagecount, $formpage + 1);
-            $paramurl['formpage'] = $formpage;
-            $paramurl['overflowpage'] = $previewman->get_overflowpage();
-            $paramurl['section'] = 'preview';
-            $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($redirecturl); // Go to the next page of the form.
-        }
-    }
-    // End of: manage form submission.
-
-    // Output starts here.
-    $paramurl = ['s' => $surveypro->id, 'section' => 'preview'];
-    if (!empty($submissionid)) {
-        $paramurl['submissionid'] = $submissionid;
-    }
-    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-    $PAGE->set_url($url);
-    $PAGE->set_context($context);
-    $PAGE->set_cm($cm);
-    $PAGE->set_title($surveypro->name);
-    $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
-    $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
-    $utilitypageman->manage_editbutton($edit);
-
-    echo $OUTPUT->header();
-
-    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
-    echo $actionbar->draw_layout_action_bar();
-
-    $previewman->noitem_stopexecution();
-    $previewman->message_preview_mode();
-    $previewman->display_page_x_of_y();
-
-    // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
-    $prefill = $previewman->get_prefill_data();
-    $prefill['formpage'] = $previewman->get_formpage();
-    // End of: calculate prefill for fields and prepare standard editors and filemanager.
-
-    $userform->set_data($prefill);
-    $userform->display();
-
-    $previewman->message_preview_mode();
-}
 
 // MARK itemslist.
 if ($section == 'itemslist') { // It was layout_itemlist.php.
@@ -288,18 +184,21 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         }
     }
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'itemslist']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // Q: $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
+    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     // If you are changing the order of items, move them and don't think to edit blocks.
@@ -453,7 +352,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $paramurl = [];
     $paramurl['s'] = $surveypro->id;
     $paramurl['itemid'] = $itemid;
@@ -471,8 +370,11 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -542,7 +444,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     // Property itemcount is useless (it is set to its default), do not set it.
     // So, jump: $layoutman->set_itemcount($itemcount);
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'branchingvalidation']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
@@ -552,14 +454,124 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();
 
     $layoutman->display_relations_table();
+}
+
+// MARK preview.
+if ($section == 'preview') { // It was layout_validation.php
+    // Get additional specific params.
+    $edit = optional_param('edit', -1, PARAM_BOOL);
+    $submissionid = optional_param('submissionid', 0, PARAM_INT);
+    $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
+    $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
+
+    // Calculations.
+    mod_surveypro\utility_mform::register_form_elements();
+
+    $previewman = new layout_preview($cm, $context, $surveypro);
+    $previewman->setup($submissionid, $formpage);
+
+    $utilitylayoutman = new utility_layout($cm, $surveypro);
+    $utilitylayoutman->add_custom_css();
+
+    // Begin of: define $user_form return url.
+    $paramurl = ['s' => $cm->instance, 'section' => 'preview'];
+    $formurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+    // End of: define $user_form return url.
+
+    // Begin of: prepare params for the form.
+    $formparams = new \stdClass();
+    $formparams->cm = $cm;
+    $formparams->surveypro = $surveypro;
+    $formparams->submissionid = $submissionid;
+    $formparams->mode = SURVEYPRO_PREVIEWMODE;
+    $formparams->userformpagecount = $previewman->get_userformpagecount();
+    $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
+    $formparams->formpage = $formpage; // The page of the form to select subset of fields.
+    $formparams->userfirstpage = $previewman->get_userfirstpage(); // The user first page.
+    $formparams->userlastpage = $previewman->get_userlastpage(); // The user last page.
+    $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
+    // End of: prepare params for the form.
+
+    $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry']);
+
+    // Begin of: manage form submission.
+    if ($data = $userform->get_data()) {
+        $paramurl['submissionid'] = $submissionid;
+
+        // We are in preview. I always have to see page by page with no care to relations.
+        // If "previous" button has been pressed, redirect.
+        $prevbutton = isset($data->prevbutton);
+        if ($prevbutton) {
+            $formpage = max(1, $formpage - 1);
+            $paramurl['formpage'] = $formpage;
+            $paramurl['overflowpage'] = $previewman->get_overflowpage();
+            $paramurl['section'] = 'preview';
+            $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            redirect($redirecturl); // Go to the previous page of the form.
+        }
+
+        // If "next" button has been pressed, redirect.
+        $nextbutton = isset($data->nextbutton);
+        if ($nextbutton) {
+            $userformpagecount = $previewman->get_userformpagecount();
+            $formpage = min($userformpagecount, $formpage + 1);
+            $paramurl['formpage'] = $formpage;
+            $paramurl['overflowpage'] = $previewman->get_overflowpage();
+            $paramurl['section'] = 'preview';
+            $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            redirect($redirecturl); // Go to the next page of the form.
+        }
+    }
+    // End of: manage form submission.
+
+    // Begin of: set $PAGE deatils.
+    $paramurl = ['s' => $surveypro->id, 'section' => 'preview'];
+    if (!empty($submissionid)) {
+        $paramurl['submissionid'] = $submissionid;
+    }
+    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
+    $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
+    $utilitypageman->manage_editbutton($edit);
+
+    // Output starts here.
+    echo $OUTPUT->header();
+
+    $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
+    echo $actionbar->draw_layout_action_bar();
+
+    $previewman->noitem_stopexecution();
+    $previewman->message_preview_mode();
+    $previewman->display_page_x_of_y();
+
+    // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
+    $prefill = $previewman->get_prefill_data();
+    $prefill['formpage'] = $previewman->get_formpage();
+    // End of: calculate prefill for fields and prepare standard editors and filemanager.
+
+    $userform->set_data($prefill);
+    $userform->display();
+
+    $previewman->message_preview_mode();
 }
 
 // Finish the page.

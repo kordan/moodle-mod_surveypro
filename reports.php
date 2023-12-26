@@ -67,7 +67,7 @@ if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
 // You should never arrive here because you were redirected to a report.
 // If no report is available, warns the user.
 
-// Output starts here.
+// Begin of: set $PAGE deatils.
 $url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -77,7 +77,9 @@ $PAGE->set_heading($course->shortname);
 $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
 $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
+// End of: set $PAGE deatils.
 
+// Output starts here.
 echo $OUTPUT->header();
 
 echo $OUTPUT->box('noreportsfound', 'generalbox description', 'intro', 'centerpara');

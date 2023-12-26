@@ -87,16 +87,21 @@ if ($section == 'save') { // It was mtemplate_save.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $surveypro->id, 'section' => 'save']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('mtemplate', 'mod_surveypro'), $url);
+    $PAGE->navbar->add(get_string('mtemplate_save', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -141,16 +146,21 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
+    // Begin of: set $PAGE deatils.
     $url = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $surveypro->id, 'section' => 'apply']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('mtemplate', 'mod_surveypro'), $url);
+    $PAGE->navbar->add(get_string('mtemplate_apply', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

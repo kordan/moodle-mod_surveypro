@@ -58,6 +58,8 @@ $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_lateusers'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
 // End of: set $PAGE deatils.
 
