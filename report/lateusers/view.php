@@ -40,10 +40,11 @@ if (!empty($id)) {
     $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
-$cm = cm_info::create($cm);
 
+// Get additional specific params.
 $groupid = optional_param('groupid', 0, PARAM_INT);
 
+$cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
