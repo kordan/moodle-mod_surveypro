@@ -153,7 +153,7 @@ abstract class reportbase {
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
 
         $aggregate = $DB->get_record_sql($sql, $whereparams);
@@ -216,7 +216,7 @@ abstract class reportbase {
     private function count_unenrolled_users() {
         global $DB;
 
-        list($enrolsql, $whereparams) = get_enrolled_sql($this->context);
+        [$enrolsql, $whereparams] = get_enrolled_sql($this->context);
 
         $sql = 'SELECT COUNT(\'x\')
                 FROM {user} u
@@ -281,7 +281,7 @@ abstract class reportbase {
             $whereparams['surveyproid'] = null;
         }
 
-        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+        [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
 
         $sql = '';
         if ($canviewhiddenactivities) { // You are an admin.
@@ -319,7 +319,7 @@ abstract class reportbase {
 
         // The query for graphs don't make use of $this->outputtable.
         if (isset($this->outputtable)) {
-            list($where, $filterparams) = $this->outputtable->get_sql_where();
+            [$where, $filterparams] = $this->outputtable->get_sql_where();
             if ($where) {
                 $sql .= ' AND '.$where;
                 $whereparams = array_merge($whereparams,  $filterparams);

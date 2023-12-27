@@ -205,7 +205,7 @@ class tools_export {
             die();
         }
 
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql(false);
+        [$richsubmissionssql, $whereparams] = $this->get_export_sql(false);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
@@ -317,7 +317,7 @@ class tools_export {
         $csvexport->filename = $this->get_export_filename('csv');
 
         // Get headers and placeholders.
-        list($headerlabels, $placeholders) = $this->export_get_output_headers();
+        [$headerlabels, $placeholders] = $this->export_get_output_headers();
         $csvexport->add_data($headerlabels);
 
         $currentsubmissionid = 0;
@@ -364,7 +364,7 @@ class tools_export {
         $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'mod_surveypro'));
 
         // Get headers and placeholders.
-        list($headerlabels, $placeholders) = $this->export_get_output_headers();
+        [$headerlabels, $placeholders] = $this->export_get_output_headers();
         $rowcounter = 0;
         $this->export_write_xlsrecord($rowcounter, $headerlabels, $worksheet);
 
@@ -627,7 +627,7 @@ class tools_export {
         $filelist = [];
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
+        [$richsubmissionssql, $whereparams] = $this->get_export_sql(true);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
@@ -736,7 +736,7 @@ class tools_export {
         $filelist = [];
 
         $fs = get_file_storage();
-        list($richsubmissionssql, $whereparams) = $this->get_export_sql(true);
+        [$richsubmissionssql, $whereparams] = $this->get_export_sql(true);
 
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 

@@ -287,7 +287,7 @@ class layout_itemsetup {
         $paramurlmove['itm'] = $this->itemtomove;
         // End of: $paramurlmove definition.
 
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, false, true, null, null, null, true);
+        [$where, $params] = surveypro_fetch_items_seeds($this->surveypro->id, false, true, null, null, null, true);
         // If you are reordering, force ordering to...
         $orderby = ($this->mode == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');

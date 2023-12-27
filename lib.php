@@ -499,7 +499,7 @@ function surveypro_delete_instance($id) {
 
                 if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
                     $deletelist = array_keys($deletelist);
-                    list($insql, $inparams) = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
+                    [$insql, $inparams] = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
                     $select = 'itemid '.$insql;
 
                     if (!$DB->delete_records_select($tablename, $select, $inparams)) {
@@ -776,7 +776,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // Surveypro.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('surveypro');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('surveypro');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
         // Do not add it. It is added by moodle core with the modulename label.
@@ -784,31 +784,31 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // Layout.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('layout');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('layout');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Reports.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('reports');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('reports');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('tools');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('tools');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('utemplates');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('utemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('mtemplates');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('mtemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
@@ -827,37 +827,37 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  */
 function surveypro_extend_navigation(navigation_node $navigation, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
     // Surveypro.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('surveypro');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('surveypro');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Layout.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('layout');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('layout');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Report.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('reports');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('reports');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('tools');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('tools');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('utemplates');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('utemplates');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    list($condition, $label, $url) = surveypro_get_link_visibility_condition('mtemplates');
+    [$condition, $label, $url] = surveypro_get_link_visibility_condition('mtemplates');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
@@ -909,7 +909,7 @@ function surveypro_get_link_visibility_condition($linkid) {
             $canimportresponses = has_capability('mod/surveypro:importresponses', $context);
             $canexportresponses = has_capability('mod/surveypro:exportresponses', $context);
 
-            $condition = ($canimportresponses || $canexportresponses);
+            $condition = $canimportresponses || $canexportresponses;
             if ($condition) {
                 $label = get_string('tools', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
@@ -919,7 +919,7 @@ function surveypro_get_link_visibility_condition($linkid) {
             $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $context);
             $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
-            $condition = ($canmanageusertemplates && empty($surveypro->template));
+            $condition = $canmanageusertemplates && empty($surveypro->template);
             if ($condition) {
                 $label = get_string('utemplate', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);

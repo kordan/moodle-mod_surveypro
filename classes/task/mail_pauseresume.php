@@ -57,7 +57,7 @@ class mail_pauseresume extends crontaskbase {
         global $DB, $USER, $SITE, $CFG;
 
         $surveyprofields = ['s.id', 's.name', 's.course'];
-        list($sql, $whereparams) = $this->get_sqltimewindow($surveyprofields);
+        [$sql, $whereparams] = $this->get_sqltimewindow($surveyprofields);
         $sql .= ' AND s.pauseresume = ?';
         $whereparams[] = SURVEYPRO_PAUSERESUMEEMAIL;
 

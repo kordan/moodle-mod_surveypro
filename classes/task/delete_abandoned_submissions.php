@@ -58,7 +58,7 @@ class delete_abandoned_submissions extends crontaskbase {
         global $DB;
 
         $surveyprofields = ['s.id', 's.keepinprogress', 's.pauseresume', 's.course'];
-        list($sql, $whereparams) = $this->get_sqltimewindow($surveyprofields);
+        [$sql, $whereparams] = $this->get_sqltimewindow($surveyprofields);
         $sql .= 'AND s.keepinprogress = ?';
         $whereparams[] = 0;
 

@@ -215,7 +215,7 @@ class submissions_list {
 
         // Are there enrolled users in this course?
         $coursecontext = \context_course::instance($COURSE->id);
-        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+        [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
@@ -243,7 +243,7 @@ class submissions_list {
                 if (count($mygroups)) {
                     $mygroups = array_keys($mygroups);
 
-                    list($ingroupsql, $groupsparams) = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
+                    [$ingroupsql, $groupsparams] = $DB->get_in_or_equal($mygroups, SQL_PARAMS_NAMED, 'groupid');
                     // Note: $groupsparams is ready to array_merge $whereparams if ((!$canaccessallgroups) && count($mygroups)).
                 }
             } else {
@@ -282,7 +282,7 @@ class submissions_list {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
-                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
                 $whereparams['content_'.$itemid] = $whereparam;
             }
@@ -337,7 +337,7 @@ class submissions_list {
         }
 
         // Manage table alphabetical filter.
-        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
+        [$wherefilter, $wherefilterparams] = $table->get_sql_where();
         if ($wherefilter) {
             $sql .= ' AND '.$wherefilter;
             $whereparams = $whereparams + $wherefilterparams;
@@ -378,7 +378,7 @@ class submissions_list {
         $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
 
         $coursecontext = \context_course::instance($COURSE->id);
-        list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+        [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
                 FROM ('.$enrolsql.') eu';
@@ -424,7 +424,7 @@ class submissions_list {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
                 $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
                 // Ask to the item class how to write the query.
-                list($whereclause, $whereparam) = $classname::response_get_whereclause($itemid, $searchrestriction);
+                [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
                 $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
                 $whereparams['content_'.$itemid] = $whereparam;
             }
@@ -456,7 +456,7 @@ class submissions_list {
         }
 
         // Manage table alphabetical filter.
-        list($wherefilter, $wherefilterparams) = $table->get_sql_where();
+        [$wherefilter, $wherefilterparams] = $table->get_sql_where();
         if ($wherefilter) {
             $sql .= ' AND '.$wherefilter;
             $whereparams = $whereparams + $wherefilterparams;
@@ -593,7 +593,7 @@ class submissions_list {
      * @return list() of html for each template
      */
     private function get_columns_html() {
-        list($col1width, $col2width, $col3width) = $this->get_columns_width();
+        [$col1width, $col2width, $col3width] = $this->get_columns_width();
         $col23width = $col2width + $col3width;
 
         $twocolstemplate = '<table style="width:100%;"><tr>';
@@ -743,7 +743,7 @@ class submissions_list {
                                             $counter['closedsubmissions'], $counter['closedusers'],
                                             $counter['inprogresssubmissions'], $counter['inprogressusers']);
 
-        list($sql, $whereparams) = $this->get_submissions_sql($table);
+        [$sql, $whereparams] = $this->get_submissions_sql($table);
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
         if ($submissions->valid()) {
 
@@ -1683,7 +1683,7 @@ class submissions_list {
         $userdatarecord = $DB->get_records('surveypro_answer', $where, '', 'itemid, id, content');
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context, $user->id, true);
-        list($where, $params) = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems);
+        [$where, $params] = surveypro_fetch_items_seeds($this->surveypro->id, true, $canaccessreserveditems);
 
         // I am not allowed to get ONLY answers from surveypro_answer
         // because I also need to gather info about fieldsets and labels.
@@ -1691,7 +1691,7 @@ class submissions_list {
 
         $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $this->add_pdf_details($pdf, $user, $submission->timecreated, $submission->timemodified);
-        list($twocolstemplate, $threecolstemplate) = $this->get_columns_html();
+        [$twocolstemplate, $threecolstemplate] = $this->get_columns_html();
         $border = $this->get_border_style();
 
         $answernotprovided = get_string('answernotsubmitted', 'mod_surveypro');

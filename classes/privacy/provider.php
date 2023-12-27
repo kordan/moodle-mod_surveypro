@@ -118,7 +118,7 @@ class provider implements
 
         $user = $contextlist->get_user();
 
-        list($contextsql, $contextparams) = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
+        [$contextsql, $contextparams] = $DB->get_in_or_equal($contextlist->get_contextids(), SQL_PARAMS_NAMED);
 
         $sql = 'SELECT cm.id AS cmid,
                        ss.id AS submissionid, sa.id AS answerid, sa.content AS answer,
@@ -355,7 +355,7 @@ class provider implements
 
             // Delete attachments uploaded within the answers to the submissions listed in $submissions.
             // Get the list of ID of answers related to $submissions.
-            list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
+            [$insql, $inparams] = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
 
             $rs = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
             $answers = [];
@@ -364,7 +364,7 @@ class provider implements
             }
             $rs->close();
 
-            list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
+            [$insql, $inparams] = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
             $fs = get_file_storage();
             $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
 
@@ -388,7 +388,7 @@ class provider implements
         $userids = $userlist->get_userids();
 
         $instanceid = $DB->get_field('course_modules', 'instance', ['id' => $context->instanceid], MUST_EXIST);
-        list($insql, $inparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
 
         $where = "surveyproid = :instanceid AND userid {$insql}";
         $whereparams = $inparams + ['instanceid' => (int)$instanceid];
@@ -407,7 +407,7 @@ class provider implements
 
         // Delete attachments uploaded within the answers to the submissions listed in $submissions.
         // Get the list of ID of answers related to $submissions.
-        list($insql, $inparams) = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($submissions, SQL_PARAMS_NAMED);
 
         $rs = $DB->get_recordset_select('surveypro_answer', "submissionid {$insql}", $inparams, 'id', 'id');
         $answers = [];
@@ -416,7 +416,7 @@ class provider implements
         }
         $rs->close();
 
-        list($insql, $inparams) = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($answers, SQL_PARAMS_NAMED);
         $fs = get_file_storage();
         $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);
 

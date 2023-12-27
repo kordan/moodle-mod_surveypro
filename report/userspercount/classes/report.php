@@ -132,7 +132,7 @@ class report extends reportbase {
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
-        list($sql, $whereparams) = $this->get_submissions_sql();
+        [$sql, $whereparams] = $this->get_submissions_sql();
         $userspercounts = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($userspercounts as $userspercount) {
@@ -158,7 +158,7 @@ class report extends reportbase {
      */
     public function get_submissions_sql() {
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        [$middlesql, $whereparams] = $this->get_middle_sql();
 
         $subquery = 'SELECT s.userid, COUNT(s.userid) as userresponses
                 FROM {surveypro_submission} s
