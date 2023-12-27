@@ -516,7 +516,7 @@ EOS;
             $labels = [SURVEYPRO_IGNOREMEVALUE => ''] + $labels;
         }
         if (!empty($this->labelother)) {
-            list($othervalue, $otherlabel) = $this->get_other();
+            [$othervalue, $otherlabel] = $this->get_other();
             $labels['other'] = $otherlabel;
         }
         if (!$this->required) {

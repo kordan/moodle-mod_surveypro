@@ -52,13 +52,13 @@ class surveyproreport extends base {
             $installed[] = 'surveyproreport_'.$plugin;
         }
 
-        list($installed, $params) = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
+        [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
         $disabled = $DB->get_records_select('config_plugins', "plugin $installed AND name = 'disabled'", $params, 'plugin ASC');
         foreach ($disabled as $conf) {
             if (empty($conf->value)) {
                 continue;
             }
-            list($type, $name) = explode('_', $conf->plugin, 2);
+            [$type, $name] = explode('_', $conf->plugin, 2);
             unset($plugins[$name]);
         }
 

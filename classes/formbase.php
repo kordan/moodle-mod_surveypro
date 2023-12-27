@@ -217,7 +217,7 @@ class formbase {
 
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
-        list($where, $params) = surveypro_fetch_items_seeds(
+        [$where, $params] = surveypro_fetch_items_seeds(
             $this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage
         );
         // Here I can not use get_recordset_select because I could browse returned records twice.
@@ -293,7 +293,7 @@ class formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
         $id = $this->surveypro->id;
         $page = $this->formpage;
-        list($where, $params) = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);
+        [$where, $params] = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);
         if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
             foreach ($itemseeds as $itemseed) {
                 $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);

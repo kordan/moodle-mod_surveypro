@@ -138,7 +138,7 @@ class report extends reportbase {
     public function fetch_data() {
         global $DB, $COURSE, $OUTPUT;
 
-        list($sql, $whereparams) = $this->get_submissions_sql();
+        [$sql, $whereparams] = $this->get_submissions_sql();
         $usersubmissions = $DB->get_recordset_sql($sql, $whereparams);
 
         foreach ($usersubmissions as $usersubmission) {
@@ -177,7 +177,7 @@ class report extends reportbase {
                 FROM {user} u
                 JOIN ('.$submissiontable.') s ON s.userid = u.id';
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
 
         if ($this->outputtable->get_sql_sort()) {

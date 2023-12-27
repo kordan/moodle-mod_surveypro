@@ -169,11 +169,11 @@ class report extends reportbase {
     public function fetch_data($itemid) {
         global $DB, $COURSE;
 
-        list($sql, $whereparams) = $this->get_submissions_sql($itemid);
+        [$sql, $whereparams] = $this->get_submissions_sql($itemid);
         $answers = $DB->get_recordset_sql($sql, $whereparams);
 
         // TAKE CARE: this is the answer count, not the submissions count! They may be different.
-        list($sql, $whereparams) = $this->get_answercount_sql($itemid);
+        [$sql, $whereparams] = $this->get_answercount_sql($itemid);
         $answercount = $DB->count_records_sql($sql, $whereparams);
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
 
@@ -215,7 +215,7 @@ class report extends reportbase {
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
 
         $sql .= ' AND a.itemid = :itemid';
@@ -247,7 +247,7 @@ class report extends reportbase {
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-        list($middlesql, $whereparams) = $this->get_middle_sql();
+        [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
 
         $sql .= ' AND a.itemid = :itemid';

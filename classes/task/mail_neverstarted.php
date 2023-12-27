@@ -54,7 +54,7 @@ class mail_neverstarted extends crontaskbase {
         global $DB, $USER, $SITE, $CFG;
 
         $surveyprofields = ['s.id', 's.name', 's.course'];
-        list($sql, $whereparams) = $this->get_sqltimewindow($surveyprofields);
+        [$sql, $whereparams] = $this->get_sqltimewindow($surveyprofields);
         $sql .= 'AND s.neverstartedemail = ?';
         $whereparams[] = 1;
 
@@ -72,7 +72,7 @@ class mail_neverstarted extends crontaskbase {
                 $userfieldsapi = \core_user\fields::for_name()->including(...$userfields);
                 $userfieldssql = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
 
-                list($enrolsql, $whereparams) = get_enrolled_sql($context);
+                [$enrolsql, $whereparams] = get_enrolled_sql($context);
                 $sql = 'SELECT '.$userfieldssql;
                 $sql .= ' FROM {user} u
                             JOIN ('.$enrolsql.') eu ON eu.id = u.id
