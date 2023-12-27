@@ -571,7 +571,7 @@ EOS;
         } else {
             $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
         }
-        // $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+        // Note: $this->itemname.'_text' has to ALWAYS get a default (if required) even if it is not selected.
         if (!empty($this->labelother)) {
             $mform->setDefault($this->itemname.'_text', $othervalue);
         }
@@ -664,7 +664,7 @@ EOS;
             $status = ($data[$this->itemname] == 'other');
             $status = $status && ($data[$this->itemname.'_text'] == $parentvalues[1]);
         } else {
-            // $childparentvalue === $parentvalues[0] of course!
+            // Note: $childparentvalue === $parentvalues[0] of course!
             $status = ($data[$this->itemname] == $childparentvalue);
         }
 

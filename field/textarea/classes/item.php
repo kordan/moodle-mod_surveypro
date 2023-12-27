@@ -427,7 +427,7 @@ EOS;
                 $mform->setDefault($this->itemname.'_ignoreme', '1');
             }
         } else {
-            // $attributes['class'] and $attributes['id'] do not work: MDL_28194.
+            // Note: $attributes['class'] and $attributes['id'] do not work: MDL_28194.
             $attributes['class'] = 'indent-'.$this->indent.' textarea_editor';
             $fieldname = $this->itemname.'_editor';
             $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];

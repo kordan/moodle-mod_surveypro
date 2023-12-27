@@ -72,7 +72,7 @@ if ($section == 'view') { // It was view_cover.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
 
     $reportman = new report($cm, $context, $surveypro);
@@ -146,14 +146,14 @@ if ($section == 'details') { // It was report/attachments/uploads.php
     }
 
     // Begin of: set $PAGE deatils.
-    $paramurl = ['s' => $cm->instance, 'report' => 'attachments', 'section' => 'details', 'container' => $container];
+    $paramurl = ['s' => $surveypro->id, 'report' => 'attachments', 'section' => 'details', 'container' => $container];
     $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
 
     // Calculations.

@@ -259,7 +259,12 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_time_to_unix_time($hour, $minute) {
-        return (mktime($hour, $minute, 0, SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET));
+        $unixtime = mktime(
+                        $hour, $minute, 0,
+                        SURVEYPROFIELD_TIME_MONTHOFFSET, SURVEYPROFIELD_TIME_DAYOFFSET, SURVEYPROFIELD_TIME_YEAROFFSET
+                    );
+
+        return $unixtime;
     }
 
     /**
@@ -554,7 +559,7 @@ EOS;
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
                     $mform->setDefault($this->itemname.'_noanswer', '1');
-                    // No break here. SURVEYPRO_CUSTOMDEFAULT is a subset of SURVEYPRO_NOANSWERDEFAULT
+                    // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
                 case SURVEYPRO_CUSTOMDEFAULT:
                     // I need to set a value for the default field even if it disabled.
                     // When opening this form for the first time, I have:

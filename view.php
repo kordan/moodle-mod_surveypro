@@ -89,7 +89,7 @@ if ($section == 'cover') { // It was view_cover.php
     $coverman = new cover($cm, $context, $surveypro);
 
     // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance, 'section' => 'cover']);
+    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'cover']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
@@ -97,7 +97,7 @@ if ($section == 'cover') { // It was view_cover.php
     $PAGE->set_heading($course->shortname);
     // $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('surveypro_dashboard', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -155,7 +155,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     $submissionlistman->actions_execution();
 
     // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance, 'section' => 'submissionslist']);
+    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'submissionslist']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
@@ -163,7 +163,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('surveypro_responses', 'mod_surveypro'));
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -297,7 +297,7 @@ if ($section == 'submissionform') { // It was view_form.php
     // End of: manage form submission.
 
     // Output starts here.
-    $paramurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'submissionform'];
+    $paramurl = ['s' => $surveypro->id, 'mode' => $mode, 'section' => 'submissionform'];
     if (!empty($submissionid)) {
         $paramurl['submissionid'] = $submissionid;
     }
@@ -307,7 +307,7 @@ if ($section == 'submissionform') { // It was view_form.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();
@@ -382,13 +382,13 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     // End of: manage form submission.
 
     // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $cm->instance, 'section' => 'searchsubmissions']);
+    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'searchsubmissions']);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // $PAGE->add_body_class('mediumwidth');
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
     echo $OUTPUT->header();

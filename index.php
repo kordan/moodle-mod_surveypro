@@ -44,7 +44,7 @@ $PAGE->set_url('/mod/surveypro/index.php', ['id' => $id]);
 $PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', ['id' => $id]));
 $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
-$PAGE->add_body_class('mediumwidth');
+// Is it useful? $PAGE->add_body_class('mediumwidth');.
 
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strdataplural, 2);
