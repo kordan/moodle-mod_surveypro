@@ -586,7 +586,7 @@ class utility_layout {
             return [];
         }
 
-        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
         $sql = 'SELECT s.userid as id
                 FROM {surveypro_submission} s
                     JOIN {surveypro_answer} a ON s.id = a.submissionid
@@ -666,7 +666,7 @@ class utility_layout {
             return [];
         }
 
-        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
+        [$insql, $inparams] = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
         $sql = 'SELECT submissionid
                 FROM {surveypro_answer}
                 WHERE id '.$insql.'
@@ -748,7 +748,7 @@ class utility_layout {
 
         $context = \context_module::instance($this->cm->id);
 
-        list($insql, $inparams) = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
+        [$insql, $inparams] = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED);
 
         $fs = get_file_storage();
         $fs->delete_area_files_select($context->id, 'surveyprofield_fileupload', 'fileuploadfiles', $insql, $inparams);

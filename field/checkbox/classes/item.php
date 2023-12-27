@@ -577,7 +577,7 @@ EOS;
             $i++;
         }
         if (!empty($this->labelother)) {
-            list($othervalue, $otherlabel) = $this->get_other();
+            [$othervalue, $otherlabel] = $this->get_other();
 
             $itemname = $this->itemname.'_other';
             $attributes['id'] = $idprefix.'_other';
@@ -972,7 +972,7 @@ EOS;
                     if ($fromdb->verified) { // If the answer was validated.
                         $prefill[$this->itemname.'_text'] = '';
                     } else {
-                        list($othervalue, $otherlabel) = $this->get_other();
+                        [$othervalue, $otherlabel] = $this->get_other();
                         $prefill[$this->itemname.'_text'] = $othervalue;
                     }
                 }

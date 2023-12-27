@@ -699,7 +699,7 @@ class mastertemplate extends templatebase {
                 unset($record->id);
 
                 // Apply master template settings.
-                list($tablename, $record) = $mastertemplate->apply_template_settings($tablename, $record, $config);
+                [$tablename, $record] = $mastertemplate->apply_template_settings($tablename, $record, $config);
 
                 if ($tablename == 'surveypro_item') {
                     $naturalsortindex++;
