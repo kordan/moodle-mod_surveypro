@@ -82,7 +82,7 @@ class userform extends \moodleform {
 
         if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
             // Case: $canaccessreserveditems, $searchform=false, $type=false, $formpage.
-            list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true,
+            [$where, $params] = surveypro_fetch_items_seeds($surveypro->id, true,
                                         $canaccessreserveditems, null, null, $formpage);
             $fields = 'id, type, plugin, parentid, parentvalue';
             $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);

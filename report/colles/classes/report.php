@@ -340,7 +340,7 @@ class report extends reportbase {
         // End of: names of areas of investigation.
 
         // Begin of: group question id per area of investigation.
-        list($qid1area, $qid2area) = $this->get_qid_per_area();
+        [$qid1area, $qid2area] = $this->get_qid_per_area();
         // End of: group question id per area of investigation.
 
         // Begin of: options (label of answers).
@@ -357,13 +357,13 @@ class report extends reportbase {
         }
         foreach ($toevaluate as $k => $qidarea) {
             foreach ($qidarea as $areaidlist) {
-                list($insql, $inparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
+                [$insql, $inparams] = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
                 $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
                         FROM {user} u
                             JOIN {surveypro_submission} s ON s.userid = u.id
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-                list($middlesql, $whereparams) = $this->get_middle_sql();
+                [$middlesql, $whereparams] = $this->get_middle_sql();
                 $sql .= $middlesql;
 
                 $whereparams = array_merge($whereparams, $inparams);
@@ -383,7 +383,7 @@ class report extends reportbase {
                             JOIN {surveypro_submission} s ON s.userid = u.id
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-                list($middlesql, $whereparams) = $this->get_middle_sql();
+                [$middlesql, $whereparams] = $this->get_middle_sql();
                 $sql .= $middlesql;
 
                 $whereparams = array_merge($whereparams, $inparams);
@@ -410,7 +410,7 @@ class report extends reportbase {
         if (!$canaccessreports && $canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
-                    list($insql, $whereparams) = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
+                    [$insql, $whereparams] = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
                     $whereparams['userid'] = $USER->id;
                     $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
                             FROM {surveypro_answer} a
@@ -488,7 +488,7 @@ class report extends reportbase {
         // End of: names of areas of investigation.
 
         // Begin of: group question id per area of investigation.
-        list($qid1area, $qid2area) = $this->get_qid_per_area();
+        [$qid1area, $qid2area] = $this->get_qid_per_area();
         // End of: group question id per area of investigation.
 
         // Begin of: options (label of answers).
@@ -510,7 +510,7 @@ class report extends reportbase {
                             JOIN {surveypro_submission} s ON s.userid = u.id
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-                list($middlesql, $whereparams) = $this->get_middle_sql();
+                [$middlesql, $whereparams] = $this->get_middle_sql();
                 $sql .= $middlesql.' AND a.itemid = :itemid';
                 $whereparams['itemid'] = $itemid;
 
@@ -528,7 +528,7 @@ class report extends reportbase {
                             JOIN {surveypro_submission} s ON s.userid = u.id
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-                list($middlesql, $whereparams) = $this->get_middle_sql();
+                [$middlesql, $whereparams] = $this->get_middle_sql();
                 $sql .= $middlesql.' AND a.itemid = :itemid';
                 $whereparams['itemid'] = $itemid;
 
@@ -596,7 +596,7 @@ class report extends reportbase {
         global $DB;
 
         // Begin of: group question id per area of investigation.
-        list($qid1area, $qid2area) = $this->get_qid_per_area();
+        [$qid1area, $qid2area] = $this->get_qid_per_area();
         // End of: group question id per area of investigation.
 
         // Begin of: options (label of answers).
@@ -627,7 +627,7 @@ class report extends reportbase {
                         JOIN {surveypro_submission} s ON s.userid = u.id
                         JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
-            list($middlesql, $whereparams) = $this->get_middle_sql();
+            [$middlesql, $whereparams] = $this->get_middle_sql();
             $sql .= $middlesql.' AND a.itemid = :itemid GROUP BY content';
             $whereparams['itemid'] = $areaidlist[$qid];
 
