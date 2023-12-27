@@ -97,7 +97,7 @@ class restore_surveypro_activity_task extends restore_activity_task {
         $rules[] = new restore_log_rule('surveypro', 'view', 'view.php?id={course_module}', '{surveypro}');
         $rules[] = new restore_log_rule('surveypro', 'choose', 'view.php?id={course_module}', '{surveypro}');
         $rules[] = new restore_log_rule('surveypro', 'choose again', 'view.php?id={course_module}', '{surveypro}');
-        $rules[] = new restore_log_rule('surveypro', 'report', 'report.php?id={course_module}', '{surveypro}');
+        $rules[] = new restore_log_rule('surveypro', 'report', 'reports.php?id={course_module}', '{surveypro}');
 
         return $rules;
     }
