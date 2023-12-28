@@ -22,9 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_surveypro;
 
-// namespace mod_surveypro;
+use file_info;
 
 /**
  * Class representing the virtual node with all itemids in the file browser
@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2012 David Mudrak <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_file_info extends file_info {
+class surveypro_file_info extends file_info {
     /**
      * @var stdClass course
      */
