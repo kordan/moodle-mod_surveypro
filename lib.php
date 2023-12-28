@@ -29,6 +29,7 @@
  */
 
 use mod_surveypro\utility_layout;
+use mod_surveypro\surveypro_file_info;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -764,7 +765,7 @@ function surveypro_get_file_info($browser, $areas, $course, $cm, $context, $file
     }
 
     if (is_null($itemid)) {
-        return new mod_surveypro_file_info($browser, $course, $cm, $context, $areas, $filearea);
+        return new surveypro_file_info($browser, $course, $cm, $context, $areas, $filearea);
     }
 
     $filepath = is_null($filepath) ? '/' : $filepath;
