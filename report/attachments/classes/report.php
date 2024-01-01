@@ -45,30 +45,12 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return false;
-    }
-
-    /**
      * Does the current report apply to the passed mastertemplates?
      *
      * @param string $mastertemplate
      * @return boolean
      */
     public function report_applies_to($mastertemplate) {
-        return true;
-    }
-
-    /**
-     * Get if this report displays user names.
-     *
-     * @return boolean
-     */
-    public static function get_displayusernames() {
         return true;
     }
 
@@ -188,32 +170,6 @@ class report extends reportbase {
     }
 
     /**
-     * Get_submissions_sql
-     *
-     * @return [$sql, $whereparams];
-     */
-    public function get_submissions_sql() {
-        global $COURSE, $DB;
-
-        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-        $whereparams = [];
-        $sql = 'SELECT s.id as submissionid'.$userfieldsapi->selects.'
-                FROM {user} u
-                JOIN {surveypro_submission} s ON s.userid = u.id';
-
-        [$middlesql, $whereparams] = $this->get_middle_sql();
-        $sql .= $middlesql;
-
-        if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
-        } else {
-            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
-        }
-
-        return [$sql, $whereparams];
-    }
-
-    /**
      * Output_data.
      *
      * @return void
@@ -243,6 +199,8 @@ class report extends reportbase {
         }
     }
 
+    // MARK set.
+
     /**
      * set_additionalparams.
      *
@@ -257,5 +215,51 @@ class report extends reportbase {
                 'section' => PARAM_ALPHA,
             ],
         ];
+    }
+
+    // MARK get.
+
+    /**
+     * Is this report equipped with student reports.
+     *
+     * @return boolean
+     */
+    public static function get_hasstudentreport() {
+        return false;
+    }
+
+    /**
+     * Get if this report displays user names.
+     *
+     * @return boolean
+     */
+    public static function get_displayusernames() {
+        return true;
+    }
+
+    /**
+     * Get_submissions_sql
+     *
+     * @return [$sql, $whereparams];
+     */
+    public function get_submissions_sql() {
+        global $COURSE, $DB;
+
+        $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+        $whereparams = [];
+        $sql = 'SELECT s.id as submissionid'.$userfieldsapi->selects.'
+                FROM {user} u
+                JOIN {surveypro_submission} s ON s.userid = u.id';
+
+        [$middlesql, $whereparams] = $this->get_middle_sql();
+        $sql .= $middlesql;
+
+        if ($this->outputtable->get_sql_sort()) {
+            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
+        } else {
+            $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
+        }
+
+        return [$sql, $whereparams];
     }
 }
