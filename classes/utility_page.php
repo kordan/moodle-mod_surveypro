@@ -77,8 +77,8 @@ class utility_page {
         global $PAGE, $OUTPUT, $USER;
 
         $pageparams = $PAGE->url->params();
-        if (!isset($pageparams['s']) || !isset($pageparams['section'])) {
-            $message = '<br>It seems \'s\' and/or \'section\' are not set in the URL.';
+        if (!isset($pageparams['s']) && !isset($pageparams['id'])) {
+            $message = '<br>It seems you have not defined either \'s\' or \'id\' in the URL.';
             $message .= '<br>Maybe you forget to define $PAGE->set_url before calling $PAGE->manage_editbutton()';
             debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
