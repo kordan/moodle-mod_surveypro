@@ -43,6 +43,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 $id = optional_param('id', 0, PARAM_INT);                          // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                            // Surveypro instance id.
 $section = optional_param('section', 'itemslist', PARAM_ALPHAEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['preview', 'itemslist', 'itemsetup', 'branchingvalidation'];
@@ -72,7 +73,6 @@ $utilitypageman = new utility_page($cm, $surveypro);
 // MARK preview.
 if ($section == 'preview') { // It was layout_validation.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
@@ -175,7 +175,6 @@ if ($section == 'preview') { // It was layout_validation.php
 
 // MARK itemslist.
 if ($section == 'itemslist') { // It was layout_itemlist.php.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     // Get additional specific params.
     $type = optional_param('type', null, PARAM_TEXT);
     $plugin = optional_param('plugin', null, PARAM_TEXT);
@@ -229,7 +228,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     $basecondition = $basecondition && empty($surveypro->template);
     $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
-    // New item form.
+    // Begin of: New item form.
     $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
     if ($newitemcondition) {
         $paramurl = ['s' => $cm->instance, 'section' => 'itemsetup', 'mode' => SURVEYPRO_NEWITEM];
@@ -244,7 +243,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     $templatecondition = $basecondition && (!$itemcount);
     $templatecondition = $templatecondition && has_capability('mod/surveypro:manageitems', $context);
     if ($templatecondition) {
-        // User templates form.
+        // Begin of: User templates form.
         $utemplateman = new usertemplate($cm, $context, $surveypro);
         $utemplates = $utemplateman->get_utemplates_items();
         if (count($utemplates)) {
@@ -257,7 +256,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         }
         // End of: User templates form.
 
-        // Master templates form.
+        // Begin of: Master templates form.
         $mtemplateman = new mastertemplate($cm, $context, $surveypro);
         $mtemplates = $mtemplateman->get_mtemplates();
         if (count($mtemplates)) {
@@ -272,7 +271,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     }
     // End of: Templates.
 
-    // Bulk action form.
+    // Begin of: Bulk action form.
     $bulkactioncondition = $basecondition && $itemcount;
     $bulkactioncondition = $bulkactioncondition && has_capability('mod/surveypro:manageitems', $context);
     if ($bulkactioncondition) {
@@ -287,6 +286,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
             $layoutman->set_action($formdata->bulkaction);
         }
     }
+    // End of: Bulk action form.
 
     // Output starts here.
     $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'itemslist']);
@@ -353,7 +353,6 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
 // MARK itemsetup.
 if ($section == 'itemsetup') { // It was layout_itemsetup.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
     $type = optional_param('type', null, PARAM_TEXT);
     $plugin = optional_param('plugin', null, PARAM_TEXT);
@@ -494,7 +493,6 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
 // MARK branchingvalidation.
 if ($section == 'branchingvalidation') { // It was layout_validation.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);

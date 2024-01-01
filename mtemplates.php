@@ -37,6 +37,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 $section = optional_param('section', 'save', PARAM_ALPHAEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['save', 'apply'];
@@ -66,7 +67,6 @@ $utilitypageman = new utility_page($cm, $surveypro);
 // MARK save.
 if ($section == 'save') { // It was mtemplate_save.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:savemastertemplates', $context);
@@ -114,7 +114,6 @@ if ($section == 'save') { // It was mtemplate_save.php
 // MARK apply.
 if ($section == 'apply') { // It was mtemplate_apply.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:applymastertemplates', $context);

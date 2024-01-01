@@ -26,6 +26,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$report = optional_param('report', null, PARAM_TEXT); // Requested report.
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -36,9 +37,6 @@ if (!empty($id)) {
     $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
-
-// Get additional specific params.
-$report = optional_param('report', null, PARAM_TEXT);   // Surveypro instance id.
 
 $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
