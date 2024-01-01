@@ -875,7 +875,7 @@ function surveypro_get_link_visibility_condition($linkid) {
     global $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
-        return;
+        return  [false, '', ''];
     }
 
     $context = \context_module::instance($cm->id);
