@@ -45,6 +45,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 $id = optional_param('id', 0, PARAM_INT);                      // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                        // Surveypro instance id.
 $section = optional_param('section', 'cover', PARAM_ALPHAEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['cover', 'submissionslist', 'submissionform', 'searchsubmissions'];
@@ -74,7 +75,6 @@ $utilitypageman = new utility_page($cm, $surveypro);
 // MARK cover.
 if ($section == 'cover') { // It was view_cover.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     $canmanageitems = has_capability('mod/surveypro:manageitems', $context);
@@ -122,7 +122,6 @@ if ($section == 'cover') { // It was view_cover.php
 // - print to PDF a submission.
 if ($section == 'submissionslist') { // It was view_submissions.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
     $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
     // $tsort = optional_param('tsort', '', PARAM_ALPHA);     // Field asked to sort the table for.
@@ -189,7 +188,6 @@ if ($section == 'submissionslist') { // It was view_submissions.php
 // - view in readonly mode.
 if ($section == 'submissionform') { // It was view_form.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
     $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT);
@@ -338,7 +336,6 @@ if ($section == 'submissionform') { // It was view_form.php
 // MARK searchsubmissions.
 if ($section == 'searchsubmissions') { // It was view_search.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
     // Required capability.

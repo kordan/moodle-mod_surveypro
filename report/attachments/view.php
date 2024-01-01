@@ -22,6 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_page;
+
 // Needed only if $section == 'view'.
 use surveyproreport_attachments\groupjumperform;
 use surveyproreport_attachments\report;
@@ -36,6 +38,7 @@ require_once($CFG->libdir.'/tablelib.php');
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
 $section = optional_param('section', 'view', PARAM_TEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['view', 'details'];
@@ -59,6 +62,9 @@ $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+// Utilitypage is going to be used in each section. This is the reason why I load it here.
+$utilitypageman = new utility_page($cm, $surveypro);
+
 // MARK view.
 if ($section == 'view') { // It was view_cover.php
     $groupid = optional_param('groupid', 0, PARAM_INT);
@@ -75,6 +81,8 @@ if ($section == 'view') { // It was view_cover.php
     $PAGE->set_heading($course->shortname);
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
+
+    $utilitypageman->manage_editbutton($edit);
 
     $reportman = new report($cm, $context, $surveypro);
     $reportman->set_groupid($groupid);
@@ -156,6 +164,8 @@ if ($section == 'details') { // It was report/attachments/uploads.php
     $PAGE->set_heading($course->shortname);
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
+
+    $utilitypageman->manage_editbutton($edit);
 
     // Calculations.
     $uploadsformman = new form($cm, $context, $surveypro);

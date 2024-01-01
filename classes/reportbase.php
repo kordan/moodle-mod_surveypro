@@ -94,15 +94,6 @@ abstract class reportbase {
     abstract public static function get_displayusernames();
 
     /**
-     * Get child reports.
-     *
-     * @return boolean
-     */
-    public function get_haschildrenreports() {
-        return false;
-    }
-
-    /**
      * Prevent direct user input.
      *
      * @return void
@@ -233,6 +224,15 @@ abstract class reportbase {
     // MARK set.
 
     /**
+     * set_additionalparams.
+     *
+     * Sets the parameters to be supplied to the url to call the specific report page
+     */
+    public function set_additionalparams() {
+        $this->additionalparams = ['optional' => [], 'required' => []];
+    }
+
+    /**
      * Set the groupid.
      *
      * @param int $groupid
@@ -242,6 +242,15 @@ abstract class reportbase {
     }
 
     // MARK get.
+
+    /**
+     * Get child reports.
+     *
+     * @return boolean
+     */
+    public function get_haschildrenreports() {
+        return false;
+    }
 
     /**
      * Get the list of groups the user is allowed to browse
@@ -328,15 +337,6 @@ abstract class reportbase {
 
         $whereparams = array_merge($whereparams, $eparams);
         return [$sql, $whereparams];
-    }
-
-    /**
-     * set_additionalparams.
-     *
-     * Sets the parameters to be supplied to the url to call the specific report page
-     */
-    public function set_additionalparams() {
-        $this->additionalparams = ['optional' => [], 'required' => []];
     }
 
     /**

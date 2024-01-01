@@ -37,6 +37,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 $id = optional_param('id', 0, PARAM_INT);                       // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                         // Surveypro instance id.
 $section = optional_param('section', 'export', PARAM_ALPHAEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['export', 'import'];
@@ -66,7 +67,6 @@ $utilitypageman = new utility_page($cm, $surveypro);
 // MARK export.
 if ($section == 'export') { // It was tools_export.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:exportresponses', $context);
@@ -138,7 +138,6 @@ if ($section == 'export') { // It was tools_export.php
 // MARK import.
 if ($section == 'import') { // It was tools_import.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
 
     // Required capability.
     require_capability('mod/surveypro:importresponses', $context);
