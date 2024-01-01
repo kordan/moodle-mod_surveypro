@@ -42,6 +42,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 $id = optional_param('id', 0, PARAM_INT);                       // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                         // Surveypro instance id.
 $section = optional_param('section', 'manage', PARAM_ALPHAEXT); // The section of code to execute.
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
 $validsections = ['manage', 'save', 'import', 'apply'];
@@ -71,7 +72,6 @@ $utilitypageman = new utility_page($cm, $surveypro);
 // MARK manage.
 if ($section == 'manage') { // It was utemplate_manage.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
@@ -116,7 +116,6 @@ if ($section == 'manage') { // It was utemplate_manage.php
 // MARK save.
 if ($section == 'save') { // It was utemplate_save.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
@@ -183,7 +182,6 @@ if ($section == 'save') { // It was utemplate_save.php
 // MARK import.
 if ($section == 'import') { // It was utemplate_import.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
@@ -245,7 +243,6 @@ if ($section == 'import') { // It was utemplate_import.php
 // MARK apply.
 if ($section == 'apply') { // It was utemplate_apply.php
     // Get additional specific params.
-    $edit = optional_param('edit', -1, PARAM_BOOL);
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $confirm = optional_param('cnf', SURVEYPRO_UNCONFIRMED, PARAM_INT);
