@@ -638,7 +638,7 @@ EOS;
      * @param object $fromdb
      * @return associative array with disaggregate element values
      */
-    public function userform_set_prefill($fromdb) {
+    public function userform_get_prefill($fromdb) {
         $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.

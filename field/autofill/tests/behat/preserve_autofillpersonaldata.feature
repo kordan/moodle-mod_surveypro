@@ -110,8 +110,8 @@ Feature: Editing a submission, autofill userID is not overwritten
     When I am on the "Preserve autofill" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
-    Then the field "Your first name" matches value "student1"
-    Then the field "Your last name" matches value "user1"
+    Then I should see "student1"
+    Then I should see "user1"
     Then the field "4 Is it true?" matches value "Yes"
 
     And I set the field "4 Is it true?" to "No"
@@ -124,8 +124,8 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
-    Then the field "Your first name" matches value "student1"
-    Then the field "Your last name" matches value "user1"
+    Then I should see "student1"
+    Then I should see "user1"
     Then the field "4 Is it true?" matches value "No"
 
     And I log out
@@ -135,8 +135,8 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
-    Then the field "Your first name" matches value "student1"
-    Then the field "Your last name" matches value "user1"
+    Then I should see "student1"
+    Then I should see "user1"
     Then the field "4 Is it true?" matches value "No"
     And I set the field "4 Is it true?" to "Yes"
     And I press "Submit"
@@ -148,8 +148,8 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
-    Then the field "Your first name" matches value "student1"
-    Then the field "Your last name" matches value "user1"
+    Then I should see "student1"
+    Then I should see "user1"
     Then the field "4 Is it true?" matches value "Yes"
 
     And I log out

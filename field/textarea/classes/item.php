@@ -557,7 +557,7 @@ EOS;
      * @param object $fromdb
      * @return associative array with disaggregate element values
      */
-    public function userform_set_prefill($fromdb) {
+    public function userform_get_prefill($fromdb) {
         $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
@@ -591,11 +591,10 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
         if (!empty($this->useeditor)) {
-            $elementnames[] = $this->itemname.'_editor';
+            $elementnames = [$this->itemname.'_editor'];
         } else {
-            $elementnames[] = $this->itemname;
+            $elementnames = [$this->itemname];
         }
 
         return $elementnames;
