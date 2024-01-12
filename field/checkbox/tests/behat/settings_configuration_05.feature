@@ -27,8 +27,8 @@ Feature: Submit using checkbox item and check form validation
   @javascript
   Scenario: Test checkbox element having maximumrequired = 0
     Given I set the following fields to these values:
-      | Content                  | What do you usually get for breakfast? |
-      | Maximum allowed options  | Unlimited                              |
+      | Content                 | What do you usually get for breakfast? |
+      | Maximum allowed options | Unlimited                              |
     And I set the multiline field "Options" to "milk\ncoffee\nbutter\nbread"
     And I press "Add"
 
@@ -40,8 +40,8 @@ Feature: Submit using checkbox item and check form validation
     And I press "New response"
     Then I should not see "No more than"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0        | 1 |
-      | id_surveypro_field_checkbox_1_3        | 1 |
+      | id_surveypro_field_checkbox_1_0 | 1 |
+      | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions

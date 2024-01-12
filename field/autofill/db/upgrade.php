@@ -54,6 +54,18 @@ function xmldb_surveyprofield_autofill_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'autofill');
     }
 
+    if ($oldversion < 2024011101) {
+        // Drop any parent child relation in EACH past surveypro.
+        // I am confident I woll not find any.
+        $sql = 'UPDATE {surveypro_item}
+                SET parentid = :parentid, parentvalue = :parentvalue
+                WHERE plugin = :plugin';
+        $whereparams = ['parentid' => null, 'parentvalue' => null, 'plugin' => 'autofill'];
+        $DB->execute($sql, $whereparams);
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2024011101, 'surveyprofield', 'autofill');
+    }
+
     return true;
 }
-
