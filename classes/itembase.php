@@ -1261,10 +1261,11 @@ class itembase {
         if ($separator != "\n") {
             $parentcontent = explode("\n", $this->parentcontent);
             $parentcontent = implode($separator, $parentcontent);
-            return $parentcontent;
         } else {
-            return $this->parentcontent;
+            $parentcontent = $this->parentcontent;
         }
+
+        return $parentcontent;
     }
 
     /**
