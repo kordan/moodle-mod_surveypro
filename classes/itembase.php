@@ -767,13 +767,7 @@ class itembase {
 
         // 2012_07_11_16_03.
         $getdate = [];
-        list(
-            $getdate['year'],
-            $getdate['mon'],
-            $getdate['mday'],
-            $getdate['hours'],
-            $getdate['minutes'],
-        ) = explode('_', $datestring);
+        [$getdate['year'], $getdate['mon'], $getdate['mday'], $getdate['hours'], $getdate['minutes']] = explode('_', $datestring);
 
         return $getdate;
     }

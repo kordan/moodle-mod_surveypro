@@ -550,7 +550,7 @@ EOS;
         }
 
         if (!empty($this->labelother)) {
-            list($othervalue, $otherlabel) = $this->get_other();
+            [$othervalue, $otherlabel] = $this->get_other();
             $labels['other'] = $otherlabel;
 
             $attributes['id'] = $idprefix.'_other';

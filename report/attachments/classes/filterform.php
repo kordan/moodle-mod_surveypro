@@ -57,7 +57,7 @@ class filterform extends \moodleform {
         $submissionidstring = get_string('submission', 'surveyproreport_attachments');
         $userstring = get_string('user');
 
-        list($where, $params) = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems);
+        [$where, $params] = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems);
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, plugin');
 
         if (!$itemseeds->valid()) {
@@ -90,7 +90,7 @@ class filterform extends \moodleform {
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) { // Exclude global admins and managers.
-            list($enrolsql, $eparams) = get_enrolled_sql($coursecontext);
+            [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
             $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
         }
 

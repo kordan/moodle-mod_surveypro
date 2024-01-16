@@ -461,7 +461,7 @@ class tools_import {
 
         if ($this->surveypro->maxentries) {
             if (!empty($submissionsperuser)) {
-                list($insql, $inparams) = $DB->get_in_or_equal(array_keys($submissionsperuser), SQL_PARAMS_NAMED);
+                [$insql, $inparams] = $DB->get_in_or_equal(array_keys($submissionsperuser), SQL_PARAMS_NAMED);
                 $inparams['surveyproid'] = $this->surveypro->id;
                 $sql = 'SELECT userid, COUNT(\'x\')
                         FROM {surveypro_submission}
@@ -735,7 +735,7 @@ class tools_import {
 
         // Make a list of the header of each item in the survey.
         // And the list of the id of the required items.
-        list($surveyheaders, $requireditems) = $this->get_survey_infos();
+        [$surveyheaders, $requireditems] = $this->get_survey_infos();
         if ($debug) {
             echo \html_writer::start_tag('pre');
             echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
