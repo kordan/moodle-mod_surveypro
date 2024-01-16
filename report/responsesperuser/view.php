@@ -22,6 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use mod_surveypro\utility_page;
 use surveyproreport_responsesperuser\groupjumperform;
 use surveyproreport_responsesperuser\report;
 
@@ -30,6 +31,7 @@ require_once($CFG->libdir.'/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
+$edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
     $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
@@ -47,6 +49,8 @@ $groupid = optional_param('groupid', 0, PARAM_INT);
 $cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
+
+$utilitypageman = new utility_page($cm, $surveypro);
 
 // Required capability.
 require_capability('mod/surveypro:accessreports', $context);
@@ -88,6 +92,8 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
+
+$utilitypageman->manage_editbutton($edit);
 
 echo $OUTPUT->header();
 

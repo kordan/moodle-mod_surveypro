@@ -623,6 +623,7 @@ class submissions_form extends formbase {
                 }
             }
         }
+        // End of: get the list of all mandatory fields.
 
         // Make only ONE query taking ALL the answer provided in the frame of this submission.
         // (and, implicitally, for this surveypro).
