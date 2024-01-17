@@ -29,8 +29,7 @@ $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 $report = optional_param('report', null, PARAM_TEXT); // Requested report.
 
 if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    [$course, $cm] = get_course_and_cm_from_cmid($id, 'surveypro');
     $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
     $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
@@ -38,7 +37,6 @@ if (!empty($id)) {
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
 
-$cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
