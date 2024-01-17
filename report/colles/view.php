@@ -35,8 +35,7 @@ $s = optional_param('s', 0, PARAM_INT);
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 if (!empty($id)) {
-    $cm = get_coursemodule_from_id('surveypro', $id, 0, false, MUST_EXIST);
-    $course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+    [$course, $cm] = get_course_and_cm_from_cmid($id, 'surveypro');
     $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
     $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
@@ -49,7 +48,6 @@ $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
 $area = optional_param('area', false, PARAM_INT);  // Area ID.
 $groupid = optional_param('groupid', false, PARAM_INT);  // Group ID.
 
-$cm = cm_info::create($cm);
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
