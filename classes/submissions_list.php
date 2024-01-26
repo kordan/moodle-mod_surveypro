@@ -1807,7 +1807,7 @@ class submissions_list {
      * @return void
      */
     private function add_pdf_details($pdf, $user, $timecreated, $timemodified) {
-        $pdf->SetFont('helvetica', '', 12);
+        $pdf->SetFont('freesans', '', 12);
 
         // Set document information.
         $pdf->SetCreator(PDF_CREATOR);
