@@ -45,7 +45,7 @@ if (!empty($id)) {
 
 // Get additional specific params.
 $type = optional_param('type', 'summary', PARAM_ALPHA);  // Type of graph.
-$area = optional_param('area', false, PARAM_INT);  // Area ID.
+$areaidx = optional_param('areaidx', false, PARAM_INT);  // Areaidx.
 $groupid = optional_param('groupid', false, PARAM_INT);  // Group ID.
 
 require_course_login($course, false, $cm);
@@ -53,16 +53,26 @@ $context = \context_module::instance($cm->id);
 
 $utilitypageman = new utility_page($cm, $surveypro);
 
-if ($type == 'summary') {
-    if (!has_capability('mod/surveypro:accessreports', $context)) {
-        require_capability('mod/surveypro:accessownreports', $context);
-    }
-} else {
-    require_capability('mod/surveypro:accessreports', $context);
+// Set $PAGE params.
+$paramurl = ['s' => $surveypro->id, 'area' => 'reports', 'section' => 'view', 'type' => $type, 'report' => 'colles'];
+if ( ($type == 'questions') && ($areaidx !== false) ) { // areaidx can be zero.
+    $paramurl['areaidx'] = $areaidx;
 }
+$url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
+$PAGE->set_title($surveypro->name);
+$PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_colles'));
+// Is it useful? $PAGE->add_body_class('mediumwidth');.
+// End of: set $PAGE deatils.
+
+$utilitypageman->manage_editbutton($edit);
 
 $reportman = new report($cm, $context, $surveypro);
-$reportman->set_area($area);
+$reportman->setup();
+$reportman->set_areaidx($areaidx);
 $reportman->set_groupid($groupid);
 
 // Begin of: define $mform return url.
@@ -72,7 +82,7 @@ if ($showjumper) {
 
     $jumpercontent = $reportman->get_groupjumper_items();
 
-    $paramurl = ['s' => $cm->instance, 'type' => $type, 'area' => $area];
+    $paramurl = ['s' => $cm->instance, 'type' => $type, 'areaidx' => $areaidx];
     $formurl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramurl);
 
     $formparams = new \stdClass();
@@ -92,21 +102,6 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$paramurl = ['s' => $surveypro->id, 'type' => $type];
-if ( ($type == 'questions') && ($area !== false) ) { // Area can be zero.
-    $paramurl['area'] = $area;
-}
-
-$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'colles']);
-$PAGE->set_url($url);
-$PAGE->set_context($context);
-$PAGE->set_cm($cm);
-$PAGE->set_title($surveypro->name);
-$PAGE->set_heading($course->shortname);
-// Is it useful? $PAGE->add_body_class('mediumwidth');.
-
-$utilitypageman->manage_editbutton($edit);
-
 echo $OUTPUT->header();
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -133,7 +128,7 @@ switch ($type) {
         $reportman->output_scalesdata();
         break;
     case 'questions':
-        $reportman->output_questionsdata($area);
+        $reportman->output_questionsdata($areaidx);
         break;
     case 'question':
     case 'students':

@@ -38,10 +38,13 @@ use mod_surveypro\templatebase;
 use mod_surveypro\local\form\utemplate_applyform;
 
 require_once(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__).'/lib.php');
+
+$defaultsection = surveypro_get_defaults_section_per_area('utemplates');
 
 $id = optional_param('id', 0, PARAM_INT);                       // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                         // Surveypro instance id.
-$section = optional_param('section', 'manage', PARAM_ALPHAEXT); // The section of code to execute.
+$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
@@ -88,18 +91,19 @@ if ($section == 'manage') { // It was utemplate_manage.php
         die();
     }
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'manage']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'utemplates', 'section' => 'manage'];
+    $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_manage', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -128,7 +132,7 @@ if ($section == 'save') { // It was utemplate_save.php
     $utemplateman->setup($utemplateid, $action, $confirm);
 
     // $utemplateman->prevent_direct_user_input();
-    // is not needed because the check has already been done here with: require_capability('mod/surveypro:saveusertemplates', $context);
+    // is not needed because the check has already been done here with: require_capability('mod/surveypro:saveusertemplates',...
 
     // Begin of: define $createutemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'save']);
@@ -151,18 +155,19 @@ if ($section == 'save') { // It was utemplate_save.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'save']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'utemplates', 'section' => 'save'];
+    $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_save', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -217,18 +222,19 @@ if ($section == 'import') { // It was utemplate_import.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'import']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'utemplates', 'section' => 'import'];
+    $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('utemplate', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('utemplate_import', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -275,16 +281,19 @@ if ($section == 'apply') { // It was utemplate_apply.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'apply']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'utemplates', 'section' => 'apply'];
+    $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('utemplate_apply', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

@@ -59,6 +59,12 @@ abstract class reportbase {
     public $additionalparams;
 
     /**
+     * @var bool $onlypersonaldata
+     * The report I am asking should refer to my personal submissions only.
+     */
+    public $onlypersonaldata;
+
+    /**
      * Class constructor.
      *
      * @param object $cm
@@ -72,19 +78,24 @@ abstract class reportbase {
     }
 
     /**
+     * Setup.
+     *
+     * Set $this->onlypersonaldata;
+     */
+    public function setup() {
+        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
+        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
+
+        $this->onlypersonaldata = (!$canaccessreports && $canaccessownreports) ? true : false;
+    }
+
+    /**
      * Does the current report apply to the passed mastertemplates?
      *
      * @param string $mastertemplate
      * @return boolean
      */
     abstract public function report_applies_to($mastertemplate);
-
-    /**
-     * Returns if this report was created for student too.
-     *
-     * @return boolean
-     */
-    abstract public static function get_hasstudentreport();
 
     /**
      * Does this report display user names.
@@ -111,16 +122,16 @@ abstract class reportbase {
      */
     public function is_report_allowed() {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
 
-        $condition = $canaccessreports;
-        $condition = $condition || ($canaccessownreports && $this->get_hasstudentreport());
+        // General condition.
+        $condition = $canaccessreports || $canaccessownreports;
         $condition = $condition && $this->report_applies_to($this->surveypro->template);
 
         // GDPR condition.
-        $othercondition = !$this->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
-        $condition = $condition && $othercondition;
+        $gdprcondition = !$this->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
+        $condition = $condition && $gdprcondition;
 
         return $condition;
     }
@@ -349,7 +360,9 @@ abstract class reportbase {
 
         foreach ($this->additionalparams['optional'] as $variable => $type) {
             $value = optional_param($variable, '', $type);
-            $paramurl[$variable] = $value;
+            if (!empty($value)) {
+                $paramurl[$variable] = $value;
+            }
         }
         foreach ($this->additionalparams['required'] as $variable => $type) {
             $value = required_param($variable, $type);

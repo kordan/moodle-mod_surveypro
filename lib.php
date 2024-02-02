@@ -833,12 +833,8 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $PAGE, $DB;
 
-    if (!$cm = $PAGE->cm) {
-        return;
-    }
-
     // Surveypro.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('surveypro');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
         // Do not add it. It is added by moodle core with the modulename label.
@@ -846,31 +842,31 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // Layout.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('layout');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('layout');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Reports.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('reports');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('reports');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('tools');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('tools');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('utemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('mtemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
@@ -888,38 +884,40 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navigation, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
+    global $PAGE;
+
     // Surveypro.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('surveypro');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Layout.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('layout');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('layout');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Report.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('reports');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('reports');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools.
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('tools');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('tools');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?).
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('utemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?).
-    [$condition, $label, $url] = surveypro_get_link_visibility_condition('mtemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates');
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
@@ -928,27 +926,72 @@ function surveypro_extend_navigation(navigation_node $navigation, \stdClass $cou
 // CUSTOM SURVEYPRO API.
 
 /**
- * Is re-captcha enabled at site level
+ * Define the link for Navigation block and Administration block
  *
- * @param string $linkid
+ * @param string $area
+ * @return array|string defaultsection
+ */
+function surveypro_get_defaults_section_per_area($area) {
+    $defaultsection = [];
+    $defaultsection['surveypro'] = 'cover';
+    $defaultsection['layout'] = 'itemslist';
+    $defaultsection['reports'] = 'view'; // Default section for each report IS ALWAYS 'view'.
+    $defaultsection['tools'] = 'export';
+    $defaultsection['utemplates'] = 'manage';
+    $defaultsection['mtemplates'] = 'save';
+
+    // Verify a correct $area was requested.
+    if (!isset($defaultsection[$area])) {
+        $message = 'The requested area \''.$area.'\' is invalid.';
+        debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    }
+    // End of: Verify a correct $area was requested.
+
+    return $defaultsection[$area];
+}
+
+/**
+ * Define the link for "Navigation block" and "Administration block"
+ *
+ * @param string $area
  * @return array [$condition, $label, $url]
  */
-function surveypro_get_link_visibility_condition($linkid) {
+function surveypro_get_link_and_condition($area) {
     global $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
-        return  [false, '', ''];
+        return [false, '', ''];
     }
 
     $context = \context_module::instance($cm->id);
-    $paramurl = ['s' => $cm->instance];
+
+    $pageparams = $PAGE->url->params();
+
+    $section = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
+    if (isset($pageparams['section'])) {
+        // Overwrite the default section with the passed one in the passed area ONLY.
+        if (isset($pageparams['area']) && ($pageparams['area'] == $area)) {
+            $section = $pageparams['section'];
+        }
+    }
+
+    $paramurl = ['s' => $cm->instance, 'area' => $area, 'section' => $section];
 
     $label = '';
     $url = '';
-    switch ($linkid) {
+    switch ($area) {
         case 'surveypro':
             $condition = has_capability('mod/surveypro:submit', $context);
             if ($condition) {
+                if (isset($pageparams['submissionid'])) {
+                    $paramurl['submissionid'] = $pageparams['submissionid'];
+                }
+                if (isset($pageparams['mode'])) {
+                    $paramurl['mode'] = $pageparams['mode'];
+                }
+                if (isset($pageparams['begin'])) {
+                    $paramurl['begin'] = $pageparams['begin'];
+                }
                 $label = get_string('modulename', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             }
@@ -956,15 +999,48 @@ function surveypro_get_link_visibility_condition($linkid) {
         case 'layout':
             $condition = has_capability('mod/surveypro:manageitems', $context);
             if ($condition) {
+                if (isset($pageparams['itemid'])) {
+                    $paramurl['itemid'] = $pageparams['itemid'];
+                }
+                if (isset($pageparams['type'])) {
+                    $paramurl['type'] = $pageparams['type'];
+                }
+                if (isset($pageparams['plugin'])) {
+                    $paramurl['plugin'] = $pageparams['plugin'];
+                }
+                if (isset($pageparams['mode'])) {
+                    $paramurl['mode'] = $pageparams['mode'];
+                }
                 $label = get_string('layout', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             }
             break;
         case 'reports':
-            $condition = has_capability('mod/surveypro:accessreports', $context);
-            if ($condition) {
-                $label = get_string('reports', 'mod_surveypro');
-                $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+            if (isset($pageparams['report'])) {
+                $reportname = $pageparams['report'];
+            } else {
+                $reportname = surveypro_get_first_allowed_report();
+            }
+            if (!empty($reportname)) {
+                $classname = 'surveyproreport_'.$reportname.'\report';
+                $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
+                $reportman = new $classname($cm, $context, $surveypro);
+                $reportman->setup();
+                $condition = $reportman->is_report_allowed();
+                if ($condition) {
+                    $label = get_string('reports', 'mod_surveypro');
+                    $paramurl['report'] = $reportname;
+                    if (isset($pageparams['container'])) {
+                        $paramurl['container'] = $pageparams['container'];
+                    }
+                    if (isset($pageparams['type'])) {
+                        $paramurl['type'] = $pageparams['type'];
+                    }
+                    if (isset($pageparams['areaidx'])) {
+                        $paramurl['areaidx'] = $pageparams['areaidx'];
+                    }
+                    $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+                }
             }
             break;
         case 'tools':
@@ -1012,6 +1088,41 @@ function surveypro_get_link_visibility_condition($linkid) {
     }
 
     return [$condition, $label, $url];
+}
+
+/**
+ * Get the first allowed report.
+ * In a standard installation it is "attachments" report (at january 2024) but
+ * it change by adding new reports preceeding it in alphabetic order
+ * or by uninstalling it.
+ * Using the mastertemplate colles, the first allowes report should be: colles.
+ *
+ * @return string The name of the first available report or empty string if no reports are available.
+ */
+function surveypro_get_first_allowed_report() {
+    global $PAGE, $DB;
+
+    if (!$cm = $PAGE->cm) {
+        return '';
+    }
+
+    $return = '';
+    $context = \context_module::instance($cm->id);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
+    if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+        foreach ($surveyproreportlist as $reportname => $reportpath) {
+            $classname = 'surveyproreport_'.$reportname.'\report';
+            $reportman = new $classname($cm, $context, $surveypro);
+            $reportman->setup();
+            $condition = $reportman->is_report_allowed();
+            if ($condition) {
+                $return = $reportname;
+                break;
+            }
+        }
+    }
+
+    return $return;
 }
 
 /**

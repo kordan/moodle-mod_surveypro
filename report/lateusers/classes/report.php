@@ -45,15 +45,6 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return false;
-    }
-
-    /**
      * Does the current report apply to the passed mastertemplates?
      *
      * @param string $mastertemplate
@@ -162,6 +153,8 @@ class report extends reportbase {
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
+        global $USER;
+
         $whereparams = [];
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
 
@@ -183,6 +176,10 @@ class report extends reportbase {
         [$middlesql, $middleparams] = $this->get_middle_sql(false);
         $sql .= $middlesql;
         $whereparams = array_merge($whereparams, $middleparams);
+        if ($this->onlypersonaldata) {
+            $sql .= ' AND u.id = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
         unset($whereparams['surveyproid']);
 
         if ($this->outputtable->get_sql_sort()) {

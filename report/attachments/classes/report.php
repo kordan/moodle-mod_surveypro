@@ -220,15 +220,6 @@ class report extends reportbase {
     // MARK get.
 
     /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return false;
-    }
-
-    /**
      * Get if this report displays user names.
      *
      * @return boolean
@@ -243,7 +234,7 @@ class report extends reportbase {
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $USER;
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
         $whereparams = [];
@@ -253,6 +244,11 @@ class report extends reportbase {
 
         [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
+
+        if ($this->onlypersonaldata) {
+            $sql .= ' AND u.id = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
 
         if ($this->outputtable->get_sql_sort()) {
             $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
