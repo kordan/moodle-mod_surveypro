@@ -50,22 +50,22 @@ $context = \context_module::instance($cm->id);
 
 $utilitypageman = new utility_page($cm, $surveypro);
 
-// Required capability.
-require_capability('mod/surveypro:accessreports', $context);
-
-// Begin of: set $PAGE deatils.
-$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'lateusers']);
+// Set $PAGE params.
+$paramurl = ['s' => $surveypro->id, 'area' => 'reports', 'report' => 'lateusers', 'section' => 'view'];
+$url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_lateusers'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
 // End of: set $PAGE deatils.
 
 $utilitypageman->manage_editbutton($edit);
 
 $reportman = new report($cm, $context, $surveypro);
+$reportman->setup();
 $reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 

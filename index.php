@@ -46,6 +46,7 @@ $PAGE->set_title($strsurveypro);
 $PAGE->set_heading($course->fullname);
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
 
+// Output starts here.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strdataplural, 2);
 

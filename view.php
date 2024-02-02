@@ -41,10 +41,13 @@ use mod_surveypro\submissions_search;
 use mod_surveypro\local\form\usersearch;
 
 require_once(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__).'/lib.php');
+
+$defaultsection = surveypro_get_defaults_section_per_area('surveypro');
 
 $id = optional_param('id', 0, PARAM_INT);                      // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);                        // Surveypro instance id.
-$section = optional_param('section', 'cover', PARAM_ALPHAEXT); // The section of code to execute.
+$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
@@ -86,18 +89,19 @@ if ($section == 'cover') { // It was view_cover.php
 
     $coverman = new cover($cm, $context, $surveypro);
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'cover']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'cover'];
+    $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('surveypro_dashboard', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -151,18 +155,19 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     // Perform action before PAGE. (The content of the admin block depends on the output of these actions).
     $submissionlistman->actions_execution();
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'submissionslist']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'submissionslist'];
+    $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('modulename', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('surveypro_responses', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -181,16 +186,17 @@ if ($section == 'submissionslist') { // It was view_submissions.php
 
 // MARK submissionform.
 // This section serves the page to...
-// - add a new submission;
-// - edit already submitted submissions.
-// - view in readonly mode.
+// - add a new submission      [$mode = SURVEYPRO_NEWRESPONSEMODE];
+// - edit existing submissions [$mode = SURVEYPRO_EDITMODE];
+// - view in readonly mode     [$mode = SURVEYPRO_READONLYMODE];
+// - preview submission form   [$mode = SURVEYPRO_PREVIEWMODE];
 if ($section == 'submissionform') { // It was view_form.php
     // Get additional specific params.
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
     $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT);
-    $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
     $begin = optional_param('begin', 0, PARAM_INT);
+    $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
 
     // Calculations.
     mod_surveypro\utility_mform::register_form_elements();
@@ -292,10 +298,16 @@ if ($section == 'submissionform') { // It was view_form.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $paramurl = ['s' => $surveypro->id, 'mode' => $mode, 'section' => 'submissionform'];
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'submissionform', 'mode' => $mode];
     if (!empty($submissionid)) {
         $paramurl['submissionid'] = $submissionid;
+    }
+    if (!empty($mode)) {
+        $paramurl['mode'] = $mode;
+    }
+    if (!empty($begin)) {
+        $paramurl['begin'] = $begin;
     }
     $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     $PAGE->set_url($url);
@@ -303,9 +315,30 @@ if ($section == 'submissionform') { // It was view_form.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    switch ($mode) {
+        case SURVEYPRO_NEWRESPONSEMODE:
+            $PAGE->navbar->add(get_string('surveypro_insert', 'mod_surveypro'));
+            break;
+        case SURVEYPRO_EDITMODE:
+            $PAGE->navbar->add(get_string('surveypro_edit', 'mod_surveypro'));
+            break;
+        case SURVEYPRO_READONLYMODE:
+            $PAGE->navbar->add(get_string('surveypro_readonly', 'mod_surveypro'));
+            break;
+        case SURVEYPRO_PREVIEWMODE:
+            $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
+            break;
+        case SURVEYPRO_NOMODE:
+            // It should never be verified.
+            break;
+        default:
+            $message = 'Unexpected $mode = '.$mode;
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    }
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -376,16 +409,19 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $surveypro->id, 'section' => 'searchsubmissions']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'searchsubmissions'];
+    $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('surveypro_view_search', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

@@ -45,15 +45,6 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return false;
-    }
-
-    /**
      * Does the current report apply to the passed mastertemplates?
      *
      * @param string $mastertemplate
@@ -157,14 +148,19 @@ class report extends reportbase {
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
+        global $USER;
 
         [$middlesql, $whereparams] = $this->get_middle_sql();
 
         $subquery = 'SELECT s.userid, COUNT(s.userid) as userresponses
                 FROM {surveypro_submission} s
                     JOIN {user} u ON u.id = s.userid
-                    '.$middlesql.'
-                GROUP BY s.userid';
+                    '.$middlesql;
+        if ($this->onlypersonaldata) {
+            $subquery .= ' AND s.userid = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
+        $subquery .= ' GROUP BY s.userid';
 
         $sql = 'SELECT userresponses, count(userresponses) as usercount
                 FROM ('.$subquery.') as rpu

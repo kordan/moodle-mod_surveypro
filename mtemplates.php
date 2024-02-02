@@ -33,10 +33,13 @@ use mod_surveypro\utility_submission;
 use mod_surveypro\local\form\mtemplate_applyform;
 
 require_once(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__).'/lib.php');
+
+$defaultsection = surveypro_get_defaults_section_per_area('mtemplates');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$section = optional_param('section', 'save', PARAM_ALPHAEXT); // The section of code to execute.
+$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
@@ -85,16 +88,19 @@ if ($section == 'save') { // It was mtemplate_save.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $surveypro->id, 'section' => 'save']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'mtemplates', 'section' => 'save'];
+    $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('mtemplate_save', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -138,16 +144,19 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $surveypro->id, 'section' => 'apply']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'mtemplates', 'section' => 'apply'];
+    $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('mtemplate_apply', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
