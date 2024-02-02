@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['areas'] = 'Preguntas';
+$string['areaidxs'] = 'Preguntas';
 $string['fieldset_content_01'] = 'Relevancia';
 $string['fieldset_content_02'] = 'Pensamiento reflectivo';
 $string['fieldset_content_03'] = 'Interactividad';

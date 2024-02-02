@@ -156,6 +156,7 @@ class cover {
             $paramurl = [];
             $paramurl['s'] = $this->cm->instance;
             $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
+            $paramurl['area'] = 'surveypro';
             $paramurl['section'] = 'submissionform';
             $paramurl['begin'] = 1;
             $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -192,13 +193,14 @@ class cover {
 
         // Begin of: report section.
         $surveyproreportlist = get_plugin_list('surveyproreport');
-        $paramurl = ['s' => $this->cm->instance];
+        $paramurl = ['s' => $this->cm->instance, 'area' => 'reports', 'section' => 'apply'];
 
         foreach ($surveyproreportlist as $reportname => $pluginpath) {
             $classname = 'surveyproreport_'.$reportname.'\report';
             $reportman = new $classname($this->cm, $this->context, $this->surveypro);
+            $reportman->setup();
 
-            if ($reportman->is_report_allowed($reportname)) {
+            if ($reportman->is_report_allowed()) {
                 if ($childrenreports = $reportman->get_haschildrenreports()) {
                     $linklabel = get_string('pluginname', 'surveyproreport_'.$reportname);
                     $this->add_report_link($childrenreports, $reportname, $messages, $linklabel);
@@ -217,6 +219,7 @@ class cover {
         // End of: report section.
 
         // Begin of: user templates section.
+        $paramurl = ['s' => $this->cm->instance, 'area' => 'utemplates'];
         if ($canmanageusertemplates) {
             $paramurl['section'] = 'manage';
             $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);

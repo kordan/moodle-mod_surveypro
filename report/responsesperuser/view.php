@@ -50,10 +50,21 @@ $context = \context_module::instance($cm->id);
 
 $utilitypageman = new utility_page($cm, $surveypro);
 
-// Required capability.
-require_capability('mod/surveypro:accessreports', $context);
+// Set $PAGE params.
+$paramurl = ['s' => $surveypro->id, 'area' => 'reports', 'report' => 'responsesperuser', 'section' => 'view'];
+$url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+$PAGE->set_url($url);
+$PAGE->set_context($context);
+$PAGE->set_cm($cm);
+$PAGE->set_title($surveypro->name);
+$PAGE->set_heading($course->shortname);
+$PAGE->navbar->add(get_string('pluginname', 'surveyproreport_responsesperuser'));
+// Is it useful? $PAGE->add_body_class('mediumwidth');.
+
+$utilitypageman->manage_editbutton($edit);
 
 $reportman = new report($cm, $context, $surveypro);
+$reportman->setup();
 $reportman->set_groupid($groupid);
 $reportman->setup_outputtable();
 
@@ -83,16 +94,6 @@ if ($showjumper) {
 // End of: prepare params for the form.
 
 // Output starts here.
-$url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'responsesperuser']);
-$PAGE->set_url($url);
-$PAGE->set_context($context);
-$PAGE->set_cm($cm);
-$PAGE->set_title($surveypro->name);
-$PAGE->set_heading($course->shortname);
-// Is it useful? $PAGE->add_body_class('mediumwidth');.
-
-$utilitypageman->manage_editbutton($edit);
-
 echo $OUTPUT->header();
 
 $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

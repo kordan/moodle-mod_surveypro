@@ -672,7 +672,7 @@ class submissions_list {
             $table->initialbars(true);
         }
 
-        $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
+        $paramurl = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
         if ($this->searchquery) {
             $paramurl['searchquery'] = $this->searchquery;
         }
@@ -788,7 +788,7 @@ class submissions_list {
             }
 
             $tablerowcounter = 0;
-            $paramurlbase = ['s' => $this->cm->instance];
+            $paramurlbase = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
 
             foreach ($submissions as $submission) {
                 // Count each submission.
@@ -1018,6 +1018,7 @@ class submissions_list {
         if ($addnew) {
             $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
             $paramurl['begin'] = 1;
+            $paramurl['area'] = 'surveypro';
             $paramurl['section'] = 'submissionform';
 
             $addurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -1049,7 +1050,7 @@ class submissions_list {
             }
         } else {
             $class = ['class' => 'buttons'];
-            $addbutton = new \single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'post', 'primary');
+            $addbutton = new \single_button($addurl, get_string('addnewsubmission', 'mod_surveypro'), 'get', 'primary');
             $class = ['class' => 'buttons btn-secondary'];
             $deleteallbutton = new \single_button($deleteurl, get_string('deleteallsubmissions', 'mod_surveypro'));
 

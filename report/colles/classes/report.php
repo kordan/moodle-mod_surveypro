@@ -41,9 +41,9 @@ class report extends reportbase {
     public $template;
 
     /**
-     * @var int $id
+     * @var int $areaidx
      */
-    public $area = 0;
+    public $areaidx = 0;
 
     /**
      * @var string $templateuseritem
@@ -130,13 +130,13 @@ class report extends reportbase {
     }
 
     /**
-     * Set area.
+     * Set areaidx.
      *
-     * @param int $area
+     * @param int $areaidx
      * @return void
      */
-    public function set_area($area) {
-        $this->area = $area;
+    public function set_areaidx($areaidx) {
+        $this->areaidx = $areaidx;
     }
 
     /**
@@ -149,15 +149,6 @@ class report extends reportbase {
         $validutemplates = ['collesactual', 'collespreferred', 'collesactualpreferred'];
 
         return in_array($mastertemplate, $validutemplates);
-    }
-
-    /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return true;
     }
 
     /**
@@ -176,17 +167,17 @@ class report extends reportbase {
      */
     public function get_haschildrenreports() {
         $questionreports = [];
-        $questionreports['fieldset_content_01'] = ['type' => 'questions', 'area' => 0];
-        $questionreports['fieldset_content_02'] = ['type' => 'questions', 'area' => 1];
-        $questionreports['fieldset_content_03'] = ['type' => 'questions', 'area' => 2];
-        $questionreports['fieldset_content_04'] = ['type' => 'questions', 'area' => 3];
-        $questionreports['fieldset_content_05'] = ['type' => 'questions', 'area' => 4];
-        $questionreports['fieldset_content_06'] = ['type' => 'questions', 'area' => 5];
+        $questionreports['fieldset_content_01'] = ['type' => 'questions', 'areaidx' => 0];
+        $questionreports['fieldset_content_02'] = ['type' => 'questions', 'areaidx' => 1];
+        $questionreports['fieldset_content_03'] = ['type' => 'questions', 'areaidx' => 2];
+        $questionreports['fieldset_content_04'] = ['type' => 'questions', 'areaidx' => 3];
+        $questionreports['fieldset_content_05'] = ['type' => 'questions', 'areaidx' => 4];
+        $questionreports['fieldset_content_06'] = ['type' => 'questions', 'areaidx' => 5];
 
         $childrenreports = [];
         $childrenreports['summary'] = ['type' => 'summary'];
         $childrenreports['scales'] = ['type' => 'scales'];
-        $childrenreports['areas'] = $questionreports;
+        $childrenreports['areaidxs'] = $questionreports;
 
         // In order to uncomment the next code to get examples of nested navigation into admin > report block,
         // you have to add strings corresponding to keys to $this->surveypro->template lang file.
@@ -301,14 +292,10 @@ class report extends reportbase {
     public function output_summarydata() {
         $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
 
-        if ($canaccessreports) {
-            $paramnexturl = [];
-            $paramnexturl['s'] = $this->surveypro->id;
-            $paramnexturl['type'] = 'scales';
-            $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
-        } else {
-            $nexturl = null;
-        }
+        $paramnexturl = [];
+        $paramnexturl['s'] = $this->surveypro->id;
+        $paramnexturl['type'] = 'scales';
+        $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
         $paramurl = [];
         $paramurl['s'] = $this->cm->instance;
@@ -318,7 +305,7 @@ class report extends reportbase {
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
         // To debug a graph, open a new broser window and go to:
-        // http://localhost/head/mod/surveypro/report/colles/graph.php?id=xxx&type=yyy&groupid=zzz
+        // http://localhost:8888/m403/mod/surveypro/report/colles/graph.php?s=xxx&type=yyy&groupid=zzz
     }
 
     /**
@@ -329,8 +316,6 @@ class report extends reportbase {
     public function fetch_summarydata() {
         global $DB, $USER;
 
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $this->graphtitle = get_string('summary', 'surveyproreport_colles');
 
         // Begin of: names of areas of investigation.
@@ -368,6 +353,10 @@ class report extends reportbase {
 
                 $whereparams = array_merge($whereparams, $inparams);
                 $sql .= ' AND a.itemid '.$insql;
+                if ($this->onlypersonaldata) {
+                    $sql .= ' AND u.id = :userid';
+                    $whereparams['userid'] = $USER->id;
+                }
 
                 $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers / $aggregate->answerscount;
@@ -388,6 +377,10 @@ class report extends reportbase {
 
                 $whereparams = array_merge($whereparams, $inparams);
                 $sql .= ' AND a.itemid '.$insql;
+                if ($this->onlypersonaldata) {
+                    $sql .= ' AND u.id = :userid';
+                    $whereparams['userid'] = $USER->id;
+                }
 
                 $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
@@ -407,7 +400,7 @@ class report extends reportbase {
             }
         }
 
-        if (!$canaccessreports && $canaccessownreports) { // If the user hasn't general right but only canaccessownreports.
+        if ($this->onlypersonaldata) { // If the user hasn't general right but only canaccessownreports.
             foreach ($toevaluate as $k => $qidarea) {
                 foreach ($qidarea as $areaidlist) {
                     [$insql, $whereparams] = $DB->get_in_or_equal($areaidlist, SQL_PARAMS_NAMED, 'areaid');
@@ -456,11 +449,11 @@ class report extends reportbase {
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'scales';
 
-        for ($area = 0; $area < 6; $area++) {
-            $paramnexturl['area'] = $area;
+        for ($areaidx = 0; $areaidx < 6; $areaidx++) {
+            $paramnexturl['areaidx'] = $areaidx;
             $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
-            $paramurl['area'] = $area;
+            $paramurl['areaidx'] = $areaidx;
             $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
 
             $this->output_html($nexturl, $graphurl, 'scalesreport');
@@ -470,18 +463,18 @@ class report extends reportbase {
     /**
      * Fetch_scalesdata.
      *
-     * @param int $area
+     * @param int $areaidx
      * @return void
      */
-    public function fetch_scalesdata($area=0) {
-        global $DB;
+    public function fetch_scalesdata($areaidx=0) {
+        global $DB, $USER;
 
-        $this->graphtitle = get_string('fieldset_content_0'.($area + 1), 'surveyprotemplate_'.$this->template);
+        $this->graphtitle = get_string('fieldset_content_0'.($areaidx + 1), 'surveyprotemplate_'.$this->template);
 
         // Begin of: names of areas of investigation.
         // Short names of questions.
         for ($i = 1; $i < 5; $i++) {
-            $index = sprintf('%02d', 4 * $area + $i);
+            $index = sprintf('%02d', 4 * $areaidx + $i);
             $key = 'question'.$index.'short';
             $this->xlabels[] = get_string($key, 'surveyproreport_colles');
         }
@@ -499,9 +492,9 @@ class report extends reportbase {
 
         // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
-            $toevaluate = [$qid1area[$area], $qid2area[$area]];
+            $toevaluate = [$qid1area[$areaidx], $qid2area[$areaidx]];
         } else {
-            $toevaluate = [$qid1area[$area]];
+            $toevaluate = [$qid1area[$areaidx]];
         }
         foreach ($toevaluate as $k => $areaidlist) {
             foreach ($areaidlist as $itemid) {
@@ -511,8 +504,13 @@ class report extends reportbase {
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
                 [$middlesql, $whereparams] = $this->get_middle_sql();
-                $sql .= $middlesql.' AND a.itemid = :itemid';
+                $sql .= $middlesql;
+                $sql .= ' AND a.itemid = :itemid';
                 $whereparams['itemid'] = $itemid;
+                if ($this->onlypersonaldata) {
+                    $sql .= ' AND u.id = :userid';
+                    $whereparams['userid'] = $USER->id;
+                }
 
                 $aggregate = $DB->get_record_sql($sql, $whereparams);
                 $m = $aggregate->sumofanswers / $aggregate->answerscount;
@@ -531,6 +529,10 @@ class report extends reportbase {
                 [$middlesql, $whereparams] = $this->get_middle_sql();
                 $sql .= $middlesql.' AND a.itemid = :itemid';
                 $whereparams['itemid'] = $itemid;
+                if ($this->onlypersonaldata) {
+                    $sql .= ' AND u.id = :userid';
+                    $whereparams['userid'] = $USER->id;
+                }
 
                 $answers = $DB->get_recordset_sql($sql, $whereparams);
                 $bigsum = 0;
@@ -554,17 +556,21 @@ class report extends reportbase {
     /**
      * Output_questionsdata.
      *
-     * @param int $area
+     * @param int $areaidx
      * @return void
      */
-    public function output_questionsdata($area) {
+    public function output_questionsdata($areaidx) {
         $paramnexturl = [];
         $paramnexturl['s'] = $this->surveypro->id;
-        if ($area == 5) {
+        $paramnexturl['area'] = 'reports';
+        $paramnexturl['section'] = 'view';
+        $paramnexturl['report'] = 'colles';
+
+        if ($areaidx == 5) {
             $paramnexturl['type'] = 'summary';
         } else {
             $paramnexturl['type'] = 'questions';
-            $paramnexturl['area'] = 1 + $area % 5;
+            $paramnexturl['areaidx'] = 1 + $areaidx % 5;
         }
         $nexturl = new \moodle_url('/mod/surveypro/report/colles/view.php', $paramnexturl);
 
@@ -573,10 +579,10 @@ class report extends reportbase {
         $paramurl['groupid'] = $this->groupid;
         $paramurl['type'] = 'questions';
 
-        $areas = [$area];
+        $areas = [$areaidx];
 
-        foreach ($areas as $area) {
-            $paramurl['area'] = $area;
+        foreach ($areas as $areaidx) {
+            $paramurl['areaidx'] = $areaidx;
             for ($qid = 0; $qid < 4; $qid++) { // The question ID: 0..3.
                 $paramurl['qid'] = $qid;
                 $graphurl = new \moodle_url('/mod/surveypro/report/colles/graph.php', $paramurl);
@@ -588,19 +594,19 @@ class report extends reportbase {
     /**
      * Fetch questions data.
      *
-     * @param int $area
+     * @param int $areaidx
      * @param int $qid
      * @return void
      */
-    public function fetch_questionsdata($area, $qid) {
-        global $DB;
+    public function fetch_questionsdata($areaidx, $qid) {
+        global $DB, $USER;
 
         // Begin of: group question id per area of investigation.
         [$qid1area, $qid2area] = $this->get_qid_per_area();
         // End of: group question id per area of investigation.
 
         // Begin of: options (label of answers).
-        $itemid = $qid1area[$area][$qid]; // One of the itemid of the surveypro (the first).
+        $itemid = $qid1area[$areaidx][$qid]; // One of the itemid of the surveypro (the first).
         $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
         $this->xlabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
@@ -616,10 +622,11 @@ class report extends reportbase {
             $this->trend2[] = 0;
         }
 
+        // Begin of: calculate the mean and the standard deviation of answers.
         if ($this->template == 'collesactualpreferred') {
-            $toevaluate = [$qid1area[$area], $qid2area[$area]];
+            $toevaluate = [$qid1area[$areaidx], $qid2area[$areaidx]];
         } else {
-            $toevaluate = [$qid1area[$area]];
+            $toevaluate = [$qid1area[$areaidx]];
         }
         foreach ($toevaluate as $k => $areaidlist) {
             $sql = 'SELECT content, count(a.id) as absolute
@@ -628,8 +635,14 @@ class report extends reportbase {
                         JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
             [$middlesql, $whereparams] = $this->get_middle_sql();
-            $sql .= $middlesql.' AND a.itemid = :itemid GROUP BY content';
+            $sql .= $middlesql;
+            $sql .= ' AND a.itemid = :itemid';
             $whereparams['itemid'] = $areaidlist[$qid];
+            if ($this->onlypersonaldata) {
+                $sql .= ' AND u.id = :userid';
+                $whereparams['userid'] = $USER->id;
+            }
+            $sql .= ' GROUP BY content';
 
             $aggregates = $DB->get_records_sql($sql, $whereparams);
 
