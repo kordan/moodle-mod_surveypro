@@ -27,7 +27,7 @@ $string['privacy:metadata'] = 'The "COLLES (Actual)" template plugin does not st
 
 $string['summary'] = 'Summary';
 $string['scales'] = 'Scales';
-$string['areas'] = 'Questions';
+$string['areaidxs'] = 'Questions';
 
 $string['useritem'] = 'Style of the choice elements';
 $string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';

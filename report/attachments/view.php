@@ -64,25 +64,25 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK view.
-if ($section == 'view') { // It was view_cover.php
+if ($section == 'view') {
     $groupid = optional_param('groupid', 0, PARAM_INT);
 
-    // Required capability.
-    require_capability('mod/surveypro:accessreports', $context);
-
-    // Begin of: set $PAGE deatils.
-    $url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id, 'report' => 'attachments', 'section' => 'view']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'reports', 'report' => 'attachments', 'section' => 'view'];
+    $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     // End of: set $PAGE deatils.
 
     $utilitypageman->manage_editbutton($edit);
 
     $reportman = new report($cm, $context, $surveypro);
+    $reportman->setup();
     $reportman->set_groupid($groupid);
     $reportman->setup_outputtable();
 
@@ -139,6 +139,26 @@ if ($section == 'details') { // It was report/attachments/uploads.php
     $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
     $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
 
+    // Set $PAGE params.
+    $paramurl = [];
+    $paramurl['s'] = $surveypro->id;
+    $paramurl['area'] = 'reports';
+    $paramurl['report'] = 'attachments';
+    $paramurl['section'] = 'details';
+    $paramurl['container'] = $container;
+
+    $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'));
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // End of: set $PAGE deatils.
+
+    $utilitypageman->manage_editbutton($edit);
+
     if ($changeuser) {
         $returnurl = new \moodle_url('/mod/surveypro/report/attachments/view.php', ['s' => $cm->instance]);
         redirect($returnurl);
@@ -151,19 +171,6 @@ if ($section == 'details') { // It was report/attachments/uploads.php
     if (!$submissionid) {
         $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', ['userid' => $userid, 'surveyproid' => $surveypro->id]);
     }
-
-    // Begin of: set $PAGE deatils.
-    $paramurl = ['s' => $surveypro->id, 'report' => 'attachments', 'section' => 'details', 'container' => $container];
-    $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
-    $PAGE->set_url($url);
-    $PAGE->set_context($context);
-    $PAGE->set_cm($cm);
-    $PAGE->set_title($surveypro->name);
-    $PAGE->set_heading($course->shortname);
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
-    // End of: set $PAGE deatils.
-
-    $utilitypageman->manage_editbutton($edit);
 
     // Calculations.
     $uploadsformman = new form($cm, $context, $surveypro);

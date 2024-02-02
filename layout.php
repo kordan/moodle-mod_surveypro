@@ -39,10 +39,13 @@ use mod_surveypro\utility_mform;
 use mod_surveypro\local\form\userform;
 
 require_once(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__).'/lib.php');
 
-$id = optional_param('id', 0, PARAM_INT);                          // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                            // Surveypro instance id.
-$section = optional_param('section', 'itemslist', PARAM_ALPHAEXT); // The section of code to execute.
+$defaultsection = surveypro_get_defaults_section_per_area('layout');
+
+$id = optional_param('id', 0, PARAM_INT);                              // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);                                // Surveypro instance id.
+$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
@@ -135,8 +138,8 @@ if ($section == 'preview') { // It was layout_validation.php
     }
     // End of: manage form submission.
 
-    // Output starts here.
-    $paramurl = ['s' => $surveypro->id, 'section' => 'preview'];
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'layout', 'section' => 'preview'];
     if (!empty($submissionid)) {
         $paramurl['submissionid'] = $submissionid;
     }
@@ -146,11 +149,11 @@ if ($section == 'preview') { // It was layout_validation.php
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -286,18 +289,19 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     }
     // End of: Bulk action form.
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'itemslist']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'layout', 'section' => 'itemslist'];
+    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    // Q: $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url); // WHY it is already onboard?
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     // If you are changing the order of items, move them and don't think to edit blocks.
@@ -415,6 +419,26 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $item->set_editor();
     // End of: get item.
 
+    // Set $PAGE params.
+    $paramurl = [];
+    $paramurl['s'] = $surveypro->id;
+    $paramurl['area'] = 'layout';
+    $paramurl['section'] = 'itemsetup';
+    $paramurl['itemid'] = $itemid;
+    $paramurl['type'] = $layoutman->get_type();
+    $paramurl['plugin'] = $layoutman->get_plugin();
+    $paramurl['mode'] = $mode;
+
+    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+    $PAGE->set_url($url);
+    $PAGE->set_context($context);
+    $PAGE->set_cm($cm);
+    $PAGE->set_title($surveypro->name);
+    $PAGE->set_heading($course->shortname);
+    $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
+    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    $utilitypageman->manage_editbutton($edit);
+
     // Begin of: define $itemform return url.
     $paramurl = ['s' => $cm->instance, 'section' => 'itemsetup'];
     $formurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -451,25 +475,6 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     // End of: manage form submission.
 
     // Output starts here.
-    $paramurl = [];
-    $paramurl['s'] = $surveypro->id;
-    $paramurl['itemid'] = $itemid;
-    $paramurl['type'] = $layoutman->get_type();
-    $paramurl['plugin'] = $layoutman->get_plugin();
-    $paramurl['mode'] = $mode;
-    $paramurl['section'] = 'itemsetup';
-
-    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-    $PAGE->set_url($url);
-    $PAGE->set_context($context);
-    $PAGE->set_cm($cm);
-    $PAGE->set_title($surveypro->name);
-    $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
-    $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
-    $utilitypageman->manage_editbutton($edit);
-
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
@@ -496,7 +501,6 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     require_capability('mod/surveypro:additems', $context);
 
     // Calculations.
-
     $layoutman = new layout_itemsetup($cm, $context, $surveypro);
 
     // Property type is useless, do not set it.
@@ -538,18 +542,19 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     // Property itemcount is useless (it is set to its default), do not set it.
     // So, jump: $layoutman->set_itemcount($itemcount);
 
-    // Output starts here.
-    $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'branchingvalidation']);
+    // Set $PAGE params.
+    $paramurl = ['s' => $surveypro->id, 'area' => 'layout', 'section' => 'branchingvalidation'];
+    $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);
     $PAGE->set_cm($cm);
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
-    $PAGE->navbar->add(get_string('layout', 'mod_surveypro'), $url);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);
 
+    // Output starts here.
     echo $OUTPUT->header();
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);

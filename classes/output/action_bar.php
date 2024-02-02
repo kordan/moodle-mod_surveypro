@@ -84,9 +84,10 @@ class action_bar {
 
         $canview = has_capability('mod/surveypro:view', $this->context);
         $cansearch = has_capability('mod/surveypro:searchsubmissions', $this->context);
+
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
-        $paramurl = ['s' => $this->surveypro->id];
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'surveypro'];
 
         // View -> cover.
         if ($canview) {
@@ -167,7 +168,7 @@ class action_bar {
         $wheresql = 'surveyproid = :surveyproid AND parentid <> :parentid';
         $countparents = $DB->count_records_select('surveypro_item', $wheresql, $whereparams);
 
-        $paramurl = ['s' => $this->surveypro->id];
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'layout'];
 
         // Layout -> itemslist.
         if ($canmanageitems) {
@@ -243,18 +244,18 @@ class action_bar {
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
 
-        $paramurl = ['s' => $this->surveypro->id];
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'tools'];
 
         // Begin of definition for urlselect.
-        // Tools -> export.
-        if ($canexportresponses) {
+        // Tools -> import.
+        if ($canimportresponses) {
             $paramurl['section'] = 'import';
             $linktoimport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
             $menu[$linktoimport->out(false)] = get_string('tools_import', 'mod_surveypro');
         }
 
-        // Tools -> import.
-        if ($canimportresponses) {
+        // Tools -> export.
+        if ($canexportresponses) {
             $paramurl['section'] = 'export';
             $linktoexport = new moodle_url('/mod/surveypro/tools.php', $paramurl);
             $menu[$linktoexport->out(false)] = get_string('tools_export', 'mod_surveypro');
@@ -298,7 +299,7 @@ class action_bar {
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
-        $paramurl = ['s' => $this->surveypro->id];
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'utemplates'];
 
         // Begin of definition for urlselect.
         // Utemplates -> manage.
@@ -371,7 +372,7 @@ class action_bar {
 
         $riskyediting = ($this->surveypro->riskyeditdeadline > time());
 
-        $paramurl = ['s' => $this->surveypro->id];
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'mtemplates'];
 
         // Begin of definition for urlselect.
         // Mtemplates -> save.
@@ -424,28 +425,26 @@ class action_bar {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
                 $classname = 'surveyproreport_'.$reportname.'\report';
                 $reportman = new $classname($this->cm, $this->context, $this->surveypro);
-
-                $condition = $canaccessreports;
-                $condition = $condition || ($canaccessownreports && $reportman->get_hasstudentreport());
-                $condition = $condition && $reportman->report_applies_to($this->surveypro->template);
-
-                // GDPR condition.
-                $othercondition = !$reportman->get_displayusernames() || (empty($this->surveypro->anonymous) || $canalwaysseeowner);
-                $condition = $condition && $othercondition;
-                if ($condition) {
-                    $linktoreport = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $this->cm->instance]);
+                $reportman->setup();
+                if ($reportman->is_report_allowed()) {
+                    $paramurl = ['s' => $this->cm->instance, 'area' => 'reports', 'section' => 'view', 'report' => $reportname];
+                    $linktoreport = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
                     $menu[$linktoreport->out(false)] = get_string('pluginname', 'surveyproreport_'.$reportname);
                 }
             }
         }
 
+        $pageparams = $PAGE->url->params();
+
         // Select the menu item according to the currenturl.
-        $regex = '~report=([a-z]*)$~';
-        if (preg_match($regex, $this->currenturl->out(true), $match)) {
-            $activeurl = new \moodle_url('/mod/surveypro/report/'.$match[1].'/view.php', ['s' => $this->cm->instance]);
+        $paramurl = ['s' => $this->surveypro->id, 'area' => 'reports', 'section' => 'view'];
+        if (isset($pageparams['report'])) {
+            $paramurl['report'] = $pageparams['report'];
+            $activeurl = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
         } else {
-            $reportname = reset($surveyproreportlist);
-            $activeurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $this->cm->instance]);
+            $report = reset($surveyproreportlist);
+            $paramurl['report'] = $report;
+            $activeurl = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');

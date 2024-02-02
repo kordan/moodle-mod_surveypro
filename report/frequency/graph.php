@@ -40,10 +40,9 @@ $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 require_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
-// Required capability.
-require_capability('mod/surveypro:accessreports', $context);
-
 $reportman = new report($cm, $context, $surveypro);
+$reportman->setup();
+$reportman->prevent_direct_user_input();
 $reportman->set_groupid($groupid);
 
 list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);

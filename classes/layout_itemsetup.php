@@ -402,6 +402,7 @@ class layout_itemsetup {
                         if ($reserved) {
                             $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
                             $paramurl['sortindex'] = $sortindex;
+                            $paramurl['area'] = 'layout';
                             $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
@@ -412,6 +413,7 @@ class layout_itemsetup {
                         } else {
                             $paramurl['act'] = SURVEYPRO_MAKERESERVED;
                             $paramurl['sortindex'] = $sortindex;
+                            $paramurl['area'] = 'layout';
                             $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
@@ -487,6 +489,7 @@ class layout_itemsetup {
                 // SURVEYPRO_EDITITEM.
                 $paramurl = $paramurlbase;
                 $paramurl['mode'] = SURVEYPRO_EDITITEM;
+                $paramurl['area'] = 'layout';
                 $paramurl['section'] = 'itemsetup';
 
                 $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -517,6 +520,7 @@ class layout_itemsetup {
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_DELETEITEM;
                     $paramurl['sortindex'] = $sortindex;
+                    $paramurl['area'] = 'layout';
                     $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 
@@ -551,6 +555,7 @@ class layout_itemsetup {
                     if ($currentindent !== false) { // It may be false like for labels with fullwidth == 1.
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
+                        $paramurl['area'] = 'layout';
                         $paramurl['section'] = 'itemslist';
                         $paramurl['sesskey'] = sesskey();
 
@@ -604,6 +609,7 @@ class layout_itemsetup {
                 if (!empty($drawmoveherebox)) {
                     $paramurl = $paramurlmove;
                     $paramurl['lib'] = $sortindex;
+                    $paramurl['area'] = 'layout';
                     $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 

@@ -42,7 +42,7 @@ if (!empty($id)) {
 }
 
 $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
-$area = optional_param('area', 0, PARAM_INT);  // Report area.
+$areaidx = optional_param('areaidx', 0, PARAM_INT);  // Report areaidx.
 $qid = optional_param('qid', 0, PARAM_INT);  // Question ID.
 
 require_login($course, false, $cm);
@@ -53,12 +53,11 @@ if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
         require_capability('mod/surveypro:accessownreports', $context);
     }
-} else {
-    require_capability('mod/surveypro:accessreports', $context);
 }
 
 $reportman = new report($cm, $context, $surveypro);
-$reportman->set_area($area);
+$reportman->setup();
+$reportman->set_areaidx($areaidx);
 $reportman->set_groupid($groupid);
 
 $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
@@ -185,7 +184,7 @@ if ($type == 'summary') {
 }
 
 if ($type == 'scales') {
-    $reportman->fetch_scalesdata($area);
+    $reportman->fetch_scalesdata($areaidx);
 
     // Legend for $y_format_params.
     if ($reportman->template == 'collesactualpreferred') {
@@ -269,7 +268,7 @@ if ($type == 'scales') {
 }
 
 if ($type == 'questions') {
-    $reportman->fetch_questionsdata($area, $qid);
+    $reportman->fetch_questionsdata($areaidx, $qid);
 
     // Legend for $y_format_params.
     if ($reportman->template == 'collesactualpreferred') {
