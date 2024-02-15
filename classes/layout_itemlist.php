@@ -39,7 +39,7 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_itemsetup {
+class layout_itemlist {
 
     /**
      * @var object Course module object
@@ -127,14 +127,9 @@ class layout_itemsetup {
     protected $itemeditingfeedback;
 
     /**
-     * @var int Feedback of the performed action
+     * @var StdClass object with the feedback for the user
      */
     protected $actionfeedback;
-
-    /**
-     * @var object Form content as submitted by the user
-     */
-    public $formdata = null;
 
     /**
      * Class constructor.
@@ -147,8 +142,15 @@ class layout_itemsetup {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
+    }
 
-        $utilitylayoutman = new utility_layout($cm, $surveypro);
+    /**
+     * Setup.
+     *
+     * @return void
+     */
+    public function setup() {
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $itemcount = $utilitylayoutman->has_items(0, null, true, true, true);
         $this->set_itemcount($itemcount);
     }
@@ -402,7 +404,6 @@ class layout_itemsetup {
                         if ($reserved) {
                             $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
                             $paramurl['sortindex'] = $sortindex;
-                            $paramurl['area'] = 'layout';
                             $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
@@ -413,7 +414,6 @@ class layout_itemsetup {
                         } else {
                             $paramurl['act'] = SURVEYPRO_MAKERESERVED;
                             $paramurl['sortindex'] = $sortindex;
-                            $paramurl['area'] = 'layout';
                             $paramurl['section'] = 'itemslist';
                             $paramurl['sesskey'] = sesskey();
 
@@ -489,7 +489,6 @@ class layout_itemsetup {
                 // SURVEYPRO_EDITITEM.
                 $paramurl = $paramurlbase;
                 $paramurl['mode'] = SURVEYPRO_EDITITEM;
-                $paramurl['area'] = 'layout';
                 $paramurl['section'] = 'itemsetup';
 
                 $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -520,7 +519,6 @@ class layout_itemsetup {
                     $paramurl = $paramurlbase;
                     $paramurl['act'] = SURVEYPRO_DELETEITEM;
                     $paramurl['sortindex'] = $sortindex;
-                    $paramurl['area'] = 'layout';
                     $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 
@@ -555,7 +553,6 @@ class layout_itemsetup {
                     if ($currentindent !== false) { // It may be false like for labels with fullwidth == 1.
                         $paramurl = $paramurlbase;
                         $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
-                        $paramurl['area'] = 'layout';
                         $paramurl['section'] = 'itemslist';
                         $paramurl['sesskey'] = sesskey();
 
@@ -609,7 +606,6 @@ class layout_itemsetup {
                 if (!empty($drawmoveherebox)) {
                     $paramurl = $paramurlmove;
                     $paramurl['lib'] = $sortindex;
-                    $paramurl['area'] = 'layout';
                     $paramurl['section'] = 'itemslist';
                     $paramurl['sesskey'] = sesskey();
 
@@ -840,8 +836,58 @@ class layout_itemsetup {
     }
 
     /**
+     * Adds elements to an array starting from initial conditions.
+     *
+     * Called by:
+     *     item_show_execute()
+     *     item_show_feedback()
+     *     item_makereserved_execute()
+     *     item_makereserved_feedback()
+     *     item_makeavailable_execute()
+     *     item_makeavailable_feedback()
+     *
+     * $additionalcondition is ['hidden' => 1] OR ['reserved' => 1]
+     *
+     * @param array $additionalcondition
+     * @return array $nodelist
+     */
+    public function add_parent_node($additionalcondition) {
+        global $DB;
+
+        if (!is_array($additionalcondition)) {
+            $a = 'add_parent_node';
+            throw new \moodle_exception('arrayexpected', 'mod_surveypro', null, $a);
+        }
+
+        $nodelist = [$this->sortindex => $this->rootitemid];
+
+        // Get the first parentid.
+        $parentitem = new \stdClass();
+        $parentitem->parentid = $DB->get_field('surveypro_item', 'parentid', ['id' => $this->rootitemid]);
+
+        $where = ['id' => $parentitem->parentid] + $additionalcondition;
+
+        while ($parentitem = $DB->get_record('surveypro_item', $where, 'id, parentid, sortindex')) {
+            $nodelist[$parentitem->sortindex] = (int)$parentitem->id;
+            $where = ['id' => $parentitem->parentid] + $additionalcondition;
+        }
+
+        return $nodelist;
+    }
+
+    /**
      * Get the recursive list of children of a specific item.
-     * This list counts children and children of children for as much generation as it is.
+     * This method counts children and children of children for as much generation as it founds.
+     *
+     * Called by:
+     *     item_hide_execute()
+     *     item_hide_feedback()
+     *     item_makereserved_execute()
+     *     item_makereserved_feedback()
+     *     item_makeavailable_execute()
+     *     item_makeavailable_feedback()
+     *     item_delete_execute()
+     *     item_delete_feedback()
      *
      * @param int $baseitemid the id of the root item for the tree of children to get
      * @param array $where permanent condition needed to filter target items
@@ -885,181 +931,45 @@ class layout_itemsetup {
         return $childrenitems;
     }
 
-    /**
-     * Adds elements to an array starting from initial conditions.
-     *
-     * $additionalcondition is ['hidden' => 1] OR ['reserved' => 1]
-     *
-     * @param array $additionalcondition
-     * @return array $nodelist
-     */
-    public function add_parent_node($additionalcondition) {
-        global $DB;
-
-        if (!is_array($additionalcondition)) {
-            $a = 'add_parent_node';
-            throw new \moodle_exception('arrayexpected', 'mod_surveypro', null, $a);
-        }
-
-        $nodelist = [$this->sortindex => $this->rootitemid];
-
-        // Get the first parentid.
-        $parentitem = new \stdClass();
-        $parentitem->parentid = $DB->get_field('surveypro_item', 'parentid', ['id' => $this->rootitemid]);
-
-        $where = ['id' => $parentitem->parentid] + $additionalcondition;
-
-        while ($parentitem = $DB->get_record('surveypro_item', $where, 'id, parentid, sortindex')) {
-            $nodelist[$parentitem->sortindex] = (int)$parentitem->id;
-            $where = ['id' => $parentitem->parentid] + $additionalcondition;
-        }
-
-        return $nodelist;
-    }
-
-    /**
-     * Store to the database sortindex field, the relative position at the items according to last changes.
-     *
-     * @return void
-     */
-    public function reorder_items() {
-        global $DB;
-
-        // I start loading the id of the item I want to move starting from its known sortindex.
-        $where = ['surveyproid' => $this->surveypro->id, 'sortindex' => $this->itemtomove];
-        $itemid = $DB->get_field('surveypro_item', 'id', $where);
-
-        // Am I moving it backward or forward?
-        if ($this->itemtomove > $this->lastitembefore) {
-            // Moving the item backward.
-            $searchitem = $this->itemtomove - 1;
-            $replaceitem = $this->itemtomove;
-
-            $where = ['surveyproid' => $this->surveypro->id];
-            while ($searchitem > $this->lastitembefore) {
-                $where['sortindex'] = $searchitem;
-                $DB->set_field('surveypro_item', 'sortindex', $replaceitem, $where);
-                $replaceitem = $searchitem;
-                $searchitem--;
-            }
-
-            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
-        } else {
-            // Moving the item forward.
-            $searchitem = $this->itemtomove + 1;
-            $replaceitem = $this->itemtomove;
-
-            $where = ['surveyproid' => $this->surveypro->id];
-            while ($searchitem <= $this->lastitembefore) {
-                $where['sortindex'] = $searchitem;
-                $DB->set_field('surveypro_item', 'sortindex', $replaceitem, $where);
-                $replaceitem = $searchitem;
-                $searchitem++;
-            }
-
-            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
-        }
-
-        // You changed item order. Don't forget to reset the page of each items.
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_pages();
-    }
-
-    /**
-     * Display a feedback for the editing teacher once an item is edited.
-     *
-     * @return void
-     */
-    public function display_item_editing_feedback() {
-        global $OUTPUT;
-
-        if ($this->itemeditingfeedback == SURVEYPRO_NOFEEDBACK) {
-            return;
-        }
-
-        // Look at position 1.
-        $bit = $this->itemeditingfeedback & 2; // Bitwise logic.
-        if ($bit) { // Edit.
-            $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
-            if ($bit) {
-                $message = get_string('feedback_itemediting_ok', 'mod_surveypro');
-                $class = 'notifysuccess';
-            } else {
-                $message = get_string('feedback_itemediting_ko', 'mod_surveypro');
-                $class = 'notifyproblem';
-            }
-        } else {    // Add.
-            $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
-            if ($bit) {
-                $message = get_string('feedback_itemadd_ok', 'mod_surveypro');
-                $class = 'notifysuccess';
-            } else {
-                $message = get_string('feedback_itemadd_ko', 'mod_surveypro');
-                $class = 'notifyproblem';
-            }
-        }
-
-        for ($position = 2; $position <= 5; $position++) {
-            $bit = $this->itemeditingfeedback & pow(2, $position); // Bitwise logic.
-            switch ($position) {
-                case 2: // A chain of items is now shown.
-                    if ($bit) {
-                        $message .= '<br>'.get_string('feedback_itemediting_showchainitems', 'mod_surveypro');
-                    }
-                    break;
-                case 3: // A chain of items is now hided because one item was hided.
-                    if ($bit) {
-                        $message .= '<br>'.get_string('feedback_itemediting_hidechainitems', 'mod_surveypro');
-                    }
-                    break;
-                case 4: // A chain of items was moved in the user entry form.
-                    if ($bit) {
-                        $message .= '<br>'.get_string('feedback_itemediting_freechainitems', 'mod_surveypro');
-                    }
-                    break;
-                case 5: // A chain of items was removed from the user entry form.
-                    if ($bit) {
-                        $message .= '<br>'.get_string('feedback_itemediting_reservechainitems', 'mod_surveypro');
-                    }
-                    break;
-            }
-        }
-        echo $OUTPUT->notification($message, $class);
-    }
-
-    /**
-     * Display the identity card of the item going to be created/edited just before the beginning of the item form.
-     *
-     * @return void
-     */
-    public function item_identitycard() {
-        global $OUTPUT;
-
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
-        $friendlyname = get_string('userfriendlypluginname', 'surveypro'.$this->type.'_'.$this->plugin);
-
-        $iconparams = ['title' => $friendlyname, 'class' => 'icon'];
-        $message = $OUTPUT->pix_icon('icon', $friendlyname, 'surveypro'.$this->type.'_'.$this->plugin, $iconparams);
-        $message .= get_string($this->type, 'mod_surveypro').$labelsep.$friendlyname;
-
-        echo $OUTPUT->box($message);
-    }
-
-    /**
-     * Prevent direct user input.
-     *
-     * @return void
-     */
-    public function prevent_direct_user_input() {
-        if ($this->surveypro->template) {
-            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
-        }
-    }
-
     // MARK item action execution.
 
     /**
+     * Ask for confirmation before a bulk action.
+     *
+     * Called by:
+     *     show_all_feedback()
+     *
+     * @param string $message
+     * @param string $yeskey
+     * @return void
+     */
+    public function bulk_action_ask($message, $yeskey=null) {
+        global $OUTPUT;
+
+        $optionbase = ['s' => $this->cm->instance, 'act' => $this->action, 'section' => 'itemslist', 'sesskey' => sesskey()];
+
+        $optionsyes = $optionbase;
+        $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+        $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
+
+        $yeslabel = ($yeskey) ? get_string($yeskey, 'mod_surveypro') : get_string('continue');
+        $buttonyes = new \single_button($urlyes, $yeslabel);
+
+        $optionsno = $optionbase;
+        $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+        $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
+        $buttonno = new \single_button($urlno, get_string('no'));
+
+        echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+        echo $OUTPUT->footer();
+        die();
+    }
+
+    /**
      * Perform the actions required through icon click into items table.
+     *
+     * Called by:
+     *     layout.php
      *
      * @return void
      */
@@ -1121,6 +1031,9 @@ class layout_itemsetup {
     /**
      * Provide a feedback for the actions performed in actions_execution.
      *
+     * Called by:
+     *     layout.php
+     *
      * @return void
      */
     public function actions_feedback() {
@@ -1166,38 +1079,63 @@ class layout_itemsetup {
     }
 
     /**
-     * Ask for confirmation before a bulk action.
+     * Store to the database sortindex field, the relative position at the items according to last changes.
      *
-     * @param string $message
-     * @param string $yeskey
+     * Called by:
+     *     actions_execution()
+     *
      * @return void
      */
-    public function bulk_action_ask($message, $yeskey=null) {
-        global $OUTPUT;
+    public function reorder_items() {
+        global $DB;
 
-        $optionbase = ['s' => $this->cm->instance, 'act' => $this->action, 'section' => 'itemslist', 'sesskey' => sesskey()];
+        // I start loading the id of the item I want to move starting from its known sortindex.
+        $where = ['surveyproid' => $this->surveypro->id, 'sortindex' => $this->itemtomove];
+        $itemid = $DB->get_field('surveypro_item', 'id', $where);
 
-        $optionsyes = $optionbase;
-        $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-        $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
+        // Am I moving it backward or forward?
+        if ($this->itemtomove > $this->lastitembefore) {
+            // Moving the item backward.
+            $searchitem = $this->itemtomove - 1;
+            $replaceitem = $this->itemtomove;
 
-        $yeslabel = ($yeskey) ? get_string($yeskey, 'mod_surveypro') : get_string('continue');
-        $buttonyes = new \single_button($urlyes, $yeslabel);
+            $where = ['surveyproid' => $this->surveypro->id];
+            while ($searchitem > $this->lastitembefore) {
+                $where['sortindex'] = $searchitem;
+                $DB->set_field('surveypro_item', 'sortindex', $replaceitem, $where);
+                $replaceitem = $searchitem;
+                $searchitem--;
+            }
 
-        $optionsno = $optionbase;
-        $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-        $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
-        $buttonno = new \single_button($urlno, get_string('no'));
+            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
+        } else {
+            // Moving the item forward.
+            $searchitem = $this->itemtomove + 1;
+            $replaceitem = $this->itemtomove;
 
-        echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-        echo $OUTPUT->footer();
-        die();
+            $where = ['surveyproid' => $this->surveypro->id];
+            while ($searchitem <= $this->lastitembefore) {
+                $where['sortindex'] = $searchitem;
+                $DB->set_field('surveypro_item', 'sortindex', $replaceitem, $where);
+                $replaceitem = $searchitem;
+                $searchitem++;
+            }
+
+            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
+        }
+
+        // You changed item order. Don't forget to reset the page of each items.
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+        $utilitylayoutman->reset_pages();
     }
 
-    // MARK item hide.
+    // MARK ITEM - hide.
 
     /**
      * Hide an item and (maybe) all its descendants.
+     *
+     * Called by:
+     *     actions_execution()
      *
      * @return void
      */
@@ -1284,10 +1222,13 @@ class layout_itemsetup {
         }
     }
 
-    // MARK item show.
+    // MARK ITEM - show.
 
     /**
      * Show an item and (maybe) all its ascendants.
+     *
+     * Called by:
+     *     actions_execution()
      *
      * @return void
      */
@@ -1371,7 +1312,262 @@ class layout_itemsetup {
         }
     }
 
-    // MARK item delete.
+    // MARK ITEM - make reserved.
+
+    /**
+     * Set the item as reserved.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * the idea is this: in a chain of parent-child items,
+     *     -> reserved items can be parent of reserved items only
+     *     -> reserved items can be child of reserved items only
+     *
+     * @return void
+     */
+    public function item_makereserved_execute() {
+        global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
+
+        // Here I must select the whole tree down.
+        $itemstoreserve = $this->add_parent_node(['reserved' => 0]);
+
+        // I am interested to oldest parent only.
+        $baseitemid = end($itemstoreserve);
+
+        // Build itemstoreserve starting from the oldest parent.
+        $itemstoreserve = $this->get_children($baseitemid, ['reserved' => 0]);
+
+        $itemstoprocess = count($itemstoreserve);
+        if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
+            // Make items reserved.
+            foreach ($itemstoreserve as $itemtoreserve) {
+                $DB->set_field('surveypro_item', 'reserved', 1, ['id' => $itemtoreserve->id]);
+            }
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_pages();
+        }
+    }
+
+    /**
+     * Provide a feedback after item_makereserved_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * the idea is this: in a chain of parent-child items,
+     *     -> reserved items can be parent of reserved items only
+     *     -> reserved items can be child of reserved items only
+     *
+     * @return void
+     */
+    public function item_makereserved_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+            return;
+        }
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            // Here I must select the whole tree down.
+            $itemstoreserve = $this->add_parent_node(['reserved' => 0]);
+
+            // I am interested to oldest parent only.
+            $baseitemid = end($itemstoreserve);
+
+            // Build itemstoreserve starting from the oldest parent.
+            $itemstoreserve = $this->get_children($baseitemid, ['reserved' => 0]);
+
+            $itemstoprocess = count($itemstoreserve); // This is the list of ancestors.
+            if ($itemstoprocess > 1) { // Ask for confirmation.
+                // If the clicked element has not parents.
+                $a = new \stdClass();
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $a->itemcontent = $item->get_content();
+                foreach ($itemstoreserve as $itemtoreserve) {
+                    $dependencies[] = $itemtoreserve->sortindex;
+                }
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $dependencies);
+                if ($key !== false) { // Should always happen.
+                    unset($dependencies[$key]);
+                }
+                $a->dependencies = implode(', ', $dependencies);
+
+                if ($baseitemid != $this->rootitemid) {
+                    $firstparentitem = reset($itemstoreserve);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
+                    $a->parentcontent = $parentitem->get_content();
+                    $message = get_string('confirm_reservechainitems_newparent', 'mod_surveypro', $a);
+                } else {
+                    if (count($dependencies) == 1) {
+                        $message = get_string('confirm_reserve1item', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('confirm_reservechainitems', 'mod_surveypro', $a);
+                    }
+                }
+
+                $optionbase = [];
+                $optionbase['s'] = $this->cm->instance;
+                $optionbase['act'] = SURVEYPRO_MAKERESERVED;
+                $optionbase['section'] = 'itemslist';
+                $optionbase['sesskey'] = sesskey();
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $optionsyes['itemid'] = $this->rootitemid;
+                $optionsyes['plugin'] = $this->plugin;
+                $optionsyes['type'] = $this->type;
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
+                $buttonno = new \single_button($urlno, get_string('no'));
+
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            }
+        }
+    }
+
+    // MARK ITEM - make available.
+
+    /**
+     * Set the item as standard (free).
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * the idea is this: in a chain of parent-child items,
+     *     -> available items (not reserved) can be parent of available items only
+     *     -> available items (not reserved) can be child of available items only
+     *
+     * @return void
+     */
+    public function item_makeavailable_execute() {
+        global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
+
+        // Build itemstoavailable.
+        $itemstoavailable = $this->add_parent_node(['reserved' => 1]);
+
+        // I am interested to oldest parent only.
+        $baseitemid = end($itemstoavailable);
+
+        // Build itemstoavailable starting from the oldest parent.
+        $itemstoavailable = $this->get_children($baseitemid, ['reserved' => 1]);
+
+        $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
+        if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
+            // Make items available.
+            foreach ($itemstoavailable as $itemtoavailable) {
+                $DB->set_field('surveypro_item', 'reserved', 0, ['id' => $itemtoavailable->id]);
+            }
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+            $utilitylayoutman->reset_pages();
+        }
+    }
+
+    /**
+     * Provide a feedback after item_makeavailable_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * the idea is this: in a chain of parent-child items,
+     *     -> available items (not reserved) can be parent of available items only
+     *     -> available items (not reserved) can be child of available items only
+     *
+     * @return void
+     */
+    public function item_makeavailable_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+            return;
+        }
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            // Build itemstoavailable.
+            $itemstoavailable = $this->add_parent_node(['reserved' => 1]);
+
+            // I am interested to oldest parent only.
+            $baseitemid = end($itemstoavailable);
+
+            // Build itemstoavailable starting from the oldest parent.
+            $itemstoavailable = $this->get_children($baseitemid, ['reserved' => 1]);
+
+            $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
+            if ($itemstoprocess > 1) { // Ask for confirmation.
+                // If the clicked element has not parents.
+                $a = new \stdClass();
+                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $a->itemcontent = $item->get_content();
+                foreach ($itemstoavailable as $itemtoavailable) {
+                    $dependencies[] = $itemtoavailable->sortindex;
+                }
+                // Drop the original item because it doesn't go in the message.
+                $key = array_search($this->sortindex, $dependencies);
+                if ($key !== false) { // Should always happen.
+                    unset($dependencies[$key]);
+                }
+                $a->dependencies = implode(', ', $dependencies);
+
+                if ($baseitemid != $this->rootitemid) {
+                    $firstparentitem = reset($itemstoavailable);
+                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
+                    $a->parentcontent = $parentitem->get_content();
+                    $message = get_string('confirm_freechainitems_newparent', 'mod_surveypro', $a);
+                } else {
+                    if (count($dependencies) == 1) {
+                        $message = get_string('confirm_free1item', 'mod_surveypro', $a);
+                    } else {
+                        $message = get_string('confirm_freechainitems', 'mod_surveypro', $a);
+                    }
+                }
+
+                $optionbase = [];
+                $optionbase['s'] = $this->cm->instance;
+                $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
+                $optionbase['itemid'] = $this->rootitemid;
+                $optionbase['section'] = 'itemslist';
+                $optionbase['sesskey'] = sesskey();
+
+                $optionsyes = $optionbase;
+                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+                $optionsyes['itemid'] = $this->rootitemid;
+                $optionsyes['plugin'] = $this->plugin;
+                $optionsyes['type'] = $this->type;
+                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
+                $buttonyes = new \single_button($urlyes, get_string('continue'));
+
+                $optionsno = $optionbase;
+                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
+                $buttonno = new \single_button($urlno, get_string('no'));
+
+                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+                echo $OUTPUT->footer();
+                die();
+            }
+        }
+    }
+
+    // MARK ITEM - delete.
 
     /**
      * Delete an item and (maybe) all its descendants.
@@ -1498,10 +1694,352 @@ class layout_itemsetup {
         }
     }
 
+    // MARK BULK - all show.
+
+    /**
+     * Show all items.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function show_all_execute() {
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+
+            $whereparams = ['surveyproid' => $this->surveypro->id];
+            $utilitylayoutman->items_set_visibility($whereparams, 1);
+
+            $utilitylayoutman->items_reindex();
+
+            $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
+        }
+    }
+
+    /**
+     * Provide a feedback after show_all_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function show_all_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_showallitems', 'mod_surveypro');
+            $yeskey = 'yes_showallitems';
+            $this->bulk_action_ask($message, $yeskey);
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+        }
+
+        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
+            $message = get_string('feedback_showallitems', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
+        }
+    }
+
+    // MARK BULK - all hide.
+
+    /**
+     * Hide all items.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function hide_all_execute() {
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+            $whereparams = ['surveyproid' => $this->surveypro->id];
+            $utilitylayoutman->items_set_visibility($whereparams, 0);
+
+            $utilitylayoutman->reset_pages();
+
+            $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
+        }
+    }
+
+    /**
+     * Provide a feedback after hide_all_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function hide_all_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_hideallitems', 'mod_surveypro');
+            $yeskey = 'yes_hideallitems';
+            $this->bulk_action_ask($message, $yeskey);
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+        }
+
+        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
+            $message = get_string('feedback_hideallitems', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
+        }
+    }
+
+    // MARK BULK - all delete.
+
+    /**
+     * Delete all items.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function delete_all_execute() {
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+
+            $whereparams = ['surveyproid' => $this->surveypro->id];
+            $utilitylayoutman->delete_items($whereparams);
+
+            $paramurl = [];
+            $paramurl['s'] = $this->cm->instance;
+            $paramurl['section'] = 'itemslist';
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            redirect($returnurl);
+        }
+    }
+
+    /**
+     * Provide a feedback after delete_all_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function delete_all_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_deleteallitems', 'mod_surveypro');
+            $yeskey = 'yes_deleteallitems';
+            $this->bulk_action_ask($message, $yeskey);
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+        }
+
+        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
+            $message = get_string('feedback_deleteallitems', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
+        }
+    }
+
+    // MARK BULK - visible delete.
+
+    /**
+     * Delete visible items.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function delete_visible_execute() {
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+
+            $whereparams = ['surveyproid' => $this->surveypro->id];
+            $whereparams['hidden'] = 0;
+            $utilitylayoutman->delete_items($whereparams);
+
+            $utilitylayoutman->items_reindex();
+
+            $paramurl = [];
+            $paramurl['s'] = $this->cm->instance;
+            $paramurl['act'] = SURVEYPRO_DELETEVISIBLEITEMS;
+            $paramurl['section'] = 'itemslist';
+            $paramurl['sesskey'] = sesskey();
+            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            redirect($returnurl);
+        }
+    }
+
+    /**
+     * Provide a feedback after delete_visible_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function delete_visible_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_deletevisibleitems', 'mod_surveypro');
+            $yeskey = 'yes_deletevisibleitems';
+            $this->bulk_action_ask($message, $yeskey);
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+        }
+
+        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
+            $message = get_string('feedback_deletevisibleitems', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
+        }
+    }
+
+    // MARK BULK - hidden delete.
+
+    /**
+     * Delete hidden items.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function delete_hidden_execute() {
+        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+
+            $whereparams = ['surveyproid' => $this->surveypro->id];
+            $whereparams['hidden'] = 1;
+            $utilitylayoutman->delete_items($whereparams);
+
+            $utilitylayoutman->items_reindex();
+
+            $paramurl = [];
+            $paramurl['s'] = $this->cm->instance;
+            $paramurl['act'] = SURVEYPRO_DELETEHIDDENITEMS;
+            $paramurl['section'] = 'itemslist';
+            $paramurl['sesskey'] = sesskey();
+            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
+            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            redirect($returnurl);
+        }
+    }
+
+    /**
+     * Provide a feedback after delete_hidden_feedback.
+     *
+     * Called by:
+     *     actions_feedback
+     *
+     * @return void
+     */
+    public function delete_hidden_feedback() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
+            $yeskey = 'yes_deletehiddenitems';
+            $this->bulk_action_ask($message, $yeskey);
+        }
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            $message = get_string('usercanceled', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifymessage');
+        }
+
+        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
+            $message = get_string('feedback_deletehiddenitems', 'mod_surveypro');
+            echo $OUTPUT->notification($message, 'notifysuccess');
+        }
+    }
+
+    // MARK feedback section.
+
+    /**
+     * Display a feedback for the editing teacher once an item is edited.
+     *
+     * Called by:
+     *     layout.php
+     *
+     * @return void
+     */
+    public function display_item_editing_feedback() {
+        global $OUTPUT;
+
+        if ($this->itemeditingfeedback == SURVEYPRO_NOFEEDBACK) {
+            return;
+        }
+
+        // Look at position 1.
+        $bit = $this->itemeditingfeedback & 2; // Bitwise logic.
+        if ($bit) { // Edit.
+            $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
+            if ($bit) {
+                $message = get_string('feedback_itemediting_ok', 'mod_surveypro');
+                $class = 'notifysuccess';
+            } else {
+                $message = get_string('feedback_itemediting_ko', 'mod_surveypro');
+                $class = 'notifyproblem';
+            }
+        } else {    // Add.
+            $bit = $this->itemeditingfeedback & 1; // Bitwise logic.
+            if ($bit) {
+                $message = get_string('feedback_itemadd_ok', 'mod_surveypro');
+                $class = 'notifysuccess';
+            } else {
+                $message = get_string('feedback_itemadd_ko', 'mod_surveypro');
+                $class = 'notifyproblem';
+            }
+        }
+
+        for ($position = 2; $position <= 5; $position++) {
+            $bit = $this->itemeditingfeedback & pow(2, $position); // Bitwise logic.
+            switch ($position) {
+                case 2: // A chain of items is now shown.
+                    if ($bit) {
+                        $message .= '<br>'.get_string('feedback_itemediting_showchainitems', 'mod_surveypro');
+                    }
+                    break;
+                case 3: // A chain of items is now hided because one item was hided.
+                    if ($bit) {
+                        $message .= '<br>'.get_string('feedback_itemediting_hidechainitems', 'mod_surveypro');
+                    }
+                    break;
+                case 4: // A chain of items was moved in the user entry form.
+                    if ($bit) {
+                        $message .= '<br>'.get_string('feedback_itemediting_freechainitems', 'mod_surveypro');
+                    }
+                    break;
+                case 5: // A chain of items was removed from the user entry form.
+                    if ($bit) {
+                        $message .= '<br>'.get_string('feedback_itemediting_reservechainitems', 'mod_surveypro');
+                    }
+                    break;
+            }
+        }
+        echo $OUTPUT->notification($message, $class);
+    }
+
     // MARK drop multilang.
 
     /**
      * Drop multilang from all the item.
+     *
+     * Called by:
+     *     actions_execution()
      *
      * @return void
      */
@@ -1565,6 +2103,9 @@ class layout_itemsetup {
     /**
      * Provide a feedback after drop_multilang_execute.
      *
+     * Called by:
+     *     actions_feedback()
+     *
      * @return void
      */
     public function drop_multilang_feedback() {
@@ -1597,541 +2138,13 @@ class layout_itemsetup {
         }
     }
 
-    // MARK item make reserved.
-
-    /**
-     * Set the item as reserved.
-     *
-     * the idea is this: in a chain of parent-child items,
-     *     -> reserved items can be parent of reserved items only
-     *     -> reserved items can be child of reserved items only
-     *
-     * @return void
-     */
-    public function item_makereserved_execute() {
-        global $DB;
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            return;
-        }
-
-        // Here I must select the whole tree down.
-        $itemstoreserve = $this->add_parent_node(['reserved' => 0]);
-
-        // I am interested to oldest parent only.
-        $baseitemid = end($itemstoreserve);
-
-        // Build itemstoreserve starting from the oldest parent.
-        $itemstoreserve = $this->get_children($baseitemid, ['reserved' => 0]);
-
-        $itemstoprocess = count($itemstoreserve);
-        if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
-            // Make items reserved.
-            foreach ($itemstoreserve as $itemtoreserve) {
-                $DB->set_field('surveypro_item', 'reserved', 1, ['id' => $itemtoreserve->id]);
-            }
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_pages();
-        }
-    }
-
-    /**
-     * Provide a feedback after item_makereserved_execute.
-     *
-     * the idea is this: in a chain of parent-child items,
-     *     -> reserved items can be parent of reserved items only
-     *     -> reserved items can be child of reserved items only
-     *
-     * @return void
-     */
-    public function item_makereserved_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-            return;
-        }
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Here I must select the whole tree down.
-            $itemstoreserve = $this->add_parent_node(['reserved' => 0]);
-
-            // I am interested to oldest parent only.
-            $baseitemid = end($itemstoreserve);
-
-            // Build itemstoreserve starting from the oldest parent.
-            $itemstoreserve = $this->get_children($baseitemid, ['reserved' => 0]);
-
-            $itemstoprocess = count($itemstoreserve); // This is the list of ancestors.
-            if ($itemstoprocess > 1) { // Ask for confirmation.
-                // If the clicked element has not parents.
-                $a = new \stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
-                $a->itemcontent = $item->get_content();
-                foreach ($itemstoreserve as $itemtoreserve) {
-                    $dependencies[] = $itemtoreserve->sortindex;
-                }
-                // Drop the original item because it doesn't go in the message.
-                $key = array_search($this->sortindex, $dependencies);
-                if ($key !== false) { // Should always happen.
-                    unset($dependencies[$key]);
-                }
-                $a->dependencies = implode(', ', $dependencies);
-
-                if ($baseitemid != $this->rootitemid) {
-                    $firstparentitem = reset($itemstoreserve);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
-                    $a->parentcontent = $parentitem->get_content();
-                    $message = get_string('confirm_reservechainitems_newparent', 'mod_surveypro', $a);
-                } else {
-                    if (count($dependencies) == 1) {
-                        $message = get_string('confirm_reserve1item', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('confirm_reservechainitems', 'mod_surveypro', $a);
-                    }
-                }
-
-                $optionbase = [];
-                $optionbase['s'] = $this->cm->instance;
-                $optionbase['act'] = SURVEYPRO_MAKERESERVED;
-                $optionbase['section'] = 'itemslist';
-                $optionbase['sesskey'] = sesskey();
-
-                $optionsyes = $optionbase;
-                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->rootitemid;
-                $optionsyes['plugin'] = $this->plugin;
-                $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'));
-
-                $optionsno = $optionbase;
-                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'));
-
-                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-                echo $OUTPUT->footer();
-                die();
-            }
-        }
-    }
-
-    // MARK item make free.
-
-    /**
-     * Set the item as standard (free).
-     *
-     * the idea is this: in a chain of parent-child items,
-     *     -> available items (not reserved) can be parent of available items only
-     *     -> available items (not reserved) can be child of available items only
-     *
-     * @return void
-     */
-    public function item_makeavailable_execute() {
-        global $DB;
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            return;
-        }
-
-        // Build itemstoavailable.
-        $itemstoavailable = $this->add_parent_node(['reserved' => 1]);
-
-        // I am interested to oldest parent only.
-        $baseitemid = end($itemstoavailable);
-
-        // Build itemstoavailable starting from the oldest parent.
-        $itemstoavailable = $this->get_children($baseitemid, ['reserved' => 1]);
-
-        $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
-        if ( ($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1) ) {
-            // Make items available.
-            foreach ($itemstoavailable as $itemtoavailable) {
-                $DB->set_field('surveypro_item', 'reserved', 0, ['id' => $itemtoavailable->id]);
-            }
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $utilitylayoutman->reset_pages();
-        }
-    }
-
-    /**
-     * Provide a feedback after item_makeavailable_execute.
-     *
-     * the idea is this: in a chain of parent-child items,
-     *     -> available items (not reserved) can be parent of available items only
-     *     -> available items (not reserved) can be child of available items only
-     *
-     * @return void
-     */
-    public function item_makeavailable_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-            return;
-        }
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Build itemstoavailable.
-            $itemstoavailable = $this->add_parent_node(['reserved' => 1]);
-
-            // I am interested to oldest parent only.
-            $baseitemid = end($itemstoavailable);
-
-            // Build itemstoavailable starting from the oldest parent.
-            $itemstoavailable = $this->get_children($baseitemid, ['reserved' => 1]);
-
-            $itemstoprocess = count($itemstoavailable); // This is the list of ancestors.
-            if ($itemstoprocess > 1) { // Ask for confirmation.
-                // If the clicked element has not parents.
-                $a = new \stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
-                $a->itemcontent = $item->get_content();
-                foreach ($itemstoavailable as $itemtoavailable) {
-                    $dependencies[] = $itemtoavailable->sortindex;
-                }
-                // Drop the original item because it doesn't go in the message.
-                $key = array_search($this->sortindex, $dependencies);
-                if ($key !== false) { // Should always happen.
-                    unset($dependencies[$key]);
-                }
-                $a->dependencies = implode(', ', $dependencies);
-
-                if ($baseitemid != $this->rootitemid) {
-                    $firstparentitem = reset($itemstoavailable);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
-                    $a->parentcontent = $parentitem->get_content();
-                    $message = get_string('confirm_freechainitems_newparent', 'mod_surveypro', $a);
-                } else {
-                    if (count($dependencies) == 1) {
-                        $message = get_string('confirm_free1item', 'mod_surveypro', $a);
-                    } else {
-                        $message = get_string('confirm_freechainitems', 'mod_surveypro', $a);
-                    }
-                }
-
-                $optionbase = [];
-                $optionbase['s'] = $this->cm->instance;
-                $optionbase['act'] = SURVEYPRO_MAKEAVAILABLE;
-                $optionbase['itemid'] = $this->rootitemid;
-                $optionbase['section'] = 'itemslist';
-                $optionbase['sesskey'] = sesskey();
-
-                $optionsyes = $optionbase;
-                $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-                $optionsyes['itemid'] = $this->rootitemid;
-                $optionsyes['plugin'] = $this->plugin;
-                $optionsyes['type'] = $this->type;
-                $urlyes = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsyes);
-                $buttonyes = new \single_button($urlyes, get_string('continue'));
-
-                $optionsno = $optionbase;
-                $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-                $urlno = new \moodle_url('/mod/surveypro/layout.php#sortindex_'.$this->sortindex, $optionsno);
-                $buttonno = new \single_button($urlno, get_string('no'));
-
-                echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-                echo $OUTPUT->footer();
-                die();
-            }
-        }
-    }
-
-    // MARK all hide.
-
-    /**
-     * Hide all items.
-     *
-     * @return void
-     */
-    public function hide_all_execute() {
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-            $whereparams = ['surveyproid' => $this->surveypro->id];
-            $utilitylayoutman->items_set_visibility($whereparams, 0);
-
-            $utilitylayoutman->reset_pages();
-
-            $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
-        }
-    }
-
-    /**
-     * Provide a feedback after hide_all_execute.
-     *
-     * @return void
-     */
-    public function hide_all_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_hideallitems', 'mod_surveypro');
-            $yeskey = 'yes_hideallitems';
-            $this->bulk_action_ask($message, $yeskey);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_hideallitems', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
-    }
-
-    // MARK all show.
-
-    /**
-     * Show all items.
-     *
-     * @return void
-     */
-    public function show_all_execute() {
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-
-            $whereparams = ['surveyproid' => $this->surveypro->id];
-            $utilitylayoutman->items_set_visibility($whereparams, 1);
-
-            $utilitylayoutman->items_reindex();
-
-            $this->set_confirm(SURVEYPRO_ACTION_EXECUTED);
-        }
-    }
-
-    /**
-     * Provide a feedback after show_all_execute.
-     *
-     * @return void
-     */
-    public function show_all_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_showallitems', 'mod_surveypro');
-            $yeskey = 'yes_showallitems';
-            $this->bulk_action_ask($message, $yeskey);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_showallitems', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
-    }
-
-    // MARK all delete.
-
-    /**
-     * Delete all items.
-     *
-     * @return void
-     */
-    public function delete_all_execute() {
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-
-            $whereparams = ['surveyproid' => $this->surveypro->id];
-            $utilitylayoutman->delete_items($whereparams);
-
-            $paramurl = [];
-            $paramurl['s'] = $this->cm->instance;
-            $paramurl['section'] = 'itemslist';
-            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-
-    /**
-     * Provide a feedback after delete_all_execute.
-     *
-     * @return void
-     */
-    public function delete_all_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deleteallitems', 'mod_surveypro');
-            $yeskey = 'yes_deleteallitems';
-            $this->bulk_action_ask($message, $yeskey);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_deleteallitems', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
-    }
-
-    // MARK visible delete.
-
-    /**
-     * Delete visible items.
-     *
-     * @return void
-     */
-    public function delete_visible_execute() {
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-
-            $whereparams = ['surveyproid' => $this->surveypro->id];
-            $whereparams['hidden'] = 0;
-            $utilitylayoutman->delete_items($whereparams);
-
-            $utilitylayoutman->items_reindex();
-
-            $paramurl = [];
-            $paramurl['s'] = $this->cm->instance;
-            $paramurl['act'] = SURVEYPRO_DELETEVISIBLEITEMS;
-            $paramurl['section'] = 'itemslist';
-            $paramurl['sesskey'] = sesskey();
-            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-
-    /**
-     * Provide a feedback after delete_visible_execute.
-     *
-     * @return void
-     */
-    public function delete_visible_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deletevisibleitems', 'mod_surveypro');
-            $yeskey = 'yes_deletevisibleitems';
-            $this->bulk_action_ask($message, $yeskey);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_deletevisibleitems', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
-    }
-
-    // MARK hidden delete.
-
-    /**
-     * Delete hidden items.
-     *
-     * @return void
-     */
-    public function delete_hidden_execute() {
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-
-            $whereparams = ['surveyproid' => $this->surveypro->id];
-            $whereparams['hidden'] = 1;
-            $utilitylayoutman->delete_items($whereparams);
-
-            $utilitylayoutman->items_reindex();
-
-            $paramurl = [];
-            $paramurl['s'] = $this->cm->instance;
-            $paramurl['act'] = SURVEYPRO_DELETEHIDDENITEMS;
-            $paramurl['section'] = 'itemslist';
-            $paramurl['sesskey'] = sesskey();
-            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-
-    /**
-     * Provide a feedback after delete_hidden_feedback.
-     *
-     * @return void
-     */
-    public function delete_hidden_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            $message = get_string('confirm_deletehiddenitems', 'mod_surveypro');
-            $yeskey = 'yes_deletehiddenitems';
-            $this->bulk_action_ask($message, $yeskey);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $message = get_string('usercanceled', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifymessage');
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_deletehiddenitems', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
-    }
-
-    // MARK get.
-
-    /**
-     * Get item id.
-     *
-     * @return void
-     */
-    public function get_itemid() {
-        return $this->rootitemid;
-    }
-
-    /**
-     * Get type.
-     *
-     * @return void
-     */
-    public function get_type() {
-        return $this->type;
-    }
-
-    /**
-     * Get plugin.
-     *
-     * @return void
-     */
-    public function get_plugin() {
-        return $this->plugin;
-    }
-
     // MARK set.
 
     /**
-     * Set typeplugin.
-     *
-     * @param string $typeplugin
-     * @return void
-     */
-    public function set_typeplugin($typeplugin) {
-        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
-            // Execution comes from /form/items/selectitemform.php.
-            $this->type = $match[1]; // Field or format.
-            $this->plugin = $match[2]; // Boolean or char ... or fieldset ...
-        } else {
-            $message = 'Malformed typeplugin parameter passed to set_typeplugin';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-    }
-
-    /**
      * Set type.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param string $type
      * @return void
@@ -2143,6 +2156,9 @@ class layout_itemsetup {
     /**
      * Set plugin.
      *
+     * Called by:
+     *     layout.php
+     *
      * @param string $plugin
      * @return void
      */
@@ -2152,6 +2168,9 @@ class layout_itemsetup {
 
     /**
      * Set itemid.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $itemid
      * @return void
@@ -2163,6 +2182,9 @@ class layout_itemsetup {
     /**
      * Set sortindex.
      *
+     * Called by:
+     *     layout.php
+     *
      * @param int $sortindex
      * @return void
      */
@@ -2172,6 +2194,9 @@ class layout_itemsetup {
 
     /**
      * Set action.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $action
      * @return void
@@ -2183,6 +2208,9 @@ class layout_itemsetup {
     /**
      * Set mode.
      *
+     * Called by:
+     *     layout.php
+     *
      * @param int $mode
      * @return void
      */
@@ -2191,7 +2219,23 @@ class layout_itemsetup {
     }
 
     /**
+     * Set itemtomove.
+     *
+     * Called by:
+     *     layout.php
+     *
+     * @param int $itemtomove
+     * @return void
+     */
+    public function set_itemtomove($itemtomove) {
+        $this->itemtomove = $itemtomove;
+    }
+
+    /**
      * Set last item before.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $lastitembefore
      * @return void
@@ -2201,17 +2245,10 @@ class layout_itemsetup {
     }
 
     /**
-     * Set confirm.
-     *
-     * @param int $confirm
-     * @return void
-     */
-    public function set_confirm($confirm) {
-        $this->confirm = $confirm;
-    }
-
-    /**
      * Set nextindent.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $nextindent
      * @return void
@@ -2223,6 +2260,9 @@ class layout_itemsetup {
     /**
      * Set parentid.
      *
+     * Called by:
+     *     layout.php
+     *
      * @param int $parentid
      * @return void
      */
@@ -2231,7 +2271,23 @@ class layout_itemsetup {
     }
 
     /**
+     * Set confirm.
+     *
+     * Called by:
+     *     layout.php
+     *
+     * @param int $confirm
+     * @return void
+     */
+    public function set_confirm($confirm) {
+        $this->confirm = $confirm;
+    }
+
+    /**
      * Set item editing feedback.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $itemeditingfeedback
      * @return void
@@ -2241,17 +2297,10 @@ class layout_itemsetup {
     }
 
     /**
-     * Set itemtomove.
-     *
-     * @param int $itemtomove
-     * @return void
-     */
-    public function set_itemtomove($itemtomove) {
-        $this->itemtomove = $itemtomove;
-    }
-
-    /**
      * Set hassubmissions.
+     *
+     * Called by:
+     *     layout.php
      *
      * @param int $hassubmissions
      * @return void
@@ -2262,6 +2311,9 @@ class layout_itemsetup {
 
     /**
      * Set itemcount.
+     *
+     * Called by:
+     *     setup()
      *
      * @param int $itemcount
      * @return void

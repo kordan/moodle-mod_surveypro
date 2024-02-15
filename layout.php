@@ -24,6 +24,7 @@
 
 use mod_surveypro\utility_page;
 use mod_surveypro\layout_itemsetup;
+use mod_surveypro\layout_itemlist;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
 use mod_surveypro\usertemplate;
@@ -204,21 +205,22 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     $hassubmissions = $utilitylayoutman->has_submissions();
 
     // Define the manager.
-    $layoutman = new layout_itemsetup($cm, $context, $surveypro);
-    $layoutman->set_type($type);
-    $layoutman->set_plugin($plugin);
-    $layoutman->set_itemid($itemid);
-    $layoutman->set_sortindex($sortindex);
-    $layoutman->set_action($action);
-    $layoutman->set_mode($mode);
-    $layoutman->set_itemtomove($itemtomove);
-    $layoutman->set_lastitembefore($lastitembefore);
-    $layoutman->set_confirm($confirm);
-    $layoutman->set_nextindent($nextindent);
-    $layoutman->set_parentid($parentid);
-    $layoutman->set_itemeditingfeedback($itemeditingfeedback);
-    $layoutman->set_hassubmissions($hassubmissions);
-    $layoutman->actions_execution();
+    $itemlistman = new layout_itemlist($cm, $context, $surveypro);
+    $itemlistman->setup();
+    $itemlistman->set_type($type);
+    $itemlistman->set_plugin($plugin);
+    $itemlistman->set_itemid($itemid);
+    $itemlistman->set_sortindex($sortindex);
+    $itemlistman->set_action($action);
+    $itemlistman->set_mode($mode);
+    $itemlistman->set_itemtomove($itemtomove);
+    $itemlistman->set_lastitembefore($lastitembefore);
+    $itemlistman->set_confirm($confirm);
+    $itemlistman->set_nextindent($nextindent);
+    $itemlistman->set_parentid($parentid);
+    $itemlistman->set_itemeditingfeedback($itemeditingfeedback);
+    $itemlistman->set_hassubmissions($hassubmissions);
+    $itemlistman->actions_execution();
 
     // You must count items AFTER actions_execution() otherwise the count may be wrong (when $action == SURVEYPRO_DELETEITEM).
     $itemcount = $utilitylayoutman->has_items(0, 'field', true, true, true);
@@ -284,7 +286,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
 
         // Manage bulkaction form.
         if ($formdata = $bulkactionform->get_data()) {
-            $layoutman->set_action($formdata->bulkaction);
+            $itemlistman->set_action($formdata->bulkaction);
         }
     }
     // End of: Bulk action form.
@@ -319,8 +321,8 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
 
-    $layoutman->actions_feedback();
-    $layoutman->display_item_editing_feedback();
+    $itemlistman->actions_feedback();
+    $itemlistman->display_item_editing_feedback();
 
     // Display welcome message.
     if (!$itemcount) {
@@ -349,7 +351,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         $bulkactionform->display();
     }
 
-    $layoutman->display_items_table();
+    $itemlistman->display_items_table();
 }
 
 // MARK itemsetup.
@@ -373,48 +375,48 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $hassubmissions = $utilitylayoutman->has_submissions();
 
-    $layoutman = new layout_itemsetup($cm, $context, $surveypro);
+    $itemsetupman = new layout_itemsetup($cm, $context, $surveypro);
     if (!empty($typeplugin)) {
-        $layoutman->set_typeplugin($typeplugin);
+        $itemsetupman->set_typeplugin($typeplugin);
     } else {
-        $layoutman->set_type($type);
-        $layoutman->set_plugin($plugin);
+        $itemsetupman->set_type($type);
+        $itemsetupman->set_plugin($plugin);
     }
-    $layoutman->set_itemid($itemid);
-    $layoutman->set_action($action);
-    $layoutman->set_mode($mode);
-    $layoutman->set_hassubmissions($hassubmissions);
+    $itemsetupman->set_itemid($itemid);
+    $itemsetupman->set_action($action);
+    $itemsetupman->set_mode($mode);
+    $itemsetupman->set_hassubmissions($hassubmissions);
     // Property itemtomove is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemtomove(0);
+    // So, jump: $itemsetupman->set_itemtomove(0);
 
     // Property lastitembefore is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_lastitembefore(0);
+    // So, jump: $itemsetupman->set_lastitembefore(0);
 
     // Property confirm is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
+    // So, jump: $itemsetupman->set_confirm(SURVEYPRO_UNCONFIRMED);
 
     // Property nextindent is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_nextindent(0);
+    // So, jump: $itemsetupman->set_nextindent(0);
 
     // Property parentid is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_parentid(0);
+    // So, jump: $itemsetupman->set_parentid(0);
 
     // Property itemeditingfeedback is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
+    // So, jump: $itemsetupman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
 
     // Property hassubmissions is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_hassubmissions($hassubmissions);
+    // So, jump: $itemsetupman->set_hassubmissions($hassubmissions);
 
     // Property itemcount is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemcount($itemcount);
+    // So, jump: $itemsetupman->set_itemcount($itemcount);
 
-    $layoutman->prevent_direct_user_input();
+    $itemsetupman->prevent_direct_user_input();
 
-    require_once($CFG->dirroot.'/mod/surveypro/'.$layoutman->get_type().'/'.$layoutman->get_plugin().'/classes/itemsetupform.php');
+    require_once($CFG->dirroot.'/mod/surveypro/'.$itemsetupman->get_type().'/'.$itemsetupman->get_plugin().'/classes/itemsetupform.php');
 
     // Begin of: get item.
-    $itemtype = $layoutman->get_type();
-    $itemplugin = $layoutman->get_plugin();
+    $itemtype = $itemsetupman->get_type();
+    $itemplugin = $itemsetupman->get_plugin();
     $item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
     $item->set_editor();
     // End of: get item.
@@ -485,7 +487,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
         $message = $utilitysubmissionman->get_submissions_warning();
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
-    $layoutman->item_identitycard();
+    $itemsetupman->item_identitycard();
 
     $data = $item->get_itemform_preset();
     $itemform->set_data($data);
