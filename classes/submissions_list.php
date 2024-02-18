@@ -400,7 +400,8 @@ class submissions_list {
 
         $whereparams = [];
 
-        $sql = 'SELECT s.status, COUNT(s.id) submissions, COUNT(DISTINCT(u.id)) users';
+        $sqlselectstart = 's.status, COUNT(DISTINCT(s.id)) submissions, ';
+        $sql = 'SELECT '.$sqlselectstart.'COUNT(DISTINCT(u.id)) users';
         $sql .= ' FROM {surveypro_submission} s
                   JOIN {user} u ON u.id = s.userid';
 
@@ -462,7 +463,8 @@ class submissions_list {
             $whereparams = $whereparams + $wherefilterparams;
         }
 
-        $sql .= ' GROUP BY s.status';
+        $sqlgroupby = ' GROUP BY s.status';
+        $sql .= $sqlgroupby;
 
         if (!$canviewhiddenactivities) {
             $whereparams = array_merge($whereparams, $eparams);
@@ -487,8 +489,7 @@ class submissions_list {
             $counter['closedusers'] = 0;
         }
 
-        $sql = str_replace('s.status, COUNT(s.id) submissions, ', '', $sql);
-        $sql = str_replace(' GROUP BY s.status', '', $sql);
+        $sql = str_replace([$sqlselectstart, $sqlgroupby], '', $sql);
 
         $counters = $DB->get_record_sql($sql, $whereparams);
         $counter['allusers'] = (int) $counters->users;
