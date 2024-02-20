@@ -46,7 +46,7 @@ class utemplate_importform extends \moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $utemplateman = $this->_customdata->utemplateman;
+        $importman = $this->_customdata->importman;
         $attributes = $this->_customdata->filemanageroptions;
 
         // Templateimport: importfile.
@@ -62,10 +62,10 @@ class utemplate_importform extends \moodleform {
 
         // Templateimport: sharinglevel.
         $fieldname = 'sharinglevel';
-        $contexts = $utemplateman->get_sharingcontexts();
+        $contexts = $importman->get_sharingcontexts();
         $options = [];
         foreach ($contexts as $k => $context) {
-            $options[$k] = $utemplateman->contextlevel_to_scontextlabel($context->contextlevel);
+            $options[$k] = $importman->get_label_forcontextid($context->contextlevel);
         }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -87,7 +87,7 @@ class utemplate_importform extends \moodleform {
         // Useless: $mform = $this->_form;.
 
         // Get _customdata.
-        $utemplateman = $this->_customdata->utemplateman;
+        $importman = $this->_customdata->importman;
         // Useless: $attributes = $this->_customdata->filemanager_options;.
 
         $errors = parent::validation($data, $files);
@@ -108,8 +108,8 @@ class utemplate_importform extends \moodleform {
             $importedfiles[] = $xmlfilename;
 
             $xmlfileid = $file->get_id();
-            $xml = $utemplateman->get_utemplate_content($xmlfileid);
-            $errormessage = $utemplateman->validate_xml($xml);
+            $xml = $importman->get_utemplate_content($xmlfileid);
+            $errormessage = $importman->validate_xml($xml);
             if ($errormessage !== false) {
                 if (isset($errormessage->a)) {
                     $errors['importfile_filemanager'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
@@ -128,7 +128,7 @@ class utemplate_importform extends \moodleform {
         }
 
         // Get all template files in the specified context.
-        $contextfiles = $utemplateman->get_utemplates_per_contextlevel($data['sharinglevel']);
+        $contextfiles = $importman->get_utemplates_per_contextlevel($data['sharinglevel']);
 
         foreach ($contextfiles as $xmlfile) {
             $filename = $xmlfile->get_filename();

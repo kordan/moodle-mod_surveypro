@@ -46,7 +46,7 @@ class utemplate_createform extends \moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $utemplateman = $this->_customdata->utemplateman;
+        $saveman = $this->_customdata->saveman;
         $defaultname = $this->_customdata->defaultname;
 
         // Utemplatecreate: surveyproid.
@@ -74,10 +74,10 @@ class utemplate_createform extends \moodleform {
 
         // Utemplatecreate: sharinglevel.
         $fieldname = 'sharinglevel';
-        $contexts = $utemplateman->get_sharingcontexts();
+        $contexts = $saveman->get_sharingcontexts();
         $options = [];
         foreach ($contexts as $context) {
-            $options[$context->id] = $utemplateman->contextlevel_to_scontextlabel($context->contextlevel);
+            $options[$context->id] = $saveman->get_label_forcontextid($context->contextlevel);
         }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -118,7 +118,7 @@ class utemplate_createform extends \moodleform {
         // Useless: $mform = $this->_form;.
 
         // Get _customdata.
-        $utemplateman = $this->_customdata->utemplateman;
+        $saveman = $this->_customdata->saveman;
         // Useless: $defaultname = $this->_customdata->defaultname;.
 
         $errors = parent::validation($data, $files);
@@ -130,7 +130,7 @@ class utemplate_createform extends \moodleform {
         }
 
         // Get all template files.
-        $xmlfiles = $utemplateman->get_xmlfiles_list($data['sharinglevel']);
+        $xmlfiles = $saveman->get_xmlfiles_list($data['sharinglevel']);
 
         foreach ($xmlfiles as $contextid => $xmlfile) {
             foreach ($xmlfiles[$contextid] as $xmlfile) {

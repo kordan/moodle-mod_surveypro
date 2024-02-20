@@ -24,20 +24,14 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_page;
-
-// Needed only if $section == 'cover'.
-use mod_surveypro\cover;
-
-// Needed only if $section == 'submissionslist'.
-use mod_surveypro\submissions_list;
-
-// Needed only if $section == 'submissionform'.
 use mod_surveypro\utility_mform;
-use mod_surveypro\submissions_form;
-use mod_surveypro\local\form\userform;
 
-// Needed only if $section == 'searchsubmission'.
-use mod_surveypro\submissions_search;
+use mod_surveypro\view_cover;
+use mod_surveypro\view_submissionlist;
+use mod_surveypro\view_submissionform;
+use mod_surveypro\view_submissionsearch;
+
+use mod_surveypro\local\form\userform;
 use mod_surveypro\local\form\usersearch;
 
 require_once(dirname(__FILE__).'/../../config.php');
@@ -74,7 +68,7 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK cover.
-if ($section == 'cover') { // It was view_cover.php
+if ($section == 'cover') {
     // Get additional specific params.
 
     // Required capability.
@@ -87,7 +81,7 @@ if ($section == 'cover') { // It was view_cover.php
     $utilitylayoutman->noitem_redirect();
     $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
-    $coverman = new cover($cm, $context, $surveypro);
+    $coverman = new view_cover($cm, $context, $surveypro);
 
     // Set $PAGE params.
     $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'cover'];
@@ -122,7 +116,7 @@ if ($section == 'cover') { // It was view_cover.php
 // - delete a submission;
 // - delete all gathered submissions;
 // - print to PDF a submission.
-if ($section == 'submissionslist') { // It was view_submissions.php
+if ($section == 'submissionslist') {
     // Get additional specific params.
     $tifirst = optional_param('tifirst', '', PARAM_ALPHA); // First letter of the name.
     $tilast = optional_param('tilast', '', PARAM_ALPHA);   // First letter of the surname.
@@ -144,7 +138,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
     }
 
     // Calculations.
-    $submissionlistman = new submissions_list($cm, $context, $surveypro);
+    $submissionlistman = new view_submissionlist($cm, $context, $surveypro);
     $submissionlistman->setup($submissionid, $action, $mode, $confirm, $searchquery);
 
     if ($action == SURVEYPRO_RESPONSETOPDF) {
@@ -190,7 +184,7 @@ if ($section == 'submissionslist') { // It was view_submissions.php
 // - edit existing submissions [$mode = SURVEYPRO_EDITMODE];
 // - view in readonly mode     [$mode = SURVEYPRO_READONLYMODE];
 // - preview submission form   [$mode = SURVEYPRO_PREVIEWMODE];
-if ($section == 'submissionform') { // It was view_form.php
+if ($section == 'submissionform') {
     // Get additional specific params.
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
@@ -201,8 +195,8 @@ if ($section == 'submissionform') { // It was view_form.php
     // Calculations.
     mod_surveypro\utility_mform::register_form_elements();
 
-    $userformman = new submissions_form($cm, $context, $surveypro);
-    $userformman->setup($submissionid, $formpage, $mode);
+    $submissionformman = new view_submissionform($cm, $context, $surveypro);
+    $submissionformman->setup($submissionid, $formpage, $mode);
 
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $utilitylayoutman->add_custom_css();
@@ -218,19 +212,19 @@ if ($section == 'submissionform') { // It was view_form.php
     $formparams->surveypro = $surveypro;
     $formparams->submissionid = $submissionid;
     $formparams->mode = $mode;
-    $formparams->userformpagecount = $userformman->get_userformpagecount();
+    $formparams->userformpagecount = $submissionformman->get_userformpagecount();
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $formparams->userfirstpage = $userformman->get_userfirstpage(); // The user first page
-    $formparams->userlastpage = $userformman->get_userlastpage(); // The user last page
+    $formparams->userfirstpage = $submissionformman->get_userfirstpage(); // The user first page
+    $formparams->userlastpage = $submissionformman->get_userlastpage(); // The user last page
     $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
     // End of: prepare params for the form.
 
     if ($begin == 1) {
-        $userformman->next_not_empty_page(true, 0); // True means direction = right.
-        $nextpage = $userformman->get_nextpage(); // The page of the form to select subset of fields
-        $userformman->set_formpage($nextpage);
+        $submissionformman->next_not_empty_page(true, 0); // True means direction = right.
+        $nextpage = $submissionformman->get_nextpage(); // The page of the form to select subset of fields
+        $submissionformman->set_formpage($nextpage);
     }
-    $formparams->formpage = $userformman->get_formpage(); // The page of the form to select subset of fields
+    $formparams->formpage = $submissionformman->get_formpage(); // The page of the form to select subset of fields
     // End of: prepare params for the form.
 
     $editable = ($mode == SURVEYPRO_READONLYMODE) ? false : true;
@@ -243,42 +237,42 @@ if ($section == 'submissionform') { // It was view_form.php
         redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
     }
 
-    if ($userformman->formdata = $userform->get_data()) {
-        $userformman->save_user_data(); // SAVE SAVE SAVE SAVE.
+    if ($submissionformman->formdata = $userform->get_data()) {
+        $submissionformman->save_user_data(); // SAVE SAVE SAVE SAVE.
 
         // If "pause" button has been pressed, redirect.
-        $pausebutton = isset($userformman->formdata->pausebutton);
+        $pausebutton = isset($submissionformman->formdata->pausebutton);
         if ($pausebutton) {
             $localparamurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'submissionslist'];
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $localparamurl);
             redirect($redirecturl); // Go somewhere.
         }
 
-        $paramurl['submissionid'] = $userformman->get_submissionid();
+        $paramurl['submissionid'] = $submissionformman->get_submissionid();
         $paramurl['section'] = 'submissionform';
 
         // If "previous" button has been pressed, redirect.
-        $prevbutton = isset($userformman->formdata->prevbutton);
+        $prevbutton = isset($submissionformman->formdata->prevbutton);
         if ($prevbutton) {
-            $userformman->next_not_empty_page(false);
-            $paramurl['formpage'] = $userformman->get_nextpage();
-            $paramurl['overflowpage'] = $userformman->get_overflowpage();
+            $submissionformman->next_not_empty_page(false);
+            $paramurl['formpage'] = $submissionformman->get_nextpage();
+            $paramurl['overflowpage'] = $submissionformman->get_overflowpage();
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             redirect($redirecturl); // Redirect to the first non empty page.
         }
 
         // If "next" button has been pressed, redirect.
-        $nextbutton = isset($userformman->formdata->nextbutton);
+        $nextbutton = isset($submissionformman->formdata->nextbutton);
         if ($nextbutton) {
-            $userformman->next_not_empty_page(true);
-            $paramurl['formpage'] = $userformman->get_nextpage();
-            $paramurl['overflowpage'] = $userformman->get_overflowpage();
+            $submissionformman->next_not_empty_page(true);
+            $paramurl['formpage'] = $submissionformman->get_nextpage();
+            $paramurl['overflowpage'] = $submissionformman->get_overflowpage();
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             redirect($redirecturl); // Redirect to the first non empty page.
         }
 
         // Surveypro has been submitted. Notify people.
-        $userformman->notifypeople();
+        $submissionformman->notifypeople();
 
         // If none redirected you, reload THE RIGHT page WITHOUT $paramurl['mode'].
         // This is necessary otherwise if the user switches language using the corresponding menu
@@ -289,9 +283,9 @@ if ($section == 'submissionform') { // It was view_form.php
         // instead of remaining in the view submissions page.
         $paramurl = [];
         $paramurl['s'] = $surveypro->id;
-        // $paramurl['responsestatus'] = $userformman->get_responsestatus();
-        $paramurl['justsubmitted'] = 1 + $userformman->get_userdeservesthanks();
-        $paramurl['formview'] = $userformman->get_mode(); // In which way am I using this form?
+        // $paramurl['responsestatus'] = $submissionformman->get_responsestatus();
+        $paramurl['justsubmitted'] = 1 + $submissionformman->get_userdeservesthanks();
+        $paramurl['formview'] = $submissionformman->get_mode(); // In which way am I using this form?
         $paramurl['section'] = 'submissionslist';
         $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
         redirect($redirecturl);
@@ -344,28 +338,28 @@ if ($section == 'submissionform') { // It was view_form.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_view_action_bar();
 
-    $userformman->noitem_stopexecution();
-    $userformman->nomoresubmissions_stopexecution();
-    $userformman->warning_submission_copy();
-    $userformman->display_page_x_of_y();
+    $submissionformman->noitem_stopexecution();
+    $submissionformman->nomoresubmissions_stopexecution();
+    $submissionformman->warning_submission_copy();
+    $submissionformman->display_page_x_of_y();
 
     // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
     // If sumission already exists.
-    $prefill = $userformman->get_prefill_data();
-    $prefill['formpage'] = $userformman->get_formpage();
+    $prefill = $submissionformman->get_prefill_data();
+    $prefill['formpage'] = $submissionformman->get_formpage();
     // End of: calculate prefill for fields and prepare standard editors and filemanager.
 
     $userform->set_data($prefill);
     $userform->display();
 
-    // If surveypro is multipage and $userformman->tabpage == SURVEYPRO_READONLYMODE.
+    // If surveypro is multipage and $submissionformman->tabpage == SURVEYPRO_READONLYMODE.
     // I need to add navigation buttons manually
     // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
-    $userformman->add_readonly_browsing_buttons();
+    $submissionformman->add_readonly_browsing_buttons();
 }
 
 // MARK searchsubmissions.
-if ($section == 'searchsubmissions') { // It was view_search.php
+if ($section == 'searchsubmissions') {
     // Get additional specific params.
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
@@ -375,7 +369,7 @@ if ($section == 'searchsubmissions') { // It was view_search.php
     // Calculations.
     mod_surveypro\utility_mform::register_form_elements();
 
-    $submissionsearchman = new submissions_search($cm, $context, $surveypro);
+    $submissionsearchman = new view_submissionsearch($cm, $context, $surveypro);
 
     // Begin of: define $searchform return url.
     $paramurl = ['s' => $cm->instance, 'section' => 'searchsubmissions'];

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The searchmanager class
+ * The view_submissionsearch class
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
@@ -33,7 +33,7 @@ use mod_surveypro\utility_item;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissions_search {
+class view_submissionsearch {
 
     /**
      * @var object Course module object

@@ -619,22 +619,23 @@ class itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
-                $layoutman->set_type($this->type);
-                $layoutman->set_plugin($this->plugin);
-                $layoutman->set_itemid($itemid);
-                $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOMODE);
-                $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $itemsetupman = new layout_itemsetup($this->cm, $context, $this->surveypro);
+                $itemsetupman->setup();
+                $itemsetupman->set_type($this->type);
+                $itemsetupman->set_plugin($this->plugin);
+                $itemsetupman->set_itemid($itemid);
+                $itemsetupman->set_action($action);
+                $itemsetupman->set_view(SURVEYPRO_NOMODE);
+                $itemsetupman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
                 if ( ($oldhidden == 1) && ($newhidden == 0) ) {
-                    $layoutman->item_show_execute();
+                    $itemsetupman->item_show_execute();
                     // A chain of parent items was shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
                 }
                 if ( ($oldhidden == 0) && ($newhidden == 1) ) {
-                    $layoutman->item_hide_execute();
+                    $itemsetupman->item_hide_execute();
                     // Chain of children items was hided.
                     $this->itemeditingfeedback += 8; // 1*2^3.
                 }
@@ -645,23 +646,24 @@ class itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $layoutman = new layout_itemsetup($this->cm, $context, $this->surveypro);
-                $layoutman->set_type($this->type);
-                $layoutman->set_plugin($this->plugin);
-                $layoutman->set_itemid($itemid);
-                $layoutman->set_action($action);
-                $layoutman->set_view(SURVEYPRO_NOMODE);
-                $layoutman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $itemsetupman = new layout_itemsetup($this->cm, $context, $this->surveypro);
+                $itemsetupman->setup();
+                $itemsetupman->set_type($this->type);
+                $itemsetupman->set_plugin($this->plugin);
+                $itemsetupman->set_itemid($itemid);
+                $itemsetupman->set_action($action);
+                $itemsetupman->set_view(SURVEYPRO_NOMODE);
+                $itemsetupman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.
                 if ( ($oldreserved == 1) && ($newreserved == 0) ) {
-                    if ($layoutman->item_makeavailable_execute()) {
+                    if ($itemsetupman->item_makeavailable_execute()) {
                         // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
                 if ( ($oldreserved == 0) && ($newreserved == 1) ) {
-                    if ($layoutman->item_makereserved_execute()) {
+                    if ($itemsetupman->item_makereserved_execute()) {
                         // A chain of children items inherited reserved access.
                         $this->itemeditingfeedback += 32; // 1*2^5.
                     }

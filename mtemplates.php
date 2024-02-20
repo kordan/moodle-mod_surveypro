@@ -23,13 +23,13 @@
  */
 
 use mod_surveypro\utility_page;
-
-use mod_surveypro\mastertemplate;
-use mod_surveypro\local\form\mtemplate_createform;
-
-// Needed only if $section == 'apply'.
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
+
+use mod_surveypro\mtemplate_apply;
+use mod_surveypro\mtemplate_save;
+
+use mod_surveypro\local\form\mtemplate_createform;
 use mod_surveypro\local\form\mtemplate_applyform;
 
 require_once(dirname(__FILE__).'/../../config.php');
@@ -66,14 +66,14 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK save.
-if ($section == 'save') { // It was mtemplate_save.php
+if ($section == 'save') {
     // Get additional specific params.
 
     // Required capability.
     require_capability('mod/surveypro:savemastertemplates', $context);
 
     // Calculations.
-    $mtemplateman = new mastertemplate($cm, $context, $surveypro);
+    $saveman = new mtemplate_save($cm, $context, $surveypro);
 
     // Start of: define $createmtemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $cm->instance, 'section' => 'save']);
@@ -81,9 +81,9 @@ if ($section == 'save') { // It was mtemplate_save.php
     // End of: define $createmtemplate return url.
 
     // Start of: manage form submission.
-    if ($mtemplateman->formdata = $createmtemplate->get_data()) {
-        $mtemplateman->download_mtemplate();
-        $mtemplateman->trigger_event('mastertemplate_saved');
+    if ($saveman->formdata = $createmtemplate->get_data()) {
+        $saveman->download_mtemplate();
+        $saveman->trigger_event('mastertemplate_saved');
         exit(0);
     }
     // End of: manage form submission.
@@ -116,14 +116,14 @@ if ($section == 'save') { // It was mtemplate_save.php
 }
 
 // MARK apply.
-if ($section == 'apply') { // It was mtemplate_apply.php
+if ($section == 'apply') {
     // Get additional specific params.
 
     // Required capability.
     require_capability('mod/surveypro:applymastertemplates', $context);
 
     // Calculations.
-    $mtemplateman = new mastertemplate($cm, $context, $surveypro);
+    $applyman = new mtemplate_apply($cm, $context, $surveypro);
 
     // Begin of: define $applymtemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
@@ -133,14 +133,15 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     $formparams = new \stdClass();
     $formparams->cmid = $cm->id;
     $formparams->surveypro = $surveypro;
-    $formparams->mtemplateman = $mtemplateman;
+    $formparams->applyman = $applyman;
     $formparams->inlineform = false;
     $applymtemplate = new mtemplate_applyform($formurl, $formparams);
     // End of: prepare params for the form.
 
     // Begin of: manage form submission.
-    if ($mtemplateman->formdata = $applymtemplate->get_data()) {
-        $mtemplateman->apply_template();
+    if ($applyman->formdata = $applymtemplate->get_data()) {
+        $applyman->apply_template();
+        $applyman->trigger_event('mastertemplate_applied');
     }
     // End of: manage form submission.
 
@@ -162,7 +163,7 @@ if ($section == 'apply') { // It was mtemplate_apply.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_mtemplates_action_bar();
 
-    $mtemplateman->friendly_stop();
+    $applyman->friendly_stop();
 
     $riskyediting = ($surveypro->riskyeditdeadline > time());
     $utilitylayoutman = new utility_layout($cm, $surveypro);
@@ -172,7 +173,7 @@ if ($section == 'apply') { // It was mtemplate_apply.php
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
 
-    $mtemplateman->welcome_apply_message();
+    $applyman->welcome_apply_message();
 
     $applymtemplate->display();
 }
