@@ -1811,8 +1811,8 @@ class submissions_list {
         // Set document information.
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('moodle-mod_surveypro');
-        $pdf->SetTitle('User response');
-        $pdf->SetSubject('Single response in PDF');
+        $pdf->SetTitle(get_string('userresponse', 'mod_survyepro'));
+        $pdf->SetSubject(get_string('pdfsubject', 'mod_survyepro'));
 
         $textheader = $this->get_header_text($user, $timecreated, $timemodified);
         $pdf->SetHeaderData('', 0, $this->surveypro->name, $textheader, [0, 64, 255], [0, 64, 128]);
