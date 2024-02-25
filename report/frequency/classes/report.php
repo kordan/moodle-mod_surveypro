@@ -45,15 +45,6 @@ class report extends reportbase {
     public $outputtable = null;
 
     /**
-     * Is this report equipped with student reports.
-     *
-     * @return boolean
-     */
-    public static function get_hasstudentreport() {
-        return false;
-    }
-
-    /**
      * Does the current report apply to the passed mastertemplates?
      *
      * @param string $mastertemplate
@@ -207,7 +198,7 @@ class report extends reportbase {
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql($itemid) {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $USER;
 
         $whereparams = [];
         $sql = 'SELECT '.$DB->sql_compare_text('a.content', 255).', MIN(a.id) as id, COUNT(a.id) as absolute
@@ -217,9 +208,12 @@ class report extends reportbase {
 
         [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
-
         $sql .= ' AND a.itemid = :itemid';
         $whereparams['itemid'] = $itemid;
+        if ($this->onlypersonaldata) {
+            $sql .= ' AND u.id = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
 
         $sql .= ' GROUP BY '.$DB->sql_compare_text('a.content', 255);
 
@@ -240,7 +234,7 @@ class report extends reportbase {
      * @return [$sql, $whereparams];
      */
     public function get_answercount_sql($itemid) {
-        global $COURSE, $DB;
+        global $COURSE, $DB, $USER;
 
         $sql = 'SELECT COUNT(\'x\')
                 FROM {user} u
@@ -249,9 +243,12 @@ class report extends reportbase {
 
         [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
-
         $sql .= ' AND a.itemid = :itemid';
         $whereparams['itemid'] = $itemid;
+        if ($this->onlypersonaldata) {
+            $sql .= ' AND u.id = :userid';
+            $whereparams['userid'] = $USER->id;
+        }
 
         return [$sql, $whereparams];
     }

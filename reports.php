@@ -26,7 +26,7 @@ require_once(dirname(__FILE__).'/../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT); // Course_module id.
 $s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
-$report = optional_param('report', null, PARAM_TEXT); // Requested report.
+$report = optional_param('report', null, PARAM_TEXT); // Requested report. Section is the report name.
 
 if (!empty($id)) {
     [$course, $cm] = get_course_and_cm_from_cmid($id, 'surveypro');
@@ -43,6 +43,7 @@ $context = \context_module::instance($cm->id);
 if (isset($report)) {
     $classname = 'surveyproreport_'.$report.'\report';
     $reportman = new $classname($cm, $context, $surveypro);
+    $reportman->setup();
 
     $reportman->set_additionalparams();
     $paramurl = $reportman->get_paramurl();
@@ -52,18 +53,22 @@ if (isset($report)) {
 }
 
 // If you are still here, redirect to the first report (if it exists).
-if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
-    foreach ($surveyproreportlist as $reportname => $reportpath) {
-        $returnurl = new \moodle_url('/mod/surveypro/report/'.$reportname.'/view.php', ['s' => $cm->instance]);
-        break;
+// $report is not set otherwise I would not be here. I can overwrite the variable.
+$report = surveypro_get_first_allowed_report();
+if (!empty($report)) {
+    if (!isset($section)) {
+        // Use default. Default is ALWAYS 'view'.
+        $section = 'view';
     }
+    $paramurl = ['s' => $cm->instance, 'report' => $report, 'section' => $section];
+    $returnurl = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
     redirect($returnurl);
 }
 
 // You should never arrive here because you were redirected to a report.
-// If no report is available, warns the user.
+// If no report is available, warn the user.
 
-// Output starts here.
+// Set $PAGE params.
 $url = new \moodle_url('/mod/surveypro/reports.php', ['s' => $surveypro->id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
@@ -71,9 +76,9 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
-$PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
 
+// Output starts here.
 echo $OUTPUT->header();
 
 echo $OUTPUT->box('noreportsfound', 'generalbox description', 'intro', 'centerpara');
