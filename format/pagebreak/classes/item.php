@@ -219,7 +219,7 @@ class item extends itembase {
      * @param object $fromdb
      * @return associative array with disaggregate element values
      */
-    public function userform_set_prefill($fromdb) {
+    public function userform_get_prefill($fromdb) {
         $prefill = [];
 
         return $prefill;

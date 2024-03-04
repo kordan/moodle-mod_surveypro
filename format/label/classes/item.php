@@ -325,7 +325,7 @@ EOS;
      * @param object $fromdb
      * @return associative array with disaggregate element values
      */
-    public function userform_set_prefill($fromdb) {
+    public function userform_get_prefill($fromdb) {
         $prefill = [];
 
         return $prefill;
@@ -348,10 +348,10 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
-
         if (empty($this->fullwidth)) {
-            $elementnames[] = $this->itemname;
+            $elementnames = [$this->itemname];
+        } else {
+            $elementnames = [];
         }
 
         return $elementnames;

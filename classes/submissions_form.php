@@ -428,10 +428,10 @@ class submissions_form extends formbase {
         // Generate $itemhelperinfo.
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {
-                // If among returned fields there is a place holder...
+                // If among returned fields there is a placeholder...
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
                     $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
-                    // But not the corresponding field, drop the placeholder and set to null the unexisting item.
+                    // ... but not the corresponding field, drop the placeholder and set to null the unexisting item.
                     if (!isset($this->formdata->$newelement)) {
                         $this->formdata->$newelement = null;
                     }

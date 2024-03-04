@@ -300,7 +300,7 @@ class formbase {
 
                 $where = ['submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()];
                 $olduserdata = $DB->get_record('surveypro_answer', $where);
-                $singleprefill = $item->userform_set_prefill($olduserdata);
+                $singleprefill = $item->userform_get_prefill($olduserdata);
                 $prefill = array_merge($prefill, $singleprefill);
             }
             $itemseeds->close();

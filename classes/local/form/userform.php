@@ -72,7 +72,11 @@ class userform extends \moodleform {
         $mform->setType('s', PARAM_INT);
 
         // Userform: submissionid.
-        $mform->addElement('hidden', 'submissionid', 0);
+        // I usually set 0 into mform elements and then I replace them with preset.
+        // Here I can not follow this habit because...
+        // if the userform has autofill items (that may use labels), in order to display them
+        // I need to ask to $mform the value of $submissionid.
+        $mform->addElement('hidden', 'submissionid', $submissionid);
         $mform->setType('submissionid', PARAM_INT);
 
         // Userform: formpage.

@@ -436,6 +436,8 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchform, $readonly) {
+        global $DB;
+
         $starstr = get_string('star', 'mod_surveypro');
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -446,22 +448,38 @@ EOS;
         $idprefix = 'id_surveypro_field_autofill_'.$this->sortindex;
 
         if (!$searchform) {
-            // At this level I ALWAYS write the content as if the record is new.
-            // If the record is not new, this value will be overwritten later at default apply time.
-            $value = $this->userform_get_content(0);
+            // I can not say: "I can write the content as if the record is new because if the record is not new,
+            // this value will be overwritten later when defaults will be applied to the form.".
+            // This is a label! Defults will not be applied.
+            // So, I have to ALWAYS get them now and include them now into the item.
+
+            // Is this a new submission or I am editing an old one?
+            $submissionid = $mform->getElementValue('submissionid');
+            if ($submissionid) { // I am editing an old submission.
+                $wheresql = 'submissionid = :submissionid AND itemid = :itemid';
+                $whereparams = ['submissionid' => $submissionid, 'itemid' => $this->itemid];
+                $answer = false;
+                $answer = $DB->get_record('surveypro_answer', $whereparams);
+                if ($answer) {
+                    $value = $answer->content;
+                } else { // This should never be verified.
+                    $message = 'Unexpected lack of answer. ';
+                    $message .= 'The submission id '.$submissionid.' exists ';
+                    $message .= 'but there is not any answer for the item id '.$this->itemid;
+                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $value = 'NULL';
+                }
+            } else { // I am editing a new submission.
+                $value = $this->userform_get_content(0);
+            }
 
             $mform->addElement('hidden', $this->itemname, $value);
             $mform->setType($this->itemname, PARAM_RAW);
             $mform->setDefault($this->itemname, $value);
 
             if (!$this->hiddenfield) {
-                $attributes = [];
-                $attributes['id'] = $idprefix;
-                $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
-                $attributes['disabled'] = 'disabled';
-                $mform->addElement('text', $this->itemname.'_static', $elementlabel, $attributes);
-                $mform->setType($this->itemname.'_static', PARAM_RAW);
-                $mform->setDefault($this->itemname.'_static', $value);
+                $attributes = ['id' => $idprefix, 'class' => 'indent-'.$this->indent.' label_static'];
+                $mform->addElement('mod_surveypro_label', $this->itemname.'_static', $elementlabel, $value, $attributes);
             }
         } else {
             $attributes = [];
@@ -531,7 +549,7 @@ EOS;
      * @param object $fromdb
      * @return associative array with disaggregate element values
      */
-    public function userform_set_prefill($fromdb) {
+    public function userform_get_prefill($fromdb) {
         $prefill = [];
 
         if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
@@ -662,11 +680,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
-        $elementnames[] = $this->itemname;
-        if (!$this->hiddenfield) {
-            $elementnames[] = $this->itemname.'_static';
-        }
+        $elementnames = [$this->itemname];
 
         return $elementnames;
     }
