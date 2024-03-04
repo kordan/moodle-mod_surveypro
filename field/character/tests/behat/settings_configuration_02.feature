@@ -14,7 +14,7 @@ Feature: Submit using character item and check form validation (2 of 7)
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course         | role            |
+      | user     | course         | role           |
       | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
     And the following "activities" exist:

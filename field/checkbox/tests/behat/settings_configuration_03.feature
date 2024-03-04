@@ -58,8 +58,8 @@ Feature: Submit using checkbox item and check form validation (3 of 4)
     # Test number 2: Student submits a standard answer
     And I press "New response"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0        | 1 |
-      | id_surveypro_field_checkbox_1_3        | 1 |
+      | id_surveypro_field_checkbox_1_0 | 1 |
+      | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions
@@ -104,8 +104,8 @@ Feature: Submit using checkbox item and check form validation (3 of 4)
     And I press "New response"
     Then I should see "At least 2 checkboxes have to be selected"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0        | 1 |
-      | id_surveypro_field_checkbox_1_3        | 1 |
+      | id_surveypro_field_checkbox_1_0 | 1 |
+      | id_surveypro_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

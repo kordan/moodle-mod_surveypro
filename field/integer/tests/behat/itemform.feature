@@ -56,8 +56,8 @@ Feature: Create an integer item
     Then I should see "Default does not fall within the specified range"
     Then I should see "Lower and upper bounds must be different"
     And I set the following fields to these values:
-      | id_lowerbound            | 3                                               |
-      | id_upperbound            | 21                                              |
+      | id_lowerbound            | 3  |
+      | id_upperbound            | 21 |
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"

@@ -30,10 +30,10 @@ Feature: Submit using a fileupload item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | Please upload your CV |
-      | Required                 | 1                     |
-      | Indent                   | 0                     |
-      | Question position        | left                  |
+      | Content           | Please upload your CV |
+      | Required          | 1                     |
+      | Indent            | 0                     |
+      | Question position | left                  |
     And I press "Add"
 
     And I log out

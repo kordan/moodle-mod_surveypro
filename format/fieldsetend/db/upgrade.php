@@ -67,6 +67,18 @@ function xmldb_surveyproformat_fieldsetend_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2019031901, 'surveyproformat', 'fieldsetend');
     }
 
+    if ($oldversion < 2024011101) {
+        // Drop any parent child relation in EACH past surveypro.
+        // I am confident I woll not find any.
+        $sql = 'UPDATE {surveypro_item}
+                SET parentid = :parentid, parentvalue = :parentvalue
+                WHERE plugin = :plugin';
+        $whereparams = ['parentid' => null, 'parentvalue' => null, 'plugin' => 'fieldsetend'];
+        $DB->execute($sql, $whereparams);
+
+        // Surveypro savepoint reached.
+        upgrade_plugin_savepoint(true, 2024011101, 'surveyproformat', 'fieldsetend');
+    }
+
     return true;
 }
-

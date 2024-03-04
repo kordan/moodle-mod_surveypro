@@ -65,8 +65,8 @@ Feature: Submit using multiselect item and check form validation (1 of 4)
     # Test number 3: Student chooses "No answer"
     And I press "New response"
     And I set the following fields to these values:
-      | id_surveypro_field_multiselect_1 |milk, bread |
-      | No answer                        | 1          |
+      | id_surveypro_field_multiselect_1 | milk, bread |
+      | No answer                        | 1           |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "3" submissions
