@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The userform class
+ * The view_submissionform class
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
@@ -36,7 +36,7 @@ use mod_surveypro\formbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissions_form extends formbase {
+class view_submissionform extends formbase {
 
     /**
      * @var int $mode

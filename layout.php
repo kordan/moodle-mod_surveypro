@@ -23,19 +23,23 @@
  */
 
 use mod_surveypro\utility_page;
-use mod_surveypro\layout_itemsetup;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
-use mod_surveypro\usertemplate;
+use mod_surveypro\utility_mform;
+
+use mod_surveypro\layout_itemsetup;
+use mod_surveypro\layout_itemlist;
+use mod_surveypro\layout_preview;
+
+use mod_surveypro\utemplate_apply;
+use mod_surveypro\mtemplate_apply;
+
 use mod_surveypro\mastertemplate;
+
 use mod_surveypro\local\form\item_chooser;
 use mod_surveypro\local\form\utemplate_applyform;
 use mod_surveypro\local\form\mtemplate_applyform;
 use mod_surveypro\local\form\item_bulkactionform;
-
-// Needed only if $section == 'preview'.
-use mod_surveypro\layout_preview;
-use mod_surveypro\utility_mform;
 use mod_surveypro\local\form\userform;
 
 require_once(dirname(__FILE__).'/../../config.php');
@@ -72,7 +76,7 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK preview.
-if ($section == 'preview') { // It was layout_validation.php
+if ($section == 'preview') {
     // Get additional specific params.
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
@@ -175,7 +179,7 @@ if ($section == 'preview') { // It was layout_validation.php
 }
 
 // MARK itemslist.
-if ($section == 'itemslist') { // It was layout_itemlist.php.
+if ($section == 'itemslist') {
     // Get additional specific params.
     $type = optional_param('type', null, PARAM_TEXT);
     $plugin = optional_param('plugin', null, PARAM_TEXT);
@@ -204,21 +208,22 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     $hassubmissions = $utilitylayoutman->has_submissions();
 
     // Define the manager.
-    $layoutman = new layout_itemsetup($cm, $context, $surveypro);
-    $layoutman->set_type($type);
-    $layoutman->set_plugin($plugin);
-    $layoutman->set_itemid($itemid);
-    $layoutman->set_sortindex($sortindex);
-    $layoutman->set_action($action);
-    $layoutman->set_mode($mode);
-    $layoutman->set_itemtomove($itemtomove);
-    $layoutman->set_lastitembefore($lastitembefore);
-    $layoutman->set_confirm($confirm);
-    $layoutman->set_nextindent($nextindent);
-    $layoutman->set_parentid($parentid);
-    $layoutman->set_itemeditingfeedback($itemeditingfeedback);
-    $layoutman->set_hassubmissions($hassubmissions);
-    $layoutman->actions_execution();
+    $itemlistman = new layout_itemlist($cm, $context, $surveypro);
+    $itemlistman->setup();
+    $itemlistman->set_type($type);
+    $itemlistman->set_plugin($plugin);
+    $itemlistman->set_itemid($itemid);
+    $itemlistman->set_sortindex($sortindex);
+    $itemlistman->set_action($action);
+    $itemlistman->set_mode($mode);
+    $itemlistman->set_itemtomove($itemtomove);
+    $itemlistman->set_lastitembefore($lastitembefore);
+    $itemlistman->set_confirm($confirm);
+    $itemlistman->set_nextindent($nextindent);
+    $itemlistman->set_parentid($parentid);
+    $itemlistman->set_itemeditingfeedback($itemeditingfeedback);
+    $itemlistman->set_hassubmissions($hassubmissions);
+    $itemlistman->actions_execution();
 
     // You must count items AFTER actions_execution() otherwise the count may be wrong (when $action == SURVEYPRO_DELETEITEM).
     $itemcount = $utilitylayoutman->has_items(0, 'field', true, true, true);
@@ -245,8 +250,8 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
     $templatecondition = $templatecondition && has_capability('mod/surveypro:manageitems', $context);
     if ($templatecondition) {
         // Begin of: User templates form.
-        $utemplateman = new usertemplate($cm, $context, $surveypro);
-        $utemplates = $utemplateman->get_utemplates_items();
+        $applyman = new utemplate_apply($cm, $context, $surveypro);
+        $utemplates = $applyman->get_utemplates_items();
         if (count($utemplates)) {
             $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
 
@@ -258,13 +263,13 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         // End of: User templates form.
 
         // Begin of: Master templates form.
-        $mtemplateman = new mastertemplate($cm, $context, $surveypro);
-        $mtemplates = $mtemplateman->get_mtemplates();
+        $applyman = new mtemplate_apply($cm, $context, $surveypro);
+        $mtemplates = $applyman->get_mtemplates();
         if (count($mtemplates)) {
             $formurl = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
 
             $formparams = new \stdClass();
-            $formparams->mtemplateman = $mtemplateman;
+            $formparams->applyman = $applyman;
             $formparams->inlineform = true;
             $mtemplateform = new mtemplate_applyform($formurl, $formparams);
         }
@@ -284,7 +289,7 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
 
         // Manage bulkaction form.
         if ($formdata = $bulkactionform->get_data()) {
-            $layoutman->set_action($formdata->bulkaction);
+            $itemlistman->set_action($formdata->bulkaction);
         }
     }
     // End of: Bulk action form.
@@ -319,8 +324,8 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
 
-    $layoutman->actions_feedback();
-    $layoutman->display_item_editing_feedback();
+    $itemlistman->actions_feedback();
+    $itemlistman->display_item_editing_feedback();
 
     // Display welcome message.
     if (!$itemcount) {
@@ -349,11 +354,11 @@ if ($section == 'itemslist') { // It was layout_itemlist.php.
         $bulkactionform->display();
     }
 
-    $layoutman->display_items_table();
+    $itemlistman->display_items_table();
 }
 
 // MARK itemsetup.
-if ($section == 'itemsetup') { // It was layout_itemsetup.php
+if ($section == 'itemsetup') {
     // Get additional specific params.
     $typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
     $type = optional_param('type', null, PARAM_TEXT);
@@ -373,48 +378,26 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $hassubmissions = $utilitylayoutman->has_submissions();
 
-    $layoutman = new layout_itemsetup($cm, $context, $surveypro);
+    $itemsetupman = new layout_itemsetup($cm, $context, $surveypro);
+    $itemsetupman->setup();
     if (!empty($typeplugin)) {
-        $layoutman->set_typeplugin($typeplugin);
+        $itemsetupman->set_typeplugin($typeplugin);
     } else {
-        $layoutman->set_type($type);
-        $layoutman->set_plugin($plugin);
+        $itemsetupman->set_type($type);
+        $itemsetupman->set_plugin($plugin);
     }
-    $layoutman->set_itemid($itemid);
-    $layoutman->set_action($action);
-    $layoutman->set_mode($mode);
-    $layoutman->set_hassubmissions($hassubmissions);
-    // Property itemtomove is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemtomove(0);
+    $itemsetupman->set_itemid($itemid);
+    $itemsetupman->set_action($action);
+    $itemsetupman->set_mode($mode);
+    $itemsetupman->set_hassubmissions($hassubmissions);
 
-    // Property lastitembefore is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_lastitembefore(0);
+    $itemsetupman->prevent_direct_user_input();
 
-    // Property confirm is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
-
-    // Property nextindent is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_nextindent(0);
-
-    // Property parentid is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_parentid(0);
-
-    // Property itemeditingfeedback is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
-
-    // Property hassubmissions is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_hassubmissions($hassubmissions);
-
-    // Property itemcount is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemcount($itemcount);
-
-    $layoutman->prevent_direct_user_input();
-
-    require_once($CFG->dirroot.'/mod/surveypro/'.$layoutman->get_type().'/'.$layoutman->get_plugin().'/classes/itemsetupform.php');
+    require_once($CFG->dirroot.'/mod/surveypro/'.$itemsetupman->get_type().'/'.$itemsetupman->get_plugin().'/classes/itemsetupform.php');
 
     // Begin of: get item.
-    $itemtype = $layoutman->get_type();
-    $itemplugin = $layoutman->get_plugin();
+    $itemtype = $itemsetupman->get_type();
+    $itemplugin = $itemsetupman->get_plugin();
     $item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
     $item->set_editor();
     // End of: get item.
@@ -425,8 +408,8 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
     $paramurl['area'] = 'layout';
     $paramurl['section'] = 'itemsetup';
     $paramurl['itemid'] = $itemid;
-    $paramurl['type'] = $layoutman->get_type();
-    $paramurl['plugin'] = $layoutman->get_plugin();
+    $paramurl['type'] = $itemsetupman->get_type();
+    $paramurl['plugin'] = $itemsetupman->get_plugin();
     $paramurl['mode'] = $mode;
 
     $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -485,7 +468,7 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
         $message = $utilitysubmissionman->get_submissions_warning();
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
-    $layoutman->item_identitycard();
+    $itemsetupman->item_identitycard();
 
     $data = $item->get_itemform_preset();
     $itemform->set_data($data);
@@ -494,53 +477,17 @@ if ($section == 'itemsetup') { // It was layout_itemsetup.php
 }
 
 // MARK branchingvalidation.
-if ($section == 'branchingvalidation') { // It was layout_validation.php
+if ($section == 'branchingvalidation') {
     // Get additional specific params.
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);
 
     // Calculations.
-    $layoutman = new layout_itemsetup($cm, $context, $surveypro);
+    $branchingvalidationman = new layout_branchingvalidation($cm, $context, $surveypro);
 
-    // Property type is useless, do not set it.
-    // So, jump: $layoutman->set_type('');
-
-    // Property plugin is useless, do not set it
-    // So, jump: $layoutman->set_plugin('');
-
-    // Property itemid is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_itemid(0);
-
-    // Property action is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_action(SURVEYPRO_NOACTION);
-
-    // Property mode is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_mode(SURVEYPRO_NEWRESPONSEMODE);
-
-    // Property itemtomove is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_itemtomove(0);
-
-    // Property lastitembefore is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_lastitembefore(0);
-
-    // Property confirm is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_confirm(SURVEYPRO_UNCONFIRMED);
-
-    // Property nextindent is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_nextindent(0);
-
-    // Property parentid is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_parentid(0);
-
-    // Property itemeditingfeedback is useless (it is set to its default), do not set it
-    // So, jump: $layoutman->set_itemeditingfeedback(SURVEYPRO_NOFEEDBACK);
-
-    // Property hassubmissions is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_hassubmissions($hassubmissions);
-
-    // Property itemcount is useless (it is set to its default), do not set it.
-    // So, jump: $layoutman->set_itemcount($itemcount);
+    // Output starts here.
+    $url = new \moodle_url('/mod/surveypro/layout.php', ['s' => $surveypro->id, 'section' => 'branchingvalidation']);
 
     // Set $PAGE params.
     $paramurl = ['s' => $surveypro->id, 'area' => 'layout', 'section' => 'branchingvalidation'];
@@ -560,7 +507,7 @@ if ($section == 'branchingvalidation') { // It was layout_validation.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();
 
-    $layoutman->display_relations_table();
+    $branchingvalidationman->display_relations_table();
 }
 
 // Finish the page.

@@ -49,10 +49,10 @@ class mtemplate_applyform extends \moodleform {
         $mform = $this->_form;
 
         // Get _customdata.
-        $mtemplateman = $this->_customdata->mtemplateman;
+        $applyman = $this->_customdata->applyman;
         $inlineform = $this->_customdata->inlineform;
 
-        $mtemplates = $mtemplateman->get_mtemplates();
+        $mtemplates = $applyman->get_mtemplates();
         // Applymtemplate: mastertemplate.
         if (count($mtemplates)) {
             $fieldname = 'mastertemplate';
@@ -90,7 +90,7 @@ class mtemplate_applyform extends \moodleform {
         // Useless: $mform = $this->_form;.
 
         // Get _customdata.
-        $mtemplateman = $this->_customdata->mtemplateman;
+        $applyman = $this->_customdata->applyman;
         // Useless: $mtemplates = $this->_customdata->mtemplates;.
         // Useless: $inlineform = $this->_customdata->inlineform;.
 
@@ -99,7 +99,7 @@ class mtemplate_applyform extends \moodleform {
         $templatename = $data['mastertemplate'];
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
-        $errormessage = $mtemplateman->validate_xml($xml);
+        $errormessage = $applyman->validate_xml($xml);
         if ($errormessage !== false) {
             $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');
             if (isset($errormessage->a)) {

@@ -23,18 +23,17 @@
  */
 
 use mod_surveypro\utility_page;
-use mod_surveypro\usertemplate;
-
-// Needed only if $section == 'save'.
-use mod_surveypro\local\form\utemplate_createform;
-
-// Needed only if $section == 'import'.
-use mod_surveypro\local\form\utemplate_importform;
-
-// Needed only if $section == 'apply'.
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
+
 use mod_surveypro\templatebase;
+use mod_surveypro\utemplate_manage;
+use mod_surveypro\utemplate_save;
+use mod_surveypro\utemplate_import;
+use mod_surveypro\utemplate_apply;
+
+use mod_surveypro\local\form\utemplate_createform;
+use mod_surveypro\local\form\utemplate_importform;
 use mod_surveypro\local\form\utemplate_applyform;
 
 require_once(dirname(__FILE__).'/../../config.php');
@@ -71,7 +70,7 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK manage.
-if ($section == 'manage') { // It was utemplate_manage.php
+if ($section == 'manage') {
     // Get additional specific params.
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
@@ -81,13 +80,14 @@ if ($section == 'manage') { // It was utemplate_manage.php
     require_capability('mod/surveypro:manageusertemplates', $context);
 
     // Calculations.
-    $utemplateman = new usertemplate($cm, $context, $surveypro);
-    $utemplateman->setup($utemplateid, $action, $confirm);
+    $manageman = new utemplate_manage($cm, $context, $surveypro);
+    $manageman->setup($utemplateid, $action, $confirm);
 
-    $utemplateman->prevent_direct_user_input();
+    $manageman->prevent_direct_user_input();
 
     if ($action == SURVEYPRO_EXPORTUTEMPLATE) {
-        $utemplateman->export_utemplate();
+        $manageman->trigger_event('usertemplate_exported');
+        $manageman->export_utemplate();
         die();
     }
 
@@ -109,29 +109,27 @@ if ($section == 'manage') { // It was utemplate_manage.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $utemplateman->delete_utemplate();
+    if ($action == SURVEYPRO_DELETEUTEMPLATE) {
+        $manageman->delete_utemplate();
+    }
 
-    $utemplateman->display_usertemplates_table();
-    $utemplateman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
+    $manageman->display_usertemplates_table();
+    $manageman->trigger_event('all_usertemplates_viewed'); // Event: all_usertemplates_viewed.
 }
 
 // MARK save.
-if ($section == 'save') { // It was utemplate_save.php
+if ($section == 'save') {
     // Get additional specific params.
     $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
     require_capability('mod/surveypro:saveusertemplates', $context);
 
-    // Params never passed but needed by called class.
-    $action = SURVEYPRO_NOACTION;
-    $confirm = SURVEYPRO_UNCONFIRMED;
-
     // Calculations.
-    $utemplateman = new usertemplate($cm, $context, $surveypro);
-    $utemplateman->setup($utemplateid, $action, $confirm);
+    $saveman = new utemplate_save($cm, $context, $surveypro);
+    $saveman->setup($utemplateid);
 
-    // $utemplateman->prevent_direct_user_input();
+    // $saveman->prevent_direct_user_input();
     // is not needed because the check has already been done here with: require_capability('mod/surveypro:saveusertemplates',...
 
     // Begin of: define $createutemplate return url.
@@ -140,15 +138,15 @@ if ($section == 'save') { // It was utemplate_save.php
 
     // Begin of: prepare params for the form.
     $formparams = new \stdClass();
-    $formparams->utemplateman = $utemplateman;
+    $formparams->saveman = $saveman;
     $formparams->defaultname = $surveypro->name;
     $createutemplate = new utemplate_createform($formurl, $formparams);
     // End of: prepare params for the form.
 
     // Begin of: manage form submission.
-    if ($utemplateman->formdata = $createutemplate->get_data()) {
-        $utemplateman->generate_utemplate();
-        $utemplateman->trigger_event('usertemplate_saved');
+    if ($saveman->formdata = $createutemplate->get_data()) {
+        $saveman->generate_utemplate();
+        $saveman->trigger_event('usertemplate_saved');
 
         $redirecturl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'manage']);
         redirect($redirecturl);
@@ -173,7 +171,7 @@ if ($section == 'save') { // It was utemplate_save.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $utemplateman->welcome_save_message();
+    $saveman->welcome_save_message();
 
     $record = new \stdClass();
     $record->surveyproid = $surveypro->id;
@@ -183,22 +181,18 @@ if ($section == 'save') { // It was utemplate_save.php
 }
 
 // MARK import.
-if ($section == 'import') { // It was utemplate_import.php
+if ($section == 'import') {
     // Get additional specific params.
     $utemplateid = optional_param('fid', 0, PARAM_INT);
 
     // Required capability.
     require_capability('mod/surveypro:importusertemplates', $context);
 
-    // Params never passed but needed by called class.
-    $action = SURVEYPRO_NOACTION;
-    $confirm = SURVEYPRO_UNCONFIRMED;
-
     // Calculations.
-    $utemplateman = new usertemplate($cm, $context, $surveypro);
-    $utemplateman->setup($utemplateid, $action, $confirm);
+    $importman = new utemplate_import($cm, $context, $surveypro);
+    $importman->setup($utemplateid);
 
-    // $utemplateman->prevent_direct_user_input();
+    // $importman->prevent_direct_user_input();
     // is not needed because the check has already been done here with: require_capability('mod/surveypro:importusertemplates', $context);
 
     // Begin of: define $importutemplate return url.
@@ -207,15 +201,15 @@ if ($section == 'import') { // It was utemplate_import.php
 
     // Begin of: prepare params for the form.
     $formparams = new \stdClass();
-    $formparams->utemplateman = $utemplateman;
-    $formparams->filemanageroptions = $utemplateman->get_filemanager_options();
+    $formparams->importman = $importman;
+    $formparams->filemanageroptions = $importman->get_filemanager_options();
     $importutemplate = new utemplate_importform($formurl, $formparams);
     // End of: prepare params for the form.
 
     // Begin of: manage form submission.
-    if ($utemplateman->formdata = $importutemplate->get_data()) {
-        $utemplateman->upload_utemplate();
-        $utemplateman->trigger_event('usertemplate_imported');
+    if ($importman->formdata = $importutemplate->get_data()) {
+        $importman->upload_utemplate();
+        $importman->trigger_event('usertemplate_imported');
 
         $redirecturl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $surveypro->id, 'section' => 'manage']);
         redirect($redirecturl);
@@ -240,12 +234,12 @@ if ($section == 'import') { // It was utemplate_import.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $utemplateman->welcome_import_message();
+    $importman->welcome_import_message();
     $importutemplate->display();
 }
 
 // MARK apply.
-if ($section == 'apply') { // It was utemplate_apply.php
+if ($section == 'apply') {
     // Get additional specific params.
     $utemplateid = optional_param('fid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
@@ -255,11 +249,11 @@ if ($section == 'apply') { // It was utemplate_apply.php
     require_capability('mod/surveypro:applyusertemplates', $context);
 
     // Calculations.
-    $utemplateman = new usertemplate($cm, $context, $surveypro);
-    $utemplateman->setup($utemplateid, $action, $confirm);
+    $applyman = new utemplate_apply($cm, $context, $surveypro);
+    $applyman->setup($utemplateid, $action, $confirm);
 
-    $utemplateman->prevent_direct_user_input();
-    $utemplates = $utemplateman->get_utemplates_items();
+    $applyman->prevent_direct_user_input();
+    $utemplates = $applyman->get_utemplates_items();
 
     // Begin of: define $applyutemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
@@ -273,11 +267,11 @@ if ($section == 'apply') { // It was utemplate_apply.php
     // End of: prepare params for the form.
 
     // Begin of: manage form submission.
-    if ($utemplateman->formdata = $applyutemplate->get_data()) {
+    if ($applyman->formdata = $applyutemplate->get_data()) {
         // Here I don't need to execute validate_xml because xml was validated at upload time
         // Here I only need to verfy that plugin versions still match
-        // $utemplateman->check_items_versions();
-        $utemplateman->apply_template();
+        // $applyman->check_items_versions();
+        $applyman->apply_template();
     }
     // End of: manage form submission.
 
@@ -299,7 +293,7 @@ if ($section == 'apply') { // It was utemplate_apply.php
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $utemplateman->friendly_stop();
+    $applyman->friendly_stop();
 
     $riskyediting = ($surveypro->riskyeditdeadline > time());
     $utilitylayoutman = new utility_layout($cm, $surveypro);
@@ -309,7 +303,7 @@ if ($section == 'apply') { // It was utemplate_apply.php
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
 
-    $utemplateman->welcome_apply_message();
+    $applyman->welcome_apply_message();
     $applyutemplate->display();
 }
 

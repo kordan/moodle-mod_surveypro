@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The submissionmanager class
+ * The view_submissionlist class
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
@@ -35,7 +35,7 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissions_list {
+class view_submissionlist {
 
     /**
      * @var object Course module object
