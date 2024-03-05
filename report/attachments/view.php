@@ -130,7 +130,7 @@ if ($section == 'view') {
 }
 
 // MARK details.
-if ($section == 'details') { // It was report/attachments/uploads.php
+if ($section == 'details') {
     $container = required_param('container', PARAM_ALPHANUMEXT);
     $itemid = optional_param('itemid', 0, PARAM_INT);  // Item id.
     $changeuser = optional_param('changeuser', 0, PARAM_TEXT);

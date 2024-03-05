@@ -61,10 +61,10 @@ class mastertemplate_test extends advanced_testcase {
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
         $context = \context_module::instance($cm->id);
 
-        $mtemplateman = new mastertemplate($cm, $context, $surveypro);
-        $mtemplateman->formdata = (object)['mastertemplatename' => $userinput];
-        // $mtemplateman->formdata->mastertemplatename = $userinput;
-        $returned = $mtemplateman->get_plugin_name();
+        $saveman = new mtemplate_save($cm, $context, $surveypro);
+        $saveman->formdata = (object)['mastertemplatename' => $userinput];
+        // $saveman->formdata->mastertemplatename = $userinput;
+        $returned = $saveman->get_plugin_name();
         $this->assertEquals($expected, $returned);
     }
 }

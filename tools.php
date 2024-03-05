@@ -66,7 +66,7 @@ $context = \context_module::instance($cm->id);
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK export.
-if ($section == 'export') { // It was tools_export.php
+if ($section == 'export') {
     // Get additional specific params.
 
     // Required capability.
@@ -138,7 +138,7 @@ if ($section == 'export') { // It was tools_export.php
 }
 
 // MARK import.
-if ($section == 'import') { // It was tools_import.php
+if ($section == 'import') {
     // Get additional specific params.
 
     // Required capability.

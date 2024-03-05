@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The importmanager class
+ * The tools_import class
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
