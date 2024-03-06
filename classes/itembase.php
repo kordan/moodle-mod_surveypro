@@ -1584,16 +1584,6 @@ EOS;
     }
 
     /**
-     * Set contenttrust.
-     *
-     * @param string $contenttrust
-     * @return void
-     */
-    public function set_contenttrust($contenttrust) {
-        $this->contenttrust = $contenttrust;
-    }
-
-    /**
      * Set variable.
      *
      * @param string $variable
