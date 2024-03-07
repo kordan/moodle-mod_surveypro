@@ -253,8 +253,8 @@ class item extends itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = ['useeditor'];
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
+        $checkboxes = ['useeditor', 'trimonsave'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -333,11 +333,11 @@ class item extends itembase {
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <xs:element name="trimonsave" type="xs:int"/>
 
                 <xs:element name="useeditor" type="xs:int"/>
                 <xs:element name="arearows" type="xs:int"/>
                 <xs:element name="areacols" type="xs:int"/>
+                <xs:element name="trimonsave" type="xs:int"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
                 <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
             </xs:sequence>

@@ -77,7 +77,6 @@ class item extends itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['trimonsave'] = false;
         $this->insetupform['customnumber'] = false;
         $this->insetupform['position'] = false;
         $this->insetupform['extranote'] = false;

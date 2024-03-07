@@ -178,7 +178,7 @@ class item extends itembase {
         $this->defaultvalue = $this->lowerbound;
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['trimonsave'] = false;
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -389,7 +389,6 @@ class item extends itembase {
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="unixtime" minOccurs="0"/>

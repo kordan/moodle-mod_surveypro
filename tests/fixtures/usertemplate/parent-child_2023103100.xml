@@ -199,10 +199,10 @@ A4 paper</options>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
       <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
-      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>

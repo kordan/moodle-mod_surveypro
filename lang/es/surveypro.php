@@ -468,8 +468,6 @@ $string['tools_import'] = 'Importar';
 $string['tools'] = 'Tools';
 $string['top'] = 'superior';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'Traducción al Inglés de la cadena de caracteres correspondiente del archivo de idioma "{$a->userlang}" \';';
-$string['trimonsave_help'] = 'Eliminar espacios sobrantes al principio y final de la entrada del usuario.';
-$string['trimonsave'] = 'Contestación limpia al momento de guardar';
 $string['typefield'] = 'Campos';
 $string['typeformat'] = 'Formatos';
 $string['typeplugin_help'] = 'Esta es la lista de elementos disponibles. Los elementos de la encuesta son de dos tipos: tipo "campo" y tipo "formato". Elija el elemento que mejor se adapte a sus necesidades.';

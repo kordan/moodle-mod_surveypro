@@ -702,10 +702,10 @@
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>cp_textarea</variable>
-      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
       <maxlength>0</maxlength>
     </surveyprofield_textarea>

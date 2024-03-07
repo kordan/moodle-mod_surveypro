@@ -229,7 +229,7 @@ class item extends itembase {
         $this->defaultvalue = $this->lowerbound;
 
         // List of fields I do not want to have in the item definition form.
-        $this->insetupform['trimonsave'] = false;
+        // Empty list.
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -386,7 +386,7 @@ class item extends itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -481,7 +481,6 @@ class item extends itembase {
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="step" type="xs:int"/>
                 <xs:element name="defaultoption" type="xs:int"/>
