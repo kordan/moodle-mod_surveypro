@@ -147,10 +147,6 @@ class layout_itemsetup {
         $this->cm = $cm;
         $this->context = $context;
         $this->surveypro = $surveypro;
-
-        $utilitylayoutman = new utility_layout($cm, $surveypro);
-        $itemcount = $utilitylayoutman->has_items(0, null, true, true, true);
-        $this->set_itemcount($itemcount);
     }
 
     /**
