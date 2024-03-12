@@ -160,12 +160,20 @@ class itemsetupform extends item_setupbaseform {
         // Each single label has to be unique.
         $arrayunique = array_unique($labels);
         if (count($labels) != count($arrayunique)) {
-            $errors['rates'] = get_string('ierr_labelsduplicated', 'surveyprofield_rate');
+            $errors['options'] = get_string('ierr_labelsduplicated', 'surveyprofield_rate');
+        }
+        // A single option is not allowed.
+        if (count($cleanoptions) == 1) {
+            $errors['options'] = get_string('ierr_singleoption', 'surveyprofield_rate');
         }
         // Each single value has to be unique.
         $arrayunique = array_unique($values);
         if (count($values) != count($arrayunique)) {
             $errors['rates'] = get_string('ierr_valuesduplicated', 'surveyprofield_rate');
+        }
+        // A single rate is not allowed.
+        if (count($cleanrates) == 1) {
+            $errors['rates'] = get_string('ierr_singlerate', 'surveyprofield_rate');
         }
         // Each single option has to be unique.
         $arrayunique = array_unique($labels);

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="field" plugin="boolean" version="2024042200">
+    <surveypro_item>
+      <content>boolean_content_01</content>
+      <embedded>
+        <filename>boolean_filename_01</filename>
+        <filecontent>boolean_filecontent_01</filecontent>
+      </embedded>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>1</position>
+      <hideinstructions>0</hideinstructions>
+      <extranote>boolean_extranote_01</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_boolean>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>1</defaultvalue>
+      <downloadformat>strfbool01</downloadformat>
+      <style>2</style>
+    </surveyprofield_boolean>
+  </item>
+</items>

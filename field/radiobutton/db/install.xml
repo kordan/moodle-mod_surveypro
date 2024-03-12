@@ -1,35 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/surveypro/field/radiobutton/db" VERSION="20131209" COMMENT="XMLDB file for Moodle mod/surveypro"
+<XMLDB PATH="mod/surveypro/field/radiobutton/db" VERSION="20240227" COMMENT="XMLDB file for Moodle mod/surveypro"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
     <TABLE NAME="surveyprofield_radiobutton" COMMENT="Radio button type surveyprofield">
       <FIELDS>
-        <FIELD NAME="id"               TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true"             SEQUENCE="true"/>
-        <FIELD NAME="itemid"           TYPE="int"  LENGTH="10"     NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-
-        <!-- begin of fields belonging to itembaseform.php -->
-        <FIELD NAME="content"          TYPE="text" LENGTH="small"  NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="contentformat"    TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-
-        <FIELD NAME="required"         TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="indent"           TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="position"         TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="customnumber"     TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <!-- <FIELD NAME="hideinstructions" TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/> -->
-        <FIELD NAME="variable"         TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="extranote"        TYPE="char" LENGTH="255"    NOTNULL="false"                             SEQUENCE="false"/>
-        <!-- end of fields belonging to itembaseform.php -->
-
-        <!-- begin of fields belonging to itemsetupform.php of this specific plugin -->
-        <FIELD NAME="options"          TYPE="text" LENGTH="medium" NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="labelother"       TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="defaultoption"    TYPE="int"  LENGTH="2"      NOTNULL="true" UNSIGNED="true"  DEFAULT="2" SEQUENCE="false"/>
-        <FIELD NAME="defaultvalue"     TYPE="char" LENGTH="255"    NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="downloadformat"   TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="adjustment"       TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <!-- end of fields belonging to itemsetupform.php of this specific plugin -->
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="options" TYPE="text" LENGTH="medium" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="labelother" TYPE="char" LENGTH="64" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="defaultoption" TYPE="int" LENGTH="2" NOTNULL="true" UNSIGNED="true" DEFAULT="2" SEQUENCE="false"/>
+        <FIELD NAME="defaultvalue" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="downloadformat" TYPE="int" LENGTH="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="adjustment" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

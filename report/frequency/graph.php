@@ -47,7 +47,7 @@ $reportman->set_groupid($groupid);
 
 list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);
 $answers = $DB->get_recordset_sql($sql, $whereparams);
-$item = surveypro_get_item($cm, $surveypro, $itemid);
+$item = surveypro_get_itemclass($cm, $surveypro, $itemid);
 
 $content = [];
 $absolute = [];

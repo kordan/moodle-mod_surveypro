@@ -46,94 +46,94 @@ Feature: Set checkbox as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
+    And I set the field "id_field_checkbox_1_0" to "1"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 0 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_0 | 0 |
+      | id_field_checkbox_1_1 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "1"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "1"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_2 | 0 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "1"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "1"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
-      | id_surveypro_field_checkbox_1_3 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_3 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "1"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
+    And I set the field "id_field_checkbox_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "1"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "1"
 
     And I log out
 
@@ -153,94 +153,94 @@ Feature: Set checkbox as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
+    And I set the field "id_field_checkbox_1_0" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 0 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_0 | 0 |
+      | id_field_checkbox_1_1 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "1"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "1"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_2 | 0 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "1"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "1"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
-      | id_surveypro_field_checkbox_1_3 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_3 | 1 |
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "1"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
+    Then the field "id_field_checkbox_1_0" matches value "1"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "1"
+    Then the field "id_field_checkbox_1_noanswer" matches value "0"
+    And I set the field "id_field_checkbox_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_checkbox_1_0" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_1" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_2" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_3" matches value "0"
-    Then the field "id_surveypro_field_checkbox_1_noanswer" matches value "1"
+    Then the field "id_field_checkbox_1_0" matches value "0"
+    Then the field "id_field_checkbox_1_1" matches value "0"
+    Then the field "id_field_checkbox_1_2" matches value "0"
+    Then the field "id_field_checkbox_1_3" matches value "0"
+    Then the field "id_field_checkbox_1_noanswer" matches value "1"
 
     And I log out
 
@@ -257,38 +257,38 @@ Feature: Set checkbox as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
+    And I set the field "id_field_checkbox_1_0" to "1"
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 0 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_0 | 0 |
+      | id_field_checkbox_1_1 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_2 | 0 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
-      | id_surveypro_field_checkbox_1_3 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_3 | 1 |
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
+    And I set the field "id_field_checkbox_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -307,36 +307,36 @@ Feature: Set checkbox as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
+    And I set the field "id_field_checkbox_1_0" to "1"
     Then the "Write down your name" "field" should be enabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 0 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_0 | 0 |
+      | id_field_checkbox_1_1 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 1 |
+      | id_field_checkbox_1_2 | 0 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_1 | 0 |
-      | id_surveypro_field_checkbox_1_2 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_1 | 0 |
+      | id_field_checkbox_1_2 | 1 |
     Then the "Write down your name" "field" should be disabled
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_2 | 0 |
-      | id_surveypro_field_checkbox_1_3 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_2 | 0 |
+      | id_field_checkbox_1_3 | 1 |
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_checkbox_1_noanswer" to "1"
+    And I set the field "id_field_checkbox_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled

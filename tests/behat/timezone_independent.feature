@@ -5,10 +5,10 @@ Feature: Test answers are not timezone dependent
   I submit answers and I check other answers.
 
   @javascript
-  Scenario: Delete a surveypro activity
+  Scenario: Answers are not timezone dependent
     Given the following "courses" exist:
-      | fullname | shortname | category | groupmode |
-      | TZ free  | noTZ      | 0        | 0         |
+      | fullname | shortname | category |
+      | TZ free  | noTZ      | 0        |
     And the following "groups" exist:
       | name    | course | idnumber |
       | Group 1 | noTZ   | G1       |
@@ -30,9 +30,9 @@ Feature: Test answers are not timezone dependent
       | capability                         | permission | role    | contextlevel | reference |
       | mod/surveypro:seeotherssubmissions | Allow      | student | Course       | noTZ      |
     And the following "activities" exist:
-      | activity  | name        | intro    | course |
-      | surveypro | sameanswers | To trash | noTZ   |
-    And surveypro "sameanswers" has the following items:
+      | activity  | name        | intro    | course | groupmode |
+      | surveypro | someanswers | To trash | noTZ   | 1         |
+    And surveypro "someanswers" has the following items:
       | type   | plugin      |
       | format | label       |
       | field  | age         |
@@ -42,48 +42,48 @@ Feature: Test answers are not timezone dependent
       | field  | shortdate   |
       | field  | time        |
 
-    When I am on the "sameanswers" "surveypro activity" page logged in as student1
+    When I am on the "someanswers" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the following fields to these values:
-      | id_surveypro_field_age_2_year         | 23      |
-      | id_surveypro_field_age_2_month        | 8       |
-      | id_surveypro_field_date_3_day         | 16      |
-      | id_surveypro_field_date_3_month       | March   |
-      | id_surveypro_field_date_3_year        | 1988    |
-      | id_surveypro_field_datetime_4_day     | 11      |
-      | id_surveypro_field_datetime_4_month   | August  |
-      | id_surveypro_field_datetime_4_year    | 2010    |
-      | id_surveypro_field_datetime_4_hour    | 17      |
-      | id_surveypro_field_datetime_4_minute  | 35      |
-      | id_surveypro_field_recurrence_5_day   | 4       |
-      | id_surveypro_field_recurrence_5_month | October |
-      | id_surveypro_field_shortdate_6_month  | June    |
-      | id_surveypro_field_shortdate_6_year   | 1975    |
-      | id_surveypro_field_time_7_hour        | 7       |
-      | id_surveypro_field_time_7_minute      | 15      |
+      | id_field_age_2_year         | 23      |
+      | id_field_age_2_month        | 8       |
+      | id_field_date_3_day         | 16      |
+      | id_field_date_3_month       | March   |
+      | id_field_date_3_year        | 1988    |
+      | id_field_datetime_4_day     | 11      |
+      | id_field_datetime_4_month   | August  |
+      | id_field_datetime_4_year    | 2010    |
+      | id_field_datetime_4_hour    | 17      |
+      | id_field_datetime_4_minute  | 35      |
+      | id_field_recurrence_5_day   | 4       |
+      | id_field_recurrence_5_month | October |
+      | id_field_shortdate_6_month  | June    |
+      | id_field_shortdate_6_year   | 1975    |
+      | id_field_time_7_hour        | 7       |
+      | id_field_time_7_minute      | 15      |
     And I press "Submit"
 
     And I log out
 
-    When I am on the "sameanswers" "surveypro activity" page logged in as student2
+    When I am on the "someanswers" "surveypro activity" page logged in as student2
     And I press "New response"
     And I set the following fields to these values:
-      | id_surveypro_field_age_2_year         | 23      |
-      | id_surveypro_field_age_2_month        | 8       |
-      | id_surveypro_field_date_3_day         | 16      |
-      | id_surveypro_field_date_3_month       | March   |
-      | id_surveypro_field_date_3_year        | 1988    |
-      | id_surveypro_field_datetime_4_day     | 11      |
-      | id_surveypro_field_datetime_4_month   | August  |
-      | id_surveypro_field_datetime_4_year    | 2010    |
-      | id_surveypro_field_datetime_4_hour    | 17      |
-      | id_surveypro_field_datetime_4_minute  | 35      |
-      | id_surveypro_field_recurrence_5_day   | 4       |
-      | id_surveypro_field_recurrence_5_month | October |
-      | id_surveypro_field_shortdate_6_month  | June    |
-      | id_surveypro_field_shortdate_6_year   | 1975    |
-      | id_surveypro_field_time_7_hour        | 7       |
-      | id_surveypro_field_time_7_minute      | 15      |
+      | id_field_age_2_year         | 23      |
+      | id_field_age_2_month        | 8       |
+      | id_field_date_3_day         | 16      |
+      | id_field_date_3_month       | March   |
+      | id_field_date_3_year        | 1988    |
+      | id_field_datetime_4_day     | 11      |
+      | id_field_datetime_4_month   | August  |
+      | id_field_datetime_4_year    | 2010    |
+      | id_field_datetime_4_hour    | 17      |
+      | id_field_datetime_4_minute  | 35      |
+      | id_field_recurrence_5_day   | 4       |
+      | id_field_recurrence_5_month | October |
+      | id_field_shortdate_6_month  | June    |
+      | id_field_shortdate_6_year   | 1975    |
+      | id_field_time_7_hour        | 7       |
+      | id_field_time_7_minute      | 15      |
     And I press "Submit"
 
     And I press "Continue to responses list"

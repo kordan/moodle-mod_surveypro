@@ -61,7 +61,7 @@ class itemsetupform extends item_setupbaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
 
-        // Item: trimonsave.
+        // Itembase: trimonsave.
         $fieldname = 'trimonsave';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
@@ -137,15 +137,16 @@ class itemsetupform extends item_setupbaseform {
         if (!empty($data['defaultvalue'])) {
             // Maximum characters > length of default.
             $defaultvaluelength = \core_text::strlen($data['defaultvalue']);
-            if (!empty($data['maxlength'])) {
-                if ($defaultvaluelength > $data['maxlength']) {
-                    $errors['defaultvalue'] = get_string('ierr_toolongdefault', 'surveyprofield_character');
+            if ($data['pattern'] == SURVEYPROFIELD_CHARACTER_FREEPATTERN) {
+                if (!empty($data['maxlength'])) {
+                    if ($defaultvaluelength > $data['maxlength']) {
+                        $errors['defaultvalue'] = get_string('ierr_toolongdefault', 'surveyprofield_character');
+                    }
                 }
-            }
-
-            // Minimum characters < length of default.
-            if ($defaultvaluelength < $data['minlength']) {
-                $errors['defaultvalue'] = get_string('ierr_tooshortdefault', 'surveyprofield_character');
+                // Minimum characters < length of default.
+                if ($defaultvaluelength < $data['minlength']) {
+                    $errors['defaultvalue'] = get_string('ierr_tooshortdefault', 'surveyprofield_character');
+                }
             }
 
             // Default has to match the text pattern.

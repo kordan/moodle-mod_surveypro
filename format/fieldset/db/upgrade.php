@@ -81,5 +81,25 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024011101, 'surveyproformat', 'fieldset');
     }
 
+    if ($oldversion < 2024022701) {
+
+        // Define field content to be dropped from surveyproformat_fieldset.
+        $table = new xmldb_table('surveyproformat_fieldset');
+        $field = new xmldb_field('content');
+
+        // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+        if ($dbman->field_exists($table, $field)) {
+            $sql = 'UPDATE {surveypro_item} i
+                    JOIN {surveyproformat_fieldset} f ON f.itemid = i.id
+                    SET i.content = f.content';
+            $DB->execute($sql);
+
+            $dbman->drop_field($table, $field);
+        }
+
+        // Age savepoint reached.
+        upgrade_plugin_savepoint(true, 2024022701, 'surveyproformat', 'fieldset');
+    }
+
     return true;
 }

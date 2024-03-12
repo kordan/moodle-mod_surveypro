@@ -266,9 +266,8 @@ class tools_export {
 
         $itemseedskeys = [];
         foreach ($itemseeds as $itemseed) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin;
-            $where = ['itemid' => $itemseed->id];
-            $currentheader = $DB->get_field($tablename, 'variable', $where);
+            $where = ['id' => $itemseed->id];
+            $currentheader = $DB->get_field('surveypro_item', 'variable', $where);
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
@@ -567,7 +566,7 @@ class tools_export {
         } else {
             $itemid = $richsubmission->itemid;
             $plugin = $richsubmission->plugin;
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $plugin);
             $return = $item->userform_db_to_export($richsubmission);
         }
 

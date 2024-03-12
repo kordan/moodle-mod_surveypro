@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 1965100401;
+$plugin->version = 2024042200;
 $plugin->release = '1.0';
-$plugin->requires = 1965100401; // Requires this Moodle version.
+$plugin->requires = 2024042200; // Requires this Moodle version.
 $plugin->component = 'surveyprotemplate_templatemaster'; // Full name of the plugin (used for diagnostics).

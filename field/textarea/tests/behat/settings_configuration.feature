@@ -42,7 +42,7 @@ Feature: Submit using textarea item and check form validation
       | Minimum length (in characters) | 20                                    |
       | Maximum length (in characters) | 1                                     |
     And I press "Add"
-    Then I should see "Maximum length can not be lowwer-equal than minimum length"
+    Then I should see "Maximum length can not be lower-equal than minimum length"
     And I set the field "Maximum length (in characters)" to ""
     And I press "Add"
     # End of test number 1
@@ -123,7 +123,7 @@ Feature: Submit using textarea item and check form validation
       | Minimum length (in characters) | 20                                    |
       | Maximum length (in characters) | 1                                     |
     And I press "Add"
-    Then I should see "Maximum length can not be lowwer-equal than minimum length"
+    Then I should see "Maximum length can not be lower-equal than minimum length"
     # End of test number 8
 
     # if the corresponding field is submitted when still empty

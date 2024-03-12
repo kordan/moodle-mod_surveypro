@@ -33,7 +33,7 @@ Feature: Submit using a rate item
       | Element number | 13a                                                 |
       | Element style  | radio buttons                                       |
     And I set the multiline field "Options" to "   Italian\nSpanish\n\n\n            English\n\n\nFrench\n\nGerman\n\n\n"
-    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nNot enought\n\nCompletely unknown\n"
+    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nSomewhat confident\n\nNot confident at all\n"
     And I press "Add"
 
     And I set the field "typeplugin" to "Rate"
@@ -47,7 +47,7 @@ Feature: Submit using a rate item
       | Element number | 13b                                                 |
       | Element style  | dropdown menu                                       |
     And I set the multiline field "Options" to "   Italian\nSpanish\n\n\n            English\n\n\nFrench\n\nGerman\n\n\n"
-    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nNot enought\n\nCompletely unknown\n"
+    And I set the multiline field "Rates" to "\n\n         Mother tongue\n   Very confident\nSomewhat confident\n\nNot confident at all\n"
     And I press "Add"
 
     And I log out
@@ -58,16 +58,16 @@ Feature: Submit using a rate item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_rate_1_0_0 | 1                  |
-      | id_surveypro_field_rate_1_1_1 | 1                  |
-      | id_surveypro_field_rate_1_2_2 | 1                  |
-      | id_surveypro_field_rate_1_3_3 | 1                  |
-      | id_surveypro_field_rate_1_4_2 | 1                  |
-      | id_surveypro_field_rate_2_0   | Mother tongue      |
-      | id_surveypro_field_rate_2_1   | Very confident     |
-      | id_surveypro_field_rate_2_2   | Not enought        |
-      | id_surveypro_field_rate_2_3   | Completely unknown |
-      | id_surveypro_field_rate_2_4   | Not enought        |
+      | id_field_rate_1_0_0 | 1                    |
+      | id_field_rate_1_1_1 | 1                    |
+      | id_field_rate_1_2_2 | 1                    |
+      | id_field_rate_1_3_3 | 1                    |
+      | id_field_rate_1_4_2 | 1                    |
+      | id_field_rate_2_0   | Mother tongue        |
+      | id_field_rate_2_1   | Very confident       |
+      | id_field_rate_2_2   | Somewhat confident   |
+      | id_field_rate_2_3   | Not confident at all |
+      | id_field_rate_2_4   | Somewhat confident   |
     And I press "Submit"
 
     And I press "Continue to responses list"

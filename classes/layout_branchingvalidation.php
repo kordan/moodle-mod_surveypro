@@ -161,12 +161,12 @@ class layout_branchingvalidation {
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $itemishidden = $item->get_hidden();
 
             if ($item->get_parentid()) {
                 // Here I do not know type and plugin.
-                $parentitem = surveypro_get_item($this->cm, $this->surveypro, $item->get_parentid());
+                $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $item->get_parentid());
             }
 
             $tablerow = [];
@@ -265,7 +265,6 @@ class layout_branchingvalidation {
         $itemseeds->close();
 
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('itemlist', 'mod_surveypro');
         $table->print_html();
     }
 }

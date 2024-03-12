@@ -512,10 +512,10 @@ class tools_import {
         $whereparams = ['surveyproid' => $this->surveypro->id];
         foreach ($pluginlist as $plugin) {
             $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
-            $canbemandatory = $classname::item_uses_mandatory_dbfield();
+            $usesmandatoryattribute = $classname::has_mandatoryattribute();
 
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $fieldname = ($canbemandatory) ? ', p.required' : '';
+            $fieldname = ($usesmandatoryattribute) ? ', p.required' : '';
             $sql = 'SELECT p.itemid, p.variable'.$fieldname.'
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
@@ -528,7 +528,7 @@ class tools_import {
                 if ($classname::response_uses_format()) {
                     $surveyheaders[$itemvar->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $itemvar->variable.SURVEYPRO_IMPFORMATSUFFIX;
                 }
-                if ($canbemandatory) {
+                if ($usesmandatoryattribute) {
                     if ($itemvar->required > 0) {
                         $requireditems[] = $itemvar->itemid;
                     }
@@ -645,7 +645,7 @@ class tools_import {
                     continue;
                 }
             }
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid);
 
             // Itemhelperinfo.
             $itemhelper = new \stdClass();
@@ -663,7 +663,7 @@ class tools_import {
 
             if ($itemhelper->usespositionalanswer) {
                 // The count of the options is enough.
-                $optionscountpercol[$col] = count($item->get_content_array(SURVEYPRO_LABELS, 'options'));
+                $optionscountpercol[$col] = count($item->get_textarea_content(SURVEYPRO_LABELS, 'options'));
             }
         }
 

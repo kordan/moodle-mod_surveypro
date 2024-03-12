@@ -61,20 +61,18 @@ class layout_variable extends \core\output\inplace_editable {
         $context = \context_module::instance($cm->id);
         external_api::validate_context($context);
 
-        // Why was I required to move surveypro_get_item from locallib.php to lib.php?
-        $item = surveypro_get_item($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
+        // Why was I required to move surveypro_get_itemclass from locallib.php to lib.php?
+        $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
 
         // Before saving to the the plugin table, validate the variable name.
         $record = new \stdClass();
+        $record->itemid = $itemid;
         $record->surveyproid = $surveypro->id;
         $record->variable = $newvarname;
         $record->plugin = $itemrecord->plugin;
 
-        $item->item_validate_variablename($record, $itemid);
-
-        $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
-        $newvarname = $record->variable;
-        $DB->set_field($tablename, 'variable', $newvarname, ['itemid' => $itemid]);
+        $item->item_validate_variablename($record);
+        $DB->set_field('surveypro_item', 'variable', $record->variable, ['id' => $itemid]);
 
         return new static($itemid, $newvarname);
     }

@@ -22,19 +22,19 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'COLLES (Preferred and Actual)';
-$string['privacy:metadata'] = 'The "COLLES (Preferred and Actual)" template plugin does not store any personal data.';
-
-$string['summary'] = 'Summary';
-$string['scales'] = 'Scales';
 $string['areaidxs'] = 'Questions';
-
-$string['useritem'] = 'Style of the choice elements';
-$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';
-$string['useradio'] = 'Radio buttons';
-$string['useselect'] = 'Use drop down menus';
+$string['pluginname'] = 'COLLES (Preferred and Actual)';
 $string['position'] = 'Position of attls elements question';
 $string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br>Changes will take effect with new surveypro';
+$string['privacy:metadata'] = 'The "COLLES (Preferred and Actual)" template plugin does not store any personal data.';
+
+$string['scales'] = 'Scales';
+$string['summary'] = 'Summary';
+
+$string['useradio'] = 'Radio buttons';
+$string['useritem'] = 'Style of the choice elements';
+$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';
+$string['useselect'] = 'Use drop down menus';
 
 // Label.
 $string['label_content_01'] = '<p>The purpose of this survey is to help us understand how well the online delivery of this unit enabled you to learn.
