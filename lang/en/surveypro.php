@@ -536,6 +536,7 @@ $string['usertemplateinfo'] = 'User templates';
 $string['utemplate_apply'] = 'Apply';
 $string['utemplate_import'] = 'Import';
 $string['utemplate_manage'] = 'Manage';
+$string['utemplate_nolongervalid'] = '<br>It may be you are trying to apply a no longer valid usertemplate.';
 $string['utemplate_save'] = 'Save';
 $string['utemplate'] = 'User templates';
 $string['utemplatessection'] = 'User templates section';

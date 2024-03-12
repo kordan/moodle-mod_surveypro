@@ -1156,7 +1156,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
             $fieldplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
             if (!empty($includetype)) {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveyprofield_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
                         $fieldplugins[$k] = SURVEYPRO_TYPEFIELD.'_'.$k;
                     } else {
                         unset($fieldplugins[$k]);
@@ -1165,7 +1165,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $fieldplugins = array_flip($fieldplugins);
             } else {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveyprofield_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
                         $fieldplugins[$k] = $k;
                     } else {
                         unset($fieldplugins[$k]);
@@ -1181,7 +1181,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
             $formatplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
             if (!empty($includetype)) {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveyproformat_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
                         $formatplugins[$k] = SURVEYPRO_TYPEFORMAT.'_'.$k;
                     } else {
                         unset($formatplugins[$k]);
@@ -1190,7 +1190,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $formatplugins = array_flip($formatplugins);
             } else {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveyproformat_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
                         $formatplugins[$k] = $k;
                     } else {
                         unset($formatplugins[$k]);

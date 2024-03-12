@@ -49,7 +49,7 @@ class surveyproformat extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveyproformat_'.$plugin;
+            $installed[] = 'surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
