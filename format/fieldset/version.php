@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024011101;
+$plugin->version = 2024042200;
 $plugin->release = '1.0';
-$plugin->requires = 2015111600; // Requires this Moodle version.
+$plugin->requires = 2024042200; // Requires this Moodle version.
 $plugin->component = 'surveyproformat_fieldset'; // Full name of the plugin (used for diagnostics).

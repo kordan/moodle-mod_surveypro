@@ -39,47 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
-     */
-    protected $hideinstructions;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var bool $hiddenfield = is the static text visible in the mform?
@@ -92,6 +52,28 @@ class item extends itembase {
     protected $element01;
 
     /**
+     * @var string Element #2 for $content
+     */
+    protected $element02;
+
+    /**
+     * @var string Element #3 for $content
+     */
+    protected $element03;
+
+    /**
+     * @var string Element #4 for $content
+     */
+    protected $element04;
+
+    /**
+     * @var string Element #5 for $content
+     */
+    protected $element05;
+
+    // Service variables.
+
+    /**
      * @var string Select of the element #1
      */
     protected $element01select;
@@ -100,11 +82,6 @@ class item extends itembase {
      * @var string Text of the element #1
      */
     protected $element01text;
-
-    /**
-     * @var string Element #2 for $content
-     */
-    protected $element02;
 
     /**
      * @var string Select of the element #2
@@ -117,11 +94,6 @@ class item extends itembase {
     protected $element02text;
 
     /**
-     * @var string Element #3 for $content
-     */
-    protected $element03;
-
-    /**
      * @var string Select of the element #3
      */
     protected $element03select;
@@ -130,11 +102,6 @@ class item extends itembase {
      * @var string Text of the element #3
      */
     protected $element03text;
-
-    /**
-     * @var string Element #4 for $content
-     */
-    protected $element04;
 
     /**
      * @var string Select of the element #4
@@ -147,11 +114,6 @@ class item extends itembase {
     protected $element04text;
 
     /**
-     * @var string Element #5 for $content
-     */
-    protected $element05;
-
-    /**
      * @var string Select of the element #5
      */
     protected $element05select;
@@ -160,6 +122,11 @@ class item extends itembase {
      * @var string Text of the element #5
      */
     protected $element05text;
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -193,7 +160,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['required'] = false;
         $this->insetupform['hideinstructions'] = false;
         $this->insetupform['parentid'] = false;
@@ -227,14 +196,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -247,14 +212,13 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Autofill';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->variable = 'autofill_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->hiddenfield = 0;
         $record->element01 = 'userid';
+        // $record->element02;
+        // $record->element03;
+        // $record->element04;
+        // $record->element05;
     }
 
     /**
@@ -292,7 +256,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -327,29 +291,343 @@ class item extends itembase {
      *
      * @return whether the item of this plugin can be mandatory
      */
-    public static function item_uses_mandatory_dbfield() {
+    public static function has_mandatoryattribute() {
         return false;
+    }
+
+    // MARK set.
+
+    /**
+     * Set hiddenfield.
+     *
+     * @param string $hiddenfield
+     * @return void
+     */
+    public function set_hiddenfield($hiddenfield) {
+        $this->hiddenfield = $hiddenfield;
+    }
+
+    /**
+     * Set element01.
+     *
+     * @param string $element01
+     * @return void
+     */
+    public function set_element01($element01) {
+        $this->element01 = $element01;
+    }
+
+    /**
+     * Set element02.
+     *
+     * @param string $element02
+     * @return void
+     */
+    public function set_element02($element02) {
+        $this->element02 = $element02;
+    }
+
+    /**
+     * Set element03.
+     *
+     * @param string $element03
+     * @return void
+     */
+    public function set_element03($element03) {
+        $this->element03 = $element03;
+    }
+
+    /**
+     * Set element04.
+     *
+     * @param string $element04
+     * @return void
+     */
+    public function set_element04($element04) {
+        $this->element04 = $element04;
+    }
+
+    /**
+     * Set element05.
+     *
+     * @param string $element05
+     * @return void
+     */
+    public function set_element05($element05) {
+        $this->element05 = $element05;
+    }
+
+    /**
+     * Set element01select.
+     *
+     * @param string $element01select
+     * @return void
+     */
+    public function set_element01select($element01select) {
+        $this->element01select = $element01select;
+    }
+
+    /**
+     * Set element01text.
+     *
+     * @param string $element01text
+     * @return void
+     */
+    public function set_element01text($element01text) {
+        $this->element01text = $element01text;
+    }
+
+    /**
+     * Set element02select.
+     *
+     * @param string $element02select
+     * @return void
+     */
+    public function set_element02select($element02select) {
+        $this->element02select = $element02select;
+    }
+
+    /**
+     * Set element02text.
+     *
+     * @param string $element02text
+     * @return void
+     */
+    public function set_element02text($element02text) {
+        $this->element02text = $element02text;
+    }
+
+    /**
+     * Set element03select.
+     *
+     * @param string $element03select
+     * @return void
+     */
+    public function set_element03select($element03select) {
+        $this->element03select = $element03select;
+    }
+
+    /**
+     * Set element03text.
+     *
+     * @param string $element03text
+     * @return void
+     */
+    public function set_element03text($element03text) {
+        $this->element03text = $element03text;
+    }
+
+    /**
+     * Set element04select.
+     *
+     * @param string $element04select
+     * @return void
+     */
+    public function set_element04select($element04select) {
+        $this->element04select = $element04select;
+    }
+
+    /**
+     * Set element04text.
+     *
+     * @param string $element04text
+     * @return void
+     */
+    public function set_element04text($element04text) {
+        $this->element04text = $element04text;
+    }
+
+    /**
+     * Set element05select.
+     *
+     * @param string $element05select
+     * @return void
+     */
+    public function set_element05select($element05select) {
+        $this->element05select = $element05select;
+    }
+
+    /**
+     * Set element05text.
+     *
+     * @param string $element05text
+     * @return void
+     */
+    public function set_element05text($element05text) {
+        $this->element05text = $element05text;
     }
 
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get hiddenfield.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->hiddenfield
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_hiddenfield() {
+        return $this->hiddenfield;
+    }
+
+    /**
+     * Get element01.
+     *
+     * @return $this->element01
+     */
+    public function get_element01() {
+        return $this->element01;
+    }
+
+    /**
+     * Get element02.
+     *
+     * @return $this->element02
+     */
+    public function get_element02() {
+        return $this->element02;
+    }
+
+    /**
+     * Get element03.
+     *
+     * @return $this->element03
+     */
+    public function get_element03() {
+        return $this->element03;
+    }
+
+    /**
+     * Get element04.
+     *
+     * @return $this->element04
+     */
+    public function get_element04() {
+        return $this->element04;
+    }
+
+    /**
+     * Get element05.
+     *
+     * @return $this->element05
+     */
+    public function get_element05() {
+        return $this->element05;
+    }
+
+    /**
+     * Get element01select.
+     *
+     * @return $this->element01select
+     */
+    public function get_element01select() {
+        return $this->element01select;
+    }
+
+    /**
+     * Get element01text.
+     *
+     * @return $this->element01text
+     */
+    public function get_element01text() {
+        return $this->element01text;
+    }
+
+    /**
+     * Get element02select.
+     *
+     * @return $this->element02select
+     */
+    public function get_element02select() {
+        return $this->element02select;
+    }
+
+    /**
+     * Get element02text.
+     *
+     * @return $this->element02text
+     */
+    public function get_element02text() {
+        return $this->element02text;
+    }
+
+    /**
+     * Get element03select.
+     *
+     * @return $this->element03select
+     */
+    public function get_element03select() {
+        return $this->element03select;
+    }
+
+    /**
+     * Get element03text.
+     *
+     * @return $this->element03text
+     */
+    public function get_element03text() {
+        return $this->element03text;
+    }
+
+    /**
+     * Get element04select.
+     *
+     * @return $this->element04select
+     */
+    public function get_element04select() {
+        return $this->element04select;
+    }
+
+    /**
+     * Get element04text.
+     *
+     * @return $this->element04text
+     */
+    public function get_element04text() {
+        return $this->element04text;
+    }
+
+    /**
+     * Get element05select.
+     *
+     * @return $this->element05select
+     */
+    public function get_element05select() {
+        return $this->element05select;
+    }
+
+    /**
+     * Get element05text.
+     *
+     * @return $this->element05text
+     */
+    public function get_element05text() {
+        return $this->element05text;
+    }
+
+    /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = [
+            'hiddenfield', 'element01', 'element02', 'element03', 'element04', 'element05',
+            'element01select', 'element02select', 'element03select', 'element04select', 'element05select',
+            'element01text', 'element02text', 'element03text', 'element04text', 'element05text',
+        ];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
     }
 
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_autofill'] = [];
 
         return $fieldlist;
     }
@@ -366,27 +644,8 @@ class item extends itembase {
     <xs:element name="surveyprofield_autofill">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <!-- <xs:element name="required" type="xs:int"/> -->
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
-                <xs:element name="hiddenfield" type="xs:int"/>
-                <xs:element name="element01" type="xs:string" minOccurs="0"/>
+                <xs:element name="hiddenfield" type="xs:int" minOccurs="0"/>
+                <xs:element name="element01" type="xs:string"/>
                 <xs:element name="element02" type="xs:string" minOccurs="0"/>
                 <xs:element name="element03" type="xs:string" minOccurs="0"/>
                 <xs:element name="element04" type="xs:string" minOccurs="0"/>
@@ -438,7 +697,11 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_autofill_'.$this->sortindex;
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_autofill_'.$this->sortindex;
+        $attributes = [];
+        $elementgroup = [];
+        $basename = $this->itemname;
 
         if (!$searchform) {
             // I can not say: "I can write the content as if the record is new because if the record is not new,
@@ -446,52 +709,46 @@ EOS;
             // This is a label! Defults will not be applied.
             // So, I have to ALWAYS get them now and include them now into the item.
 
-            // Is this a new submission or I am editing an old one?
+            // Is this a new submission?
             $submissionid = $mform->getElementValue('submissionid');
-            if ($submissionid) { // I am editing an old submission.
+            if ($submissionid) { // I am working on an already saved submission.
                 $wheresql = 'submissionid = :submissionid AND itemid = :itemid';
                 $whereparams = ['submissionid' => $submissionid, 'itemid' => $this->itemid];
                 $answer = false;
                 $answer = $DB->get_record('surveypro_answer', $whereparams);
                 if ($answer) {
                     $value = $answer->content;
-                } else { // This should never be verified.
-                    $message = 'Unexpected lack of answer. ';
-                    $message .= 'The submission id '.$submissionid.' exists ';
-                    $message .= 'but there is not any answer for the item id '.$this->itemid;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-                    $value = 'NULL';
+                } else {
+                    // If the answer does not exist...
+                    // it may be I am saving a new content BUT the autofill item is in the second page of the surveypro.
+                    $value = $this->userform_get_content(0);
                 }
             } else { // I am editing a new submission.
                 $value = $this->userform_get_content(0);
             }
 
-            $mform->addElement('hidden', $this->itemname, $value);
-            $mform->setType($this->itemname, PARAM_RAW);
-            $mform->setDefault($this->itemname, $value);
+            $mform->addElement('hidden', $basename, $value);
+            $mform->setType($basename, PARAM_RAW);
+            $mform->setDefault($basename, $value);
 
             if (!$this->hiddenfield) {
-                $attributes = ['id' => $idprefix, 'class' => 'indent-'.$this->indent.' label_static'];
-                $mform->addElement('mod_surveypro_label', $this->itemname.'_static', $elementlabel, $value, $attributes);
+                $attributes = ['id' => $baseid];
+                $elementgroup[] = $mform->createElement('static', $basename.'_static', '', $value, $attributes);
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
             }
         } else {
-            $attributes = [];
-            $elementgroup = [];
+            $basename = $this->itemname;
+            $attributes['id'] = $baseid;
 
-            $itemname = $this->itemname;
-            $attributes['id'] = $idprefix;
-            $attributes['class'] = 'indent-'.$this->indent.' autofill_text';
-            $elementgroup[] = $mform->createElement('text', $itemname, '', $attributes);
+            $elementgroup[] = $mform->createElement('text', $basename, '', $attributes);
+            $mform->setType($basename, PARAM_RAW);
 
-            $itemname = $this->itemname.'_ignoreme';
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'autofill_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+            $attributes['id'] = $baseid.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-            $mform->setType($this->itemname, PARAM_RAW);
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+            $mform->setDefault($basename.'_ignoreme', '1');
         }
     }
 
@@ -505,6 +762,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
+        return $errors;
     }
 
     /**
@@ -673,8 +931,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname];
-
-        return $elementnames;
+        return [];
     }
 }

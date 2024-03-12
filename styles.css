@@ -23,12 +23,12 @@
 /* End of: hacky coluorunifier html element */
 
 /* Begin of: connect note to question */
-.path-mod-surveypro #userentry > div.fitem,
-.path-mod-surveypro #usersearch > div.fitem,
-.path-mod-surveypro #userentry > fieldset > div > div.fitem,
-.path-mod-surveypro #usersearch > fieldset > div > div.fitem {
-    margin: 0;
+/* stylelint-disable declaration-no-important */
+.path-mod-surveypro .narrowlines > div.fitem,
+.path-mod-surveypro .narrowlines > fieldset > div > div.fitem {
+    margin-bottom: 0 !important;
 }
+/* stylelint-enable declaration-no-important */
 /* End of: connect note to question */
 
 /* Begin of: no margin bottom to p inside question in SURVEYPRO_POSITIONTOP and SURVEYPRO_POSITIONFULLWIDTH */
@@ -222,7 +222,8 @@
     text-align: center;
 }
 
-.path-mod-surveypro table .dimmed {
+.path-mod-surveypro table .dimmed,
+.path-mod-surveypro table .dimmed:hover {
     color: #cdcdcd;
 }
 
@@ -319,12 +320,13 @@
     vertical-align: middle;
 }
 
+#page-mod-surveypro-utemplates table#managetemplates td.actions img.icon,
 #page-mod-surveypro-utemplates table#managetemplates td.actions i.icon {
     width: 16px;
     height: 16px;
-    padding: 0;
+    margin: 0 0 0 0.45em;
+    padding-right: 0;
     vertical-align: middle;
-    margin-right: 0;
 }
 
 #page-mod-surveypro-utemplates table#managetemplates td.actions a.icon {
@@ -336,175 +338,33 @@
 }
 /* End of: #managetemplates table */
 
-/* classes = indent-n */
-.path-mod-surveypro .fitem .felement .indent-1 {
-    margin-left: 1.5em;
+.path-mod-surveypro div.indent-1 > div.felement {
+    padding-left: 1.5em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-.path-mod-surveypro div.indent-1 > div > select,
-.path-mod-surveypro div.indent-1 > div > textarea,
-.path-mod-surveypro div.indent-1 > div > input[type='text'],
-.path-mod-surveypro div.indent-1 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-1 {
-    margin-left: 1.5em;
+.path-mod-surveypro div.indent-2 > div.felement {
+    padding-left: 3em;
 }
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-1.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-1.fileupload_filemanager ~ p {
-    margin-left: 1.5em;
+.path-mod-surveypro div.indent-3 > div.felement {
+    padding-left: 4.5em;
 }
-
-/* class = indent-2 */
-.path-mod-surveypro .fitem .felement .indent-2 {
-    margin-left: 3em;
+.path-mod-surveypro div.indent-4 > div.felement {
+    padding-left: 6em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-.path-mod-surveypro div.indent-2 > div > select,
-.path-mod-surveypro div.indent-2 > div > textarea,
-.path-mod-surveypro div.indent-2 > div > input[type='text'],
-.path-mod-surveypro div.indent-2 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-2 {
-    margin-left: 3em;
+.path-mod-surveypro div.indent-5 > div.felement {
+    padding-left: 7.5em;
 }
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-2.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-2.fileupload_filemanager ~ p {
-    margin-left: 3em;
+.path-mod-surveypro div.indent-6 > div.felement {
+    padding-left: 9em;
 }
-
-/* class = indent-3 */
-.path-mod-surveypro .fitem .felement .indent-3 {
-    margin-left: 4.5em;
+.path-mod-surveypro div.indent-7 > div.felement {
+    padding-left: 10.5em;
 }
-/* correction for select, textarea, plain text and ignoreme checkboxes that resist to the general selector */
-.path-mod-surveypro div.indent-3 > div > select,
-.path-mod-surveypro div.indent-3 > div > textarea,
-.path-mod-surveypro div.indent-3 > div > input[type='text'],
-.path-mod-surveypro div.indent-3 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-3 {
-    margin-left: 4.5em;
+.path-mod-surveypro div.indent-8 > div.felement {
+    padding-left: 12em;
 }
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-3.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-3.fileupload_filemanager ~ p {
-    margin-left: 4.5em;
+.path-mod-surveypro div.indent-9 > div.felement {
+    padding-left: 13.5em;
 }
-
-/* class = indent-4 */
-.path-mod-surveypro .fitem .felement .indent-4 {
-    margin-left: 6em;
-}
-.path-mod-surveypro div.indent-4 > div > select,
-.path-mod-surveypro div.indent-4 > div > textarea,
-.path-mod-surveypro div.indent-4 > div > input[type='text'],
-.path-mod-surveypro div.indent-4 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-4 {
-    margin-left: 6em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-4.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-4.fileupload_filemanager ~ p {
-    margin-left: 6em;
-}
-
-/* class = indent-5 */
-.path-mod-surveypro .fitem .felement .indent-5 {
-    margin-left: 7.5em;
-}
-.path-mod-surveypro div.indent-5 > div > select,
-.path-mod-surveypro div.indent-5 > div > textarea,
-.path-mod-surveypro div.indent-5 > div > input[type='text'],
-.path-mod-surveypro div.indent-5 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-5 {
-    margin-left: 7.5em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-5.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-5.fileupload_filemanager ~ p {
-    margin-left: 7.5em;
-}
-
-/* class = indent-6 */
-.path-mod-surveypro .fitem .felement .indent-6 {
-    margin-left: 9em;
-}
-.path-mod-surveypro div.indent-6 > div > select,
-.path-mod-surveypro div.indent-6 > div > textarea,
-.path-mod-surveypro div.indent-6 > div > input[type='text'],
-.path-mod-surveypro div.indent-6 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-6 {
-    margin-left: 9em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-6.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-6.fileupload_filemanager ~ p {
-    margin-left: 9em;
-}
-
-/* class = indent-7 */
-.path-mod-surveypro .fitem .felement .indent-7 {
-    margin-left: 10.5em;
-}
-.path-mod-surveypro div.indent-7 > div > select,
-.path-mod-surveypro div.indent-7 > div > textarea,
-.path-mod-surveypro div.indent-7 > div > input[type='text'],
-.path-mod-surveypro div.indent-7 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-7 {
-    margin-left: 10.5em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-7.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-7.fileupload_filemanager ~ p {
-    margin-left: 10.5em;
-}
-
-/* class = indent-8 */
-.path-mod-surveypro .fitem .felement .indent-8 {
-    margin-left: 12em;
-}
-.path-mod-surveypro div.indent-8 > div > select,
-.path-mod-surveypro div.indent-8 > div > textarea,
-.path-mod-surveypro div.indent-8 > div > input[type='text'],
-.path-mod-surveypro div.indent-8 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-8 {
-    margin-left: 12em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-8.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-8.fileupload_filemanager ~ p {
-    margin-left: 12em;
-}
-
-/* class = indent-9 */
-.path-mod-surveypro .fitem .felement .indent-9 {
-    margin-left: 13.5em;
-}
-.path-mod-surveypro div.indent-9 > div > select,
-.path-mod-surveypro div.indent-9 > div > textarea,
-.path-mod-surveypro div.indent-9 > div > input[type='text'],
-.path-mod-surveypro div.indent-9 > div > div > label,
-.path-mod-surveypro .form-group div.fitem.indent-9 {
-    margin-left: 13.5em;
-}
-/* correction for fileupload_filemanager specifications that resist to the general selector */
-.path-mod-surveypro div.indent-9.fileupload_filemanager ~ div,
-.path-mod-surveypro div.indent-9.fileupload_filemanager ~ p {
-    margin-left: 13.5em;
-}
-
-/* This is for checkboxes affected by MDL-62634 */
-.path-mod-surveypro label.indent-1 > input[type='checkbox'].indent-1,
-.path-mod-surveypro label.indent-2 > input[type='checkbox'].indent-2,
-.path-mod-surveypro label.indent-3 > input[type='checkbox'].indent-3,
-.path-mod-surveypro label.indent-4 > input[type='checkbox'].indent-4,
-.path-mod-surveypro label.indent-5 > input[type='checkbox'].indent-5,
-.path-mod-surveypro label.indent-6 > input[type='checkbox'].indent-6,
-.path-mod-surveypro label.indent-7 > input[type='checkbox'].indent-7,
-.path-mod-surveypro label.indent-8 > input[type='checkbox'].indent-8,
-.path-mod-surveypro label.indent-9 > input[type='checkbox'].indent-9 {
-    margin-left: 0;
-}
-/* End of: classes = indent-n */
 
 /* Begin of: fix to owful alignment of fielset legends in surveypro -> cover */
 .path-mod-surveypro_cover .coverinfolegend {

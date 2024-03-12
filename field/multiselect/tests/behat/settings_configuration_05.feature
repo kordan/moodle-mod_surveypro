@@ -39,7 +39,7 @@ Feature: Submit using multiselect item and check form validation
     # Test number 1: Student submits a standard answer
     And I press "New response"
     Then I should not see "No more than"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, coffee"
+    And I set the field "id_field_multiselect_1" to "milk, coffee"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -59,11 +59,11 @@ Feature: Submit using multiselect item and check form validation
 
     # Test number 2: Student ticks too many items
     And I press "New response"
-    Then I should see "No more than 3 items are allowed"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, coffee, butter, bread"
+    Then I should see "No more than 3 options are allowed"
+    And I set the field "id_field_multiselect_1" to "milk, coffee, butter, bread"
     And I press "Submit"
     Then I should see "Please tick no more than 3 options"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, coffee, bread"
+    And I set the field "id_field_multiselect_1" to "milk, coffee, bread"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -71,8 +71,8 @@ Feature: Submit using multiselect item and check form validation
 
     # Test number 3: Student submits a standard answer
     And I press "New response"
-    Then I should see "No more than 3 items are allowed"
-    And I set the field "id_surveypro_field_multiselect_1" to "coffee"
+    Then I should see "No more than 3 options are allowed"
+    And I set the field "id_field_multiselect_1" to "coffee"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

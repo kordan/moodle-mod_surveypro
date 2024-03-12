@@ -83,11 +83,11 @@
  *      mod/surveypro:savetopdfownsubmissions
  *      mod/surveypro:savetopdfotherssubmissions
  *
- *  File: view.php, $section = 'submissionform'
+ *  File: view.php, $section = 'responsesubmit'
  *      mod/surveypro:submit
  *      mod/surveypro:ignoremaxentries
  *
- *  File: view.php, $section = 'searchsubmissions'
+ *  File: view.php, $section = 'responsesearch'
  *      mod/surveypro:searchsubmissions
  *
  *  -------------------------------------------

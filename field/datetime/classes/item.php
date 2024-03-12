@@ -40,52 +40,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/datetime/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
-     */
-    protected $hideinstructions;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var int Step for minutes drop down menu
@@ -103,9 +58,21 @@ class item extends itembase {
     protected $downloadformat;
 
     /**
-     * @var int Defaultvalue for the datetime in unixtime
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
+
+    /**
+     * @var int Lowerbound for the datetime in unixtime
+     */
+    protected $lowerbound;
+
+    /**
+     * @var int Upperbound for the datetime in unixtime
+     */
+    protected $upperbound;
+
+    // Service variables.
 
     /**
      * @var int Year of the defaultvalue for the datetime in unixtime
@@ -133,11 +100,6 @@ class item extends itembase {
     protected $defaultvalueminute;
 
     /**
-     * @var int Lowerbound for the datetime in unixtime
-     */
-    protected $lowerbound;
-
-    /**
      * @var int Year of the lowerbound for the datetime in unixtime
      */
     protected $lowerboundyear;
@@ -163,11 +125,6 @@ class item extends itembase {
     protected $lowerboundminute;
 
     /**
-     * @var int Upperbound for the datetime in unixtime
-     */
-    protected $upperbound;
-
-    /**
      * @var int Year of the upperbound for the datetime in unixtime
      */
     protected $upperboundyear;
@@ -191,6 +148,11 @@ class item extends itembase {
      * @var int Minute of the upperbound for the datetime in unixtime
      */
     protected $upperboundminute;
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -228,7 +190,9 @@ class item extends itembase {
         $this->upperbound = $this->item_datetime_to_unix_time($this->surveypro->stopyear, 12, 31, 23, 59);
         $this->defaultvalue = $this->lowerbound;
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -260,14 +224,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -280,14 +240,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Date and time [dd/mm/yyyy;hh:mm]';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'datetime_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->step = 1;
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 0;
@@ -307,7 +260,9 @@ class item extends itembase {
      * @return int unixtime
      */
     public function item_datetime_to_unix_time($year, $month, $day, $hour, $minute) {
-        return (mktime($hour, $minute, 0, $month, $day, $year));
+        $unixtime = gmmktime($hour, $minute, 0, $month, $day, $year);
+
+        return $unixtime;
     }
 
     /**
@@ -360,7 +315,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
@@ -392,15 +347,407 @@ class item extends itembase {
         // 4. Other.
     }
 
+    // MARK set.
+
+    /**
+     * Set step.
+     *
+     * @param string $step
+     * @return void
+     */
+    public function set_step($step) {
+        $this->step = $step;
+    }
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set downloadformat.
+     *
+     * @param string $downloadformat
+     * @return void
+     */
+    public function set_downloadformat($downloadformat) {
+        $this->downloadformat = $downloadformat;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set lowerbound.
+     *
+     * @param string $lowerbound
+     * @return void
+     */
+    public function set_lowerbound($lowerbound) {
+        $this->lowerbound = $lowerbound;
+    }
+
+    /**
+     * Set upperbound.
+     *
+     * @param string $upperbound
+     * @return void
+     */
+    public function set_upperbound($upperbound) {
+        $this->upperbound = $upperbound;
+    }
+
+    /**
+     * Set defaultvalueyear.
+     *
+     * @param string $defaultvalueyear
+     * @return void
+     */
+    public function set_defaultvalueyear($defaultvalueyear) {
+        $this->defaultvalueyear = $defaultvalueyear;
+    }
+
+    /**
+     * Set defaultvaluemonth.
+     *
+     * @param string $defaultvaluemonth
+     * @return void
+     */
+    public function set_defaultvaluemonth($defaultvaluemonth) {
+        $this->defaultvaluemonth = $defaultvaluemonth;
+    }
+
+    /**
+     * Set defaultvalueday.
+     *
+     * @param string $defaultvalueday
+     * @return void
+     */
+    public function set_defaultvalueday($defaultvalueday) {
+        $this->defaultvalueday = $defaultvalueday;
+    }
+
+    /**
+     * Set defaultvaluehour.
+     *
+     * @param string $defaultvaluehour
+     * @return void
+     */
+    public function set_defaultvaluehour($defaultvaluehour) {
+        $this->defaultvaluehour = $defaultvaluehour;
+    }
+
+    /**
+     * Set defaultvalueminute.
+     *
+     * @param string $defaultvalueminute
+     * @return void
+     */
+    public function set_defaultvalueminute($defaultvalueminute) {
+        $this->defaultvalueminute = $defaultvalueminute;
+    }
+
+    /**
+     * Set lowerboundyear.
+     *
+     * @param string $lowerboundyear
+     * @return void
+     */
+    public function set_lowerboundyear($lowerboundyear) {
+        $this->lowerboundyear = $lowerboundyear;
+    }
+
+    /**
+     * Set lowerboundmonth.
+     *
+     * @param string $lowerboundmonth
+     * @return void
+     */
+    public function set_lowerboundmonth($lowerboundmonth) {
+        $this->lowerboundmonth = $lowerboundmonth;
+    }
+
+    /**
+     * Set lowerboundday.
+     *
+     * @param string $lowerboundday
+     * @return void
+     */
+    public function set_lowerboundday($lowerboundday) {
+        $this->lowerboundday = $lowerboundday;
+    }
+
+    /**
+     * Set lowerboundhour.
+     *
+     * @param string $lowerboundhour
+     * @return void
+     */
+    public function set_lowerboundhour($lowerboundhour) {
+        $this->lowerboundhour = $lowerboundhour;
+    }
+
+    /**
+     * Set lowerboundminute.
+     *
+     * @param string $lowerboundminute
+     * @return void
+     */
+    public function set_lowerboundminute($lowerboundminute) {
+        $this->lowerboundminute = $lowerboundminute;
+    }
+
+    /**
+     * Set upperboundyear.
+     *
+     * @param string $upperboundyear
+     * @return void
+     */
+    public function set_upperboundyear($upperboundyear) {
+        $this->upperboundyear = $upperboundyear;
+    }
+
+    /**
+     * Set upperboundmonth.
+     *
+     * @param string $upperboundmonth
+     * @return void
+     */
+    public function set_upperboundmonth($upperboundmonth) {
+        $this->upperboundmonth = $upperboundmonth;
+    }
+
+    /**
+     * Set upperboundday.
+     *
+     * @param string $upperboundday
+     * @return void
+     */
+    public function set_upperboundday($upperboundday) {
+        $this->upperboundday = $upperboundday;
+    }
+
+    /**
+     * Set upperboundhour.
+     *
+     * @param string $upperboundhour
+     * @return void
+     */
+    public function set_upperboundhour($upperboundhour) {
+        $this->upperboundhour = $upperboundhour;
+    }
+
+    /**
+     * Set upperboundminute.
+     *
+     * @param string $upperboundminute
+     * @return void
+     */
+    public function set_upperboundminute($upperboundminute) {
+        $this->upperboundminute = $upperboundminute;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get step.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->step
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_step() {
+        return $this->step;
+    }
+
+    /**
+     * Get defaultoption.
+     *
+     * @return $this->defaultoption
+     */
+    public function get_defaultoption() {
+        return $this->defaultoption;
+    }
+
+    /**
+     * Get downloadformat.
+     *
+     * @return $this->downloadformat
+     */
+    public function get_downloadformat() {
+        return $this->downloadformat;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get lowerbound.
+     *
+     * @return $this->lowerbound
+     */
+    public function get_lowerbound() {
+        return $this->lowerbound;
+    }
+
+    /**
+     * Get upperbound.
+     *
+     * @return $this->upperbound
+     */
+    public function get_upperbound() {
+        return $this->upperbound;
+    }
+
+    /**
+     * Get defaultvalueyear.
+     *
+     * @return $this->defaultvalueyear
+     */
+    public function get_defaultvalueyear() {
+        return $this->defaultvalueyear;
+    }
+
+    /**
+     * Get defaultvaluemonth.
+     *
+     * @return $this->defaultvaluemonth
+     */
+    public function get_defaultvaluemonth() {
+        return $this->defaultvaluemonth;
+    }
+
+    /**
+     * Get defaultvalueday.
+     *
+     * @return $this->defaultvalueday
+     */
+    public function get_defaultvalueday() {
+        return $this->defaultvalueday;
+    }
+
+    /**
+     * Get defaultvaluehour.
+     *
+     * @return $this->defaultvaluehour
+     */
+    public function get_defaultvaluehour() {
+        return $this->defaultvaluehour;
+    }
+
+    /**
+     * Get defaultvalueminute.
+     *
+     * @return $this->defaultvalueminute
+     */
+    public function get_defaultvalueminute() {
+        return $this->defaultvalueminute;
+    }
+
+    /**
+     * Get lowerboundyear.
+     *
+     * @return $this->lowerboundyear
+     */
+    public function get_lowerboundyear() {
+        return $this->lowerboundyear;
+    }
+
+    /**
+     * Get lowerboundmonth.
+     *
+     * @return $this->lowerboundmonth
+     */
+    public function get_lowerboundmonth() {
+        return $this->lowerboundmonth;
+    }
+
+    /**
+     * Get lowerboundday.
+     *
+     * @return $this->lowerboundday
+     */
+    public function get_lowerboundday() {
+        return $this->lowerboundday;
+    }
+
+    /**
+     * Get lowerboundhour.
+     *
+     * @return $this->lowerboundhour
+     */
+    public function get_lowerboundhour() {
+        return $this->lowerboundhour;
+    }
+
+    /**
+     * Get lowerboundminute.
+     *
+     * @return $this->lowerboundminute
+     */
+    public function get_lowerboundminute() {
+        return $this->lowerboundminute;
+    }
+
+    /**
+     * Get upperboundyear.
+     *
+     * @return $this->upperboundyear
+     */
+    public function get_upperboundyear() {
+        return $this->upperboundyear;
+    }
+
+    /**
+     * Get upperboundmonth.
+     *
+     * @return $this->upperboundmonth
+     */
+    public function get_upperboundmonth() {
+        return $this->upperboundmonth;
+    }
+
+    /**
+     * Get upperboundday.
+     *
+     * @return $this->upperboundday
+     */
+    public function get_upperboundday() {
+        return $this->upperboundday;
+    }
+
+    /**
+     * Get upperboundhour.
+     *
+     * @return $this->upperboundhour
+     */
+    public function get_upperboundhour() {
+        return $this->upperboundhour;
+    }
+
+    /**
+     * Get upperboundminute.
+     *
+     * @return $this->upperboundminute
+     */
+    public function get_upperboundminute() {
+        return $this->upperboundminute;
     }
 
     /**
@@ -440,13 +787,31 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = [
+            'step', 'defaultoption', 'defaultvalue', 'downloadformat', 'lowerbound', 'upperbound',
+            'defaultvalueyear', 'defaultvaluemonth', 'defaultvalueday', 'defaultvaluehour', 'defaultvalueminute',
+            'lowerboundyear', 'lowerboundmonth', 'lowerboundday', 'lowerboundhour', 'lowerboundminute',
+            'upperboundyear', 'upperboundmonth', 'upperboundday', 'upperboundhour', 'upperboundminute',
+        ];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_datetime'] = [];
 
         return $fieldlist;
     }
@@ -463,31 +828,12 @@ class item extends itembase {
     <xs:element name="surveyprofield_datetime">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
-                <xs:element name="step" type="xs:int"/>
+                <xs:element name="step" type="xs:int" minOccurs="0"/>
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="unixtime" minOccurs="0"/>
-                <xs:element name="downloadformat" type="xs:string"/>
-                <xs:element name="lowerbound" type="unixtime"/>
-                <xs:element name="upperbound" type="unixtime"/>
+                <xs:element name="downloadformat" type="xs:string" minOccurs="0"/>
+                <xs:element name="lowerbound" type="unixtime" minOccurs="0"/>
+                <xs:element name="upperbound" type="unixtime" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -520,8 +866,6 @@ EOS;
         } else {
             $elementlabel = '&nbsp;';
         }
-
-        $idprefix = 'id_surveypro_field_datetime_'.$this->sortindex;
 
         // Begin of: element values.
         $days = [];
@@ -595,28 +939,20 @@ EOS;
         // Begin of: mform element.
         $attributes = [];
         $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_datetime_'.$this->sortindex;
+        $basename = $this->itemname;
 
-        $itemname = $this->itemname.'_day';
-        $attributes['id'] = $idprefix.'_day';
-        $attributes['class'] = 'indent-'.$this->indent.' datetime_select';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $days, $attributes);
-
-        $itemname = $this->itemname.'_month';
-        $attributes['id'] = $idprefix.'_month';
-        $attributes['class'] = 'datetime_select';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
-
-        $itemname = $this->itemname.'_year';
-        $attributes['id'] = $idprefix.'_year';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
-
-        $itemname = $this->itemname.'_hour';
-        $attributes['id'] = $idprefix.'_hour';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $hours, $attributes);
-
-        $itemname = $this->itemname.'_minute';
-        $attributes['id'] = $idprefix.'_minute';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $minutes, $attributes);
+        $attributes['id'] = $baseid.'_day';
+        $elementgroup[] = $mform->createElement('select', $basename.'_day', '', $days, $attributes);
+        $attributes['id'] = $baseid.'_month';
+        $elementgroup[] = $mform->createElement('select', $basename.'_month', '', $months, $attributes);
+        $attributes['id'] = $baseid.'_year';
+        $elementgroup[] = $mform->createElement('select', $basename.'_year', '', $years, $attributes);
+        $attributes['id'] = $baseid.'_hour';
+        $elementgroup[] = $mform->createElement('select', $basename.'_hour', '', $hours, $attributes);
+        $attributes['id'] = $baseid.'_minute';
+        $elementgroup[] = $mform->createElement('select', $basename.'_minute', '', $minutes, $attributes);
 
         $separator = [' ', ' '];
         $nextseparator = \html_writer::tag('div', ',', ['class' => 'datetime_separator_comma']);
@@ -626,48 +962,40 @@ EOS;
 
         if ($this->required) {
             if (!$searchform) {
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
 
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             } else {
-                $itemname = $this->itemname.'_ignoreme';
                 $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $idprefix.'_ignoreme';
-                $attributes['class'] = 'character_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
-                $mform->setType($this->itemname, PARAM_RAW);
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-                $mform->setDefault($this->itemname.'_ignoreme', '1');
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->setDefault($basename.'_ignoreme', '1');
             }
         } else {
-            $itemname = $this->itemname.'_noanswer';
-            $attributes['id'] = $idprefix.'_noanswer';
-            $attributes['class'] = 'datetime_check';
+            $attributes['id'] = $baseid.'_noanswer';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
             $separator[] = ' ';
 
             if (!$searchform) {
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
             } else {
-                $itemname = $this->itemname.'_ignoreme';
                 $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $idprefix.'_ignoreme';
-                $attributes['class'] = 'character_check';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
-                $mform->setType($this->itemname, PARAM_RAW);
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-                $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-                $mform->setDefault($this->itemname.'_ignoreme', '1');
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->setDefault($basename.'_ignoreme', '1');
             }
         }
         // End of: mform element.
@@ -683,7 +1011,7 @@ EOS;
                     $datetimearray['minutes'] = SURVEYPRO_INVITEVALUE;
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    $mform->setDefault($basename.'_noanswer', '1');
                     // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
                 case SURVEYPRO_CUSTOMDEFAULT:
                     // I need to set a value for the default field even if it disabled.
@@ -722,15 +1050,15 @@ EOS;
                     $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
-            $mform->setDefault($this->itemname.'_day', $datetimearray['mday']);
-            $mform->setDefault($this->itemname.'_month', $datetimearray['mon']);
-            $mform->setDefault($this->itemname.'_year', $datetimearray['year']);
-            $mform->setDefault($this->itemname.'_hour', $datetimearray['hours']);
-            $mform->setDefault($this->itemname.'_minute', $datetimearray['minutes']);
+            $mform->setDefault($basename.'_day', $datetimearray['mday']);
+            $mform->setDefault($basename.'_month', $datetimearray['mon']);
+            $mform->setDefault($basename.'_year', $datetimearray['year']);
+            $mform->setDefault($basename.'_hour', $datetimearray['hours']);
+            $mform->setDefault($basename.'_minute', $datetimearray['minutes']);
         }
         if ($searchform) {
             if (!$this->required) {
-                $mform->setDefault($this->itemname.'_noanswer', '0');
+                $mform->setDefault($basename.'_noanswer', '0');
             }
         }
         // End of: default section.
@@ -749,13 +1077,13 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if (isset($data[$this->itemname.'_noanswer'])) {
-            return; // Nothing to validate.
+            return $errors; // Nothing to validate.
         }
 
         // Make validation in the search form too.
         // I can not use if ($searchform) { return; because I still need to validate the correcteness of the date.
         if (isset($data[$this->itemname.'_ignoreme'])) {
-            return; // Nothing to validate.
+            return $errors; // Nothing to validate.
         }
 
         $errorkey = $this->itemname.'_group';
@@ -797,18 +1125,18 @@ EOS;
                 $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_datetimenotset', 'surveyprofield_datetime', $a);
             }
-            return;
+            return $errors;
         }
         // End of: verify the content of each drop down menu.
 
         if (!utility_item::date_is_valid($userday, $usermonth, $useryear)) {
             $errors[$errorkey] = get_string('ierr_invalidinput', 'mod_surveypro');
-            return;
+            return $errors;
         }
 
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
-            return;
+            return $errors;
         }
 
         $haslowerbound = ($this->lowerbound != $this->item_datetime_to_unix_time($this->surveypro->startyear, 1, 1, 0, 0));
@@ -829,6 +1157,8 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_datetime');
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -988,8 +1318,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname.'_group'];
     }
 }

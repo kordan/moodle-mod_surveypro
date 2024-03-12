@@ -39,22 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
+    // Itembase properties.
 
     /**
      * @var int The label has a dedicated row
@@ -65,6 +50,13 @@ class item extends itembase {
      * @var string Label on the left of the label content
      */
     protected $leftlabel;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -98,13 +90,18 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
-        $this->insetupform['position'] = false;
-        $this->insetupform['extranote'] = false;
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['required'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['required'] = false;
+        $this->insetupform['position'] = false;
         $this->insetupform['variable'] = false;
+        $this->insetupform['extranote'] = false;
         $this->insetupform['hideinstructions'] = false;
         $this->insetupform['parentid'] = false;
+        $this->insetupform['parentvalue'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -133,16 +130,22 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
+    }
+
+    /**
+     * Returns if this item has the mandatory attribute.
+     *
+     * @return bool
+     */
+    public static function has_mandatoryattribute() {
+        return false;
     }
 
     /**
@@ -151,7 +154,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -175,22 +178,51 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Label';
-        $record->contentformat = 1;
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->fullwidth = 0;
+        // $record->leftlabel
+    }
+
+    // MARK set.
+
+    /**
+     * Set fullwidth.
+     *
+     * @param string $fullwidth
+     * @return void
+     */
+    public function set_fullwidth($fullwidth) {
+        $this->fullwidth = $fullwidth;
+    }
+
+    /**
+     * Set leftlabel.
+     *
+     * @param string $leftlabel
+     * @return void
+     */
+    public function set_leftlabel($leftlabel) {
+        $this->leftlabel = $leftlabel;
     }
 
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get fullwidth.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->fullwidth
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_fullwidth() {
+        return $this->fullwidth;
+    }
+
+    /**
+     * Get leftlabel.
+     *
+     * @return $this->leftlabel
+     */
+    public function get_leftlabel() {
+        return $this->leftlabel;
     }
 
     /**
@@ -207,13 +239,30 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['fullwidth', 'leftlabel'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'leftlabel'];
+    public function get_multilang_fields($includemetafields=true) {
+        if ($includemetafields) {
+            $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
+        } else {
+            $fieldlist['surveypro_item'] = ['content'];
+        }
+        $fieldlist['surveyproformat_label'] = ['leftlabel'];
 
         return $fieldlist;
     }
@@ -239,26 +288,7 @@ class item extends itembase {
     <xs:element name="surveyproformat_label">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <!-- <xs:element name="required" type="xs:int"/> -->
-                <xs:element name="indent" type="xs:int"/>
-                <!-- <xs:element name="position" type="xs:int"/> -->
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <!-- <xs:element name="variable" type="xs:string"/> -->
-                <!-- <xs:element name="extranote" type="xs:string" minOccurs="0"/> -->
-
-                <xs:element name="fullwidth" type="xs:int"/>
+                <xs:element name="fullwidth" type="xs:int" minOccurs="0"/>
                 <xs:element name="leftlabel" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
@@ -294,9 +324,11 @@ EOS;
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
             $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
             $elementlabel = $elementnumber.$this->leftlabel;
-            $attributes = [];
-            $attributes['class'] = 'indent-'.$this->indent.' label_static';
-            $mform->addElement('mod_surveypro_label', $this->itemname, $elementlabel, $this->get_content(), $attributes);
+
+            $elementgroup = [];
+            $class = ['class' => 'indent-'.$this->indent];
+            $elementgroup[] = $mform->createElement('static', $this->itemname, $elementlabel, $this->get_content());
+            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false, $class);
         }
     }
 
@@ -310,6 +342,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
+        return $errors;
     }
 
     /**
@@ -341,11 +374,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        if (empty($this->fullwidth)) {
-            $elementnames = [$this->itemname];
-        } else {
-            $elementnames = [];
-        }
+        $elementnames = [];
 
         return $elementnames;
     }

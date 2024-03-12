@@ -38,7 +38,9 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itembase {
+abstract class itembase {
+
+    // Itembase properties.
 
     /**
      * @var object Course module object
@@ -56,6 +58,11 @@ class itembase {
     public $surveypro;
 
     /**
+     * @var int pluginid: the id of the item in the child surveypro(field|format)_plugin table
+     */
+    protected $pluginid;
+
+    /**
      * @var int Unique itemid of the surveyproitem in surveypro_item table
      */
     protected $itemid;
@@ -71,9 +78,49 @@ class itembase {
     protected $plugin;
 
     /**
-     * @var string Basename of the field as it is in the out form
+     * @var string The content of the question of the item
      */
-    protected $itemname;
+    public $content;
+
+    /**
+     * @var string The contentformat of the question of the item
+     */
+    public $contentformat;
+
+    /**
+     * @var int Is the item required?
+     */
+    protected $required;
+
+    /**
+     * @var int Indent of the item in the form page
+     */
+    protected $indent;
+
+    /**
+     * @var int The position of the item content in the frame of the user form
+     */
+    protected $position;
+
+    /**
+     * @var string The custom number of the item
+     */
+    protected $customnumber;
+
+    /**
+     * @var int Are the filling instruction going to explain the item in the user form?
+     */
+    protected $hideinstructions;
+
+    /**
+     * @var string The name of the item in the exported report
+     */
+    protected $variable;
+
+    /**
+     * @var string The content of custom extranote
+     */
+    protected $extranote;
 
     /**
      * @var bool Visibility of this item in the out form
@@ -111,6 +158,23 @@ class itembase {
     protected $parentvalue;
 
     /**
+     * @var int timecreated
+     */
+    protected $timecreated;
+
+    /**
+     * @var int timemodified
+     */
+    protected $timemodified;
+
+    // Service variables
+
+    /**
+     * @var string Basename of the field as it is in the out form
+     */
+    protected $itemname;
+
+    /**
      * @var string The user friendly answer that the parent item has to have in order to show this item as child
      */
     protected $parentcontent;
@@ -121,27 +185,23 @@ class itembase {
     protected $itemeditingfeedback;
 
     /**
-     * @var array
-     */
-    protected $fieldsusingformat = ['content' => SURVEYPRO_ITEMCONTENTFILEAREA];
-
-    /**
      * List of fields properties the surveypro creator will manage in the item definition form
      * By default each item property is present in the form
      * so, in each child class, I only need to "deactivate" item property not desired/needed/handled/wanted
      *
      * @var array
      */
-    protected $insetupform = [
+    public $insetupform = [
         'common_fs' => true,
         'content' => true,
-        'customnumber' => true,
-        'position' => true,
-        'extranote' => true,
-        'hideinstructions' => true,
+        'contentformat' => true,
         'required' => true,
-        'variable' => true,
         'indent' => true,
+        'position' => true,
+        'variable' => true,
+        'extranote' => true,
+        'customnumber' => true,
+        'hideinstructions' => true,
         'hidden' => true,
         'insearchform' => true,
         'reserved' => true,
@@ -149,7 +209,7 @@ class itembase {
     ];
 
     /**
-     * Class constructor.
+     * Class constructor
      *
      * @param object $cm
      * @param object $surveypro
@@ -159,12 +219,13 @@ class itembase {
     public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
         $this->cm = $cm;
         $this->surveypro = $surveypro;
+        $this->context = \context_module::instance($cm->id);
     }
 
     /**
      * Item load.
      *
-     * If itemid is provided, load the object (item + base + plugin) from database
+     * If itemid is provided, load the object (item = base + plugin) from database
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param integer $itemid
@@ -179,10 +240,8 @@ class itembase {
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        $context = \context_module::instance($this->cm->id);
-
-        // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
-        if ($this->uses_db_table()) {
+        // Some item, like pagebreak or fieldsetend, may do not use the plugin table.
+        if ($this->get_usesplugintable()) {
             $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
@@ -194,28 +253,30 @@ class itembase {
                     WHERE i.id = :itemid';
         }
 
+        $unrelevantfields = ['id', 'surveyproid', 'type', 'plugin'];
         if ($record = $DB->get_record_sql($sql, ['itemid' => $itemid])) {
-            foreach ($record as $option => $value) {
-                $this->{$option} = $value;
+            foreach ($record as $field => $value) {
+                if (in_array($field, $unrelevantfields)) {
+                    continue;
+                }
+                $method = 'set_'.$field;
+                $this->{$method}($value);
             }
-            // Plugins not using contentformat (only Fieldset, at the moment) are satisfied.
+            // Plugins not using contentformat (only Fieldset and pagebreak, at the moment) are satisfied.
             // Pagebreak and fieldsetend are missing content too.
 
-            // Special care to fields with format.
-            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                foreach ($fieldsusingformat as $fieldname => $filearea) {
-                    $this->{$fieldname} = file_rewrite_pluginfile_urls(
-                       $this->{$fieldname}, 'pluginfile.php', $context->id,
-                       'mod_surveypro', $filearea, $itemid
-                    );
-                }
+            if (isset($this->content) && strpos($this->content, '@@PLUGINFILE@@/')) { // Pagebreak don't use $this->content.
+                // Special care to fields with format.
+                $this->content = file_rewrite_pluginfile_urls(
+                    $this->content, 'pluginfile.php', $this->context->id,
+                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid
+                );
             }
 
-            unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
 
             if ($getparentcontent && $this->parentid) {
-                $parentitem = surveypro_get_item($this->cm, $this->surveypro, $this->parentid);
+                $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
@@ -227,7 +288,7 @@ class itembase {
     /**
      * Verify the validity of contents of the record.
      *
-     * for instance: age not greater than maximum age
+     * For instance: age not greater than maximum age.
      *
      * @param \stdClass $record
      * @return void
@@ -245,6 +306,15 @@ class itembase {
      *     √ surveyproid
      *     √ type
      *     √ plugin
+     *     √ content
+     *     √ contentformat
+     *     √ required
+     *     √ indent
+     *     √ position
+     *     √ customnumber
+     *     √ hideinstructions
+     *     √ variable
+     *     √ extranote
      *     √ hidden
      *     √ insearchform
      *     √ reserved
@@ -255,14 +325,6 @@ class itembase {
      *     √ timecreated
      *     √ timemodified
      *
-     * in spite of this, here I also get:
-     *     hideinstructions
-     *     required
-     *
-     * in addition, here I also make cleanup of:
-     *     extranote
-     *     parentvalue
-     *
      * The following settings will be calculated later:
      *     sortindex
      *     formpage
@@ -270,12 +332,7 @@ class itembase {
      * @param \stdClass $record
      * @return void
      */
-    protected function get_common_settings($record) {
-        // You are going to change item content (maybe sortindex, maybe the parentitem)
-        // so, do not forget to reset items per page.
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_pages();
-
+    protected function add_base_properties_to_record($record) {
         $timenow = time();
 
         // Surveyproid.
@@ -283,8 +340,10 @@ class itembase {
 
         // Plugin and type are already onboard.
 
-        // Checkboxes content.
-        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required'];
+        // Content and contentformat will be managed later.
+
+        // Checkboxes values.
+        $checkboxessettings = ['required', 'hidden', 'hideinstructions', 'insearchform', 'reserved'];
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -313,15 +372,16 @@ class itembase {
         // Because of this, even if the user writes, for instance, "bread\nmilk" to parentvalue
         // I have to encode it to key(bread);key(milk).
         if (!empty($record->parentid)) {
-            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $record->parentid);
+            $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $record->parentid);
             $record->parentvalue = $parentitem->parent_encode_child_parentcontent($record->parentcontent);
             unset($record->parentcontent); // Why do I drop $record->parentcontent?
         }
     }
 
     /**
-     * Item save
-     * Executes surveyproitem_<<plugin>> global level actions
+     * Item save.
+     *
+     * Executes surveypro(field|format)_<<plugin>> global level actions
      * this is the save point of the global part of each plugin
      *
      * Here is the explanation of $this->itemeditingfeedback
@@ -353,80 +413,66 @@ class itembase {
      * (digit 5) == 1: a chain of children items inherited reserved access because this item (as parent) was changed to reserved
      *
      * @param object $record
-     * @return void
+     * @return int $record->itemid
      */
     public function item_save($record) {
         global $DB, $COURSE;
 
-        $context = \context_module::instance($this->cm->id);
+        $this->add_base_properties_to_record($record);
 
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmission = $utilitylayoutman->has_submissions(false);
 
+        // You are going to change item content (maybe sortindex, maybe the parentitem)
+        // so, do not forget to reset items per page.
+        $utilitylayoutman->reset_pages();
+
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
-        // Does this record need to be saved as new record or as un update of a preexisting record?
-        if (empty($record->itemid)) {
-            // Item is new.
+        // Is this a new item or does it already exist?
+        if (empty($record->itemid)) { // Item is new.
 
             // Sortindex.
             $sql = 'SELECT COUNT(\'x\')
                     FROM {surveypro_item}
                     WHERE surveyproid = :surveyproid
-                      AND sortindex > 0';
-            $whereparams = ['surveyproid' => $this->cm->instance];
+                      AND sortindex > :sortindex';
+            $whereparams = ['surveyproid' => $this->cm->instance, 'sortindex' => 0];
             $record->sortindex = 1 + $DB->count_records_sql($sql, $whereparams);
 
             // Itemid.
             try {
                 $transaction = $DB->start_delegated_transaction();
 
+                // Before saving validate the variable name.
+                $this->item_validate_variablename($record);
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
-                    // Now think to $tablename.
-                    if ($this->uses_db_table()) {
-                        // Before saving to the the plugin table, validate the variable name.
-                        $this->item_validate_variablename($record, $itemid);
+                    if ($this->insetupform['contentformat']) {
+                        // Special care to the field content equipped with an editor.
+                        $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context];
+                        $record->id = $itemid;
+                        $record = file_postupdate_standard_editor(
+                                      $record, 'content', $editoroptions,
+                                      $this->context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
+                                  );
+                        $DB->update_record('surveypro_item', $record);
+                    }
 
-                        $record->itemid = $itemid;
+                    // Now think to $tablename.
+                    $record->itemid = $itemid; // Always give a value to $record->itemid as it is returned by the method.
+                    if ($this->get_usesplugintable()) {
                         if ($pluginid = $DB->insert_record($tablename, $record)) { // First save of $tablename.
                             $this->itemeditingfeedback += 1; // 0*2^1+1*2^0.
                         }
-                    } else {
-                        $record->itemid = $itemid;
-                    }
-                }
-
-                // Special care to "editors". Remember that content and contentformat are in plugin table.
-                if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                    $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
-                    foreach ($fieldsusingformat as $fieldname => $filearea) {
-                        $record = file_postupdate_standard_editor(
-                                      $record, $fieldname, $editoroptions,
-                                      $context, 'mod_surveypro', $filearea, $record->itemid
-                                  );
-                    }
-
-                    if ($this->uses_db_table()) {
-                        // Tablename.
-                        $record->id = $pluginid;
-
-                        if (!$DB->update_record($tablename, $record)) { // Update of $tablename.
-                            $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
-                            // Otherwise...
-                            // Leave the previous $this->itemeditingfeedback.
-                            // If it was a success, leave it as now you got one more success.
-                            // If it was a fail, leave it as you can not cover the previous fail.
-                        }
-                        // Record->content follows standard flow and has already been saved at first save time.
                     }
                 }
 
                 $transaction->allow_commit();
 
                 // Event: item_created.
-                $eventdata = ['context' => $context, 'objectid' => $itemid];
+                $eventdata = ['context' => $this->context, 'objectid' => $itemid];
                 $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_created::create($eventdata);
                 $event->trigger();
@@ -443,17 +489,6 @@ class itembase {
         } else {
             // Item already exists.
 
-            // Special care to "editors".
-            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
-                foreach ($fieldsusingformat as $fieldname => $filearea) {
-                    $record = file_postupdate_standard_editor(
-                                  $record, $fieldname, $editoroptions,
-                                  $context, 'mod_surveypro', $filearea, $record->itemid
-                              );
-                }
-            }
-
             // Begin of: Hide/unhide part 1.
             $oldhidden = $this->get_hidden(); // Used later.
             // End of: hide/unhide 1.
@@ -465,19 +500,27 @@ class itembase {
             // Sortindex.
             // Doesn't change at item editing time.
 
-            // Surveypro_item.
+            // Mandatory id.
             $record->id = $record->itemid;
 
             try {
                 $transaction = $DB->start_delegated_transaction();
 
+                if ($this->insetupform['contentformat']) {
+                    // Special care to "editors".
+                    $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context];
+                    $record = file_postupdate_standard_editor(
+                                  $record, 'content', $editoroptions,
+                                  $this->context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
+                              );
+                }
+
+                // Variable.
+                $this->item_validate_variablename($record);
+
                 if ($DB->update_record('surveypro_item', $record)) {
-                    if ($this->uses_db_table()) {
-                        // Before saving to the plugin table, validate the variable name.
-                        $this->item_validate_variablename($record, $record->itemid);
-
+                    if ($this->get_usesplugintable()) {
                         $record->id = $record->pluginid;
-
                         if ($DB->update_record($tablename, $record)) {
                             $this->itemeditingfeedback += 3; // 1*2^1+1*2^0 alias: editing + success.
                         } else {
@@ -495,7 +538,7 @@ class itembase {
                 $this->item_manage_chains($record->itemid, $oldhidden, $record->hidden, $oldreserved, $record->reserved);
 
                 // Event: item_modified.
-                $eventdata = ['context' => $context, 'objectid' => $record->itemid];
+                $eventdata = ['context' => $this->context, 'objectid' => $record->itemid];
                 $eventdata['other'] = ['type' => $record->type, 'plugin' => $record->plugin, 'view' => SURVEYPRO_NEWITEM];
                 $event = \mod_surveypro\event\item_modified::create($eventdata);
                 $event->trigger();
@@ -541,11 +584,10 @@ class itembase {
     /**
      * Validate the name of the variable to make sure it is unique.
      *
-     * @param stdobject $record
-     * @param integer $itemid
+     * @param object $record
      * @return void
      */
-    public function item_validate_variablename($record, $itemid) {
+    public function item_validate_variablename($record) {
         global $DB;
 
         // If variable does not exist.
@@ -553,41 +595,33 @@ class itembase {
             return;
         }
 
-        // Verify variable was set. If not, set $userchoosedname and $basename starting from the plugin name.
+        // Define $testname and $basename.
         if (!isset($record->variable) || empty($record->variable)) {
-            $userchoosedname = $this->plugin.'_001';
+            $testname = $this->plugin.'_001';
             $basename = $this->plugin;
         } else {
-            $userchoosedname = clean_param($record->variable, PARAM_TEXT);
-            if (preg_match('~^(.*)_[0-9]{3}$~', $userchoosedname, $matches)) {
+            $testname = clean_param($record->variable, PARAM_TEXT);
+            if (preg_match('~^(.*)_[0-9]{3}$~', $testname, $matches)) {
                 $basename = $matches[1];
             } else {
-                $basename = $userchoosedname;
+                $basename = $testname;
             }
         }
-        $testname = $userchoosedname;
 
-        // Bloody Editing Teachers can create a boolean element, for instance, naming it 'age_001'
-        // having an age element named 'age_001' already onboard!
-        // Because of this I need to make as much queries as the number of used plugins in my surveypro!
-
-        // Get the list of used plugin.
-        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
-
-        $usednames = [];
-        foreach ($pluginlist as $plugin) {
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $sql = 'SELECT p.itemid, p.variable
+        // Get all the other variables used in this surveypro. (eventually exluding the current one)
+        if (!isset($record->itemid) || empty($record->itemid)) {
+            $whereparams = ['surveyproid' => (int)$record->surveyproid];
+            $usednames = $DB->get_records_menu('surveypro_item', $whereparams, 'id', 'id, variable');
+        } else {
+            $whereparams = ['surveyproid' => (int)$record->surveyproid, 'itemid' => $record->itemid];
+            $sql = 'SELECT i.id, i.variable
                     FROM {surveypro_item} i
-                      JOIN {'.$tablename.'} p ON p.itemid = i.id
-                    WHERE ((i.surveyproid = :surveyproid)
-                      AND (p.itemid <> :itemid))';
-            $whereparams = ['surveyproid' => (int)$record->surveyproid, 'itemid' => $itemid];
-            $usednames += $DB->get_records_sql_menu($sql, $whereparams);
+                    WHERE ( (i.surveyproid = :surveyproid)
+                      AND (i.id <> :itemid) )';
+            $usednames = $DB->get_records_sql_menu($sql, $whereparams);
         }
 
-        // Verify the $userchoosedname name is unique. If not, change it.
+        // Verify the $testname name is unique. If not, change it.
         $i = 0; // If the name is a duplicate, concatenate a suffix starting from 1.
         while (in_array($testname, $usednames)) {
             $i++;
@@ -598,8 +632,8 @@ class itembase {
     }
 
     /**
-     * Show/Hide chains of descendant/ancestors on the basis of the settings provided in the current editing process
-     * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process
+     * Show/Hide chains of descendant/ancestors on the basis of the settings provided in the current editing process.
+     * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      *
      * @param integer $itemid
      * @param boolean $oldhidden
@@ -609,7 +643,6 @@ class itembase {
      * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
-        $context = \context_module::instance($this->cm->id);
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
         if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
@@ -618,23 +651,23 @@ class itembase {
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
 
-                $itemsetupman = new layout_itemsetup($this->cm, $context, $this->surveypro);
-                $itemsetupman->setup();
-                $itemsetupman->set_type($this->type);
-                $itemsetupman->set_plugin($this->plugin);
-                $itemsetupman->set_itemid($itemid);
-                $itemsetupman->set_action($action);
-                $itemsetupman->set_view(SURVEYPRO_NOMODE);
-                $itemsetupman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $itemlistman = new layout_itemlist($this->cm, $this->context, $this->surveypro);
+                $itemlistman->setup();
+                $itemlistman->set_type($this->type);
+                $itemlistman->set_plugin($this->plugin);
+                $itemlistman->set_itemid($itemid);
+                $itemlistman->set_action($action);
+                // $itemlistman->set_view(SURVEYPRO_NOMODE); // <-- Where is it coming from?
+                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
                 if ( ($oldhidden == 1) && ($newhidden == 0) ) {
-                    $itemsetupman->item_show_execute();
+                    $itemlistman->item_show_execute();
                     // A chain of parent items was shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
                 }
                 if ( ($oldhidden == 0) && ($newhidden == 1) ) {
-                    $itemsetupman->item_hide_execute();
+                    $itemlistman->item_hide_execute();
                     // Chain of children items was hided.
                     $this->itemeditingfeedback += 8; // 1*2^3.
                 }
@@ -645,24 +678,24 @@ class itembase {
             if ($oldreserved != $newreserved) {
                 $action = ($oldreserved) ? SURVEYPRO_MAKEAVAILABLE : SURVEYPRO_MAKERESERVED;
 
-                $itemsetupman = new layout_itemsetup($this->cm, $context, $this->surveypro);
-                $itemsetupman->setup();
-                $itemsetupman->set_type($this->type);
-                $itemsetupman->set_plugin($this->plugin);
-                $itemsetupman->set_itemid($itemid);
-                $itemsetupman->set_action($action);
-                $itemsetupman->set_view(SURVEYPRO_NOMODE);
-                $itemsetupman->set_confirm(SURVEYPRO_CONFIRMED_YES);
+                $itemlistman = new layout_itemlist($this->cm, $this->context, $this->surveypro);
+                $itemlistman->setup();
+                $itemlistman->set_type($this->type);
+                $itemlistman->set_plugin($this->plugin);
+                $itemlistman->set_itemid($itemid);
+                $itemlistman->set_action($action);
+                // $itemlistman->set_view(SURVEYPRO_NOMODE);
+                $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.
                 if ( ($oldreserved == 1) && ($newreserved == 0) ) {
-                    if ($itemsetupman->item_makeavailable_execute()) {
+                    if ($itemlistman->item_makeavailable_execute()) {
                         // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
                 if ( ($oldreserved == 0) && ($newreserved == 1) ) {
-                    if ($itemsetupman->item_makereserved_execute()) {
+                    if ($itemlistman->item_makereserved_execute()) {
                         // A chain of children items inherited reserved access.
                         $this->itemeditingfeedback += 32; // 1*2^5.
                     }
@@ -673,21 +706,20 @@ class itembase {
     }
 
     /**
-     * redefine the parentvalue of children items according to the new parameters of the just saved parent item.
+     * Redefine the parentvalue of children items according to the new parameters of the just saved parent item.
      *
-     * for instance: if I removed an item from the parent item
-     * while some children were using that item as condition to appear,
-     * I drop that item from the parentvalue of that children
+     * For instance: if I removed an item from the parent item
+     * while some children were using that item as parent,
+     * I drop that item from the parentvalue of that children.
      *
      * @return void
      */
     public function item_update_childrenparentvalue() {
         global $DB, $CFG;
 
-        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
-        if ($classname::get_canbeparent()) {
-            // Take care: you can not use $this->get_content_array(SURVEYPRO_VALUES, 'options') to evaluate values
-            // because $item was loaded before last save, so $this->get_content_array(SURVEYPRO_VALUES, 'options')
+        if ($this->get_canbeparent()) {
+            // Take care: you can not use $this->get_textarea_content(SURVEYPRO_VALUES, 'options') to evaluate values
+            // because $item was loaded before last save, so $this->get_textarea_content(SURVEYPRO_VALUES, 'options')
             // will still return the previous values.
 
             $childrenitems = $DB->get_records('surveypro_item', ['parentid' => $this->itemid], 'id', 'id, parentvalue');
@@ -720,30 +752,73 @@ class itembase {
             return;
         }
 
+        // If this routine fails it is difficult to delete each field from the surveypro using graphic user interface
+        // because the mdl_surveypro.template is not empty.
+        // To make it simple to escape trouble in case of error I delete mdl_surveypro.template now
+        // with the promise to set it again at the end of this method.
+        $DB->set_field('surveypro', 'template', null, ['id' => $surveyproid]);
+
         // Take care: I verify the existence of the english folder even if, maybe, I will ask for strings in a different language.
         if (!file_exists($CFG->dirroot.'/mod/surveypro/template/'.$template.'/lang/en/surveyprotemplate_'.$template.'.php')) {
             // This template does not support multilang.
             return;
         }
 
-        if ($multilangfields = $this->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
-            foreach ($multilangfields as $plugin) {
-                foreach ($plugin as $fieldname) {
-                    // Backward compatibility.
-                    // In the frame of https://github.com/kordan/moodle-mod_surveypro/pull/447 few multilang fields were added.
-                    // This was really a mandatory addition but,
-                    // opening surveypros created (from mastertemplates) before this addition,
-                    // I may find that they don't have new added fields filled in the database
-                    // so the corresponding property $this->{$fieldname} does not exist.
-                    if (isset($this->{$fieldname})) {
-                        $stringkey = $this->{$fieldname};
-                        $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
-                    } else {
-                        $this->{$fieldname} = '';
+        if ($multilangfields = $this->get_multilang_fields(false)) { // Pagebreak and fieldsetend have no multilang_fields.
+            foreach ($multilangfields as $table => $mlfields) {
+                foreach ($mlfields as $mlfield) {
+                    // I am using a surveypro built on a mastertemplate.
+                    // In the template.xml I may have had, for instance, <extranote>boolean_extranote_02</extranote>
+                    // I saved (during parent::item_load) the content of template.xml in the properies of this item.
+                    // (alias: $this->extranote = "boolean_extranote_02")
+                    // Now, cycling over each multilang field,
+                    // I find the key of the corresponding lang string in the properies of this item.
+
+                    // Each property was set because of the query executed in item_load but
+                    // it may be that, for instance, I had mdl_surveypro_ite.extranote = null.
+                    // In this case I have $this->extranote empty and this is why I need: if (!empty($this->{$mlfield})) {.
+
+                    if (!empty($this->{$mlfield})) {
+                        // At the beginning $this->{$mlfield} may be "boolean_content_02".
+                        $stringkey = $this->{$mlfield};
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        // Now $this->{$mlfield} is "<img class="img-fluid align-top" src="@@PLUGINFILE@@/TrackingDot.png" ...
                     }
                 }
             }
+
+            // It may be that now $this->content contains, now, '@@PLUGINFILE@@/' that did not contain before.
+            if (strpos($this->content, '@@PLUGINFILE@@/')) {
+                // Am I sure the file is already into SURVEYPRO_ITEMCONTENTFILEAREA
+                $fs = get_file_storage();
+                $templateman = new templatebase($this->cm, $this->context, $this->surveypro);
+
+                $regex = '~src="@@PLUGINFILE@@\/([^"]*)"~';
+                if (preg_match_all($regex, $this->content, $matches)) {
+                    foreach ($matches[1] as $filename) {
+                        if (!$fs->get_file($this->context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid, '/', $filename)) {
+                            // I am using a surveypro built on a mastertemplate.
+                            // Let's suppose an admin added a new lang file describing new pictures.
+                            // Am I sure each new picture of the current lang file was loaded in the filearea?
+                            // Take in mind that ONLY the files of the lang file in the language in use
+                            // at mastertemplate apply time were loaded to filearea.
+                            $templateman->load_new_files_from_lang($template, $this->itemid);
+                            // Once you loaded each new file, don't check anymore.
+                            break;
+                        }
+                    }
+                }
+
+                // Special care to fields with format.
+                $this->content = file_rewrite_pluginfile_urls(
+                    $this->content, 'pluginfile.php', $this->context->id,
+                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid
+                );
+            }
         }
+
+        // As promised at the beginning of this method:
+        $DB->set_field('surveypro', 'template', $template, ['id' => $surveyproid]);
     }
 
     /**
@@ -760,21 +835,22 @@ class itembase {
      *     [minutes] => 00
      * )
      *
-     * @param integer $time
-     * @return void
+     * @param integer $unixtime
+     * @return array $dateout
      */
-    protected function item_split_unix_time($time) {
-        $datestring = date('Y_m_d_H_i', $time);
+    protected function item_split_unix_time($unixtime) {
+        $datestring = gmdate('Y_m_d_H_i', $unixtime);
 
         // 2012_07_11_16_03.
-        $getdate = [];
-        [$getdate['year'], $getdate['mon'], $getdate['mday'], $getdate['hours'], $getdate['minutes']] = explode('_', $datestring);
+        $dateout = [];
+        [$dateout['year'], $dateout['mon'], $dateout['mday'], $dateout['hours'], $dateout['minutes']] = explode('_', $datestring);
+        $dateout = array_map('intval', $dateout);
 
-        return $getdate;
+        return $dateout;
     }
 
     /**
-     * Does this item live into a form page?.
+     * Does this item live into a form page?
      *
      * Each item lives into a form page but not the pagebreak
      *
@@ -785,7 +861,7 @@ class itembase {
     }
 
     /**
-     * Does this item allow the question in left position?.
+     * Does this item allow the question in left position?
      *
      * Each item allows the question in left position but not the rate
      *
@@ -796,7 +872,7 @@ class itembase {
     }
 
     /**
-     * clean the content of the field $record->{$field} (remove blank lines, trailing \r).
+     * Clean the content of the field $record->{$field} (remove blank lines, trailing \r).
      *
      * @param object $record Item record
      * @param array $fieldlist List of fields to clean
@@ -816,21 +892,21 @@ class itembase {
     }
 
     /**
-     * This method defines if an item can be switched to mandatory or not.
+     * This method defines if an item can be set to mandatory or not.
      *
-     * Used by layout_itemsetup->display_items_table() to define the icon to show
+     * Used by layout_itemsetup->display_items_table() to define the icon to show.
      *
      * There are two types of fields.
      * 1) those for which (like the boolean)
      * defaultoption discriminates on the desired type of default: "Custom", "Invite", "No response"
-     * and, if defaultoption == "Custom", defaultvalue intervenes and declares which custom default is chosen.
+     * and, if defaultoption == "Custom", defaultvalue defines which custom default is choosen.
      *
      * 2) those for which (like multiselect).
      * noanswerdefault = 1 means "No response".
      *
      * @return boolean
      */
-    public function item_canbemandatory() {
+    public function item_canbesettomandatory() {
         $return = true;
         if (isset($this->defaultoption)) {
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
@@ -850,16 +926,27 @@ class itembase {
     }
 
     /**
-     * Add to the item record that is going to be saved, items that can not be omitted with default value
-     * They, maybe, will be overwritten
+     * Add to the item record that is going to be saved, items that can not be omitted with default value.
+     * They, maybe, will be overwritten.
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_base_fields(&$record) {
+    public function item_add_fields_default_to_parent_table(&$record) {
+        $record->content = '';
+        $record->contentformat = 1;
+        $record->required = 0;
+        $record->indent = 0;
+        $record->position = 0;
+        $record->customnumber = '';
+        $record->hideinstructions = 0;
+        $record->variable = '';
+        $record->extranote = '';
         $record->hidden = 0;
         $record->insearchform = 0;
         $record->reserved = 0;
+        // $record->parentid = 0;
+        // $record->parentvalue = 0;
         $record->formpage = 0;
         $record->timecreated = time();
     }
@@ -879,36 +966,18 @@ class itembase {
     }
 
     /**
-     * Get if the plugin uses a table into the db.
-     *
-     * @return if the plugin uses a personal table in the db.
-     */
-    public function uses_db_table() {
-        return true;
-    }
-
-    /**
-     * Uses mandatory database field?
+     * Uses mandatory attribute?
      *
      * Each item uses teh "mandatory" database field but not the autofill
      *
      * @return whether the item uses the "mandatory" database field
      */
-    public static function item_uses_mandatory_dbfield() {
+    public static function has_mandatoryattribute() {
         return true;
     }
 
     /**
-     * Returns if the field plugin needs contentformat
-     *
-     * @return bool
-     */
-    public static function response_uses_format() {
-        return false;
-    }
-
-    /**
-     * Returns if the item has children
+     * Returns if the item has children.
      *
      * @return bool
      */
@@ -922,7 +991,7 @@ class itembase {
     }
 
     /**
-     * Returns if the item is a child
+     * Returns if the item is a child.
      *
      * @return bool
      */
@@ -937,10 +1006,35 @@ class itembase {
         return $return;
     }
 
+    /**
+     * List the fields that this plugin is expected to save as NULL in the database.
+     *
+     * @return array
+     */
+    public function item_expected_null_fields() {
+        $expectednull = [];
+        foreach ($this->insetupform as $field => $value) {
+            if (!$value) {
+                $expectednull[] = $field;
+            }
+        }
+
+        return $expectednull;
+    }
+
     // MARK response.
 
     /**
-     * Report how the sql query does fit for this plugin
+     * Returns if the field plugin needs contentformat.
+     *
+     * @return bool
+     */
+    public static function response_uses_format() {
+        return false;
+    }
+
+    /**
+     * Report how the sql query does fit for this plugin.
      *
      * @param int $itemid
      * @param string $searchrestriction
@@ -956,31 +1050,308 @@ class itembase {
     // MARK set.
 
     /**
+     * Set itemid.
+     *
+     * @param int $itemid
+     * @return void
+     */
+    public function set_itemid($itemid) {
+        $this->itemid = $itemid;
+    }
+
+    /**
+     * Set pluginid.
+     *
+     * @param int $pluginid
+     * @return void
+     */
+    public function set_pluginid($pluginid) {
+        $this->pluginid = $pluginid;
+    }
+
+    /**
+     * Set type.
+     *
+     * @param string $type
+     * @return void
+     */
+    public function set_type($type) {
+        $this->type = $type;
+    }
+
+    /**
+     * Set plugin.
+     *
+     * @param string $plugin
+     * @return void
+     */
+    public function set_plugin($plugin) {
+        $this->plugin = $plugin;
+    }
+
+    /**
+     * Set content.
+     *
+     * @param string $content
+     * @return void
+     */
+    public function set_content($content) {
+        $this->content = $content;
+    }
+
+    /**
+     * Set contentformat.
+     *
+     * @param string $contentformat
+     * @return void
+     */
+    public function set_contentformat($contentformat) {
+        $this->contentformat = $contentformat;
+    }
+
+    /**
+     * Set indent.
+     *
+     * @param int $indent of the item in the user form
+     * @return void
+     */
+    public function set_indent($indent) {
+        $this->indent = $indent;
+    }
+
+    /**
+     * Set position.
+     *
+     * @param int $position of the content in the item in the form
+     * @return void
+     */
+    public function set_position($position) {
+        $this->position = $position;
+    }
+
+    /**
+     * Set customnumber.
+     *
+     * @param string $customnumber of the item
+     * @return void
+     */
+    public function set_customnumber($customnumber) {
+        $this->customnumber = $customnumber;
+    }
+
+    /**
+     * Set hideinstructions.
+     *
+     * @param int $hideinstructions
+     * @return void
+     */
+    public function set_hideinstructions($hideinstructions) {
+        $this->hideinstructions = (isset($hideinstructions) && !empty($hideinstructions)) ? 1 : 0;
+    }
+
+    /**
+     * Set extranote.
+     *
+     * @param string $extranote for the item
+     * @return void
+     */
+    public function set_extranote($extranote) {
+        $this->extranote = $extranote;
+    }
+
+    /**
+     * Set hidden.
+     *
+     * @param int $hidden
+     * @return void
+     */
+    public function set_hidden($hidden) {
+        $this->hidden = (isset($hidden) && !empty($hidden)) ? 1 : 0;
+    }
+
+    /**
+     * Set insearchform.
+     *
+     * @param int $insearchform
+     * @return void
+     */
+    public function set_insearchform($insearchform) {
+        $this->insearchform = (isset($insearchform) && !empty($insearchform)) ? 1 : 0;
+    }
+
+    /**
+     * Set reserved.
+     *
+     * @param int $reserved
+     * @return void
+     */
+    public function set_reserved($reserved) {
+        $this->reserved = (isset($reserved) && !empty($reserved)) ? 1 : 0;
+    }
+
+    /**
+     * Set sortindex.
+     *
+     * @param int $sortindex
+     * @return void
+     */
+    public function set_sortindex($sortindex) {
+        $this->sortindex = $sortindex;
+    }
+
+    /**
+     * Set formpage.
+     *
+     * @param int $formpage
+     * @return void
+     */
+    public function set_formpage($formpage) {
+        $this->formpage = $formpage;
+    }
+
+    /**
+     * Set parentid.
+     *
+     * @param int $parentid
+     * @return void
+     */
+    public function set_parentid($parentid) {
+        $this->parentid = $parentid;
+    }
+
+    /**
+     * Set parentvalue.
+     *
+     * @param int $parentvalue
+     * @return void
+     */
+    public function set_parentvalue($parentvalue) {
+        $this->parentvalue = $parentvalue;
+    }
+
+    /**
+     * Set timemodified.
+     *
+     * @param int $timemodified
+     * @return void
+     */
+    public function set_timemodified($timemodified) {
+        $this->timemodified = $timemodified;
+    }
+
+    /**
+     * Set timecreated.
+     *
+     * @param int $timecreated
+     * @return void
+     */
+    public function set_timecreated($timecreated) {
+        $this->timecreated = $timecreated;
+    }
+
+    /**
      * Defines presets for the editor field of surveyproitem in itembaseform.php.
      *
      * (copied from moodle20/cohort/edit.php)
      *
      * Some examples:
-     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $fieldsusingformat == ['content']
-     * Fieldset plugin          has: $this->insetupform['content'] == true  and $fieldsusingformat == null
-     * Pagebreak plugin         has: $this->insetupform['content'] == false and $fieldsusingformat == null
+     * Each SURVEYPRO_ITEMFIELD:
+     *     $this->insetupform['content'] == true
+     *     $this->insetupform['contentformat'] = true
+     *
+     * Fieldset plugin:
+     *     $this->insetupform['content'] == true
+     *     $this->insetupform['contentformat'] = false
+     *
+     * Pagebreak plugin:
+     *     $this->insetupform['content'] == false
+     *     $this->insetupform['contentformat'] = false
      *
      * @return void
      */
     public function set_editor() {
-        if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
-            return;
+        $data = new \stdClass();
+        $data->content = $this->get_content();
+
+        if ($this->insetupform['contentformat']) {
+            // I have to set 'trusttext' => false because 'noclean' is ignored if trusttext is enabled!
+            $editoroptions = ['noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $this->context];
+            $filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
+
+            $data->content = $this->get_content();
+            $data->contentformat = $this->get_contentformat();
+            $data = file_prepare_standard_editor(
+                $data, 'content', $editoroptions, $this->context, 'mod_surveypro', $filearea, $this->itemid
+            );
         }
 
-        $context = \context_module::instance($this->cm->id);
-        // I have to set 'trusttext' => false because 'noclean' is ignored if trusttext is enabled!
-        $editoroptions = ['noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context];
-        foreach ($fieldsusingformat as $fieldname => $filearea) {
-            file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
+        return $data;
+    }
+
+    /**
+     * Set variable.
+     *
+     * @param string $variable
+     * @return void
+     */
+    public function set_variable($variable) {
+        $variable = format_string($variable);
+        $this->variable = $variable;
+    }
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            $message = 'Passed defaultoption is not allowed.';
+            debugging($message, DEBUG_DEVELOPER);
         }
+
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set required.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $required
+     * @return void
+     */
+    public function set_required($required) {
+        $this->required = (isset($required) && !empty($required)) ? 1 : 0;
+    }
+
+    /**
+     * Set options.
+     *
+     * Introduced as needed by unit test.
+     *
+     * @param string $options
+     * @return void
+     */
+    public function set_options($options) {
+        $this->options = $options;
     }
 
     // MARK get.
+
+    /**
+     * Make the list of the fields using multilang.
+     * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
+     *
+     * @param boolean $includemetafields
+     * @return array of fields
+     */
+    abstract public function get_multilang_fields($includemetafields=true);
 
     /**
      * Get course module.
@@ -998,69 +1369,6 @@ class itembase {
      */
     public function get_surveyproid() {
         return $this->cm->instance;
-    }
-
-    /**
-     * Get the list of fields using format.
-     *
-     * @return the content of $fieldsusingformat property
-     */
-    public function get_fieldsusingformat() {
-        return $this->fieldsusingformat;
-    }
-
-    /**
-     * Get if the plugin uses the position of options to save user answers.
-     *
-     * @return bool The plugin uses the position of options to save user answers.
-     */
-    public function get_uses_positional_answer() {
-        return false;
-    }
-
-    /**
-     * Get the preset for the item setup form.
-     *
-     * @return array $data
-     */
-    public function get_itemform_preset() {
-        if (!empty($this->itemid)) {
-            $data = get_object_vars($this);
-
-            // Just to save few nanoseconds.
-            unset($data['cm']);
-            unset($data['surveypro']);
-            unset($data['insetupform']);
-        } else {
-            $data = [];
-            $data['type'] = $this->type;
-            $data['plugin'] = $this->plugin;
-        }
-
-        return $data;
-    }
-
-    /**
-     * Get if the mform element corresponding to the propery $itemformelement has to be shown in the form.
-     *
-     * @param string $itemformelement
-     * @return true if the corresponding element has to be shown in the form; false otherwise
-     */
-    public function get_insetupform($itemformelement) {
-        return $this->insetupform[$itemformelement];
-    }
-
-    /**
-     * Get item id.
-     *
-     * @return the content of $itemid property
-     */
-    public function get_itemid() {
-        if (isset($this->itemid)) {
-            return $this->itemid;
-        } else {
-            return 0;
-        }
     }
 
     /**
@@ -1101,16 +1409,42 @@ class itembase {
     }
 
     /**
+     * Get content_editor.
+     *
+     * @return the content of $contentformat property
+     */
+    public function get_content_editor() {
+        return $this->content_editor;
+    }
+
+    /**
+     * Get itemid.
+     *
+     * @return the content of $itemid property
+     */
+    public function get_itemid() {
+        if (isset($this->itemid)) {
+            $return = $this->itemid;
+        } else {
+            $return = 0;
+        }
+
+        return $return;
+    }
+
+    /**
      * Get plugin id.
      *
      * @return the content of $pluginid property
      */
     public function get_pluginid() {
         if (isset($this->pluginid)) {
-            return $this->pluginid;
+            $return = $this->pluginid;
         } else {
-            return 0;
+            $return = 0;
         }
+
+        return $return;
     }
 
     /**
@@ -1123,21 +1457,103 @@ class itembase {
     }
 
     /**
+     * This method returns the list of the field used by the plugin.
+     *
+     * AT THE MOMENT, this method is never used.
+     *
+     * @param string $plugin
+     * @param string $type
+     * @return array
+     */
+    public function get_plugin_fields($plugin, $type) {
+        global $CFG;
+
+        if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
+            $message = '$type and $plugin must be provided both or none.';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $installxmls = ['surveypro_item', 'db/install.xml'];
+        if (!empty($type) && !empty($plugin)) {
+            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
+            // Some plugins are missing the install.xml because they don't have specific attributes.
+            if (file_exists($installxml)) {
+                $installxmls['surveypro'.$type.'_'.$plugin] = $type.'/'.$plugin.'/db/install.xml';
+            }
+        }
+
+        foreach ($installxmls as $targettable => $installxml) {
+            $currentfile = $CFG->dirroot.'/mod/surveypro/'.$installxml;
+            $xmlall = simplexml_load_file($installxml);
+            foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
+                foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
+                    $attributes = $xmltable->attributes();
+                    $tablename = $attributes['NAME'];
+                    if ($tablename != $targettable) {
+                        continue;
+                    }
+                    foreach ($xmltable->children() as $xmlfields) { // FIELDS opening tag.
+                        $curenttablefields = [];
+                        foreach ($xmlfields->children() as $xmlfield) { // FIELD opening tag.
+                            $attributes = $xmlfield->attributes();
+                            $fieldname = $attributes['NAME'];
+                            $curenttablefields[] = (string)$attributes['NAME'];
+                        }
+                        $fieldlist[$tablename] = $curenttablefields;
+                        break;
+                    }
+                    // If the correct table has been found, don't go searching for one more table. Stop!
+                    break;
+                }
+                // If the correct table has been found, don't go searching for one more table. Stop!
+                break;
+            }
+        }
+
+        return $fieldlist;
+    }
+
+    /**
+     * Get if the plugin uses the position of options to save user answers.
+     *
+     * @return bool The plugin uses the position of options to save user answers.
+     */
+    public function get_uses_positional_answer() {
+        return false;
+    }
+
+    /**
+     * Get if the mform element corresponding to the propery $itemformelement has to be shown in the form.
+     *
+     * @param string $itemformelement
+     * @return true if the corresponding element has to be shown in the form; false otherwise
+     */
+    public function get_insetupform($itemformelement) {
+        return $this->insetupform[$itemformelement];
+    }
+
+    /**
      * Get hidden.
      *
      * @return the content of $hidden property
      */
     public function get_hidden() {
-        return $this->hidden;
+        // This property is common to EACH item plugin
+        $return = ((empty($this->hidden)) || ($this->hidden == 0)) ? 0 : 1;
+
+        return $return;
     }
 
     /**
-     * Get in search form.
+     * Get insearchform.
      *
      * @return the content of $insearchform property
      */
     public function get_insearchform() {
-        return $this->insearchform;
+        // This property is common to EACH item plugin
+        $return = ((empty($this->insearchform)) || ($this->insearchform == 0)) ? 0 : 1;
+
+        return $return;
     }
 
     /**
@@ -1146,7 +1562,10 @@ class itembase {
      * @return the content of $reserved property
      */
     public function get_reserved() {
-        return $this->reserved;
+        // This property is common to EACH item plugin
+        $return = ((empty($this->reserved)) || ($this->reserved == 0)) ? 0 : 1;
+
+        return $return;
     }
 
     /**
@@ -1159,30 +1578,12 @@ class itembase {
     }
 
     /**
-     * Get form page.
+     * Get formpage.
      *
      * @return the content of $formpage property
      */
     public function get_formpage() {
         return $this->formpage;
-    }
-
-    /**
-     * Parse $this->labelother in $value and $label.
-     *
-     * @return $value
-     * @return $label
-     */
-    protected function get_other() {
-        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
-            $label = trim($match[1]);
-            $value = trim($match[2]);
-        } else {
-            $label = trim($this->labelother);
-            $value = '';
-        }
-
-        return [$value, $label];
     }
 
     /**
@@ -1192,15 +1593,17 @@ class itembase {
      */
     public function get_usesoptionother() {
         if (property_exists($this, 'labelother')) {
-            return !empty($this->labelother);
+            $return = !empty($this->labelother);
         } else {
-            return false;
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
-     * Get the content of textareas. Get the first or the second part of each row based on $content
-     * Each row is written with the format:
+     * Get the content of textareas. Get the first or the second part of each row based on $content.
+     * Each row is supposed to be written with the format:
      *     value::label
      *     or
      *     label
@@ -1209,9 +1612,9 @@ class itembase {
      * @param string $field Name of the text area field, source of the multiline text
      * @return array $values
      */
-    public function get_content_array($content, $field) {
+    public function get_textarea_content($content, $field) {
         if (($content != SURVEYPRO_VALUES) && ($content != SURVEYPRO_LABELS)) {
-            throw new Exception('Bad parameter passed to get_content_array');
+            throw new Exception('Bad parameter passed to get_textarea_content');
         }
 
         $index = ($content == SURVEYPRO_VALUES) ? 1 : 2;
@@ -1231,16 +1634,19 @@ class itembase {
     }
 
     /**
-     * Make the list of the fields using multilang
-     * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
+     * Provide the list of the fields of surveypro_item using multilang.
      *
-     * @return array of felds
+     * @param boolean $includemetafields true if you need filename and filecontent too.
+     * @return array the list of the fields of surveypro_item using multilang
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = [];
+    public function get_base_multilang_fields($includemetafields) {
+        if ($includemetafields) {
+            $return = ['content', 'filename', 'filecontent', 'extranote'];
+        } else {
+            $return = ['content', 'extranote'];
+        }
 
-        return $fieldlist;
+        return $return;
     }
 
     /**
@@ -1282,14 +1688,17 @@ class itembase {
      * Get the requested property.
      *
      * @param string $field
-     * @return the content of the field whether defined
+     * @return the content of the field or false if it is not set.
      */
     public function get_generic_property($field) {
         if (isset($this->{$field})) {
-            return $this->{$field};
+            $method = 'get_'.$field;
+            $return = $this->{$method}();
         } else {
-            return false;
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
@@ -1308,29 +1717,29 @@ class itembase {
      */
     public function get_customnumber() {
         if (isset($this->customnumber)) {
-            return $this->customnumber;
+            $return = $this->customnumber;
         } else {
-            return false;
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
      * Get required.
      *
-     * @return bool false if the property is not set for the class (like, for instance, for autofill or label)
-     *         int  0|1 acording to the property
+     * @return int  0|1 acording to the property
+     *              bool false if the property is not set (like, for instance, for autofill or label)
      */
     public function get_required() {
         // It may be not set as in page_break, autofill or some more.
-        if (!isset($this->required)) {
-            return false;
+        if (isset($this->required)) {
+            $return = empty($this->required) ? 0 : 1;
         } else {
-            if (empty($this->required)) {
-                return 0;
-            } else {
-                return 1;
-            }
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
@@ -1352,11 +1761,14 @@ class itembase {
      * @return the content of $hideinstructions property whether defined
      */
     public function get_hideinstructions() {
+        // It may be not set in some plugin item
         if (isset($this->hideinstructions)) {
-            return $this->hideinstructions;
+            $return = empty($this->hideinstructions) ? 0 : 1;
         } else {
-            return false;
+            $return = false;
         }
+
+        return $return;
     }
 
     /**
@@ -1383,6 +1795,49 @@ class itembase {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Returns the list of common item properties.
+     *
+     * @return array $data
+     */
+    public function get_base_properties() {
+        $baseproperties = [
+            'surveyproid', 'type', 'plugin', 'content', 'contentformat', 'required', 'indent', 'position',
+            'customnumber', 'hideinstructions', 'variable', 'extranote', 'hidden', 'insearchform', 'reserved',
+            'parentid', 'parentvalue', 'parentcontent',
+        ];
+
+        return $baseproperties;
+    }
+
+    /**
+     * Prepare presets for itemsetuprform.
+     *
+     * @param array $pluginproperties
+     * @return array $data
+     */
+    public function get_base_presets($pluginproperties) {
+        if (!empty($this->itemid)) {
+            $baseproperties = $this->get_base_properties();
+            $properties = array_merge($baseproperties, $pluginproperties);
+
+            $data = $this->set_editor(); // Now $data is a new \stdClass().
+            $data->itemid = $this->get_itemid(); // Mandatory!
+            $data->pluginid = $this->get_pluginid(); // Mandatory!
+            foreach ($properties as $property) {
+                $method = 'get_'.$property;
+                $data->{$property} = $this->{$method}();
+            }
+            // Parentcontent does not come from db.
+        } else {
+            $data = new \stdClass();
+            $data->type = $this->type;
+            $data->plugin = $this->plugin;
+        }
+
+        return $data;
     }
 
     /**
@@ -1529,6 +1984,28 @@ class itembase {
     }
 
     /**
+     * Does this item use a specific table?
+     *
+     * @return the content of the static property "usesplugintable"
+     */
+    public function get_usesplugintable() {
+        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
+
+        return $classname::$usesplugintable;
+    }
+
+    /**
+     * Can this item be parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public function get_canbeparent() {
+        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
+
+        return $classname::$canbeparent;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -1541,9 +2018,26 @@ class itembase {
     <xs:element name="surveypro_item">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="hidden" type="xs:int"/>
-                <xs:element name="insearchform" type="xs:int"/>
-                <xs:element name="reserved" type="xs:int"/>
+                <xs:element name="content" type="xs:string" minOccurs="0"/>
+                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="filename" type="xs:string"/>
+                            <xs:element name="filecontent" type="xs:base64Binary"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="contentformat" type="xs:int" minOccurs="0"/>
+                <xs:element name="required" type="xs:int" minOccurs="0"/>
+                <xs:element name="indent" type="xs:int" minOccurs="0"/>
+                <xs:element name="position" type="xs:int" minOccurs="0"/>
+                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
+                <xs:element name="hideinstructions" type="xs:int" minOccurs="0"/>
+                <xs:element name="variable" type="xs:string" minOccurs="0"/>
+                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
+                <xs:element name="hidden" type="xs:int" minOccurs="0"/>
+                <xs:element name="insearchform" type="xs:int" minOccurs="0"/>
+                <xs:element name="reserved" type="xs:int" minOccurs="0"/>
                 <xs:element name="parent" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>
@@ -1559,86 +2053,6 @@ class itembase {
 EOS;
 
         return $schema;
-    }
-
-    // MARK set.
-
-    /**
-     * Set contentformat.
-     *
-     * @param string $contentformat
-     * @return void
-     */
-    public function set_contentformat($contentformat) {
-        $this->contentformat = $contentformat;
-    }
-
-    /**
-     * Set variable.
-     *
-     * @param string $variable
-     * @return void
-     */
-    public function set_variable($variable) {
-        $variable = format_string($variable);
-        $this->variable = $variable;
-    }
-
-    /**
-     * Set defaultoption.
-     *
-     * Introduced as needed by unit test.
-     *
-     * @param string $defaultoption
-     * @return void
-     */
-    public function set_defaultoption($defaultoption) {
-        $condition = false;
-        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
-        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
-        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
-        if (!$condition) {
-            $message = 'Passed defaultoption is not allowed.';
-            debugging($message, DEBUG_DEVELOPER);
-        }
-
-        $this->defaultoption = $defaultoption;
-    }
-
-    /**
-     * Set labelother.
-     *
-     * Introduced as needed by unit test.
-     *
-     * @param string $labelother
-     * @return void
-     */
-    public function set_labelother($labelother) {
-        $this->labelother = (string)$labelother;
-    }
-
-    /**
-     * Set required.
-     *
-     * Introduced as needed by unit test.
-     *
-     * @param string $required
-     * @return void
-     */
-    public function set_required($required) {
-        $this->labelother = $required;
-    }
-
-    /**
-     * Set options.
-     *
-     * Introduced as needed by unit test.
-     *
-     * @param string $options
-     * @return void
-     */
-    public function set_options($options) {
-        $this->options = $options;
     }
 
     // MARK parent.
@@ -1693,16 +2107,20 @@ EOS;
                 }
             }
         }
+
+        $return = '';
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
-            return $fillinginstruction.'<br>'.$extranote;
+            $return = $fillinginstruction.'<br>'.$extranote;
         } else {
             if (isset($fillinginstruction) && $fillinginstruction) {
-                return $fillinginstruction;
+                $return = $fillinginstruction;
             }
             if (isset($extranote) && $extranote) {
-                return $extranote;
+                $return = $extranote;
             }
         }
+
+        return $return;
     }
 
     /**
@@ -1753,8 +2171,8 @@ EOS;
     }
 
     /**
-     * This function is used ONLY if $surveypro->newpageforchild == false
-     * it adds as much as needed $mform->disabledIf to disable items when parent condition does not match
+     * This function is used ONLY if $surveypro->newpageforchild == false.
+     * It adds as much as needed $mform->disabledIf to disable items when parent condition does not match
      * This method is used by the child item
      * In the frame of this method the parent item is loaded and is requested to provide the disabledif conditions for its child
      *
@@ -1802,7 +2220,7 @@ EOS;
 
         $displaydebuginfo = false;
         foreach ($parentrestrictions as $parentid => $childparentvalue) {
-            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $parentid);
+            $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $parentid);
             $disabilitationinfo = $parentitem->userform_get_parent_disabilitation_info($childparentvalue);
 
             if ($displaydebuginfo) {

@@ -69,7 +69,7 @@ Feature: Create a boolean item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Is it true?"
-    Then the field "id_surveypro_field_boolean_2_1" matches value "1"
+    Then the field "id_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
     And I select "Elements" from the "jump" singleselect
@@ -85,5 +85,5 @@ Feature: Create a boolean item
 
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.b Is it true?"
-    Then the field "id_surveypro_field_boolean_3" matches value "Choose..."
+    Then the field "id_field_boolean_3" matches value "Choose..."
     Then I should see "One more additional note"

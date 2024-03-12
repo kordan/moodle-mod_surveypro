@@ -43,9 +43,9 @@ Feature: Submit using a date item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_date_1_day   | 16      |
-      | id_surveypro_field_date_1_month | October |
-      | id_surveypro_field_date_1_year  | 1988    |
+      | id_field_date_1_day   | 16      |
+      | id_field_date_1_month | October |
+      | id_field_date_1_year  | 1988    |
 
     And I press "Submit"
 

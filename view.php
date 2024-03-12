@@ -24,28 +24,27 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_page;
-use mod_surveypro\utility_mform;
 
 use mod_surveypro\view_cover;
-use mod_surveypro\view_submissionlist;
-use mod_surveypro\view_submissionform;
-use mod_surveypro\view_submissionsearch;
+use mod_surveypro\view_responselist;
+use mod_surveypro\view_responsesubmit;
+use mod_surveypro\view_responsesearch;
 
-use mod_surveypro\local\form\userform;
-use mod_surveypro\local\form\usersearch;
+use mod_surveypro\local\form\response_submitform;
+use mod_surveypro\local\form\response_searchform;
 
 require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('surveypro');
 
-$id = optional_param('id', 0, PARAM_INT);                      // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                        // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT); // Course_module id.
+$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
 $section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
 // Verify I used correct names all along the module code.
-$validsections = ['cover', 'submissionslist', 'submissionform', 'searchsubmissions'];
+$validsections = ['cover', 'submissionslist', 'responsesubmit', 'responsesearch'];
 if (!in_array($section, $validsections)) {
     $message = 'The section param \''.$section.'\' is invalid.';
     debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
@@ -138,7 +137,7 @@ if ($section == 'submissionslist') {
     }
 
     // Calculations.
-    $submissionlistman = new view_submissionlist($cm, $context, $surveypro);
+    $submissionlistman = new view_responselist($cm, $context, $surveypro);
     $submissionlistman->setup($submissionid, $action, $mode, $confirm, $searchquery);
 
     if ($action == SURVEYPRO_RESPONSETOPDF) {
@@ -178,13 +177,13 @@ if ($section == 'submissionslist') {
     }
 }
 
-// MARK submissionform.
+// MARK responsesubmit.
 // This section serves the page to...
 // - add a new submission      [$mode = SURVEYPRO_NEWRESPONSEMODE];
 // - edit existing submissions [$mode = SURVEYPRO_EDITMODE];
 // - view in readonly mode     [$mode = SURVEYPRO_READONLYMODE];
 // - preview submission form   [$mode = SURVEYPRO_PREVIEWMODE];
-if ($section == 'submissionform') {
+if ($section == 'responsesubmit') {
     // Get additional specific params.
     $submissionid = optional_param('submissionid', 0, PARAM_INT);
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
@@ -193,16 +192,14 @@ if ($section == 'submissionform') {
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
 
     // Calculations.
-    mod_surveypro\utility_mform::register_form_elements();
-
-    $submissionformman = new view_submissionform($cm, $context, $surveypro);
-    $submissionformman->setup($submissionid, $formpage, $mode);
+    $responsesubmitman = new view_responsesubmit($cm, $context, $surveypro);
+    $responsesubmitman->setup($submissionid, $formpage, $mode);
 
     $utilitylayoutman = new utility_layout($cm, $surveypro);
     $utilitylayoutman->add_custom_css();
 
-    // Begin of: define $user_form return url.
-    $paramurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'submissionform'];
+    // Begin of: define responsesubmit return url.
+    $paramurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'responsesubmit'];
     $formurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     // End of: define $user_form return url.
 
@@ -212,80 +209,87 @@ if ($section == 'submissionform') {
     $formparams->surveypro = $surveypro;
     $formparams->submissionid = $submissionid;
     $formparams->mode = $mode;
-    $formparams->userformpagecount = $submissionformman->get_userformpagecount();
+    $formparams->userformpagecount = $responsesubmitman->get_userformpagecount();
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $formparams->userfirstpage = $submissionformman->get_userfirstpage(); // The user first page
-    $formparams->userlastpage = $submissionformman->get_userlastpage(); // The user last page
+    $formparams->userfirstpage = $responsesubmitman->get_userfirstpage(); // The user first page
+    $formparams->userlastpage = $responsesubmitman->get_userlastpage(); // The user last page
     $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
     // End of: prepare params for the form.
 
     if ($begin == 1) {
-        $submissionformman->next_not_empty_page(true, 0); // True means direction = right.
-        $nextpage = $submissionformman->get_nextpage(); // The page of the form to select subset of fields
-        $submissionformman->set_formpage($nextpage);
+        $responsesubmitman->next_not_empty_page(true, 0); // True means direction = right.
+        $nextpage = $responsesubmitman->get_nextpage(); // The page of the form to select subset of fields
+        $responsesubmitman->set_formpage($nextpage);
     }
-    $formparams->formpage = $submissionformman->get_formpage(); // The page of the form to select subset of fields
+    $formparams->formpage = $responsesubmitman->get_formpage(); // The page of the form to select subset of fields
     // End of: prepare params for the form.
 
     $editable = ($mode == SURVEYPRO_READONLYMODE) ? false : true;
-    $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry'], $editable);
+    $attributes = ['id' => 'userentry', 'class' => 'narrowlines'];
+    $userform = new response_submitform($formurl, $formparams, 'post', '', $attributes, $editable);
 
     // Begin of: manage form submission.
     if ($userform->is_cancelled()) {
+        // If the submission was canceled
+        // and the surveypro_submission record (1) exists and (2) has not the creation time, add it.
+        if ($DB->record_exists('surveypro_submission', ['id' => $submissionid, 'timecreated' => null])) {
+            $timenow = time();
+            $DB->set_field('surveypro_submission', 'timecreated', $timenow, ['id' => $submissionid]);
+        }
         $localparamurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'submissionslist'];
         $redirecturl = new \moodle_url('/mod/surveypro/view.php', $localparamurl);
         redirect($redirecturl, get_string('usercanceled', 'mod_surveypro'));
     }
 
-    if ($submissionformman->formdata = $userform->get_data()) {
-        $submissionformman->save_user_data(); // SAVE SAVE SAVE SAVE.
+    if ($responsesubmitman->formdata = $userform->get_data()) {
+        $responsesubmitman->save_user_response(); // SAVE SAVE SAVE SAVE.
 
         // If "pause" button has been pressed, redirect.
-        $pausebutton = isset($submissionformman->formdata->pausebutton);
+        $pausebutton = isset($responsesubmitman->formdata->pausebutton);
         if ($pausebutton) {
             $localparamurl = ['s' => $cm->instance, 'mode' => $mode, 'section' => 'submissionslist'];
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $localparamurl);
             redirect($redirecturl); // Go somewhere.
         }
 
-        $paramurl['submissionid'] = $submissionformman->get_submissionid();
-        $paramurl['section'] = 'submissionform';
+        $paramurl['submissionid'] = $responsesubmitman->get_submissionid();
+        $paramurl['section'] = 'responsesubmit';
 
         // If "previous" button has been pressed, redirect.
-        $prevbutton = isset($submissionformman->formdata->prevbutton);
+        $prevbutton = isset($responsesubmitman->formdata->prevbutton);
         if ($prevbutton) {
-            $submissionformman->next_not_empty_page(false);
-            $paramurl['formpage'] = $submissionformman->get_nextpage();
-            $paramurl['overflowpage'] = $submissionformman->get_overflowpage();
+            $responsesubmitman->next_not_empty_page(false);
+            $paramurl['formpage'] = $responsesubmitman->get_nextpage();
+            $paramurl['overflowpage'] = $responsesubmitman->get_overflowpage();
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             redirect($redirecturl); // Redirect to the first non empty page.
         }
 
         // If "next" button has been pressed, redirect.
-        $nextbutton = isset($submissionformman->formdata->nextbutton);
+        $nextbutton = isset($responsesubmitman->formdata->nextbutton);
         if ($nextbutton) {
-            $submissionformman->next_not_empty_page(true);
-            $paramurl['formpage'] = $submissionformman->get_nextpage();
-            $paramurl['overflowpage'] = $submissionformman->get_overflowpage();
+            $responsesubmitman->next_not_empty_page(true);
+            $paramurl['formpage'] = $responsesubmitman->get_nextpage();
+            $paramurl['overflowpage'] = $responsesubmitman->get_overflowpage();
             $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             redirect($redirecturl); // Redirect to the first non empty page.
         }
 
         // Surveypro has been submitted. Notify people.
-        $submissionformman->notifypeople();
+        $responsesubmitman->notifypeople();
 
         // If none redirected you, reload THE RIGHT page WITHOUT $paramurl['mode'].
         // This is necessary otherwise if the user switches language using the corresponding menu
         // just after a new response is submitted
-        // the browser redirects to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&view=1&lang=it&section=submissionform
+        // the browser redirects to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&view=1&lang=it&section=responsesubmit
         // and not               to http://localhost/head_behat/mod/surveypro/view.php?s=xxx&lang=it&section=collectedsubmissions
         // alias it goes to the page to get one more response
         // instead of remaining in the view submissions page.
         $paramurl = [];
         $paramurl['s'] = $surveypro->id;
-        // $paramurl['responsestatus'] = $submissionformman->get_responsestatus();
-        $paramurl['justsubmitted'] = 1 + $submissionformman->get_userdeservesthanks();
-        $paramurl['formview'] = $submissionformman->get_mode(); // In which way am I using this form?
+        // $paramurl['responsestatus'] = $responsesubmitman->get_responsestatus();
+        $paramurl['justsubmitted'] = 1 + $responsesubmitman->get_userdeservesthanks();
+        $paramurl['formview'] = $responsesubmitman->get_mode(); // In which way am I using this form?
         $paramurl['section'] = 'submissionslist';
         $redirecturl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
         redirect($redirecturl);
@@ -293,7 +297,7 @@ if ($section == 'submissionform') {
     // End of: manage form submission.
 
     // Set $PAGE params.
-    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'submissionform', 'mode' => $mode];
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'responsesubmit', 'mode' => $mode];
     if (!empty($submissionid)) {
         $paramurl['submissionid'] = $submissionid;
     }
@@ -338,28 +342,28 @@ if ($section == 'submissionform') {
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_view_action_bar();
 
-    $submissionformman->noitem_stopexecution();
-    $submissionformman->nomoresubmissions_stopexecution();
-    $submissionformman->warning_submission_copy();
-    $submissionformman->display_page_x_of_y();
+    $responsesubmitman->noitem_stopexecution();
+    $responsesubmitman->nomoresubmissions_stopexecution();
+    $responsesubmitman->warning_submission_copy();
+    $responsesubmitman->display_page_x_of_y();
 
     // Begin of: calculate prefill for fields and prepare standard editors and filemanager.
     // If sumission already exists.
-    $prefill = $submissionformman->get_prefill_data();
-    $prefill['formpage'] = $submissionformman->get_formpage();
+    $prefill = $responsesubmitman->get_prefill_data();
+    $prefill['formpage'] = $responsesubmitman->get_formpage();
     // End of: calculate prefill for fields and prepare standard editors and filemanager.
 
     $userform->set_data($prefill);
     $userform->display();
 
-    // If surveypro is multipage and $submissionformman->tabpage == SURVEYPRO_READONLYMODE.
+    // If surveypro is multipage and $responsesubmitman->tabpage == SURVEYPRO_READONLYMODE.
     // I need to add navigation buttons manually
     // Because the surveypro is not displayed as a form but as a simple list of graphic user items.
-    $submissionformman->add_readonly_browsing_buttons();
+    $responsesubmitman->add_readonly_browsing_buttons();
 }
 
-// MARK searchsubmissions.
-if ($section == 'searchsubmissions') {
+// MARK responsesearch.
+if ($section == 'responsesearch') {
     // Get additional specific params.
     $formpage = optional_param('formpage', 1, PARAM_INT); // Form page number.
 
@@ -367,12 +371,10 @@ if ($section == 'searchsubmissions') {
     require_capability('mod/surveypro:searchsubmissions', $context);
 
     // Calculations.
-    mod_surveypro\utility_mform::register_form_elements();
-
-    $submissionsearchman = new view_submissionsearch($cm, $context, $surveypro);
+    $responsesearchman = new view_responsesearch($cm, $context, $surveypro);
 
     // Begin of: define $searchform return url.
-    $paramurl = ['s' => $cm->instance, 'section' => 'searchsubmissions'];
+    $paramurl = ['s' => $cm->instance, 'section' => 'responsesearch'];
     $formurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     // End of: define $searchform return url.
 
@@ -381,7 +383,7 @@ if ($section == 'searchsubmissions') {
     $formparams->cm = $cm;
     $formparams->surveypro = $surveypro;
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $searchform = new usersearch($formurl, $formparams, 'post', '', ['id' => 'usersearch']);
+    $searchform = new response_searchform($formurl, $formparams, 'post', '', ['id' => 'usersearch', 'class' => 'narrowlines']);
     // End of: prepare params for the form.
 
     // Begin of: manage form submission.
@@ -391,11 +393,11 @@ if ($section == 'searchsubmissions') {
         redirect($returnurl);
     }
 
-    if ($submissionsearchman->formdata = $searchform->get_data()) {
+    if ($responsesearchman->formdata = $searchform->get_data()) {
         // In this routine I do not execute a real search.
         // I only define the param searchquery for the url.
         $paramurl = ['s' => $cm->instance, 'section' => 'submissionslist'];
-        if ($searchquery = $submissionsearchman->get_searchparamurl()) {
+        if ($searchquery = $responsesearchman->get_searchparamurl()) {
             $paramurl['searchquery'] = $searchquery;
         }
         $returnurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
@@ -404,7 +406,7 @@ if ($section == 'searchsubmissions') {
     // End of: manage form submission.
 
     // Set $PAGE params.
-    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'searchsubmissions'];
+    $paramurl = ['s' => $surveypro->id, 'area' => 'surveypro', 'section' => 'responsesearch'];
     $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
     $PAGE->set_url($url);
     $PAGE->set_context($context);

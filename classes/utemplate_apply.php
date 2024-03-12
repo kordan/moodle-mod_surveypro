@@ -41,6 +41,11 @@ class utemplate_apply extends utemplate_base {
     /**
      * @var int User confirmation to actions
      */
+    protected $action;
+
+    /**
+     * @var int User confirmation to actions
+     */
     protected $confirm;
 
     /**
@@ -92,22 +97,6 @@ class utemplate_apply extends utemplate_base {
     // MARK get.
 
     /**
-     * Get user template content.
-     *
-     * @param int $utemplateid
-     * @return void
-     */
-    public function get_utemplate_content($utemplateid=0) {
-        $fs = get_file_storage();
-        if (empty($utemplateid)) {
-            $utemplateid = $this->utemplateid;
-        }
-        $xmlfile = $fs->get_file_by_id($utemplateid);
-
-        return $xmlfile->get_content();
-    }
-
-    /**
      * Get the content of the user template drop down menu.
      *
      * @return array
@@ -153,9 +142,8 @@ class utemplate_apply extends utemplate_base {
 
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
-
             // Read the attributes of the item node:
-            // The xmlitem looks like: <item type="field" plugin="character" version="2015123000">.
+            // The xmlitem looks like: <item type="field" plugin="character" version="2024042200">.
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -165,52 +153,62 @@ class utemplate_apply extends utemplate_base {
                 }
             }
 
-            // Take care to details.
             // Load the item class in order to call its methods to validate $record before saving it.
-            $item = surveypro_get_item($this->cm, $this->surveypro, 0, $currenttype, $currentplugin);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, 0, $currenttype, $currentplugin);
 
-            foreach ($xmlitem->children() as $xmltable) { // Tables are: surveypro_item and surveypro(field|format)_<<plugin>>.
+            foreach ($xmlitem->children() as $xmltable) { // Tables are: surveypro_item and surveypro(field|format)_(plugin).
                 $tablename = $xmltable->getName();
-                if ($tablename == 'surveypro_item') {
-                    $currenttablestructure = $this->get_table_structure();
-                } else {
-                    $currenttablestructure = $this->get_table_structure($currenttype, $currentplugin);
-                }
 
+                // Begin of: Create a new record and fill it with basic infor and defaults.
                 $record = new \stdClass();
-
-                // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
-                $record->surveyproid = (int)$this->surveypro->id;
-                $record->type = $currenttype;
-                $record->plugin = $currentplugin;
                 if ($tablename == 'surveypro_item') {
-                    $item->item_add_mandatory_base_fields($record);
-                } else {
-                    $item->item_add_mandatory_plugin_fields($record);
-                }
+                    $itemid = 0; // This is the proof the surveypro_item record has not yet been saved.
 
-                foreach ($xmltable->children() as $xmlfield) {
-                    $fieldname = $xmlfield->getName();
+                    // $tablestructure limits the fields that are going to be saved in the database.
+                    $tablestructure = $this->get_table_structure();
+
+                    $record->surveyproid = (int)$this->surveypro->id;
+                    $record->type = $currenttype;
+                    $record->plugin = $currentplugin;
+                    $item->item_add_fields_default_to_parent_table($record);
+                } else {
+                    // $tablestructure limits the fields that are going to be saved in the database.
+                    $tablestructure = $this->get_table_structure($currenttype, $currentplugin);
+
+                    $record->itemid = $itemid; // It has been defined when surveypro_item record was saved.
+                    $item->item_add_fields_default_to_child_table($record);
+                }
+                // End of: Create a new record and fill it with basic infor and defaults.
+
+                // Begin of: Overwrite defaults with utemplate data.
+                foreach ($xmltable->children() as $xmlfield) { // Run over fields listed in the xml.
+                    $xmltag = $xmlfield->getName(); // Generally $xmltag is the name of the field.
 
                     // Tag <parent> always belong to surveypro_item table.
-                    if ($fieldname == 'parent') {
-                        // Debug: $label = 'Count of attributes of the field '.$fieldname;.
+                    if ($xmltag == 'parent') {
+                        // Debug: $label = 'Count of attributes of the field '.$xmltag;.
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
-                        foreach ($xmlfield->children() as $xmlparentattribute) {
-                            $fieldname = $xmlparentattribute->getName();
-                            $fieldexists = in_array($fieldname, $currenttablestructure);
+                        foreach ($xmlfield->children() as $xmlchildattribute) {
+                            $xmltag = $xmlchildattribute->getName();
+                            $fieldexists = in_array($xmltag, $tablestructure);
                             if ($fieldexists) {
-                                $record->{$fieldname} = (string)$xmlparentattribute;
+                                $record->{$xmltag} = (string)$xmlchildattribute;
                             }
                         }
                         continue;
                     }
 
-                    // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table
-                    // so: ($fieldname == 'embedded') only when surveypro_item has already been saved...
-                    // so: $itemid is known.
-                    if ($fieldname == 'embedded') {
-                        // Debug: $label = 'Count of attributes of the field '.$fieldname;.
+                    // Tag <embedded> always belong to surveypro_item table.
+                    if ($xmltag == 'embedded') {
+                        // Urgently create a record because its id is needed here.
+                        // Please do not create a new record twice.
+                        // If 2 embedded pictures are part of the content, take care to create only one record.
+                        // If you already created the record for the first embedded picture, do not create one more record now.
+                        if (empty($itemid)) {
+                            $itemid = $DB->insert_record('surveypro_item', $record);
+                        }
+
+                        // Debug: $label = 'Count of attributes of the field '.$xmltag;
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
                         foreach ($xmlfield->children() as $xmlfileattribute) {
                             $fileattributename = $xmlfileattribute->getName();
@@ -224,8 +222,8 @@ class utemplate_apply extends utemplate_base {
 
                         // Debug: echo 'I need to add: "'.$filename.'" to the filearea<br>';.
 
-                        // Add the file described by $filename and $filecontent to filearea,
-                        // alias, add pictures found in the utemplate to filearea.
+                        // Add the file described by $filename and $filecontent to filearea.
+                        // Alias, add pictures found in the utemplate to filearea.
                         $filerecord = new \stdClass();
                         $filerecord->contextid = $this->context->id;
                         $filerecord->component = 'mod_surveypro';
@@ -241,37 +239,95 @@ class utemplate_apply extends utemplate_base {
                     // It does not know whether the xml is old and holds no longer needed fields
                     // or does not hold fields that are now mandatory.
                     // Because of this, I can not SIMPLY add $fieldname to $record but I need to make some more investigation.
-                    // I neglect no longer used fields, here.
+                    // I neglect unneeded used fields, here.
                     // I will add mandatory (but missing because the usertemplate may be old) fields,
                     // before saving in the frame of the $item->item_force_coherence.
-                    $fieldexists = in_array($fieldname, $currenttablestructure);
+                    $fieldexists = in_array($xmltag, $tablestructure);
                     if ($fieldexists) {
-                        $record->{$fieldname} = (string)$xmlfield;
+                        $record->{$xmltag} = (string)$xmlfield;
                     }
                 }
+                // End of: Overwrite defaults with utemplate data.
 
-                unset($record->id);
-
+                // Begin of: Overwrite defaults with utemplate data.
                 if ($tablename == 'surveypro_item') {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
-                    if (!empty($record->parentid)) {
+                    if (!empty($record->parentid)) { // If I have a parent, its record was already saved.
                         $whereparams = ['surveyproid' => $this->surveypro->id];
                         $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
-                    $itemid = $DB->insert_record($tablename, $record);
+                    $item->item_validate_variablename($record);
+                    if (empty($itemid)) { // If the record in surveypro_item has NOT already been added.
+                        $itemid = $DB->insert_record('surveypro_item', $record);
+                    } else {
+                         // I had to urgently create a record to get its id in order to give it to $fs->create_file_from_string.
+                         // Now I can not create a different record because I passed the id of the existing one.
+                         // So I update the found record.
+                        $record->id = $itemid;
+                        $DB->update_record('surveypro_item', $record);
+                    }
                 } else {
                     // Take care to details.
                     $item->item_force_coherence($record);
-                    $item->item_validate_variablename($record, $itemid);
-                    $record->itemid = $itemid;
 
                     $DB->insert_record($tablename, $record, false);
                 }
+                // End of: Overwrite defaults with utemplate data.
             }
         }
+    }
+    /**
+     * Ask for confirmation when a utemplate is applied directly.
+     *
+     * @return void
+     */
+    public function ask_for_confirmation() {
+        global $OUTPUT;
+
+        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
+            $message = get_string('confirm_applyutemplate', 'mod_surveypro');
+
+            $optionbase = ['s' => $this->cm->instance, 'act' => $this->action, 'sesskey' => sesskey()];
+
+            $optionsyes = $optionbase;
+            $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
+            $optionsyes['section'] = 'apply';
+            $optionsyes['fid'] = $this->utemplateid;
+            $optionsyes['action'] = SURVEYPRO_APPLYUTEMPLATE;
+            $urlyes = new \moodle_url('/mod/surveypro/utemplates.php', $optionsyes);
+            $yeslabel = get_string('yes_applyutemplate', 'mod_surveypro');
+            $buttonyes = new \single_button($urlyes, $yeslabel);
+
+            $optionsno = $optionbase;
+            $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
+            $optionsyes['section'] = 'manage';
+            $urlno = new \moodle_url('/mod/surveypro/utemplates.php', $optionsno);
+            $buttonno = new \single_button($urlno, get_string('no'));
+
+            echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
+            echo $OUTPUT->footer();
+            die();
+        }
+    }
+
+    /**
+     * Execute last minute check before applying user templates.
+     *
+     * @return void
+     */
+    public function lastminute_template_check() {
+        if (!empty($this->utemplateid)) {
+            $utemplateid = $this->utemplateid;
+        } else {
+            $parts = explode('_', $this->formdata->usertemplateinfo);
+            $utemplateid = $parts[1];
+        }
+
+        $xml = $this->get_utemplate_content($utemplateid);
+        $this->validate_xml($xml);
     }
 
     /**
@@ -280,21 +336,25 @@ class utemplate_apply extends utemplate_base {
      * @return void
      */
     public function apply_template() {
-        $applyction = $this->formdata->action;
-        $parts = explode('_', $this->formdata->usertemplateinfo);
-        $this->utemplateid = $parts[1];
+        if (!isset($this->formdata->action)) {
+            $applyaction = SURVEYPRO_IGNOREITEMS;
+        } else {
+            $applyaction = $this->formdata->action;
+            $parts = explode('_', $this->formdata->usertemplateinfo);
+            $this->utemplateid = $parts[1];
+        }
 
         // Before continuing.
-        if ($applyction != SURVEYPRO_DELETEALLITEMS) {
+        if ($applyaction != SURVEYPRO_DELETEALLITEMS) {
             // Dispose assignemnt of pages.
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
         }
 
-        $this->trigger_event('usertemplate_applied', $applyction);
+        $this->trigger_event('usertemplate_applied', $applyaction);
 
         // Begin the process executing preliminary actions.
-        switch ($applyction) {
+        switch ($applyaction) {
             case SURVEYPRO_IGNOREITEMS:
                 break;
             case SURVEYPRO_HIDEALLITEMS:
@@ -325,9 +385,8 @@ class utemplate_apply extends utemplate_base {
                 $utilitylayoutman->items_reindex();
 
                 break;
-                break;
             default:
-                $message = 'Unexpected $applyction = '.$applyction;
+                $message = 'Unexpected $applyaction = '.$applyaction;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
@@ -361,7 +420,7 @@ class utemplate_apply extends utemplate_base {
 
         if ($this->surveypro->template && (!$riskyediting)) { // This survey comes from a master template so it is multilang.
             echo $OUTPUT->notification(get_string('applyusertemplatedenied02', 'mod_surveypro'), 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'section' => 'submissionform']);
+            $url = new \moodle_url('/mod/surveypro/view.php', ['s' => $this->surveypro->id, 'section' => 'responsesubmit']);
             echo $OUTPUT->continue_button($url);
             echo $OUTPUT->footer();
             die();

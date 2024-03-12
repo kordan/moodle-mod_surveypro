@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_test_01</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>Dad</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_02</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_04</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <labelother>Other (please, specify)</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>Dad</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_05</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <labelother>Other (please, specify)</labelother>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_07</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>Dad</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_08</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_09</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <defaultoption>3</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_10</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <labelother>Other (please, specify)</labelother>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>Dad</defaultvalue>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_11</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <labelother>Other (please, specify)</labelother>
+      <defaultoption>2</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024042200">
+    <surveypro_item>
+      <content>Who do you love the most?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>radiobutton_test_12</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mum
+Dad</options>
+      <labelother>Other (please, specify)</labelother>
+      <defaultoption>3</defaultoption>
+      <downloadformat>1</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+</items>

@@ -41,8 +41,8 @@ require_once(dirname(__FILE__).'/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('utemplates');
 
-$id = optional_param('id', 0, PARAM_INT);                       // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                         // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);
+$s = optional_param('s', 0, PARAM_INT);
 $section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 
@@ -255,25 +255,46 @@ if ($section == 'apply') {
     $applyman->prevent_direct_user_input();
     $utemplates = $applyman->get_utemplates_items();
 
-    // Begin of: define $applyutemplate return url.
-    $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
-    // End of: define $applyutemplate return url.
+    if ($action != SURVEYPRO_APPLYUTEMPLATE) {
+        // Begin of: define $applyutemplate return url.
+        $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $cm->instance, 'section' => 'apply']);
+        // End of: define $applyutemplate return url.
 
-    // Begin of: prepare params for the form.
-    $formparams = new \stdClass();
-    $formparams->utemplates = $utemplates;
-    $formparams->inlineform = false;
-    $applyutemplate = new utemplate_applyform($formurl, $formparams);
-    // End of: prepare params for the form.
+        // Begin of: prepare params for the form.
+        $formparams = new \stdClass();
+        $formparams->utemplates = $utemplates;
+        $formparams->inlineform = false;
+        $applyutemplate = new utemplate_applyform($formurl, $formparams);
+        // End of: prepare params for the form.
 
-    // Begin of: manage form submission.
-    if ($applyman->formdata = $applyutemplate->get_data()) {
-        // Here I don't need to execute validate_xml because xml was validated at upload time
-        // Here I only need to verfy that plugin versions still match
-        // $applyman->check_items_versions();
-        $applyman->apply_template();
+        // Begin of: manage form submission.
+        if ($applyman->formdata = $applyutemplate->get_data()) {
+            // Bloody scenario.
+            // I upload a usertemplate on monday.
+            // I update surveypro on tuesday. This may make monday's usertemplates obsolete.
+            // I arrive here and I try to apply an OBSOLETE usertemplate.
+            // Somebody has to tell me I can not carry on.
+            // $applyman->check_items_versions();
+            $applyman->lastminute_template_check();
+            $xmlvalidationoutcome = $applyman->get_xmlvalidationoutcome();
+            if (!isset($xmlvalidationoutcome->key)) {
+                $applyman->apply_template();
+            }
+        }
+        // End of: manage form submission.
+    } else {
+        if ($confirm == SURVEYPRO_CONFIRMED_YES) {
+            $applyman->lastminute_template_check();
+            $xmlvalidationoutcome = $applyman->get_xmlvalidationoutcome();
+            if (!isset($xmlvalidationoutcome->key)) {
+                $applyman->apply_template();
+
+                $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+                $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+                redirect($returnurl);
+            }
+        }
     }
-    // End of: manage form submission.
 
     // Set $PAGE params.
     $paramurl = ['s' => $surveypro->id, 'area' => 'utemplates', 'section' => 'apply'];
@@ -293,7 +314,10 @@ if ($section == 'apply') {
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $applyman->friendly_stop();
+    $applyman->lastminute_stop();
+    if ($action == SURVEYPRO_APPLYUTEMPLATE) {
+        $applyman->ask_for_confirmation();
+    }
 
     $riskyediting = ($surveypro->riskyeditdeadline > time());
     $utilitylayoutman = new utility_layout($cm, $surveypro);

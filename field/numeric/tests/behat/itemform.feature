@@ -87,5 +87,5 @@ Feature: Create a numeric item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Type the best approximation of π you know"
-    Then the field "id_surveypro_field_numeric_2" matches value "3.14"
+    Then the field "id_field_numeric_2" matches value "3.14"
     Then I should see "Additional note"

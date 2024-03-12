@@ -40,47 +40,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/radiobutton/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var string List of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
@@ -88,17 +48,17 @@ class item extends itembase {
     protected $options;
 
     /**
-     * @var string Value of the default setting (invite, custom...)
-     */
-    protected $defaultoption;
-
-    /**
      * @var string Text label for the optional option "other" in the form of "$value SURVEYPRO_OTHERSEPARATOR $label"
      */
     protected $labelother;
 
     /**
-     * @var string Value of the field when the form is initially displayed
+     * @var string Value of the default setting (invite, custom...)
+     */
+    protected $defaultoption;
+
+    /**
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
 
@@ -111,6 +71,13 @@ class item extends itembase {
      * @var bool Orientation of the list of options
      */
     protected $adjustment;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -144,7 +111,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -176,18 +145,14 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim trialing spaces from each row of each textarea field.
         $fieldlist = ['options'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -200,15 +165,11 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Radio buttons';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->variable = 'radiobutton_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->options = "first\nsecond";
+        // $record->labelother
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        // $record->defaultvalue
         $record->downloadformat = SURVEYPRO_ITEMRETURNSLABELS;
         $record->adjustment = SURVEYPRO_VERTICAL;
     }
@@ -229,7 +190,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -253,7 +214,7 @@ class item extends itembase {
         $constraints = [];
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_radiobutton');
         foreach ($values as $value) {
             $constraints[] = $optionstr.$labelsep.$value;
@@ -267,15 +228,122 @@ class item extends itembase {
         return implode('<br>', $constraints);
     }
 
+    // MARK set.
+
+    /**
+     * Set options.
+     *
+     * @param string $options
+     * @return void
+     */
+    public function set_options($options) {
+        $this->options = $options;
+    }
+
+    /**
+     * Set labelother.
+     *
+     * @param string $labelother
+     * @return void
+     */
+    public function set_labelother($labelother) {
+        $this->labelother = $labelother;
+    }
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set downloadformat.
+     *
+     * @param string $downloadformat
+     * @return void
+     */
+    public function set_downloadformat($downloadformat) {
+        $this->downloadformat = $downloadformat;
+    }
+
+    /**
+     * Set adjustment.
+     *
+     * @param string $adjustment
+     * @return void
+     */
+    public function set_adjustment($adjustment) {
+        $this->adjustment = $adjustment;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get options.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->options
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_options() {
+        return $this->options;
+    }
+
+    /**
+     * Get labelother.
+     *
+     * @return $this->labelother
+     */
+    public function get_labelother() {
+        return $this->labelother;
+    }
+
+    /**
+     * Get defaultoption.
+     *
+     * @return $this->defaultoption
+     */
+    public function get_defaultoption() {
+        return $this->defaultoption;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get downloadformat.
+     *
+     * @return $this->downloadformat
+     */
+    public function get_downloadformat() {
+        return $this->downloadformat;
+    }
+
+    /**
+     * Get adjustment.
+     *
+     * @return $this->adjustment
+     */
+    public function get_adjustment() {
+        return $this->adjustment;
     }
 
     /**
@@ -303,13 +371,26 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['options', 'labelother', 'defaultoption', 'defaultvalue', 'downloadformat', 'adjustment'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'labelother', 'defaultvalue'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_radiobutton'] = ['options', 'labelother', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -335,31 +416,12 @@ class item extends itembase {
     <xs:element name="surveyprofield_radiobutton">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="options" type="xs:string"/>
                 <xs:element name="labelother" type="xs:string" minOccurs="0"/>
-                <xs:element name="defaultoption" type="xs:int"/>
+                <xs:element name="defaultoption" type="xs:int" minOccurs="0"/>
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="downloadformat" type="xs:int"/>
-                <xs:element name="adjustment" type="xs:int"/>
+                <xs:element name="downloadformat" type="xs:int" minOccurs="0"/>
+                <xs:element name="adjustment" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -380,7 +442,7 @@ EOS;
     public function parent_encode_child_parentcontent($childparentcontent) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = [];
         $labels = [];
@@ -418,7 +480,7 @@ EOS;
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
 
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -464,7 +526,7 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -507,61 +569,45 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_radiobutton_'.$this->sortindex;
-
         $attributes = [];
-        $attributes['class'] = 'indent-'.$this->indent.' radiobutton_radio';
-
         $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_radiobutton_'.$this->sortindex;
+        $basename = $this->itemname;
 
         // Begin of: mform element.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $attributes['id'] = $idprefix.'_invite';
-                $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '',
-                                                        $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
-                if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                    $attributes['class'] = 'radiobutton_radio';
-                }
+                $attributes['id'] = $baseid.'_invite';
+                $elementgroup[] = $mform->createElement('radio', $basename, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
             }
         } else {
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '',
-                                                    $starsstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
-            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                $attributes['class'] = 'radiobutton_radio';
-            }
+            $attributes['id'] = $baseid.'_ignoreme';
+            $elementgroup[] = $mform->createElement('radio', $basename, '', $starsstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
         }
 
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
         foreach ($labels as $k => $label) {
-            $attributes['id'] = $idprefix.'_'.$k;
-            $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '', $label, "$k", $attributes);
-            if ($this->adjustment == SURVEYPRO_HORIZONTAL) {
-                $attributes['class'] = 'radiobutton_radio';
-            }
+            $attributes['id'] = $baseid.'_'.$k;
+            $elementgroup[] = $mform->createElement('radio', $basename, '', $label, "$k", $attributes);
         }
 
         if (!empty($this->labelother)) {
             [$othervalue, $otherlabel] = $this->get_other();
             $labels['other'] = $otherlabel;
 
-            $attributes['id'] = $idprefix.'_other';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '',
-                                                    $otherlabel, 'other', $attributes);
+            $attributes['id'] = $baseid.'_other';
+            $elementgroup[] = $mform->createElement('radio', $basename, '', $otherlabel, 'other', $attributes);
 
-            $attributes['id'] = $idprefix.'_text';
-            $attributes['class'] = 'radiobutton_radio';
-            $elementgroup[] = $mform->createElement('text', $this->itemname.'_text', '', $attributes);
-            $mform->setType($this->itemname.'_text', PARAM_RAW);
-            $mform->disabledIf($this->itemname.'_text', $this->itemname, 'neq', 'other');
+            $attributes['id'] = $baseid.'_text';
+            $elementgroup[] = $mform->createElement('text', $basename.'_text', '', $attributes);
+            $mform->setType($basename.'_text', PARAM_RAW);
+            $mform->disabledIf($basename.'_text', $basename, 'neq', 'other');
         }
 
         if (!$this->required) {
-            $attributes['id'] = $idprefix.'_noanswer';
-            $attributes['class'] = 'indent-'.$this->indent.' radiobutton_radio';
-            $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $this->itemname, '',
-                                                    $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
+            $attributes['id'] = $baseid.'_noanswer';
+            $elementgroup[] = $mform->createElement('radio', $basename, '', $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
         }
         // End of: mform element.
 
@@ -573,7 +619,7 @@ EOS;
         }
         // End of: definition of separator.
 
-        $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, $separator, false);
+        $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
 
         // Begin of: default section.
         if (!$searchform) {
@@ -582,7 +628,7 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
 
@@ -590,25 +636,25 @@ EOS;
                 case SURVEYPRO_CUSTOMDEFAULT:
                     $key = array_search($this->defaultvalue, $labels);
                     if ($key !== false) {
-                        $mform->setDefault($this->itemname, "$key");
+                        $mform->setDefault($basename, "$key");
                     }
                     break;
                 case SURVEYPRO_INVITEDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
+                    $mform->setDefault($basename, SURVEYPRO_INVITEVALUE);
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
+                    $mform->setDefault($basename, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
                     $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
         }
-        // Note: $this->itemname.'_text' has to ALWAYS get a default (if it exists) even if it is not selected.
+        // Note: $basename.'_text' has to ALWAYS get a default (if it exists) even if it is not selected.
         if (!empty($this->labelother)) {
-            $mform->setDefault($this->itemname.'_text', $othervalue);
+            $mform->setDefault($basename.'_text', $othervalue);
         }
         // End of: default section.
     }
@@ -619,7 +665,8 @@ EOS;
      * @return array $separator
      */
     public function userform_get_separator(): array {
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+        $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
+
         $optioncount = count($labels);
         $invitation = ($this->defaultoption == SURVEYPRO_INVITEDEFAULT);
         $addother = !empty($this->labelother);
@@ -680,21 +727,22 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
-            return;
+            return $errors;
         }
 
         $errorkey = $this->itemname.'_group';
 
         if ( ($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
             $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_radiobutton');
-            return;
+            return $errors;
         }
 
         // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_radiobutton');
-            return;
         }
+
+        return $errors;
     }
 
     /**
@@ -807,7 +855,7 @@ EOS;
         }
 
         if (isset($fromdb->content)) {
-            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+            $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
             if (array_key_exists($fromdb->content, $labels)) {
                 $prefill[$this->itemname] = $fromdb->content;
             } else {
@@ -852,7 +900,7 @@ EOS;
         // Output.
         switch ($format) {
             case SURVEYPRO_ITEMSRETURNSVALUES:
-                $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+                $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
                 if (array_key_exists($content, $values)) {
                     $return = $values[$content];
                 } else {
@@ -860,7 +908,7 @@ EOS;
                 }
                 break;
             case SURVEYPRO_ITEMRETURNSLABELS:
-                $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+                $values = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
                 if (array_key_exists($content, $values)) {
                     $return = $values[$content];
                 } else {
@@ -887,5 +935,25 @@ EOS;
         $elementnames = [$this->itemname.'_group'];
 
         return $elementnames;
+    }
+
+    // MARK other.
+
+    /**
+     * Divide $this->labelother in $value and $label.
+     *
+     * @return $value
+     * @return $label
+     */
+    protected function get_other() {
+        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
+            $label = trim($match[1]);
+            $value = trim($match[2]);
+        } else {
+            $label = trim($this->labelother);
+            $value = '';
+        }
+
+        return [$value, $label];
     }
 }

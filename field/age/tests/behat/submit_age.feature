@@ -46,8 +46,8 @@ Feature: Submit using an age item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_age_1_year  | 23 |
-      | id_surveypro_field_age_1_month | 8  |
+      | id_field_age_1_year  | 23 |
+      | id_field_age_1_month | 8  |
 
     And I press "Submit"
 

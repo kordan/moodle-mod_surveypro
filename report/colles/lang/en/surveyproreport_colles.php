@@ -22,46 +22,46 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'Colles report';
-$string['seemoredetail'] = 'Click here to see more detail';
-
-$string['summary'] = 'Summary report';
-
-$string['collespreferred'] = 'preferred';
 $string['collesactual'] = 'actual';
-
-$string['summaryreport'] = 'Summary report';
-$string['scalesreport'] = 'Scales report';
-$string['questionsreport'] = 'Questions report';
-
+$string['collespreferred'] = 'preferred';
+$string['pluginname'] = 'Colles report';
+$string['privacy:metadata'] = 'The "Colles" report plugin does not store any personal data.';
 $string['question01short'] = 'focus on interesting issues';
 $string['question02short'] = 'important to my practice';
 $string['question03short'] = 'improve my practice';
 $string['question04short'] = 'connects with my practice';
-
 $string['question05short'] = 'I\'m critical of my learning';
 $string['question06short'] = 'I\'m critical of my own ideas';
 $string['question07short'] = 'I\'m critical of other students';
 $string['question08short'] = 'I\'m critical of readings';
-
 $string['question09short'] = 'I explain my ideas';
 $string['question10short'] = 'I ask for explanations';
 $string['question11short'] = 'I\'m asked to explain';
 $string['question12short'] = 'students respond to me';
-
 $string['question13short'] = 'tutor stimulates thinking';
 $string['question14short'] = 'tutor encourages me';
 $string['question15short'] = 'tutor models discourse';
 $string['question16short'] = 'tutor models self-reflection';
-
 $string['question17short'] = 'students encourage me';
 $string['question18short'] = 'students praise me';
 $string['question19short'] = 'students value me';
 $string['question20short'] = 'students empathise';
-
 $string['question21short'] = 'I understand other students';
 $string['question22short'] = 'students understand me';
 $string['question23short'] = 'I understand the tutor';
 $string['question24short'] = 'tutor understands me';
+$string['questionsreport'] = 'Questions report';
+$string['scalesreport'] = 'Scales report';
+$string['seemoredetail'] = 'Click here to see more detail';
 
-$string['privacy:metadata'] = 'The "Colles" report plugin does not store any personal data.';
+$string['summary'] = 'Summary report';
+
+
+$string['summaryreport'] = 'Summary report';
+
+
+
+
+
+
+

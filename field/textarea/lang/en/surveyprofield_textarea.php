@@ -23,27 +23,27 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['areacols_help'] = 'Define a custom width for the text area (This option is not applied in conjunction with "Use html editor")';
 $string['areacols'] = 'Area width in columns';
-$string['arearows_help'] = 'Define a custom height for the text area';
+$string['areacols_help'] = 'Define a custom width for the text area (This option is not applied in conjunction with "Use html editor")';
 $string['arearows'] = 'Area height in rows';
+$string['arearows_help'] = 'Define a custom height for the text area';
 $string['hasmaxlength'] = 'Text is supposed to be shorter or equal than {$a} characters';
 $string['hasminlength'] = 'Text is supposed to be longer or equal than {$a} characters';
 $string['hasminmaxlength'] = 'Text is supposed to fit between {$a->minlength} and {$a->maxlength} characters';
-$string['ierr_maxlengthlowerthanminlength'] = 'Maximum length can not be lowwer-equal than minimum length';
+$string['ierr_maxlengthlowerthanminlength'] = 'Maximum length can not be lower-equal than minimum length';
 $string['ierr_maxlengthnotinteger'] = 'Maximum length must be integer';
 $string['ierr_minlengthnotinteger'] = 'Minimum length must be integer';
 $string['ierr_requirednozerolength'] = 'Required item can not allow a zero length test';
-$string['maxlength_help'] = 'The maximun number of allowed characters for the answer. Empty for unlimited length.';
 $string['maxlength'] = 'Maximum length (in characters)';
-$string['minlength_help'] = 'The minimun number of allowed characters for the answer to this question';
+$string['maxlength_help'] = 'The maximun number of allowed characters for the answer. Empty for unlimited length.';
 $string['minlength'] = 'Minimum length (in characters)';
+$string['minlength_help'] = 'The minimun number of allowed characters for the answer to this question';
 $string['pluginname'] = 'Text area';
 $string['privacy:metadata'] = 'The "Textarea" field plugin does not store any personal data.';
-$string['trimonsave_help'] = 'Delete trailing spaces at the beginning and at the end of the user input.';
 $string['trimonsave'] = 'Clean answer at save time';
+$string['trimonsave_help'] = 'Delete trailing spaces at the beginning and at the end of the user input.';
 $string['uerr_texttoolong'] = 'Text is too long';
 $string['uerr_texttooshort'] = 'Text is too short';
-$string['useeditor_help'] = 'Is the answer supposed to be in plain text or in html?';
 $string['useeditor'] = 'Use html editor';
+$string['useeditor_help'] = 'Is the answer supposed to be in plain text or in html?';
 $string['userfriendlypluginname'] = 'Text (long)';
