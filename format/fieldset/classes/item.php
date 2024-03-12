@@ -66,9 +66,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldset';
-
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
+        $this->usesplugintable = true;
 
         // Other element specific properties.
         // No properties here.
@@ -77,6 +75,7 @@ class item extends itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['trimonsave'] = false;
         $this->insetupform['customnumber'] = false;
         $this->insetupform['position'] = false;
@@ -142,7 +141,7 @@ class item extends itembase {
      * @return void
      */
     public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Fieldset';
+        return;
     }
 
     // MARK get.
@@ -163,7 +162,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content'];
+        $fieldlist['surveypro_item'] = ['content'];
 
         return $fieldlist;
     }
@@ -189,7 +188,6 @@ class item extends itembase {
     <xs:element name="surveyproformat_fieldset">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
                 <xs:element name="defaultstatus" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>

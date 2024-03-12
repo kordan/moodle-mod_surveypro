@@ -40,7 +40,6 @@ class backup_surveyprofield_autofill_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'autofill'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginautofill = new backup_nested_element('surveyprofield_autofill', ['id'], [
-            'content', 'contentformat',
             'indent', 'position', 'customnumber', 'variable', 'extranote',
             'hiddenfield', 'element01', 'element02', 'element03', 'element04', 'element05', ]);
 

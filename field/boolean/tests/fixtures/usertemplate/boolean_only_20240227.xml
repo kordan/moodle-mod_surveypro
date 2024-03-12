@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;h5&gt;BOOLEAN&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;boolean specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Element style&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;h5&gt;BOOLEAN&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;boolean specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Element style&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>1 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -47,29 +47,29 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>2 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -81,29 +81,29 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>3 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -115,29 +115,29 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>4 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -149,29 +149,29 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;drop down&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>5 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -182,29 +182,29 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>6 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -216,29 +216,29 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>7 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -250,29 +250,29 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>8 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -284,29 +284,29 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>9 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -318,29 +318,29 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;horizontal radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>10 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -351,29 +351,29 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"yes" is the default (so: "Choose..." is not expected)&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory so the user is theoretically forced to choose a value. In spite of this, the default is set to a valid value so the user will be allowed to "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>11 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -385,29 +385,29 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to an invalid value so the user is forced to choose a valid option.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>12 Intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
@@ -419,29 +419,29 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Yes&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>13 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -453,29 +453,29 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;Choose...&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory but the default is set to an invalid value so the user will be forced to select the item corresponding to his/her answer. Being the item not required, the user can choose as answer the item: &quot;No answer&quot;.&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>14 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
@@ -487,29 +487,29 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="label" version="2015123000">
+  <item type="format" plugin="label" version="2024022701">
     <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <content>&lt;ul&gt;&lt;li&gt;vertical radio buttons&lt;/li&gt;&lt;li&gt;not mandatory (so: &quot;No answer&quot; is expected)&lt;/li&gt;&lt;li&gt;&quot;No answer&quot; is the default&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can &quot;fly&quot; over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <indent>0</indent>
       <customnumber>15 intro</customnumber>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2015123000">
+  <item type="field" plugin="boolean" version="2024022701">
     <surveypro_item>
+      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_boolean>
-      <content>&lt;p&gt;Is it true?&lt;/p&gt;</content>
-      <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>

@@ -110,7 +110,6 @@ if ($section == 'manage') {
     echo $actionbar->draw_utemplates_action_bar();
 
     if ($action == SURVEYPRO_DELETEUTEMPLATE) {
-        $manageman->trigger_event('usertemplate_deleted');
         $manageman->delete_utemplate();
     }
 
@@ -269,10 +268,17 @@ if ($section == 'apply') {
 
     // Begin of: manage form submission.
     if ($applyman->formdata = $applyutemplate->get_data()) {
-        // Here I don't need to execute validate_xml because xml was validated at upload time
-        // Here I only need to verfy that plugin versions still match
+        // Bloody scenario.
+        // I upload a usertemplate on monday.
+        // I update surveypro on tuesday. This make old usertemplates obsolete.
+        // I Arrive here and I try to apply an OBSOLETE usertemplate.
+        // Somebody has to tell me I can not carry on.
         // $applyman->check_items_versions();
-        $applyman->apply_template();
+        $applyman->lastminute_template_check();
+        $xmlvalidationoutcome = $applyman->get_xmlvalidationoutcome();
+        if (!isset($xmlvalidationoutcome->key)) {
+            $applyman->apply_template();
+        }
     }
     // End of: manage form submission.
 
@@ -294,7 +300,7 @@ if ($section == 'apply') {
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_utemplates_action_bar();
 
-    $applyman->friendly_stop();
+    $applyman->lastminute_stop();
 
     $riskyediting = ($surveypro->riskyeditdeadline > time());
     $utilitylayoutman = new utility_layout($cm, $surveypro);

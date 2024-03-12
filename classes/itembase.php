@@ -38,7 +38,7 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itembase {
+abstract class itembase {
 
     /**
      * @var object Course module object
@@ -81,6 +81,11 @@ class itembase {
     protected $hidden;
 
     /**
+     * @var int Indent of the item in the form page
+     */
+    protected $indent;
+
+    /**
      * @var bool Membership of the item to the search form
      */
     protected $insearchform;
@@ -121,9 +126,9 @@ class itembase {
     protected $itemeditingfeedback;
 
     /**
-     * @var array
+     * @var bool Does this item use a specific table?
      */
-    protected $fieldsusingformat = ['content' => SURVEYPRO_ITEMCONTENTFILEAREA];
+    protected $usesplugintable;
 
     /**
      * List of fields properties the surveypro creator will manage in the item definition form
@@ -132,9 +137,10 @@ class itembase {
      *
      * @var array
      */
-    protected $insetupform = [
+    public $insetupform = [
         'common_fs' => true,
         'content' => true,
+        'contentformat' => true,
         'customnumber' => true,
         'position' => true,
         'trimonsave' => true,
@@ -183,7 +189,7 @@ class itembase {
         $context = \context_module::instance($this->cm->id);
 
         // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
-        if ($this->uses_db_table()) {
+        if ($this->usesplugintable) {
             $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
@@ -203,14 +209,10 @@ class itembase {
             // Pagebreak and fieldsetend are missing content too.
 
             // Special care to fields with format.
-            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                foreach ($fieldsusingformat as $fieldname => $filearea) {
-                    $this->{$fieldname} = file_rewrite_pluginfile_urls(
-                       $this->{$fieldname}, 'pluginfile.php', $context->id,
-                       'mod_surveypro', $filearea, $itemid
-                    );
-                }
-            }
+            $this->content = file_rewrite_pluginfile_urls(
+               $this->content, 'pluginfile.php', $context->id,
+               'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid
+            );
 
             unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
@@ -368,9 +370,8 @@ class itembase {
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
-        // Does this record need to be saved as new record or as un update of a preexisting record?
-        if (empty($record->itemid)) {
-            // Item is new.
+        // Does this record need to be saved as new record or as un update of a existing record?
+        if (empty($record->itemid)) { // Item is new.
 
             // Sortindex.
             $sql = 'SELECT COUNT(\'x\')
@@ -385,8 +386,19 @@ class itembase {
                 $transaction = $DB->start_delegated_transaction();
 
                 if ($itemid = $DB->insert_record('surveypro_item', $record)) { // First surveypro_item save.
+                    if ($this->insetupform['contentformat']) {
+                        // Special care to the field content equipped with an editor.
+                        $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
+                        $record->id = $itemid;
+                        $record = file_postupdate_standard_editor(
+                                      $record, 'content', $editoroptions,
+                                      $context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
+                                  );
+                        $DB->update_record('surveypro_item', $record);
+                    }
+
                     // Now think to $tablename.
-                    if ($this->uses_db_table()) {
+                    if ($this->usesplugintable) {
                         // Before saving to the the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $itemid);
 
@@ -396,31 +408,6 @@ class itembase {
                         }
                     } else {
                         $record->itemid = $itemid;
-                    }
-                }
-
-                // Special care to "editors". Remember that content and contentformat are in plugin table.
-                if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                    $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
-                    foreach ($fieldsusingformat as $fieldname => $filearea) {
-                        $record = file_postupdate_standard_editor(
-                                      $record, $fieldname, $editoroptions,
-                                      $context, 'mod_surveypro', $filearea, $record->itemid
-                                  );
-                    }
-
-                    if ($this->uses_db_table()) {
-                        // Tablename.
-                        $record->id = $pluginid;
-
-                        if (!$DB->update_record($tablename, $record)) { // Update of $tablename.
-                            $this->itemeditingfeedback -= ($this->itemeditingfeedback % 2); // Whatever it was, now it is a fail.
-                            // Otherwise...
-                            // Leave the previous $this->itemeditingfeedback.
-                            // If it was a success, leave it as now you got one more success.
-                            // If it was a fail, leave it as you can not cover the previous fail.
-                        }
-                        // Record->content follows standard flow and has already been saved at first save time.
                     }
                 }
 
@@ -444,17 +431,6 @@ class itembase {
         } else {
             // Item already exists.
 
-            // Special care to "editors".
-            if ($fieldsusingformat = $this->get_fieldsusingformat()) {
-                $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
-                foreach ($fieldsusingformat as $fieldname => $filearea) {
-                    $record = file_postupdate_standard_editor(
-                                  $record, $fieldname, $editoroptions,
-                                  $context, 'mod_surveypro', $filearea, $record->itemid
-                              );
-                }
-            }
-
             // Begin of: Hide/unhide part 1.
             $oldhidden = $this->get_hidden(); // Used later.
             // End of: hide/unhide 1.
@@ -472,8 +448,14 @@ class itembase {
             try {
                 $transaction = $DB->start_delegated_transaction();
 
+                // Special care to "editors".
+                $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
+                $record = file_postupdate_standard_editor(
+                              $record, 'content', $editoroptions,
+                              $context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
+                          );
                 if ($DB->update_record('surveypro_item', $record)) {
-                    if ($this->uses_db_table()) {
+                    if ($this->usesplugintable) {
                         // Before saving to the plugin table, validate the variable name.
                         $this->item_validate_variablename($record, $record->itemid);
 
@@ -584,7 +566,7 @@ class itembase {
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
                     WHERE ((i.surveyproid = :surveyproid)
                       AND (p.itemid <> :itemid))';
-            $whereparams = ['surveyproid' => (int)$record->surveyproid, 'itemid' => $itemid];
+            $whereparams = ['surveyproid' => $this->surveypro->id, 'itemid' => $itemid];
             $usednames += $DB->get_records_sql_menu($sql, $whereparams);
         }
 
@@ -728,19 +710,19 @@ class itembase {
         }
 
         if ($multilangfields = $this->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
-            foreach ($multilangfields as $plugin) {
-                foreach ($plugin as $fieldname) {
+            foreach ($multilangfields as $table => $mlfields) {
+                foreach ($mlfields as $mlfield) {
                     // Backward compatibility.
                     // In the frame of https://github.com/kordan/moodle-mod_surveypro/pull/447 few multilang fields were added.
                     // This was really a mandatory addition but,
                     // opening surveypros created (from mastertemplates) before this addition,
                     // I may find that they don't have new added fields filled in the database
                     // so the corresponding property $this->{$fieldname} does not exist.
-                    if (isset($this->{$fieldname})) {
-                        $stringkey = $this->{$fieldname};
-                        $this->{$fieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                    if (isset($this->{$mlfield})) {
+                        $stringkey = $this->{$mlfield};
+                         $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
                     } else {
-                        $this->{$fieldname} = '';
+                        $this->{$mlfield} = '';
                     }
                 }
             }
@@ -858,6 +840,8 @@ class itembase {
      * @return void
      */
     public function item_add_mandatory_base_fields(&$record) {
+        $record->content = 'itembase';
+        $record->contentformat = 1;
         $record->hidden = 0;
         $record->insearchform = 0;
         $record->reserved = 0;
@@ -877,15 +861,6 @@ class itembase {
      */
     public function item_add_color_unifier($mform) {
         $mform->addElement('html', '<div class="hidden fitem fitem_fgroup colorunifier"></div>');
-    }
-
-    /**
-     * Get if the plugin uses a table into the db.
-     *
-     * @return if the plugin uses a personal table in the db.
-     */
-    public function uses_db_table() {
-        return true;
     }
 
     /**
@@ -962,22 +937,27 @@ class itembase {
      * (copied from moodle20/cohort/edit.php)
      *
      * Some examples:
-     * Each SURVEYPRO_ITEMFIELD has: $this->insetupform['content'] == true  and $fieldsusingformat == ['content']
-     * Fieldset plugin          has: $this->insetupform['content'] == true  and $fieldsusingformat == null
-     * Pagebreak plugin         has: $this->insetupform['content'] == false and $fieldsusingformat == null
+     * Each SURVEYPRO_ITEMFIELD:
+     *     $this->insetupform['content'] == true
+     *     $this->insetupform['contentformat'] = true
+     *
+     * Fieldset plugin:
+     *     $this->insetupform['content'] == true
+     *     $this->insetupform['contentformat'] = false
+     *
+     * Pagebreak plugin:
+     *     $this->insetupform['content'] == false
+     *     $this->insetupform['contentformat'] = false
      *
      * @return void
      */
     public function set_editor() {
-        if (!$fieldsusingformat = $this->get_fieldsusingformat()) {
-            return;
-        }
-
-        $context = \context_module::instance($this->cm->id);
-        // I have to set 'trusttext' => false because 'noclean' is ignored if trusttext is enabled!
-        $editoroptions = ['noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context];
-        foreach ($fieldsusingformat as $fieldname => $filearea) {
-            file_prepare_standard_editor($this, $fieldname, $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
+        if ($this->insetupform['contentformat']) {
+            $context = \context_module::instance($this->cm->id);
+            // I have to set 'trusttext' => false because 'noclean' is ignored if trusttext is enabled!
+            $editoroptions = ['noclean' => true, 'subdirs' => true, 'maxfiles' => -1, 'context' => $context];
+            $filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
+            file_prepare_standard_editor($this, 'content', $editoroptions, $context, 'mod_surveypro', $filearea, $this->itemid);
         }
     }
 
@@ -1002,12 +982,60 @@ class itembase {
     }
 
     /**
-     * Get the list of fields using format.
+     * This method returns the list of the field used by the plugin.
      *
-     * @return the content of $fieldsusingformat property
+     * AT THE MOMENT, this method is never used.
+     *
+     * @param string $plugin
+     * @param string $type
+     * @return array
      */
-    public function get_fieldsusingformat() {
-        return $this->fieldsusingformat;
+    public function get_plugin_fields($plugin, $type) {
+        global $CFG;
+
+        if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
+            $message = '$type and $plugin must be provided both or none.';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $installxmls = ['surveypro_item', 'db/install.xml'];
+        if (!empty($type) && !empty($plugin)) {
+            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
+            // Some plugins are missing the install.xml because they don't have specific attributes.
+            if (file_exists($installxml)) {
+                $installxmls['surveypro'.$type.'_'.$plugin] = $type.'/'.$plugin.'/db/install.xml';
+            }
+        }
+
+        foreach ($installxmls as $targettable => $installxml) {
+            $currentfile = $CFG->dirroot.'/mod/surveypro/'.$installxml;
+            $xmlall = simplexml_load_file($installxml);
+            foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
+                foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
+                    $attributes = $xmltable->attributes();
+                    $tablename = $attributes['NAME'];
+                    if ($tablename != $targettable) {
+                        continue;
+                    }
+                    foreach ($xmltable->children() as $xmlfields) { // FIELDS opening tag.
+                        $curenttablefields = [];
+                        foreach ($xmlfields->children() as $xmlfield) { // FIELD opening tag.
+                            $attributes = $xmlfield->attributes();
+                            $fieldname = $attributes['NAME'];
+                            $curenttablefields[] = (string)$attributes['NAME'];
+                        }
+                        $fieldlist[$tablename] = $curenttablefields;
+                        break;
+                    }
+                    // If the correct table has been found, don't go searching for one more table. Stop!
+                    break;
+                }
+                // If the correct table has been found, don't go searching for one more table. Stop!
+                break;
+            }
+        }
+
+        return $fieldlist;
     }
 
     /**
@@ -1237,12 +1265,7 @@ class itembase {
      *
      * @return array of felds
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = [];
-
-        return $fieldlist;
-    }
+    abstract public function get_multilang_fields();
 
     /**
      * Get parent id.
@@ -1539,6 +1562,15 @@ class itembase {
     }
 
     /**
+     * Does this item use a specific table?
+     *
+     * @return the content of the static property "usesplugintable"
+     */
+    public static function get_usesplugintable() {
+        return self::usesplugintable;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
@@ -1551,6 +1583,17 @@ class itembase {
     <xs:element name="surveypro_item">
         <xs:complexType>
             <xs:sequence>
+                <xs:element name="content" type="xs:string" minOccurs="0"/>
+                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="filename" type="xs:string"/>
+                            <xs:element name="filecontent" type="xs:base64Binary"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="contentformat" type="xs:int" minOccurs="0"/>
+
                 <xs:element name="hidden" type="xs:int"/>
                 <xs:element name="insearchform" type="xs:int"/>
                 <xs:element name="reserved" type="xs:int"/>

@@ -23,8 +23,8 @@ Feature: Load and apply usertemplates to test partial item deletion
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_2023103100.xml" file to "Choose files to import" filemanager
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_2023103100.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/parent-child_20240227.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/MMM_20240227.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
     And I press "Import"
@@ -34,7 +34,7 @@ Feature: Load and apply usertemplates to test partial item deletion
 
     And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
-      | User templates | (This course) MMM_2023103100.xml |
+      | User templates | (This course) MMM_20240227.xml |
       | id_action_0    | 1                                |
     And I press "Apply"
 
@@ -51,7 +51,7 @@ Feature: Load and apply usertemplates to test partial item deletion
 
     And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
-      | User templates | (This course) parent-child_2023103100.xml |
+      | User templates | (This course) parent-child_20240227.xml |
       | id_action_17   | 1                                         |
     And I press "Apply"
 

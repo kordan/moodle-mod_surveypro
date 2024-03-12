@@ -187,11 +187,13 @@ class utemplate_manage extends utemplate_base {
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
             // Put the name in the gobal vaiable, to remember it for the log.
+            // At log time I haven't availability of the file so I can not ask fot its name.
             $this->templatename = $this->get_utemplate_name();
 
             $fs = get_file_storage();
             $xmlfile = $fs->get_file_by_id($this->utemplateid);
             $a = $xmlfile->get_filename();
+
             $xmlfile->delete();
 
             $this->trigger_event('usertemplate_deleted');

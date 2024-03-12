@@ -49,7 +49,7 @@ class surveyprofield extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveyprofield_'.$plugin;
+            $installed[] = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);

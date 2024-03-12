@@ -369,5 +369,27 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2023012600, 'surveypro');
     }
 
+    if ($oldversion < 2024022700) {
+
+        // Define field contentformat to be added to surveypro_item.
+        $table = new xmldb_table('surveypro_item');
+        $field = new xmldb_field('contentformat', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'plugin');
+
+        // Conditionally launch add field contentformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'plugin');
+
+        // Conditionally launch add field content.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2024022700, 'surveypro');
+    }
+
     return true;
 }
