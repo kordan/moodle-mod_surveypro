@@ -314,6 +314,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
+        // $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
         $fieldlist['surveypro_item'] = ['content'];
         $fieldlist['surveyprofield_radiobutton'] = ['extranote', 'options', 'labelother', 'defaultvalue'];
 

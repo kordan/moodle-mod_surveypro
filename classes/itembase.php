@@ -720,7 +720,7 @@ abstract class itembase {
                     // so the corresponding property $this->{$fieldname} does not exist.
                     if (isset($this->{$mlfield})) {
                         $stringkey = $this->{$mlfield};
-                         $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
                     } else {
                         $this->{$mlfield} = '';
                     }

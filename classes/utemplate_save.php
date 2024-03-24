@@ -76,7 +76,7 @@ class utemplate_save extends utemplate_base {
     }
 
     /**
-     * Write template content.
+     * Write user template content.
      *
      * @param boolean $visiblesonly
      * @return void
@@ -85,6 +85,7 @@ class utemplate_save extends utemplate_base {
         global $DB;
 
         $pluginversion = self::get_subplugin_versions();
+
         $where = ['surveyproid' => $this->surveypro->id];
         if ($visiblesonly) {
             $where['hidden'] = '0';
@@ -176,6 +177,7 @@ class utemplate_save extends utemplate_base {
             $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
+
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }
