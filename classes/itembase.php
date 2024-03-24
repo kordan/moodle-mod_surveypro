@@ -248,6 +248,8 @@ abstract class itembase {
      *     √ surveyproid
      *     √ type
      *     √ plugin
+     *     √ content
+     *     √ contentformat
      *     √ hidden
      *     √ insearchform
      *     √ reserved
@@ -273,12 +275,7 @@ abstract class itembase {
      * @param \stdClass $record
      * @return void
      */
-    protected function get_common_settings($record) {
-        // You are going to change item content (maybe sortindex, maybe the parentitem)
-        // so, do not forget to reset items per page.
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_pages();
-
+    protected function add_base_properties_to_record($record) {
         $timenow = time();
 
         // Surveyproid.
@@ -286,8 +283,10 @@ abstract class itembase {
 
         // Plugin and type are already onboard.
 
+        // content and contentformat will be managed
+
         // Checkboxes content.
-        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave'];
+        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required'];
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -363,9 +362,15 @@ abstract class itembase {
 
         $context = \context_module::instance($this->cm->id);
 
+        $this->add_base_properties_to_record($record);
+
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmission = $utilitylayoutman->has_submissions(false);
+
+        // You are going to change item content (maybe sortindex, maybe the parentitem)
+        // so, do not forget to reset items per page.
+        $utilitylayoutman->reset_pages();
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
@@ -720,7 +725,7 @@ abstract class itembase {
                     // so the corresponding property $this->{$fieldname} does not exist.
                     if (isset($this->{$mlfield})) {
                         $stringkey = $this->{$mlfield};
-                         $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
                     } else {
                         $this->{$mlfield} = '';
                     }
@@ -839,7 +844,7 @@ abstract class itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_base_fields(&$record) {
+    public function item_add_defaults_to_base_fields(&$record) {
         $record->content = 'itembase';
         $record->contentformat = 1;
         $record->hidden = 0;

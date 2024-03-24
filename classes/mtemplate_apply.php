@@ -150,13 +150,13 @@ class mtemplate_apply extends mtemplate_base {
                     $record->surveyproid = (int)$this->surveypro->id;
                     $record->type = $currenttype;
                     $record->plugin = $currentplugin;
-                    // $item->item_add_mandatory_base_fields($record);
+                    $item->item_add_defaults_to_base_fields($record);
                 } else {
                     // $tablestructure limits the fields that are going to be saved in the database.
                     $tablestructure = $this->get_table_structure($currenttype, $currentplugin);
 
                     $record->itemid = $itemid; // It has been defined when surveypro_item record was saved.
-                    // $item->item_add_mandatory_plugin_fields($record);
+                    $item->item_add_defaults_to_plugin_fields($record);
                 }
 
                 foreach ($xmltable->children() as $xmlfield) {
@@ -166,11 +166,11 @@ class mtemplate_apply extends mtemplate_base {
                     if ($xmltag == 'parent') {
                         // Debug: $label = 'Count of attributes of the field '.$xmltag;.
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
-                        foreach ($xmlfield->children() as $xmlparentattribute) {
-                            $xmltag = $xmlparentattribute->getName();
+                        foreach ($xmlfield->children() as $xmlchildattribute) {
+                            $xmltag = $xmlchildattribute->getName();
                             $fieldexists = in_array($xmltag, $tablestructure);
                             if ($fieldexists) {
-                                $record->{$xmltag} = (string)$xmlparentattribute;
+                                $record->{$xmltag} = (string)$xmlchildattribute;
                             }
                         }
                         continue;
@@ -179,7 +179,12 @@ class mtemplate_apply extends mtemplate_base {
                     // Tag <embedded> always belong to surveypro_item table.
                     if ($xmltag == 'embedded') {
                         // Urgently create a record because its id is needed here.
-                        $itemid = $DB->insert_record('surveypro_item', $record);
+                        // Please do not create a new record twice.
+                        // If 2 embedded pictures are part of the content, take care to create only one record.
+                        // If you already created the record for the first embedded picture, do not create one more record now.
+                        if (empty($itemid)) {
+                            $itemid = $DB->insert_record('surveypro_item', $record);
+                        }
 
                         // Debug: $label = 'Count of attributes of the field '.$xmltag;
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.

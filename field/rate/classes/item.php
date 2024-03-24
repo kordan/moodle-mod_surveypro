@@ -194,19 +194,14 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Get properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
         // Drop empty rows and trim edging rows spaces from each textarea field.
         $fieldlist = ['options', 'rates', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -219,7 +214,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_to_plugin_fields(&$record) {
         $record->position = 1;
         $record->required = 0;
         $record->hideinstructions = 0;
@@ -249,7 +244,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -258,7 +253,7 @@ class item extends itembase {
         $record->position = SURVEYPRO_POSITIONTOP;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = ['hideinstructions', 'differentrates'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -318,6 +313,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
+        // $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
         $fieldlist['surveypro_item'] = ['content'];
         $fieldlist['surveyprofield_rate'] = ['extranote', 'options', 'rates', 'defaultvalue'];
 

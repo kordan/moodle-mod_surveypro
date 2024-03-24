@@ -2126,14 +2126,14 @@ class layout_itemlist {
             // Ask for confirmation.
             $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
-            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DROPMULTILANG, 'section' => 'itemslist'];
+            $optionbase = ['s' => $this->cm->instance];
 
-            $optionsyes = $optionbase;
+            $optionsyes = $optionbase + ['section' => 'itemslist', 'act' => SURVEYPRO_DROPMULTILANG];
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('yes'));
 
-            $optionsno = $optionbase;
+            $optionsno = $optionbase + ['section' => 'preview'];
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
             $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));

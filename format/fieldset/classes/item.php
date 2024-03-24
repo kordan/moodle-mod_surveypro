@@ -113,12 +113,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Get properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        // Nothing to do.
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -140,7 +138,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_to_plugin_fields(&$record) {
         return;
     }
 
