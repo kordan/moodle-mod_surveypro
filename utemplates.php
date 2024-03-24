@@ -110,7 +110,6 @@ if ($section == 'manage') {
     echo $actionbar->draw_utemplates_action_bar();
 
     if ($action == SURVEYPRO_DELETEUTEMPLATE) {
-        $manageman->trigger_event('usertemplate_deleted');
         $manageman->delete_utemplate();
     }
 
