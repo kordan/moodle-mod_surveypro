@@ -607,7 +607,7 @@ class view_submissionform extends formbase {
                             JOIN {surveyprofield_'.$plugin.'} p ON p.itemid = i.id
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
-                            AND p.required > :required
+                            AND i.required > :required
                         ORDER BY p.itemid';
 
                 $whereparams = ['surveyproid' => $this->surveypro->id, 'hidden' => 0, 'required' => 0];

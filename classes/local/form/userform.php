@@ -307,22 +307,13 @@ class userform extends \moodleform {
                 }
 
                 if ($itemisenabled) {
-                    if ($item->get_trimonsave()) {
-                        if (trim($content) != $content) {
-                            $warnings[$elementname] = get_string('uerr_willbetrimmed', 'mod_surveypro');
-                        }
-                    }
                     $item->userform_mform_validation($data, $errors, false);
                 }
+
                 // Otherwise...
                 // Code: echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;.
                 // Code: echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';.
             }
-        }
-
-        if ($errors) {
-            // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
-            $errors += $warnings;
         }
 
         return $errors;

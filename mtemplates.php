@@ -77,7 +77,12 @@ if ($section == 'save') {
 
     // Start of: define $createmtemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/mtemplates.php', ['s' => $cm->instance, 'section' => 'save']);
-    $createmtemplate = new mtemplate_createform($formurl);
+    // End of: define $createutemplate return url.
+
+    // Begin of: prepare params for the form.
+    $formparams = new \stdClass();
+    $formparams->defaultname = $surveypro->name;
+    $createmtemplate = new mtemplate_createform($formurl, $formparams);
     // End of: define $createmtemplate return url.
 
     // Start of: manage form submission.

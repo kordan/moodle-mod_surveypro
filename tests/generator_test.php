@@ -29,14 +29,14 @@
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class generator_test extends advanced_testcase {
+final class generator_test extends advanced_testcase {
 
     /**
      * Test_create_instance.
      *
      * @return void
      */
-    public function test_create_instance() {
+    public function test_create_instance(): void {
         global $DB;
 
         $this->resetAfterTest();
@@ -61,7 +61,7 @@ class generator_test extends advanced_testcase {
      *
      * @return void
      */
-    public function test_apply_mastertemplate() {
+    public function test_apply_mastertemplate(): void {
         global $DB;
 
         $this->resetAfterTest();

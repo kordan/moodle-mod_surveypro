@@ -77,6 +77,12 @@ class itemsetupform extends item_setupbaseform {
         $mform->setType($fieldname, PARAM_INT);
         $mform->setDefault($fieldname, SURVEYPROFIELD_TEXTAREA_DEFAULTCOLS);
 
+        // Itembase: trimonsave.
+        $fieldname = 'trimonsave';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'mod_surveypro'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
+        $mform->setType($fieldname, PARAM_INT);
+
         // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));

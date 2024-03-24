@@ -60,6 +60,7 @@ Feature: Test the use of character trim
     And I press "New response"
     And I set the field "This is a standard text" to "   false long text   "
     And I set the field "Text to trim" to "   false long text   "
+
     And I press "Submit"
 
     Then I should see "Text is too short"

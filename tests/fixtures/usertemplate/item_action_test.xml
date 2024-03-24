@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2024022701">
+  <item type="format" plugin="label" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;h4&gt;&lt;/h4&gt;&lt;h4&gt;First part of the test&lt;/h4&gt;</content>
       <contentformat>1</contentformat>
+      <indent>0</indent>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="radiobutton" version="2024022701">
+  <item type="field" plugin="radiobutton" version="2024032800">
     <surveypro_item>
       <content>Very first parent&lt;br /&gt;</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>0</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_radiobutton>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <customnumber>1</customnumber>
       <variable>veryfirstparent</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
       <options>0::Ambiguous answer
 1::Positive answer
 2::Negative answer</options>
@@ -35,10 +35,15 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="boolean" version="2024022701">
+  <item type="field" plugin="boolean" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Second generation, first parent question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.a</customnumber>
+      <variable>vfp_a</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -48,21 +53,22 @@
       </parent>
     </surveypro_item>
     <surveyprofield_boolean>
-      <required>1</required>
-      <indent>1</indent>
-      <position>0</position>
-      <customnumber>1.a</customnumber>
-      <variable>vfp_a</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="checkbox" version="2024022701">
+  <item type="field" plugin="checkbox" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Third generation, first cousin&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>2</indent>
+      <position>0</position>
+      <customnumber>1.a.1</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>vfp_a_one</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -72,12 +78,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <required>1</required>
-      <indent>2</indent>
-      <position>0</position>
-      <customnumber>1.a.1</customnumber>
-      <hideinstructions>0</hideinstructions>
-      <variable>vfp_a_one</variable>
       <options>3rdpositive::positive
 3rdneutral::neutral
 3rdnegative::negative</options>
@@ -88,10 +88,15 @@
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="select" version="2024022701">
+  <item type="field" plugin="select" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Fourth generation first brother question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>3</indent>
+      <position>0</position>
+      <customnumber>1.a.1.first</customnumber>
+      <variable>vfp_a_one_1st</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -101,11 +106,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <required>1</required>
-      <indent>3</indent>
-      <position>0</position>
-      <customnumber>1.a.1.first</customnumber>
-      <variable>vfp_a_one_1st</variable>
       <options>4thpositive::positive
 4thneutral::neutral
 4thnegative::negative</options>
@@ -114,10 +114,15 @@
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="field" plugin="select" version="2024022701">
+  <item type="field" plugin="select" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Fourth generation second brother question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>3</indent>
+      <position>0</position>
+      <customnumber>1.a.1.second</customnumber>
+      <variable>vfp_a_one_2nd</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -127,11 +132,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <required>1</required>
-      <indent>3</indent>
-      <position>0</position>
-      <customnumber>1.a.1.second</customnumber>
-      <variable>vfp_a_one_2nd</variable>
       <options>4thpositive::positive
 4thneutral::neutral
 4thnegative::negative</options>
@@ -140,10 +140,16 @@
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="field" plugin="checkbox" version="2024022701">
+  <item type="field" plugin="checkbox" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Second generation, second parent question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>vfp_b</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -153,12 +159,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <required>1</required>
-      <indent>1</indent>
-      <position>0</position>
-      <customnumber>1.b</customnumber>
-      <hideinstructions>0</hideinstructions>
-      <variable>vfp_b</variable>
       <options>2ndpositive::positive
 2ndneutral::neutral
 2ndnegative::negative</options>
@@ -169,10 +169,15 @@
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="radiobutton" version="2024022701">
+  <item type="field" plugin="radiobutton" version="2024032800">
     <surveypro_item>
       <content>Third generation, second cousin&lt;br /&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>2</indent>
+      <position>0</position>
+      <customnumber>1.b.1</customnumber>
+      <variable>vfp_b_one</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -182,11 +187,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <required>1</required>
-      <indent>2</indent>
-      <position>0</position>
-      <customnumber>1.b.1</customnumber>
-      <variable>vfp_b_one</variable>
       <options>3rdpositive::positive
 3rdneutral::neutral
 3rdnegative::negative</options>
@@ -195,10 +195,15 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="select" version="2024022701">
+  <item type="field" plugin="select" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Fourth generation unique question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>3</indent>
+      <position>0</position>
+      <customnumber>1.b.1.a</customnumber>
+      <variable>vfp_b_one_1st</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -208,11 +213,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <required>1</required>
-      <indent>3</indent>
-      <position>0</position>
-      <customnumber>1.b.1.a</customnumber>
-      <variable>vfp_b_one_1st</variable>
       <options>3rdpositive::positive
 3rdneutral::neutral
 3rdnegative::negative</options>
@@ -221,32 +221,32 @@
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="label" version="2024022701">
+  <item type="format" plugin="label" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;p&gt;&lt;br /&gt;&lt;/p&gt;&lt;h4&gt;Second part of the test&lt;br /&gt;&lt;/h4&gt;</content>
       <contentformat>1</contentformat>
+      <indent>0</indent>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <indent>0</indent>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="radiobutton" version="2024022701">
+  <item type="field" plugin="radiobutton" version="2024032800">
     <surveypro_item>
       <content>&lt;div&gt;Simple parent&lt;/div&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <variable>first</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <required>1</required>
-      <indent>0</indent>
-      <position>0</position>
-      <variable>first</variable>
       <options>0::Ambiguous answer
 1::Positive answer
 2::Negative answer</options>
@@ -255,10 +255,14 @@
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="boolean" version="2024022701">
+  <item type="field" plugin="boolean" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Second generation, first question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>1</indent>
+      <position>0</position>
+      <variable>firstone</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -268,20 +272,21 @@
       </parent>
     </surveypro_item>
     <surveyprofield_boolean>
-      <required>1</required>
-      <indent>1</indent>
-      <position>0</position>
-      <variable>firstone</variable>
       <defaultoption>2</defaultoption>
       <defaultvalue>1</defaultvalue>
       <downloadformat>strfbool01</downloadformat>
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="checkbox" version="2024022701">
+  <item type="field" plugin="checkbox" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Second generation, second question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>1</indent>
+      <position>0</position>
+      <hideinstructions>0</hideinstructions>
+      <variable>firsttwo</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -291,11 +296,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <required>1</required>
-      <indent>1</indent>
-      <position>0</position>
-      <hideinstructions>0</hideinstructions>
-      <variable>firsttwo</variable>
       <options>22positive::positive
 22neutral::neutral
 22negative::negative</options>
@@ -306,10 +306,14 @@
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="select" version="2024022701">
+  <item type="field" plugin="select" version="2024032800">
     <surveypro_item>
       <content>&lt;p&gt;Second generation, third question&lt;br /&gt;&lt;/p&gt;</content>
       <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>1</indent>
+      <position>0</position>
+      <variable>firstthree</variable>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -319,10 +323,6 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <required>1</required>
-      <indent>1</indent>
-      <position>0</position>
-      <variable>firstthree</variable>
       <options>23positive::positive
 23neutral::neutral
 23negative::negative</options>

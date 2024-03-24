@@ -50,7 +50,7 @@ function xmldb_surveyprofield_boolean_upgrade($oldversion) {
             $dbman->drop_field($table, $field);
         }
 
-        // Surveypro savepoint reached.
+        // Boolean savepoint reached.
         upgrade_plugin_savepoint(true, 2014051701, 'surveyprofield', 'boolean');
     }
 
@@ -82,8 +82,37 @@ function xmldb_surveyprofield_boolean_upgrade($oldversion) {
             $dbman->drop_field($table, $field2);
         }
 
-        // Age savepoint reached.
+        // Boolean savepoint reached.
         upgrade_plugin_savepoint(true, 2024022701, 'surveyprofield', 'boolean');
+    }
+
+    if ($oldversion < 2024032800) {
+
+        $table = new xmldb_table('surveyprofield_boolean');
+
+        $fieldnames = ['required', 'indent', 'position', 'customnumber', 'variable', 'extranote'];
+        foreach ($fieldnames as $fieldname) {
+            // Define field content to be dropped from surveyprofield_boolean.
+            $field = new xmldb_field($fieldname);
+
+            // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+            $condition = $dbman->field_exists($table, $field);
+            if ($dbman->field_exists($table, $field)) {
+                // Copy the content of the dieing column to the new corresponding column in surveypro_item.
+                $sql = 'UPDATE {surveypro_item} i
+                        JOIN {surveyprofield_boolean} f ON f.itemid = i.id
+                        SET i.'.$fieldname.' = f.'.$fieldname;
+                $DB->execute($sql);
+            }
+
+            // Conditionally launch drop field content.
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
+
+        // Boolean savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'boolean');
     }
 
     return true;

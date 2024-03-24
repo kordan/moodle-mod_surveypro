@@ -6,27 +6,14 @@
   <TABLES>
     <TABLE NAME="surveyprofield_textarea" COMMENT="Text (long) type surveyprofield">
       <FIELDS>
-        <FIELD NAME="id"               TYPE="int" LENGTH="10"      NOTNULL="true"  UNSIGNED="true"             SEQUENCE="true"/>
-        <FIELD NAME="itemid"           TYPE="int" LENGTH="10"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-
-        <!-- begin of fields belonging to itembaseform.php -->
-        <FIELD NAME="required"         TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="indent"           TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="position"         TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="customnumber"     TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="hideinstructions" TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="variable"         TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="extranote"        TYPE="char" LENGTH="255"    NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="trimonsave"       TYPE="int"  LENGTH="4"      NOTNULL="false"                             SEQUENCE="false"/>
-        <!-- end of fields belonging to itembaseform.php -->
-
-        <!-- begin of fields belonging to itemsetupform.php of this specific plugin -->
-        <FIELD NAME="useeditor"        TYPE="int" LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="arearows"         TYPE="int" LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="areacols"         TYPE="int" LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
-        <FIELD NAME="minlength"        TYPE="int" LENGTH="10"     NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
-        <FIELD NAME="maxlength"        TYPE="int" LENGTH="10"     NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
-        <!-- end of fields belonging to itemsetupform.php of this specific plugin -->
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="trimonsave" TYPE="int" LENGTH="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="useeditor" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="arearows" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="areacols" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="minlength" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false"/>
+        <FIELD NAME="maxlength" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

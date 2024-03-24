@@ -72,6 +72,39 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016062401, 'surveyprofield', 'character');
     }
 
+    if ($oldversion < 2024020700) {
+        // Reorder the field in the table.
+
+        // Define field nexttrimonsave to be added to surveyprofield_character.
+        $table = new xmldb_table('surveyprofield_character');
+        $oldfield = new xmldb_field('trimonsave');
+        $newfield = new xmldb_field('nexttrimonsave', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'defaultvalue');
+
+        // Step 1.
+        // Conditionally launch add field nexttrimonsave.
+        if (!$dbman->field_exists($table, $newfield)) {
+            $dbman->add_field($table, $newfield);
+        }
+
+        // Step 2.
+        // Copy whatever you find in old trimonsave field to new nexttrimonsave field.
+        $sql = 'UPDATE {surveyprofield_character} SET nexttrimonsave = trimonsave WHERE id = id';
+        $DB->execute($sql);
+
+        // Step 3.
+        // Conditionally launch drop old field trimonsave.
+        if ($dbman->field_exists($table, $oldfield)) {
+            $dbman->drop_field($table, $oldfield);
+        }
+
+        // Step 4.
+        // Launch rename field nexttrimonsave to trimonsave.
+        $dbman->rename_field($table, $newfield, 'trimonsave');
+
+        // Character savepoint reached.
+        upgrade_plugin_savepoint(true, 2024020700, 'surveyprofield', 'character');
+    }
+
     if ($oldversion < 2024022701) {
 
         // Define field content to be dropped from surveyprofield_character.
@@ -100,8 +133,37 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
             $dbman->drop_field($table, $field2);
         }
 
-        // Age savepoint reached.
+        // Character savepoint reached.
         upgrade_plugin_savepoint(true, 2024022701, 'surveyprofield', 'character');
+    }
+
+    if ($oldversion < 2024032800) {
+
+        $table = new xmldb_table('surveyprofield_character');
+
+        $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
+        foreach ($fieldnames as $fieldname) {
+            // Define field content to be dropped from surveyprofield_character.
+            $field = new xmldb_field($fieldname);
+
+            // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+            $condition = $dbman->field_exists($table, $field);
+            if ($dbman->field_exists($table, $field)) {
+                // Copy the content of the dieing column to the new corresponding column in surveypro_item.
+                $sql = 'UPDATE {surveypro_item} i
+                        JOIN {surveyprofield_character} f ON f.itemid = i.id
+                        SET i.'.$fieldname.' = f.'.$fieldname;
+                $DB->execute($sql);
+            }
+
+            // Conditionally launch drop field content.
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
+
+        // Character savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'character');
     }
 
     return true;

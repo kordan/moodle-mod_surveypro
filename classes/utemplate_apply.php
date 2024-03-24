@@ -138,7 +138,7 @@ class utemplate_apply extends utemplate_base {
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
             // Read the attributes of the item node:
-            // The xmlitem looks like: <item type="field" plugin="character" version="2024022701">.
+            // The xmlitem looks like: <item type="field" plugin="character" version="2024032800">.
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -164,27 +164,27 @@ class utemplate_apply extends utemplate_base {
                     $record->surveyproid = (int)$this->surveypro->id;
                     $record->type = $currenttype;
                     $record->plugin = $currentplugin;
-                    // $item->item_add_mandatory_base_fields($record);
+                    $item->item_add_fields_default_to_parent_table($record);
                 } else {
                     // $tablestructure limits the fields that are going to be saved in the database.
                     $tablestructure = $this->get_table_structure($currenttype, $currentplugin);
 
                     $record->itemid = $itemid; // It has been defined when surveypro_item record was saved.
-                    // $item->item_add_mandatory_plugin_fields($record);
+                    $item->item_add_fields_default_to_child_table($record);
                 }
 
-                foreach ($xmltable->children() as $xmlfield) { // Run over table fields listed in the xml.
+                foreach ($xmltable->children() as $xmlfield) { // Run over fields listed in the xml.
                     $xmltag = $xmlfield->getName(); // Generally $xmltag is the name of the field.
 
                     // Tag <parent> always belong to surveypro_item table.
                     if ($xmltag == 'parent') {
                         // Debug: $label = 'Count of attributes of the field '.$xmltag;.
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
-                        foreach ($xmlfield->children() as $xmlparentattribute) {
-                            $xmltag = $xmlparentattribute->getName();
+                        foreach ($xmlfield->children() as $xmlchildattribute) {
+                            $xmltag = $xmlchildattribute->getName();
                             $fieldexists = in_array($xmltag, $tablestructure);
                             if ($fieldexists) {
-                                $record->{$xmltag} = (string)$xmlparentattribute;
+                                $record->{$xmltag} = (string)$xmlchildattribute;
                             }
                         }
                         continue;
@@ -193,7 +193,12 @@ class utemplate_apply extends utemplate_base {
                     // Tag <embedded> always belong to surveypro_item table.
                     if ($xmltag == 'embedded') {
                         // Urgently create a record because its id is needed here.
-                        $itemid = $DB->insert_record('surveypro_item', $record);
+                        // Please do not create a new record twice.
+                        // If 2 embedded pictures are part of the content, take care to create only one record.
+                        // If you already created the record for the first embedded picture, do not create one more record now.
+                        if (empty($itemid)) {
+                            $itemid = $DB->insert_record('surveypro_item', $record);
+                        }
 
                         // Debug: $label = 'Count of attributes of the field '.$xmltag;
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
@@ -238,7 +243,7 @@ class utemplate_apply extends utemplate_base {
                 if ($tablename == 'surveypro_item') {
                     $naturalsortindex++;
                     $record->sortindex = $naturalsortindex + $sortindexoffset;
-                    if (!empty($record->parentid)) {
+                    if (!empty($record->parentid)) { // If I have a parent, its record was already saved.
                         $whereparams = ['surveyproid' => $this->surveypro->id];
                         $whereparams['sortindex'] = $record->parentid + $sortindexoffset;
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);

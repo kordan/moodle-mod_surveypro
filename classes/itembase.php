@@ -141,14 +141,13 @@ abstract class itembase {
         'common_fs' => true,
         'content' => true,
         'contentformat' => true,
-        'customnumber' => true,
-        'position' => true,
-        'trimonsave' => true,
-        'extranote' => true,
-        'hideinstructions' => true,
         'required' => true,
-        'variable' => true,
         'indent' => true,
+        'position' => true,
+        'variable' => true,
+        'extranote' => true,
+        'customnumber' => true,
+        'hideinstructions' => true,
         'hidden' => true,
         'insearchform' => true,
         'reserved' => true,
@@ -188,7 +187,7 @@ abstract class itembase {
 
         $context = \context_module::instance($this->cm->id);
 
-        // Some item, like pagebreak or fieldsetend, may be free of the plugin table.
+        // Some item, like pagebreak or fieldsetend, may do not use the plugin table.
         if ($this->usesplugintable) {
             $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
@@ -202,17 +201,19 @@ abstract class itembase {
         }
 
         if ($record = $DB->get_record_sql($sql, ['itemid' => $itemid])) {
-            foreach ($record as $option => $value) {
-                $this->{$option} = $value;
+            foreach ($record as $field => $value) {
+                $this->{$field} = $value;
             }
-            // Plugins not using contentformat (only Fieldset, at the moment) are satisfied.
+            // Plugins not using contentformat (only Fieldset and pagebreak, at the moment) are satisfied.
             // Pagebreak and fieldsetend are missing content too.
 
-            // Special care to fields with format.
-            $this->content = file_rewrite_pluginfile_urls(
-               $this->content, 'pluginfile.php', $context->id,
-               'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid
-            );
+            if (isset($this->content) && strpos($this->content, '@@PLUGINFILE@@/')) { // Pagebreak don't use $this->content.
+                // Special care to fields with format.
+                $this->content = file_rewrite_pluginfile_urls(
+                    $this->content, 'pluginfile.php', $context->id,
+                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid
+                );
+            }
 
             unset($this->id); // I do not care it. I already heave: itemid and pluginid.
             $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
@@ -248,6 +249,8 @@ abstract class itembase {
      *     √ surveyproid
      *     √ type
      *     √ plugin
+     *     √ content
+     *     √ contentformat
      *     √ hidden
      *     √ insearchform
      *     √ reserved
@@ -273,12 +276,7 @@ abstract class itembase {
      * @param \stdClass $record
      * @return void
      */
-    protected function get_common_settings($record) {
-        // You are going to change item content (maybe sortindex, maybe the parentitem)
-        // so, do not forget to reset items per page.
-        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-        $utilitylayoutman->reset_pages();
-
+    protected function add_base_properties_to_record($record) {
         $timenow = time();
 
         // Surveyproid.
@@ -286,8 +284,10 @@ abstract class itembase {
 
         // Plugin and type are already onboard.
 
+        // content and contentformat will be managed later
+
         // Checkboxes content.
-        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave'];
+        $checkboxessettings = ['required', 'hidden', 'hideinstructions', 'insearchform', 'reserved'];
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -363,9 +363,15 @@ abstract class itembase {
 
         $context = \context_module::instance($this->cm->id);
 
+        $this->add_base_properties_to_record($record);
+
         $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmission = $utilitylayoutman->has_submissions(false);
+
+        // You are going to change item content (maybe sortindex, maybe the parentitem)
+        // so, do not forget to reset items per page.
+        $utilitylayoutman->reset_pages();
 
         $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
@@ -561,7 +567,7 @@ abstract class itembase {
         $usednames = [];
         foreach ($pluginlist as $plugin) {
             $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
-            $sql = 'SELECT p.itemid, p.variable
+            $sql = 'SELECT p.itemid, i.variable
                     FROM {surveypro_item} i
                       JOIN {'.$tablename.'} p ON p.itemid = i.id
                     WHERE ((i.surveyproid = :surveyproid)
@@ -703,30 +709,74 @@ abstract class itembase {
             return;
         }
 
+        // If this routine fails it is difficult to delete each field from the surveypro using graphic user interface
+        // because the mdl_surveypro.template is not empty.
+        // To make it simple to escape trouble in case of error I delete mdl_surveypro.template now
+        // with the promise to set it again at the end of this method.
+        $DB->set_field('surveypro', 'template', null, ['id' => $surveyproid]);
+
         // Take care: I verify the existence of the english folder even if, maybe, I will ask for strings in a different language.
         if (!file_exists($CFG->dirroot.'/mod/surveypro/template/'.$template.'/lang/en/surveyprotemplate_'.$template.'.php')) {
             // This template does not support multilang.
             return;
         }
 
-        if ($multilangfields = $this->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
+        if ($multilangfields = $this->get_multilang_fields(false)) { // Pagebreak and fieldsetend have no multilang_fields.
             foreach ($multilangfields as $table => $mlfields) {
                 foreach ($mlfields as $mlfield) {
-                    // Backward compatibility.
-                    // In the frame of https://github.com/kordan/moodle-mod_surveypro/pull/447 few multilang fields were added.
-                    // This was really a mandatory addition but,
-                    // opening surveypros created (from mastertemplates) before this addition,
-                    // I may find that they don't have new added fields filled in the database
-                    // so the corresponding property $this->{$fieldname} does not exist.
-                    if (isset($this->{$mlfield})) {
+                    // I am using a surveypro built on a mastertemplate.
+                    // In the template.xml I may have had, for instance, <extranote>boolean_extranote_02</extranote>
+                    // I saved (during parent::item_load) the content of template.xml in the properies of this item.
+                    // (alias: $this->extranote = "boolean_extranote_02")
+                    // Now, cycling over each multilang field,
+                    // I find the key of the corresponding lang string in the properies of this item.
+
+                    // Each property was set because of the query executed in item_load but
+                    // it may be that, for instance, I had mdl_surveypro_ite.extranote = null.
+                    // In this case I have $this->extranote empty and this is why I need: if (!empty($this->{$mlfield})) {.
+
+                    if (!empty($this->{$mlfield})) {
+                        // At the beginning $this->{$mlfield} may be "boolean_content_02".
                         $stringkey = $this->{$mlfield};
-                         $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
-                    } else {
-                        $this->{$mlfield} = '';
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        // Now $this->{$mlfield} is "<img class="img-fluid align-top" src="@@PLUGINFILE@@/TrackingDot.png" ...
                     }
                 }
             }
+
+            // It may be that now $this->content contains, now, '@@PLUGINFILE@@/' that did not contain before.
+            if (strpos($this->content, '@@PLUGINFILE@@/')) {
+                // Am I sure the file is already into SURVEYPRO_ITEMCONTENTFILEAREA
+                $context = \context_module::instance($this->cm->id);
+                $fs = get_file_storage();
+                $templateman = new templatebase($this->cm, $this->context, $this->surveypro);
+
+                $regex = '~src="@@PLUGINFILE@@\/([^"]*)"~';
+                if (preg_match_all($regex, $this->content, $matches)) {
+                    foreach ($matches[1] as $filename) {
+                        if (!$fs->get_file($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid, '/', $filename)) {
+                            // I am using a surveypro built on a mastertemplate.
+                            // Let's suppose an admin added a new lang file describing new pictures.
+                            // Am I sure each new picture of the current lang file was loaded in the filearea?
+                            // Take in mind that ONLY the files of the lang file in the language in use
+                            // at mastertemplate apply time were loaded to filearea.
+                            $templateman->load_new_files_from_lang($template, $this->itemid);
+                            // Once you loaded each new file, don't check anymore.
+                            break;
+                        }
+                    }
+                }
+
+                // Special care to fields with format.
+                $this->content = file_rewrite_pluginfile_urls(
+                    $this->content, 'pluginfile.php', $context->id,
+                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid
+                );
+            }
         }
+
+        // As promised at the beginning of this method:
+        $DB->set_field('surveypro', 'template', $template, ['id' => $surveyproid]);
     }
 
     /**
@@ -779,7 +829,7 @@ abstract class itembase {
     }
 
     /**
-     * clean the content of the field $record->{$field} (remove blank lines, trailing \r).
+     * Clean the content of the field $record->{$field} (remove blank lines, trailing \r).
      *
      * @param object $record Item record
      * @param array $fieldlist List of fields to clean
@@ -834,17 +884,26 @@ abstract class itembase {
 
     /**
      * Add to the item record that is going to be saved, items that can not be omitted with default value
-     * They, maybe, will be overwritten
+     * They, maybe, will be overwritten.
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_base_fields(&$record) {
-        $record->content = 'itembase';
+    public function item_add_fields_default_to_parent_table(&$record) {
+        $record->content = 'Very relevant question!';
         $record->contentformat = 1;
+        $record->required = 0;
+        $record->indent = 0;
+        $record->position = 0;
+        // $record->customnumber = 0;
+        $record->hideinstructions = 0;
+        // $record->variable = 'just_a_name';
+        // $record->extranote = 0;
         $record->hidden = 0;
         $record->insearchform = 0;
         $record->reserved = 0;
+        // $record->parentid = 0;
+        // $record->parentvalue = 0;
         $record->formpage = 0;
         $record->timecreated = time();
     }
@@ -872,15 +931,6 @@ abstract class itembase {
      */
     public static function item_uses_mandatory_dbfield() {
         return true;
-    }
-
-    /**
-     * Returns if the field plugin needs contentformat
-     *
-     * @return bool
-     */
-    public static function response_uses_format() {
-        return false;
     }
 
     /**
@@ -914,6 +964,15 @@ abstract class itembase {
     }
 
     // MARK response.
+
+    /**
+     * Returns if the field plugin needs contentformat
+     *
+     * @return bool
+     */
+    public static function response_uses_format() {
+        return false;
+    }
 
     /**
      * Report how the sql query does fit for this plugin
@@ -979,6 +1038,78 @@ abstract class itembase {
      */
     public function get_surveyproid() {
         return $this->cm->instance;
+    }
+
+    /**
+     * Get type.
+     *
+     * @return the content of $type property
+     */
+    public function get_type() {
+        return $this->type;
+    }
+
+    /**
+     * Get plugin.
+     *
+     * @return the content of $plugin property
+     */
+    public function get_plugin() {
+        return $this->plugin;
+    }
+
+    /**
+     * Get content.
+     *
+     * @return the content of $content property
+     */
+    public function get_content() {
+        $options = ['overflowdiv' => false, 'allowid' => true, 'para' => false];
+        return format_text($this->content, $this->contentformat, $options);
+    }
+
+    /**
+     * Get content format.
+     *
+     * @return the content of $contentformat property
+     */
+    public function get_contentformat() {
+        return $this->contentformat;
+    }
+
+    /**
+     * Get item id.
+     *
+     * @return the content of $itemid property
+     */
+    public function get_itemid() {
+        if (isset($this->itemid)) {
+            return $this->itemid;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Get plugin id.
+     *
+     * @return the content of $pluginid property
+     */
+    public function get_pluginid() {
+        if (isset($this->pluginid)) {
+            return $this->pluginid;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Get item name.
+     *
+     * @return the content of $itemname property
+     */
+    public function get_itemname() {
+        return $this->itemname;
     }
 
     /**
@@ -1077,78 +1208,6 @@ abstract class itembase {
      */
     public function get_insetupform($itemformelement) {
         return $this->insetupform[$itemformelement];
-    }
-
-    /**
-     * Get item id.
-     *
-     * @return the content of $itemid property
-     */
-    public function get_itemid() {
-        if (isset($this->itemid)) {
-            return $this->itemid;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Get type.
-     *
-     * @return the content of $type property
-     */
-    public function get_type() {
-        return $this->type;
-    }
-
-    /**
-     * Get plugin.
-     *
-     * @return the content of $plugin property
-     */
-    public function get_plugin() {
-        return $this->plugin;
-    }
-
-    /**
-     * Get content.
-     *
-     * @return the content of $content property
-     */
-    public function get_content() {
-        $options = ['overflowdiv' => false, 'allowid' => true, 'para' => false];
-        return format_text($this->content, $this->contentformat, $options);
-    }
-
-    /**
-     * Get content format.
-     *
-     * @return the content of $contentformat property
-     */
-    public function get_contentformat() {
-        return $this->contentformat;
-    }
-
-    /**
-     * Get plugin id.
-     *
-     * @return the content of $pluginid property
-     */
-    public function get_pluginid() {
-        if (isset($this->pluginid)) {
-            return $this->pluginid;
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Get item name.
-     *
-     * @return the content of $itemname property
-     */
-    public function get_itemname() {
-        return $this->itemname;
     }
 
     /**
@@ -1263,9 +1322,26 @@ abstract class itembase {
      * Make the list of the fields using multilang
      * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    abstract public function get_multilang_fields();
+    abstract public function get_multilang_fields($includemetafields=true);
+
+    /**
+     * Provide the list of the fields of surveypro_item using multilang
+     *
+     * @param boolean $includemetafields true if you need filename and filecontent too.
+     * @return array the list of the fields of surveypro_item using multilang
+     */
+    public function get_base_multilang_fields($includemetafields) {
+        if ($includemetafields) {
+            $return = ['content', 'filename', 'filecontent', 'extranote'];
+        } else {
+            $return = ['content', 'extranote'];
+        }
+
+        return $return;
+    }
 
     /**
      * Get parent id.
@@ -1544,15 +1620,6 @@ abstract class itembase {
     }
 
     /**
-     * Was the user input marked as "to trim"?
-     *
-     * @return if the calling plugin requires a user input trim
-     */
-    public function get_trimonsave() {
-        return false;
-    }
-
-    /**
      * Get itemeditingfeedback.
      *
      * @return the content of $itemeditingfeedback property whether defined
@@ -1593,10 +1660,16 @@ abstract class itembase {
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="contentformat" type="xs:int" minOccurs="0"/>
-
-                <xs:element name="hidden" type="xs:int"/>
-                <xs:element name="insearchform" type="xs:int"/>
-                <xs:element name="reserved" type="xs:int"/>
+                <xs:element name="required" type="xs:int" minOccurs="0"/>
+                <xs:element name="indent" type="xs:int" minOccurs="0"/>
+                <xs:element name="position" type="xs:int" minOccurs="0"/>
+                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
+                <xs:element name="hideinstructions" type="xs:int" minOccurs="0"/>
+                <xs:element name="variable" type="xs:string" minOccurs="0"/>
+                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
+                <xs:element name="hidden" type="xs:int" minOccurs="0"/>
+                <xs:element name="insearchform" type="xs:int" minOccurs="0"/>
+                <xs:element name="reserved" type="xs:int" minOccurs="0"/>
                 <xs:element name="parent" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence>

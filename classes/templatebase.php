@@ -99,7 +99,7 @@ class templatebase {
     // MARK get.
 
     /**
-     * Get the ordered list of fields for the itembase (or the plugin) table.
+     * Returns the ordered list of fields for the itembase (or the plugin) table.
      *
      * @param string $type (optional)
      * @param string $plugin (optional)
@@ -218,7 +218,7 @@ class templatebase {
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // Example: <item type="format" plugin="label" version="2024022701">.
+                // Example: <item type="format" plugin="label" version="2024032800">.
                 // Debug: echo 'Found: '.$attribute.' = '.$value.'<br>';.
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -386,11 +386,75 @@ class templatebase {
             $message .= get_string('utemplate_nolongervalid', 'mod_surveypro');
 
             echo $OUTPUT->notification($message, 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $this->surveypro->id, 'section' => 'manage']);
+            $paramurl = ['s' => $this->surveypro->id, 'area' => 'layout', 'section' => 'itemslist'];
+            $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             echo $OUTPUT->continue_button($url);
 
             echo $OUTPUT->footer();
             die();
+        }
+    }
+
+    /**
+     * Tell the user that the usertemplate is obsolete.
+     *
+     * @param string $mtemplate
+     * @param int $itemid
+     * @return void
+     */
+    public function load_new_files_from_lang($mtemplate, $itemid) {
+        global $CFG;
+
+        // I need to push to SURVEYPRO_ITEMCONTENTFILEAREA new files described in current lang file that may be new.
+
+        $context = \context_module::instance($this->cm->id);
+
+        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$mtemplate.'/template.xml';
+        if (!file_exists($templatepath)) {
+            return;
+        }
+
+        $fs = get_file_storage();
+
+        $templatecontent = file_get_contents($templatepath);
+        $simplexml = new \SimpleXMLElement($templatecontent);
+        foreach ($simplexml->children() as $xmlitem) {
+            foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
+                $tablename = $xmltable->getName();
+                if ($tablename != 'surveypro_item') {
+                    continue;
+                }
+                foreach ($xmltable->children() as $xmlfield) {
+                    $fieldname = $xmlfield->getName();
+                    if ($fieldname != 'embedded') {
+                        continue;
+                    }
+                    foreach ($xmlfield->children() as $xmlfileattribute) {
+                        $fileattributename = $xmlfileattribute->getName();
+                        if ($fileattributename == 'filename') {
+                            $attributecontent = (string)$xmlfileattribute;
+                            $filename = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                        }
+                        if ($fileattributename == 'filecontent') {
+                            $attributecontent = (string)$xmlfileattribute;
+                            $encodedcontent = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                            $filecontent = base64_decode($encodedcontent);
+                        }
+                    }
+                    if (!$fs->file_exists($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid, '/', $filename)) {
+                        // Add the new found file to filearea.
+                        $filerecord = new \stdClass();
+                        $filerecord->contextid = $context->id;
+                        $filerecord->component = 'mod_surveypro';
+                        $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
+                        $filerecord->itemid = $itemid;
+                        $filerecord->filepath = '/';
+                        $filerecord->filename = $filename;
+
+                        $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
+                    }
+                }
+            }
         }
     }
 }

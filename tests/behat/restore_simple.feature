@@ -11,12 +11,15 @@ Feature: Simple restore of a surveypro
     And I log in as "admin"
 
   @javascript @_file_upload
-  Scenario: Restore a course having surveypro
+  Scenario: Restore a surveypro backup
     When I am on the "Demo course" "restore" page
-    And I press "Manage backup files"
-    And I upload "mod/surveypro/tests/fixtures/demo_course-20160108.mbz" file to "Files" filemanager
+    And I press "Manage course backup"
+    And I upload "mod/surveypro/tests/fixtures/demo_course-20240404.mbz" file to "Files" filemanager
     And I press "Save changes"
-    And I restore "demo_course-20160108.mbz" backup into a new course using this options:
+
+    And I restore "demo_course-20240404.mbz" backup into a new course using this options:
+
+    When I am on the "Demo course" course page logged in as student1
     Then I should see "\"age\" element"
     Then I should see "\"attachment\" element"
     Then I should see "\"autofill\" element"

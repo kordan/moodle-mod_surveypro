@@ -140,8 +140,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
-        $this->insetupform['trimonsave'] = false;
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['hideinstructions'] = false;
 
         if (!empty($itemid)) {
@@ -173,14 +174,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (itembase::item_save($record))).
         return parent::item_save($record);
@@ -193,11 +190,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->position = 0;
-        $record->required = 0;
-        $record->variable = 'boolean_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 1;
         $record->downloadformat = 'strfbool01';
@@ -220,7 +213,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -229,7 +222,7 @@ class item extends itembase {
         $record->hideinstructions = 1;
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other.
@@ -289,12 +282,12 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist['surveypro_item'] = ['content'];
-        $fieldlist['surveyprofield_boolean'] = ['extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_boolean'] = [];
 
         return $fieldlist;
     }
@@ -311,19 +304,10 @@ class item extends itembase {
     <xs:element name="surveyprofield_boolean">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
-
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="xs:int" minOccurs="0"/>
-                <xs:element name="downloadformat" type="xs:string"/>
-                <xs:element name="style" type="xs:int"/>
+                <xs:element name="downloadformat" type="xs:string" minOccurs="0"/>
+                <xs:element name="style" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

@@ -25,7 +25,7 @@ use advanced_testcase;
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class lib_test extends advanced_testcase {
+final class lib_test extends advanced_testcase {
 
     /**
      * surveypro_cutdownstring provider
@@ -50,7 +50,7 @@ class lib_test extends advanced_testcase {
      * @param int $maxlength The length passed
      * @param string $expected The expected result
      */
-    public function test_surveypro_cutdownstring($plainstring, $maxlength, $expected) {
+    public function test_surveypro_cutdownstring($plainstring, $maxlength, $expected): void {
         // Let's test that surveypro_cutdownstring() works as expected.
         $this->assertSame($expected, surveypro_cutdownstring($plainstring, $maxlength));
     }
@@ -116,7 +116,7 @@ class lib_test extends advanced_testcase {
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    public function test_surveypro_pre_process_checkboxes($userinput, $expected) {
+    public function test_surveypro_pre_process_checkboxes($userinput, $expected): void {
         // Let's test that surveypro_pre_process_checkboxes() works as expected.
         surveypro_pre_process_checkboxes($userinput);
         $this->assertEquals($expected, $userinput);

@@ -50,7 +50,7 @@ Feature: Create a textarea item
       | Maximum length (in characters) | 4                                     |
     And I press "Add"
 
-    Then I should see "Maximum length can not be lowwer-equal than minimum length"
+    Then I should see "Maximum length can not be lower-equal than minimum length"
     And I set the field "Maximum length (in characters)" to "40"
     And I press "Add"
 

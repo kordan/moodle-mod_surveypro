@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \surveyprofield_radiobutton
  */
-class separator_test extends advanced_testcase {
+final class separator_test extends advanced_testcase {
 
     /**
      * Data provider for test_userform_get_separator()
@@ -147,7 +147,7 @@ class separator_test extends advanced_testcase {
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    public function test_userform_get_separator($userinput, $expected) {
+    public function test_userform_get_separator($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 

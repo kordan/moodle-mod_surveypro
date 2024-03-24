@@ -2058,10 +2058,13 @@ class layout_itemlist {
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
 
-                $itemsmlfields = $item->get_multilang_fields();
+                $itemsmlfields = $item->get_multilang_fields(false);
                 if ($itemsmlfields) { // Pagebreak and fieldsetend have no multilang_fields.
                     // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
                     foreach ($itemsmlfields as $table => $fields) { // Note: $itemmlfield is an array of arrays of fields.
+                        if (!count($fields)) {
+                            continue;
+                        }
                         $record = new \stdClass();
 
                         $fieldlist = implode(',', $fields);
@@ -2126,14 +2129,14 @@ class layout_itemlist {
             // Ask for confirmation.
             $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
-            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DROPMULTILANG, 'section' => 'itemslist'];
+            $optionbase = ['s' => $this->cm->instance];
 
-            $optionsyes = $optionbase;
+            $optionsyes = $optionbase + ['section' => 'itemslist', 'act' => SURVEYPRO_DROPMULTILANG];
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('yes'));
 
-            $optionsno = $optionbase;
+            $optionsno = $optionbase + ['section' => 'preview'];
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
             $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));

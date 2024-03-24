@@ -76,7 +76,7 @@ class utemplate_save extends utemplate_base {
     }
 
     /**
-     * Write template content.
+     * Write user template content.
      *
      * @param boolean $visiblesonly
      * @return void
@@ -85,6 +85,7 @@ class utemplate_save extends utemplate_base {
         global $DB;
 
         $pluginversion = self::get_subplugin_versions();
+
         $where = ['surveyproid' => $this->surveypro->id];
         if ($visiblesonly) {
             $where['hidden'] = '0';
@@ -109,7 +110,6 @@ class utemplate_save extends utemplate_base {
             $unrelevantfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
             $xmltable = $xmlitem->addChild('surveypro_item');
             foreach ($structure as $field) {
-
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }
@@ -124,8 +124,7 @@ class utemplate_save extends utemplate_base {
                     if (core_text::strlen($val)) {
                         $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
                     }
-                    $itemid = $item->get_itemid();
-                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid)) {
+                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemseed->id)) {
                         foreach ($files as $file) {
                             $filename = $file->get_filename();
                             if ($filename == '.') {
@@ -136,6 +135,7 @@ class utemplate_save extends utemplate_base {
                             $xmlembedded->addChild('filecontent', base64_encode($file->get_content()));
                         }
                     }
+
                     continue;
                 }
 
@@ -176,6 +176,7 @@ class utemplate_save extends utemplate_base {
             $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
+
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2024022701">
+  <item type="format" plugin="label" version="2024032800">
     <surveypro_item>
       <content>label_content_01</content>
       <contentformat>1</contentformat>
+      <indent>0</indent>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
     </surveypro_item>
     <surveyproformat_label>
-      <indent>0</indent>
       <fullwidth>0</fullwidth>
       <leftlabel>label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="textarea" version="2024022701">
+  <item type="field" plugin="textarea" version="2024032800">
     <surveypro_item>
       <content>textarea_content_02</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>1</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_textarea>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_01</variable>
+      <hidden>0</hidden>
+      <insearchform>1</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
       <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
@@ -36,20 +36,20 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2024022701">
+  <item type="field" plugin="textarea" version="2024032800">
     <surveypro_item>
       <content>textarea_content_03</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>1</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_textarea>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_02</variable>
+      <hidden>0</hidden>
+      <insearchform>1</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
       <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
@@ -58,20 +58,20 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2024022701">
+  <item type="field" plugin="textarea" version="2024032800">
     <surveypro_item>
       <content>textarea_content_04</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>1</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_textarea>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_03</variable>
+      <hidden>0</hidden>
+      <insearchform>1</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
       <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
@@ -80,20 +80,20 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2024022701">
+  <item type="field" plugin="textarea" version="2024032800">
     <surveypro_item>
       <content>textarea_content_05</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>1</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_textarea>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_04</variable>
+      <hidden>0</hidden>
+      <insearchform>1</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
       <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
@@ -102,20 +102,20 @@
       <maxlength>0</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2024022701">
+  <item type="field" plugin="textarea" version="2024032800">
     <surveypro_item>
       <content>textarea_content_06</content>
       <contentformat>1</contentformat>
-      <hidden>0</hidden>
-      <insearchform>1</insearchform>
-      <reserved>0</reserved>
-    </surveypro_item>
-    <surveyprofield_textarea>
       <required>1</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>ci_textarea_05</variable>
+      <hidden>0</hidden>
+      <insearchform>1</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
       <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>12</arearows>
