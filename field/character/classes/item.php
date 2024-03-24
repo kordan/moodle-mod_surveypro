@@ -45,11 +45,6 @@ class item extends itembase {
     public $content = '';
 
     /**
-     * @var int $contenttrust
-     */
-    public $contenttrust = 1;
-
-    /**
      * @var string $contentformat
      */
     public $contentformat = '';
