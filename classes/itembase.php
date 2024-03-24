@@ -720,7 +720,7 @@ abstract class itembase {
                     // so the corresponding property $this->{$fieldname} does not exist.
                     if (isset($this->{$mlfield})) {
                         $stringkey = $this->{$mlfield};
-                         $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
                     } else {
                         $this->{$mlfield} = '';
                     }
@@ -839,7 +839,7 @@ abstract class itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_base_fields(&$record) {
+    public function item_add_defaults_for_base_fields(&$record) {
         $record->content = 'itembase';
         $record->contentformat = 1;
         $record->hidden = 0;

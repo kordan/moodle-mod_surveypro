@@ -207,7 +207,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_for_plugin_fields(&$record) {
         $record->position = 0;
         $record->required = 0;
         $record->variable = 'radiobutton_001';
@@ -314,6 +314,7 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
+        // $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
         $fieldlist['surveypro_item'] = ['content'];
         $fieldlist['surveyprofield_radiobutton'] = ['extranote', 'options', 'labelother', 'defaultvalue'];
 

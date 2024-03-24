@@ -26,6 +26,10 @@ namespace mod_surveypro\plugininfo;
 
 use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(dirname(__FILE__).'/../../lib.php');
+
 /**
  * The mod_surveypro field plugin class.
  *

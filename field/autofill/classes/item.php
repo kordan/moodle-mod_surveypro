@@ -254,7 +254,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_for_plugin_fields(&$record) {
         $record->position = 0;
         $record->variable = 'autofill_001';
         $record->indent = 0;

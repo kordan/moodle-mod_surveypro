@@ -99,7 +99,7 @@ class templatebase {
     // MARK get.
 
     /**
-     * Get the ordered list of fields for the itembase (or the plugin) table.
+     * Returns the ordered list of fields for the itembase (or the plugin) table.
      *
      * @param string $type (optional)
      * @param string $plugin (optional)
@@ -386,7 +386,8 @@ class templatebase {
             $message .= get_string('utemplate_nolongervalid', 'mod_surveypro');
 
             echo $OUTPUT->notification($message, 'notifyproblem');
-            $url = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $this->surveypro->id, 'section' => 'manage']);
+            $paramurl = ['s' => $this->surveypro->id, 'area' => 'layout', 'section' => 'itemslist'];
+            $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
             echo $OUTPUT->continue_button($url);
 
             echo $OUTPUT->footer();
