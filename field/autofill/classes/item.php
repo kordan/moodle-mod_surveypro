@@ -183,6 +183,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'autofill';
+        $this->usesplugintable = true;
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
@@ -248,9 +249,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Autofill';
-        $record->contentformat = 1;
+    public function item_add_defaults_for_plugin_fields(&$record) {
         $record->position = 0;
         $record->variable = 'autofill_001';
         $record->indent = 0;
@@ -350,7 +349,8 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+        $fieldlist['surveypro_item'] = ['content'];
+        $fieldlist['surveyprofield_autofill'] = ['extranote'];
 
         return $fieldlist;
     }
@@ -367,17 +367,6 @@ class item extends itembase {
     <xs:element name="surveyprofield_autofill">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
                 <!-- <xs:element name="required" type="xs:int"/> -->
                 <xs:element name="indent" type="xs:int"/>
                 <xs:element name="position" type="xs:int"/>

@@ -181,6 +181,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'date';
+        $this->usesplugintable = true;
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
@@ -239,24 +240,13 @@ class item extends itembase {
     }
 
     /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
-    }
-
-    /**
      * Item add mandatory plugin fields
      * Copy mandatory fields to $record
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Date [dd/mm/yyyy]';
-        $record->contentformat = 1;
+    public function item_add_defaults_for_plugin_fields(&$record) {
         $record->position = 0;
         $record->required = 0;
         $record->hideinstructions = 0;
@@ -358,6 +348,15 @@ class item extends itembase {
     // MARK get.
 
     /**
+     * Is this item available as a parent?
+     *
+     * @return the content of the static property "canbeparent"
+     */
+    public static function get_canbeparent() {
+        return self::$canbeparent;
+    }
+
+    /**
      * Get the list of composite fields.
      *
      * @return void
@@ -400,7 +399,9 @@ class item extends itembase {
      */
     public function get_multilang_fields() {
         $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+        // $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
+        $fieldlist['surveypro_item'] = ['content'];
+        $fieldlist['surveyprofield_date'] = ['extranote'];
 
         return $fieldlist;
     }
@@ -417,17 +418,6 @@ class item extends itembase {
     <xs:element name="surveyprofield_date">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
                 <xs:element name="required" type="xs:int"/>
                 <xs:element name="indent" type="xs:int"/>
                 <xs:element name="position" type="xs:int"/>

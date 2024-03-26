@@ -84,8 +84,7 @@ class item_setupbaseform extends \moodleform {
 
         // Itembase: content & contentformat.
         if ($item->get_insetupform('content')) {
-            $fieldsusingformat = $item->get_fieldsusingformat();
-            if (array_key_exists('content', $fieldsusingformat)) {
+            if ($item->insetupform['contentformat']) {
                 $fieldname = 'content_editor';
                 $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
@@ -253,7 +252,7 @@ class item_setupbaseform extends \moodleform {
                 // I do not need to take care of contents of items of master templates
                 // because if I am here, $parent is a standard item and not a multilang one.
                 $content = $star;
-                $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
+                $content .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
                 $content = surveypro_cutdownstring($content);
 
@@ -285,11 +284,11 @@ class item_setupbaseform extends \moodleform {
                 $rowparity = 1 - $rowparity;
                 $a->examples .= \html_writer::start_tag('tr', ['class' => 'r' . $rowparity]);
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'pluginname']);
-                $a->examples .= get_string('pluginname', 'surveyprofield_'.$plugin);
+                $a->examples .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
 
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'inputformat']);
-                $a->examples .= get_string('parentformat', 'surveyprofield_'.$plugin);
+                $a->examples .= get_string('parentformat', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
                 $a->examples .= \html_writer::end_tag('tr');
             }
@@ -301,7 +300,7 @@ class item_setupbaseform extends \moodleform {
         if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
             // Here I open a new fieldset.
             $fieldname = 'specializations';
-            $typename = get_string('pluginname', 'surveyprofield_'.$item->get_plugin());
+            $typename = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$item->get_plugin());
             $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
         }
     }

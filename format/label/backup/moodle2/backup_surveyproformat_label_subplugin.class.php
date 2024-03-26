@@ -40,7 +40,6 @@ class backup_surveyproformat_label_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'label'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginlabel = new backup_nested_element('surveyproformat_label', ['id'], [
-            'content', 'contentformat',
             'indent', 'customnumber',
             'fullwidth', 'leftlabel', ]);
 

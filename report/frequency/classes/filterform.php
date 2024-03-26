@@ -71,13 +71,14 @@ class filterform extends \moodleform {
             if (($itemseed->plugin == 'textarea') || ($itemseed->plugin == 'fileupload')) {
                 continue;
             }
-            $where = ['itemid' => $itemseed->id];
-            $thiscontent = $DB->get_field('surveypro'.$itemseed->type.'_'.$itemseed->plugin, 'content', $where);
+            $where = ['id' => $itemseed->id];
+            $thiscontent = $DB->get_field('surveypro_item', 'content', $where);
             if (!empty($surveypro->template)) {
                 $thiscontent = get_string($thiscontent, 'surveyprotemplate_'.$surveypro->template);
             }
 
-            $content = get_string('pluginname', 'surveyprofield_'.$itemseed->plugin).$labelsep.strip_tags($thiscontent);
+            $content = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin);
+            $content .= $labelsep.strip_tags($thiscontent);
             $content = surveypro_cutdownstring($content);
             $options[$itemseed->id] = $content;
         }

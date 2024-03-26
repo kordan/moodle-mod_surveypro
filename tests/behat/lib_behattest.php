@@ -351,6 +351,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             $return->indent = 0;
             $return->customnumber = '';
             $return->leftlabel = '';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }
@@ -362,13 +364,20 @@ function get_dummy_contents($type, $plugin, $content=null) {
             return $return;
         }
         if ($plugin == 'fieldset') {
+            if (!$content) {
+                $content = 'Grouped data inside';
+            }
+            $return->content = $content;
             unset($return->content_editor);
-            $return->content = 'Grouped data inside';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }
         if ($plugin == 'fieldsetend') {
-            unset($return->content_editor);
+            $return->content_editor['text'] = '';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }
