@@ -307,7 +307,8 @@ class userform extends \moodleform {
                 }
 
                 if ($itemisenabled) {
-                    if ($item->get_trimonsave()) {
+                    $propertyexists = property_exists('surveypro'.$type.'_'.$plugin.'\item', 'trimonsave');
+                    if ($propertyexists && $item->get_trimonsave()) {
                         if (trim($content) != $content) {
                             $warnings[$elementname] = get_string('uerr_willbetrimmed', 'mod_surveypro');
                         }

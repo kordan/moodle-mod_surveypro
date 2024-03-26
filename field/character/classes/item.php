@@ -272,8 +272,11 @@ class item extends itembase {
         }
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
-        // Nothing to do: no checkboxes in this plugin item form.
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
+        $checkboxes = ['trimonsave'];
+        foreach ($checkboxes as $checkbox) {
+            $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
+        }
 
         // 4. Other.
     }
@@ -360,9 +363,9 @@ class item extends itembase {
                 <xs:element name="hideinstructions" type="xs:int"/>
                 <xs:element name="variable" type="xs:string"/>
                 <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-                <xs:element name="trimonsave" type="xs:int"/>
 
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
+                <xs:element name="trimonsave" type="xs:int"/>
                 <xs:element name="pattern" type="xs:string"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
                 <xs:element name="maxlength" type="xs:int" minOccurs="0"/>

@@ -512,8 +512,6 @@ $string['tools_import'] = 'Import';
 $string['tools'] = 'Tools';
 $string['top'] = 'top';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'English translation of corresponding string from "{$a->userlang}" language file\';';
-$string['trimonsave_help'] = 'Delete trailing spaces at the beginning and at the end of the user input.';
-$string['trimonsave'] = 'Clean answer at save time';
 $string['typefield'] = 'Fields';
 $string['typeformat'] = 'Formats';
 $string['typeplugin_help'] = 'This is the list of available elements. Survey elements are of two types: "field" type and "format" type. Choose the element that better suite your needs.';

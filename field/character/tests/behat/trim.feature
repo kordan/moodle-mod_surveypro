@@ -30,8 +30,8 @@ Feature: Test the use of character trim
     And I set the following fields to these values:
       | Content                        | This is a standard text  |
       | Required                       | 1                        |
-      | Clean answer at save time      | 0                        |
       | Additional note                | This will not be trimmed |
+      | Clean answer at save time      | 0                        |
       | pattern                        | free pattern             |
       | Minimum length (in characters) | 20                       |
       | Maximum length (in characters) | 30                       |
@@ -45,8 +45,8 @@ Feature: Test the use of character trim
     And I set the following fields to these values:
       | Content                        | Text to trim         |
       | Required                       | 1                    |
-      | Clean answer at save time      | 1                    |
       | Additional note                | This will be trimmed |
+      | Clean answer at save time      | 1                    |
       | pattern                        | free pattern         |
       | Minimum length (in characters) | 20                   |
       | Maximum length (in characters) | 30                   |
@@ -64,7 +64,7 @@ Feature: Test the use of character trim
 
     Then I should see "Text is too short"
     And I set the field "This is a standard text" to ""
-    And I set the field "Text to trim" to "   text correctly stretched   "
+    And I set the field "Text to trim" to "   text correctly trimmed   "
     And I press "Submit"
 
     Then I should see "Required"
@@ -75,4 +75,4 @@ Feature: Test the use of character trim
     And I press "Continue to responses list"
     And I follow "view_submission_row_1"
     Then the field "id_surveypro_field_character_1" matches value "   false long text   "
-    Then the field "id_surveypro_field_character_2" matches value "text correctly stretched"
+    Then the field "id_surveypro_field_character_2" matches value "text correctly trimmed"

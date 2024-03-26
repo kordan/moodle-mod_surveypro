@@ -23,7 +23,6 @@
  */
 
 $string['custompattern'] = 'custom pattern';
-$string['regex'] = 'regular expression';
 $string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['defaultvalue'] = 'Default';
 $string['free'] = 'free pattern';
@@ -48,6 +47,8 @@ $string['minlength'] = 'Minimum length (in characters)';
 $string['pattern_help'] = 'If the answer is supposed to fit a specific pattern, define it here using <ul><li>"A" for upper case characters;</li><li>"a" for lower case characters;</li><li>"0" for numbers;</li><li>"*" for to include upper case, lower case, numbers or any other character like, for instance: ,_%."$!\' or spaces.</li></ul>';
 $string['pattern'] = 'Text pattern';
 $string['pluginname'] = 'Short text';
+$string['privacy:metadata'] = 'The "Character" field plugin does not store any personal data.';
+$string['regex'] = 'regular expression';
 $string['restrictions_custom'] = 'Text is supposed to match the following pattern: "{$a}"';
 $string['restrictions_email'] = 'Email is expected here';
 $string['restrictions_exact'] = 'Text is supposed to be exactly {$a} characters long';
@@ -56,13 +57,14 @@ $string['restrictions_min'] = 'Text is supposed to be longer-equal than {$a} cha
 $string['restrictions_minmax'] = 'Text length is supposed to range between {$a->minlength} and {$a->maxlength} characters';
 $string['restrictions_regex'] = 'Text is supposed to match the following regular expression: "{$a}"';
 $string['restrictions_url'] = 'URL is expected here';
+$string['trimonsave_help'] = 'Delete trailing spaces at the beginning and at the end of the user input.';
+$string['trimonsave'] = 'Clean answer at save time';
 $string['uerr_invalidemail'] = 'Text is not a valid email';
-$string['uerr_invalidurl'] = 'Text is not a valid URL';
 $string['uerr_invalidregex'] = 'Regular expression \'{$a}\' is not valid.';
+$string['uerr_invalidurl'] = 'Text is not a valid URL';
 $string['uerr_nopatternmatch'] = 'Text does not match the required pattern';
 $string['uerr_noregexmatch'] = 'Text does not match the required regular expression';
 $string['uerr_texttoolong'] = 'Text is too long';
 $string['uerr_texttooshort'] = 'Text is too short';
 $string['url'] = 'web page URL';
 $string['userfriendlypluginname'] = 'Text (short)';
-$string['privacy:metadata'] = 'The "Character" field plugin does not store any personal data.';

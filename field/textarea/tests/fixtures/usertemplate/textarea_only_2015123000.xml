@@ -42,10 +42,10 @@
       <customnumber>1</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
-      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>
@@ -78,10 +78,10 @@
       <customnumber>2</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_002</variable>
-      <trimonsave>0</trimonsave>
       <useeditor>1</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>
@@ -114,10 +114,10 @@
       <customnumber>3</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_003</variable>
-      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>
@@ -150,10 +150,10 @@
       <customnumber>4</customnumber>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_004</variable>
-      <trimonsave>0</trimonsave>
       <useeditor>0</useeditor>
       <arearows>10</arearows>
       <areacols>60</areacols>
+      <trimonsave>0</trimonsave>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>

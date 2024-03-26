@@ -100,7 +100,6 @@ class item extends itembase {
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['position'] = false;
-        $this->insetupform['trimonsave'] = false;
         $this->insetupform['extranote'] = false;
         $this->insetupform['required'] = false;
         $this->insetupform['variable'] = false;
@@ -160,7 +159,7 @@ class item extends itembase {
         // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
-        // Take care: 'required', 'trimonsave', 'hideinstructions' were already considered in get_common_settings.
+        // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
         $checkboxes = ['fullwidth'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
@@ -258,7 +257,6 @@ class item extends itembase {
                 <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
                 <!-- <xs:element name="variable" type="xs:string"/> -->
                 <!-- <xs:element name="extranote" type="xs:string" minOccurs="0"/> -->
-                <!-- <xs:element name="trimonsave" type="xs:int"/> -->
 
                 <xs:element name="fullwidth" type="xs:int"/>
                 <xs:element name="leftlabel" type="xs:string" minOccurs="0"/>

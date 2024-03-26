@@ -61,6 +61,12 @@ class itemsetupform extends item_setupbaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
 
+        // Item: trimonsave.
+        $fieldname = 'trimonsave';
+        $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_character'));
+        $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
+        $mform->setType($fieldname, PARAM_INT);
+
         // Here I open a new fieldset.
         $fieldname = 'validation';
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro'));

@@ -137,7 +137,6 @@ class itembase {
         'content' => true,
         'customnumber' => true,
         'position' => true,
-        'trimonsave' => true,
         'extranote' => true,
         'hideinstructions' => true,
         'required' => true,
@@ -285,7 +284,7 @@ class itembase {
         // Plugin and type are already onboard.
 
         // Checkboxes content.
-        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required', 'trimonsave'];
+        $checkboxessettings = ['hidden', 'insearchform', 'reserved', 'hideinstructions', 'required'];
         foreach ($checkboxessettings as $checkboxessetting) {
             if ($this->insetupform[$checkboxessetting]) {
                 $record->{$checkboxessetting} = isset($record->{$checkboxessetting}) ? 1 : 0;
@@ -1518,15 +1517,6 @@ class itembase {
      */
     public static function get_pdf_template() {
         return SURVEYPRO_3COLUMNSTEMPLATE;
-    }
-
-    /**
-     * Was the user input marked as "to trim"?
-     *
-     * @return if the calling plugin requires a user input trim
-     */
-    public function get_trimonsave() {
-        return false;
     }
 
     /**
