@@ -171,10 +171,9 @@ class form {
         echo $renderer->render_report_paragraph($viewreportparagraph);
 
         $whereparams = ['submissionid' => $submissionid, 'plugin' => 'fileupload'];
-        $sql = 'SELECT i.id, a.id as answerid, fu.content
+        $sql = 'SELECT i.id, i.content, a.id as answerid
                 FROM {surveypro_item} i
                   JOIN {surveypro_answer} a ON a.itemid = i.id
-                  JOIN {surveyprofield_fileupload} fu ON fu.itemid = a.itemid
                 WHERE i.plugin = :plugin
                   AND a.submissionid = :submissionid';
         if ($itemid) {

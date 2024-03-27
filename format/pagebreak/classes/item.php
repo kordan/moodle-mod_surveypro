@@ -61,9 +61,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'pagebreak';
-
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
+        $this->usesplugintable = false;
 
         // Other element specific properties.
         // No properties here.
@@ -72,6 +70,7 @@ class item extends itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['trimonsave'] = false;
         $this->insetupform['common_fs'] = false;
         $this->insetupform['content'] = false;
@@ -127,13 +126,12 @@ class item extends itembase {
     }
 
     /**
-     * Item add mandatory plugin fields
-     * Copy mandatory fields to $record
+     * Set defaults to fields of items
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_for_plugin_fields(&$record) {
         return;
     }
 
@@ -147,24 +145,26 @@ class item extends itembase {
     }
 
     /**
+     * Make the list of the fields using multilang
+     *
+     * @return array of felds
+     */
+    public function get_multilang_fields() {
+        $fieldlist = [];
+
+        return $fieldlist;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         return;
     }
 
     // MARK get.
-
-    /**
-     * Get content.
-     *
-     * @return the content of $content property
-     */
-    public function get_content() {
-        return $this->content;
-    }
 
     /**
      * Is this item available as a parent?
@@ -175,16 +175,16 @@ class item extends itembase {
         return self::$canbeparent;
     }
 
-    // MARK userform.
-
     /**
-     * Get if the plugin uses a table into the db.
+     * Get content.
      *
-     * @return if the plugin uses a personal table in the db.
+     * @return the content of $content property
      */
-    public function uses_db_table() {
-        return false;
+    public function get_content() {
+        return $this->content;
     }
+
+    // MARK userform.
 
     /**
      * Define the mform element for the userform and the searchform.

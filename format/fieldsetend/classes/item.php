@@ -61,9 +61,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldsetend';
-
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
+        $this->usesplugintable = false;
 
         // Other element specific properties.
         // No properties here.
@@ -72,6 +70,7 @@ class item extends itembase {
         // No properties here.
 
         // List of fields I do not want to have in the item definition form.
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['trimonsave'] = false;
         $this->insetupform['common_fs'] = false;
         $this->insetupform['content'] = false;
@@ -134,13 +133,12 @@ class item extends itembase {
     }
 
     /**
-     * Item add mandatory plugin fields
-     * Copy mandatory fields to $record
+     * Set defaults to fields of items
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_defaults_for_plugin_fields(&$record) {
         return;
     }
 
@@ -165,12 +163,14 @@ class item extends itembase {
     }
 
     /**
-     * Get if the plugin uses a table into the db.
+     * Make the list of the fields using multilang
      *
-     * @return if the plugin uses a personal table in the db.
+     * @return array of felds
      */
-    public function uses_db_table() {
-        return false;
+    public function get_multilang_fields() {
+        $fieldlist = [];
+
+        return $fieldlist;
     }
 
     /**
@@ -178,7 +178,7 @@ class item extends itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
+    public static function get_plugin_schema() {
         return;
     }
 
