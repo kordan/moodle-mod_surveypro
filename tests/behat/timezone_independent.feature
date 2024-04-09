@@ -5,7 +5,7 @@ Feature: Test answers are not timezone dependent
   I submit answers and I check other answers.
 
   @javascript
-  Scenario: Delete a surveypro activity
+  Scenario: Answers are not timezone dependent
     Given the following "courses" exist:
       | fullname | shortname | category | groupmode |
       | TZ free  | noTZ      | 0        | 0         |
@@ -31,8 +31,8 @@ Feature: Test answers are not timezone dependent
       | mod/surveypro:seeotherssubmissions | Allow      | student | Course       | noTZ      |
     And the following "activities" exist:
       | activity  | name        | intro    | course |
-      | surveypro | sameanswers | To trash | noTZ   |
-    And surveypro "sameanswers" has the following items:
+      | surveypro | someanswers | To trash | noTZ   |
+    And surveypro "someanswers" has the following items:
       | type   | plugin      |
       | format | label       |
       | field  | age         |
@@ -42,7 +42,7 @@ Feature: Test answers are not timezone dependent
       | field  | shortdate   |
       | field  | time        |
 
-    When I am on the "sameanswers" "surveypro activity" page logged in as student1
+    When I am on the "someanswers" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the following fields to these values:
       | id_surveypro_field_age_2_year         | 23      |
@@ -65,7 +65,7 @@ Feature: Test answers are not timezone dependent
 
     And I log out
 
-    When I am on the "sameanswers" "surveypro activity" page logged in as student2
+    When I am on the "someanswers" "surveypro activity" page logged in as student2
     And I press "New response"
     And I set the following fields to these values:
       | id_surveypro_field_age_2_year         | 23      |

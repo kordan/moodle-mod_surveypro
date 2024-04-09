@@ -1,0 +1,545 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Before starting I need to let you know few details at general level.&lt;/p&gt;&#13;
+&lt;p&gt;In a parent child relation almost each item can be a child while only few items can be parent.&lt;/p&gt;&#13;
+&lt;p&gt;Almost each field and each formats (with exception of autofill and page-break) can be child. On the contrary, only "boolean", "checkbox", "integer", "multiselect", "radio button" and "select" can be parent.&lt;/p&gt;&#13;
+&lt;p&gt;There are two kinds of possible scenarios for the parent-child relation.&lt;/p&gt;&#13;
+&lt;ol&gt;&lt;li&gt;&lt;strong&gt;parent and child items live in the same survey page&lt;/strong&gt;&lt;/li&gt;&#13;
+&lt;li&gt;&lt;strong&gt;parent and child items live in two different survey pages.&lt;/strong&gt;&lt;/li&gt;&#13;
+&lt;/ol&gt;&lt;p&gt;You can reach this second scenario in two ways:&lt;/p&gt;&#13;
+&lt;ul&gt;&lt;li&gt;allowing the "newpageforchild" setting in the module instance settings page&lt;/li&gt;&#13;
+&lt;li&gt;adding a page break (format) item between the parent and the child item&lt;/li&gt;&#13;
+&lt;/ul&gt;&lt;p&gt;The behaviour in these two scenarios (same and different survey page) is different.&lt;/p&gt;&#13;
+&lt;p&gt; &lt;/p&gt;&#13;
+&lt;p&gt;&lt;strong&gt;Let's start with the first scenario (parent and child lives in the same &lt;strong&gt;survey &lt;/strong&gt;page)&lt;/strong&gt;&lt;/p&gt;&#13;
+&lt;p&gt;When the page is shown at the beginning, the parent item AND EACH CHILD are shown.&lt;br /&gt;On the basis of the answer provided by the user (or on the basis of the default value of the parent item), each item will get enabled or disabled.&lt;br /&gt;At submit time only enabled items will be processed and saved. There a moodle issue in the tracker because moodle sends disabled elements too. See: MDL-34815. I wrote a workaround in the code to detect if the item is supposed to be disabled and has to be skipped. There is also one more issue in the tracker related to this topic. mform can not disable editor. See: MDL-25067&lt;/p&gt;&#13;
+&lt;p&gt; &lt;/p&gt;&#13;
+&lt;p&gt;&lt;strong&gt;Second scenario (parent and child items live in two different pages&lt;/strong&gt;)&lt;/p&gt;&#13;
+&lt;p&gt;The page of the parent item will be displayed. Children do not belong to the page (by definition of the scenario).&lt;br /&gt;Once the user asks for the next page the answer to the parent item is definitely provided.&lt;br /&gt;This means that the software &lt;strong&gt;exactly knows&lt;/strong&gt; which child item is going to be displayed in the next page and which one is not.&lt;br /&gt;So the page will be shown according to the user answer and no enable/disable action is expected.&lt;br /&gt;Only allowed children item will be included and none of the not allowed children items will be included in the page.&lt;/p&gt;&#13;
+&lt;p&gt;In this survey I added all the kind of parent-child relations with a page break between parent and child. You are supposed to show/hide the page break in order to test the parent-child relation in each mentioned scenarios.&lt;/p&gt;&#13;
+&lt;p&gt;A closing note: of course, you can not evaluate the presence of a child item in "second" pages when you are in preview mode because data submitted by items in the "first" page are not saved to database. In preview mode case, each child will be shown in "second" pages.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>1</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="boolean" version="2024032800">
+    <surveypro_item>
+      <content>Example with boolean item: Is this true or false?&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>1</customnumber>
+      <variable>boolean_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_boolean>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <downloadformat>strfbool01</downloadformat>
+      <style>2</style>
+    </surveyprofield_boolean>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>Enter you name&lt;br&gt;(Just a detail: I marked this question as mandatory question. The attribute is actually considered ONLY if the parent item allows his child otherwise the attribute is neglected).</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>character_001</variable>
+      <extranote>This item is allowed if the answer to its parent is TRUE</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>2</parentid>
+        <parentvalue>1</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_FREE</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="field" plugin="integer" version="2024032800">
+    <surveypro_item>
+      <content>Number of friends you would like to invite to your next birthday party.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>1.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_001</variable>
+      <extranote>This item is allowed if the answer to its parent is FALSE</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>2</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_integer>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>0</lowerbound>
+      <upperbound>105</upperbound>
+    </surveyprofield_integer>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>As you can see, by answering "No answer" to the parent item you get disabled the first such as the second child too.</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="checkbox" version="2024032800">
+    <surveypro_item>
+      <content>Example with checkbox item: What do you always want to find on your desk in the office?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>2</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>checkbox_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_checkbox>
+      <options>rubber
+pen
+pencil
+A4 paper</options>
+      <noanswerdefault>0</noanswerdefault>
+      <downloadformat>0</downloadformat>
+      <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
+      <adjustment>0</adjustment>
+    </surveyprofield_checkbox>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>Write something.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>2.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>character_002</variable>
+      <extranote>child item displayed only if 'rubber &amp; pen &amp; pencil' is answered to the parent item</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>7</parentid>
+        <parentvalue>1;1;1;0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_FREE</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="field" plugin="textarea" version="2024032800">
+    <surveypro_item>
+      <content>Please describe the best motor you have ever seen.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>2.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>textarea_001</variable>
+      <extranote>This item should be enabled if the answer to the parent item is "pen" ONLY but this is a missing funtionality as described in MDL-25067</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>7</parentid>
+        <parentvalue>0;1;0;0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_textarea>
+      <trimonsave>0</trimonsave>
+      <useeditor>1</useeditor>
+      <arearows>10</arearows>
+      <areacols>60</areacols>
+      <minlength>0</minlength>
+    </surveyprofield_textarea>
+  </item>
+  <item type="field" plugin="integer" version="2024032800">
+    <surveypro_item>
+      <content>Example with numeric (small integer) item: Enter an integer value.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>3</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_002</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_integer>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>0</lowerbound>
+      <upperbound>30</upperbound>
+    </surveyprofield_integer>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>Enter you name.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>3.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>character_003</variable>
+      <extranote>This item is enabled if the answer to the parent item is 11</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>11</parentid>
+        <parentvalue>11</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_FREE</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="field" plugin="integer" version="2024032800">
+    <surveypro_item>
+      <content>Number of friends you would like to invite to your next birthday party.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>3.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>integer_003</variable>
+      <extranote>This item is enabled if the answer to the parent item is 22</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>11</parentid>
+        <parentvalue>22</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_integer>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>0</lowerbound>
+      <upperbound>105</upperbound>
+    </surveyprofield_integer>
+  </item>
+  <item type="field" plugin="multiselect" version="2024032800">
+    <surveypro_item>
+      <content>Example with multiselect item: What do you eat for breakfast? (click or shift-click to change the selection).</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>4</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>multiselect_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_multiselect>
+      <options>b::bread
+m::milk
+j::jam
+h::ham
+t::tomatoes</options>
+      <defaultvalue>milk
+ham</defaultvalue>
+      <noanswerdefault>0</noanswerdefault>
+      <downloadformat>0</downloadformat>
+      <minimumrequired>0</minimumrequired>
+      <maximumrequired>0</maximumrequired>
+      <heightinrows>4</heightinrows>
+    </surveyprofield_multiselect>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="numeric" version="2024032800">
+    <surveypro_item>
+      <content>You preferred room temperature?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>4.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>numeric_001</variable>
+      <extranote>This item is allowed when the answer to its parent is "ham bread"</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>15</parentid>
+        <parentvalue>3;0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_numeric>
+      <defaultvalue>27.00</defaultvalue>
+      <signed>0</signed>
+      <decimals>2</decimals>
+    </surveyprofield_numeric>
+  </item>
+  <item type="field" plugin="date" version="2024032800">
+    <surveypro_item>
+      <content>Enter a full date.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>4.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>date_001</variable>
+      <extranote>This item is allowed when the answer to its parent is "jam ham tomatoes"</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>15</parentid>
+        <parentvalue>2;3;4</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_date>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>43200</defaultvalue>
+      <downloadformat>strftime01</downloadformat>
+      <lowerbound>43200</lowerbound>
+      <upperbound>1609416000</upperbound>
+    </surveyprofield_date>
+  </item>
+  <item type="field" plugin="radiobutton" version="2024032800">
+    <surveypro_item>
+      <content>Example with radio button item: which countryside do you like more for your summer holidays?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>5</customnumber>
+      <variable>radiobutton_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_radiobutton>
+      <options>Mountain
+Hill
+Sea
+Lake
+River
+City</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>0</downloadformat>
+      <adjustment>0</adjustment>
+    </surveyprofield_radiobutton>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="shortdate" version="2024032800">
+    <surveypro_item>
+      <content>When did you buy your last car?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>5.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>shortdate_001</variable>
+      <extranote>This item is allowed when the answer to its parent is "Lake" </extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>19</parentid>
+        <parentvalue>3</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_shortdate>
+      <defaultoption>2</defaultoption>
+      <downloadformat>strftime01</downloadformat>
+      <lowerbound>43200</lowerbound>
+      <upperbound>1606824000</upperbound>
+    </surveyprofield_shortdate>
+  </item>
+  <item type="field" plugin="rate" version="2024032800">
+    <surveypro_item>
+      <content>Order the following languages as you better can make use of them.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>1</position>
+      <customnumber>5.b</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>rate_001</variable>
+      <extranote>This item is allowed when the answer to its parent is "Mountain" </extranote>
+      <hidden>0</hidden>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>19</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_rate>
+      <options>English
+Greek
+Spanish
+French
+German</options>
+      <rates>optimum
+good
+bad
+terrible</rates>
+      <defaultoption>1</defaultoption>
+      <defaultvalue>bad
+terrible
+bad
+terrible
+bad</defaultvalue>
+      <downloadformat>0</downloadformat>
+      <style>1</style>
+      <differentrates>0</differentrates>
+    </surveyprofield_rate>
+  </item>
+  <item type="field" plugin="select" version="2024032800">
+    <surveypro_item>
+      <content>Example with select item: Indicate your preferred direction.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <customnumber>6</customnumber>
+      <variable>select_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_select>
+      <options>top
+bottom
+right
+left</options>
+      <defaultoption>2</defaultoption>
+      <downloadformat>0</downloadformat>
+    </surveyprofield_select>
+  </item>
+  <item type="format" plugin="pagebreak" version="2024032800">
+    <surveypro_item>
+      <hidden>1</hidden>
+      <reserved>0</reserved>
+    </surveypro_item>
+  </item>
+  <item type="field" plugin="age" version="2024032800">
+    <surveypro_item>
+      <content>How old were you when you first travelled alone?</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>6.a</customnumber>
+      <hideinstructions>0</hideinstructions>
+      <variable>age_001</variable>
+      <extranote>This item is allowed If your answer to previous question was "bottom"</extranote>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>23</parentid>
+        <parentvalue>1</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_age>
+      <defaultoption>2</defaultoption>
+      <defaultvalue>-1</defaultvalue>
+      <lowerbound>-2635200</lowerbound>
+      <upperbound>3339835200</upperbound>
+    </surveyprofield_age>
+  </item>
+  <item type="field" plugin="fileupload" version="2024032800">
+    <surveypro_item>
+      <content>Please attach your curriculum vitae.</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>1</indent>
+      <position>0</position>
+      <customnumber>6.b</customnumber>
+      <variable>fileupload_001</variable>
+      <extranote>This item is allowed only by answering "Top" to its parent. I asked for the option to disable it in MDL-28194. That issue is still open but, in spite of this, the item can be disabled.</extranote>
+      <hidden>0</hidden>
+      <reserved>0</reserved>
+      <parent>
+        <parentid>23</parentid>
+        <parentvalue>0</parentvalue>
+      </parent>
+    </surveypro_item>
+    <surveyprofield_fileupload>
+      <maxfiles>1</maxfiles>
+      <maxbytes>0</maxbytes>
+      <filetypes>*</filetypes>
+    </surveyprofield_fileupload>
+  </item>
+</items>

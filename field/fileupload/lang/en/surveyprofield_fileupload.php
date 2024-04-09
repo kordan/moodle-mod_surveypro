@@ -23,18 +23,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['filetypes_help'] = 'The comma separated list of allowed file extension';
-$string['filetypes'] = 'Allowed file types (comma separated)';
 $string['fileextensions'] = 'Allowed file extensions: ';
+$string['filetypes'] = 'Allowed file types (comma separated)';
+$string['filetypes_help'] = 'The comma separated list of allowed file extension';
+$string['ierr_dirtyextension'] = 'Only lower case letters and numbers are allowed into file extensions';
 $string['ierr_extensionisempty'] = 'File extensions can not be empty. Probabily you typed a comma twice.';
 $string['ierr_extensionmissingdot'] = 'File extensions must start with a dot';
 $string['ierr_extensiononlyonedot'] = 'Only one dot is allowed per each file extension';
-$string['ierr_dirtyextension'] = 'Only lower case letters and numbers are allowed into file extensions';
 $string['ierr_staramongextensions'] = '\'*\' is meaningful only if used individually';
-$string['maxbytes_help'] = 'Maximum size of the file to upload';
 $string['maxbytes'] = 'Maximum file size';
-$string['maxfiles_help'] = 'Maximum uploadable attachments';
+$string['maxbytes_help'] = 'Maximum size of the file to upload';
 $string['maxfiles'] = 'Maximum files';
+$string['maxfiles_help'] = 'Maximum uploadable attachments';
 $string['pluginname'] = 'File upload';
-$string['userfriendlypluginname'] = 'Attachment';
 $string['privacy:metadata'] = 'The "Fileupload" field plugin does not store any personal data.';
+$string['userfriendlypluginname'] = 'Attachment';

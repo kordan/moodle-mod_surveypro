@@ -76,7 +76,7 @@ class utemplate_save extends utemplate_base {
     }
 
     /**
-     * Write template content.
+     * Write user template content.
      *
      * @param boolean $visiblesonly
      * @return void
@@ -85,6 +85,7 @@ class utemplate_save extends utemplate_base {
         global $DB;
 
         $pluginversion = self::get_subplugin_versions();
+
         $where = ['surveyproid' => $this->surveypro->id];
         if ($visiblesonly) {
             $where['hidden'] = '0';
@@ -105,9 +106,40 @@ class utemplate_save extends utemplate_base {
             $xmlitem->addAttribute('version', $pluginversion[$index]);
 
             // Surveypro_item.
-            $xmltable = $xmlitem->addChild('surveypro_item');
             $structure = $this->get_table_structure();
+            $unrelevantfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
+            $unrelevantfields = array_merge($unrelevantfields, $item->item_expected_null_fields());
+            $xmltable = $xmlitem->addChild('surveypro_item');
             foreach ($structure as $field) {
+                if (in_array($field, $unrelevantfields)) {
+                    continue;
+                }
+
+                if ($field == 'content') {
+                    // If $field == 'content' I can not use the property of the object $item because
+                    // in case of pictures, for instance, $item->content has to look like:
+                    // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
+                    // and not like:
+                    // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
+                    $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
+                    if (core_text::strlen($val)) {
+                        $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                    }
+                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemseed->id)) {
+                        foreach ($files as $file) {
+                            $filename = $file->get_filename();
+                            if ($filename == '.') {
+                                continue;
+                            }
+                            $xmlembedded = $xmltable->addChild('embedded');
+                            $xmlembedded->addChild('filename', $filename);
+                            $xmlembedded->addChild('filecontent', base64_encode($file->get_content()));
+                        }
+                    }
+
+                    continue;
+                }
+
                 if ($field == 'parentid') {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
@@ -122,55 +154,40 @@ class utemplate_save extends utemplate_base {
                     } // Otherwise: It is empty, do not evaluate: jump.
                     continue;
                 }
+
                 if ($field == 'parentvalue') {
                     continue;
                 }
 
                 $val = $item->get_generic_property($field);
+                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                 if (core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
 
             // Child table.
+            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
+
             // Take care: some items plugin may be free of their own specific table.
             if (!count($structure)) {
                 continue;
             }
 
-            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-                // If $field == 'content' I can not use the property of the object $item because
-                // in case of pictures, for instance, $item->content has to look like:
-                // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
-                // and not like:
-                // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
-                if ($field != 'content') {
-                    $val = $item->get_generic_property($field);
-                } else {
-                    $val = $DB->get_field($tablename, 'content', ['itemid' => $itemseed->id], MUST_EXIST);
+
+                if (in_array($field, $unrelevantfields)) {
+                    continue;
                 }
 
+                $val = $item->get_generic_property($field);
+                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                 if (core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                    $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
-
-                if ($field == 'content') {
-                    $itemid = $item->get_itemid();
-                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid)) {
-                        foreach ($files as $file) {
-                            $filename = $file->get_filename();
-                            if ($filename == '.') {
-                                continue;
-                            }
-                            $xmlembedded = $xmltable->addChild('embedded');
-                            $xmlembedded->addChild('filename', $filename);
-                            $xmlembedded->addChild('filecontent', base64_encode($file->get_content()));
-                        }
-                    }
-                }
             }
         }
 

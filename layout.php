@@ -428,7 +428,7 @@ if ($section == 'itemsetup') {
     // End of: define $itemform return url.
 
     // Begin of: prepare params for the form.
-    $classname = 'surveyprofield_'.$itemplugin.'\itemsetupform';
+    $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemplugin.'\itemsetupform';
     $itemform = new $classname($formurl, ['item' => $item], null, null, ['id' => 'itemsetup']);
     // End of: prepare params for the form.
 

@@ -30,8 +30,8 @@ Feature: Test the use of character trim
     And I set the following fields to these values:
       | Content                        | This is a standard text  |
       | Required                       | 1                        |
-      | Additional note                | This will not be trimmed |
       | Clean answer at save time      | 0                        |
+      | Additional note                | This will not be trimmed |
       | pattern                        | free pattern             |
       | Minimum length (in characters) | 20                       |
       | Maximum length (in characters) | 30                       |
@@ -45,8 +45,8 @@ Feature: Test the use of character trim
     And I set the following fields to these values:
       | Content                        | Text to trim         |
       | Required                       | 1                    |
-      | Additional note                | This will be trimmed |
       | Clean answer at save time      | 1                    |
+      | Additional note                | This will be trimmed |
       | pattern                        | free pattern         |
       | Minimum length (in characters) | 20                   |
       | Maximum length (in characters) | 30                   |
@@ -60,6 +60,7 @@ Feature: Test the use of character trim
     And I press "New response"
     And I set the field "This is a standard text" to "   false long text   "
     And I set the field "Text to trim" to "   false long text   "
+
     And I press "Submit"
 
     Then I should see "Text is too short"

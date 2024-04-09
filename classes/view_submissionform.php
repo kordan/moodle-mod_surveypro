@@ -604,10 +604,10 @@ class view_submissionform extends formbase {
             if ($canbemandatory) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
-                            JOIN {surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'} p ON p.itemid = i.id
+                            JOIN {surveyprofield_'.$plugin.'} p ON p.itemid = i.id
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
-                            AND p.required > :required
+                            AND i.required > :required
                         ORDER BY p.itemid';
 
                 $whereparams = ['surveyproid' => $this->surveypro->id, 'hidden' => 0, 'required' => 0];
