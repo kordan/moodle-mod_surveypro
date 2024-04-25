@@ -14,7 +14,7 @@ Fields and formats, referred to as "elements" here, are two of the four managed 
 Surveypro comes with 22 built-in element plugins, comprising 18 field types and 4 format types. "Fields" are items needed by the student to submit responses, while "formats" are read-only elements like page breaks, fieldsets, or labels. If the desired field or format is not available, developers can be engaged to build a plugin that closely matches specific needs.
 
 Here is a list of the 22 built-in elements with their intended use:
-
+```
 |--- field ---| --------------------------- Example of question ---------------------------- | -- Example of answer - |
 | age         | How old were you when you started cycling?                                   | 4 years, 6 months      |
 | autofill    | Autofill the response with infos from user, course, time, date or surveypro  | userid=528             |
@@ -42,7 +42,7 @@ Here is a list of the 22 built-in elements with their intended use:
 | fieldset    | to group your question                     |
 | fieldsetend | to close an opened fieldset                |
 |----------------------------------------------------------|
-
+```
 "Fields" elements share common properties. Additionally, each field manages its specific features. Common properties include mandatory, indent, position of the element content, custom number, variable name, note, availability, validation, default and branching.
 
 Less common properties include:
