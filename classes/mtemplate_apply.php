@@ -41,6 +41,23 @@ class mtemplate_apply extends mtemplate_base {
      */
     protected $langtree = [];
 
+    /**
+     * @var array
+     */
+    protected $mastertemplate;
+
+    // MARK set.
+
+    /**
+     * Set mastertemplate.
+     *
+     * @param string $mastertemplate
+     * @return void
+     */
+    public function set_mastertemplate($mastertemplate) {
+        $this->mastertemplate = $mastertemplate;
+    }
+
     // MARK get.
 
     /**
@@ -63,6 +80,20 @@ class mtemplate_apply extends mtemplate_base {
     }
 
     // MARK other.
+
+    /**
+     * Execute last minute check before applying master templates.
+     *
+     * @return void
+     */
+    public function lastminute_template_check() {
+        global $CFG;
+
+        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->mastertemplate.'/template.xml';
+        $xml = file_get_contents($templatepath);
+
+        $this->validate_xml($xml);
+    }
 
     /**
      * Actually add items coming from template to the db.
@@ -92,10 +123,9 @@ class mtemplate_apply extends mtemplate_base {
 
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
-
             // Read the attributes of the item node.
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // The $xmlitem looks like: <item type="format" plugin="label" version="2014030201">.
+                // The $xmlitem looks like: <item type="format" plugin="label" version="2024032800">.
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
                 }
@@ -104,60 +134,74 @@ class mtemplate_apply extends mtemplate_base {
                 }
             }
 
-            // Take care to details.
             // Load the item class in order to call its methods to validate $record before saving it.
             $item = surveypro_get_item($this->cm, $this->surveypro, 0, $currenttype, $currentplugin);
 
             foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
                 $tablename = $xmltable->getName();
-                if ($tablename == 'surveypro_item') {
-                    $currenttablestructure = $this->get_table_structure();
-                } else {
-                    $currenttablestructure = $this->get_table_structure($currenttype, $currentplugin);
-                }
 
                 $record = new \stdClass();
-
-                // Add to $record mandatory fields that will be overwritten, hopefully, with the content of the usertemplate.
-                $record->surveyproid = (int)$this->surveypro->id;
-                $record->type = $currenttype;
-                $record->plugin = $currentplugin;
                 if ($tablename == 'surveypro_item') {
-                    $item->item_add_mandatory_base_fields($record);
+                    $itemid = 0; // This is the proof the surveypro_item record has not yet been saved.
+
+                    // $tablestructure limits the fields that are going to be saved in the database.
+                    $tablestructure = $this->get_table_structure();
+
+                    $record->surveyproid = (int)$this->surveypro->id;
+                    $record->type = $currenttype;
+                    $record->plugin = $currentplugin;
+                    $item->item_add_fields_default_to_parent_table($record);
                 } else {
-                    $item->item_add_mandatory_plugin_fields($record);
+                    // $tablestructure limits the fields that are going to be saved in the database.
+                    $tablestructure = $this->get_table_structure($currenttype, $currentplugin);
+
+                    $record->itemid = $itemid; // It has been defined when surveypro_item record was saved.
+                    $item->item_add_fields_default_to_child_table($record);
                 }
 
                 foreach ($xmltable->children() as $xmlfield) {
-                    $fieldname = $xmlfield->getName();
+                    $xmltag = $xmlfield->getName(); // Generally $xmltag is the name of the field.
 
                     // Tag <parent> always belong to surveypro_item table.
-                    if ($fieldname == 'parent') {
-                        foreach ($xmlfield->children() as $xmlparentattribute) {
-                            $fieldname = $xmlparentattribute->getName();
-                            $fieldexists = in_array($fieldname, $currenttablestructure);
+                    if ($xmltag == 'parent') {
+                        // Debug: $label = 'Count of attributes of the field '.$xmltag;.
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
+                        foreach ($xmlfield->children() as $xmlchildattribute) {
+                            $xmltag = $xmlchildattribute->getName();
+                            $fieldexists = in_array($xmltag, $tablestructure);
                             if ($fieldexists) {
-                                $record->{$fieldname} = (string)$xmlparentattribute;
+                                $record->{$xmltag} = (string)$xmlchildattribute;
                             }
                         }
                         continue;
                     }
 
-                    // Tag <embedded> always belong to surveypro(field|format)_<<plugin>> table.
-                    // So: ($fieldname == 'embedded') only when surveypro_item has already been saved.
-                    // So: $itemid is known.
-                    if ($fieldname == 'embedded') {
-                        // Debug: $label = 'Count of attributes of the field '.$fieldname;
+                    // Tag <embedded> always belong to surveypro_item table.
+                    if ($xmltag == 'embedded') {
+                        // Urgently create a record because its id is needed here.
+                        // Please do not create a new record twice.
+                        // If 2 embedded pictures are part of the content, be sure to create only one record.
+                        // If you already created the record for the first embedded picture, do not create one more record now.
+                        if (empty($itemid)) {
+                            $itemid = $DB->insert_record('surveypro_item', $record);
+                        }
+
+                        // Debug: $label = 'Count of attributes of the field '.$xmltag;
                         // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
                         foreach ($xmlfield->children() as $xmlfileattribute) {
                             $fileattributename = $xmlfileattribute->getName();
                             if ($fileattributename == 'filename') {
-                                $filename = $xmlfileattribute;
+                                $attributecontent = (string)$xmlfileattribute;
+                                $filename = get_string($attributecontent, 'surveyprotemplate_'.$this->templatename);
                             }
                             if ($fileattributename == 'filecontent') {
-                                $filecontent = base64_decode($xmlfileattribute);
+                                $attributecontent = (string)$xmlfileattribute;
+                                $encodedcontent = get_string($attributecontent, 'surveyprotemplate_'.$this->templatename);
+                                $filecontent = base64_decode($encodedcontent);
                             }
                         }
+
+                        // Debug: echo 'I need to add: "'.$filename.'" to the filearea<br>';.
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.
@@ -172,13 +216,18 @@ class mtemplate_apply extends mtemplate_base {
                         continue;
                     }
 
-                    $fieldexists = in_array($fieldname, $currenttablestructure);
+                    // The method xml_validation checks only the formal schema validity.
+                    // It does not know whether the xml is old and holds no longer needed fields
+                    // or does not hold fields that are now mandatory.
+                    // Because of this, I can not SIMPLY add $xmltag to $record but I need to make some more investigation.
+                    // I neglect unneeded used fields, here.
+                    // I will add mandatory (but missing because the usertemplate may be old) fields,
+                    // before saving in the frame of the $item->item_force_coherence.
+                    $fieldexists = in_array($xmltag, $tablestructure);
                     if ($fieldexists) {
-                        $record->{$fieldname} = (string)$xmlfield;
+                        $record->{$xmltag} = (string)$xmlfield;
                     }
                 }
-
-                unset($record->id);
 
                 // Apply master template settings.
                 [$tablename, $record] = $mastertemplate->apply_template_settings($tablename, $record, $config);
@@ -192,16 +241,23 @@ class mtemplate_apply extends mtemplate_base {
                         $record->parentid = $DB->get_field('surveypro_item', 'id', $whereparams, MUST_EXIST);
                     }
 
-                    $itemid = $DB->insert_record($tablename, $record);
+                    if (empty($itemid)) { // If the record in surveypro_item has NOT already been added.
+                        $itemid = $DB->insert_record('surveypro_item', $record);
+                    } else {
+                         // I had to urgently create a record to get its id in order to give it to $fs->create_file_from_string.
+                         // Now I can not create a different record because I passed the id of the existing one.
+                         // So I update the found record.
+                        $record->id = $itemid;
+                        $DB->update_record('surveypro_item', $record);
+                    }
                 } else {
                     // Take care to details.
                     $item->item_force_coherence($record);
                     $item->item_validate_variablename($record, $itemid);
-                    $record->itemid = $itemid;
 
                     $DB->insert_record($tablename, $record, false);
                 }
-            }
+            } // Closes foreach ($xmlitem->children() as $xmltable) alias: Surveypro_item and surveypro_<<plugin>>.
         }
     }
 
@@ -220,8 +276,8 @@ class mtemplate_apply extends mtemplate_base {
         // End of: delete all existing items.
 
         $this->templatename = $this->formdata->mastertemplate;
-        $record = new \stdClass();
 
+        $record = new \stdClass();
         $record->id = $this->surveypro->id;
         $record->template = $this->templatename;
         $DB->update_record('surveypro', $record);
@@ -288,6 +344,4 @@ class mtemplate_apply extends mtemplate_base {
         $message = get_string('welcome_mtemplateapply', 'mod_surveypro');
         echo $OUTPUT->notification($message, 'notifymessage');
     }
-
-
 }

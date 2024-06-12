@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;h5&gt;TEXTAREA&lt;br /&gt;&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only two &lt;b&gt;date specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Use html editor&lt;/li&gt;&lt;li&gt;Area heigh in rows&lt;/li&gt;&lt;li&gt;Area width in columns&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Minimum length (in characters)&lt;/li&gt;&lt;li&gt;Maximum length (in characters)&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use html editor&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the user is supposed to enter a text.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>1 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="textarea" version="2024032800">
+    <surveypro_item>
+      <content>Write a short description of yourself</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>textarea_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
+      <trimonsave>0</trimonsave>
+      <useeditor>1</useeditor>
+      <arearows>10</arearows>
+      <areacols>60</areacols>
+      <minlength>0</minlength>
+    </surveyprofield_textarea>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use html editor&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the user is supposed to enter a text or to leave the textarea blank.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>2 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="textarea" version="2024032800">
+    <surveypro_item>
+      <content>Write a short description of yourself</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>textarea_002</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
+      <trimonsave>0</trimonsave>
+      <useeditor>1</useeditor>
+      <arearows>10</arearows>
+      <areacols>60</areacols>
+      <minlength>0</minlength>
+    </surveyprofield_textarea>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use simple text area&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the user is supposed to enter a text.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>3 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="textarea" version="2024032800">
+    <surveypro_item>
+      <content>Write a short description of yourself</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>textarea_003</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
+      <trimonsave>0</trimonsave>
+      <useeditor>0</useeditor>
+      <arearows>10</arearows>
+      <areacols>60</areacols>
+      <minlength>0</minlength>
+    </surveyprofield_textarea>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;use simple text area&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the user is supposed to enter a text or to leave the textarea blank.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>4 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="textarea" version="2024032800">
+    <surveypro_item>
+      <content>Write a short description of yourself</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>textarea_004</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_textarea>
+      <trimonsave>0</trimonsave>
+      <useeditor>0</useeditor>
+      <arearows>10</arearows>
+      <areacols>60</areacols>
+      <minlength>0</minlength>
+    </surveyprofield_textarea>
+  </item>
+</items>

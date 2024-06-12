@@ -61,9 +61,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldsetend';
-
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
+        $this->usesplugintable = false;
 
         // Other element specific properties.
         // No properties here.
@@ -71,17 +69,22 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['common_fs'] = false;
         $this->insetupform['content'] = false;
-        $this->insetupform['customnumber'] = false;
-        $this->insetupform['position'] = false;
-        $this->insetupform['extranote'] = false;
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['required'] = false;
-        $this->insetupform['variable'] = false;
         $this->insetupform['indent'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['variable'] = false;
+        $this->insetupform['extranote'] = false;
+        $this->insetupform['customnumber'] = false;
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['insearchform'] = false;
         $this->insetupform['parentid'] = false;
+        $this->insetupform['parentvalue'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -121,12 +124,7 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
-
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set properties at plugin level and then continue to base level.
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -139,7 +137,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_fields_default_to_child_table(&$record) {
         return;
     }
 
@@ -164,12 +162,16 @@ class item extends itembase {
     }
 
     /**
-     * Get if the plugin uses a table into the db.
+     * Make the list of the fields using multilang
      *
-     * @return if the plugin uses a personal table in the db.
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function uses_db_table() {
-        return false;
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = [];
+        $fieldlist['surveyprofield_time'] = [];
+
+        return $fieldlist;
     }
 
     /**
@@ -177,8 +179,8 @@ class item extends itembase {
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
-        return;
+    public static function get_plugin_schema() {
+        return '';
     }
 
     // MARK userform.

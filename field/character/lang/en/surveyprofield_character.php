@@ -23,8 +23,8 @@
  */
 
 $string['custompattern'] = 'custom pattern';
-$string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['defaultvalue'] = 'Default';
+$string['defaultvalue_help'] = 'This is the value the remote user will find answered by default';
 $string['free'] = 'free pattern';
 $string['ierr_defaultbadlength'] = 'Default is not {$a} character long as implicitly declared in the pattern';
 $string['ierr_defaultisnotemail'] = 'Default does not math email pattern';
@@ -37,15 +37,15 @@ $string['ierr_noregexmatch'] = 'Default does not match the required regular expr
 $string['ierr_patternisempty'] = 'pattern is missing';
 $string['ierr_toolongdefault'] = 'Default has to be shorter-equal than maximum allowed length';
 $string['ierr_tooshortdefault'] = 'Default has to be longer-equal than minimum allowed length';
-$string['length_help'] = 'The width of the field in characters';
 $string['length'] = 'Field width in characters';
+$string['length_help'] = 'The width of the field in characters';
 $string['mail'] = 'email address';
-$string['maxlength_help'] = 'The maximum number of characters allowed for the answer to this question';
 $string['maxlength'] = 'Maximum length (in characters)';
-$string['minlength_help'] = 'The minimum number of characters allowed for the answer to this question';
+$string['maxlength_help'] = 'The maximum number of characters allowed for the answer to this question';
 $string['minlength'] = 'Minimum length (in characters)';
-$string['pattern_help'] = 'If the answer is supposed to fit a specific pattern, define it here using <ul><li>"A" for upper case characters;</li><li>"a" for lower case characters;</li><li>"0" for numbers;</li><li>"*" for to include upper case, lower case, numbers or any other character like, for instance: ,_%."$!\' or spaces.</li></ul>';
+$string['minlength_help'] = 'The minimum number of characters allowed for the answer to this question';
 $string['pattern'] = 'Text pattern';
+$string['pattern_help'] = 'If the answer is supposed to fit a specific pattern, define it here using <ul><li>"A" for upper case characters;</li><li>"a" for lower case characters;</li><li>"0" for numbers;</li><li>"*" for to include upper case, lower case, numbers or any other character like, for instance: ,_%."$!\' or spaces.</li></ul>';
 $string['pluginname'] = 'Short text';
 $string['privacy:metadata'] = 'The "Character" field plugin does not store any personal data.';
 $string['regex'] = 'regular expression';

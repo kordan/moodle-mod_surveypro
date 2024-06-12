@@ -2047,7 +2047,9 @@ class layout_itemlist {
         global $DB;
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            // Overwrite keys from the database and replace it with the actual strings.
             $template = $this->surveypro->template;
+
             $where = ['surveyproid' => $this->surveypro->id];
             $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, type, plugin');
             foreach ($itemseeds as $itemseed) {
@@ -2055,26 +2057,38 @@ class layout_itemlist {
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
                 $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                $itemsmlfields = $item->get_multilang_fields(); // Pagebreak and fieldsetend have no multilang_fields.
-                if ($itemsmlfields[$plugin]) {
-                    // Note: ml means multi language.
-                    foreach ($itemsmlfields as $itemmlfield) { // Note: $itemmlfield is an array of fields.
-                        $record = new \stdClass();
-                        $record->id = $item->get_pluginid();
 
-                        $where = ['id' => $record->id];
-                        $fieldlist = implode(',', $itemmlfield);
-                        // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
-                        $reference = $DB->get_record('surveypro'.$type.'_'.$plugin, $where, $fieldlist, MUST_EXIST);
-                        foreach ($itemmlfield as $mlfieldname) {
-                            $stringkey = $reference->{$mlfieldname};
+                $itemsmlfields = $item->get_multilang_fields(false);
+                if ($itemsmlfields) { // Pagebreak and fieldsetend have no multilang_fields.
+                    // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
+                    foreach ($itemsmlfields as $table => $fields) { // Note: $itemmlfield is an array of arrays of fields.
+                        if (!count($fields)) {
+                            continue;
+                        }
+                        $record = new \stdClass();
+
+                        $fieldlist = implode(',', $fields);
+                        if ($table == 'surveypro_item') {
+                            $where = ['id' => $id];
+                            $savedrecord = $DB->get_record($table, $where, $fieldlist, MUST_EXIST);
+                            $record->id = $id;
+                        } else {
+                            $where = ['itemid' => $id];
+                            $savedrecord = $DB->get_record($table, $where, 'id,'.$fieldlist, MUST_EXIST);
+                            $record->id = $savedrecord->id;
+                        }
+
+                        foreach ($fields as $mlfieldname) {
+                            $stringkey = $savedrecord->{$mlfieldname};
+
                             if (core_text::strlen($stringkey)) {
                                 $record->{$mlfieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                             } else {
                                 $record->{$mlfieldname} = null;
                             }
                         }
-                        $DB->update_record('surveypro'.$type.'_'.$plugin, $record);
+
+                        $DB->update_record($table, $record);
                     }
                 }
             }
@@ -2115,14 +2129,14 @@ class layout_itemlist {
             // Ask for confirmation.
             $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
-            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DROPMULTILANG, 'section' => 'itemslist'];
+            $optionbase = ['s' => $this->cm->instance];
 
-            $optionsyes = $optionbase;
+            $optionsyes = $optionbase + ['section' => 'itemslist', 'act' => SURVEYPRO_DROPMULTILANG];
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('yes'));
 
-            $optionsno = $optionbase;
+            $optionsno = $optionbase + ['section' => 'preview'];
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
             $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));

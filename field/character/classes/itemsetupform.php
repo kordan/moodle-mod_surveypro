@@ -61,7 +61,7 @@ class itemsetupform extends item_setupbaseform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
 
-        // Item: trimonsave.
+        // Itembase: trimonsave.
         $fieldname = 'trimonsave';
         $mform->addElement('checkbox', $fieldname, get_string($fieldname, 'surveyprofield_character'));
         $mform->addHelpButton($fieldname, $fieldname, 'surveyprofield_character');

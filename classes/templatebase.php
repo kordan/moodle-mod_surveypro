@@ -64,6 +64,11 @@ class templatebase {
     protected $langtree = [];
 
     /**
+     * @var string Outcome of the last minute check before applying templates.
+     */
+    protected $xmlvalidationoutcome;
+
+    /**
      * Class constructor.
      *
      * @param object $cm
@@ -76,16 +81,134 @@ class templatebase {
         $this->surveypro = $surveypro;
     }
 
+    // MARK set.
+
+    /**
+     * Set xmlvalidationoutcome.
+     *
+     * @param stdClass $xmlvalidationoutcome
+     * @return void
+     */
+    public function set_xmlvalidationoutcome($xmlvalidationoutcome=null) {
+        if (is_null($xmlvalidationoutcome)) {
+            $xmlvalidationoutcome = new \stdClass();
+        }
+        $this->xmlvalidationoutcome = $xmlvalidationoutcome;
+    }
+
+    // MARK get.
+
+    /**
+     * Returns the ordered list of fields for the itembase (or the plugin) table.
+     *
+     * @param string $type (optional)
+     * @param string $plugin (optional)
+     * @return void
+     */
+    public function get_table_structure($type=null, $plugin=null) {
+        global $CFG;
+
+        if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
+            $message = '$type and $plugin must be provided both or none.';
+            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        }
+
+        $fieldlist = [];
+        if (empty($type) && empty($plugin)) {
+            $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
+            $targettable = 'surveypro_item';
+        } else {
+            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
+            $targettable = 'surveypro'.$type.'_'.$plugin;
+
+            // Some plugins are missing the install.xml because they don't have attributes.
+            if (!file_exists($installxml)) {
+                return $fieldlist;
+            }
+        }
+
+        $xmlall = simplexml_load_file($installxml);
+        foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
+            foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
+                $attributes = $xmltable->attributes();
+                $tablename = $attributes['NAME'];
+                if ($tablename != $targettable) {
+                    continue;
+                }
+                foreach ($xmltable->children() as $xmlfields) { // FIELDS opening tag.
+                    foreach ($xmlfields->children() as $xmlfield) { // FIELD opening tag.
+                        $attributes = $xmlfield->attributes();
+                        $fieldname = $attributes['NAME'];
+                        $fieldlist[] = (string)$attributes['NAME'];
+                    }
+                    break;
+                }
+                break;
+            }
+            break;
+        }
+
+        return $fieldlist;
+    }
+
+    /**
+     * Get plugin versions.
+     *
+     * @return versions of each field and format plugin
+     */
+    public static function get_subplugin_versions() {
+        $versions = [];
+        $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
+
+        foreach ($types as $type) {
+            $plugins = surveypro_get_plugin_list($type, true);
+            foreach ($plugins as $plugin => $unused) {
+                $versions[$plugin] = get_config('surveypro'.$plugin, 'version');
+            }
+        }
+
+        return $versions;
+    }
+
+    /**
+     * Get xml validation outcome
+     *
+     * @return xmlvalidationoutcome
+     */
+    public function get_xmlvalidationoutcome() {
+        return $this->xmlvalidationoutcome;
+    }
+
+    /**
+     * Get user template content.
+     *
+     * @param int $utemplateid
+     * @return void
+     */
+    public function get_utemplate_content($utemplateid=0) {
+        $fs = get_file_storage();
+        if (empty($utemplateid)) {
+            $utemplateid = $this->utemplateid;
+        }
+        $xmlfile = $fs->get_file_by_id($utemplateid);
+
+        return $xmlfile->get_content();
+    }
+
+    // MARK other.
+
     /**
      * Validate the uploaded xml file.
      *
      * @param object $xml File to validate
-     * @return object|boolean error describing the message to show, false if no error is found
+     * @return object|false error describing the message to show, false if no error is found
      */
     public function validate_xml($xml) {
         global $CFG;
 
         $debug = false; // Set $debug = true if you want to stop anyway to debug the xml template.
+
+        $this->set_xmlvalidationoutcome();
 
         $pluginversion = self::get_subplugin_versions();
         if ($debug) {
@@ -95,7 +218,7 @@ class templatebase {
         }
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // Example: <item type="format" plugin="label" version="2014030201">.
+                // Example: <item type="format" plugin="label" version="2024032800">.
                 // Debug: echo 'Found: '.$attribute.' = '.$value.'<br>';.
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
@@ -111,19 +234,22 @@ class templatebase {
                 $error = new \stdClass();
                 $error->key = 'missingitemtype';
 
-                return $error;
+                $this->set_xmlvalidationoutcome($error);
+                break;
             }
             if (!isset($currentplugin)) {
                 $error = new \stdClass();
                 $error->key = 'missingitemplugin';
 
-                return $error;
+                $this->set_xmlvalidationoutcome($error);
+                break;
             }
             if (!isset($currentversion)) {
                 $error = new \stdClass();
                 $error->key = 'missingitemversion';
 
-                return $error;
+                $this->set_xmlvalidationoutcome($error);
+                break;
             }
 
             // Ok, $currenttype and $currentplugin are onboard.
@@ -132,11 +258,12 @@ class templatebase {
                 $error = new \stdClass();
                 $error->key = 'invalidtypeorplugin';
 
-                return $error;
+                $this->set_xmlvalidationoutcome($error);
+                break;
             }
 
             $index = $currenttype.'_'.$currentplugin;
-            if ($pluginversion[$index] < $currentversion) {
+            if ($pluginversion[$index] > $currentversion) {
                 $a = new \stdClass();
                 $a->type = $currenttype;
                 $a->plugin = $currentplugin;
@@ -147,7 +274,8 @@ class templatebase {
                 $error->a = $a;
                 $error->key = 'versionmismatch';
 
-                return $error;
+                $this->set_xmlvalidationoutcome($error);
+                break;
             }
 
             foreach ($xmlitem->children() as $xmltable) {
@@ -167,7 +295,8 @@ class templatebase {
                         $error->key = 'badtablenamefound';
                         $error->a = $tablename;
 
-                        return $error;
+                        $this->set_xmlvalidationoutcome($error);
+                        break 2; // Exit the first foreach and the second too.
                     }
                     $xsd = $classname::get_plugin_schema(); // Plugin schema.
                 }
@@ -176,7 +305,8 @@ class templatebase {
                     $error = new \stdClass();
                     $error->key = 'xsdnotfound';
 
-                    return $error;
+                    $this->set_xmlvalidationoutcome($error);
+                    break 2; // Exit the first foreach and the second too.
                 }
 
                 $mdom = new \DOMDocument();
@@ -217,7 +347,8 @@ class templatebase {
                     $error->a = $a;
                     $error->key = 'reportederror';
 
-                    return $error;
+                    $this->set_xmlvalidationoutcome($error);
+                    break 2; // Exit the first foreach and the second too.
                 }
 
                 if (!$status) {
@@ -230,89 +361,100 @@ class templatebase {
                     $error = new \stdClass();
                     $error->key = 'schemavalidationfailed';
 
-                    return $error;
+                    $this->set_xmlvalidationoutcome($error);
+                    break 2; // Exit the first foreach and the second too.
                 }
             }
         }
-
-        return false;
     }
 
-    // MARK get.
-
     /**
-     * Get the ordered list of fields for the itembase (or the plugin) table.
+     * Tell the user that the usertemplate is obsolete.
      *
-     * @param string $type (optional)
-     * @param string $plugin (optional)
      * @return void
      */
-    public function get_table_structure($type=null, $plugin=null) {
-        global $CFG;
+    public function lastminute_stop() {
+        global $OUTPUT;
 
-        if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
-            $message = '$type and $plugin must be provided both or none.';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
-        }
-
-        $fieldlist = [];
-        if (empty($type) && empty($plugin)) {
-            $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
-            $targettable = 'surveypro_item';
-            $uselessfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
-        } else {
-            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
-            $targettable = 'surveypro'.$type.'_'.$plugin;
-            $uselessfields = ['id', 'itemid'];
-
-            // Some plugins are missing the install.xml because they havn't attributes.
-            if (!file_exists($installxml)) {
-                return $fieldlist;
+        $errormessage = $this->get_xmlvalidationoutcome();
+        if (isset($errormessage->key)) {
+            if (isset($errormessage->a)) {
+                $message = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
+            } else {
+                $message = get_string($errormessage->key, 'mod_surveypro');
             }
-        }
+            $message .= get_string('utemplate_nolongervalid', 'mod_surveypro');
 
-        $xmlall = simplexml_load_file($installxml);
-        foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
-            foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
-                $attributes = $xmltable->attributes();
-                $tablename = $attributes['NAME'];
-                if ($tablename != $targettable) {
-                    continue;
-                }
-                foreach ($xmltable->children() as $xmlfields) { // FIELDS opening tag.
-                    foreach ($xmlfields->children() as $xmlfield) { // FIELD opening tag.
-                        $attributes = $xmlfield->attributes();
-                        $fieldname = $attributes['NAME'];
-                        if (in_array($fieldname, $uselessfields) === false) {
-                            $fieldlist[] = (string)$attributes['NAME'];
-                        }
-                    }
-                    break;
-                }
-                break;
-            }
-            break;
-        }
+            echo $OUTPUT->notification($message, 'notifyproblem');
+            $paramurl = ['s' => $this->surveypro->id, 'area' => 'layout', 'section' => 'itemslist'];
+            $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+            echo $OUTPUT->continue_button($url);
 
-        return $fieldlist;
+            echo $OUTPUT->footer();
+            die();
+        }
     }
 
     /**
-     * Get plugin versions.
+     * Tell the user that the usertemplate is obsolete.
      *
-     * @return versions of each field and format plugin
+     * @param string $mtemplate
+     * @param int $itemid
+     * @return void
      */
-    public static function get_subplugin_versions() {
-        $versions = [];
-        $types = [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT];
+    public function load_new_files_from_lang($mtemplate, $itemid) {
+        global $CFG;
 
-        foreach ($types as $type) {
-            $plugins = surveypro_get_plugin_list($type, true);
-            foreach ($plugins as $plugin => $unused) {
-                $versions[$plugin] = get_config('surveypro'.$plugin, 'version');
-            }
+        // I need to push to SURVEYPRO_ITEMCONTENTFILEAREA new files described in current lang file that may be new.
+
+        $context = \context_module::instance($this->cm->id);
+
+        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$mtemplate.'/template.xml';
+        if (!file_exists($templatepath)) {
+            return;
         }
 
-        return $versions;
+        $fs = get_file_storage();
+
+        $templatecontent = file_get_contents($templatepath);
+        $simplexml = new \SimpleXMLElement($templatecontent);
+        foreach ($simplexml->children() as $xmlitem) {
+            foreach ($xmlitem->children() as $xmltable) { // Surveypro_item and surveypro_<<plugin>>.
+                $tablename = $xmltable->getName();
+                if ($tablename != 'surveypro_item') {
+                    continue;
+                }
+                foreach ($xmltable->children() as $xmlfield) {
+                    $fieldname = $xmlfield->getName();
+                    if ($fieldname != 'embedded') {
+                        continue;
+                    }
+                    foreach ($xmlfield->children() as $xmlfileattribute) {
+                        $fileattributename = $xmlfileattribute->getName();
+                        if ($fileattributename == 'filename') {
+                            $attributecontent = (string)$xmlfileattribute;
+                            $filename = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                        }
+                        if ($fileattributename == 'filecontent') {
+                            $attributecontent = (string)$xmlfileattribute;
+                            $encodedcontent = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                            $filecontent = base64_decode($encodedcontent);
+                        }
+                    }
+                    if (!$fs->file_exists($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid, '/', $filename)) {
+                        // Add the new found file to filearea.
+                        $filerecord = new \stdClass();
+                        $filerecord->contextid = $context->id;
+                        $filerecord->component = 'mod_surveypro';
+                        $filerecord->filearea = SURVEYPRO_ITEMCONTENTFILEAREA;
+                        $filerecord->itemid = $itemid;
+                        $filerecord->filepath = '/';
+                        $filerecord->filename = $filename;
+
+                        $fileinfo = $fs->create_file_from_string($filerecord, $filecontent);
+                    }
+                }
+            }
+        }
     }
 }

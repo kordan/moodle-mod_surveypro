@@ -25,24 +25,24 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['areacols_help'] = 'Definir un ancho personalizado para el área de texto';
 $string['areacols'] = 'Ancho del área en columnas';
-$string['arearows_help'] = 'Definir un ancho personalizado para el área de texto';
+$string['areacols_help'] = 'Definir un ancho personalizado para el área de texto';
 $string['arearows'] = 'Altura del área en filas';
+$string['arearows_help'] = 'Definir un ancho personalizado para el área de texto';
 $string['hasmaxlength'] = 'Se supone que el texto sea menor o igual a {$a} caracteres';
 $string['hasminlength'] = 'Se supone que el texto sea mayor o igual a {$a} caracteres';
 $string['hasminmaxlength'] = 'Se supone que el texto tenga entre {$a->minlength} y {$a->maxlength} caracteres';
 $string['ierr_maxlengthlowerthanminlength'] = 'La longitud máxima no puede ser menor o igual a la longitud mínima';
 $string['ierr_maxlengthnotinteger'] = 'La longitud máxima debe ser un número entero';
-$string['maxlength_help'] = 'El número máximo de caracteres permitidos para la contestación. Dejar vacío para longitud ilimitada.';
 $string['maxlength'] = 'Longitud máxima (en caracteres)';
-$string['minlength_help'] = 'El número mínimo de caracteres permitidos para la contestación a esta pregunta';
+$string['maxlength_help'] = 'El número máximo de caracteres permitidos para la contestación. Dejar vacío para longitud ilimitada.';
 $string['minlength'] = 'Longitud mínima (en caracteres)';
+$string['minlength_help'] = 'El número mínimo de caracteres permitidos para la contestación a esta pregunta';
 $string['pluginname'] = 'Área de texto';
 $string['trimonsave_help'] = 'Eliminar espacios sobrantes al principio y final de la entrada del usuario.';
 $string['trimonsave'] = 'Contestación limpia al momento de guardar';
 $string['uerr_texttoolong'] = 'El texto es demasiado largo';
 $string['uerr_texttooshort'] = 'El texto es demasiado corto';
-$string['useeditor_help'] = '¿Se supone que la contestación sea en texto simple o HTML?';
 $string['useeditor'] = 'Usar editor HTML';
+$string['useeditor_help'] = '¿Se supone que la contestación sea en texto simple o HTML?';
 $string['userfriendlypluginname'] = 'Texto (largo)';

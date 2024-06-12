@@ -73,12 +73,12 @@ class item extends itembase {
     protected $required;
 
     /**
-     * @var boolean True if the user input will be trimmed at save time
+     * @var bool True if the user input will be trimmed at save time
      */
     protected $trimonsave;
 
     /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
+     * @var bool True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
 
@@ -139,6 +139,7 @@ class item extends itembase {
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
         $this->plugin = 'textarea';
+        $this->usesplugintable = true;
 
         // Override the list of fields using format, whether needed.
         // Nothing to override, here.
@@ -149,7 +150,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -181,14 +184,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -201,18 +200,13 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Text (long)';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'textarea_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
+        // $record->trimonsave
         $record->useeditor = 0;
         $record->arearows = 10;
         $record->areacols = 60;
         $record->minlength = 0;
+        // $record->maxlength
     }
 
     /**
@@ -231,7 +225,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
         if (!core_text::strlen($record->minlength)) {
@@ -276,11 +270,12 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_textarea'] = [];
 
         return $fieldlist;
     }
@@ -315,29 +310,10 @@ class item extends itembase {
     <xs:element name="surveyprofield_textarea">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
-                <xs:element name="useeditor" type="xs:int"/>
-                <xs:element name="arearows" type="xs:int"/>
-                <xs:element name="areacols" type="xs:int"/>
-                <xs:element name="trimonsave" type="xs:int"/>
+                <xs:element name="trimonsave" type="xs:int" minOccurs="0"/>
+                <xs:element name="useeditor" type="xs:int" minOccurs="0"/>
+                <xs:element name="arearows" type="xs:int" minOccurs="0"/>
+                <xs:element name="areacols" type="xs:int" minOccurs="0"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
                 <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
             </xs:sequence>
@@ -458,32 +434,41 @@ EOS;
         if (!empty($this->useeditor)) {
             $errorkey = $this->itemname.'_editor';
             $fieldname = $this->itemname.'_editor';
-            $itemcontent = $data[$fieldname]['text'];
+            $userinput = $data[$fieldname]['text'];
         } else {
             $errorkey = $this->itemname;
             $fieldname = $this->itemname;
-            $itemcontent = $data[$fieldname];
+            $userinput = $data[$fieldname];
         }
 
         if ($this->trimonsave) {
-            $itemcontent = trim($itemcontent);
+            if (trim($userinput) != $userinput) {
+                $warnings[$errorkey] = get_string('uerr_willbetrimmed', 'mod_surveypro');
+            }
+            // $userinput is not going to be saved. I can freely modify it.
+            $userinput = trim($userinput);
         }
 
-        if (empty($itemcontent)) {
-            if ($this->required) {
-                $errors[$errorkey] = get_string('required');
-            }
+        if ( empty($userinput) && ($this->required) ) {
+            $errors[$errorkey] = get_string('required');
             return;
         }
 
         // I don't care if this element is required or not.
-        // If the user provides an answer, it has to be compliant with the field validation rules.
-        if ( $this->maxlength && (\core_text::strlen($itemcontent) > $this->maxlength) ) {
+        // If the user provided an answer, it has to be compliant with the field validation rules.
+        if ( $this->maxlength && (\core_text::strlen($userinput) > $this->maxlength) ) {
             $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
-        if (\core_text::strlen($itemcontent) < $this->minlength) {
+        if (\core_text::strlen($userinput) < $this->minlength) {
             $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
+
+        if ( $errors && isset($warnings) ) {
+            // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
+            $errors = array_merge($errors, $warnings);
+        }
+
+        return $errors;
     }
 
     /**
@@ -593,15 +578,6 @@ EOS;
         }
 
         return $elementnames;
-    }
-
-    /**
-     * Does the user input need trim?
-     *
-     * @return if this plugin requires a user input trim
-     */
-    public static function userform_input_needs_trim() {
-        return true;
     }
 
     /**

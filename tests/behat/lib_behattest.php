@@ -41,6 +41,20 @@ function get_dummy_contents($type, $plugin, $content=null) {
     $return->plugin = $plugin;
     $return->content_editor = [];
     $return->content_editor['format'] = 1;
+
+    // This is the default. Now each plugin is allowed to override.
+    // Take care: checkbox must not be defined as if they are defined (without care to the value) they are set to 1.
+    // $return->required = 0;
+    $return->indent = 0;
+    $return->position = 0;
+    // $return->hideinstructions = 0;
+    $return->customnumber = '';
+    $return->variable = '';
+    $return->extranote = '';
+    // $return->hidden = 0;
+    // $return->insearchform = 0;
+    // $return->reserved = 0;
+
     $return->parentid = 0;
     $return->parentcontent = '';
 
@@ -51,6 +65,9 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
+            $return->required = 0;
             $return->indent = 0;
             $return->position = 0;
             $return->customnumber = '';
@@ -58,6 +75,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             $return->extranote = '';
             $return->parentid = 0;
             $return->parentcontent = '';
+
+            // Plugin properties.
             $return->defaultoption = '2';
             $return->lowerboundyear = '0';
             $return->lowerboundmonth = '0';
@@ -72,6 +91,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->position = 0;
             $return->customnumber = '';
@@ -91,6 +112,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->position = 0;
             $return->customnumber = '';
@@ -107,6 +130,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->pattern = 'PATTERN_EMAIL';
             $return->defaultvalue = '';
@@ -120,6 +145,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->labelother = '';
@@ -136,6 +163,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime05';
@@ -154,6 +183,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->step = '1';
             $return->defaultoption = '2';
@@ -177,6 +208,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
             $return->position = 0;
             $return->customnumber = '';
@@ -184,6 +217,8 @@ function get_dummy_contents($type, $plugin, $content=null) {
             $return->extranote = '';
             $return->parentid = 0;
             $return->parentcontent = '';
+
+            // Plugin properties.
             $return->maxfiles = 1;
             $return->maxbytes = 0;
             $return->filetypes = '*';
@@ -196,7 +231,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->defaultoption = '2';
             $return->lowerbound = '0';
             $return->upperbound = '255';
@@ -209,7 +248,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->options = "milk\nsugar\njam\nchocolate";
             $return->defaultvalue = '';
             $return->heightinrows = '4';
@@ -224,7 +267,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->defaultvalue = '';
             $return->decimals = 2;
             $return->lowerbound = '';
@@ -238,7 +285,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->options = "sea\nmountain\nlake\nhills";
             $return->labelother = '';
             $return->defaultoption = '2';
@@ -253,7 +304,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->options = "EN\nES\nIT\nFR";
             $return->rates = "Mother tongue\nVery confident\nNot enought\nCompletely unknown";
             $return->style = '0';
@@ -268,7 +323,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->defaultoption = 2;
             $return->downloadformat = 'strftime02';
             $return->lowerboundday = '1';
@@ -284,7 +343,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->options = "sea\nmountain\nlake\nhills";
             $return->labelother = '';
             $return->defaultoption = '2';
@@ -298,7 +361,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
             $return->lowerboundmonth = '1';
@@ -314,7 +381,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->useeditor = 1;
             $return->arearows = 10;
             $return->areacols = 60;
@@ -329,7 +400,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             }
             $return->content_editor['text'] = $content;
             $return->contentformat = 1;
+
+            // Base properties.
             $return->indent = 0;
+
+            // Plugin properties.
             $return->step = '1';
             $return->defaultoption = '2';
             $return->downloadformat = 'strftime01';
@@ -350,7 +425,11 @@ function get_dummy_contents($type, $plugin, $content=null) {
             $return->content_editor['text'] = $content;
             $return->indent = 0;
             $return->customnumber = '';
+
+            // Plugin properties.
             $return->leftlabel = '';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }
@@ -362,13 +441,20 @@ function get_dummy_contents($type, $plugin, $content=null) {
             return $return;
         }
         if ($plugin == 'fieldset') {
+            if (!$content) {
+                $content = 'Grouped data inside';
+            }
+            $return->content = $content;
             unset($return->content_editor);
-            $return->content = 'Grouped data inside';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }
         if ($plugin == 'fieldsetend') {
-            unset($return->content_editor);
+            $return->content_editor['text'] = '';
+            unset($return->parentid);
+            unset($return->parentcontent);
 
             return $return;
         }

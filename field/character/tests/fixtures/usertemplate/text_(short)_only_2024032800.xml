@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;h5&gt;SHORT TEXT&lt;br /&gt;&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;short text specifi&lt;/b&gt;&lt;b&gt;c setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Default&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Text pattern&lt;br /&gt;&lt;/li&gt;&lt;li&gt;Minimum length (in characters)&lt;/li&gt;&lt;li&gt;Maximum length (in characters)&lt;br /&gt;&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;free pattern&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>1 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Name&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_001</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_FREE</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;custom pattern set to 16 digits (Minimum and maximum length are automatically set to 16)&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user can "fly" over this element leaving the proposed default untouched (and the question not read). If an input is provided, it will be required to match the pattern.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>2 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter your VISA card number&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_002</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>0000000000000000</pattern>
+      <minlength>16</minlength>
+      <maxlength>16</maxlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to email address&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user can "fly" over this element leaving the proposed default untouched (and the question not read). If an input is provided, it will be required to be an email address.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>3 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter your email address&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_003</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_EMAIL</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;not mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to web page URL&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user can "fly" over this element leaving the proposed default untouched (and the question not read). If an input is provided, it will be required to be a web page URL.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>4 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter the URL of your favourite site&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>0</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_004</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_URL</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;free pattern&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a text.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>5 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Name&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_005</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_FREE</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;custom pattern set to 16 digits (Minimum and maximum length are automatically set to 16)&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a text matching the defined pattern.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>6 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter your VISA card number&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_006</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>0000000000000000</pattern>
+      <minlength>16</minlength>
+      <maxlength>16</maxlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to email address&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a an email address.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>7 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter your email address&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_007</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_EMAIL</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+  <item type="format" plugin="label" version="2024032800">
+    <surveypro_item>
+      <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;br /&gt;&lt;/li&gt;&lt;li&gt;pattern set to web page URL&lt;br /&gt;&lt;/li&gt;&lt;li&gt;default not set&lt;br /&gt;&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user will be forced to enter a web page URL.&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <indent>0</indent>
+      <customnumber>8 intro</customnumber>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyproformat_label>
+      <fullwidth>0</fullwidth>
+    </surveyproformat_label>
+  </item>
+  <item type="field" plugin="character" version="2024032800">
+    <surveypro_item>
+      <content>&lt;p&gt;Enter the URL of your favourite site&lt;/p&gt;</content>
+      <contentformat>1</contentformat>
+      <required>1</required>
+      <indent>0</indent>
+      <position>0</position>
+      <hideinstructions>1</hideinstructions>
+      <variable>character_008</variable>
+      <hidden>0</hidden>
+      <insearchform>0</insearchform>
+      <reserved>0</reserved>
+    </surveypro_item>
+    <surveyprofield_character>
+      <trimonsave>1</trimonsave>
+      <pattern>PATTERN_URL</pattern>
+      <minlength>0</minlength>
+    </surveyprofield_character>
+  </item>
+</items>

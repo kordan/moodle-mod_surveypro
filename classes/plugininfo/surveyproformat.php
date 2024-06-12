@@ -26,6 +26,10 @@ namespace mod_surveypro\plugininfo;
 
 use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(dirname(__FILE__).'/../../lib.php');
+
 /**
  * The mod_surveypro format plugin class.
  *
@@ -49,7 +53,7 @@ class surveyproformat extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveyproformat_'.$plugin;
+            $installed[] = 'surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
