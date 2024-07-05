@@ -43,8 +43,8 @@ Feature: Submit using a shortdate item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_shortdate_1_month | March |
-      | id_surveypro_field_shortdate_1_year  | 2005  |
+      | id_field_shortdate_1_month | March |
+      | id_field_shortdate_1_year  | 2005  |
 
     And I press "Submit"
 

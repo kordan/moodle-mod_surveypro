@@ -39,60 +39,15 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
+    // Itembase properties.
 
     /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var boolean True if the user input will be trimmed at save time
+     * @var bool True if the user input will be trimmed at save time
      */
     protected $trimonsave;
 
     /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
-     */
-    protected $hideinstructions;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
-
-    /**
-     * @var string Value of the field when the form is initially displayed
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
 
@@ -109,19 +64,26 @@ class item extends itembase {
     protected $pattern;
 
     /**
+     * @var int Minimum allowed text length
+     */
+    protected $minlength;
+
+    /**
+     * @var int Maximum allowed text length
+     */
+    protected $maxlength;
+
+    // Service variables.
+
+    /**
      * @var string Required pattern for the text. Mix of: 'A', 'a', '0'
      */
     protected $patterntext;
 
     /**
-     * @var int Minimum allowed length
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
      */
-    protected $minlength;
-
-    /**
-     * @var int Maximum allowed length
-     */
-    protected $maxlength;
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -155,7 +117,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -187,14 +151,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -207,16 +167,12 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Character';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'character_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
+        $record->trimonsave = 0;
+        // $record->defaultvalue
         $record->pattern = SURVEYPROFIELD_CHARACTER_FREEPATTERN;
         $record->minlength = 0;
+        // $record->maxlength
     }
 
     /**
@@ -248,7 +204,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         if ($record->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN) {
             $record->pattern = $record->patterntext;
@@ -281,56 +237,173 @@ class item extends itembase {
         // 4. Other.
     }
 
+    // MARK set.
+
+    /**
+     * Set trimonsave.
+     *
+     * @param string $trimonsave
+     * @return void
+     */
+    public function set_trimonsave($trimonsave) {
+        $this->trimonsave = $trimonsave;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set pattern.
+     *
+     * @param string $pattern
+     * @return void
+     */
+    public function set_pattern($pattern) {
+        $this->pattern = $pattern;
+    }
+
+    /**
+     * Set minlength.
+     *
+     * @param string $minlength
+     * @return void
+     */
+    public function set_minlength($minlength) {
+        $this->minlength = $minlength;
+    }
+
+    /**
+     * Set maxlength.
+     *
+     * @param string $maxlength
+     * @return void
+     */
+    public function set_maxlength($maxlength) {
+        $this->maxlength = $maxlength;
+    }
+
+    /**
+     * Set patterntext.
+     *
+     * @param string $patterntext
+     * @return void
+     */
+    public function set_patterntext($patterntext) {
+        $this->patterntext = $patterntext;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get trimonsave.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->trimonsave
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_trimonsave() {
+        return $this->trimonsave;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get pattern.
+     *
+     * @return $this->pattern
+     */
+    public function get_pattern() {
+        return $this->pattern;
+    }
+
+    /**
+     * Get minlength.
+     *
+     * @return $this->minlength
+     */
+    public function get_minlength() {
+        return $this->minlength;
+    }
+
+    /**
+     * Get maxlength.
+     *
+     * @return $this->maxlength
+     */
+    public function get_maxlength() {
+        return $this->maxlength;
+    }
+
+    /**
+     * Get patterntext.
+     *
+     * @return $this->patterntext
+     */
+    public function get_patterntext() {
+        return $this->patterntext;
     }
 
     /**
      * Get the requested property.
      *
      * @param string $field
-     * @return the content of the field
+     * @return the content of the field or false if it is not set.
      */
     public function get_generic_property($field) {
-        if ($field == 'pattern') {
-            $condition = ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
-            $condition = $condition || ($this->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN);
-            if ($condition) {
-                return $this->patterntext;
+        if (isset($this->{$field})) {
+            if ($field == 'pattern') {
+                $condition = ($this->pattern == SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN);
+                $condition = $condition || ($this->pattern == SURVEYPROFIELD_CHARACTER_REGEXPATTERN);
+                if ($condition) {
+                    $return = $this->get_patterntext();
+                } else {
+                    $return = $this->get_pattern();
+                }
             } else {
-                return $this->pattern;
+                $return = parent::get_generic_property($field);
             }
         } else {
-            return parent::get_generic_property($field);
+            $return = false;
         }
+
+        return $return;
+    }
+
+    /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['trimonsave', 'defaultvalue', 'pattern', 'patterntext', 'minlength', 'maxlength'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
     }
 
     /**
      * Make the list of multilang plugin fields.
      *
+     * @param boolean $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote', 'defaultvalue'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_character'] = ['defaultvalue'];
 
         return $fieldlist;
-    }
-
-    /**
-     * Does the user input need trim?
-     *
-     * @return if this plugin requires a user input trim
-     */
-    public function get_trimonsave() {
-        return $this->trimonsave;
     }
 
     /**
@@ -345,28 +418,9 @@ class item extends itembase {
     <xs:element name="surveyprofield_character">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
+                <xs:element name="trimonsave" type="xs:int" minOccurs="0"/>
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="trimonsave" type="xs:int"/>
-                <xs:element name="pattern" type="xs:string"/>
+                <xs:element name="pattern" type="xs:string" minOccurs="0"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
                 <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
             </xs:sequence>
@@ -422,13 +476,15 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_character_'.$this->sortindex;
+        $attributes = [];
+        $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_character_'.$this->sortindex;
+        $basename = $this->itemname;
 
         $thresholdsize = 37;
         $lengthtochar = 1.3;
-        $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' character_text';
+        $attributes['id'] = $baseid;
         if (!empty($this->maxlength)) {
             $attributes['maxlength'] = $this->maxlength;
             if ($this->maxlength < $thresholdsize) {
@@ -439,33 +495,33 @@ EOS;
         } else {
             $attributes['size'] = $thresholdsize * $lengthtochar;
         }
+
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
-            $mform->setType($this->itemname, PARAM_RAW);
-            $mform->setDefault($this->itemname, $this->defaultvalue);
+            $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+
+            $mform->setType($basename, PARAM_RAW);
+            $mform->setDefault($basename, $this->defaultvalue);
 
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup = [];
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
+            $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
+            $mform->setType($basename, PARAM_RAW);
 
-            $itemname = $this->itemname.'_ignoreme';
             $starstr = get_string('star', 'mod_surveypro');
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'character_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
-            $mform->setType($this->itemname, PARAM_RAW);
+            $attributes['id'] = $baseid.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+            $mform->setDefault($basename.'_ignoreme', '1');
         }
     }
 
@@ -479,17 +535,24 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         if ($searchform) {
-            return;
+            return $errors;
         }
 
-        $errorkey = $this->itemname;
-        $userinput = empty($this->trimonsave) ? $data[$this->itemname] : trim($data[$this->itemname]);
+        $errorkey = $this->itemname.'_group';
+        $fieldname = $this->itemname;
+        if ($this->trimonsave) {
+            if (trim($data[$fieldname]) != $data[$fieldname]) {
+                $warnings[$errorkey] = get_string('uerr_willbetrimmed', 'mod_surveypro');
+            }
+        }
+
+        $userinput = empty($this->trimonsave) ? $data[$fieldname] : trim($data[$fieldname]);
 
         if (empty($userinput)) {
             if ($this->required) {
                 $errors[$errorkey] = get_string('required');
             }
-            return;
+            return $errors;
         }
 
         $answerlength = \core_text::strlen($userinput);
@@ -534,7 +597,13 @@ EOS;
                 $message = 'Unexpected $this->pattern = '.$this->pattern;
                 debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
-        // Return $errors; is not needed because $errors is passed by reference.
+
+        if ( $errors && isset($warnings) ) {
+            // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
+            $errors += $warnings;
+        }
+
+        return $errors;
     }
 
     /**
@@ -653,8 +722,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname];
-
-        return $elementnames;
+        return [$this->itemname.'_group'];
     }
 }

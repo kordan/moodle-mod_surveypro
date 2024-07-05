@@ -41,6 +41,7 @@ use Behat\Behat\Context\Step\Given as Given,
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class behat_mod_surveypro extends behat_base {
+    use core_behat_file_helper;
 
     /**
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
@@ -184,12 +185,14 @@ class behat_mod_surveypro extends behat_base {
             case 'available':
                 $xpath = "//a[contains(@id,'makereserved')] | //img[contains(@id, 'makereserved')]";
                 $nodes = $container->findAll('xpath', $xpath);
+                $rednodes = $container->findAll('xpath', "//img[contains(@title, 'Unreservable')]");
                 break;
             case 'searchable':
                 $nodes = $container->findAll('xpath', "//img[contains(@id, 'removefromsearch')]");
                 break;
             case 'not searchable':
                 $nodes = $container->findAll('xpath', "//img[contains(@id, 'addtosearch')]");
+                $rednodes = $container->findAll('xpath', "//img[contains(@title, 'Unsearchable')]");
                 break;
             case 'visible':
                 $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and not(contains(@class, 'dimmed'))]");
@@ -200,7 +203,11 @@ class behat_mod_surveypro extends behat_base {
             default:
                 throw new Exception('Unrecognised status "' . $status . '."');
         }
-        $tablerows = count($nodes);
+        if (!isset($rednodes)) { // Red because red is the outline of the icons for unchangeable settings.
+            $tablerows = count($nodes);
+        } else {
+            $tablerows = count($nodes) + count($rednodes);
+        }
 
         if (intval($givennumber) == $tablerows) {
             return;
@@ -208,22 +215,22 @@ class behat_mod_surveypro extends behat_base {
 
         switch ($status) {
             case 'reserved':
-                $message = sprintf('%d reserved items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d reserved items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             case 'available':
-                $message = sprintf('%d available items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d available items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             case 'searchable':
-                $message = sprintf('%d searchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d searchable items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             case 'not searchable':
-                $message = sprintf('%d unsearchable items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d unsearchable items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             case 'visible':
-                $message = sprintf('%d visible items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d visible items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             case 'hidden':
-                $message = sprintf('%d hidden items found in the "item" table, but should be %d.', $tablerows, $givennumber);
+                $message = sprintf('%d hidden items found in the "item" table, %d were declared.', $tablerows, $givennumber);
                 break;
             default:
                 throw new Exception('Unrecognised status "' . $status . '."');
@@ -266,7 +273,7 @@ class behat_mod_surveypro extends behat_base {
             $record = get_dummy_contents($type, $plugin, $content);
 
             // Add the item.
-            $item = surveypro_get_item($cm, $surveypro, 0, $type, $plugin);
+            $item = surveypro_get_itemclass($cm, $surveypro, 0, $type, $plugin);
             $item->item_save($record);
         }
     }

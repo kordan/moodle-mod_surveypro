@@ -157,7 +157,7 @@ class view_cover {
             $paramurl['s'] = $this->cm->instance;
             $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
             $paramurl['area'] = 'surveypro';
-            $paramurl['section'] = 'submissionform';
+            $paramurl['section'] = 'responsesubmit';
             $paramurl['begin'] = 1;
             $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             $message = get_string('addnewsubmission', 'mod_surveypro');

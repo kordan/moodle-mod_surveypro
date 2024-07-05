@@ -86,7 +86,6 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = [];
         $mform->addElement('text', $fieldname, '');
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
         $mform->setType($fieldname, PARAM_RAW);
@@ -165,6 +164,10 @@ class itemsetupform extends item_setupbaseform {
         $arrayunique = array_unique($values);
         if (count($values) != count($arrayunique)) {
             $errors['options'] = get_string('ierr_valuesduplicated', 'surveyprofield_radiobutton');
+        }
+        // A single option is not allowed.
+        if (count($arrayunique) == 1) {
+            $errors['options'] = get_string('ierr_singleoption', 'surveyprofield_radiobutton');
         }
         // Each single label has to be unique.
         $arrayunique = array_unique($labels);

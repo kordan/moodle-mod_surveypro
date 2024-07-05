@@ -50,7 +50,7 @@ Feature: Create a textarea item
       | Maximum length (in characters) | 4                                     |
     And I press "Add"
 
-    Then I should see "Maximum length can not be lowwer-equal than minimum length"
+    Then I should see "Maximum length can not be lower-equal than minimum length"
     And I set the field "Maximum length (in characters)" to "40"
     And I press "Add"
 
@@ -94,4 +94,4 @@ Feature: Create a textarea item
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.b Write a short description of yourself"
     Then I should see "One more additional note"
-    Then "//textarea[contains(@id, 'id_surveypro_field_textarea_3')]" "xpath_element" should exist
+    Then "//textarea[contains(@id, 'id_field_textarea_3')]" "xpath_element" should exist

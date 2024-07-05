@@ -22,18 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'COLLES (Ideale)';
-$string['summary'] = 'Riepilogo';
-$string['scales'] = 'Valutazioni';
 $string['areaidxs'] = 'Aree';
-
-$string['useritem'] = 'Tipo di selettore';
-$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
-$string['useradio'] = 'Bottoni radio';
-$string['useselect'] = 'Menu a tendina';
-$string['position'] = 'Posizione delle domande';
-$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
-
+$string['fieldset_content_01'] = 'Pertinenza';
+$string['fieldset_content_02'] = 'Senso critico';
 $string['label_content_01'] = '<p>L\'obiettivo di questo sondaggio è di aiutarci a capire come lo svolgimento online di questa unità ti sia stato utile nell\'apprendimento.
 
 Ciascuna delle seguenti 24 domande riguarda l\'esperienza <b>ideale</b> in questa unità.
@@ -43,17 +34,26 @@ Non ci sono domande \'giuste\' o \'sbagliate\'; ci interessa solo la tua opinion
 Le tue risposte saranno considerate con attenzione e ci aiuteranno a migliorare le caratteristiche di questa unità online in futuro.
 
 Grazie.</p>';
-
-$string['fieldset_content_01'] = 'Pertinenza';
-
 $string['label_content_02'] = '<p>In questa unità online...</p>';
-
+$string['pluginname'] = 'COLLES (Ideale)';
+$string['position'] = 'Posizione delle domande';
+$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
 $string['radiobutton_content_03'] = '<p>il mio apprendimento si concentra sulle cose che mi interessano.</p>';
 $string['radiobutton_content_04'] = '<p>quello che imparo è importante per la mia pratica professionale.</p>';
 $string['radiobutton_content_05'] = '<p>imparo come migliorare la mia pratica professionale.</p>';
 $string['radiobutton_content_06'] = '<p>quello che imparo si collega bene con la mia pratica professionale.</p>';
+$string['scales'] = 'Valutazioni';
+$string['summary'] = 'Riepilogo';
 
-$string['fieldset_content_02'] = 'Senso critico';
+$string['useradio'] = 'Bottoni radio';
+$string['useritem'] = 'Tipo di selettore';
+$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['useselect'] = 'Menu a tendina';
+
+
+
+
+
 
 // $string['label_content_02'] = '<p>In questa unità online...</p>';
 

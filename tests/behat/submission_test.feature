@@ -63,42 +63,42 @@ Feature: Submit each available item
 
     # student1 submits his first response
     And I set the following fields to these values:
-      | id_surveypro_field_age_1_year        | 23      |
-      | id_surveypro_field_age_1_month       | 8       |
+      | id_field_age_1_year        | 23      |
+      | id_field_age_1_month       | 8       |
 
-    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Please, upload your CV in PDF format" filemanager
+    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Please, upload your CV in PDF" filemanager
 
     And I set the following fields to these values:
-      | Is it true?                          | Yes     |
-      | id_surveypro_field_checkbox_5_0      | 1       |
-      | id_surveypro_field_shortdate_6_month | March   |
-      | id_surveypro_field_shortdate_6_year  | 1975    |
-      | id_surveypro_field_date_7_day        | 16      |
-      | id_surveypro_field_date_7_month      | October |
-      | id_surveypro_field_date_7_year       | 1988    |
-      | id_surveypro_field_datetime_8_day    | 23      |
-      | id_surveypro_field_datetime_8_month  | August  |
-      | id_surveypro_field_datetime_8_year   | 2010    |
-      | id_surveypro_field_datetime_8_hour   | 17      |
-      | id_surveypro_field_datetime_8_minute | 35      |
+      | Is it true?                | Yes     |
+      | id_field_checkbox_5_0      | 1       |
+      | id_field_shortdate_6_month | March   |
+      | id_field_shortdate_6_year  | 1975    |
+      | id_field_date_7_day        | 16      |
+      | id_field_date_7_month      | October |
+      | id_field_date_7_year       | 1988    |
+      | id_field_datetime_8_day    | 23      |
+      | id_field_datetime_8_month  | August  |
+      | id_field_datetime_8_year   | 2010    |
+      | id_field_datetime_8_hour   | 17      |
+      | id_field_datetime_8_minute | 35      |
     And I press "Next page >>"
 
     And I set the following fields to these values:
-      | id_surveypro_field_integer_10             | 7               |
-      | id_surveypro_field_multiselect_11         | milk            |
+      | id_field_integer_10                       | 7               |
+      | id_field_multiselect_11                   | milk            |
       | Type the best approximation of π you know | 3.14            |
-      | id_surveypro_field_radiobutton_13_3       | 1               |
-      | id_surveypro_field_rate_15_0_0            | 1               |
-      | id_surveypro_field_rate_15_1_1            | 1               |
-      | id_surveypro_field_rate_15_2_2            | 1               |
-      | id_surveypro_field_rate_15_3_3            | 1               |
-      | id_surveypro_field_recurrence_17_day      | 7               |
-      | id_surveypro_field_recurrence_17_month    | June            |
-      | id_surveypro_field_select_18              | hills           |
+      | id_field_radiobutton_13_3                 | 1               |
+      | id_field_rate_15_0_0                      | 1               |
+      | id_field_rate_15_1_1                      | 1               |
+      | id_field_rate_15_2_2                      | 1               |
+      | id_field_rate_15_3_3                      | 1               |
+      | id_field_recurrence_17_day                | 7               |
+      | id_field_recurrence_17_month              | June            |
+      | id_field_select_18                        | hills           |
       | Write a short description of yourself     | Super!          |
       | Write down your email, please             | me@myserver.net |
-      | id_surveypro_field_time_21_hour           | 7               |
-      | id_surveypro_field_time_21_minute         | 15              |
+      | id_field_time_21_hour                     | 7               |
+      | id_field_time_21_minute                   | 15              |
     And I press "Submit"
 
     And I press "Continue to responses list"
@@ -126,7 +126,7 @@ Feature: Submit each available item
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     And I press "Next page >>"
-    And I set the field "id_surveypro_field_multiselect_11" to "sugar, jam"
+    And I set the field "id_field_multiselect_11" to "sugar, jam"
     And I press "Submit"
 
     And I press "Continue to responses list"

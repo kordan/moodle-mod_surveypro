@@ -40,62 +40,12 @@ require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
+    // Itembase properties.
 
     /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
-     */
-    protected $hideinstructions;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
-
-    /**
-     * @var string Value of the field when the form is initially displayed
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
-
-    /**
-     * @var string Decimal separator
-     */
-    protected $decimalseparator;
 
     /**
      * @var bool Is the number signed?
@@ -116,6 +66,20 @@ class item extends itembase {
      * @var int Number of decimals allowed for this number
      */
     protected $decimals;
+
+    // Service variables.
+
+    /**
+     * @var string Decimal separator
+     */
+    protected $decimalseparator;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -149,7 +113,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -181,14 +147,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -201,15 +163,11 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Numeric';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'numeric_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
+        // $record->defaultvalue
         $record->signed = 0;
+        // $record->lowerbound
+        // $record->upperbound
         $record->decimals = 0;
     }
 
@@ -223,12 +181,12 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. float numbers need more attention because I can write them using , or .
-        if (core_text::strlen($this->defaultvalue)) {
-            $this->defaultvalue = format_float($this->defaultvalue, $this->decimals);
+        $numericfields = ['defaultvalue', 'lowerbound', 'upperbound'];
+        foreach ($numericfields as $numericfield) {
+            if (core_text::strlen($this->{$numericfield})) {
+                $this->{$numericfield} = format_float($this->{$numericfield}, $this->decimals);
+            }
         }
-        // Note: $this->lowerbound and $this->upperbound comes from db and are correctly written.
-        // I am not going to put them in a field so I can leave them well written...
-        // ...instead of changing them according to the local language.
     }
 
     /**
@@ -237,7 +195,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -249,39 +207,139 @@ class item extends itembase {
         // Nothing to do: no checkboxes in this plugin item form.
 
         // 4. Other: float numbers need more attention because I can write them using , or .
-        if (core_text::strlen($record->defaultvalue)) {
-            $record->defaultvalue = $this->get_international_number($record->defaultvalue);
-        } else {
-            $record->defaultvalue = null;
+        $numericfields = ['defaultvalue', 'lowerbound', 'upperbound'];
+        foreach ($numericfields as $numericfield) {
+            if (core_text::strlen($record->{$numericfield})) {
+                $record->{$numericfield} = $this->get_international_number($record->{$numericfield});
+            } else {
+                $record->{$numericfield} = null;
+            }
         }
-        if (core_text::strlen($record->lowerbound)) {
-            $record->lowerbound = $this->get_international_number($record->lowerbound);
-        } else {
-            $record->lowerbound = null;
-        }
-        if (core_text::strlen($record->upperbound)) {
-            $record->upperbound = $this->get_international_number($record->upperbound);
-        } else {
-            $record->upperbound = null;
-        }
+    }
+
+    // MARK set.
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set signed.
+     *
+     * @param string $signed
+     * @return void
+     */
+    public function set_signed($signed) {
+        $this->signed = $signed;
+    }
+
+    /**
+     * Set lowerbound.
+     *
+     * @param string $lowerbound
+     * @return void
+     */
+    public function set_lowerbound($lowerbound) {
+        $this->lowerbound = $lowerbound;
+    }
+
+    /**
+     * Set upperbound.
+     *
+     * @param string $upperbound
+     * @return void
+     */
+    public function set_upperbound($upperbound) {
+        $this->upperbound = $upperbound;
+    }
+
+    /**
+     * Set decimals.
+     *
+     * @param string $decimals
+     * @return void
+     */
+    public function set_decimals($decimals) {
+        $this->decimals = $decimals;
+    }
+
+    /**
+     * Set decimalseparator.
+     *
+     * @param string $decimalseparator
+     * @return void
+     */
+    public function set_decimalseparator($decimalseparator) {
+        $this->decimalseparator = $decimalseparator;
     }
 
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get defaultvalue.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->defaultvalue
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get signed.
+     *
+     * @return $this->signed
+     */
+    public function get_signed() {
+        return $this->signed;
+    }
+
+    /**
+     * Get lowerbound.
+     *
+     * @return $this->lowerbound
+     */
+    public function get_lowerbound() {
+        return $this->lowerbound;
+    }
+
+    /**
+     * Get upperbound.
+     *
+     * @return $this->upperbound
+     */
+    public function get_upperbound() {
+        return $this->upperbound;
+    }
+
+    /**
+     * Get decimals.
+     *
+     * @return $this->decimals
+     */
+    public function get_decimals() {
+        return $this->decimals;
+    }
+
+    /**
+     * Get decimalseparator.
+     *
+     * @return $this->decimalseparator
+     */
+    public function get_decimalseparator() {
+        return $this->decimalseparator;
     }
 
     /**
      * Get the requested property.
      *
      * @param string $field
-     * @return the content of the field or false if the field is not set.
+     * @return the content of the field or false if it is not set.
      */
     public function get_generic_property($field) {
         if (isset($this->{$field})) {
@@ -292,7 +350,8 @@ class item extends itembase {
             if ($condition) {
                 $return = $this->get_international_number($this->{$field});
             } else {
-                $return = $this->{$field};
+                $method = 'get_'.$field;
+                $return = $this->{$method}();
             }
         } else {
             $return = false;
@@ -303,32 +362,52 @@ class item extends itembase {
 
     /**
      * get_international_number
-     * starting from justanumber written using local decimal separator,
+     * starting from localnumber written using local decimal separator,
      * this function returns the same number written using the dot as decimal separator.
      *
-     * @param double $localnumber
+     * @param double|bool $localnumber false in case of error
      * @return void or double $internationalnumber
      */
     public function get_international_number($localnumber) {
         $localnumber = trim($localnumber);
-        $internationalnumber = str_replace($this->decimalseparator, '.', $localnumber);
-        if (is_numeric($internationalnumber)) {
-            $return = $internationalnumber;
-        } else {
+        $condition = ($this->decimals > 0);
+        $condition = $condition && (strpos($localnumber, $this->decimalseparator) === false);
+        if ($condition) {
             $return = false;
+        } else {
+            // It does not matter if $this->decimalseparator is not onboard. It could be.
+            $internationalnumber = str_replace($this->decimalseparator, '.', $localnumber);
+            if (is_numeric($internationalnumber)) {
+                $return = $internationalnumber;
+            } else {
+                $return = false;
+            }
         }
 
         return $return;
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['defaultvalue', 'signed', 'lowerbound', 'upperbound', 'decimals'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_numeric'] = [];
 
         return $fieldlist;
     }
@@ -345,30 +424,11 @@ class item extends itembase {
     <xs:element name="surveyprofield_numeric">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="defaultvalue" type="xs:decimal" minOccurs="0"/>
-                <xs:element name="signed" type="xs:int"/>
+                <xs:element name="signed" type="xs:int" minOccurs="0"/>
                 <xs:element name="lowerbound" type="xs:decimal" minOccurs="0"/>
                 <xs:element name="upperbound" type="xs:decimal" minOccurs="0"/>
-                <xs:element name="decimals" type="xs:int"/>
+                <xs:element name="decimals" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -396,21 +456,24 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_numeric_'.$this->sortindex;
-
         $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' numeric_text';
+        $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_numeric_'.$this->sortindex;
+        $basename = $this->itemname;
 
+        $attributes['id'] = $baseid;
         // Cool for browsers supporting html 5.
         // $attributes['type'] = 'number';
         // But it doesn't work because "type" property is reserved to mform library.
 
         if (!$searchform) {
-            $mform->addElement('text', $this->itemname, $elementlabel, $attributes);
-            $mform->setType($this->itemname, PARAM_RAW); // See: moodlelib.php lines 133+.
+            $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->setType($basename, PARAM_RAW); // See: moodlelib.php lines 133+.
+
             if (core_text::strlen($this->defaultvalue)) {
-                $mform->setDefault($this->itemname, "$this->defaultvalue");
+                $mform->setDefault($basename, "$this->defaultvalue");
             }
 
             if ($this->required) {
@@ -418,22 +481,18 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
         } else {
-            $elementgroup = [];
-            $elementgroup[] = $mform->createElement('text', $this->itemname, '', $attributes);
-            $mform->setType($this->itemname, PARAM_RAW);
+            $elementgroup[] = $mform->createElement('text', $basename, '', $attributes);
+            $mform->setType($basename, PARAM_RAW);
 
-            $itemname = $this->itemname.'_ignoreme';
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'numeric_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_ignoreme', 'checked');
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+            $mform->setDefault($basename.'_ignoreme', '1');
         }
     }
 
@@ -447,24 +506,25 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         if ($searchform) {
-            return;
+            return $errors;
         }
 
-        $errorkey = $this->itemname;
+        $errorkey = $this->itemname.'_group';
 
         $draftuserinput = $data[$this->itemname];
         if (!core_text::strlen($draftuserinput)) {
             if (!empty($this->required)) {
                 $errors[$errorkey] = get_string('required');
             }
-            return;
+            return $errors;
         }
 
         $userinput = $this->get_international_number($draftuserinput);
+
         if (!is_numeric($userinput)) {
             // It is not a number, shouts.
             $errors[$errorkey] = get_string('uerr_notanumber', 'surveyprofield_numeric');
-            return;
+            return $errors;
         } else {
             // If it is < 0 but has been defined as unsigned, shouts.
             if (!$this->signed && ($userinput < 0)) {
@@ -503,6 +563,8 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_numeric');
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -614,14 +676,5 @@ EOS;
         $elementnames = [$this->itemname];
 
         return $elementnames;
-    }
-
-    /**
-     * Does the user input need trim?
-     *
-     * @return if this plugin requires a user input trim
-     */
-    public static function userform_input_needs_trim() {
-        return true;
     }
 }

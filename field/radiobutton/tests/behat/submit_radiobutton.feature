@@ -58,8 +58,8 @@ Feature: Submit using a radiobutton item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_1_3 | 1 |
-      | id_surveypro_field_radiobutton_2_2 | 1 |
+      | id_field_radiobutton_1_3 | 1 |
+      | id_field_radiobutton_2_2 | 1 |
 
     And I press "Submit"
 

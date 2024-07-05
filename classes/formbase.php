@@ -123,8 +123,9 @@ class formbase {
                         FROM {surveypro_item}
                         WHERE surveyproid = :surveyproid
                             AND reserved = :reserved
+                            AND hidden = :hidden
                             AND plugin <> :plugin';
-            $whereparams = ['surveyproid' => $this->surveypro->id, 'reserved' => 0, 'plugin' => 'pagebreak'];
+            $whereparams = ['surveyproid' => $this->surveypro->id, 'reserved' => 0, 'hidden' => 0, 'plugin' => 'pagebreak'];
             $boundaries = $DB->get_record_sql($sql, $whereparams);
 
             $userfirstpage = isset($boundaries->userfirstpage) ? $boundaries->userfirstpage : 1;
@@ -232,7 +233,7 @@ class formbase {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $parentitem = surveypro_get_item($this->cm, $this->surveypro, $itemseed->parentid);
+            $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->parentid);
             if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
                 // If at least one parent allows its child, I finished. The page is going to display items.
                 return true;
@@ -296,7 +297,7 @@ class formbase {
         [$where, $params] = surveypro_fetch_items_seeds($id, true, $canaccessreserveditems, null, SURVEYPRO_TYPEFIELD, $page);
         if ($itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin')) {
             foreach ($itemseeds as $itemseed) {
-                $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
                 $where = ['submissionid' => $this->submissionid, 'itemid' => $item->get_itemid()];
                 $olduserdata = $DB->get_record('surveypro_answer', $where);

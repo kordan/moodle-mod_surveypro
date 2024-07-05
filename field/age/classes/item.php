@@ -39,47 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/age/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool O => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var string Value of the default setting (invite, custom...)
@@ -87,9 +47,21 @@ class item extends itembase {
     protected $defaultoption;
 
     /**
-     * @var int Defaultvalue for the age in unixtime
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
+
+    /**
+     * @var int Lowerbound for the age in unixtime
+     */
+    protected $lowerbound;
+
+    /**
+     * @var int Upperbound for the age in unixtime
+     */
+    protected $upperbound;
+
+    // Service variables.
 
     /**
      * @var int Year of the defaultvalue for the age
@@ -102,11 +74,6 @@ class item extends itembase {
     protected $defaultvaluemonth;
 
     /**
-     * @var int Lowerbound for the age in unixtime
-     */
-    protected $lowerbound;
-
-    /**
      * @var int Year of the lowerbound for the age in unixtime
      */
     protected $lowerboundyear;
@@ -117,11 +84,6 @@ class item extends itembase {
     protected $lowerboundmonth;
 
     /**
-     * @var int Upperbound for the age in unixtime
-     */
-    protected $upperbound;
-
-    /**
      * @var int Year of the upperbound for the age in unixtime
      */
     protected $upperboundyear;
@@ -130,6 +92,11 @@ class item extends itembase {
      * @var int Month of the upperbound for the age in unixtime
      */
     protected $upperboundmonth;
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -164,7 +131,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -196,35 +165,24 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (itembase::item_save($record))).
         return parent::item_save($record);
     }
 
     /**
-     * Item add mandatory plugin fields
-     * Copy mandatory fields to $record
+     * Set defaults to fields of items
      *
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Age [yy/mm]';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'age_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        // $record->defaultvalue;
         $record->lowerbound = -2148552000;
         $record->upperbound = 1193918400;
     }
@@ -249,12 +207,11 @@ class item extends itembase {
     /**
      * Convert unix time to an age.
      *
-     * @param int $time
-     * @param bool $applyusersettings
+     * @param int $unixtime
      * @return void
      */
-    public function item_split_unix_time($time, $applyusersettings=true) {
-        $getdate = parent::item_split_unix_time($time, $applyusersettings);
+    public function item_split_unix_time($unixtime) {
+        $getdate = parent::item_split_unix_time($unixtime);
 
         $getdate['year'] -= SURVEYPROFIELD_AGE_YEAROFFSET;
         if ($getdate['mon'] == 12) {
@@ -289,7 +246,7 @@ class item extends itembase {
     }
 
     /**
-     * Convert an age to unix time.
+     * Convert an age to unixtime.
      *
      * @param int $year
      * @param int $month
@@ -297,7 +254,8 @@ class item extends itembase {
      */
     public function item_age_to_unix_time($year, $month) {
         $year += SURVEYPROFIELD_AGE_YEAROFFSET;
-        return (mktime(12, 0, 0, $month, 1, $year));
+
+        return (gmmktime(12, 0, 0, $month, 1, $year));
     }
 
     /**
@@ -326,7 +284,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
@@ -349,15 +307,198 @@ class item extends itembase {
         // 4. Other.
     }
 
+    // MARK set.
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set lowerbound.
+     *
+     * @param string $lowerbound
+     * @return void
+     */
+    public function set_lowerbound($lowerbound) {
+        $this->lowerbound = $lowerbound;
+    }
+
+    /**
+     * Set upperbound.
+     *
+     * @param string $upperbound
+     * @return void
+     */
+    public function set_upperbound($upperbound) {
+        $this->upperbound = $upperbound;
+    }
+
+    /**
+     * Set defaultvalueyear.
+     *
+     * @param string $defaultvalueyear
+     * @return void
+     */
+    public function set_defaultvalueyear($defaultvalueyear) {
+        $this->defaultvalueyear = $defaultvalueyear;
+    }
+
+    /**
+     * Set defaultvaluemonth.
+     *
+     * @param string $defaultvaluemonth
+     * @return void
+     */
+    public function set_defaultvaluemonth($defaultvaluemonth) {
+        $this->defaultvaluemonth = $defaultvaluemonth;
+    }
+
+    /**
+     * Set lowerboundyear.
+     *
+     * @param string $lowerboundyear
+     * @return void
+     */
+    public function set_lowerboundyear($lowerboundyear) {
+        $this->lowerboundyear = $lowerboundyear;
+    }
+
+    /**
+     * Set lowerboundmonth.
+     *
+     * @param string $lowerboundmonth
+     * @return void
+     */
+    public function set_lowerboundmonth($lowerboundmonth) {
+        $this->lowerboundmonth = $lowerboundmonth;
+    }
+
+    /**
+     * Set upperboundyear.
+     *
+     * @param string $upperboundyear
+     * @return void
+     */
+    public function set_upperboundyear($upperboundyear) {
+        $this->upperboundyear = $upperboundyear;
+    }
+
+    /**
+     * Set upperboundmonth.
+     *
+     * @param string $upperboundmonth
+     * @return void
+     */
+    public function set_upperboundmonth($upperboundmonth) {
+        $this->upperboundmonth = $upperboundmonth;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get defaultoption.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->defaultoption
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_defaultoption() {
+        return $this->defaultoption;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get lowerbound.
+     *
+     * @return $this->lowerbound
+     */
+    public function get_lowerbound() {
+        return $this->lowerbound;
+    }
+
+    /**
+     * Get upperbound.
+     *
+     * @return $this->upperbound
+     */
+    public function get_upperbound() {
+        return $this->upperbound;
+    }
+
+    /**
+     * Get defaultvalueyear.
+     *
+     * @return $this->defaultvalueyear
+     */
+    public function get_defaultvalueyear() {
+        return $this->defaultvalueyear;
+    }
+
+    /**
+     * Get defaultvaluemonth.
+     *
+     * @return $this->defaultvaluemonth
+     */
+    public function get_defaultvaluemonth() {
+        return $this->defaultvaluemonth;
+    }
+
+    /**
+     * Get lowerboundyear.
+     *
+     * @return $this->lowerboundyear
+     */
+    public function get_lowerboundyear() {
+        return $this->lowerboundyear;
+    }
+
+    /**
+     * Get lowerboundmonth.
+     *
+     * @return $this->lowerboundmonth
+     */
+    public function get_lowerboundmonth() {
+        return $this->lowerboundmonth;
+    }
+
+    /**
+     * Get upperboundyear.
+     *
+     * @return $this->upperboundyear
+     */
+    public function get_upperboundyear() {
+        return $this->upperboundyear;
+    }
+
+    /**
+     * Get upperboundmonth.
+     *
+     * @return $this->upperboundmonth
+     */
+    public function get_upperboundmonth() {
+        return $this->upperboundmonth;
     }
 
     /**
@@ -370,13 +511,29 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = [
+            'defaultoption', 'defaultvalue', 'lowerbound', 'upperbound', 'defaultvalueyear', 'defaultvaluemonth',
+            'lowerboundyear', 'lowerboundmonth', 'upperboundyear', 'upperboundmonth',
+        ];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_age'] = [];
 
         return $fieldlist;
     }
@@ -393,29 +550,10 @@ class item extends itembase {
     <xs:element name="surveyprofield_age">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="unixtime" minOccurs="0"/>
-                <xs:element name="lowerbound" type="unixtime"/>
-                <xs:element name="upperbound" type="unixtime"/>
+                <xs:element name="lowerbound" type="unixtime" minOccurs="0"/>
+                <xs:element name="upperbound" type="unixtime" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -443,15 +581,12 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         $stryears = get_string('years');
         $strmonths = get_string('months', 'surveyprofield_age');
-        $strnoanswer = get_string('noanswer', 'mod_surveypro');
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
             $elementlabel = '&nbsp;';
         }
-
-        $idprefix = 'id_surveypro_field_age_'.$this->sortindex;
 
         // Begin of: element values.
         $years = [];
@@ -476,51 +611,69 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
-        $elementgroup = [];
         $attributes = [];
+        $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_age_'.$this->sortindex;
+        $basename = $this->itemname;
 
-        $itemname = $this->itemname.'_year';
-        $attributes['id'] = $idprefix.'_year';
-        $attributes['class'] = 'indent-'.$this->indent.' age_select';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $years, $attributes);
+        $attributes['id'] = $baseid.'_year';
+        $elementgroup[] = $mform->createElement('select', $basename.'_year', '', $years, $attributes);
 
         if ($readonly) {
             $itemname = 'yearlabel_'.$this->itemid;
-            $attributes['id'] = $idprefix.'_yearseparator';
-            $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $stryears, $attributes);
+            $attributes['id'] = $baseid.'_yearseparator';
+            $elementgroup[] = $mform->createElement('static', $itemname, '', $stryears, $attributes);
         }
 
-        $itemname = $this->itemname.'_month';
-        $attributes['id'] = $idprefix.'_month';
-        $attributes['class'] = 'age_select';
-        $elementgroup[] = $mform->createElement('select', $itemname, '', $months, $attributes);
+        $attributes['id'] = $baseid.'_month';
+        $elementgroup[] = $mform->createElement('select', $basename.'_month', '', $months, $attributes);
 
         if ($readonly) {
             $itemname = 'monthlabel_'.$this->itemid;
-            $attributes['id'] = $idprefix.'_monthseparator';
-            $attributes['class'] = 'inline age_static';
-            $elementgroup[] = $mform->createElement('mod_surveypro_label', $itemname, '', $strmonths, $attributes);
+            $attributes['id'] = $baseid.'_monthseparator';
+            $elementgroup[] = $mform->createElement('static', $itemname, '', $strmonths, $attributes);
         }
 
         if ($this->required) {
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-
             if (!$searchform) {
-                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // I do not want JS form validation if the page is submitted through the "previous" button.
-                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname.'_group';
-                $mform->_required[] = $starplace;
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+
+                if (!$searchform) {
+                    // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                    // I do not want JS form validation if the page is submitted through the "previous" button.
+                    // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                    // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                    $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                    $mform->_required[] = $starplace;
+                }
+            } else {
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->setDefault($basename.'_ignoreme', '1');
             }
         } else {
-            $itemname = $this->itemname.'_noanswer';
-            $attributes['id'] = $idprefix.'_noanswer';
-            $attributes['class'] = 'age_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $strnoanswer, $attributes);
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, ' ', false);
-            $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');
+            $attributes['id'] = $baseid.'_noanswer';
+            $strnoanswer = get_string('noanswer', 'mod_surveypro');
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $strnoanswer, $attributes);
+            $separator[] = ' ';
+
+            if (!$searchform) {
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
+            } else {
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->setDefault($basename.'_ignoreme', '1');
+            }
         }
         // End of: mform element.
 
@@ -532,7 +685,7 @@ EOS;
                     $agearray['mon'] = SURVEYPRO_INVITEVALUE;
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($this->itemname.'_noanswer', '1');
+                    $mform->setDefault($basename.'_noanswer', '1');
                     // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
                 case SURVEYPRO_CUSTOMDEFAULT:
                     // I need to set a value for the default field even if it disabled.
@@ -553,13 +706,13 @@ EOS;
                     $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
-            $mform->setDefault($this->itemname.'_year', $agearray['year']);
-            $mform->setDefault($this->itemname.'_month', $agearray['mon']);
+            $mform->setDefault($basename.'_year', $agearray['year']);
+            $mform->setDefault($basename.'_month', $agearray['mon']);
         } else {
-            $mform->setDefault($this->itemname.'_year', SURVEYPRO_IGNOREMEVALUE);
-            $mform->setDefault($this->itemname.'_month', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($basename.'_year', SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($basename.'_month', SURVEYPRO_IGNOREMEVALUE);
             if (!$this->required) {
-                $mform->setDefault($this->itemname.'_noanswer', '0');
+                $mform->setDefault($basename.'_noanswer', '0');
             }
         }
         // End of: default section.
@@ -578,7 +731,7 @@ EOS;
         // Because of this, if ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if (isset($data[$this->itemname.'_noanswer'])) {
-            return; // Nothing to validate.
+            return $errors; // Nothing to validate.
         }
 
         $maximumage = get_config('surveyprofield_age', 'maximumage');
@@ -606,13 +759,13 @@ EOS;
                 $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_agenotset', 'surveyprofield_age', $a);
             }
-            return;
+            return $errors;
         }
         // End of: verify the content of each drop down menu.
 
         if ($searchform) {
             // Stop here your investigation. I don't need further validations.
-            return;
+            return $errors;
         }
 
         $haslowerbound = ($this->lowerbound != $this->item_age_to_unix_time(0, 0));
@@ -632,6 +785,8 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_age');
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -675,7 +830,6 @@ EOS;
      * Starting from the info set by the user in the form
      * this method calculates what to save in the db
      * or what to return for the search form.
-     * I don't set $olduseranswer->contentformat in order to accept the default db value.
      *
      * @param array $answer
      * @param object $olduseranswer
@@ -764,8 +918,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname.'_group'];
     }
 }

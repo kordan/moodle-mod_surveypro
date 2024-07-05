@@ -29,14 +29,14 @@
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class setup_test extends advanced_testcase {
+final class setup_test extends advanced_testcase {
 
     /**
      * Test that all the global settings are stored properly and with expected defaults.
      *
      * Any new setting and/or change of default will require a change here.
      */
-    public function test_global_config_defaults() {
+    public function test_global_config_defaults(): void {
 
         $this->assertCount(0, (array)get_config('surveypro'));
         $this->assertCount(4, (array)get_config('mod_surveypro'));

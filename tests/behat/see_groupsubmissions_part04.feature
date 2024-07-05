@@ -20,6 +20,11 @@ Feature: Submissions seen from students divided into groups (Part 04)
       | student2 | student2  | user2    | student2@nowhere.net |
       | student3 | student3  | user3    | student3@nowhere.net |
       | student4 | student4  | user4    | student4@nowhere.net |
+    And the following "user preferences" exist:
+      | user     | preference | value    |
+      | teacher1 | htmleditor | textarea |
+      | student1 | htmleditor | textarea |
+      | student2 | htmleditor | textarea |
     And the following "course enrolments" exist:
       | user     | course             | role           |
       | teacher1 | Groups permissions | editingteacher |
@@ -38,7 +43,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
 
     And I log in as "teacher1"
     And I am on "Verify permissions in groups" course homepage with editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
+    And I add a surveypro activity to course "Verify permissions in groups" section "1" and I fill the form with:
       | Name        | Verify submission selection    |
       | Description | Test what each student can see |
       | Group mode  | Separate groups                |

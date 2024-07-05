@@ -70,8 +70,8 @@ Feature: Submit using a boolean item
     # student1 submits
     And I set the following fields to these values:
       | 4a Is it true?                 | Yes |
-      | id_surveypro_field_boolean_2_0 | 1   |
-      | id_surveypro_field_boolean_3_1 | 1   |
+      | id_field_boolean_2_0 | 1   |
+      | id_field_boolean_3_1 | 1   |
 
     And I press "Submit"
 

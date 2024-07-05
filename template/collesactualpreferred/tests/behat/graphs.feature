@@ -41,62 +41,62 @@ Feature: Apply a COLLES (actual and preferred) mastertemplate to test graphs
     # student1 submits his first response
     And I expand all fieldsets
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_4_0  | 1          |
-      | id_surveypro_field_radiobutton_5_1  | 1          |
-      | id_surveypro_field_radiobutton_6_2  | 1          |
-      | id_surveypro_field_radiobutton_7_3  | 1          |
-      | id_surveypro_field_radiobutton_8_4  | 1          |
-      | id_surveypro_field_radiobutton_9_0  | 1          |
-      | id_surveypro_field_radiobutton_10_1 | 1          |
-      | id_surveypro_field_radiobutton_11_2 | 1          |
+      | id_field_radiobutton_4_0        | 1          |
+      | id_field_radiobutton_5_1        | 1          |
+      | id_field_radiobutton_6_2        | 1          |
+      | id_field_radiobutton_7_3        | 1          |
+      | id_field_radiobutton_8_4        | 1          |
+      | id_field_radiobutton_9_0        | 1          |
+      | id_field_radiobutton_10_1       | 1          |
+      | id_field_radiobutton_11_2       | 1          |
 
-      | id_surveypro_field_radiobutton_14_3 | 1          |
-      | id_surveypro_field_radiobutton_15_4 | 1          |
-      | id_surveypro_field_radiobutton_16_0 | 1          |
-      | id_surveypro_field_radiobutton_17_1 | 1          |
-      | id_surveypro_field_radiobutton_18_2 | 1          |
-      | id_surveypro_field_radiobutton_19_3 | 1          |
-      | id_surveypro_field_radiobutton_20_4 | 1          |
-      | id_surveypro_field_radiobutton_21_0 | 1          |
+      | id_field_radiobutton_14_3       | 1          |
+      | id_field_radiobutton_15_4       | 1          |
+      | id_field_radiobutton_16_0       | 1          |
+      | id_field_radiobutton_17_1       | 1          |
+      | id_field_radiobutton_18_2       | 1          |
+      | id_field_radiobutton_19_3       | 1          |
+      | id_field_radiobutton_20_4       | 1          |
+      | id_field_radiobutton_21_0       | 1          |
 
-      | id_surveypro_field_radiobutton_24_1 | 1          |
-      | id_surveypro_field_radiobutton_25_2 | 1          |
-      | id_surveypro_field_radiobutton_26_3 | 1          |
-      | id_surveypro_field_radiobutton_27_4 | 1          |
-      | id_surveypro_field_radiobutton_28_0 | 1          |
-      | id_surveypro_field_radiobutton_29_1 | 1          |
-      | id_surveypro_field_radiobutton_30_2 | 1          |
-      | id_surveypro_field_radiobutton_31_3 | 1          |
+      | id_field_radiobutton_24_1       | 1          |
+      | id_field_radiobutton_25_2       | 1          |
+      | id_field_radiobutton_26_3       | 1          |
+      | id_field_radiobutton_27_4       | 1          |
+      | id_field_radiobutton_28_0       | 1          |
+      | id_field_radiobutton_29_1       | 1          |
+      | id_field_radiobutton_30_2       | 1          |
+      | id_field_radiobutton_31_3       | 1          |
 
-      | id_surveypro_field_radiobutton_34_4 | 1          |
-      | id_surveypro_field_radiobutton_35_0 | 1          |
-      | id_surveypro_field_radiobutton_36_1 | 1          |
-      | id_surveypro_field_radiobutton_37_2 | 1          |
-      | id_surveypro_field_radiobutton_38_3 | 1          |
-      | id_surveypro_field_radiobutton_39_4 | 1          |
-      | id_surveypro_field_radiobutton_40_0 | 1          |
-      | id_surveypro_field_radiobutton_41_1 | 1          |
+      | id_field_radiobutton_34_4       | 1          |
+      | id_field_radiobutton_35_0       | 1          |
+      | id_field_radiobutton_36_1       | 1          |
+      | id_field_radiobutton_37_2       | 1          |
+      | id_field_radiobutton_38_3       | 1          |
+      | id_field_radiobutton_39_4       | 1          |
+      | id_field_radiobutton_40_0       | 1          |
+      | id_field_radiobutton_41_1       | 1          |
 
-      | id_surveypro_field_radiobutton_44_2 | 1          |
-      | id_surveypro_field_radiobutton_45_3 | 1          |
-      | id_surveypro_field_radiobutton_46_4 | 1          |
-      | id_surveypro_field_radiobutton_47_0 | 1          |
-      | id_surveypro_field_radiobutton_48_1 | 1          |
-      | id_surveypro_field_radiobutton_49_2 | 1          |
-      | id_surveypro_field_radiobutton_50_3 | 1          |
-      | id_surveypro_field_radiobutton_51_4 | 1          |
+      | id_field_radiobutton_44_2       | 1          |
+      | id_field_radiobutton_45_3       | 1          |
+      | id_field_radiobutton_46_4       | 1          |
+      | id_field_radiobutton_47_0       | 1          |
+      | id_field_radiobutton_48_1       | 1          |
+      | id_field_radiobutton_49_2       | 1          |
+      | id_field_radiobutton_50_3       | 1          |
+      | id_field_radiobutton_51_4       | 1          |
 
-      | id_surveypro_field_radiobutton_54_0 | 1          |
-      | id_surveypro_field_radiobutton_55_1 | 1          |
-      | id_surveypro_field_radiobutton_56_2 | 1          |
-      | id_surveypro_field_radiobutton_57_3 | 1          |
-      | id_surveypro_field_radiobutton_58_4 | 1          |
-      | id_surveypro_field_radiobutton_59_0 | 1          |
-      | id_surveypro_field_radiobutton_60_1 | 1          |
-      | id_surveypro_field_radiobutton_61_2 | 1          |
+      | id_field_radiobutton_54_0       | 1          |
+      | id_field_radiobutton_55_1       | 1          |
+      | id_field_radiobutton_56_2       | 1          |
+      | id_field_radiobutton_57_3       | 1          |
+      | id_field_radiobutton_58_4       | 1          |
+      | id_field_radiobutton_59_0       | 1          |
+      | id_field_radiobutton_60_1       | 1          |
+      | id_field_radiobutton_61_2       | 1          |
 
-      | id_surveypro_field_select_62        | 2-3 min    |
-      | Do you have any other comments?     | Am I sexy? |
+      | id_field_select_62              | 2-3 min    |
+      | Do you have any other comments? | Am I sexy? |
     And I press "Submit"
 
     And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page

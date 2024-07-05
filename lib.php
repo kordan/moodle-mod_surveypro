@@ -89,6 +89,7 @@ define('SURVEYPRO_DUPLICATERESPONSE' , '20');
 // ACTIONS in UTEMPLATE section.
 define('SURVEYPRO_DELETEUTEMPLATE'   , '21');
 define('SURVEYPRO_EXPORTUTEMPLATE'   , '22');
+define('SURVEYPRO_APPLYUTEMPLATE'    , '23');
 
 /**
  * VIEW
@@ -126,11 +127,6 @@ define('SURVEYPRO_DONTSAVEMEPREFIX' , 'placeholder');
 /**
  * INVITE, NO-ANSWER AND IGNOREME VALUE
  */
-// Since the very first beginning of the development.
-// define('SURVEYPRO_INVITATIONVALUE', '__invItat10n__'); // User should never guess it.
-// define('SURVEYPRO_NOANSWERVALUE',   '__n0__Answer__'); // User should never guess it.
-// define('SURVEYPRO_IGNOREMEVALUE',   '__1gn0rE__me__'); // User should never guess it.
-
 // Starting from version 2015090901.
 define('SURVEYPRO_INVITEVALUE'    , '@@_INVITE_@@'); // User should never guess it.
 define('SURVEYPRO_NOANSWERVALUE'  , '@@_NOANSW_@@'); // User should never guess it.
@@ -265,6 +261,15 @@ define('SURVEYPRO_EVENT_TYPE_OPEN', 'open');
 require_once($CFG->dirroot.'/lib/formslib.php'); // Needed by unittest.
 require_once($CFG->dirroot.'/mod/surveypro/deprecatedlib.php');
 /* Do not include any libraries here! */
+
+/**
+ * Get icon mapping for font-awesome.
+ *
+ * @return  array
+ */
+function mod_surveypro_get_fontawesome_icon_map() {
+    return ['mod_surveypro:stamp' => 'fa-solid fa-stamp'];
+}
 
 /**
  * Saves a new instance of the surveypro into the database
@@ -1156,7 +1161,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
             $fieldplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
             if (!empty($includetype)) {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveyprofield_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
                         $fieldplugins[$k] = SURVEYPRO_TYPEFIELD.'_'.$k;
                     } else {
                         unset($fieldplugins[$k]);
@@ -1165,7 +1170,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $fieldplugins = array_flip($fieldplugins);
             } else {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveyprofield_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
                         $fieldplugins[$k] = $k;
                     } else {
                         unset($fieldplugins[$k]);
@@ -1181,7 +1186,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
             $formatplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
             if (!empty($includetype)) {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveyproformat_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
                         $formatplugins[$k] = SURVEYPRO_TYPEFORMAT.'_'.$k;
                     } else {
                         unset($formatplugins[$k]);
@@ -1190,7 +1195,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $formatplugins = array_flip($formatplugins);
             } else {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveyproformat_'.$k, 'disabled')) {
+                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
                         $formatplugins[$k] = $k;
                     } else {
                         unset($formatplugins[$k]);
@@ -1350,7 +1355,7 @@ function surveypro_inplace_editable($itemtype, $id, $newvalue) {
  * @param bool $getparentcontent
  * @return $item object
  */
-function surveypro_get_item($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
+function surveypro_get_itemclass($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
     global $CFG, $DB;
 
     if (!empty($itemid)) {

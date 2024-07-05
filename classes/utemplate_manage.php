@@ -187,11 +187,13 @@ class utemplate_manage extends utemplate_base {
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
             // Put the name in the gobal vaiable, to remember it for the log.
+            // At log time I haven't availability of the file so I can not ask fot its name.
             $this->templatename = $this->get_utemplate_name();
 
             $fs = get_file_storage();
             $xmlfile = $fs->get_file_by_id($this->utemplateid);
             $a = $xmlfile->get_filename();
+
             $xmlfile->delete();
 
             $this->trigger_event('usertemplate_deleted');
@@ -217,6 +219,7 @@ class utemplate_manage extends utemplate_base {
 
         require_once($CFG->libdir.'/tablelib.php');
 
+        $canapplyutemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
         $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context);
         $candeleteutemplates = has_capability('mod/surveypro:deleteusertemplates', $this->context);
 
@@ -224,13 +227,17 @@ class utemplate_manage extends utemplate_base {
         $paramurlbase = ['s' => $this->cm->instance];
         // End of $paramurlbase definition.
 
+        $applytitle = get_string('utemplate_apply', 'mod_surveypro');
+        $iconparams = ['title' => $applytitle];
+        $applyicn = new \pix_icon('stamp', $applytitle, 'surveypro', $iconparams);
+
         $deletetitle = get_string('delete');
         $iconparams = ['title' => $deletetitle];
         $deleteicn = new \pix_icon('t/delete', $deletetitle, 'moodle', $iconparams);
 
-        $importtitle = get_string('exporttemplate', 'mod_surveypro');
-        $iconparams = ['title' => $importtitle];
-        $importicn = new \pix_icon('t/download', $importtitle, 'moodle', $iconparams);
+        $exporttitle = get_string('exporttemplate', 'mod_surveypro');
+        $iconparams = ['title' => $exporttitle];
+        $exporticn = new \pix_icon('t/download', $exporttitle, 'moodle', $iconparams);
 
         $table = new \flexible_table('templatelist');
 
@@ -297,6 +304,18 @@ class utemplate_manage extends utemplate_base {
             $row++;
 
             $icons = '';
+
+            // SURVEYPRO_APPLYUTEMPLATE.
+            if ($canapplyutemplates) {
+                $paramurl = $paramurlbase;
+                $paramurl['act'] = SURVEYPRO_APPLYUTEMPLATE;
+                $paramurl['section'] = 'apply';
+                $paramurl['sesskey'] = sesskey();
+
+                $link = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
+                $icons .= $OUTPUT->action_icon($link, $applyicn, null, ['title' => $applytitle]);
+            }
+
             // SURVEYPRO_DELETEUTEMPLATE.
             if ($candeleteutemplates) {
                 if ($utemplate->userid == $USER->id) { // The user template can be deleted only by its owner.
@@ -318,7 +337,7 @@ class utemplate_manage extends utemplate_base {
                 $paramurl['sesskey'] = sesskey();
 
                 $link = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
-                $icons .= $OUTPUT->action_icon($link, $importicn, null, ['title' => $importtitle]);
+                $icons .= $OUTPUT->action_icon($link, $exporticn, null, ['title' => $exporttitle]);
             }
 
             $tablerow[] = $icons;
@@ -326,7 +345,6 @@ class utemplate_manage extends utemplate_base {
             $table->add_data($tablerow);
         }
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('templatelist', 'mod_surveypro');
         $table->print_html();
     }
 

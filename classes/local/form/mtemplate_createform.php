@@ -45,6 +45,9 @@ class mtemplate_createform extends \moodleform {
     public function definition() {
         $mform = $this->_form;
 
+        // Get _customdata.
+        $defaultname = $this->_customdata->defaultname;
+
         // Mtemplatecreate: surveyproid.
         $fieldname = 'surveyproid';
         $mform->addElement('hidden', $fieldname, 0);
@@ -56,6 +59,7 @@ class mtemplate_createform extends \moodleform {
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
         $mform->addRule($fieldname, get_string('required'), 'required', null, 'client');
         $mform->setType($fieldname, PARAM_FILE); // This word is going to be a file name.
+        $mform->setDefault($fieldname, $defaultname);
 
         $this->add_action_buttons(false, get_string('save', 'mod_surveypro'));
     }
