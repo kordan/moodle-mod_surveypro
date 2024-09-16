@@ -26,7 +26,7 @@
         <FIELD NAME="options"          TYPE="text" LENGTH="medium" NOTNULL="false"                             SEQUENCE="false"/>
         <FIELD NAME="labelother"       TYPE="char" LENGTH="64"     NOTNULL="false"                             SEQUENCE="false"/>
         <FIELD NAME="defaultvalue"     TYPE="char" LENGTH="255"    NOTNULL="false"                             SEQUENCE="false"/>
-        <FIELD NAME="noanswerdefault"  TYPE="int"  LENGTH="2"      NOTNULL="true"  UNSIGNED="true" DEFAULT="2" SEQUENCE="false"/>
+        <FIELD NAME="noanswerdefault"  TYPE="int"  LENGTH="2"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="downloadformat"   TYPE="int"  LENGTH="4"      NOTNULL="false" UNSIGNED="true"             SEQUENCE="false"/>
         <FIELD NAME="minimumrequired"  TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="maximumrequired"  TYPE="int"  LENGTH="4"      NOTNULL="true"  UNSIGNED="true" DEFAULT="0" SEQUENCE="false"/>
