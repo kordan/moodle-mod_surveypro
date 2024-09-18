@@ -77,12 +77,12 @@ class item extends itembase {
     protected $required;
 
     /**
-     * @var boolean True if the user input will be trimmed at save time
+     * @var bool True if the user input will be trimmed at save time
      */
     protected $trimonsave;
 
     /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
+     * @var bool True if the instructions are going to be shown in the form; false otherwise
      */
     protected $hideinstructions;
 
