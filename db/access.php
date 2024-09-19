@@ -63,6 +63,7 @@
  *  File: view.php, $section = 'submissionslist'
  *
  *      mod/surveypro:alwaysseeowner
+ *      mod/surveypro:enjoydeleteallsubmissionsbutton
  *
  *      mod/surveypro:seeownsubmissions <-- It does not actually exist. It is always allowed.
  *      mod/surveypro:seeotherssubmissions
@@ -204,6 +205,17 @@ $capabilities = [
         ],
     ],
 
+    'mod/surveypro:enjoydeleteallsubmissionsbutton' => [
+        'riskbitmask' => RISK_DATALOSS,
+        'captype' => 'write',
+        'contextlevel' => CONTEXT_MODULE,
+        'archetypes' => [
+            'teacher' => CAP_ALLOW,
+            'editingteacher' => CAP_ALLOW,
+            'manager' => CAP_ALLOW,
+        ],
+    ],
+
     'mod/surveypro:seeotherssubmissions' => [
         'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
@@ -216,7 +228,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:editownsubmissions' => [
-        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -227,7 +239,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:editotherssubmissions' => [
-        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -238,7 +250,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:duplicateownsubmissions' => [
-        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -249,7 +261,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:duplicateotherssubmissions' => [
-        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -260,7 +272,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:deleteownsubmissions' => [
-        'riskbitmask' => RISK_CONFIG,
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -271,7 +283,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:deleteotherssubmissions' => [
-        'riskbitmask' => RISK_CONFIG,
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -383,7 +395,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:importresponses' => [
-        'riskbitmask' => RISK_CONFIG | RISK_PERSONAL,
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -395,7 +407,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:exportresponses' => [
-
+        'riskbitmask' => RISK_PERSONAL,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -407,7 +419,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:manageusertemplates' => [
-
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -417,7 +429,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:deleteusertemplates' => [
-        'riskbitmask' => RISK_CONFIG,
+        'riskbitmask' => RISK_DATALOSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -437,7 +449,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:saveusertemplates' => [
-        'riskbitmask' => RISK_PERSONAL,
+
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => [
@@ -447,7 +459,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:importusertemplates' => [
-
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -457,7 +469,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:applyusertemplates' => [
-        'riskbitmask' => RISK_CONFIG,
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
@@ -477,7 +489,7 @@ $capabilities = [
     ],
 
     'mod/surveypro:applymastertemplates' => [
-        'riskbitmask' => RISK_CONFIG,
+        'riskbitmask' => RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => [
