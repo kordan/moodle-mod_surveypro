@@ -1005,6 +1005,7 @@ class view_responselist {
 
         $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
         $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $canenjoydeleteallsubmissionsbutton = has_capability('mod/surveypro:enjoydeleteallsubmissionsbutton', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
 
         $userid = ($canseeotherssubmissions) ? null : $USER->id;
@@ -1021,6 +1022,7 @@ class view_responselist {
         $deleteall = true;
         $deleteall = $deleteall && $candeleteownsubmissions;
         $deleteall = $deleteall && $candeleteotherssubmissions;
+        $deleteall = $deleteall && $canenjoydeleteallsubmissionsbutton;
         $deleteall = $deleteall && empty($this->searchquery);
         $deleteall = $deleteall && empty($tifirst); // Hide the deleteall button if not all the responses are shown.
         $deleteall = $deleteall && empty($tilast);  // Hide the deleteall button if not all the responses are shown.

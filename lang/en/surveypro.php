@@ -477,6 +477,7 @@ $string['surveypro:duplicateotherssubmissions'] = 'Duplicate responses from othe
 $string['surveypro:duplicateownsubmissions'] = 'Duplicate own responses';
 $string['surveypro:editotherssubmissions'] = 'Edit responses from other users';
 $string['surveypro:editownsubmissions'] = 'Edit own responses';
+$string['surveypro:enjoydeleteallsubmissionsbutton'] = 'Enjoy the "Delete all submissions" button';
 $string['surveypro:exportresponses'] = 'Export collected responses';
 $string['surveypro:ignoremaxentries'] = 'Submissions are not limited by max entries setting';
 $string['surveypro:importresponses'] = 'Import data';
