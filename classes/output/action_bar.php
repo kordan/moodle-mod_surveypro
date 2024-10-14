@@ -421,7 +421,7 @@ class action_bar {
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
 
-        if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+        if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
                 $classname = 'surveyproreport_'.$reportname.'\report';
                 $reportman = new $classname($this->cm, $this->context, $this->surveypro);
