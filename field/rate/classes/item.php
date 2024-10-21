@@ -40,52 +40,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var boolean True if the instructions are going to be shown in the form; false otherwise
-     */
-    protected $hideinstructions;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var string List of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
@@ -103,7 +58,7 @@ class item extends itembase {
     protected $defaultoption;
 
     /**
-     * @var string Value of the field when the form is initially displayed
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
 
@@ -121,6 +76,13 @@ class item extends itembase {
      * @var bool Force the user to use different rates at answer time
      */
     protected $differentrates;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -154,9 +116,11 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['insearchform'] = false;
-        $this->insetupform['position'] = SURVEYPRO_POSITIONLEFT;
+        // $this->insetupform['position'] = SURVEYPRO_POSITIONLEFT; <-- What does it mean?
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -187,19 +151,15 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
+        // Set custom fields values as defined by this specific plugin.
         // Drop empty rows and trim edging rows spaces from each textarea field.
         $fieldlist = ['options', 'rates', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -212,17 +172,11 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Rate';
-        $record->contentformat = 1;
-        $record->position = 1;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'rate_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->options = "first\nsecond";
         $record->rates = "up\ndown";
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
+        // $record->defaultvalue
         $record->downloadformat = SURVEYPRO_ITEMRETURNSLABELS;
         $record->style = 0;
         $record->differentrates = 0;
@@ -244,7 +198,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -254,7 +208,7 @@ class item extends itembase {
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = ['hideinstructions', 'differentrates'];
+        $checkboxes = ['differentrates'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
@@ -271,15 +225,141 @@ class item extends itembase {
         return false;
     }
 
+    // MARK set.
+
+    /**
+     * Set options.
+     *
+     * @param string $options
+     * @return void
+     */
+    public function set_options($options) {
+        $this->options = $options;
+    }
+
+    /**
+     * Set rates.
+     *
+     * @param string $rates
+     * @return void
+     */
+    public function set_rates($rates) {
+        $this->rates = $rates;
+    }
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set downloadformat.
+     *
+     * @param string $downloadformat
+     * @return void
+     */
+    public function set_downloadformat($downloadformat) {
+        $this->downloadformat = $downloadformat;
+    }
+
+    /**
+     * Set style.
+     *
+     * @param string $style
+     * @return void
+     */
+    public function set_style($style) {
+        $this->style = $style;
+    }
+
+    /**
+     * Set differentrates.
+     *
+     * @param string $differentrates
+     * @return void
+     */
+    public function set_differentrates($differentrates) {
+        $this->differentrates = $differentrates;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get options.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->options
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_options() {
+        return $this->options;
+    }
+
+    /**
+     * Get rates.
+     *
+     * @return $this->rates
+     */
+    public function get_rates() {
+        return $this->rates;
+    }
+
+    /**
+     * Get defaultoption.
+     *
+     * @return $this->defaultoption
+     */
+    public function get_defaultoption() {
+        return $this->defaultoption;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get downloadformat.
+     *
+     * @return $this->downloadformat
+     */
+    public function get_downloadformat() {
+        return $this->downloadformat;
+    }
+
+    /**
+     * Get style.
+     *
+     * @return $this->style
+     */
+    public function get_style() {
+        return $this->style;
+    }
+
+    /**
+     * Get differentrates.
+     *
+     * @return $this->differentrates
+     */
+    public function get_differentrates() {
+        return $this->differentrates;
     }
 
     /**
@@ -307,13 +387,26 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['options', 'rates', 'defaultoption', 'defaultvalue', 'downloadformat', 'style', 'differentrates'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'rates', 'defaultvalue'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_rate'] = ['options', 'rates', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -330,32 +423,13 @@ class item extends itembase {
     <xs:element name="surveyprofield_rate">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="options" type="xs:string"/>
                 <xs:element name="rates" type="xs:string"/>
-                <xs:element name="defaultoption" type="xs:int"/>
+                <xs:element name="defaultoption" type="xs:int" minOccurs="0"/>
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="downloadformat" type="xs:int"/>
-                <xs:element name="style" type="xs:int"/>
-                <xs:element name="differentrates" type="xs:int"/>
+                <xs:element name="downloadformat" type="xs:int" minOccurs="0"/>
+                <xs:element name="style" type="xs:int" minOccurs="0"/>
+                <xs:element name="differentrates" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -381,10 +455,14 @@ EOS;
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
         $optioncount = count($options) - 1;
-        $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
+        $rates = $this->get_textarea_content(SURVEYPRO_LABELS, 'rates');
         $defaultvalues = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
-        $idprefix = 'id_surveypro_field_rate_'.$this->sortindex;
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_rate_'.$this->sortindex;
+        $elementgroup = [];
+        $attributes = [];
+        $basename = $this->itemname;
 
         if (($this->defaultoption == SURVEYPRO_INVITEDEFAULT)) {
             if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
@@ -394,18 +472,15 @@ EOS;
             }
         }
 
-        $attributes = [];
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
-                $attributes['class'] = 'indent-'.$this->indent.' rate_radio';
-                $uniquename = $this->itemname.'_'.$row;
                 $elementgroup = [];
+                $uniquename = $basename.'_'.$row;
                 foreach ($rates as $col => $rate) {
-                    $attributes['id'] = $idprefix.'_'.$row.'_'.$col;
-                    $elementgroup[] = $mform->createElement('mod_surveypro_radiobutton', $uniquename, '', $rate, $col, $attributes);
-                    $attributes['class'] = 'rate_radio';
+                    $attributes['id'] = $baseid.'_'.$row.'_'.$col;
+                    $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $col, $attributes);
                 }
-                $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false);
+                $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false, $class);
 
                 // Don' add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
@@ -415,12 +490,12 @@ EOS;
         }
 
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
-            $attributes['class'] = 'indent-'.$this->indent.' rate_select';
             foreach ($options as $row => $option) {
-                $uniquename = $this->itemname.'_'.$row;
-                $attributes['id'] = $idprefix.'_'.$row;
-                $elementgroup = [$mform->createElement('select', $uniquename, '', $rates, $attributes)];
-                $mform->addGroup($elementgroup, $uniquename.'_group', $option, '', false);
+                $elementgroup = [];
+                $uniquename = $basename.'_'.$row;
+                $attributes['id'] = $baseid.'_'.$row;
+                $elementgroup[] = $mform->createElement('select', $uniquename, '', $rates, $attributes);
+                $mform->addGroup($elementgroup, $uniquename.'_group', $option, '', false, $class);
 
                 // Don't add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
@@ -432,14 +507,11 @@ EOS;
         if (!$this->required) { // This is the last if it exists.
             $this->item_add_color_unifier($mform);
 
-            // Bloody hack to align the noanswer checkbox according to the indent.
             $elementgroup = [];
-            $uniquename = 'checkbox';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            $attributes['id'] = $idprefix.'_noanswer';
-            $attributes['class'] = 'indent-'.$this->indent.' rate_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_advcheckbox', $uniquename, '', $noanswerstr, $attributes);
-            $mform->addGroup($elementgroup, $this->itemname.'_noanswer');
+            $attributes['id'] = $baseid.'_noanswer';
+            $elementgroup[] = $mform->createElement('advcheckbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
+            $mform->addGroup($elementgroup, $basename.'_noanswer_group', $noanswerstr, '', false, $class);
         }
 
         if ($this->required) {
@@ -447,35 +519,35 @@ EOS;
             // I do not want JS form validation if the page is submitted through the "previous" button.
             // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
             // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-            $mform->_required[] = $this->itemname.'_extrarow';
+            $mform->_required[] = $basename.'_extrarow_group';
         } else {
-            // Disable if $this->itemname.'_noanswer' is selected.
+            // Disable if $basename.'_noanswer' is selected.
             $optionindex = 0;
             foreach ($options as $row => $option) {
-                $uniquename = $this->itemname.'_'.$row.'_group';
-                $mform->disabledIf($uniquename, $this->itemname.'_noanswer[checkbox]', 'checked');
+                $uniquename = $basename.'_'.$row;
+                $mform->disabledIf($uniquename, $basename.'_noanswer', 'checked');
             }
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
-                $mform->setDefault($this->itemname.'_noanswer[checkbox]', '1');
+                $mform->setDefault($basename.'_noanswer', '1');
             }
         }
 
         switch ($this->defaultoption) {
             case SURVEYPRO_CUSTOMDEFAULT:
                 foreach ($options as $row => $option) {
-                    $uniquename = $this->itemname.'_'.$row;
+                    $uniquename = $basename.'_'.$row;
                     $defaultindex = array_search($defaultvalues[$row], $rates);
                     $mform->setDefault($uniquename, "$defaultindex");
                 }
                 break;
             case SURVEYPRO_INVITEDEFAULT:
                 foreach ($options as $row => $option) {
-                    $uniquename = $this->itemname.'_'.$row;
+                    $uniquename = $basename.'_'.$row;
                     $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
                 }
                 break;
             case SURVEYPRO_NOANSWERDEFAULT:
-                $uniquename = $this->itemname.'_noanswer[checkbox]';
+                $uniquename = $basename.'_noanswer[checkbox]';
                 $mform->setDefault($uniquename, 1);
                 break;
             default:
@@ -497,14 +569,14 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
         if ($searchform) {
-            return;
+            return $errors;
         }
 
         // If different rates were requested, it is time to verify this.
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
         if ((isset($data[$this->itemname.'_noanswer']['checkbox'])) && ($data[$this->itemname.'_noanswer']['checkbox'] == 1)) {
-            return; // Nothing to validate.
+            return $errors; // Nothing to validate.
         }
 
         $return = false;
@@ -517,11 +589,11 @@ EOS;
             }
         }
         if ($return) {
-            return;
+            return $errors;
         }
 
         if (!empty($this->differentrates)) {
-            $optionscount = count($this->get_content_array(SURVEYPRO_LABELS, 'options'));
+            $optionscount = count($this->get_textarea_content(SURVEYPRO_LABELS, 'options'));
             $rates = [];
             for ($i = 0; $i < $optionscount; $i++) {
                 $rates[] = $data[$this->itemname.'_'.$i];
@@ -535,6 +607,8 @@ EOS;
                 $errors[$elementname] = get_string('uerr_duplicaterate', 'surveyprofield_rate');
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -638,9 +712,9 @@ EOS;
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = [];
-                $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+                $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
 
-                $rates = $this->get_content_array(SURVEYPRO_VALUES, 'rates');
+                $rates = $this->get_textarea_content(SURVEYPRO_VALUES, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
@@ -650,9 +724,9 @@ EOS;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = [];
-                $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+                $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
 
-                $rates = $this->get_content_array(SURVEYPRO_LABELS, 'rates');
+                $rates = $this->get_textarea_content(SURVEYPRO_LABELS, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
                     $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
@@ -688,7 +762,7 @@ EOS;
         }
 
         if (!$this->required) {
-            $elementnames[] = $this->itemname.'_noanswer[checkbox]';
+            $elementnames[] = $this->itemname.'_noanswer';
         }
 
         return $elementnames;

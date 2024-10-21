@@ -42,9 +42,9 @@ Feature: Create a rate item
       | Parent content           | 1                                                   |
       | Element style            | dropdown menu                                       |
     And I set the multiline field "Options" to "\nItalian\n\n\n  Spanish\nEnglish\nFrench\n\n\nGerman\n\nDeutch\n\n"
-    And I set the multiline field "Rates" to "   Mother tongue\nVery confident\n\nNot enought\n\n\n\n\nCompletely unknown\n\n"
+    And I set the multiline field "Rates" to "   Mother tongue\nVery confident\n\nSomewhat confident\n\n\n\n\nNot confident at all\n\n"
     And I set the field "id_defaultoption_1" to "1"
-    And I set the multiline field "id_defaultvalue" to "Not enought\n\n\n    Not enought\n\n\n\nNot enought\nNot enought\n\n\n"
+    And I set the multiline field "id_defaultvalue" to "Somewhat confident\n\n\n    Somewhat confident\n\n\n\nSomewhat confident\nSomewhat confident\n\n\n"
     And I set the following fields to these values:
       | Download format          | list of options with corresponding values of rates  |
       | Force different rates    | 1                                                   |
@@ -52,16 +52,16 @@ Feature: Create a rate item
 
     Then I should see "Number of rates is not enough to force different rates"
     Then I should see "Defaults have to be different when different rates is required"
-    And I set the multiline field "Rates" to "\n\n    Mother tongue\nVery confident\n\n\n100 words vocabulary\n\nNot enought\nReally ridicolous\n\nCompletely unknown\n\n\n"
-    And I set the multiline field "id_defaultvalue" to "\n\nCompletely unknown\n\n Absolutely ridicolous\nNot enought\n\n\n100 words vocabulary\n"
+    And I set the multiline field "Rates" to "\n\n    Mother tongue\nVery confident\n\n\n100 words vocabulary\n\nSomewhat confident\nReally ridicolous\n\nNot confident at all\n\n\n"
+    And I set the multiline field "id_defaultvalue" to "\n\nNot confident at all\n\n Absolutely ridicolous\nSomewhat confident\n\n\n100 words vocabulary\n"
     And I press "Add"
 
     Then I should see "The default item \"Absolutely ridicolous\" was not found among rates"
-    And I set the multiline field "id_defaultvalue" to "\n   Completely unknown\nReally ridicolous\n\n\nNot enought\n\n\n100 words vocabulary\n"
+    And I set the multiline field "id_defaultvalue" to "\n   Not confident at all\nReally ridicolous\n\n\nSomewhat confident\n\n\n100 words vocabulary\n"
     And I press "Add"
 
     Then I should see "Number of defaults has to be equal to the number of options"
-    And I set the multiline field "id_defaultvalue" to "\n   Completely unknown\nReally ridicolous\n\n\nNot enought\n\n\n100 words vocabulary\nVery confident\nMother tongue\n\n\n\n\n"
+    And I set the multiline field "id_defaultvalue" to "\n   Not confident at all\nReally ridicolous\n\n\nSomewhat confident\n\n\n100 words vocabulary\nVery confident\nMother tongue\n\n\n\n\n"
     And I press "Add"
 
     And I follow "edit_item_2"
@@ -91,16 +91,16 @@ Feature: Create a rate item
       Mother tongue
       Very confident
       100 words vocabulary
-      Not enought
+      Somewhat confident
       Really ridicolous
-      Completely unknown
+      Not confident at all
       """
     Then the field "id_defaultoption_1" matches value "1"
     Then the field "defaultvalue" matches multiline:
       """
-      Completely unknown
+      Not confident at all
       Really ridicolous
-      Not enought
+      Somewhat confident
       100 words vocabulary
       Very confident
       Mother tongue
@@ -113,12 +113,12 @@ Feature: Create a rate item
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a"
     Then I should see "How confident are you with the following languages?"
-    Then the field "id_surveypro_field_rate_2_0" matches value "Completely unknown"
-    Then the field "id_surveypro_field_rate_2_1" matches value "Really ridicolous"
-    Then the field "id_surveypro_field_rate_2_2" matches value "Not enought"
-    Then the field "id_surveypro_field_rate_2_3" matches value "100 words vocabulary"
-    Then the field "id_surveypro_field_rate_2_4" matches value "Very confident"
-    Then the field "id_surveypro_field_rate_2_5" matches value "Mother tongue"
+    Then the field "id_field_rate_2_0" matches value "Not confident at all"
+    Then the field "id_field_rate_2_1" matches value "Really ridicolous"
+    Then the field "id_field_rate_2_2" matches value "Somewhat confident"
+    Then the field "id_field_rate_2_3" matches value "100 words vocabulary"
+    Then the field "id_field_rate_2_4" matches value "Very confident"
+    Then the field "id_field_rate_2_5" matches value "Mother tongue"
     Then I should see "Additional note"
 
     And I select "Elements" from the "jump" singleselect
@@ -137,45 +137,45 @@ Feature: Create a rate item
 
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.b"
-    Then the field "id_surveypro_field_rate_3_0_0" matches value "0"
-    Then the field "id_surveypro_field_rate_3_0_1" matches value "0"
-    Then the field "id_surveypro_field_rate_3_0_2" matches value "0"
-    Then the field "id_surveypro_field_rate_3_0_3" matches value "0"
-    Then the field "id_surveypro_field_rate_3_0_4" matches value "0"
-    Then the field "id_surveypro_field_rate_3_0_5" matches value "1"
+    Then the field "id_field_rate_3_0_0" matches value "0"
+    Then the field "id_field_rate_3_0_1" matches value "0"
+    Then the field "id_field_rate_3_0_2" matches value "0"
+    Then the field "id_field_rate_3_0_3" matches value "0"
+    Then the field "id_field_rate_3_0_4" matches value "0"
+    Then the field "id_field_rate_3_0_5" matches value "1"
 
-    Then the field "id_surveypro_field_rate_3_1_0" matches value "0"
-    Then the field "id_surveypro_field_rate_3_1_1" matches value "0"
-    Then the field "id_surveypro_field_rate_3_1_2" matches value "0"
-    Then the field "id_surveypro_field_rate_3_1_3" matches value "0"
-    Then the field "id_surveypro_field_rate_3_1_4" matches value "1"
-    Then the field "id_surveypro_field_rate_3_1_5" matches value "0"
+    Then the field "id_field_rate_3_1_0" matches value "0"
+    Then the field "id_field_rate_3_1_1" matches value "0"
+    Then the field "id_field_rate_3_1_2" matches value "0"
+    Then the field "id_field_rate_3_1_3" matches value "0"
+    Then the field "id_field_rate_3_1_4" matches value "1"
+    Then the field "id_field_rate_3_1_5" matches value "0"
 
-    Then the field "id_surveypro_field_rate_3_2_0" matches value "0"
-    Then the field "id_surveypro_field_rate_3_2_1" matches value "0"
-    Then the field "id_surveypro_field_rate_3_2_2" matches value "0"
-    Then the field "id_surveypro_field_rate_3_2_3" matches value "1"
-    Then the field "id_surveypro_field_rate_3_2_4" matches value "0"
-    Then the field "id_surveypro_field_rate_3_2_5" matches value "0"
+    Then the field "id_field_rate_3_2_0" matches value "0"
+    Then the field "id_field_rate_3_2_1" matches value "0"
+    Then the field "id_field_rate_3_2_2" matches value "0"
+    Then the field "id_field_rate_3_2_3" matches value "1"
+    Then the field "id_field_rate_3_2_4" matches value "0"
+    Then the field "id_field_rate_3_2_5" matches value "0"
 
-    Then the field "id_surveypro_field_rate_3_3_0" matches value "0"
-    Then the field "id_surveypro_field_rate_3_3_1" matches value "0"
-    Then the field "id_surveypro_field_rate_3_3_2" matches value "1"
-    Then the field "id_surveypro_field_rate_3_3_3" matches value "0"
-    Then the field "id_surveypro_field_rate_3_3_4" matches value "0"
-    Then the field "id_surveypro_field_rate_3_3_5" matches value "0"
+    Then the field "id_field_rate_3_3_0" matches value "0"
+    Then the field "id_field_rate_3_3_1" matches value "0"
+    Then the field "id_field_rate_3_3_2" matches value "1"
+    Then the field "id_field_rate_3_3_3" matches value "0"
+    Then the field "id_field_rate_3_3_4" matches value "0"
+    Then the field "id_field_rate_3_3_5" matches value "0"
 
-    Then the field "id_surveypro_field_rate_3_4_0" matches value "0"
-    Then the field "id_surveypro_field_rate_3_4_1" matches value "1"
-    Then the field "id_surveypro_field_rate_3_4_2" matches value "0"
-    Then the field "id_surveypro_field_rate_3_4_3" matches value "0"
-    Then the field "id_surveypro_field_rate_3_4_4" matches value "0"
-    Then the field "id_surveypro_field_rate_3_4_5" matches value "0"
+    Then the field "id_field_rate_3_4_0" matches value "0"
+    Then the field "id_field_rate_3_4_1" matches value "1"
+    Then the field "id_field_rate_3_4_2" matches value "0"
+    Then the field "id_field_rate_3_4_3" matches value "0"
+    Then the field "id_field_rate_3_4_4" matches value "0"
+    Then the field "id_field_rate_3_4_5" matches value "0"
 
-    Then the field "id_surveypro_field_rate_3_5_0" matches value "1"
-    Then the field "id_surveypro_field_rate_3_5_1" matches value "0"
-    Then the field "id_surveypro_field_rate_3_5_2" matches value "0"
-    Then the field "id_surveypro_field_rate_3_5_3" matches value "0"
-    Then the field "id_surveypro_field_rate_3_5_4" matches value "0"
-    Then the field "id_surveypro_field_rate_3_5_5" matches value "0"
+    Then the field "id_field_rate_3_5_0" matches value "1"
+    Then the field "id_field_rate_3_5_1" matches value "0"
+    Then the field "id_field_rate_3_5_2" matches value "0"
+    Then the field "id_field_rate_3_5_3" matches value "0"
+    Then the field "id_field_rate_3_5_4" matches value "0"
+    Then the field "id_field_rate_3_5_5" matches value "0"
     Then I should see "One more additional note"

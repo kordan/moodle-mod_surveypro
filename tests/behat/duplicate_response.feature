@@ -39,7 +39,7 @@ Feature: Duplicate a response
     Then I should see "and never modified?"
     And I press "Continue"
 
-    # Edit the duplicatet response
+    # Edit the duplicated response
     And I click on "//a[contains(@id,'edit_submission_row_2')]" "xpath_element"
     And I set the field "Is it true?" to "No"
     And I press "Submit"

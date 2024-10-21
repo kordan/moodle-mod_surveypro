@@ -39,47 +39,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var int Maximum number of files allowed to upload
@@ -95,6 +55,13 @@ class item extends itembase {
      * @var string List of allowed file extension
      */
     protected $filetypes;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -128,9 +95,11 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
-        $this->insetupform['insearchform'] = false;
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['insearchform'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -159,14 +128,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -178,7 +143,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -199,37 +164,94 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Attachment';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->variable = 'fileupload_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->maxfiles = 1;
         $record->maxbytes = 1048576;
         $record->filetypes = '*';
     }
 
+    // MARK set.
+
+    /**
+     * Set maxfiles.
+     *
+     * @param string $maxfiles
+     * @return void
+     */
+    public function set_maxfiles($maxfiles) {
+        $this->maxfiles = $maxfiles;
+    }
+
+    /**
+     * Set maxbytes.
+     *
+     * @param string $maxbytes
+     * @return void
+     */
+    public function set_maxbytes($maxbytes) {
+        $this->maxbytes = $maxbytes;
+    }
+
+    /**
+     * Set filetypes.
+     *
+     * @param string $filetypes
+     * @return void
+     */
+    public function set_filetypes($filetypes) {
+        $this->filetypes = $filetypes;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get maxfiles.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->maxfiles
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_maxfiles() {
+        return $this->maxfiles;
+    }
+
+    /**
+     * Get maxbytes.
+     *
+     * @return $this->maxbytes
+     */
+    public function get_maxbytes() {
+        return $this->maxbytes;
+    }
+
+    /**
+     * Get filetypes.
+     *
+     * @return $this->filetypes
+     */
+    public function get_filetypes() {
+        return $this->filetypes;
+    }
+
+    /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['maxfiles', 'maxbytes', 'filetypes'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
     }
 
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_fileupload'] = [];
 
         return $fieldlist;
     }
@@ -246,28 +268,9 @@ class item extends itembase {
     <xs:element name="surveyprofield_fileupload">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <!-- <xs:element name="hideinstructions" type="xs:int"/> -->
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
-                <xs:element name="maxfiles" type="xs:int"/>
-                <xs:element name="maxbytes" type="xs:int"/>
-                <xs:element name="filetypes" type="xs:string"/>
+                <xs:element name="maxfiles" type="xs:int" minOccurs="0"/>
+                <xs:element name="maxbytes" type="xs:int" minOccurs="0"/>
+                <xs:element name="filetypes" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -290,34 +293,69 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        $fieldname = $this->itemname.'_filemanager';
+        $useinline = true;
+        if (!$useinline) {
+            $fieldname = $this->itemname.'_filemanager';
 
-        if ($this->position == SURVEYPRO_POSITIONLEFT) {
-            $elementlabel = $this->get_contentwithnumber();
+            if ($this->position == SURVEYPRO_POSITIONLEFT) {
+                $elementlabel = $this->get_contentwithnumber();
+            } else {
+                $elementlabel = '&nbsp;';
+            }
+
+            $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
+
+            $filetypes = array_map('trim', explode(',', $this->filetypes));
+
+            $attributes = [];
+            $attributes['id'] = $idprefix;
+            $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
+            $attributes['maxbytes'] = $this->maxbytes;
+            $attributes['accepted_types'] = $filetypes;
+            $attributes['subdirs'] = false;
+            $attributes['maxfiles'] = $this->maxfiles;
+            $mform->addElement('filemanager', $fieldname, $elementlabel, null, $attributes);
+
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $mform->_required[] = $starplace;
+            }
         } else {
-            $elementlabel = '&nbsp;';
-        }
+            if ($this->position == SURVEYPRO_POSITIONLEFT) {
+                $elementlabel = $this->get_contentwithnumber();
+            } else {
+                $elementlabel = '&nbsp;';
+            }
 
-        $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
+            $attributes = [];
+            $elementgroup = [];
+            $class = ['class' => 'indent-'.$this->indent];
+            $baseid = 'id_field_fileupload_'.$this->sortindex;
+            $basename = $this->itemname;
 
-        $filetypes = array_map('trim', explode(',', $this->filetypes));
+            $filetypes = array_map('trim', explode(',', $this->filetypes));
 
-        $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
-        $attributes['maxbytes'] = $this->maxbytes;
-        $attributes['accepted_types'] = $filetypes;
-        $attributes['subdirs'] = false;
-        $attributes['maxfiles'] = $this->maxfiles;
-        $mform->addElement('mod_surveypro_fileupload', $fieldname, $elementlabel, null, $attributes);
+            $attributes['id'] = $baseid;
+            $attributes['maxbytes'] = $this->maxbytes;
+            $attributes['accepted_types'] = $filetypes;
+            $attributes['subdirs'] = false;
+            $attributes['maxfiles'] = $this->maxfiles;
 
-        if ($this->required) {
-            // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-            // I do not want JS form validation if the page is submitted through the "previous" button.
-            // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-            // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-            $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
-            $mform->_required[] = $starplace;
+            $elementgroup[] = $mform->createElement('filemanager', $basename.'_filemanager', $elementlabel, null, $attributes);
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $mform->_required[] = $starplace;
+            }
         }
     }
 
@@ -331,7 +369,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         if ($searchform) {
-            return;
+            return $errors;
         }
 
         if ($this->required) {
@@ -340,9 +378,10 @@ EOS;
             $fieldname = $this->itemname.'_filemanager';
             if (empty($data[$fieldname])) {
                 $errors[$errorkey] = get_string('required');
-                return;
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -365,8 +404,10 @@ EOS;
             $attributes['accepted_types'] = $this->filetypes;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
-            file_save_draft_area_files($answer['filemanager'], $context->id, 'surveyprofield_fileupload',
-                'fileuploadfiles', $olduseranswer->id, $attributes);
+            file_save_draft_area_files(
+                $answer['filemanager'], $context->id, 'surveyprofield_fileupload',
+                'fileuploadfiles', $olduseranswer->id, $attributes
+            );
 
             $olduseranswer->content = ''; // Nothing is expected here.
         }
@@ -388,7 +429,7 @@ EOS;
         $context = \context_module::instance($this->cm->id);
         $fieldname = $this->itemname.'_filemanager';
 
-        $draftitemid = 0;
+        $draftitemid = file_get_submitted_draft_itemid('surveyprofield_fileupload'); // ????
         $attributes = [];
         $attributes['maxbytes'] = $this->maxbytes;
         $attributes['accepted_types'] = $this->filetypes;
@@ -432,8 +473,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_filemanager'];
-
-        return $elementnames;
+        return [$this->itemname.'_filemanager'];
     }
 }

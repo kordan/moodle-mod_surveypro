@@ -379,7 +379,7 @@ class utility_layout {
             debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
         }
 
-        $validanswerparams = ['id', 'submissionid', 'itemid', 'content'];
+        $validanswerparams = ['id', 'submissionid', 'itemid', 'content', 'verified'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
@@ -610,7 +610,7 @@ class utility_layout {
         global $DB;
 
         // Verify input params integrity.
-        $validanswerparams = ['id', 'submissionid', 'itemid', 'content'];
+        $validanswerparams = ['id', 'submissionid', 'itemid', 'content', 'verified'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {

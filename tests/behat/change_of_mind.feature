@@ -67,7 +67,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Choose a direction"
     Then I should see "Question without parent"
 
-    And I set the field "id_surveypro_field_select_4" to "South"
+    And I set the field "id_field_select_4" to "South"
     And I set the field "Question without parent" to "This should remain"
     And I press "<< Previous page"
 
@@ -166,17 +166,17 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Which pet do you like more?"
 
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_4_2 | 1 |
+      | id_field_radiobutton_4_2 | 1 |
     And I press "Next page >>"
     Then I should not see "Choose a direction"
 
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_7_1 | 1 |
+      | id_field_checkbox_7_1 | 1 |
     And I set the field "Question without parent" to "This should remain"
     And I press "<< Previous page"
 
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_4_3 | 1 |
+      | id_field_radiobutton_4_3 | 1 |
     And I press "<< Previous page"
 
     And I set the field "Is it true?" to "0"
@@ -187,7 +187,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Choose a direction"
     Then I should see "Question without parent"
 
-    And I set the field "id_surveypro_field_select_6" to "South"
+    And I set the field "id_field_select_6" to "South"
     And I press "Submit"
     Then I should not see "Some answers of this response have been found as unverified."
 
@@ -277,7 +277,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I set the field "Write down your email, please" to "su@nowhere.net"
 
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_2_1 | 1 |
+      | id_field_radiobutton_2_1 | 1 |
     And I press "Next page >>"
     Then I should see "Was it carved in marble?"
     Then I should not see "Is it A4 format?"
@@ -288,7 +288,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     Then I should see "Which artwork did you make?"
 
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_2_0 | 1 |
+      | id_field_radiobutton_2_0 | 1 |
     And I press "Next page >>"
     Then I should see "Is it A4 format?"
     Then I should not see "Was it carved in marble?"

@@ -24,8 +24,8 @@
 
 require_once(dirname(__FILE__).'/../../config.php');
 
-$id = optional_param('id', 0, PARAM_INT); // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);   // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);
+$s = optional_param('s', 0, PARAM_INT);
 $report = optional_param('report', null, PARAM_TEXT); // Requested report. Section is the report name.
 
 if (!empty($id)) {

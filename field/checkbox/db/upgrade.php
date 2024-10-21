@@ -144,5 +144,66 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023111401, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2024022701) {
+
+        // Define field content to be dropped from surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field1 = new xmldb_field('content');
+        $field2 = new xmldb_field('contentformat');
+
+        // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+        $condition = $dbman->field_exists($table, $field1);
+        $condition = $condition && $dbman->field_exists($table, $field2);
+        if ($condition) {
+            $sql = 'UPDATE {surveypro_item} i
+                    JOIN {surveyprofield_checkbox} f ON f.itemid = i.id
+                    SET i.content = f.content,
+                        i.contentformat = f.contentformat';
+            $DB->execute($sql);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field1)) {
+            $dbman->drop_field($table, $field1);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field2)) {
+            $dbman->drop_field($table, $field2);
+        }
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2024022701, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2024032800) {
+
+        $table = new xmldb_table('surveyprofield_checkbox');
+
+        $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
+        foreach ($fieldnames as $fieldname) {
+            // Define field content to be dropped from surveyprofield_checkbox.
+            $field = new xmldb_field($fieldname);
+
+            // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+            $condition = $dbman->field_exists($table, $field);
+            if ($dbman->field_exists($table, $field)) {
+                // Copy the content of the dieing column to the new corresponding column in surveypro_item.
+                $sql = 'UPDATE {surveypro_item} i
+                        JOIN {surveyprofield_checkbox} f ON f.itemid = i.id
+                        SET i.'.$fieldname.' = f.'.$fieldname;
+                $DB->execute($sql);
+            }
+
+            // Conditionally launch drop field content.
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'checkbox');
+    }
+
     return true;
 }

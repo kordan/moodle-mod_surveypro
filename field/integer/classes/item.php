@@ -40,47 +40,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var string Value of the default setting (invite, custom...)
@@ -88,7 +48,7 @@ class item extends itembase {
     protected $defaultoption;
 
     /**
-     * @var string Value of the field when the form is initially displayed
+     * @var int Defaultvalue for the item answer
      */
     protected $defaultvalue;
 
@@ -101,6 +61,13 @@ class item extends itembase {
      * @var int Integer upperbound
      */
     protected $upperbound;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -135,7 +102,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -165,14 +134,10 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -184,7 +149,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -205,13 +170,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Integer (small)';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->variable = 'integer_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->defaultoption = SURVEYPRO_INVITEDEFAULT;
         $record->defaultvalue = 0;
         $record->lowerbound = 0;
@@ -249,25 +208,107 @@ class item extends itembase {
         return implode('<br>', $constraints);
     }
 
+    // MARK set.
+
+    /**
+     * Set defaultoption.
+     *
+     * @param string $defaultoption
+     * @return void
+     */
+    public function set_defaultoption($defaultoption) {
+        $this->defaultoption = $defaultoption;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set lowerbound.
+     *
+     * @param string $lowerbound
+     * @return void
+     */
+    public function set_lowerbound($lowerbound) {
+        $this->lowerbound = $lowerbound;
+    }
+
+    /**
+     * Set upperbound.
+     *
+     * @param string $upperbound
+     * @return void
+     */
+    public function set_upperbound($upperbound) {
+        $this->upperbound = $upperbound;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get defaultoption.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->defaultoption
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_defaultoption() {
+        return $this->defaultoption;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get lowerbound.
+     *
+     * @return $this->lowerbound
+     */
+    public function get_lowerbound() {
+        return $this->lowerbound;
+    }
+
+    /**
+     * Get upperbound.
+     *
+     * @return $this->upperbound
+     */
+    public function get_upperbound() {
+        return $this->upperbound;
+    }
+
+    /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = ['defaultoption', 'defaultvalue', 'lowerbound', 'upperbound'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
     }
 
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_integer'] = [];
 
         return $fieldlist;
     }
@@ -284,29 +325,10 @@ class item extends itembase {
     <xs:element name="surveyprofield_integer">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="defaultoption" type="xs:int"/>
                 <xs:element name="defaultvalue" type="xs:int" minOccurs="0"/>
-                <xs:element name="lowerbound" type="xs:int"/>
-                <xs:element name="upperbound" type="xs:int"/>
+                <xs:element name="lowerbound" type="xs:int" minOccurs="0"/>
+                <xs:element name="upperbound" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -438,8 +460,6 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_integer_'.$this->sortindex;
-
         // Begin of: element values.
         $integers = [];
         if (!$searchform) {
@@ -456,17 +476,24 @@ EOS;
         }
         // End of: element values.
 
-        $attributes = ['id' => $idprefix, 'class' => 'indent-'.$this->indent.' integer_select'];
-        $elementgroup = [$mform->createElement('select', $this->itemname, '', $integers, $attributes)];
-        $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
+        $attributes = [];
+        $elementgroup = [];
+        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_integer_'.$this->sortindex;
+        $basename = $this->itemname;
 
+        $attributes = ['id' => $baseid];
+        $elementgroup[] = $mform->createElement('select', $basename, '', $integers, $attributes);
+        $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+
+        $attributes = ['id' => $baseid];
         if (!$searchform) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
         }
@@ -474,7 +501,7 @@ EOS;
         // Default section.
         if (!$searchform) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
-                $mform->setDefault($this->itemname, SURVEYPRO_INVITEVALUE);
+                $mform->setDefault($basename, SURVEYPRO_INVITEVALUE);
             } else {
                 switch ($this->defaultoption) {
                     case SURVEYPRO_CUSTOMDEFAULT:
@@ -484,10 +511,10 @@ EOS;
                         $defaultinteger = SURVEYPRO_NOANSWERVALUE;
                         break;
                 }
-                $mform->setDefault($this->itemname, "$defaultinteger");
+                $mform->setDefault($basename, "$defaultinteger");
             }
         } else {
-            $mform->setDefault($this->itemname, SURVEYPRO_IGNOREMEVALUE);
+            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
         }
     }
 
@@ -501,7 +528,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         if ($searchform) {
-            return;
+            return $errors;
         }
 
         // This plugin displays as dropdown menu. It will never return empty values.
@@ -520,14 +547,14 @@ EOS;
                 $a = get_string('noanswer', 'mod_surveypro');
                 $errors[$errorkey] = get_string('uerr_integernotset', 'surveyprofield_integer', $a);
             }
-            return;
+            return $errors;
         }
 
         $haslowerbound = ($this->lowerbound != 0);
         $hasupperbound = ($this->upperbound != $maximuminteger);
 
         if ($userinput == SURVEYPRO_NOANSWERVALUE) {
-            return;
+            return $errors;
         }
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
@@ -542,6 +569,8 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum', 'surveyprofield_integer');
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -652,8 +681,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname.'_group'];
     }
 }

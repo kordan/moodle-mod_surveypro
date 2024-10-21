@@ -127,7 +127,7 @@ class layout_itemlist {
     protected $itemeditingfeedback;
 
     /**
-     * @var StdClass object with the feedback for the user
+     * @var stdClass object with the feedback for the user
      */
     protected $actionfeedback;
 
@@ -256,7 +256,8 @@ class layout_itemlist {
         $righticn = new \pix_icon('t/right', $indentstr, 'moodle', $iconparams);
 
         $moveherestr = get_string('movehere');
-        $movehereicn = new \pix_icon('movehere', $moveherestr, 'moodle', ['title' => $moveherestr, 'class' => 'placeholder']);
+        $iconparams = ['title' => $moveherestr];
+        $movehereicn = new \pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
 
         $availablestr = get_string('available_title', 'mod_surveypro');
         $iconparams = ['title' => $availablestr];
@@ -316,7 +317,7 @@ class layout_itemlist {
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $itemid = $itemseed->itemid;
             $itemishidden = $item->get_hidden();
             $sortindex = $item->get_sortindex();
@@ -529,12 +530,15 @@ class layout_itemlist {
                 }
 
                 // SURVEYPRO_REQUIRED ON/OFF.
-                $currentrequired = $item->get_required();
-                if ($currentrequired !== false) { // It may be "not set" as in page_break, autofill or some more.
+                $plugin = $item->get_plugin();
+                $type = $item->get_type();
+                $classname = 'surveypro'.$type.'_'.$plugin.'\item';
+                $usesmandatoryattribute = $classname::has_mandatoryattribute();
+                if ($usesmandatoryattribute) { // It may be not used as in page_break, autofill or some more.
                     $paramurl = $paramurlbase;
                     $paramurl['sesskey'] = sesskey();
 
-                    if ($item->item_canbemandatory()) {
+                    if ($item->item_canbesettomandatory()) {
                         $required = $item->get_required();
                         $tmpl = new layout_required($itemid, $required, $sortindex);
                         $tmpl->set_type_toggle();
@@ -623,7 +627,6 @@ class layout_itemlist {
         }
 
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('itemlist', 'mod_surveypro');
         $table->print_html();
     }
 
@@ -727,12 +730,12 @@ class layout_itemlist {
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
             $itemishidden = $item->get_hidden();
 
             if ($item->get_parentid()) {
                 // Here I do not know type and plugin.
-                $parentitem = surveypro_get_item($this->cm, $this->surveypro, $item->get_parentid());
+                $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $item->get_parentid());
             }
 
             $tablerow = [];
@@ -831,7 +834,6 @@ class layout_itemlist {
         $itemseeds->close();
 
         $table->set_attribute('align', 'center');
-        $table->summary = get_string('itemlist', 'mod_surveypro');
         $table->print_html();
     }
 
@@ -998,8 +1000,8 @@ class layout_itemlist {
                 redirect($returnurl);
                 break;
             case SURVEYPRO_CHANGEINDENT:
-                $where = ['itemid' => $this->rootitemid];
-                $DB->set_field('surveypro'.$this->type.'_'.$this->plugin, 'indent', $this->nextindent, $where);
+                $where = ['id' => $this->rootitemid];
+                $DB->set_field('surveypro_item', 'indent', $this->nextindent, $where);
                 break;
             case SURVEYPRO_MAKERESERVED:
                 $this->item_makereserved_execute();
@@ -1173,7 +1175,7 @@ class layout_itemlist {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
                 $dependencies = [];
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
                 $a = new \stdClass();
                 $a->itemcontent = $item->get_content();
@@ -1263,7 +1265,7 @@ class layout_itemlist {
         $itemstoprocess = count($toshowlist); // This is the list of ancestors.
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             if ($itemstoprocess > 1) { // Ask for confirmation.
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
                 $a = new \stdClass();
                 $a->lastitem = $item->get_content();
@@ -1388,7 +1390,7 @@ class layout_itemlist {
             if ($itemstoprocess > 1) { // Ask for confirmation.
                 // If the clicked element has not parents.
                 $a = new \stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
                 $a->itemcontent = $item->get_content();
                 foreach ($itemstoreserve as $itemtoreserve) {
                     $dependencies[] = $itemtoreserve->sortindex;
@@ -1402,7 +1404,7 @@ class layout_itemlist {
 
                 if ($baseitemid != $this->rootitemid) {
                     $firstparentitem = reset($itemstoreserve);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
+                    $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $firstparentitem->id);
                     $a->parentcontent = $parentitem->get_content();
                     $message = get_string('confirm_reservechainitems_newparent', 'mod_surveypro', $a);
                 } else {
@@ -1515,7 +1517,7 @@ class layout_itemlist {
             if ($itemstoprocess > 1) { // Ask for confirmation.
                 // If the clicked element has not parents.
                 $a = new \stdClass();
-                $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
                 $a->itemcontent = $item->get_content();
                 foreach ($itemstoavailable as $itemtoavailable) {
                     $dependencies[] = $itemtoavailable->sortindex;
@@ -1529,7 +1531,7 @@ class layout_itemlist {
 
                 if ($baseitemid != $this->rootitemid) {
                     $firstparentitem = reset($itemstoavailable);
-                    $parentitem = surveypro_get_item($this->cm, $this->surveypro, $firstparentitem->id);
+                    $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $firstparentitem->id);
                     $a->parentcontent = $parentitem->get_content();
                     $message = get_string('confirm_freechainitems_newparent', 'mod_surveypro', $a);
                 } else {
@@ -1600,7 +1602,7 @@ class layout_itemlist {
             }
 
             // Get the content of the item for the feedback message.
-            $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
             $killedsortindex = $item->get_sortindex();
             $whereparams = ['id' => $this->rootitemid];
@@ -1630,7 +1632,7 @@ class layout_itemlist {
         if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
             // Ask for confirmation.
             // In the frame of the confirmation I need to declare whether some child will break the link.
-            $item = surveypro_get_item($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
             $a = new \stdClass();
             $a->content = $item->get_content();
@@ -2047,34 +2049,48 @@ class layout_itemlist {
         global $DB;
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            // Overwrite keys from the database and replace it with the actual strings.
             $template = $this->surveypro->template;
+
             $where = ['surveyproid' => $this->surveypro->id];
             $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, type, plugin');
             foreach ($itemseeds as $itemseed) {
                 $id = $itemseed->id;
                 $type = $itemseed->type;
                 $plugin = $itemseed->plugin;
-                $item = surveypro_get_item($this->cm, $this->surveypro, $id, $type, $plugin);
-                $itemsmlfields = $item->get_multilang_fields(); // Pagebreak and fieldsetend have no multilang_fields.
-                if ($itemsmlfields[$plugin]) {
-                    // Note: ml means multi language.
-                    foreach ($itemsmlfields as $itemmlfield) { // Note: $itemmlfield is an array of fields.
-                        $record = new \stdClass();
-                        $record->id = $item->get_pluginid();
+                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $id, $type, $plugin);
 
-                        $where = ['id' => $record->id];
-                        $fieldlist = implode(',', $itemmlfield);
-                        // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
-                        $reference = $DB->get_record('surveypro'.$type.'_'.$plugin, $where, $fieldlist, MUST_EXIST);
-                        foreach ($itemmlfield as $mlfieldname) {
-                            $stringkey = $reference->{$mlfieldname};
+                $itemsmlfields = $item->get_multilang_fields(false);
+                if ($itemsmlfields) { // Pagebreak and fieldsetend have no multilang_fields.
+                    // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
+                    foreach ($itemsmlfields as $table => $fields) { // Note: $itemmlfield is an array of arrays of fields.
+                        if (!count($fields)) {
+                            continue;
+                        }
+                        $record = new \stdClass();
+
+                        $fieldlist = implode(',', $fields);
+                        if ($table == 'surveypro_item') {
+                            $where = ['id' => $id];
+                            $savedrecord = $DB->get_record($table, $where, $fieldlist, MUST_EXIST);
+                            $record->id = $id;
+                        } else {
+                            $where = ['itemid' => $id];
+                            $savedrecord = $DB->get_record($table, $where, 'id,'.$fieldlist, MUST_EXIST);
+                            $record->id = $savedrecord->id;
+                        }
+
+                        foreach ($fields as $mlfieldname) {
+                            $stringkey = $savedrecord->{$mlfieldname};
+
                             if (core_text::strlen($stringkey)) {
                                 $record->{$mlfieldname} = get_string($stringkey, 'surveyprotemplate_'.$template);
                             } else {
                                 $record->{$mlfieldname} = null;
                             }
                         }
-                        $DB->update_record('surveypro'.$type.'_'.$plugin, $record);
+
+                        $DB->update_record($table, $record);
                     }
                 }
             }
@@ -2115,14 +2131,14 @@ class layout_itemlist {
             // Ask for confirmation.
             $message = get_string('confirm_dropmultilang', 'mod_surveypro');
 
-            $optionbase = ['s' => $this->cm->instance, 'act' => SURVEYPRO_DROPMULTILANG, 'section' => 'itemslist'];
+            $optionbase = ['s' => $this->cm->instance];
 
-            $optionsyes = $optionbase;
+            $optionsyes = $optionbase + ['section' => 'itemslist', 'act' => SURVEYPRO_DROPMULTILANG];
             $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
             $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
             $buttonyes = new \single_button($urlyes, get_string('yes'));
 
-            $optionsno = $optionbase;
+            $optionsno = $optionbase + ['section' => 'preview'];
             $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
             $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
             $buttonno = new \single_button($urlno, get_string('no'));

@@ -40,47 +40,7 @@ require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
  */
 class item extends itembase {
 
-    /**
-     * @var string $content
-     */
-    public $content = '';
-
-    /**
-     * @var string $contentformat
-     */
-    public $contentformat = '';
-
-    /**
-     * @var string Custom number of the item
-     *
-     * It usually is 1, 1.1, a, 2.1.a..
-     */
-    protected $customnumber;
-
-    /**
-     * @var int SURVEYPRO_POSITIONLEFT, SURVEYPRO_POSITIONTOP or SURVEYPRO_POSITIONFULLWIDTH
-     */
-    protected $position;
-
-    /**
-     * @var string Optional text with item custom note
-     */
-    protected $extranote;
-
-    /**
-     * @var bool 0 => optional item; 1 => mandatory item;
-     */
-    protected $required;
-
-    /**
-     * @var string Name of the field storing data in the db table
-     */
-    protected $variable;
-
-    /**
-     * @var int Indent of the item in the form page
-     */
-    protected $indent;
+    // Itembase properties.
 
     /**
      * @var string List of options in the form of "$value SURVEYPRO_VALUELABELSEPARATOR $label"
@@ -88,9 +48,19 @@ class item extends itembase {
     protected $options;
 
     /**
+     * @var int Defaultvalue for the item answer
+     */
+    protected $defaultvalue;
+
+    /**
      * @var string Format of the content once downloaded
      */
     protected $downloadformat;
+
+    /**
+     * @var string noanswerdefault
+     */
+    protected $noanswerdefault;
 
     /**
      * @var int Height of the multiselect in rows
@@ -106,6 +76,13 @@ class item extends itembase {
      * @var int Maximum number of items the user is forced to choose in his/her answer
      */
     protected $maximumrequired;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -139,7 +116,9 @@ class item extends itembase {
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         // Empty list.
 
         if (!empty($itemid)) {
@@ -169,18 +148,14 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
+        // Set properties at plugin level and then continue to base level.
 
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
         // Drop empty rows and trim edging rows spaces from each textarea field.
         $fieldlist = ['options', 'defaultvalue'];
         $this->item_clean_textarea_fields($record, $fieldlist);
 
-        // Set custom fields value as defined for this question plugin.
-        $this->item_custom_fields_to_db($record);
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set custom fields values as defined by this specific plugin.
+        $this->add_plugin_properties_to_record($record);
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
@@ -192,7 +167,7 @@ class item extends itembase {
      * @param object $record
      * @return void
      */
-    public function item_custom_fields_to_db($record) {
+    public function add_plugin_properties_to_record($record) {
         // 1. Special management for composite fields.
         // Nothing to do: they don't exist in this plugin.
 
@@ -216,17 +191,13 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Multiple selection';
-        $record->contentformat = 1;
-        $record->position = 0;
-        $record->required = 0;
-        $record->hideinstructions = 0;
-        $record->variable = 'multiselect_001';
-        $record->indent = 0;
+    public function item_add_fields_default_to_child_table(&$record) {
         $record->options = "first\nsecond";
+        // $record->defaultvalue
+        // $record->noanswerdefault
         $record->downloadformat = SURVEYPRO_ITEMRETURNSLABELS;
         $record->minimumrequired = 0;
+        // $record->maximumrequired
         $record->heightinrows = 4;
     }
 
@@ -239,7 +210,7 @@ class item extends itembase {
         $constraints = [];
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_multiselect');
         foreach ($values as $value) {
             $constraints[] = $optionstr.$labelsep.$value;
@@ -248,15 +219,141 @@ class item extends itembase {
         return implode('<br>', $constraints);
     }
 
+    // MARK set.
+
+    /**
+     * Set options.
+     *
+     * @param string $options
+     * @return void
+     */
+    public function set_options($options) {
+        $this->options = $options;
+    }
+
+    /**
+     * Set defaultvalue.
+     *
+     * @param string $defaultvalue
+     * @return void
+     */
+    public function set_defaultvalue($defaultvalue) {
+        $this->defaultvalue = $defaultvalue;
+    }
+
+    /**
+     * Set downloadformat.
+     *
+     * @param string $downloadformat
+     * @return void
+     */
+    public function set_downloadformat($downloadformat) {
+        $this->downloadformat = $downloadformat;
+    }
+
+    /**
+     * Set noanswerdefault.
+     *
+     * @param string $noanswerdefault
+     * @return void
+     */
+    public function set_noanswerdefault($noanswerdefault) {
+        $this->noanswerdefault = $noanswerdefault;
+    }
+
+    /**
+     * Set heightinrows.
+     *
+     * @param string $heightinrows
+     * @return void
+     */
+    public function set_heightinrows($heightinrows) {
+        $this->heightinrows = $heightinrows;
+    }
+
+    /**
+     * Set minimumrequired.
+     *
+     * @param string $minimumrequired
+     * @return void
+     */
+    public function set_minimumrequired($minimumrequired) {
+        $this->minimumrequired = $minimumrequired;
+    }
+
+    /**
+     * Set maximumrequired.
+     *
+     * @param string $maximumrequired
+     * @return void
+     */
+    public function set_maximumrequired($maximumrequired) {
+        $this->maximumrequired = $maximumrequired;
+    }
+
     // MARK get.
 
     /**
-     * Is this item available as a parent?
+     * Get options.
      *
-     * @return the content of the static property "canbeparent"
+     * @return $this->options
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_options() {
+        return $this->options;
+    }
+
+    /**
+     * Get defaultvalue.
+     *
+     * @return $this->defaultvalue
+     */
+    public function get_defaultvalue() {
+        return $this->defaultvalue;
+    }
+
+    /**
+     * Get downloadformat.
+     *
+     * @return $this->downloadformat
+     */
+    public function get_downloadformat() {
+        return $this->downloadformat;
+    }
+
+    /**
+     * Get noanswerdefault.
+     *
+     * @return $this->noanswerdefault
+     */
+    public function get_noanswerdefault() {
+        return $this->noanswerdefault;
+    }
+
+    /**
+     * Get heightinrows.
+     *
+     * @return $this->heightinrows
+     */
+    public function get_heightinrows() {
+        return $this->heightinrows;
+    }
+
+    /**
+     * Get minimumrequired.
+     *
+     * @return $this->minimumrequired
+     */
+    public function get_minimumrequired() {
+        return $this->minimumrequired;
+    }
+
+    /**
+     * Get maximumrequired.
+     *
+     * @return $this->maximumrequired
+     */
+    public function get_maximumrequired() {
+        return $this->maximumrequired;
     }
 
     /**
@@ -284,13 +381,28 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = [
+            'options', 'defaultvalue', 'noanswerdefault', 'downloadformat', 'minimumrequired', 'maximumrequired', 'heightinrows',
+        ];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content', 'extranote', 'options', 'defaultvalue'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
+        $fieldlist['surveyprofield_multiselect'] = ['options', 'defaultvalue'];
 
         return $fieldlist;
     }
@@ -316,32 +428,13 @@ class item extends itembase {
     <xs:element name="surveyprofield_multiselect">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
-                <xs:element name="embedded" minOccurs="0" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="contentformat" type="xs:int"/>
-
-                <xs:element name="required" type="xs:int"/>
-                <xs:element name="indent" type="xs:int"/>
-                <xs:element name="position" type="xs:int"/>
-                <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
-                <xs:element name="hideinstructions" type="xs:int"/>
-                <xs:element name="variable" type="xs:string"/>
-                <xs:element name="extranote" type="xs:string" minOccurs="0"/>
-
                 <xs:element name="options" type="xs:string"/>
                 <xs:element name="defaultvalue" type="xs:string" minOccurs="0"/>
-                <xs:element name="noanswerdefault" type="xs:int"/>
-                <xs:element name="downloadformat" type="xs:string"/>
-                <xs:element name="minimumrequired" type="xs:int"/>
+                <xs:element name="noanswerdefault" type="xs:int" minOccurs="0"/>
+                <xs:element name="downloadformat" type="xs:string" minOccurs="0"/>
+                <xs:element name="minimumrequired" type="xs:int" minOccurs="0"/>
                 <xs:element name="maximumrequired" type="xs:int" minOccurs="0"/>
-                <xs:element name="heightinrows" type="xs:int"/>
+                <xs:element name="heightinrows" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -362,7 +455,7 @@ EOS;
     public function parent_encode_child_parentcontent($childparentcontent) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $parentcontents = array_unique($utilityitemman->multilinetext_to_array($childparentcontent));
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
 
         $childparentvalue = array_fill(0, count($values), 0);
         $labels = [];
@@ -400,7 +493,7 @@ EOS;
      * return string $childparentcontent
      */
     public function parent_decode_child_parentvalue($childparentvalue) {
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
 
@@ -449,7 +542,7 @@ EOS;
     public function parent_validate_child_constraints($childparentvalue) {
         // See parent method for explanation.
 
-        $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+        $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $optioncount = count($values);
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue);
         $actualcount = count($parentvalues);
@@ -494,65 +587,65 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $idprefix = 'id_surveypro_field_multiselect_'.$this->sortindex;
-
-        $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
         $attributes = [];
-        $attributes['id'] = $idprefix;
-        $attributes['class'] = 'indent-'.$this->indent.' multiselect_select';
+        $elementgroup = [];
+        $baseid = 'id_field_multiselect_'.$this->sortindex;
+        $class = ['class' => 'indent-'.$this->indent];
+        $basename = $this->itemname;
+
+        $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
+        $attributes['id'] = $baseid;
         $attributes['size'] = $this->heightinrows;
+
+        $select = $mform->createElement('select', $basename, '', $labels, $attributes);
+        $select->setMultiple(true);
+        $elementgroup[] = $select;
+
+        unset($attributes['size']); // No longer needed.
+
         if (!$searchform) {
             if ($this->required) {
-                $select = $mform->addElement('select', $this->itemname, $elementlabel, $labels, $attributes);
-                $select->setMultiple(true);
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
             } else {
-                $elementgroup = [];
-                $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
-                $select->setMultiple(true);
-                $elementgroup[] = $select;
+                $attributes['id'] = $baseid.'_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
 
-                $itemname = $this->itemname.'_noanswer';
-                $attributes['id'] = $idprefix.'_noanswer';
-                $attributes['class'] = 'multiselect_check';
-                unset($attributes['size']);
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
-
-                $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false);
+                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
                 // Multiselect uses a special syntax
-                // that is different from the syntax of all the other mform groups with disabilitation chechbox.
-                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');.
-                $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
+                // that is different from all the other mform group with disabilitation chechbox syntax.
+                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
+                $mform->disabledIf($basename.'[]', $basename.'_noanswer', 'checked');
             }
         } else {
-            $elementgroup = [];
-            $select = $mform->createElement('select', $this->itemname, '', $labels, $attributes);
-            $select->setMultiple(true);
-            $elementgroup[] = $select;
-
-            $attributes['class'] = 'multiselect_check';
-            unset($attributes['size']);
-
             if (!$this->required) {
-                $itemname = $this->itemname.'_noanswer';
-                $attributes['id'] = $idprefix.'_noanswer';
-                $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $noanswerstr, $attributes);
+                $attributes['id'] = $baseid.'_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
             }
 
-            $itemname = $this->itemname.'_ignoreme';
-            $attributes['id'] = $idprefix.'_ignoreme';
-            $attributes['class'] = 'multiselect_check';
-            $elementgroup[] = $mform->createElement('mod_surveypro_checkbox', $itemname, '', $starstr, $attributes);
+            $attributes['id'] = $baseid.'_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
 
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '<br>', false);
+            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '<br>', false, $class);
             if (!$this->required) {
                 // Multiselect uses a special syntax
-                // that is different from the syntax of all the other mform groups with disabilitation chechbox.
-                // $mform->disabledIf($this->itemname.'_group', $this->itemname.'_noanswer', 'checked');.
-                $mform->disabledIf($this->itemname.'[]', $this->itemname.'_noanswer', 'checked');
+                // that is different from all the other mform group with disabilitation chechbox syntax.
+                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
+                $mform->disabledIf($basename.'[]', $basename.'_noanswer', 'checked');
             }
-            $mform->disabledIf($this->itemname.'[]', $this->itemname.'_ignoreme', 'checked');
-            $mform->disabledIf($this->itemname.'_noanswer', $this->itemname.'_ignoreme', 'checked');
-            $mform->setDefault($this->itemname.'_ignoreme', '1');
+            $mform->disabledIf($basename.'[]', $basename.'_ignoreme', 'checked');
+            $mform->disabledIf($basename.'_noanswer', $basename.'_ignoreme', 'checked');
+            $mform->setDefault($basename.'_ignoreme', '1');
+        }
+
+        if (!$searchform) {
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $mform->_required[] = $starplace;
+            }
         }
 
         // Begin of: defaults.
@@ -562,16 +655,15 @@ EOS;
                 foreach ($defaults as $default) {
                     $defaultkeys[] = array_search($default, $labels);
                 }
-                $mform->setDefault($this->itemname, $defaultkeys);
+                $mform->setDefault($basename, $defaultkeys);
             }
-            $itemname = $this->itemname.'_noanswer';
             if (!empty($this->noanswerdefault)) {
-                $mform->setDefault($itemname, '1');
+                $mform->setDefault($basename.'_noanswer', '1');
             }
         }
         // End of: defaults.
 
-        // This last item is needed because the check for the not empty field is performed in the validation routine (not by JS).
+        // This last item is needed because the check for "not empty" field is performed in the validation routine (not by JS).
         // For multiselect element, nothing is submitted if no option is selected
         // so, if the user neglects the mandatory multiselect AT ALL, it is not submitted and, as conseguence, not validated.
         // TO ALWAYS SUBMIT A MULTISELECT I add a dummy hidden item.
@@ -581,17 +673,6 @@ EOS;
         $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
         $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);
-
-        if (!$searchform) {
-            if ($this->required) {
-                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // I do not want JS form validation if the page is submitted through the "previous" button.
-                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
-                $mform->_required[] = $starplace;
-            }
-        }
     }
 
     /**
@@ -604,13 +685,13 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         if ($searchform) {
-            return;
+            return $errors;
         }
         if (isset($data[$this->itemname.'_noanswer']) && ($data[$this->itemname.'_noanswer'] == 1) ) {
-            return; // Nothing to validate.
+            return $errors; // Nothing to validate.
         }
 
-        $errorkey = $this->required ? $this->itemname : $this->itemname.'_group';
+        $errorkey = $this->itemname.'_group';
 
         // I don't care if this element is required or not.
         // If the user provides an answer, it has to be compliant with the field validation rules.
@@ -631,6 +712,8 @@ EOS;
                 $errors[$errorkey] = get_string('uerr_greaterthanmaximum_more', 'surveyprofield_multiselect', $a);
             }
         }
+
+        return $errors;
     }
 
     /**
@@ -774,13 +857,13 @@ EOS;
         }
 
         if (!isset($answer['mainelement'])) { // Only placeholder arrived here.
-            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+            $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, array_fill(1, count($labels), '0'));
         } else {
             // Here $answer is an array with the keys of the selected elements.
             $olduseranswer->content = implode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $answer['mainelement']);
 
-            $labels = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+            $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
             $itemcount = count($labels);
             $contentarray = array_fill(0, $itemcount, 0);
             foreach ($answer['mainelement'] as $k) {
@@ -860,7 +943,7 @@ EOS;
             case SURVEYPRO_ITEMSRETURNSVALUES:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = [];
-                $values = $this->get_content_array(SURVEYPRO_VALUES, 'options');
+                $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
                 foreach ($answers as $k => $answer) {
                     if ($answer == 1) {
                         $output[] = $values[$k];
@@ -871,7 +954,7 @@ EOS;
             case SURVEYPRO_ITEMRETURNSLABELS:
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $content);
                 $output = [];
-                $values = $this->get_content_array(SURVEYPRO_LABELS, 'options');
+                $values = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
 
                 foreach ($answers as $k => $answer) {
                     if ($answer == 1) {

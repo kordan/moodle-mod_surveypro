@@ -23,5 +23,5 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['uerr_optionnotset'] = 'Si selezioni una opzione';
 $string['uerr_missingothertext'] = 'Si aggiunga un contenuto al campo corrispondente alla selezione';
+$string['uerr_optionnotset'] = 'Si selezioni una opzione';

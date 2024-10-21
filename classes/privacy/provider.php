@@ -237,7 +237,7 @@ class provider implements
     protected static function export_get_itemcontent($surveyproanswer) {
         global $DB;
 
-        $tablename = 'surveyprofield_'.$surveyproanswer->plugin;
+        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$surveyproanswer->plugin;
         $itemid = $surveyproanswer->itemid;
         $params = ['itemid' => $itemid];
         $plugin = $DB->get_record($tablename, $params);

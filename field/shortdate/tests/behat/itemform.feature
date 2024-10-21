@@ -102,6 +102,6 @@ Feature: Create a shortdate item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a When did you buy your current car?"
-    Then the field "id_surveypro_field_shortdate_2_month" matches value "January"
-    Then the field "id_surveypro_field_shortdate_2_year" matches value "2014"
+    Then the field "id_field_shortdate_2_month" matches value "January"
+    Then the field "id_field_shortdate_2_year" matches value "2014"
     Then I should see "Additional note"
