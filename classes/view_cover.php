@@ -192,7 +192,7 @@ class view_cover {
         }
 
         // Begin of: report section.
-        $surveyproreportlist = get_plugin_list('surveyproreport');
+        $surveyproreportlist = \core_component::get_plugin_list('surveyproreport');
         $paramurl = ['s' => $this->cm->instance, 'area' => 'reports', 'section' => 'apply'];
 
         foreach ($surveyproreportlist as $reportname => $pluginpath) {

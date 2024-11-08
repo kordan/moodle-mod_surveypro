@@ -1109,7 +1109,7 @@ function surveypro_get_first_allowed_report() {
     $return = '';
     $context = \context_module::instance($cm->id);
     $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
-    if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+    if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
         foreach ($surveyproreportlist as $reportname => $reportpath) {
             $classname = 'surveyproreport_'.$reportname.'\report';
             $reportman = new $classname($cm, $context, $surveypro);
@@ -1151,9 +1151,9 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
 
     if ($plugintype == SURVEYPRO_TYPEFIELD || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD));
+            $plugincount += count(\core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD));
         } else {
-            $fieldplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
+            $fieldplugins = \core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
             if (!empty($includetype)) {
                 foreach ($fieldplugins as $k => $v) {
                     if (!get_config('surveyprofield_'.$k, 'disabled')) {
@@ -1176,9 +1176,9 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
     }
     if ($plugintype == SURVEYPRO_TYPEFORMAT || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT));
+            $plugincount += count(\core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT));
         } else {
-            $formatplugins = core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
+            $formatplugins = \core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
             if (!empty($includetype)) {
                 foreach ($formatplugins as $k => $v) {
                     if (!get_config('surveyproformat_'.$k, 'disabled')) {
