@@ -137,6 +137,7 @@ $string['onlyfinalizationallowed'] = ' ma solo la chiusura di quelle ancora "{$a
 $string['onlyreview'] = ' o rivederlo';
 $string['opened'] = 'Data di apertura';
 $string['outputstyle'] = 'Stile del file';
+$string['pagexofy'] = 'Pagina {$a->formpage} di {$a->userformpagecount}';
 $string['parentconstraints'] = 'Opzioni di relazione';
 $string['parentcontent_help'] = 'Risposta che l\'utente deve fornire all\'elemento padre affinché questo elemento divenga acessibile.';
 $string['parentcontent'] = 'Risposta abilitante';
