@@ -249,8 +249,7 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. Override few values.
-        // Position and hideinstructions are set by design.
-        $record->position = SURVEYPRO_POSITIONTOP;
+        // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
