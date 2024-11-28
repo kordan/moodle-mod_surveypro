@@ -133,7 +133,7 @@ class userform extends \moodleform {
                         $itemname = $item->get_itemname().'_extrarow';
                         $content = $item->get_contentwithnumber();
                         $option = ['class' => 'indent-'.$item->get_indent()];
-                        $mform->addElement('mod_surveypro_label', $itemname, $elementnumber, $content, $option);
+                        $mform->addElement('mod_surveypro_label', $itemname, '', $content, $option);
 
                         $item->item_add_color_unifier($mform);
                     }

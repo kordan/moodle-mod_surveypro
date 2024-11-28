@@ -156,7 +156,6 @@ class item extends itembase {
 
         // List of fields I do not want to have in the item definition form.
         $this->insetupform['insearchform'] = false;
-        $this->insetupform['position'] = SURVEYPRO_POSITIONLEFT;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -249,12 +248,11 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. Override few values.
-        // Position and hideinstructions are set by design.
-        $record->position = SURVEYPRO_POSITIONTOP;
+        // Nothing to do: no need to overwrite variables.
 
         // 3. Set values corresponding to checkboxes.
         // Take care: 'required', 'hideinstructions' were already considered in get_common_settings.
-        $checkboxes = ['hideinstructions', 'differentrates'];
+        $checkboxes = ['differentrates'];
         foreach ($checkboxes as $checkbox) {
             $record->{$checkbox} = (isset($record->{$checkbox})) ? 1 : 0;
         }
