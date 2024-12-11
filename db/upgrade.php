@@ -164,11 +164,11 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016101700) {
-        // Changing the default of field contentformat on table surveypro_answer to null.
+        // Changing the default of field content on table surveypro_answer to null.
         $table = new xmldb_table('surveypro_answer');
         $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'verified');
 
-        // Launch change of default for field contentformat.
+        // Launch change of default for field content.
         $dbman->change_field_default($table, $field);
 
         // Changing the default of field contentformat on table surveypro_answer to drop it.
