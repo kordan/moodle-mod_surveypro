@@ -293,44 +293,14 @@ EOS;
     public function userform_mform_element($mform, $searchform, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
-        $useinline = true;
-        if (!$useinline) {
-            $fieldname = $this->itemname.'_filemanager';
-
-            if ($this->position == SURVEYPRO_POSITIONLEFT) {
-                $elementlabel = $this->get_contentwithnumber();
-            } else {
-                $elementlabel = '&nbsp;';
-            }
-
-            $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
-
-            $filetypes = array_map('trim', explode(',', $this->filetypes));
-
-            $attributes = [];
-            $attributes['id'] = $idprefix;
-            $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
-            $attributes['maxbytes'] = $this->maxbytes;
-            $attributes['accepted_types'] = $filetypes;
-            $attributes['subdirs'] = false;
-            $attributes['maxfiles'] = $this->maxfiles;
-            $mform->addElement('filemanager', $fieldname, $elementlabel, null, $attributes);
-
-            if ($this->required) {
-                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                // I do not want JS form validation if the page is submitted through the "previous" button.
-                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
-                $mform->_required[] = $starplace;
-            }
+        if ($this->position == SURVEYPRO_POSITIONLEFT) {
+            $elementlabel = $this->get_contentwithnumber();
         } else {
-            if ($this->position == SURVEYPRO_POSITIONLEFT) {
-                $elementlabel = $this->get_contentwithnumber();
-            } else {
-                $elementlabel = '&nbsp;';
-            }
+            $elementlabel = '&nbsp;';
+        }
 
+        $useinline = true;
+        if ($useinline) {
             $attributes = [];
             $elementgroup = [];
             $class = ['class' => 'indent-'.$this->indent];
@@ -356,6 +326,30 @@ EOS;
                 $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
+        } else {
+            $fieldname = $this->itemname.'_filemanager';
+
+            $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
+
+            $filetypes = array_map('trim', explode(',', $this->filetypes));
+
+            $attributes = [];
+            $attributes['id'] = $idprefix;
+            $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
+            $attributes['maxbytes'] = $this->maxbytes;
+            $attributes['accepted_types'] = $filetypes;
+            $attributes['subdirs'] = false;
+            $attributes['maxfiles'] = $this->maxfiles;
+            $mform->addElement('filemanager', $fieldname, $elementlabel, null, $attributes);
+
+            if ($this->required) {
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $mform->_required[] = $starplace;
+            }
         }
     }
 
@@ -373,15 +367,41 @@ EOS;
         }
 
         if ($this->required) {
-            $errorkey = $this->itemname.'_filemanager';
-
             $fieldname = $this->itemname.'_filemanager';
-            if (empty($data[$fieldname])) {
-                $errors[$errorkey] = get_string('required');
+            $draftitemid = $data[$fieldname];
+
+            if (!$this->has_files_in_draft_area($draftitemid)) {
+                $errors[$this->itemname.'_group'] = get_string('required');
             }
         }
 
         return $errors;
+    }
+
+    /**
+     * Checks if there are files uploaded to the draft area.
+     *
+     * @param int $draftitemid
+     * @return bool
+     */
+    private function has_files_in_draft_area($draftitemid) {
+        global $USER;
+
+        $context = \context_user::instance($USER->id);
+        $fs = get_file_storage();
+
+        // Retrieves draft area files for the user.
+        $files = $fs->get_area_files(
+            $context->id, // User context.
+            'user', // Component.
+            'draft', // Filearea.
+            $draftitemid, // Draft ID.
+            'id', // Sort by ID.
+            false // Do not include directory.
+        );
+
+        // Returns true if there are files, false otherwise.
+        return !empty($files);
     }
 
     /**
