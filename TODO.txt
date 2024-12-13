@@ -22,7 +22,7 @@ Surveys built with the old plugins will stop working fine as they will find in t
 3.13.0/cssreset/cssreset.css&3.13.0/cssfonts/cssfonts.css&3.13.0/cssgrids/cssgrids.css&3.13.0/cssbase/cssbase.css
 
 1) Still it seems to be something strange when handling fileareas.
-I just grepped by get_area_files and found a bunch of them new/strange for me. ELOY has to review this!
+I just grepped by get_area_files and found a bunch of them new/strange for me. Any idea ELOY?
 > Please let me know better what do you mean. I can not understand it.
 
 2)
