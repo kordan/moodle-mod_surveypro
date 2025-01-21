@@ -503,7 +503,7 @@ class view_responsesubmit extends formbase {
             $item = surveypro_get_itemclass($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             // Now I ask to each item the answer for the db starting from what the user provided ($iteminfo->contentperelement).
-            $item->userform_get_user_answer($iteminfo->contentperelement, $useranswer, false);
+            $item->userform_prepare_user_answer($iteminfo->contentperelement, $useranswer, false);
 
             if ($useranswer->content === SURVEYPRO_DUMMYCONTENT) {
                 throw new \moodle_exception('wrong_userdatarec_found', 'mod_surveypro', null, SURVEYPRO_DUMMYCONTENT);

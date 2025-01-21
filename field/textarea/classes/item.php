@@ -584,7 +584,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_get_user_answer($answer, &$olduseranswer, $searchform) {
+    public function userform_prepare_user_answer($answer, &$olduseranswer, $searchform) {
         if (!empty($this->useeditor) && (!$searchform)) {
             $context = \context_module::instance($this->cm->id);
             $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);

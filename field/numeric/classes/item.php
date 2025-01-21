@@ -631,7 +631,7 @@ EOS;
      * @param bool $searchform
      * @return void
      */
-    public function userform_get_user_answer($answer, &$olduseranswer, $searchform) {
+    public function userform_prepare_user_answer($answer, &$olduseranswer, $searchform) {
         if (isset($answer['ignoreme'])) {
             $olduseranswer->content = null;
             return;

@@ -123,7 +123,7 @@ class view_responsesearch {
             $item = surveypro_get_itemclass($this->cm, $this->surveypro, $iteminfo->itemid, $iteminfo->type, $iteminfo->plugin);
 
             $userdata = new \stdClass();
-            $item->userform_get_user_answer($iteminfo->contentperelement, $userdata, true);
+            $item->userform_prepare_user_answer($iteminfo->contentperelement, $userdata, true);
 
             if (!is_null($userdata->content)) {
                 $searchfields[$iteminfo->itemid] = $userdata->content;
