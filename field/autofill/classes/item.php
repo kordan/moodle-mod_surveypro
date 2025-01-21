@@ -39,8 +39,6 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
  */
 class item extends itembase {
 
-    // Itembase properties.
-
     /**
      * @var bool $hiddenfield = is the static text visible in the mform?
      */

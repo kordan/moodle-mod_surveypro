@@ -209,7 +209,7 @@ abstract class itembase {
     ];
 
     /**
-     * Class constructor
+     * Class constructor.
      *
      * @param object $cm
      * @param object $surveypro

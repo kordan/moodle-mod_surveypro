@@ -126,6 +126,7 @@ Feature: Create a rate item
     And I set the following fields to these values:
       | Content                  | How confident are you with the following languages? |
       | Required                 | 1                                                   |
+      | Question position        | 1                                                   |
       | Element number           | II.b                                                |
       | Hide filling instruction | 0                                                   |
       | Variable                 | R2                                                  |
