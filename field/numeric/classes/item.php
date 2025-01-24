@@ -370,18 +370,11 @@ class item extends itembase {
      */
     public function get_international_number($localnumber) {
         $localnumber = trim($localnumber);
-        $condition = ($this->decimals > 0);
-        $condition = $condition && (strpos($localnumber, $this->decimalseparator) === false);
-        if ($condition) {
-            $return = false;
+        $internationalnumber = str_replace($this->decimalseparator, '.', $localnumber);
+        if (is_numeric($internationalnumber)) {
+            $return = $internationalnumber;
         } else {
-            // It does not matter if $this->decimalseparator is not onboard. It could be.
-            $internationalnumber = str_replace($this->decimalseparator, '.', $localnumber);
-            if (is_numeric($internationalnumber)) {
-                $return = $internationalnumber;
-            } else {
-                $return = false;
-            }
+            $return = false;
         }
 
         return $return;
