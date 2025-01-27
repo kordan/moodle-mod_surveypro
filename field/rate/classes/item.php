@@ -518,7 +518,8 @@ EOS;
             // I do not want JS form validation if the page is submitted through the "previous" button.
             // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
             // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-            $mform->_required[] = $basename.'_extrarow_group';
+            $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_0_group';
+            $mform->_required[] = $starplace;
         } else {
             // Disable if $basename.'_noanswer' is selected.
             $optionindex = 0;
