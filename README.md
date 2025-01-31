@@ -193,6 +193,7 @@ Known bugs
 - (MDL-56944) Style problem with file upload window.
 - (MDL-61938) Failing server-side mform validation does not scroll to the first error using clean.
 - (MDL-62634) Theme boost duplicates classes for checkbox mform elements.
+- (MDL-82096) Filemanager mform element added using addGroup is not found by behat.
 
 **Issues that were not fixed but are no longer a problem**
 - (MDL-29421) Form elements editor and file picker do not support freezing.
