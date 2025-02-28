@@ -369,10 +369,10 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2023012600, 'surveypro');
     }
 
-    if ($oldversion < 2024022700) {
-
-        // Define field contentformat to be added to surveypro_item.
+    if ($oldversion < 2024032700) {
         $table = new xmldb_table('surveypro_item');
+
+        // 9) Define field contentformat to be added to surveypro_item.
         $field = new xmldb_field('contentformat', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'plugin');
 
         // Conditionally launch add field contentformat.
@@ -380,20 +380,13 @@ function xmldb_surveypro_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        // 8) Define field content to be added to surveypro_item.
         $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'plugin');
 
         // Conditionally launch add field content.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
-
-        // Surveypro savepoint reached.
-        upgrade_mod_savepoint(true, 2024022700, 'surveypro');
-    }
-
-    if ($oldversion < 2024032700) {
-
-        $table = new xmldb_table('surveypro_item');
 
         // 7) Define field extranote to be added to surveypro_item.
         $field = new xmldb_field('extranote', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'contentformat');
