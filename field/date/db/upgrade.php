@@ -65,10 +65,17 @@ function xmldb_surveyprofield_date_upgrade($oldversion) {
         $condition = $dbman->field_exists($table, $field1);
         $condition = $condition && $dbman->field_exists($table, $field2);
         if ($condition) {
-            $sql = 'UPDATE {surveypro_item} i
-                    JOIN {surveyprofield_date} f ON f.itemid = i.id
-                    SET i.content = f.content,
-                        i.contentformat = f.contentformat';
+            // Because of https://github.com/kordan/moodle-mod_surveypro/issues/977 I changed:
+            // $sql = 'UPDATE {surveypro_item} i
+            //         JOIN {surveyprofield_date} f ON f.itemid = i.id
+            //         SET i.content = f.content,
+            //             i.contentformat = f.contentformat';
+            // to:
+            $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+            $sql = 'UPDATE {surveypro_item}
+                    SET content = (SELECT f.content FROM {surveyprofield_date} f '.$whereclause.'),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_date} f '.$whereclause.')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_date} f '.$whereclause.')';
             $DB->execute($sql);
         }
 
@@ -99,9 +106,15 @@ function xmldb_surveyprofield_date_upgrade($oldversion) {
             $condition = $dbman->field_exists($table, $field);
             if ($dbman->field_exists($table, $field)) {
                 // Copy the content of the dieing column to the new corresponding column in surveypro_item.
-                $sql = 'UPDATE {surveypro_item} i
-                        JOIN {surveyprofield_date} f ON f.itemid = i.id
-                        SET i.'.$fieldname.' = f.'.$fieldname;
+                // Because of https://github.com/kordan/moodle-mod_surveypro/issues/977 I changed:
+                // $sql = 'UPDATE {surveypro_item} i
+                //         JOIN {surveyprofield_date} f ON f.itemid = i.id
+                //         SET i.'.$fieldname.' = f.'.$fieldname;
+                // to:
+                $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+                $sql = 'UPDATE {surveypro_item}
+                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_date} f '.$whereclause.')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_date} f '.$whereclause.')';
                 $DB->execute($sql);
             }
 

@@ -89,9 +89,15 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
 
         // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
         if ($dbman->field_exists($table, $field)) {
-            $sql = 'UPDATE {surveypro_item} i
-                    JOIN {surveyproformat_fieldset} f ON f.itemid = i.id
-                    SET i.content = f.content';
+            // Because of https://github.com/kordan/moodle-mod_surveypro/issues/977 I changed:
+            // $sql = 'UPDATE {surveypro_item} i
+            //         JOIN {surveyproformat_fieldset} f ON f.itemid = i.id
+            //         SET i.content = f.content';
+            // to:
+            $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+            $sql = 'UPDATE {surveypro_item}
+                    SET content = (SELECT f.content FROM {surveyproformat_fieldset} f '.$whereclause.')
+                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_fieldset} f '.$whereclause.')';
             $DB->execute($sql);
 
             $dbman->drop_field($table, $field);
