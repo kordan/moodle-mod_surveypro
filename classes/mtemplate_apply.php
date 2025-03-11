@@ -125,7 +125,7 @@ class mtemplate_apply extends mtemplate_base {
         foreach ($simplexml->children() as $xmlitem) {
             // Read the attributes of the item node.
             foreach ($xmlitem->attributes() as $attribute => $value) {
-                // The $xmlitem looks like: <item type="format" plugin="label" version="2024042200">.
+                // The $xmlitem looks like: <item type="format" plugin="label" version="2025010100">.
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;
                 }
