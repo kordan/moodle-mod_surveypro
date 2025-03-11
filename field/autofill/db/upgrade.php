@@ -115,9 +115,6 @@ function xmldb_surveyprofield_autofill_upgrade($oldversion) {
             if ($dbman->field_exists($table, $field)) {
                 // Copy the content of the dieing column to the new corresponding column in surveypro_item.
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
-                // $sql = 'UPDATE {surveypro_item} i
-                //         JOIN {surveyprofield_autofill} f ON f.itemid = i.id
-                //         SET i.'.$fieldname.' = f.'.$fieldname;
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
                         SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_autofill} f '.$whereclause.')
