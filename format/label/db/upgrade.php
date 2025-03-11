@@ -78,12 +78,7 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
         $condition = $dbman->field_exists($table, $field1);
         $condition = $condition && $dbman->field_exists($table, $field2);
         if ($condition) {
-            // Because of https://github.com/kordan/moodle-mod_surveypro/issues/977 I changed:
-            // $sql = 'UPDATE {surveypro_item} i
-            //         JOIN {surveyproformat_label} f ON f.itemid = i.id
-            //         SET i.content = f.content,
-            //             i.contentformat = f.contentformat';
-            // to:
+            // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
                     SET content = (SELECT f.content FROM {surveyproformat_label} f '.$whereclause.'),
@@ -119,11 +114,7 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
             $condition = $dbman->field_exists($table, $field);
             if ($dbman->field_exists($table, $field)) {
                 // Copy the content of the dieing column to the new corresponding column in surveypro_item.
-                // Because of https://github.com/kordan/moodle-mod_surveypro/issues/977 I changed:
-                // $sql = 'UPDATE {surveypro_item} i
-                //         JOIN {surveyproformat_label} f ON f.itemid = i.id
-                //         SET i.'.$fieldname.' = f.'.$fieldname;
-                // to:
+                // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
                         SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyproformat_label} f '.$whereclause.')
