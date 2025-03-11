@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2024042200">
+  <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;&lt;img src="@@PLUGINFILE@@/MMM_logo.png" alt="MMM" width="313" height="70" /&gt;&lt;/p&gt;</content>
       <embedded>
@@ -17,7 +17,7 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2024042200">
+  <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;This is a demo survey to quickly see some features of the items. This not a real survey, question are silly or non complete or meaningless (and, for sure, written in a bad English), but they are examples of what you can get playing with this module.&lt;/p&gt;&#13;
 &lt;p&gt;I divided this survey in several pages. Each page is focused on a specific field element.&lt;br /&gt;The four format elements are used here and there on needs.&lt;/p&gt;&#13;
@@ -33,13 +33,13 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="age" version="2024042200">
+  <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
       <embedded>
@@ -65,7 +65,7 @@
       <upperbound>1004616000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2024042200">
+  <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
       <embedded>
@@ -91,7 +91,7 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2024042200">
+  <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
       <embedded>
@@ -117,7 +117,7 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="age" version="2024042200">
+  <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;&lt;img style="float:left;" src="@@PLUGINFILE@@/anziano.jpg" alt="old man" width="120" height="120" /&gt;How old is the person shown in the picture, in your personal opinion?&lt;/p&gt;</content>
       <embedded>
@@ -142,13 +142,13 @@
       <upperbound>-2119608000</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="autofill" version="2024042200">
+  <item type="field" plugin="autofill" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;user ID&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -166,13 +166,13 @@
       <element01>userid</element01>
     </surveyprofield_autofill>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -193,7 +193,7 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -214,7 +214,7 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -235,7 +235,7 @@
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -256,7 +256,7 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you live in NY?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -277,13 +277,13 @@
       <style>1</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="checkbox" version="2024042200">
+  <item type="field" plugin="checkbox" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -311,7 +311,7 @@ milk</defaultvalue>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2024042200">
+  <item type="field" plugin="checkbox" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -341,13 +341,13 @@ Apple juice</defaultvalue>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="shortdate" version="2024042200">
+  <item type="field" plugin="shortdate" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -367,7 +367,7 @@ Apple juice</defaultvalue>
       <upperbound>1378036800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="field" plugin="shortdate" version="2024042200">
+  <item type="field" plugin="shortdate" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;When did you get your last car?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -387,13 +387,13 @@ Apple juice</defaultvalue>
       <upperbound>1380628800</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>0</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="date" version="2024042200">
+  <item type="field" plugin="date" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -414,7 +414,7 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="field" plugin="date" version="2024042200">
+  <item type="field" plugin="date" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Date of birth&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -435,13 +435,13 @@ Apple juice</defaultvalue>
       <upperbound>1262347200</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="datetime" version="2024042200">
+  <item type="field" plugin="datetime" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;In which day and at what time do you remember the event?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -463,13 +463,13 @@ Apple juice</defaultvalue>
       <upperbound>1609459140</upperbound>
     </surveyprofield_datetime>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="fileupload" version="2024042200">
+  <item type="field" plugin="fileupload" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -488,7 +488,7 @@ Apple juice</defaultvalue>
       <filetypes>*</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item type="field" plugin="fileupload" version="2024042200">
+  <item type="field" plugin="fileupload" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Please, attach your Curriculum Vitae.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -507,13 +507,13 @@ Apple juice</defaultvalue>
       <filetypes>.pdf, .zip</filetypes>
     </surveyprofield_fileupload>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="integer" version="2024042200">
+  <item type="field" plugin="integer" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -533,7 +533,7 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="integer" version="2024042200">
+  <item type="field" plugin="integer" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;How many days do you foreseen for your Easter holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -553,13 +553,13 @@ Apple juice</defaultvalue>
       <upperbound>13</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="multiselect" version="2024042200">
+  <item type="field" plugin="multiselect" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -586,13 +586,13 @@ chocolate</defaultvalue>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="numeric" version="2024042200">
+  <item type="field" plugin="numeric" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Which is the mean room temperature you prefer?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -613,13 +613,13 @@ chocolate</defaultvalue>
       <decimals>1</decimals>
     </surveyprofield_numeric>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="radiobutton" version="2024042200">
+  <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -642,7 +642,7 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2024042200">
+  <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -666,7 +666,7 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="field" plugin="radiobutton" version="2024042200">
+  <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -690,13 +690,13 @@ Lake</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="rate" version="2024042200">
+  <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -726,7 +726,7 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2024042200">
+  <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -761,7 +761,7 @@ Good</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="rate" version="2024042200">
+  <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;How confident are you with the following languages?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -791,13 +791,13 @@ Optimum</rates>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="recurrence" version="2024042200">
+  <item type="field" plugin="recurrence" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;When do you usually celebrate your name-day?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -818,13 +818,13 @@ Optimum</rates>
       <upperbound>31492800</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="select" version="2024042200">
+  <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Where do you usually spend your summer holidays?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -846,13 +846,13 @@ hill</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="textarea" version="2024042200">
+  <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Write a short description of yourself.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -874,7 +874,7 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="textarea" version="2024042200">
+  <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Write a short description of yourself.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -896,13 +896,13 @@ hill</options>
       <maxlength>1000</maxlength>
     </surveyprofield_textarea>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="time" version="2024042200">
+  <item type="field" plugin="time" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;At what time do you usually get up in the morning in a working day?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -924,7 +924,7 @@ hill</options>
       <upperbound>35940</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="field" plugin="time" version="2024042200">
+  <item type="field" plugin="time" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;At what time do you usually get up in the morning in a working day?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -946,13 +946,13 @@ hill</options>
       <upperbound>14340</upperbound>
     </surveyprofield_time>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="character" version="2024042200">
+  <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Enter your VISA card number.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -972,7 +972,7 @@ hill</options>
       <maxlength>16</maxlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2024042200">
+  <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Enter your email address.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -991,7 +991,7 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="character" version="2024042200">
+  <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Enter the URL of your favourite site.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -1010,13 +1010,13 @@ hill</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="format" plugin="pagebreak" version="2024042200">
+  <item type="format" plugin="pagebreak" version="2025010100">
     <surveypro_item>
       <hidden>0</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="boolean" version="2024042200">
+  <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Do you have the driving licence?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -1035,7 +1035,7 @@ hill</options>
       <style>0</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="fieldset" version="2024042200">
+  <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
       <content>With driving licence</content>
       <hidden>0</hidden>
@@ -1045,7 +1045,7 @@ hill</options>
       <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2024042200">
+  <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;Please specify the category?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -1069,7 +1069,7 @@ C::for tracks</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="fieldset" version="2024042200">
+  <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
       <content>Without driving licence</content>
       <hidden>0</hidden>
@@ -1079,7 +1079,7 @@ C::for tracks</options>
       <defaultstatus>2</defaultstatus>
     </surveyproformat_fieldset>
   </item>
-  <item type="field" plugin="select" version="2024042200">
+  <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
       <content>&lt;p&gt;When did you plan to get it?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
