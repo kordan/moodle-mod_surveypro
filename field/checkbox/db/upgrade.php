@@ -209,5 +209,18 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2025062600) {
+
+        // Changing the default of field noanswerdefault on table surveyprofield_checkbox to 0.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2025062600, 'surveyprofield', 'checkbox');
+    }
+
     return true;
 }

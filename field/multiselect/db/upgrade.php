@@ -213,5 +213,18 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'multiselect');
     }
 
+    if ($oldversion < 2025062600) {
+
+        // Changing the default of field noanswerdefault on table surveyprofield_multiselect to 0.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Multiselect savepoint reached.
+        upgrade_plugin_savepoint(true, 2025062600, 'surveyprofield', 'multiselect');
+    }
+
     return true;
 }
