@@ -181,7 +181,11 @@ class item extends itembase {
         // Nothing to do: they don't exist in this plugin.
 
         // 2. float numbers need more attention because I can write them using , or .
-        $numericfields = ['defaultvalue', 'lowerbound', 'upperbound'];
+        // Do not chenage lowerbound and upperbound as they will be used in comparisons
+        // so I need them with the american numeric format.
+        // I will change them at printing time.
+        // $numericfields = ['defaultvalue', 'lowerbound', 'upperbound'];
+        $numericfields = ['defaultvalue'];
         foreach ($numericfields as $numericfield) {
             if (core_text::strlen($this->{$numericfield})) {
                 $this->{$numericfield} = format_float($this->{$numericfield}, $this->decimals);
@@ -543,8 +547,8 @@ EOS;
                 // External range.
                 if (($userinput > $this->lowerbound) && ($userinput < $this->upperbound)) {
                     $a = new \stdClass();
-                    $a->lowerbound = $this->lowerbound;
-                    $a->upperbound = $this->upperbound;
+                    $a->lowerbound = format_float($this->lowerbound, $this->decimals);
+                    $a->upperbound = format_float($this->upperbound, $this->decimals);
                     $errors[$errorkey] = get_string('uerr_outofexternalrange', 'surveyprofield_numeric', $a);
                 }
             }
@@ -577,18 +581,18 @@ EOS;
 
         if ($haslowerbound && $hasupperbound) {
             $a = new \stdClass();
-            $a->lowerbound = $this->lowerbound;
-            $a->upperbound = $this->upperbound;
+            $a->lowerbound = format_float($this->lowerbound, $this->decimals);
+            $a->upperbound = format_float($this->upperbound, $this->decimals);
 
             $arrayinstruction[] = get_string('restriction_lowerupper', 'surveyprofield_numeric', $a);
         } else {
             if ($haslowerbound) {
-                $a = $this->lowerbound;
+                $a = format_float($this->lowerbound, $this->decimals);
                 $arrayinstruction[] = get_string('restriction_lower', 'surveyprofield_numeric', $a);
             }
 
             if ($hasupperbound) {
-                $a = $this->upperbound;
+                $a = format_float($this->upperbound, $this->decimals);
                 $arrayinstruction[] = get_string('restriction_upper', 'surveyprofield_numeric', $a);
             }
         }
