@@ -105,8 +105,7 @@ Feature: Test attachment report
     And I log out
 
     # teacher logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as teacher1
-    And I follow "Run Attachments overview report"
+    When I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
     # Feature 1: only user who actually submitted are in the list
     Then I should see "student1"
