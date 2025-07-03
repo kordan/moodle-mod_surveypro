@@ -479,7 +479,7 @@
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>checkbox_content_01</content>
       <contentformat>1</contentformat>
@@ -508,7 +508,7 @@
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>checkbox_content_02</content>
       <contentformat>1</contentformat>
@@ -537,7 +537,7 @@
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>checkbox_content_03</content>
       <contentformat>1</contentformat>
@@ -906,7 +906,7 @@
       <upperbound>128</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>multiselect_content_01</content>
       <contentformat>1</contentformat>
@@ -934,7 +934,7 @@
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>multiselect_content_02</content>
       <contentformat>1</contentformat>
@@ -962,7 +962,7 @@
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>multiselect_content_03</content>
       <contentformat>1</contentformat>

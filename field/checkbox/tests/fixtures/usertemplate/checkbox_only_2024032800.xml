@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -68,7 +68,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -109,7 +109,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -151,7 +151,7 @@ required options is set to 2. So he/she is forced to or select al least two chec
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -192,7 +192,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -232,7 +232,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -272,7 +272,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -312,7 +312,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -352,7 +352,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -393,7 +393,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -437,7 +437,7 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -478,7 +478,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -519,7 +519,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -560,7 +560,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -601,7 +601,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -643,7 +643,7 @@ options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -684,7 +684,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -724,7 +724,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -764,7 +764,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -804,7 +804,7 @@ bread</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>

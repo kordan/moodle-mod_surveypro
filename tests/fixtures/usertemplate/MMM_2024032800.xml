@@ -283,7 +283,7 @@
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -311,7 +311,7 @@ milk</defaultvalue>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -559,7 +559,7 @@ Apple juice</defaultvalue>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>

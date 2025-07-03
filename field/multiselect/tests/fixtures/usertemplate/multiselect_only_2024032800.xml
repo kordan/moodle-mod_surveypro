@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -66,7 +66,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -107,7 +107,7 @@ jam</defaultvalue>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -146,7 +146,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -186,7 +186,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -225,7 +225,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -266,7 +266,7 @@ jam</defaultvalue>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -305,7 +305,7 @@ chocolate</options>
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>&lt;p&gt;What do you usually get for breakfast?&lt;/p&gt;</content>
       <contentformat>1</contentformat>

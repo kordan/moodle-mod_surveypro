@@ -120,7 +120,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="checkbox" version="2025010100">
+  <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
       <content>Example with checkbox item: What do you always want to find on your desk in the office?</content>
       <contentformat>1</contentformat>
@@ -282,7 +282,7 @@ A4 paper</options>
       <upperbound>105</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="field" plugin="multiselect" version="2025010100">
+  <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
       <content>Example with multiselect item: What do you eat for breakfast? (click or shift-click to change the selection).</content>
       <contentformat>1</contentformat>
