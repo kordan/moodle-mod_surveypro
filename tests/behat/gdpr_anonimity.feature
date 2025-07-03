@@ -52,13 +52,13 @@ Feature: Test anonymous surveypro are really anonymous
       | type  | plugin  |
       | field | boolean |
 
-    When I am on the "Anonymous surveypro" activity page logged in as teacher1
+    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
-    Then I should see "Run Attachments overview report"
-    Then I should see "Run Frequency distribution report"
-    Then I should see "Run Late users report"
-    Then I should see "Run Responses per user report"
-    Then I should see "Run Users per count of responses report"
+    And I select "Run Attachments overview report" from the "jump" singleselect
+    And I select "Run Frequency distribution report" from the "jump" singleselect
+    And I select "Run Late users report" from the "jump" singleselect
+    And I select "Run Responses per user report" from the "jump" singleselect
+    And I select "Run Users per count of responses report" from the "jump" singleselect
     And I log out
 
   @javascript
@@ -89,11 +89,13 @@ Feature: Test anonymous surveypro are really anonymous
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
-    Then I should not see "Run Attachments overview report"
-    Then I should see "Run Frequency distribution report"
-    Then I should not see "Run Late users report"
-    Then I should not see "Run Responses per user report"
-    Then I should see "Run Users per count of responses report"
+
+    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I select "Run Attachments overview report" from the "jump" singleselect
+    And I select "Run Frequency distribution report" from the "jump" singleselect
+    And I select "Run Late users report" from the "jump" singleselect
+    And I select "Run Responses per user report" from the "jump" singleselect
+    And I select "Run Users per count of responses report" from the "jump" singleselect
     And I log out
 
   @javascript
@@ -120,11 +122,10 @@ Feature: Test anonymous surveypro are really anonymous
       | type  | plugin  |
       | field | boolean |
 
-    When I am on the "Anonymous surveypro" activity page logged in as teacher1
-
-    Then I should see "Run Attachments overview report"
-    Then I should see "Run Frequency distribution report"
-    Then I should see "Run Late users report"
-    Then I should see "Run Responses per user report"
-    Then I should see "Run Users per count of responses report"
+    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I select "Run Attachments overview report" from the "jump" singleselect
+    And I select "Run Frequency distribution report" from the "jump" singleselect
+    And I select "Run Late users report" from the "jump" singleselect
+    And I select "Run Responses per user report" from the "jump" singleselect
+    And I select "Run Users per count of responses report" from the "jump" singleselect
     And I log out
