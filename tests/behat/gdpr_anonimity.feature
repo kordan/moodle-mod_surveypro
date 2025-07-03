@@ -28,11 +28,11 @@ Feature: Test anonymous surveypro are really anonymous
     And I press "Save and display"
 
     When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
-    And I select "Run Attachments overview report" from the "jump" singleselect
-    And I select "Run Frequency distribution report" from the "jump" singleselect
-    And I select "Run Late users report" from the "jump" singleselect
-    And I select "Run Responses per user report" from the "jump" singleselect
-    And I select "Run Users per count of responses report" from the "jump" singleselect
+    And I select "Attachments overview report" from the "jump" singleselect
+    And I select "Frequency distribution report" from the "jump" singleselect
+    And I select "Late users report" from the "jump" singleselect
+    And I select "Responses per user report" from the "jump" singleselect
+    And I select "Users per count of responses report" from the "jump" singleselect
     And I log out
 
   @javascript
@@ -54,11 +54,11 @@ Feature: Test anonymous surveypro are really anonymous
       | field | boolean |
 
     When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
-    And I select "Run Attachments overview report" from the "jump" singleselect
-    And I select "Run Frequency distribution report" from the "jump" singleselect
-    And I select "Run Late users report" from the "jump" singleselect
-    And I select "Run Responses per user report" from the "jump" singleselect
-    And I select "Run Users per count of responses report" from the "jump" singleselect
+    And I select "Attachments overview report" from the "jump" singleselect
+    And I select "Frequency distribution report" from the "jump" singleselect
+    And I select "Late users report" from the "jump" singleselect
+    And I select "Responses per user report" from the "jump" singleselect
+    And I select "Users per count of responses report" from the "jump" singleselect
     And I log out
 
   @javascript
@@ -91,11 +91,11 @@ Feature: Test anonymous surveypro are really anonymous
     And I press "Save and display"
 
     When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
-    And I select "Run Attachments overview report" from the "jump" singleselect
-    And I select "Run Frequency distribution report" from the "jump" singleselect
-    And I select "Run Late users report" from the "jump" singleselect
-    And I select "Run Responses per user report" from the "jump" singleselect
-    And I select "Run Users per count of responses report" from the "jump" singleselect
+    And I select "Attachments overview report" from the "jump" singleselect
+    And I select "Frequency distribution report" from the "jump" singleselect
+    And I select "Late users report" from the "jump" singleselect
+    And I select "Responses per user report" from the "jump" singleselect
+    And I select "Users per count of responses report" from the "jump" singleselect
     And I log out
 
   @javascript
@@ -123,9 +123,9 @@ Feature: Test anonymous surveypro are really anonymous
       | field | boolean |
 
     When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
-    And I select "Run Attachments overview report" from the "jump" singleselect
-    And I select "Run Frequency distribution report" from the "jump" singleselect
-    And I select "Run Late users report" from the "jump" singleselect
-    And I select "Run Responses per user report" from the "jump" singleselect
-    And I select "Run Users per count of responses report" from the "jump" singleselect
+    And I select "Attachments overview report" from the "jump" singleselect
+    And I select "Frequency distribution report" from the "jump" singleselect
+    And I select "Late users report" from the "jump" singleselect
+    And I select "Responses per user report" from the "jump" singleselect
+    And I select "Users per count of responses report" from the "jump" singleselect
     And I log out
