@@ -69,6 +69,11 @@ class item extends itembase {
     protected static $canbeparent = false;
 
     /**
+     * @var bool Should I use inline style for the mform element?
+     */
+    protected static $useinline = false;
+
+    /**
      * Class constructor.
      *
      * If itemid is provided, load the object (item + base + plugin) from database
@@ -299,8 +304,7 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $useinline = true;
-        if ($useinline) {
+        if (self::$useinline) {
             $attributes = [];
             $elementgroup = [];
             $class = ['class' => 'indent-'.$this->indent];
@@ -347,7 +351,7 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $this->itemname.'_extrarow' : $this->itemname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $fieldname.'_extrarow' : $fieldname;
                 $mform->_required[] = $starplace;
             }
         }
@@ -371,7 +375,11 @@ EOS;
             $draftitemid = $data[$fieldname];
 
             if (!$this->has_files_in_draft_area($draftitemid)) {
-                $errors[$this->itemname.'_group'] = get_string('required');
+                if (self::$useinline) {
+                    $errors[$this->itemname.'_group'] = get_string('required');
+                } else {
+                    $errors[$this->itemname.'_filemanager'] = get_string('required');
+                }
             }
         }
 

@@ -135,7 +135,7 @@ class utemplate_save extends utemplate_base {
                     // in case of pictures, for instance, $item->content has to look like:
                     // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
                     // and not like:
-                    // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
+                    // '<img src="http://localhost:8888/m405/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
                     $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
                     if (core_text::strlen($val)) {
                         $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
