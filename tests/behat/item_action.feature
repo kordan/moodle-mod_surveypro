@@ -42,36 +42,32 @@ Feature: Execute item actions
     And I follow "Layout"
 
     Then I should see "0" reserved items
-    # 21 and not 22 available items because pagebreak doesn't have <a class"makereserved"...
-    Then I should see "21" available items
+    # 22 available items: 19 + 3
+    Then I should see "22" available items
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "0" searchable items
-    # 19 and not 22 not searchable items because...
-    # -1 because fielupload can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because rate can't be searchable so doesn't have <a class"addtosearch"...
-    # -1 because pagebreak can't be searchable so doesn't have <a class"addtosearch"...
-    Then I should see "19" not searchable items
-    Then I should see "0" searchable items
+    # 22 searchable items: 17 + 5
+    Then I should see "22" not searchable items
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_3')]" "xpath_element"
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_4')]" "xpath_element"
 
     Then I should see "0" reserved items
-    Then I should see "21" available items
+    Then I should see "22" available items
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "2" searchable items
-    Then I should see "17" not searchable items
+    Then I should see "20" not searchable items
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'removefromsearch_item_3')]" "xpath_element"
 
     Then I should see "0" reserved items
-    Then I should see "21" available items
+    Then I should see "22" available items
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "1" searchable items
-    Then I should see "18" not searchable items
+    Then I should see "21" not searchable items
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
@@ -84,11 +80,11 @@ Feature: Execute item actions
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_9')]" "xpath_element"
 
     Then I should see "9" reserved items
-    Then I should see "12" available items
+    Then I should see "13" available items
     Then I should see "22" visible items
     Then I should see "0" hidden items
     Then I should see "1" searchable items
-    Then I should see "18" not searchable items
+    Then I should see "21" not searchable items
 
     And I follow "delete_item_5"
     And I press "Yes"
@@ -104,11 +100,11 @@ Feature: Execute item actions
     And I press "Yes"
 
     Then I should see "6" reserved items
-    Then I should see "9" available items
+    Then I should see "10" available items
     Then I should see "16" visible items
     Then I should see "0" hidden items
     Then I should see "1" searchable items
-    Then I should see "13" not searchable items
+    Then I should see "15" not searchable items
 
     And I follow "hide_item_2"
     And I follow "hide_item_3"
@@ -125,7 +121,7 @@ Feature: Execute item actions
     Then I should see "7" visible items
     Then I should see "9" hidden items
     Then I should see "0" searchable items
-    Then I should see "6" not searchable items
+    Then I should see "7" not searchable items
 
   @javascript @_file_upload
   Scenario: Test complex item actions
@@ -136,7 +132,7 @@ Feature: Execute item actions
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect
-    And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action_test.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/tests/fixtures/usertemplate/item_action.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
 
@@ -147,7 +143,7 @@ Feature: Execute item actions
 
     And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
-      | User templates | (This course) item_action_test.xml |
+      | User templates | (This course) item_action.xml |
       | id_action_0    | 1                                  |
     And I press "Apply"
 

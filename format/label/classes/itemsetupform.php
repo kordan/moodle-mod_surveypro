@@ -56,7 +56,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Here I open a new fieldset.
         $fieldname = 'specializations';
-        $typename = get_string('pluginname', 'surveyproformat_'.$item->get_plugin());
+        $typename = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$item->get_plugin());
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
 
         // Item: fullwidth.

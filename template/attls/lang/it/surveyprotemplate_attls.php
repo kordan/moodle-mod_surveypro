@@ -22,15 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'ATTLS (versione con 20 elementi)';
-
-$string['useritem'] = 'Tipo di selettore';
-$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
-$string['useradio'] = 'Bottoni radio';
-$string['useselect'] = 'Menu a tendina';
-$string['position'] = 'Posizione delle domande';
-$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
-
+$string['fieldset_content_01'] = 'Atteggiamenti nei Confronti del Pensare e dell\'Imparare';
+$string['item_parentvalue_01'] = '';
 $string['label_content_01'] = '<p>L\'obiettivo di questo sondaggio è di aiutarci a comprendere come lo svolgimento online di questa unità ti sia stato utile nell\'apprendimento.
 
 Ciascuna delle seguenti 24 domande ti chiede di confrontare l\'esperienza <b>ideale</b> e quella <b>reale</b> in questa unità.
@@ -40,9 +33,11 @@ Non ci sono risposte \'giuste\' o risposte \'errate\'; ci interessa solo la tua 
 Le tue risposte saranno considerate con attenzione e ci aiuteranno a migliorare le caratteristiche di questa unità online in futuro.
 
 Grazie.</p>';
+$string['label_leftlabel_01'] = '';
+$string['pluginname'] = 'ATTLS (versione con 20 elementi)';
 
-$string['fieldset_content_01'] = 'Atteggiamenti nei Confronti del Pensare e dell\'Imparare';
-
+$string['position'] = 'Posizione delle domande';
+$string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
 $string['radiobutton_content_02'] = '<p>Valutando ciò che le persone dicono, pongo attenzione alla qualità dei suoi argomenti, non alla persona che li presenta.</p>';
 $string['radiobutton_content_03'] = '<p>Mi piace fare l\'avvocato del diavolo, affermando il contrario di quello che qualcuno sta dicendo.</p>';
 $string['radiobutton_content_04'] = '<p>Mi piace capire \'da dove vengono\' le altre persone, quali esperienze le hanno portate ad essere quello che sono.</p>';
@@ -63,11 +58,16 @@ $string['radiobutton_content_18'] = '<p>Uso la logica e la ragione al di là di 
 $string['radiobutton_content_19'] = '<p>Posso arrivare alla comprensione di opinioni diverse dalle mie grazie all\'empatia (immedesimarsi nell\'altra persona).</p>';
 $string['radiobutton_content_20'] = '<p>Quando incontro persone che sembrano avere opinioni diverse dalle mie, faccio uno sforzo per \'immedesimarmi\' in loro, per cercare di capire come hanno maturato quelle opinioni.</p>';
 $string['radiobutton_content_21'] = '<p>Passo il tempo a cercare cosa c\'è di sbagliato nelle cose. Per esempio, cercherò qualcosa, in un\'interpretazione letteraria, che non è sufficientemente chiaro.</p>';
-
-$string['item_parentvalue_01'] = '';
-
-$string['radiobutton_options_01'] = "1::Fortemente in disaccordo\n2::Un po\' in disaccordo\n3::Né d\'accordo né in disaccordo\n4::Abbastanza d\'accordo\n5::Completamente d\'accordo";
-$string['radiobutton_labelother_01'] = '';
 $string['radiobutton_defaultvalue_01'] = '';
+$string['radiobutton_labelother_01'] = '';
+$string['radiobutton_options_01'] = "1::Fortemente in disaccordo\n2::Un po\' in disaccordo\n3::Né d\'accordo né in disaccordo\n4::Abbastanza d\'accordo\n5::Completamente d\'accordo";
+$string['useradio'] = 'Bottoni radio';
+$string['useritem'] = 'Tipo di selettore';
+$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['useselect'] = 'Menu a tendina';
 
-$string['label_leftlabel_01'] = '';
+
+
+
+
+

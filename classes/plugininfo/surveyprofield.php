@@ -26,6 +26,10 @@ namespace mod_surveypro\plugininfo;
 
 use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
 
+defined('MOODLE_INTERNAL') || die();
+
+require_once(dirname(__FILE__).'/../../lib.php');
+
 /**
  * The mod_surveypro field plugin class.
  *
@@ -49,7 +53,7 @@ class surveyprofield extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveyprofield_'.$plugin;
+            $installed[] = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);

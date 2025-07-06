@@ -26,7 +26,7 @@ use advanced_testcase;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \mod_surveypro\mastertemplate
  */
-class mastertemplate_test extends advanced_testcase {
+final class mastertemplate_test extends advanced_testcase {
 
     /**
      * Data provider for surveyprotemplate_get_plugin_name_provider()
@@ -51,7 +51,7 @@ class mastertemplate_test extends advanced_testcase {
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    public function test_surveyprotemplate_get_plugin_name($userinput, $expected) {
+    public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 

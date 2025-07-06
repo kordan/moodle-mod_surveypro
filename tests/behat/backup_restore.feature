@@ -8,6 +8,8 @@ Feature: Backup and restore a surveypro
     Given the following "courses" exist:
       | fullname | shortname | category | numsections |
       | Course 1 | C1        | 0        | 3           |
+    And the following config values are set as admin:
+      | enableasyncbackup | 0 |
     And I log in as "admin"
 
   @javascript
@@ -64,7 +66,7 @@ Feature: Backup and restore a surveypro
     And I should see "What do you usually get for breakfast?"
     And I should see "When were you born?"
     And I should see "Please, write down date and time of your last flight to Los Angeles."
-    And I should see "Please, upload your CV in PDF format"
+    And I should see "Please, upload your CV in PDF"
     And I should see "How many people does your family counts?"
     And I should see "What do you usually get for breakfast?"
     And I should see "Type the best approximation of π you know"

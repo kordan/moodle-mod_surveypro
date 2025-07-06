@@ -1,8 +1,8 @@
 @mod @mod_surveypro
-Feature: Load and apply mum_or_dad_test usertemplates to test preview do not rise up errors
+Feature: Load and apply mum_or_dad usertemplates to test preview do not rise up errors
   In order to test correct preview
   As teacher1
-  I load mum_or_dad_test usertemplates and ask for preview
+  I load mum_or_dad usertemplates and ask for preview
 
   @javascript @_file_upload
   Scenario: Test mum or dad displays correctly
@@ -23,7 +23,7 @@ Feature: Load and apply mum_or_dad_test usertemplates to test preview do not ris
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect
-    And I upload "mod/surveypro/field/radiobutton/tests/fixtures/usertemplate/mum_or_dad_test.xml" file to "Choose files to import" filemanager
+    And I upload "mod/surveypro/field/radiobutton/tests/fixtures/usertemplate/mum_or_dad.xml" file to "Choose files to import" filemanager
 
     And I set the field "Sharing level" to "This course"
     And I press "Import"
@@ -33,7 +33,7 @@ Feature: Load and apply mum_or_dad_test usertemplates to test preview do not ris
 
     And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
-      | User templates | (This course) mum_or_dad_test.xml |
+      | User templates | (This course) mum_or_dad.xml |
       | id_action_0    | 1                                 |
     And I press "Apply"
 

@@ -144,5 +144,83 @@ function xmldb_surveyprofield_checkbox_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023111401, 'surveyprofield', 'checkbox');
     }
 
+    if ($oldversion < 2024022701) {
+
+        // Define field content to be dropped from surveyprofield_checkbox.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field1 = new xmldb_field('content');
+        $field2 = new xmldb_field('contentformat');
+
+        // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+        $condition = $dbman->field_exists($table, $field1);
+        $condition = $condition && $dbman->field_exists($table, $field2);
+        if ($condition) {
+            // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
+            $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+            $sql = 'UPDATE {surveypro_item}
+                    SET content = (SELECT f.content FROM {surveyprofield_checkbox} f '.$whereclause.'),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_checkbox} f '.$whereclause.')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_checkbox} f '.$whereclause.')';
+            $DB->execute($sql);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field1)) {
+            $dbman->drop_field($table, $field1);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field2)) {
+            $dbman->drop_field($table, $field2);
+        }
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2024022701, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2024032800) {
+
+        $table = new xmldb_table('surveyprofield_checkbox');
+
+        $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
+        foreach ($fieldnames as $fieldname) {
+            // Define field content to be dropped from surveyprofield_checkbox.
+            $field = new xmldb_field($fieldname);
+
+            // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+            $condition = $dbman->field_exists($table, $field);
+            if ($dbman->field_exists($table, $field)) {
+                // Copy the content of the dieing column to the new corresponding column in surveypro_item.
+                // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
+                $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+                $sql = 'UPDATE {surveypro_item}
+                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_checkbox} f '.$whereclause.')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_checkbox} f '.$whereclause.')';
+                $DB->execute($sql);
+            }
+
+            // Conditionally launch drop field content.
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'checkbox');
+    }
+
+    if ($oldversion < 2025062600) {
+
+        // Changing the default of field noanswerdefault on table surveyprofield_checkbox to 0.
+        $table = new xmldb_table('surveyprofield_checkbox');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Checkbox savepoint reached.
+        upgrade_plugin_savepoint(true, 2025062600, 'surveyprofield', 'checkbox');
+    }
+
     return true;
 }

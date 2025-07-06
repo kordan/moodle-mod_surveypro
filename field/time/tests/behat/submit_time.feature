@@ -40,8 +40,8 @@ Feature: Submit using a time item
     # student1 submits
     And I press "New response"
     And I set the following fields to these values:
-      | id_surveypro_field_time_1_hour   | 7  |
-      | id_surveypro_field_time_1_minute | 15 |
+      | id_field_time_1_hour   | 7  |
+      | id_field_time_1_minute | 15 |
 
     And I press "Submit"
 

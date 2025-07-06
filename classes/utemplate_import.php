@@ -77,22 +77,6 @@ class utemplate_import extends utemplate_base {
         return $templateoptions;
     }
 
-    /**
-     * Get user template content.
-     *
-     * @param int $utemplateid
-     * @return void
-     */
-    public function get_utemplate_content($utemplateid=0) {
-        $fs = get_file_storage();
-        if (empty($utemplateid)) {
-            $utemplateid = $this->utemplateid;
-        }
-        $xmlfile = $fs->get_file_by_id($utemplateid);
-
-        return $xmlfile->get_content();
-    }
-
     // MARK other.
 
     /**

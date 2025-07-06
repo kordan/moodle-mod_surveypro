@@ -109,8 +109,9 @@ class utemplate_importform extends \moodleform {
 
             $xmlfileid = $file->get_id();
             $xml = $importman->get_utemplate_content($xmlfileid);
-            $errormessage = $importman->validate_xml($xml);
-            if ($errormessage !== false) {
+            $importman->validate_xml($xml);
+            $errormessage = $importman->get_xmlvalidationoutcome();
+            if (!empty($errormessage->key)) {
                 if (isset($errormessage->a)) {
                     $errors['importfile_filemanager'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a);
                 } else {

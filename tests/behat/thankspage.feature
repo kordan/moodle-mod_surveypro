@@ -1,4 +1,4 @@
-@mod @mod_surveypro
+@mod @mod_surveypro @current
 Feature: Thanks users properly
   In order to test the thankspgae
   As a teacher and as a student
@@ -76,12 +76,13 @@ Feature: Thanks users properly
 
     # Atto needs focus to add image, select empty p tag to do so.
     And I click on the "Image" button for the "Inline thanks page" TinyMCE editor
-    And I click on "Browse repositories..." "button" in the "Image properties" "dialogue"
+    And I click on "Browse repositories" "button" in the "Insert image" "dialogue"
     And I click on "Private files" "link" in the ".fp-repo-area" "css_element"
     And I click on "thankyou.png" "link"
     And I click on "Select this file" "button"
-    And I set the field "Describe this image for someone who cannot see it" to "Thank you!"
-    And I click on "Save image" "button"
+    # And I set the field "Describe this image for someone who cannot see it" to "Thank you!"
+    And I set the field "How would you describe this image to someone who can't see it?" to "Thank you!"
+    And I click on "Save" "button" in the "Image details" "dialogue"
     And I press "Save and display"
     And I log out
 

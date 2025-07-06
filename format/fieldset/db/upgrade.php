@@ -81,5 +81,27 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2024011101, 'surveyproformat', 'fieldset');
     }
 
+    if ($oldversion < 2024022701) {
+
+        // Define field content to be dropped from surveyproformat_fieldset.
+        $table = new xmldb_table('surveyproformat_fieldset');
+        $field = new xmldb_field('content');
+
+        // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+        if ($dbman->field_exists($table, $field)) {
+            // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
+            $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+            $sql = 'UPDATE {surveypro_item}
+                    SET content = (SELECT f.content FROM {surveyproformat_fieldset} f '.$whereclause.')
+                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_fieldset} f '.$whereclause.')';
+            $DB->execute($sql);
+
+            $dbman->drop_field($table, $field);
+        }
+
+        // Age savepoint reached.
+        upgrade_plugin_savepoint(true, 2024022701, 'surveyproformat', 'fieldset');
+    }
+
     return true;
 }

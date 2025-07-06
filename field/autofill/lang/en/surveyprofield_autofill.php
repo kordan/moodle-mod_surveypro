@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['contentelement_group_help'] = 'Element building the static text';
 $string['contentelement_group'] = 'Content element';
+$string['contentelement_group_help'] = 'Element building the static text';
 $string['contentselect_err'] = 'At least one element has to be not null';
 $string['courseid'] = 'course ID';
 $string['coursename'] = 'course name';
@@ -34,12 +34,13 @@ $string['element02'] = 'Second content element';
 $string['element03'] = 'Third content element';
 $string['element04'] = 'Fourth content element';
 $string['element05'] = 'Fifth content element';
-$string['hiddenfield_help'] = 'This option allow you to hide or show this autofill element from the survey form. Selecting this checkbox the element will be added to the form as hidden field so the user will not see it.';
 $string['hiddenfield'] = 'Make hidden';
+$string['hiddenfield_help'] = 'This option allow you to hide or show this autofill element from the survey form. Selecting this checkbox the element will be added to the form as hidden field so the user will not see it.';
 $string['ierr_contenttext'] = 'The requested text can be null';
 $string['label'] = 'static label';
 $string['latevalue'] = 'Content will be provided once available';
 $string['pluginname'] = 'Autofill';
+$string['privacy:metadata'] = 'The "Autofill" field plugin does not store any personal data.';
 $string['submission'] = 'Response';
 $string['submissiondate'] = 'response date';
 $string['submissiondateandtime'] = 'response date and time';
@@ -54,4 +55,3 @@ $string['usergroupid'] = 'user group ID';
 $string['usergroupname'] = 'user group name';
 $string['userid'] = 'user ID';
 $string['userlastname'] = 'user last name';
-$string['privacy:metadata'] = 'The "Autofill" field plugin does not store any personal data.';

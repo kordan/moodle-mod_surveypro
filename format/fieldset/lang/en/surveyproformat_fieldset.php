@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['defaultstatus_help'] = 'The status of this fieldset at page load time.';
 $string['defaultstatus'] = 'Status at page load';
+$string['defaultstatus_help'] = 'The status of this fieldset at page load time.';
 $string['forceclosed'] = 'Force closed';
 $string['forceopened'] = 'Force opened';
 $string['ierr_contenttoolong'] = 'The fieldset label is supposed to be shorter than 128 characters';

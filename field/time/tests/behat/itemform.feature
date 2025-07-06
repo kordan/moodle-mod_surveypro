@@ -54,18 +54,18 @@ Feature: Create a time item
 
     Then I should see "Lower and upper bounds must be different"
     And I set the following fields to these values:
-      | id_lowerboundhour        | 10                                                                     |
-      | id_lowerboundminute      | 0                                                                      |
-      | id_upperboundhour        | 7                                                                      |
-      | id_upperboundminute      | 0                                                                      |
+      | id_lowerboundhour        | 10                                                                  |
+      | id_lowerboundminute      | 0                                                                   |
+      | id_upperboundhour        | 7                                                                   |
+      | id_upperboundminute      | 0                                                                   |
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range (see \"Upper bound\" help)"
     And I set the following fields to these values:
-      | id_lowerboundhour        | 7                                                                      |
-      | id_lowerboundminute      | 0                                                                      |
-      | id_upperboundhour        | 10                                                                     |
-      | id_upperboundminute      | 0                                                                      |
+      | id_lowerboundhour        | 7                                                                   |
+      | id_lowerboundminute      | 0                                                                   |
+      | id_upperboundhour        | 10                                                                  |
+      | id_upperboundminute      | 0                                                                   |
     And I press "Add"
 
     And I follow "edit_item_2"
@@ -99,6 +99,6 @@ Feature: Create a time item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a At what time do you usually get up in the morning in a working day?"
-    Then the field "id_surveypro_field_time_2_hour" matches value "7"
-    Then the field "id_surveypro_field_time_2_minute" matches value "40"
+    Then the field "id_field_time_2_hour" matches value "7"
+    Then the field "id_field_time_2_minute" matches value "40"
     Then I should see "Additional note"

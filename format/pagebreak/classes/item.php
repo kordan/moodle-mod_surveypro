@@ -39,6 +39,15 @@ require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
  */
 class item extends itembase {
 
+    // Itembase properties.
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = false;
+
     /**
      * @var bool Can this item be parent?
      */
@@ -62,28 +71,28 @@ class item extends itembase {
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'pagebreak';
 
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
-
         // Other element specific properties.
         // No properties here.
 
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
         $this->insetupform['common_fs'] = false;
         $this->insetupform['content'] = false;
-        $this->insetupform['customnumber'] = false;
-        $this->insetupform['position'] = false;
-        $this->insetupform['extranote'] = false;
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['required'] = false;
-        $this->insetupform['variable'] = false;
-        $this->insetupform['insearchform'] = false;
-        $this->insetupform['reserved'] = false;
         $this->insetupform['indent'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['variable'] = false;
+        $this->insetupform['extranote'] = false;
+        $this->insetupform['customnumber'] = false;
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['insearchform'] = false;
         $this->insetupform['parentid'] = false;
+        $this->insetupform['parentvalue'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -114,15 +123,19 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
-
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set properties at plugin level and then continue to base level.
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
+    }
+
+    /**
+     * Returns if this item has the mandatory attribute.
+     *
+     * @return bool
+     */
+    public static function has_mandatoryattribute() {
+        return false;
     }
 
     /**
@@ -132,7 +145,7 @@ class item extends itembase {
      * @param \stdClass $record
      * @return void
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
+    public function item_add_fields_default_to_child_table(&$record) {
         return;
     }
 
@@ -146,12 +159,37 @@ class item extends itembase {
     }
 
     /**
+     * Prepare presets for itemsetuprform with the help of the parent class too.
+     *
+     * @return array $data
+     */
+    public function get_plugin_presets() {
+        $pluginproperties = [];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
+    }
+
+    /**
+     * Make the list of the fields using multilang
+     *
+     * @param boolean $includemetafields
+     * @return array of fields
+     */
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = [];
+        $fieldlist['surveyprofield_time'] = [];
+
+        return $fieldlist;
+    }
+
+    /**
      * Return the xml schema for surveypro_<<plugin>> table.
      *
      * @return string $schema
      */
-    public static function item_get_plugin_schema() {
-        return;
+    public static function get_plugin_schema() {
+        return '';
     }
 
     // MARK get.
@@ -165,25 +203,7 @@ class item extends itembase {
         return $this->content;
     }
 
-    /**
-     * Is this item available as a parent?
-     *
-     * @return the content of the static property "canbeparent"
-     */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
-    }
-
     // MARK userform.
-
-    /**
-     * Get if the plugin uses a table into the db.
-     *
-     * @return if the plugin uses a personal table in the db.
-     */
-    public function uses_db_table() {
-        return false;
-    }
 
     /**
      * Define the mform element for the userform and the searchform.
@@ -210,6 +230,7 @@ class item extends itembase {
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
+        return $errors;
     }
 
     /**

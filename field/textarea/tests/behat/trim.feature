@@ -61,6 +61,7 @@ Feature: Trim textarea content
     And I press "New response"
     And I set the field "This is a standard text" to "   false long text   "
     And I set the field "Text to trim" to "   false long text   "
+
     And I press "Submit"
 
     Then I should see "Text is too short"
@@ -75,5 +76,5 @@ Feature: Trim textarea content
 
     And I press "Continue to responses list"
     And I follow "edit_submission_row_1"
-    Then the field "id_surveypro_field_textarea_1" matches value "   false long text   "
-    Then the field "id_surveypro_field_textarea_2" matches value "text correctly trimmed"
+    Then the field "id_field_textarea_1" matches value "   false long text   "
+    Then the field "id_field_textarea_2" matches value "text correctly trimmed"

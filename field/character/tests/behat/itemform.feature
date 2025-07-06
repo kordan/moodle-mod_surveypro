@@ -80,5 +80,5 @@ Feature: Create a character item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a This is a free text"
-    Then the field "id_surveypro_field_character_2" matches value "simple, but longer, default"
+    Then the field "id_field_character_2" matches value "simple, but longer, default"
     Then I should see "Additional note"

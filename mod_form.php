@@ -253,8 +253,9 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
 
         if ($this->current->instance) {
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
-                SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
+            file_prepare_draft_area(
+                $draftitemid, $this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions
+            );
             $defaults[$filename.'_filemanager'] = $draftitemid;
 
             // Manage thankspage editor.
@@ -262,8 +263,10 @@ class mod_surveypro_mod_form extends \moodleform_mod {
             $editoroptions = surveypro_get_editor_options();
             // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
             $draftitemid = file_get_submitted_draft_itemid('thankspage');
-            $defaults[$filename]['text'] = file_prepare_draft_area($draftitemid, $this->context->id,
-                                           'mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $defaults['thankspage']);
+            $defaults[$filename]['text'] = file_prepare_draft_area(
+                $draftitemid, $this->context->id,
+                'mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $defaults['thankspage']
+            );
             $defaults[$filename]['format'] = $defaults['thankspageformat'];
             $defaults[$filename]['itemid'] = $draftitemid;
 
@@ -282,8 +285,9 @@ class mod_surveypro_mod_form extends \moodleform_mod {
                 $defaults[$filename]['format'] = $defaults['mailcontentformat'];
             }
         } else {
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_surveypro',
-                                    SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions);
+            file_prepare_draft_area(
+                $draftitemid, $this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions
+            );
             $defaults[$filename.'_filemanager'] = $draftitemid;
 
             // Manage thankspage editor.

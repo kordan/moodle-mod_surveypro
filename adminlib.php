@@ -66,7 +66,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
 
         $found = false;
 
-        foreach (core_component::get_plugin_list($this->subtype) as $name => $unused) {
+        foreach (\core_component::get_plugin_list($this->subtype) as $name => $unused) {
             if (strpos(strtolower(get_string('pluginname', $this->subtype.'_'.$name)), $query) !== false) {
                 $found = true;
                 break;
@@ -123,7 +123,7 @@ class mod_surveypro_plugin_manager {
      * @return array The list of plugins
      */
     public function get_sorted_plugins_list() {
-        $names = core_component::get_plugin_list($this->subtype);
+        $names = \core_component::get_plugin_list($this->subtype);
 
         $result = [];
 

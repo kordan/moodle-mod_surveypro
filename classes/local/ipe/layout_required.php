@@ -90,16 +90,15 @@ class layout_required extends \core\output\inplace_editable {
     public static function update($itemid, $newrequired) {
         global $DB;
 
-        $fields = 'id, surveyproid, type, plugin, sortindex';
+        $fields = 'id, surveyproid, sortindex';
         $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], $fields, MUST_EXIST);
         $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], 'id, course', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         external_api::validate_context($context);
 
-        $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newrequired = clean_param($newrequired, PARAM_INT);
-        $DB->set_field($tablename, 'required', $newrequired, ['itemid' => $itemid]);
+        $DB->set_field('surveypro_item', 'required', $newrequired, ['id' => $itemid]);
 
         if (!empty($newrequired)) {
             // This item that WAS NOT mandatory IS NOW mandatory.

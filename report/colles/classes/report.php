@@ -330,8 +330,8 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
+        $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $this->ylabels = $item->get_textarea_content(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: calculate the mean and the standard deviation of answers.
@@ -486,8 +486,8 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[0][0]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->ylabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
+        $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $this->ylabels = $item->get_textarea_content(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: calculate the mean and the standard deviation of answers.
@@ -607,8 +607,8 @@ class report extends reportbase {
 
         // Begin of: options (label of answers).
         $itemid = $qid1area[$areaidx][$qid]; // One of the itemid of the surveypro (the first).
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
-        $this->xlabels = $item->get_content_array(SURVEYPRO_LABELS, 'options');
+        $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid, SURVEYPRO_TYPEFIELD, $this->templateuseritem);
+        $this->xlabels = $item->get_textarea_content(SURVEYPRO_LABELS, 'options');
         // End of: options (label of answers).
 
         // Begin of: graph title.

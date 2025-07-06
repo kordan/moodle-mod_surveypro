@@ -41,32 +41,32 @@ Feature: Apply a COLLES (preferred) mastertemplate to test graphs
     # student1 submits his first response
     And I expand all fieldsets
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_4_0  | 1          |
-      | id_surveypro_field_radiobutton_5_1  | 1          |
-      | id_surveypro_field_radiobutton_6_2  | 1          |
-      | id_surveypro_field_radiobutton_7_3  | 1          |
-      | id_surveypro_field_radiobutton_10_4 | 1          |
-      | id_surveypro_field_radiobutton_11_0 | 1          |
-      | id_surveypro_field_radiobutton_12_1 | 1          |
-      | id_surveypro_field_radiobutton_13_2 | 1          |
-      | id_surveypro_field_radiobutton_16_3 | 1          |
-      | id_surveypro_field_radiobutton_17_4 | 1          |
-      | id_surveypro_field_radiobutton_18_0 | 1          |
-      | id_surveypro_field_radiobutton_19_1 | 1          |
-      | id_surveypro_field_radiobutton_22_2 | 1          |
-      | id_surveypro_field_radiobutton_23_3 | 1          |
-      | id_surveypro_field_radiobutton_24_4 | 1          |
-      | id_surveypro_field_radiobutton_25_0 | 1          |
-      | id_surveypro_field_radiobutton_28_1 | 1          |
-      | id_surveypro_field_radiobutton_29_2 | 1          |
-      | id_surveypro_field_radiobutton_30_3 | 1          |
-      | id_surveypro_field_radiobutton_31_4 | 1          |
-      | id_surveypro_field_radiobutton_34_0 | 1          |
-      | id_surveypro_field_radiobutton_35_1 | 1          |
-      | id_surveypro_field_radiobutton_36_2 | 1          |
-      | id_surveypro_field_radiobutton_37_3 | 1          |
-      | id_surveypro_field_select_38        | 2-3 min    |
-      | Do you have any other comments?     | Am I sexy? |
+      | id_field_radiobutton_4_0        | 1          |
+      | id_field_radiobutton_5_1        | 1          |
+      | id_field_radiobutton_6_2        | 1          |
+      | id_field_radiobutton_7_3        | 1          |
+      | id_field_radiobutton_10_4       | 1          |
+      | id_field_radiobutton_11_0       | 1          |
+      | id_field_radiobutton_12_1       | 1          |
+      | id_field_radiobutton_13_2       | 1          |
+      | id_field_radiobutton_16_3       | 1          |
+      | id_field_radiobutton_17_4       | 1          |
+      | id_field_radiobutton_18_0       | 1          |
+      | id_field_radiobutton_19_1       | 1          |
+      | id_field_radiobutton_22_2       | 1          |
+      | id_field_radiobutton_23_3       | 1          |
+      | id_field_radiobutton_24_4       | 1          |
+      | id_field_radiobutton_25_0       | 1          |
+      | id_field_radiobutton_28_1       | 1          |
+      | id_field_radiobutton_29_2       | 1          |
+      | id_field_radiobutton_30_3       | 1          |
+      | id_field_radiobutton_31_4       | 1          |
+      | id_field_radiobutton_34_0       | 1          |
+      | id_field_radiobutton_35_1       | 1          |
+      | id_field_radiobutton_36_2       | 1          |
+      | id_field_radiobutton_37_3       | 1          |
+      | id_field_select_38              | 2-3 min    |
+      | Do you have any other comments? | Am I sexy? |
     And I press "Submit"
 
     And I am on the "Run COLLES report" "mod_surveypro > Reports from secondary navigation" page

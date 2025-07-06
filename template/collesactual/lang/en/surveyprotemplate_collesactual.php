@@ -22,20 +22,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'COLLES (Actual)';
-$string['privacy:metadata'] = 'The "COLLES (Actual)" template plugin does not store any personal data.';
-
-$string['summary'] = 'Summary';
-$string['scales'] = 'Scales';
 $string['areaidxs'] = 'Questions';
-
-$string['useritem'] = 'Style of the choice elements';
-$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';
-$string['useradio'] = 'Radio buttons';
-$string['useselect'] = 'Use drop down menus';
-$string['position'] = 'Position of attls elements question';
-$string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br>Changes will take effect with new surveypro';
-
+$string['fieldset_content_01'] = 'Relevance';
+$string['fieldset_content_02'] = 'Reflective thinking';
 $string['label_content_01'] = '<p>The purpose of this survey is to help us understand how well the online delivery of this unit enabled you to learn.
 
 Each one of the 24 statements below asks about your experience in this unit.
@@ -45,17 +34,28 @@ There are no \'right\' or \'wrong\' answers; we are interested only in your opin
 Your carefully considered responses will help us improve the way this unit is presented online in the future.
 
 Thanks very much.</p>';
-
-$string['fieldset_content_01'] = 'Relevance';
-
 $string['label_content_02'] = '<p>In this online unit...</p>';
+$string['pluginname'] = 'COLLES (Actual)';
+$string['position'] = 'Position of attls elements question';
+$string['position_desc'] = 'This option let you choose the position of the question respect to the user interface to provide the answer.<br>Changes will take effect with new surveypro';
+$string['privacy:metadata'] = 'The "COLLES (Actual)" template plugin does not store any personal data.';
 
 $string['radiobutton_content_03'] = '<p>my learning focuses on issues that interest me.</p>';
 $string['radiobutton_content_04'] = '<p>what I learn is important for my professional practice.</p>';
 $string['radiobutton_content_05'] = '<p>I learn how to improve my professional practice.</p>';
 $string['radiobutton_content_06'] = '<p>what I learn connects well with my professional practice.</p>';
+$string['scales'] = 'Scales';
+$string['summary'] = 'Summary';
 
-$string['fieldset_content_02'] = 'Reflective thinking';
+$string['useradio'] = 'Radio buttons';
+$string['useritem'] = 'Style of the choice elements';
+$string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';
+$string['useselect'] = 'Use drop down menus';
+
+
+
+
+
 
 // $string['label_content_02'] = '<p>In this online unit...</p>';
 

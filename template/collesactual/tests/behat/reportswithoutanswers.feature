@@ -37,6 +37,7 @@ Feature: Test colles report for courses divided into groups not having answers
       | surveypro | Verify reports | Verify reports | Course grouped |
 
     When I am on the "Verify reports" "Activity editing" page logged in as teacher1
+    And I expand all fieldsets
     And I set the following fields to these values:
       | Group mode | Visible groups |
     And I press "Save and display"
@@ -53,32 +54,32 @@ Feature: Test colles report for courses divided into groups not having answers
 
     # student11 submits his response
     And I set the following fields to these values:
-      | id_surveypro_field_radiobutton_4_1  | 1           |
-      | id_surveypro_field_radiobutton_5_0  | 1           |
-      | id_surveypro_field_radiobutton_6_2  | 1           |
-      | id_surveypro_field_radiobutton_7_4  | 1           |
-      | id_surveypro_field_radiobutton_10_3 | 1           |
-      | id_surveypro_field_radiobutton_11_0 | 1           |
-      | id_surveypro_field_radiobutton_12_0 | 1           |
-      | id_surveypro_field_radiobutton_13_1 | 1           |
-      | id_surveypro_field_radiobutton_16_1 | 1           |
-      | id_surveypro_field_radiobutton_17_2 | 1           |
-      | id_surveypro_field_radiobutton_18_2 | 1           |
-      | id_surveypro_field_radiobutton_19_3 | 1           |
-      | id_surveypro_field_radiobutton_22_3 | 1           |
-      | id_surveypro_field_radiobutton_23_4 | 1           |
-      | id_surveypro_field_radiobutton_24_4 | 1           |
-      | id_surveypro_field_radiobutton_25_4 | 1           |
-      | id_surveypro_field_radiobutton_28_3 | 1           |
-      | id_surveypro_field_radiobutton_29_2 | 1           |
-      | id_surveypro_field_radiobutton_30_1 | 1           |
-      | id_surveypro_field_radiobutton_31_0 | 1           |
-      | id_surveypro_field_radiobutton_34_2 | 1           |
-      | id_surveypro_field_radiobutton_35_4 | 1           |
-      | id_surveypro_field_radiobutton_36_1 | 1           |
-      | id_surveypro_field_radiobutton_37_3 | 1           |
-      | id_surveypro_field_select_38        | 2-3 min     |
-      | Do you have any other comments?     | No, please. |
+      | id_field_radiobutton_4_1        | 1           |
+      | id_field_radiobutton_5_0        | 1           |
+      | id_field_radiobutton_6_2        | 1           |
+      | id_field_radiobutton_7_4        | 1           |
+      | id_field_radiobutton_10_3       | 1           |
+      | id_field_radiobutton_11_0       | 1           |
+      | id_field_radiobutton_12_0       | 1           |
+      | id_field_radiobutton_13_1       | 1           |
+      | id_field_radiobutton_16_1       | 1           |
+      | id_field_radiobutton_17_2       | 1           |
+      | id_field_radiobutton_18_2       | 1           |
+      | id_field_radiobutton_19_3       | 1           |
+      | id_field_radiobutton_22_3       | 1           |
+      | id_field_radiobutton_23_4       | 1           |
+      | id_field_radiobutton_24_4       | 1           |
+      | id_field_radiobutton_25_4       | 1           |
+      | id_field_radiobutton_28_3       | 1           |
+      | id_field_radiobutton_29_2       | 1           |
+      | id_field_radiobutton_30_1       | 1           |
+      | id_field_radiobutton_31_0       | 1           |
+      | id_field_radiobutton_34_2       | 1           |
+      | id_field_radiobutton_35_4       | 1           |
+      | id_field_radiobutton_36_1       | 1           |
+      | id_field_radiobutton_37_3       | 1           |
+      | id_field_select_38              | 2-3 min     |
+      | Do you have any other comments? | No, please. |
     And I press "Submit"
 
     And I log out

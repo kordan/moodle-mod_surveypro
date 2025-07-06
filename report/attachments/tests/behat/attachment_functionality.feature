@@ -26,9 +26,6 @@ Feature: Test attachment report
     And the following "permission overrides" exist:
       | capability                       | permission | role    | contextlevel | reference              |
       | mod/surveypro:editownsubmissions | Allow      | student | Course       | Test attachment report |
-    And the following "user preferences" exist:
-      | user     | preference | value    |
-      | teacher1 | htmleditor | textarea |
     And the following "activities" exist:
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
@@ -108,8 +105,7 @@ Feature: Test attachment report
     And I log out
 
     # teacher logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as teacher1
-    And I follow "Run Attachments overview report"
+    When I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
     # Feature 1: only user who actually submitted are in the list
     Then I should see "student1"

@@ -164,11 +164,11 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016101700) {
-        // Changing the default of field contentformat on table surveypro_answer to null.
+        // Changing the default of field content on table surveypro_answer to null.
         $table = new xmldb_table('surveypro_answer');
         $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'verified');
 
-        // Launch change of default for field contentformat.
+        // Launch change of default for field content.
         $dbman->change_field_default($table, $field);
 
         // Changing the default of field contentformat on table surveypro_answer to drop it.
@@ -367,6 +367,85 @@ function xmldb_surveypro_upgrade($oldversion) {
 
         // Surveypro savepoint reached.
         upgrade_mod_savepoint(true, 2023012600, 'surveypro');
+    }
+
+    if ($oldversion < 2024032700) {
+        $table = new xmldb_table('surveypro_item');
+
+        // 9) Define field contentformat to be added to surveypro_item.
+        $field = new xmldb_field('contentformat', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'plugin');
+
+        // Conditionally launch add field contentformat.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 8) Define field content to be added to surveypro_item.
+        $field = new xmldb_field('content', XMLDB_TYPE_TEXT, null, null, null, null, null, 'plugin');
+
+        // Conditionally launch add field content.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 7) Define field extranote to be added to surveypro_item.
+        $field = new xmldb_field('extranote', XMLDB_TYPE_CHAR, '255', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field extranote.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 6) Define field variable to be added to surveypro_item.
+        $field = new xmldb_field('variable', XMLDB_TYPE_CHAR, '64', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field variable.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 5) Define field hideinstructions to be added to surveypro_item.
+        $field = new xmldb_field('hideinstructions', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field hideinstructions.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 4) Define field customnumber to be added to surveypro_item.
+        $field = new xmldb_field('customnumber', XMLDB_TYPE_CHAR, '64', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field customnumber.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 3) Define field position to be added to surveypro_item.
+        $field = new xmldb_field('position', XMLDB_TYPE_INTEGER, '4', null, null, null, '0', 'contentformat');
+
+        // Conditionally launch add field position.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 2) Define field indent to be added to surveypro_item.
+        $field = new xmldb_field('indent', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field indent.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // 1) Define field required to be added to surveypro_item.
+        $field = new xmldb_field('required', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'contentformat');
+
+        // Conditionally launch add field required.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2024032700, 'surveypro');
     }
 
     return true;

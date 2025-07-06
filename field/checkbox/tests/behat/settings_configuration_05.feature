@@ -40,8 +40,8 @@ Feature: Submit using checkbox item and check form validation
     And I press "New response"
     Then I should not see "No more than"
     And I set the following fields to these values:
-      | id_surveypro_field_checkbox_1_0 | 1 |
-      | id_surveypro_field_checkbox_1_3 | 1 |
+      | id_field_checkbox_1_0 | 1 |
+      | id_field_checkbox_1_3 | 1 |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -62,13 +62,13 @@ Feature: Submit using checkbox item and check form validation
     # Test number 2: Student ticks too many checkboxes
     And I press "New response"
     Then I should see "No more than 3 checkboxes are allowed"
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
-    And I set the field "id_surveypro_field_checkbox_1_1" to "1"
-    And I set the field "id_surveypro_field_checkbox_1_2" to "1"
-    And I set the field "id_surveypro_field_checkbox_1_3" to "1"
+    And I set the field "id_field_checkbox_1_0" to "1"
+    And I set the field "id_field_checkbox_1_1" to "1"
+    And I set the field "id_field_checkbox_1_2" to "1"
+    And I set the field "id_field_checkbox_1_3" to "1"
     And I press "Submit"
     Then I should see "Please tick no more than 3 options"
-    And I set the field "id_surveypro_field_checkbox_1_1" to "0"
+    And I set the field "id_field_checkbox_1_1" to "0"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -77,7 +77,7 @@ Feature: Submit using checkbox item and check form validation
     # Test number 3: Student submits a standard answer
     And I press "New response"
     Then I should see "No more than 3 checkboxes are allowed"
-    And I set the field "id_surveypro_field_checkbox_1_0" to "1"
+    And I set the field "id_field_checkbox_1_0" to "1"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

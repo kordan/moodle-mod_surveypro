@@ -55,15 +55,14 @@ class layout_customnumber extends \core\output\inplace_editable {
     public static function update($itemid, $newcnumber) {
         global $DB;
 
-        $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], 'id, surveyproid, type, plugin', MUST_EXIST);
+        $itemrecord = $DB->get_record('surveypro_item', ['id' => $itemid], 'id, surveyproid', MUST_EXIST);
         $surveypro = $DB->get_record('surveypro', ['id' => $itemrecord->surveyproid], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         external_api::validate_context($context);
 
-        $tablename = 'surveypro'.$itemrecord->type.'_'.$itemrecord->plugin;
         $newcnumber = clean_param($newcnumber, PARAM_TEXT);
-        $DB->set_field($tablename, 'customnumber', $newcnumber, ['itemid' => $itemid]);
+        $DB->set_field('surveypro_item', 'customnumber', $newcnumber, ['id' => $itemid]);
 
         return new static($itemid, $newcnumber);
     }

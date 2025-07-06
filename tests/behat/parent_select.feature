@@ -42,25 +42,25 @@ Feature: Set select as parent item
     When I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "id_surveypro_field_select_1" to "sea"
+    And I set the field "id_field_select_1" to "sea"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "sea"
-    And I set the field "id_surveypro_field_select_1" to "mountain"
+    Then the field "id_field_select_1" matches value "sea"
+    And I set the field "id_field_select_1" to "mountain"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "mountain"
-    And I set the field "id_surveypro_field_select_1" to "No answer"
+    Then the field "id_field_select_1" matches value "mountain"
+    And I set the field "id_field_select_1" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "No answer"
-    And I set the field "id_surveypro_field_select_1" to "Choose..."
+    Then the field "id_field_select_1" matches value "No answer"
+    And I set the field "id_field_select_1" to "Choose..."
     And I press "Next page >>"
 
     Then I should see "Please choose an option"
@@ -80,25 +80,25 @@ Feature: Set select as parent item
     When I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "id_surveypro_field_select_1" to "sea"
+    And I set the field "id_field_select_1" to "sea"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "sea"
-    And I set the field "id_surveypro_field_select_1" to "mountain"
+    Then the field "id_field_select_1" matches value "sea"
+    And I set the field "id_field_select_1" to "mountain"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "mountain"
-    And I set the field "id_surveypro_field_select_1" to "No answer"
+    Then the field "id_field_select_1" matches value "mountain"
+    And I set the field "id_field_select_1" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_select_1" matches value "No answer"
-    And I set the field "id_surveypro_field_select_1" to "Choose..."
+    Then the field "id_field_select_1" matches value "No answer"
+    And I set the field "id_field_select_1" to "Choose..."
     And I press "Next page >>"
     Then I should see "Please choose an option"
 
@@ -115,16 +115,16 @@ Feature: Set select as parent item
     When I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "id_surveypro_field_select_1" to "sea"
+    And I set the field "id_field_select_1" to "sea"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_select_1" to "mountain"
+    And I set the field "id_field_select_1" to "mountain"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_select_1" to "No answer"
+    And I set the field "id_field_select_1" to "No answer"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_select_1" to "Choose..."
+    And I set the field "id_field_select_1" to "Choose..."
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -142,14 +142,14 @@ Feature: Set select as parent item
     When I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
-    And I set the field "id_surveypro_field_select_1" to "sea"
+    And I set the field "id_field_select_1" to "sea"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_select_1" to "mountain"
+    And I set the field "id_field_select_1" to "mountain"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_select_1" to "No answer"
+    And I set the field "id_field_select_1" to "No answer"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_select_1" to "Choose..."
+    And I set the field "id_field_select_1" to "Choose..."
     Then the "Write down your name" "field" should be disabled

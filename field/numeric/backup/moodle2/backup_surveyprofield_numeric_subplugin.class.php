@@ -40,9 +40,8 @@ class backup_surveyprofield_numeric_subplugin extends backup_subplugin {
         $subplugin = $this->get_subplugin_element(null, '../../plugin', 'numeric'); // Virtual optigroup element.
         $wrapper = new backup_nested_element($this->get_recommended_name());
         $subpluginnumeric = new backup_nested_element('surveyprofield_numeric', ['id'], [
-            'content', 'contentformat',
-            'required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote',
-            'defaultvalue', 'signed', 'lowerbound', 'upperbound', 'decimals', ]);
+            'defaultvalue', 'signed', 'lowerbound', 'upperbound', 'decimals',
+        ]);
 
         // Connect XML elements into the tree.
         $subplugin->add_child($wrapper);

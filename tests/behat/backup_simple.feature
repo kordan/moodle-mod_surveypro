@@ -11,6 +11,8 @@ Feature: Backup a surveypro
     And the following "activities" exist:
       | activity  | course | name                 | intro                     | section |
       | surveypro | C1     | Test surveypro       | Surveypro description     | 1       |
+    And the following config values are set as admin:
+      | enableasyncbackup | 0 |
     And I log in as "admin"
 
   @javascript

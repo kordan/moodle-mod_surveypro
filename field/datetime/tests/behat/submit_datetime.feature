@@ -43,11 +43,11 @@ Feature: Submit using a datetime item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_datetime_1_day    | 23     |
-      | id_surveypro_field_datetime_1_month  | August |
-      | id_surveypro_field_datetime_1_year   | 2010   |
-      | id_surveypro_field_datetime_1_hour   | 17     |
-      | id_surveypro_field_datetime_1_minute | 35     |
+      | id_field_datetime_1_day    | 23     |
+      | id_field_datetime_1_month  | August |
+      | id_field_datetime_1_year   | 2010   |
+      | id_field_datetime_1_hour   | 17     |
+      | id_field_datetime_1_minute | 35     |
 
     And I press "Submit"
 

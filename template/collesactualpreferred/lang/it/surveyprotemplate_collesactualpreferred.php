@@ -22,17 +22,17 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['pluginname'] = 'COLLES (Ideale e Reale)';
-$string['summary'] = 'Riepilogo';
-$string['scales'] = 'Valutazioni';
 $string['areaidxs'] = 'Aree';
-
-$string['useritem'] = 'Tipo di selettore';
-$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
-$string['useradio'] = 'Bottoni radio';
-$string['useselect'] = 'Menu a tendina';
+$string['pluginname'] = 'COLLES (Ideale e Reale)';
 $string['position'] = 'Posizione delle domande';
 $string['position_desc'] = 'Questa opzione consente di scegliere la posizione del testo delle domande nell\'elemento.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['scales'] = 'Valutazioni';
+$string['summary'] = 'Riepilogo';
+
+$string['useradio'] = 'Bottoni radio';
+$string['useritem'] = 'Tipo di selettore';
+$string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
+$string['useselect'] = 'Menu a tendina';
 
 // Label.
 $string['label_content_01'] = '<p>L\'obiettivo di questo sondaggio è di aiutarci a capire come lo svolgimento online di questa unità ti sia stato utile nell\'apprendimento.

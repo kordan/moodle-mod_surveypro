@@ -86,7 +86,6 @@ class itemsetupform extends item_setupbaseform {
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
-        $elementgroup = [];
         $mform->addElement('text', $fieldname, null);
         $mform->setType($fieldname, PARAM_RAW);
         $mform->disabledIf($fieldname, 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);

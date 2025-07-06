@@ -103,9 +103,9 @@ class action_bar {
             $menu[$linktosubmissions->out(false)] = get_string('surveypro_responses', 'mod_surveypro');
         }
 
-        // View -> searchsubmissions.
+        // View -> responsesearch.
         if ($cansearch && $utilitylayoutman->has_search_items()) {
-            $paramurl['section'] = 'searchsubmissions';
+            $paramurl['section'] = 'responsesearch';
             $linktosearch = new moodle_url('/mod/surveypro/view.php', $paramurl);
             $menu[$linktosearch->out(false)] = get_string('surveypro_view_search', 'mod_surveypro');
         }
@@ -132,8 +132,8 @@ class action_bar {
             }
         }
 
-        // If section = 'submissionform', set $activeurl according to the way the form is going to be used.
-        if (strpos($this->currenturl->out(false), 'submissionform')) {
+        // If section = 'responsesubmit', set $activeurl according to the way the form is going to be used.
+        if (strpos($this->currenturl->out(false), 'responsesubmit')) {
             if (isset($gosthlink)) {
                 $activeurl = $gosthlink;
             } else {
@@ -421,7 +421,7 @@ class action_bar {
         $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
 
-        if ($surveyproreportlist = get_plugin_list('surveyproreport')) {
+        if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
                 $classname = 'surveyproreport_'.$reportname.'\report';
                 $reportman = new $classname($this->cm, $this->context, $this->surveypro);

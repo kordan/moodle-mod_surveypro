@@ -99,8 +99,10 @@ class mtemplate_applyform extends \moodleform {
         $templatename = $data['mastertemplate'];
         $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
         $xml = file_get_contents($templatepath);
-        $errormessage = $applyman->validate_xml($xml);
-        if ($errormessage !== false) {
+
+        $applyman->validate_xml($xml);
+        $errormessage = $applyman->get_xmlvalidationoutcome();
+        if (!empty($errormessage->key)) {
             $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');
             if (isset($errormessage->a)) {
                 $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a).$addendum;

@@ -25,11 +25,11 @@
 use mod_surveypro\utility_page;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
-use mod_surveypro\utility_mform;
 
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\layout_itemlist;
 use mod_surveypro\layout_preview;
+use mod_surveypro\layout_branchingvalidation;
 
 use mod_surveypro\utemplate_apply;
 use mod_surveypro\mtemplate_apply;
@@ -40,7 +40,7 @@ use mod_surveypro\local\form\item_chooser;
 use mod_surveypro\local\form\utemplate_applyform;
 use mod_surveypro\local\form\mtemplate_applyform;
 use mod_surveypro\local\form\item_bulkactionform;
-use mod_surveypro\local\form\userform;
+use mod_surveypro\local\form\response_submitform;
 
 require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/lib.php');
@@ -83,8 +83,6 @@ if ($section == 'preview') {
     $overflowpage = optional_param('overflowpage', 0, PARAM_INT); // Went the user to a overflow page?
 
     // Calculations.
-    mod_surveypro\utility_mform::register_form_elements();
-
     $previewman = new layout_preview($cm, $context, $surveypro);
     $previewman->setup($submissionid, $formpage);
 
@@ -110,7 +108,7 @@ if ($section == 'preview') {
     $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
     // End of: prepare params for the form.
 
-    $userform = new userform($formurl, $formparams, 'post', '', ['id' => 'userentry']);
+    $userform = new response_submitform($formurl, $formparams, 'post', '', ['id' => 'userentry', 'class' => 'narrowlines']);
 
     // Begin of: manage form submission.
     if ($data = $userform->get_data()) {
@@ -365,7 +363,7 @@ if ($section == 'itemsetup') {
     $plugin = optional_param('plugin', null, PARAM_TEXT);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // Ho sostituito SURVEYPRO_NEWRESPONSEMODE con SURVEYPRO_NOMODE?
+    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // I replaced SURVEYPRO_NEWRESPONSEMODE con SURVEYPRO_NOMODE?
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);
@@ -398,8 +396,7 @@ if ($section == 'itemsetup') {
     // Begin of: get item.
     $itemtype = $itemsetupman->get_type();
     $itemplugin = $itemsetupman->get_plugin();
-    $item = surveypro_get_item($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
-    $item->set_editor();
+    $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
     // End of: get item.
 
     // Set $PAGE params.
@@ -428,7 +425,7 @@ if ($section == 'itemsetup') {
     // End of: define $itemform return url.
 
     // Begin of: prepare params for the form.
-    $classname = 'surveyprofield_'.$itemplugin.'\itemsetupform';
+    $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemplugin.'\itemsetupform';
     $itemform = new $classname($formurl, ['item' => $item], null, null, ['id' => 'itemsetup']);
     // End of: prepare params for the form.
 
@@ -448,7 +445,7 @@ if ($section == 'itemsetup') {
         $feedback = $item->get_itemeditingfeedback(); // Copy the returned feedback.
 
         // Overwrite item to get new settings in the object.
-        $item = surveypro_get_item($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
+        $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $item->get_type(), $item->get_plugin());
         $item->item_update_childrenparentvalue();
 
         $paramurl = ['s' => $cm->instance, 'section' => 'itemslist', 'iefeedback' => $feedback];
@@ -468,9 +465,9 @@ if ($section == 'itemsetup') {
         $message = $utilitysubmissionman->get_submissions_warning();
         echo $OUTPUT->notification($message, 'notifyproblem');
     }
-    $itemsetupman->item_identitycard();
+    $itemsetupman->display_iteminfo();
 
-    $data = $item->get_itemform_preset();
+    $data = $item->get_plugin_presets();
     $itemform->set_data($data);
 
     $itemform->display();

@@ -87,5 +87,5 @@ Feature: Create an integer item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a How many people does your family counts?"
-    Then the field "id_surveypro_field_integer_2" matches value "5"
+    Then the field "id_field_integer_2" matches value "5"
     Then I should see "Additional note"

@@ -95,7 +95,6 @@ class report extends reportbase {
         $this->outputtable->column_suppress('fullname');
 
         // General properties for the whole table.
-        $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         // $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'userattempts');
         $this->outputtable->set_attribute('class', 'generaltable');

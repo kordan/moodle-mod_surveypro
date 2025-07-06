@@ -46,79 +46,79 @@ Feature: Set multiselect as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    Then the field "id_field_multiselect_1" matches value "milk"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "1"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "sugar"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "0"
+    And I set the field "id_field_multiselect_1" to "sugar"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "sugar"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "chocolate"
+    Then the field "id_field_multiselect_1" matches value "sugar"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "chocolate"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "chocolate"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
+    Then the field "id_field_multiselect_1" matches value "chocolate"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, jam"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, jam"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, chocolate"
+    Then the field "id_field_multiselect_1" matches value "milk, jam"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, chocolate"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, chocolate"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
+    Then the field "id_field_multiselect_1" matches value "milk, chocolate"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar, jam"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam, chocolate"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar, jam"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam, chocolate"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar, jam, chocolate"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar, jam, chocolate"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "1"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "1"
 
     And I log out
 
@@ -139,72 +139,72 @@ Feature: Set multiselect as parent item
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "sugar"
+    Then the field "id_field_multiselect_1" matches value "milk"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "sugar"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "sugar"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
+    Then the field "id_field_multiselect_1" matches value "sugar"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, jam"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, jam"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, chocolate"
+    Then the field "id_field_multiselect_1" matches value "milk, jam"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, chocolate"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, chocolate"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    Then the field "id_field_multiselect_1" matches value "milk, chocolate"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "1"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar, jam"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam, chocolate"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar, jam"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam, chocolate"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value "milk, sugar, jam, chocolate"
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "0"
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    Then the field "id_field_multiselect_1" matches value "milk, sugar, jam, chocolate"
+    Then the field "id_field_multiselect_1_noanswer" matches value "0"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_multiselect_1" matches value ""
-    Then the field "id_surveypro_field_multiselect_1_noanswer" matches value "1"
+    Then the field "id_field_multiselect_1" matches value ""
+    Then the field "id_field_multiselect_1_noanswer" matches value "1"
 
     And I log out
 
@@ -221,35 +221,35 @@ Feature: Set multiselect as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk"
+    And I set the field "id_field_multiselect_1" to "milk"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "sugar"
+    And I set the field "id_field_multiselect_1" to "sugar"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "jam"
+    And I set the field "id_field_multiselect_1" to "jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
+    And I set the field "id_field_multiselect_1" to "milk, sugar"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
+    And I set the field "id_field_multiselect_1" to "milk, jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, chocolate"
+    And I set the field "id_field_multiselect_1" to "milk, chocolate"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
+    And I set the field "id_field_multiselect_1_noanswer" to "0"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam, chocolate"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam, chocolate"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -269,30 +269,30 @@ Feature: Set multiselect as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk"
+    And I set the field "id_field_multiselect_1" to "milk"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "0"
-    And I set the field "id_surveypro_field_multiselect_1" to "sugar"
+    And I set the field "id_field_multiselect_1_noanswer" to "0"
+    And I set the field "id_field_multiselect_1" to "sugar"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "jam"
+    And I set the field "id_field_multiselect_1" to "jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar"
+    And I set the field "id_field_multiselect_1" to "milk, sugar"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, jam"
+    And I set the field "id_field_multiselect_1" to "milk, jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, sugar, jam, chocolate"
+    And I set the field "id_field_multiselect_1" to "milk, sugar, jam, chocolate"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_multiselect_1_noanswer" to "1"
+    And I set the field "id_field_multiselect_1_noanswer" to "1"
     Then the "Write down your name" "field" should be disabled

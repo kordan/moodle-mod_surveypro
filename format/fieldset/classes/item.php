@@ -39,10 +39,19 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
  */
 class item extends itembase {
 
+    // Itembase properties.
+
     /**
-     * @var string Label of the fieldset
+     * @var int defaultstatus
      */
-    protected $content;
+    protected $defaultstatus;
+
+    // Service variables.
+
+    /**
+     * @var bool Does this item use the child table surveypro(field|format)_plugin?
+     */
+    protected static $usesplugintable = true;
 
     /**
      * @var bool Can this item be parent?
@@ -67,24 +76,27 @@ class item extends itembase {
         $this->type = SURVEYPRO_TYPEFORMAT;
         $this->plugin = 'fieldset';
 
-        // Override the list of fields using format, whether needed.
-        $this->fieldsusingformat = [];
-
         // Other element specific properties.
         // No properties here.
 
         // Override properties depending from $surveypro settings.
         // No properties here.
 
-        // List of fields I do not want to have in the item definition form.
-        $this->insetupform['customnumber'] = false;
-        $this->insetupform['position'] = false;
-        $this->insetupform['extranote'] = false;
+        // List of fields of the base form I do not want to have in the item definition.
+        // Each (field|format) plugin receive a list of fields (quite) common to each (field|format) plugin.
+        // This is the list of the elements of the itembase form fields that this (field|format) plugin does not use.
+        $this->insetupform['common_fs'] = false;
+        $this->insetupform['contentformat'] = false;
         $this->insetupform['required'] = false;
-        $this->insetupform['variable'] = false;
         $this->insetupform['indent'] = false;
+        $this->insetupform['position'] = false;
+        $this->insetupform['variable'] = false;
+        $this->insetupform['extranote'] = false;
+        $this->insetupform['customnumber'] = false;
         $this->insetupform['hideinstructions'] = false;
+        $this->insetupform['insearchform'] = false;
         $this->insetupform['parentid'] = false;
+        $this->insetupform['parentvalue'] = false;
 
         if (!empty($itemid)) {
             $this->item_load($itemid, $getparentcontent);
@@ -113,16 +125,47 @@ class item extends itembase {
      * @return void
      */
     public function item_save($record) {
-        $this->get_common_settings($record);
-
-        // Now execute very specific plugin level actions.
-
-        // Begin of: plugin specific settings (eventually overriding general ones).
-        // End of: plugin specific settings (eventually overriding general ones).
+        // Set properties at plugin level and then continue to base level.
 
         // Do parent item saving stuff here (mod_surveypro_itembase::item_save($record))).
         return parent::item_save($record);
     }
+
+    /**
+     * Returns if this item has the mandatory attribute.
+     *
+     * @return bool
+     */
+    public static function has_mandatoryattribute() {
+        return false;
+    }
+
+    /**
+     * Item add mandatory plugin fields
+     * Copy mandatory fields to $record
+     *
+     * @param \stdClass $record
+     * @return void
+     */
+    public function item_add_fields_default_to_child_table(&$record) {
+        // $record->defaultstatus
+
+        return;
+    }
+
+    // MARK set.
+
+    /**
+     * Set defaultstatus.
+     *
+     * @param string $defaultstatus
+     * @return void
+     */
+    public function set_defaultstatus($defaultstatus) {
+        $this->defaultstatus = $defaultstatus;
+    }
+
+    // MARK get.
 
     /**
      * Get content.
@@ -134,35 +177,35 @@ class item extends itembase {
     }
 
     /**
-     * Item add mandatory plugin fields
-     * Copy mandatory fields to $record
+     * Get defaultstatus.
      *
-     * @param \stdClass $record
-     * @return void
+     * @return $this->defaultstatus
      */
-    public function item_add_mandatory_plugin_fields(&$record) {
-        $record->content = 'Fieldset';
+    public function get_defaultstatus() {
+        return $this->defaultstatus;
     }
 
-    // MARK get.
-
     /**
-     * Is this item available as a parent?
+     * Prepare presets for itemsetuprform with the help of the parent class too.
      *
-     * @return the content of the static property "canbeparent"
+     * @return array $data
      */
-    public static function get_canbeparent() {
-        return self::$canbeparent;
+    public function get_plugin_presets() {
+        $pluginproperties = ['defaultstatus'];
+        $data = $this->get_base_presets($pluginproperties);
+
+        return $data;
     }
 
     /**
      * Make the list of the fields using multilang
      *
-     * @return array of felds
+     * @param boolean $includemetafields
+     * @return array of fields
      */
-    public function get_multilang_fields() {
-        $fieldlist = [];
-        $fieldlist[$this->plugin] = ['content'];
+    public function get_multilang_fields($includemetafields=true) {
+        $fieldlist['surveypro_item'] = ['content', 'extranote'];
+        $fieldlist['surveyprofield_time'] = [];
 
         return $fieldlist;
     }
@@ -188,7 +231,6 @@ class item extends itembase {
     <xs:element name="surveyproformat_fieldset">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="content" type="xs:string"/>
                 <xs:element name="defaultstatus" type="xs:int" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
@@ -228,6 +270,7 @@ EOS;
      */
     public function userform_mform_validation($data, &$errors, $searchform) {
         // Nothing to do here.
+        return $errors;
     }
 
     /**

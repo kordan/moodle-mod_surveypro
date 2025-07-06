@@ -88,5 +88,5 @@ Feature: Create a multiselect item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a What do you usually get for breakfast?"
-    Then the field "id_surveypro_field_multiselect_2" matches value "coffee, bread"
+    Then the field "id_field_multiselect_2" matches value "coffee, bread"
     Then I should see "Additional note"

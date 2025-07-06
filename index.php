@@ -31,6 +31,13 @@ $course = $DB->get_record('course', ['id' => $id], '*', MUST_EXIST);
 
 require_course_login($course, true);
 
+$context = context_course::instance($course->id);
+
+$params = ['context' => context_course::instance($course->id)];
+$event = \mod_surveypro\event\course_module_instance_list_viewed::create($params);
+$event->add_record_snapshot('course', $course);
+$event->trigger();
+
 // Get all required strings.
 $strname = get_string('name');
 $strsurveypro = get_string('modulename', 'mod_surveypro');
@@ -41,16 +48,15 @@ $closed = get_string('closedsubmissions', 'mod_surveypro');
 
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url('/mod/surveypro/index.php', ['id' => $id]);
-$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/data/index.php', ['id' => $id]));
-$PAGE->set_title($strsurveypro);
+$PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/surveypro/index.php', ['id' => $course->id]));
+$titleparts = [$strdataplural, format_string($course->fullname)];
+$PAGE->set_title(implode(moodle_page::TITLE_SEPARATOR, $titleparts));
 $PAGE->set_heading($course->fullname);
 // Is it useful? $PAGE->add_body_class('mediumwidth');.
 
 // Output starts here.
 echo $OUTPUT->header();
 echo $OUTPUT->heading($strdataplural, 2);
-
-\mod_surveypro\event\course_module_instance_list_viewed::create_from_course($course)->trigger();
 
 // Get all the appropriate data.
 if (!$surveypros = get_all_instances_in_course('surveypro', $course)) {
@@ -74,7 +80,6 @@ if ($course->format == 'weeks') {
 }
 $table->colclasses = ['col1', 'col2', 'col3', 'col4', 'col5'];
 
-$currentsection = -1;
 $sectionvisible = $DB->get_records_menu('course_sections', ['course' => $course->id], '', 'section, visible');
 
 $sql = 'SELECT surveyproid, COUNT(id) as responses
@@ -87,19 +92,24 @@ $inprogresssubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 $whereparams = ['status' => SURVEYPRO_STATUSCLOSED];
 $closedsubmissions = $DB->get_records_sql_menu($sql, $whereparams);
 
+$currentsection = -1;
 foreach ($surveypros as $surveypro) {
     if ($surveypro->section != $currentsection) {
         if ($surveypro->section) {
             $printsection = get_section_name($course, $surveypro->section);
-            $sectionclass = $sectionvisible[$surveypro->section] ? null : ['class' => 'dimmed'];
+            $sectionclass = $sectionvisible[$surveypro->section] ? [] : ['class' => 'dimmed'];
+        } else {
+            $printsection = $surveypro->section;
+            $sectionclass = [];
         }
         $currentsection = $surveypro->section;
     } else {
         $printsection = '';
+        $sectionclass = [];
     }
 
     if (empty($sectionclass)) { // The section is visible.
-        $cellclass = $surveypro->visible ? null : ['class' => 'dimmed'];
+        $cellclass = $surveypro->visible ? [] : ['class' => 'dimmed'];
     } else {
         $cellclass = ['class' => 'dimmed'];
     }
@@ -108,7 +118,8 @@ foreach ($surveypros as $surveypro) {
     $inprogressresp = isset($inprogresssubmissions[$surveypro->id]) ? $inprogresssubmissions[$surveypro->id] : 0;
     $closedresp = isset($closedsubmissions[$surveypro->id]) ? $closedsubmissions[$surveypro->id] : 0;
 
-    $content = [html_writer::tag('span', $printsection, $sectionclass),
+    $content = [
+        \html_writer::tag('span', $printsection, $sectionclass),
         \html_writer::link($url, format_string($surveypro->name), $cellclass),
         \html_writer::tag('span', format_module_intro('surveypro', $surveypro, $surveypro->coursemodule), $cellclass),
         \html_writer::tag('span', $inprogressresp, $cellclass),

@@ -37,8 +37,8 @@ require_once(dirname(__FILE__).'/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('tools');
 
-$id = optional_param('id', 0, PARAM_INT);                       // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                         // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);
+$s = optional_param('s', 0, PARAM_INT);
 $section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
 

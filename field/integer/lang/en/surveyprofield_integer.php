@@ -24,17 +24,18 @@
  */
 
 $string['customdefault'] = 'Custom';
-$string['defaultoption_help'] = 'This is the integer the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
+$string['defaultoption_help'] = 'This is the integer the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['ierr_lowerequaltoupper'] = 'Lower and upper bounds must be different';
 $string['ierr_lowergreaterthanupper'] = 'Lower bound must be lower than upper bound';
 $string['ierr_outofrangedefault'] = 'Default does not fall within the specified range';
-$string['lowerbound_help'] = 'The lowest integer the user is allowed to enter';
 $string['lowerbound'] = 'Lower bound';
-$string['maximuminteger_desc'] = 'The maximun integer this software will allow to ever enter';
+$string['lowerbound_help'] = 'The lowest integer the user is allowed to enter';
 $string['maximuminteger'] = 'Maximum integer';
+$string['maximuminteger_desc'] = 'The maximun integer this software will allow to ever enter';
 $string['parentformat'] = '[an integer]';
 $string['pluginname'] = 'Integer';
+$string['privacy:metadata'] = 'The "Integer" field plugin does not store any personal data.';
 $string['restriction_lower'] = 'Answer is supposed to be greater than {$a}';
 $string['restriction_lowerupper'] = 'Answer is supposed to fit between {$a->lowerbound} and {$a->upperbound}';
 $string['restriction_upper'] = 'Answer is supposed to be lower-equal than {$a}';
@@ -43,7 +44,6 @@ $string['uerr_integernotset'] = 'Please choose a value or the last item: "{$a}"'
 $string['uerr_integernotsetrequired'] = 'Please choose a value';
 $string['uerr_lowerthanminimum'] = 'Provided value is lower than minimum allowed';
 $string['uerr_outofinternalrange'] = 'Provided value does not fall within the specified range';
-$string['upperbound_help'] = 'The biggest integer the user is allowed to enter';
 $string['upperbound'] = 'Upper bound';
+$string['upperbound_help'] = 'The biggest integer the user is allowed to enter';
 $string['userfriendlypluginname'] = 'Integer (small)';
-$string['privacy:metadata'] = 'The "Integer" field plugin does not store any personal data.';

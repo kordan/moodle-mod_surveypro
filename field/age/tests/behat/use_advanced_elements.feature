@@ -69,8 +69,8 @@ Feature: Use reserved elements
 
     # user submit a surveypro
     And I set the following fields to these values:
-      | id_surveypro_field_age_1_year  | 8 |
-      | id_surveypro_field_age_1_month | 2 |
+      | id_field_age_1_year  | 8 |
+      | id_field_age_1_month | 2 |
     And I press "Submit"
 
     And I log out
@@ -83,6 +83,6 @@ Feature: Use reserved elements
     Then I should see "2 Second age item"
 
     And I set the following fields to these values:
-      | id_surveypro_field_age_2_year  | 24 |
-      | id_surveypro_field_age_2_month | 6  |
+      | id_field_age_2_year  | 24 |
+      | id_field_age_2_month | 6  |
     And I press "Submit"

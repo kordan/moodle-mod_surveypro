@@ -46,30 +46,30 @@ Feature: Set integer as parent item
 
     Then I should see "Please choose a value"
 
-    And I set the field "id_surveypro_field_integer_1" to "0"
+    And I set the field "id_field_integer_1" to "0"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "0"
-    And I set the field "id_surveypro_field_integer_1" to "1"
+    Then the field "id_field_integer_1" matches value "0"
+    And I set the field "id_field_integer_1" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "1"
-    And I set the field "id_surveypro_field_integer_1" to "5"
+    Then the field "id_field_integer_1" matches value "1"
+    And I set the field "id_field_integer_1" to "5"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "5"
-    And I set the field "id_surveypro_field_integer_1" to "No answer"
+    Then the field "id_field_integer_1" matches value "5"
+    And I set the field "id_field_integer_1" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "No answer"
+    Then the field "id_field_integer_1" matches value "No answer"
 
     And I log out
 
@@ -89,30 +89,30 @@ Feature: Set integer as parent item
     And I press "Next page >>"
     Then I should see "Please choose a value"
 
-    And I set the field "id_surveypro_field_integer_1" to "0"
+    And I set the field "id_field_integer_1" to "0"
     And I press "Next page >>"
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "0"
-    And I set the field "id_surveypro_field_integer_1" to "1"
+    Then the field "id_field_integer_1" matches value "0"
+    And I set the field "id_field_integer_1" to "1"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "1"
-    And I set the field "id_surveypro_field_integer_1" to "5"
+    Then the field "id_field_integer_1" matches value "1"
+    And I set the field "id_field_integer_1" to "5"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "5"
-    And I set the field "id_surveypro_field_integer_1" to "No answer"
+    Then the field "id_field_integer_1" matches value "5"
+    And I set the field "id_field_integer_1" to "No answer"
     And I press "Next page >>"
     Then I should see "On the basis of the answers provided, no more elements remain to display."
 
     And I press "<< Previous page"
-    Then the field "id_surveypro_field_integer_1" matches value "No answer"
+    Then the field "id_field_integer_1" matches value "No answer"
 
     And I log out
 
@@ -129,16 +129,16 @@ Feature: Set integer as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "0"
+    And I set the field "id_field_integer_1" to "0"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_integer_1" to "1"
+    And I set the field "id_field_integer_1" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "5"
+    And I set the field "id_field_integer_1" to "5"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "No answer"
+    And I set the field "id_field_integer_1" to "No answer"
     Then the "Write down your name" "field" should be disabled
 
     And I log out
@@ -158,14 +158,14 @@ Feature: Set integer as parent item
     And I press "New response"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "0"
+    And I set the field "id_field_integer_1" to "0"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "1"
+    And I set the field "id_field_integer_1" to "1"
     Then the "Write down your name" "field" should be disabled
 
-    And I set the field "id_surveypro_field_integer_1" to "5"
+    And I set the field "id_field_integer_1" to "5"
     Then the "Write down your name" "field" should be enabled
 
-    And I set the field "id_surveypro_field_integer_1" to "No answer"
+    And I set the field "id_field_integer_1" to "No answer"
     Then the "Write down your name" "field" should be disabled

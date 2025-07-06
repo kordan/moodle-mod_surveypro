@@ -194,7 +194,7 @@ if ($section == 'details') {
     $formparams->canviewhiddenactivities = $canviewhiddenactivities;
     // End of: prepare params for the form.
 
-    $filterform = new filterform($formurl, $formparams, 'post', '', ['id' => 'userentry']);
+    $filterform = new filterform($formurl, $formparams, 'post', '', ['id' => 'userentry', 'class' => 'narrowlines']);
 
     // Output starts here.
     echo $OUTPUT->header();

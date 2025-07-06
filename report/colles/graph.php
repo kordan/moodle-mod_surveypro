@@ -28,8 +28,8 @@ require_once(dirname(__FILE__).'/../../../../config.php');
 require_once($CFG->libdir.'/graphlib.php');
 require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
 
-$id = optional_param('id', 0, PARAM_INT);                      // Course_module id.
-$s = optional_param('s', 0, PARAM_INT);                        // Surveypro instance id.
+$id = optional_param('id', 0, PARAM_INT);
+$s = optional_param('s', 0, PARAM_INT);
 $type = required_param('type', PARAM_ALPHA); // Report type.
 
 if (!empty($id)) {

@@ -73,7 +73,7 @@ class filterform extends \moodleform {
             if ($itemseed->plugin != 'fileupload') {
                 continue;
             }
-            $content = $DB->get_field('surveyprofield_fileupload', 'content', ['itemid' => $itemseed->id]);
+            $content = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id]);
             $options[$itemseed->id] = strip_tags($content);
         }
         $itemseeds->close();

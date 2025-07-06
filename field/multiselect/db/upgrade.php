@@ -148,5 +148,83 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023111401, 'surveyprofield', 'multiselect');
     }
 
+    if ($oldversion < 2024022701) {
+
+        // Define field content to be dropped from surveyprofield_multiselect.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field1 = new xmldb_field('content');
+        $field2 = new xmldb_field('contentformat');
+
+        // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+        $condition = $dbman->field_exists($table, $field1);
+        $condition = $condition && $dbman->field_exists($table, $field2);
+        if ($condition) {
+            // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
+            $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+            $sql = 'UPDATE {surveypro_item}
+                    SET content = (SELECT f.content FROM {surveyprofield_multiselect} f '.$whereclause.'),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_multiselect} f '.$whereclause.')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f '.$whereclause.')';
+            $DB->execute($sql);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field1)) {
+            $dbman->drop_field($table, $field1);
+        }
+
+        // Conditionally launch drop field content.
+        if ($dbman->field_exists($table, $field2)) {
+            $dbman->drop_field($table, $field2);
+        }
+
+        // Multiselect savepoint reached.
+        upgrade_plugin_savepoint(true, 2024022701, 'surveyprofield', 'multiselect');
+    }
+
+    if ($oldversion < 2024032800) {
+
+        $table = new xmldb_table('surveyprofield_multiselect');
+
+        $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
+        foreach ($fieldnames as $fieldname) {
+            // Define field content to be dropped from surveyprofield_multiselect.
+            $field = new xmldb_field($fieldname);
+
+            // Copy the content of the dropping fields to the new corresponding fields in surveypro_item.
+            $condition = $dbman->field_exists($table, $field);
+            if ($dbman->field_exists($table, $field)) {
+                // Copy the content of the dieing column to the new corresponding column in surveypro_item.
+                // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
+                $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
+                $sql = 'UPDATE {surveypro_item}
+                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_multiselect} f '.$whereclause.')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f '.$whereclause.')';
+                $DB->execute($sql);
+            }
+
+            // Conditionally launch drop field content.
+            if ($dbman->field_exists($table, $field)) {
+                $dbman->drop_field($table, $field);
+            }
+        }
+
+        // Multiselect savepoint reached.
+        upgrade_plugin_savepoint(true, 2024032800, 'surveyprofield', 'multiselect');
+    }
+
+    if ($oldversion < 2025062600) {
+
+        // Changing the default of field noanswerdefault on table surveyprofield_multiselect to 0.
+        $table = new xmldb_table('surveyprofield_multiselect');
+        $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');
+
+        // Launch change of default for field noanswerdefault.
+        $dbman->change_field_default($table, $field);
+
+        // Multiselect savepoint reached.
+        upgrade_plugin_savepoint(true, 2025062600, 'surveyprofield', 'multiselect');
+    }
+
     return true;
 }

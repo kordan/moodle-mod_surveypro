@@ -40,17 +40,17 @@ Feature: Submit using a select item
     And I press "New response"
 
     # student1 submits
-    And I set the field "id_surveypro_field_select_1" to "hills"
+    And I set the field "id_field_select_1" to "hills"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
     # student1 submits
     And I press "New response"
-    And I set the field "id_surveypro_field_select_1" to "other (specify)"
+    And I set the field "id_field_select_1" to "other (specify)"
     And I press "Submit"
     Then I should see "Please add the text required by your selection"
-    And I set the field "id_surveypro_field_select_1_text" to "flying in the sky"
+    And I set the field "id_field_select_1_text" to "flying in the sky"
     And I press "Submit"
 
     And I press "Continue to responses list"

@@ -23,13 +23,14 @@
  */
 
 $string['customdefault'] = 'Custom';
-$string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['defaultoption'] = 'Default';
-$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
+$string['defaultoption_help'] = 'This is the value the remote user will find answered by default. The default for this type of question is mandatory.';
 $string['downloadformat'] = 'Download format';
+$string['downloadformat_help'] = 'Choose the format of the answer as it appear once user attempts are downloaded';
 $string['option'] = 'Option';
 $string['parentformat'] = '[0] or [1]';
 $string['pluginname'] = 'Boolean';
+$string['privacy:metadata'] = 'The "Boolean" field plugin does not store any personal data.';
 $string['strfbool01'] = 'yes/no';
 $string['strfbool02'] = 'Yes/No';
 $string['strfbool03'] = 'y/n';
@@ -40,11 +41,10 @@ $string['strfbool07'] = 'True/False';
 $string['strfbool08'] = 'T/F';
 $string['strfbool09'] = '1/0';
 $string['strfbool10'] = '+/-';
-$string['style_help'] = 'The style of the field';
 $string['style'] = 'Element style';
+$string['style_help'] = 'The style of the field';
 $string['uerr_booleannotset'] = 'Please choose a value';
 $string['usemenu'] = 'dropdown menu';
 $string['useradioh'] = 'horizontal radio buttons';
 $string['useradiov'] = 'vertical radio buttons';
 $string['userfriendlypluginname'] = 'Boolean';
-$string['privacy:metadata'] = 'The "Boolean" field plugin does not store any personal data.';

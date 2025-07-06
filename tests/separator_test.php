@@ -32,7 +32,7 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \surveyprofield_radiobutton
  */
-class separator_test extends advanced_testcase {
+final class separator_test extends advanced_testcase {
 
     /**
      * Data provider for test_userform_get_separator()
@@ -53,90 +53,84 @@ class separator_test extends advanced_testcase {
     public function userform_get_separator_provider(): array {
         $userinput = [];
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = '';
         $userinput['required'] = 1;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>', ' ', '<br>'];
+        $expected = ['<br>'];
         $test01 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = '';
         $userinput['required'] = 1;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>', ' ', '<br>'];
+        $expected = ['<br>', '<br>'];
         $test02 = [$userinput, $expected];
 
         // Test03: defaultoption = SURVEYPRO_NOANSWERDEFAULT is not compatible with required = 1
 
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = 'Other (please, specify)';
         $userinput['required'] = 1;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>', ' ', '<br>'];
+        $expected = ['<br>', ' '];
         $test04 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = 'Other (please, specify)';
         $userinput['required'] = 1;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>', ' ', '<br>'];
+        $expected = ['<br>', '<br>', ' '];
         $test05 = [$userinput, $expected];
 
         // Test06: defaultoption = SURVEYPRO_NOANSWERDEFAULT is not compatible with required = 1
 
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = '';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
         $expected = ['<br>'];
         $test07 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = '';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>'];
+        $expected = ['<br>', '<br>'];
         $test08 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_NOANSWERDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = '';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
         $expected = ['<br>'];
         $test09 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = 'Other (please, specify)';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>'];
+        $expected = ['<br>', ' ', '<br>'];
         $test10 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_INVITEDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = 'Other (please, specify)';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>'];
+        $expected = ['<br>', '<br>', ' ', '<br>'];
         $test11 = [$userinput, $expected];
 
         $userinput['defaultoption'] = SURVEYPRO_NOANSWERDEFAULT;
+        $userinput['options'] = "mum\ndad";
         $userinput['labelother'] = 'Other (please, specify)';
         $userinput['required'] = 0;
-        $userinput['options'] = 'mum\ndad';
-        $expected = ['<br>'];
+        $expected = ['<br>', ' ', '<br>'];
         $test12 = [$userinput, $expected];
 
         return [
-            $test01,
-            $test02,
-            $test04,
-            $test05,
-            $test07,
-            $test08,
-            $test09,
-            $test10,
-            $test11,
-            $test12,
+            $test01, $test02,
+            $test04, $test05,
+            $test07, $test08,  $test09,
+            $test10, $test11,  $test12,
         ];
     }
 
@@ -147,7 +141,7 @@ class separator_test extends advanced_testcase {
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    public function test_userform_get_separator($userinput, $expected) {
+    public function test_userform_get_separator($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -161,9 +155,9 @@ class separator_test extends advanced_testcase {
 
         // Define parameters.
         $itemman->set_defaultoption($userinput['defaultoption']); // Needed to define $invitation.
+        $itemman->set_options($userinput['options']);             // Needed to define $labels.
         $itemman->set_labelother($userinput['labelother']);       // Needed to define $addother.
         $itemman->set_required($userinput['required']);           // Needed to define $mandatory.
-        $itemman->set_options($userinput['options']);             // Needed to define $labels.
 
         $returned = $itemman->userform_get_separator();
         $this->assertEquals($expected, $returned);

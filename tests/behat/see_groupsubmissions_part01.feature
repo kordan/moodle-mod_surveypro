@@ -26,7 +26,9 @@ Feature: Submissions seen from students not divided into groups (Part 01)
 
     And I log in as "teacher1"
     And I am on "Verify permissions in groups" course homepage with editing mode on
-    And I add a "Surveypro" to section "1" and I fill the form with:
+
+    # And I add a "Surveypro" to section "1" and I fill the form with:
+    And I add a surveypro activity to course "Verify permissions in groups" section "1" and I fill the form with:
       | Name        | Verify submission selection    |
       | Description | Test what each student can see |
     And I turn editing mode off

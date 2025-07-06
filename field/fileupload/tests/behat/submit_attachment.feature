@@ -13,13 +13,13 @@ Feature: Submit using a fileupload item
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
+    And the following "user preferences" exist:
+      | user     | preference | value    |
+      | teacher1 | htmleditor | textarea |
     And the following "course enrolments" exist:
       | user     | course                     | role           |
       | teacher1 | Attachment submission test | editingteacher |
       | student1 | Attachment submission test | student        |
-    And the following "user preferences" exist:
-      | user     | preference | value    |
-      | teacher1 | htmleditor | textarea |
     And the following "activities" exist:
       | activity  | name            | intro                                 | course                     |
       | surveypro | Attachment test | To test submission of attachment item | Attachment submission test |
@@ -30,20 +30,22 @@ Feature: Submit using a fileupload item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content           | Please upload your CV |
-      | Required          | 1                     |
-      | Indent            | 0                     |
-      | Question position | left                  |
+      | Content           | Upload your CV |
+      | Required          | 1              |
+      | Indent            | 0              |
+      | Question position | left           |
     And I press "Add"
 
     And I log out
 
     # student1 logs in
+
     When I am on the "Attachment test" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits
-    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Please upload your CV" filemanager
+    # And I pause scenario execution
+    And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Upload your CV" filemanager
 
     And I press "Submit"
 

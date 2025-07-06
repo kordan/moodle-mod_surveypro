@@ -23,8 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['uerr_integernotsetrequired'] = 'Si selezioni un valore';
-$string['uerr_integernotset'] = 'Si selezioni un valore oppure l\'ultima voce: "{$a}"';
 $string['restriction_lower'] = 'La risposta deve essere maggiore o uguale a {$a}';
 $string['restriction_lowerupper'] = 'La risposta deve essere compresa fra {$a->lowerbound} e {$a->upperbound}';
 $string['restriction_upper'] = 'La risposta deve essere minore o uguale a {$a}';
+$string['uerr_integernotset'] = 'Si selezioni un valore oppure l\'ultima voce: "{$a}"';
+$string['uerr_integernotsetrequired'] = 'Si selezioni un valore';

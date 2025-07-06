@@ -1,0 +1,359 @@
+<?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * The class representing the surveypro form for the student
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+namespace mod_surveypro\local\form;
+
+defined('MOODLE_INTERNAL') || die();
+
+use mod_surveypro\utility_item;
+
+require_once($CFG->dirroot.'/lib/formslib.php');
+
+/**
+ * The class representing the surveypro form for the student
+ *
+ * @package   mod_surveypro
+ * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class response_submitform extends \moodleform {
+
+    /**
+     * Definition.
+     *
+     * @return void
+     */
+    public function definition() {
+        global $DB;
+
+        $mform = $this->_form;
+
+        // Get _customdata.
+        $cm = $this->_customdata->cm;
+        $surveypro = $this->_customdata->surveypro;
+        $submissionid = $this->_customdata->submissionid;
+        $userformpagecount = $this->_customdata->userformpagecount;
+        $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
+        $formpage = $this->_customdata->formpage;
+        $userfirstpage = $this->_customdata->userfirstpage;
+        $userlastpage = $this->_customdata->userlastpage;
+        $overflowpage = $this->_customdata->overflowpage;
+        $mode = $this->_customdata->mode;
+
+        if ($mode == SURVEYPRO_PREVIEWMODE) {
+            $mform->disable_form_change_checker();
+        }
+
+        $notestr = get_string('note', 'mod_surveypro');
+
+        // Response_submitform: s.
+        $mform->addElement('hidden', 's', $surveypro->id);
+        $mform->setType('s', PARAM_INT);
+
+        // Response_submitform: submissionid.
+        // I usually set 0 into mform elements and then I replace them with preset.
+        // Here I can not follow this habit because...
+        // if the Response_submitform has autofill items (that may use labels), in order to display them
+        // I need to ask to $mform the value of $submissionid.
+        $mform->addElement('hidden', 'submissionid', $submissionid);
+        $mform->setType('submissionid', PARAM_INT);
+
+        // Response_submitform: formpage.
+        // Value is provided by $response_submitform->set_data($prefill); in view.php ['section' => 'responsesubmit'].
+        $mform->addElement('hidden', 'formpage', 0);
+        $mform->setType('formpage', PARAM_INT);
+
+        if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
+            // Case: $canaccessreserveditems, $searchform=false, $type=false, $formpage.
+            [$where, $params] = surveypro_fetch_items_seeds($surveypro->id, true,
+                                        $canaccessreserveditems, null, null, $formpage);
+            $fields = 'id, type, plugin, parentid, parentvalue';
+            $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
+
+            // There are no items in this page.
+            if ( (!$itemseeds->valid()) || ($overflowpage) ) {
+                $oneshotsurvey = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
+                $oneshotsurvey = $oneshotsurvey || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);
+                $a = $oneshotsurvey ? get_string('onlyreview', 'mod_surveypro') : get_string('revieworpause', 'mod_surveypro');
+                $mform->addElement('static', 'nomoreitems', $notestr, get_string('nomoreitems', 'mod_surveypro', $a));
+            }
+
+            if ($mode == SURVEYPRO_PREVIEWMODE) {
+                $this->add_buttons($surveypro, $formpage, $userfirstpage, $userlastpage, $mode);
+            }
+
+            foreach ($itemseeds as $itemseed) {
+                if ($mode == SURVEYPRO_PREVIEWMODE) {
+                    $itemaschildisallowed = true;
+                } else {
+                    // Is the current item allowed in this page?
+                    if ($itemseed->parentid) {
+                        // Get it now AND NEVER MORE.
+                        $parentitem = surveypro_get_itemclass($cm, $surveypro, $itemseed->parentid);
+
+                        // If parentitem is in a previous page, have a check
+                        // otherwise
+                        // display the current item.
+                        if ($parentitem->get_formpage() < $formpage) {
+                            $itemaschildisallowed = $parentitem->userform_is_child_allowed_static($submissionid, $itemseed);
+                        } else {
+                            $itemaschildisallowed = true;
+                        }
+                    } else {
+                        // Current item has no parent: display it.
+                        $parentitem = null;
+                        $itemaschildisallowed = true;
+                    }
+                }
+
+                if ($itemaschildisallowed) {
+                    $item = surveypro_get_itemclass($cm, $surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
+
+                    // Position.
+                    $position = $item->get_position();
+                    $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
+                    if ($position == SURVEYPRO_POSITIONTOP) {
+                        $itemname = $item->get_itemname().'_extrarow';
+                        $content = $item->get_contentwithnumber();
+                        $class = ['class' => 'indent-'.$item->get_indent()];
+                        $elementgroup = [];
+                        $elementgroup[] = $mform->createElement('static', $itemname, $elementnumber, $content);
+                        $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+
+                        $item->item_add_color_unifier($mform);
+                    }
+                    if ($position == SURVEYPRO_POSITIONFULLWIDTH) {
+                        $content = $item->get_contentwithnumber();
+                        $html = '';
+                        $html .= \html_writer::start_tag('div', ['class' => 'fitem row']);
+                        $html .= \html_writer::start_tag('div', ['class' => 'fstatic fullwidth']);
+                        $html .= $content;
+                        $html .= \html_writer::end_tag('div');
+                        $html .= \html_writer::end_tag('div');
+                        $mform->addElement('html', $html);
+
+                        $item->item_add_color_unifier($mform);
+                    }
+
+                    // Element.
+                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYMODE));
+
+                    // Note.
+                    if ($fullinfo = $item->userform_get_full_info(false)) {
+                        $item->item_add_color_unifier($mform);
+
+                        $itemname = $item->get_itemname().'_note';
+                        $class = ['class' => 'indent-'.$item->get_indent()];
+                        $elementgroup = [];
+                        $elementgroup[] = $mform->createElement('static', $itemname, '', $fullinfo);
+                        $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+                    }
+
+                    if (!$surveypro->newpageforchild) {
+                        $item->userform_add_disabledif($mform);
+                    }
+                }
+            }
+            $itemseeds->close();
+
+            if ($mode != SURVEYPRO_PREVIEWMODE) {
+                if (!empty($surveypro->captcha)) {
+                    $mform->addElement('recaptcha', 'captcha_form_footer');
+                }
+            }
+        }
+
+        if ($mode == SURVEYPRO_READONLYMODE) {
+            // Don't waste your time with buttons that are not going to be displayed.
+            return;
+        }
+
+        $this->add_buttons($surveypro, $formpage, $userfirstpage, $userlastpage, $mode);
+    }
+
+    /**
+     * Validation.
+     *
+     * @param array $data
+     * @param array $files
+     * @return array $errors
+     */
+    public function validation($data, $files) {
+        if (isset($data['prevbutton']) || isset($data['pausebutton'])) {
+            // Skip validation.
+            return [];
+        }
+
+        // Useless: $mform = $this->_form;.
+
+        // Get _customdata.
+        $cm = $this->_customdata->cm;
+        // Useless: $mode = $this->_customdata->mode;.
+        $surveypro = $this->_customdata->surveypro;
+        // Useless: $submissionid = $this->_customdata->submissionid;.
+        // Useless: $userformpagecount = $this->_customdata->userformpagecount;.
+        // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
+        // Useless: $formpage = $this->_customdata->formpage;.
+        // Useless: $userfirstpage = $this->_customdata->userfirstpage;.
+        // Useless: $userlastpage = $this->_customdata->userlastpage;.
+        // Useless: $overflowpage = $this->_customdata->overflowpage;.
+        $mode = $this->_customdata->mode;
+
+        if ($mode == SURVEYPRO_PREVIEWMODE) {
+            // Skip validation.
+            return [];
+        }
+
+        $errors = parent::validation($data, $files);
+
+        // Validate an item only if it is enabled, alias: only if its content matches the parent-child constrain.
+        $warnings = [];
+        $olditemid = 0;
+        foreach ($data as $elementname => $content) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
+                if ($matches['itemid'] == $olditemid) {
+                    continue; // To next foreach.
+                }
+
+                $type = $matches['type'];
+                $plugin = $matches['plugin'];
+                $itemid = $matches['itemid'];
+
+                $olditemid = $itemid;
+
+                $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $type, $plugin);
+                if ($surveypro->newpageforchild) {
+                    $itemisenabled = true; // Since it is displayed, it is enabled.
+                    $parentitem = null;
+                } else {
+                    $parentitemid = $item->get_parentid();
+                    if (!$parentitemid) {
+                        $itemisenabled = true;
+                        $parentitem = null;
+                    } else {
+                        // Call its parent.
+                        $parentitem = surveypro_get_itemclass($cm, $surveypro, $parentitemid);
+                        // Tell parent that his child has parentvalue = 1;3.
+                        if ($parentitem->get_formpage() == $item->get_formpage()) {
+                            $itemisenabled = $parentitem->userform_is_child_allowed_dynamic($item->get_parentvalue(), $data);
+                        } else {
+                            $itemisenabled = true;
+                        }
+                        // Parent item, knowing how itself exactly is, compare what is needed and provide an answer.
+                    }
+                }
+
+                if ($itemisenabled) {
+                    $item->userform_mform_validation($data, $errors, false);
+                }
+
+                // Otherwise...
+                // Code: echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;.
+                // Code: echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';.
+            }
+        }
+
+        return $errors;
+    }
+
+
+    /**
+     * Add buttons at the end of the submitform.
+     *
+     * @return void
+     */
+    public function add_buttons() {
+        global $DB;
+
+        $mform = $this->_form;
+
+        $surveypro = $this->_customdata->surveypro;
+        $submissionid = $this->_customdata->submissionid;
+        $formpage = $this->_customdata->formpage;
+        $userfirstpage = $this->_customdata->userfirstpage;
+        $userlastpage = $this->_customdata->userlastpage;
+        $mode = $this->_customdata->mode;
+
+        // Buttons.
+        $buttonlist = [];
+        if ($formpage > $userfirstpage) {
+            $buttonlist['prevbutton'] = get_string('previousformpage', 'mod_surveypro');
+        }
+        if ($mode != SURVEYPRO_PREVIEWMODE) {
+            $pasuseresumesurvey = ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMENOEMAIL);
+            $pasuseresumesurvey = $pasuseresumesurvey || ($surveypro->pauseresume == SURVEYPRO_PAUSERESUMEEMAIL);
+            if ($pasuseresumesurvey) {
+                $buttonlist['pausebutton'] = get_string('pause', 'mod_surveypro');
+            }
+            if ($formpage == $userlastpage) {
+                if ($surveypro->history) {
+                    $where = ['id' => $submissionid];
+                    $submissionstatus = $DB->get_field('surveypro_submission', 'status', $where, IGNORE_MISSING);
+                    if ($submissionstatus === false) { // Submissions still does not exist.
+                        $usesimplesavebutton = true;
+                    } else {
+                        $usesimplesavebutton = ($submissionstatus == SURVEYPRO_STATUSINPROGRESS);
+                    }
+                } else {
+                    $usesimplesavebutton = true;
+                }
+                if ($usesimplesavebutton) {
+                    $buttonlist['savebutton'] = get_string('submit');
+                } else {
+                    $buttonlist['saveasnewbutton'] = get_string('saveasnew', 'mod_surveypro');
+                }
+            }
+            $buttonlist['cancelbutton'] = get_string('cancel');
+        }
+        if ($formpage < $userlastpage) {
+            $buttonlist['nextbutton'] = get_string('nextformpage', 'mod_surveypro');
+        }
+
+        if (count($buttonlist) == 1) {
+            $name = array_key_first($buttonlist);
+            $label = $buttonlist[$name];
+
+            $mform->closeHeaderBefore($name);
+            if ($name == 'cancelbutton') {
+                $mform->addElement('cancel');
+            } else {
+                $mform->addElement('submit', $name, $label);
+            }
+        }
+
+        if (count($buttonlist) > 1) {
+            $buttonarray = [];
+            foreach ($buttonlist as $name => $label) {
+                if ($name == 'cancelbutton') {
+                    $buttonarray[] = $mform->createElement('cancel');
+                } else {
+                    $buttonarray[] = $mform->createElement('submit', $name, $label);
+                }
+            }
+            $mform->addGroup($buttonarray, 'buttonsrow', '', ' ', false);
+            $mform->setType('buttonsrow', PARAM_RAW);
+            $mform->closeHeaderBefore('buttonsrow');
+        }
+    }
+}

@@ -43,8 +43,8 @@ Feature: Submit using a recurrence item
 
     # student1 submits
     And I set the following fields to these values:
-      | id_surveypro_field_recurrence_1_day   | 7    |
-      | id_surveypro_field_recurrence_1_month | June |
+      | id_field_recurrence_1_day   | 7    |
+      | id_field_recurrence_1_month | June |
 
     And I press "Submit"
 

@@ -287,10 +287,10 @@ class layout_itemsetup {
      *
      * @return void
      */
-    public function item_identitycard() {
+    public function display_iteminfo() {
         global $OUTPUT;
 
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '..
+        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         $friendlyname = get_string('userfriendlypluginname', 'surveypro'.$this->type.'_'.$this->plugin);
 
         $iconparams = ['title' => $friendlyname, 'class' => 'icon'];

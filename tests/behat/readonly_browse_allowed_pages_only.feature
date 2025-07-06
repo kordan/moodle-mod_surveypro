@@ -65,7 +65,7 @@ Feature: In read only mode browse a submission jumping not filled pages
     And I press "Next page >>"
     Then I should see "Question of page 2"
 
-    And I set the field "id_surveypro_field_select_3" to "Up"
+    And I set the field "id_field_select_3" to "Up"
     And I press "Next page >>"
     Then I should see "Question of page 4"
 

@@ -52,6 +52,7 @@ class item_setupbaseform extends \moodleform {
 
         // Get _customdata.
         $item = $this->_customdata['item'];
+        // $fortheeditor = $item->get_fortheeditor();
         $surveypro = $item->surveypro;
 
         $cm = $item->get_cm();
@@ -84,8 +85,7 @@ class item_setupbaseform extends \moodleform {
 
         // Itembase: content & contentformat.
         if ($item->get_insetupform('content')) {
-            $fieldsusingformat = $item->get_fieldsusingformat();
-            if (array_key_exists('content', $fieldsusingformat)) {
+            if ($item->insetupform['contentformat']) {
                 $fieldname = 'content_editor';
                 $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
                 $mform->addElement('editor', $fieldname, get_string($fieldname, 'mod_surveypro'), null, $editoroptions);
@@ -212,13 +212,13 @@ class item_setupbaseform extends \moodleform {
             // $classname::get_canbeparent() == true;
             // I also should include the clause "reserved = my one" but I omit this validation
             // because the surveypro creator can, at every time, change the availability of the current item.
-            // So I move the validation of the holding form at the form validation time.
+            // So I move the validation of the holding form at form validation time.
 
-            // Build the list only for searchable plugins.
+            // Build the list only for items that can be parent.
             $pluginlist = surveypro_get_plugin_list(SURVEYPRO_TYPEFIELD);
             foreach ($pluginlist as $plugin) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
-                if (!$classname::get_canbeparent()) {
+                $dummyitem = surveypro_get_itemclass($cm, $surveypro, 0, SURVEYPRO_TYPEFIELD, $plugin);
+                if (!$dummyitem->get_canbeparent()) {
                     unset($pluginlist[$plugin]);
                 }
             }
@@ -239,13 +239,13 @@ class item_setupbaseform extends \moodleform {
             $select = $quickform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'));
             $select->addOption(get_string('choosedots'), 0);
             foreach ($parentsseeds as $parentsseed) {
-                $parentitem = surveypro_get_item($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
+                $parentitem = surveypro_get_itemclass($cm, $surveypro, $parentsseed->id, $parentsseed->type, $parentsseed->plugin);
                 $star = ($parentitem->get_reserved()) ? '(*) ' : '';
 
                 // I do not need to take care of contents of items of master templates
                 // because if I am here, $parent is a standard item and not a multilang one.
                 $content = $star;
-                $content .= get_string('pluginname', 'surveyprofield_'.$parentitem->get_plugin());
+                $content .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$parentitem->get_plugin());
                 $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
                 $content = surveypro_cutdownstring($content);
 
@@ -277,11 +277,11 @@ class item_setupbaseform extends \moodleform {
                 $rowparity = 1 - $rowparity;
                 $a->examples .= \html_writer::start_tag('tr', ['class' => 'r' . $rowparity]);
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'pluginname']);
-                $a->examples .= get_string('pluginname', 'surveyprofield_'.$plugin);
+                $a->examples .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
 
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'inputformat']);
-                $a->examples .= get_string('parentformat', 'surveyprofield_'.$plugin);
+                $a->examples .= get_string('parentformat', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
                 $a->examples .= \html_writer::end_tag('td');
                 $a->examples .= \html_writer::end_tag('tr');
             }
@@ -293,7 +293,7 @@ class item_setupbaseform extends \moodleform {
         if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
             // Here I open a new fieldset.
             $fieldname = 'specializations';
-            $typename = get_string('pluginname', 'surveyprofield_'.$item->get_plugin());
+            $typename = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$item->get_plugin());
             $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
         }
     }

@@ -44,6 +44,30 @@ class mtemplate_save extends mtemplate_base {
     // MARK get.
 
     /**
+     * Get translated strings.
+     *
+     * @param string $userlang
+     * @return void
+     */
+    public function get_translated_strings($userlang) {
+        $stringsastext = [];
+        $a = new \stdClass();
+        $a->userlang = $userlang;
+        foreach ($this->langtree as $langbranch) {
+            foreach ($langbranch as $k => $originalstring) {
+                if (empty($originalstring)) {
+                    $stringsastext[] = '$string[\''.$k.'\'] = \'\';';
+                } else {
+                    $a->stringkey = $k;
+                    $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
+                }
+            }
+        }
+
+        return "\n".implode("\n", $stringsastext)."\n";
+    }
+
+    /**
      * Generate the array of strings for the lang file of the mastertemplate plugin.
      *
      * @return void
@@ -58,7 +82,7 @@ class mtemplate_save extends mtemplate_base {
             }
         }
 
-        return "\n".implode("\n", $stringsastext);
+        return "\n".implode("\n", $stringsastext)."\n";
     }
 
     /**
@@ -107,17 +131,33 @@ class mtemplate_save extends mtemplate_base {
      * @return void
      */
     public function build_langtree($multilangfields, $item) {
-        foreach ($multilangfields as $plugin => $fieldnames) {
-            foreach ($fieldnames as $fieldname) {
-                $component = $plugin.'_'.$fieldname;
-                if (isset($this->langtree[$component])) {
-                    $index = count($this->langtree[$component]);
+        global $DB;
+
+        $itemid = $item->get_itemid();
+        $plugin = $item->get_plugin();
+        foreach ($multilangfields as $table => $multilanfields) {
+            foreach ($multilanfields as $multilanfield) {
+                // Filename and filecontent are multilang fields BUT I they may not be set.
+                if ( ($multilanfield == 'filename') || ($multilanfield == 'filecontent') ) {
+                    continue;
+                }
+
+                // Key.
+                $key = $plugin.'_'.$multilanfield;
+                if (isset($this->langtree[$key])) {
+                    $index = count($this->langtree[$key]);
                 } else {
                     $index = 0;
                 }
                 $stringindex = sprintf('%02d', 1 + $index);
-                $content = str_replace("\r", '', $item->get_generic_property($fieldname));
-                $this->langtree[$component][$component.'_'.$stringindex] = $content;
+
+                // Value.
+                if ($multilanfield == 'content') {
+                    $value = $DB->get_field('surveypro_item', 'content', ['id' => $itemid], MUST_EXIST);
+                } else {
+                    $value = str_replace("\r", '', $item->get_generic_property($multilanfield));
+                }
+                $this->langtree[$key][$key.'_'.$stringindex] = $value;
             }
         }
     }
@@ -372,6 +412,31 @@ class mtemplate_save extends mtemplate_base {
     }
 
     /**
+     * Add to langtree as many elements as the number of files found among content fields.
+     *
+     * If in the frame of the content of an item I find 5 embedded images, I add 5 extra elements to langtree.
+     * I can not use the standard procedure written in build_langtree because I don't know what I will find.
+     *
+     * @param string $plugin
+     * @param string $field
+     * @param string $content
+     * @return string $stringindex
+     */
+    public function add_entry_in_langtree($plugin, $field, $content) {
+        $key = $plugin.'_'.$field;
+        if (isset($this->langtree[$key])) {
+            $index = count($this->langtree[$key]);
+        } else {
+            $index = 0;
+        }
+        $stringindex = sprintf('%02d', 1 + $index);
+        $val = $key.'_'.$stringindex;
+        $this->langtree[$key][$val] = $content;
+
+        return $val;
+    }
+
+    /**
      * Write master template content.
      *
      * @param boolean $visiblesonly
@@ -393,7 +458,7 @@ class mtemplate_save extends mtemplate_base {
 
         $xmltemplate = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><items></items>');
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_item($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
+            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->id, $itemseed->type, $itemseed->plugin);
 
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
@@ -402,14 +467,65 @@ class mtemplate_save extends mtemplate_base {
             $xmlitem->addAttribute('version', $pluginversion[$index]);
 
             // Surveypro_item.
+            $structure = $this->get_table_structure();
+            $unrelevantfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
+            $unrelevantfields = array_merge($unrelevantfields, $item->item_expected_null_fields());
             $xmltable = $xmlitem->addChild('surveypro_item');
 
             if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                 $this->build_langtree($multilangfields, $item);
             }
-
-            $structure = $this->get_table_structure();
             foreach ($structure as $field) {
+                if (in_array($field, $unrelevantfields)) {
+                    continue;
+                }
+
+                if ($field == 'content') {
+                    // If $field == 'content' I can not use the property of the object $item because
+                    // in case of pictures, for instance, $item->content looks like:
+                    // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
+                    // and not like:
+                    // '<img src="http://localhost:8888/master/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt=...
+                    // $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
+                    // $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
+                    // if (core_text::strlen($val)) {
+                    // $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                    // }
+
+                    $val = $this->xml_get_field_content($item, $field, $multilangfields);
+                    if (\core_text::strlen($val)) {
+                        $xmlfield = $xmltable->addChild($field, htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                    } // Otherwise: It is empty, do not evaluate: jump.
+
+                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemseed->id)) {
+                        foreach ($files as $file) {
+                            $filename = $file->get_filename();
+                            if ($filename == '.') {
+                                continue;
+                            }
+                            $xmlembedded = $xmltable->addChild('embedded');
+
+                            // Add an entry in langtree for filename.
+                            $val = $this->add_entry_in_langtree($itemseed->plugin, 'filename', $filename);
+                            // End of: add corresponding string in langtree.
+
+                            // $val = $this->xml_get_field_content($item, 'filename', $multilangfields);
+                            $xmlembedded->addChild('filename', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                            // $xmlembedded->addChild('filename', $filename);
+
+                            // Add corresponding string in langtree.
+                            $content = base64_encode($file->get_content());
+                            $val = $this->add_entry_in_langtree($itemseed->plugin, 'filecontent', $content);
+                            // End of: add corresponding string in langtree.
+
+                            // $val = $this->xml_get_field_content($item, 'filecontent', $multilangfields);
+                            $xmlembedded->addChild('filecontent', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
+                            // $xmlembedded->addChild('filecontent', $content);
+                        }
+                    }
+                    continue;
+                }
+
                 if ($field == 'parentid') {
                     $parentid = $item->get_parentid();
                     if ($parentid) {
@@ -424,61 +540,44 @@ class mtemplate_save extends mtemplate_base {
                     } // Otherwise: It is empty, do not evaluate: jump.
                     continue;
                 }
+
                 if ($field == 'parentvalue') {
                     continue;
                 }
 
-                $val = $this->xml_get_field_content($item, 'item', $field, $multilangfields);
-
+                $val = $this->xml_get_field_content($item, $field, $multilangfields);
+                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                 if (\core_text::strlen($val)) {
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
 
             // Child table.
+            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
+
             // Take care: some items plugin may be free of their own specific table.
             if (!count($structure)) {
                 continue;
             }
 
-            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-                // If $field == 'content' I can not use the property of the object $item because
-                // in case of pictures, for instance, $item->content has to look like:
-                // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
-                // and not like:
-                // '<img src="http://localhost:8888/m401/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
-                if ($field != 'content') {
-                    $val = $this->xml_get_field_content($item, $itemseed->plugin, $field, $multilangfields);
-                } else {
-                    $val = $DB->get_field($tablename, 'content', ['itemid' => $itemseed->id], MUST_EXIST);
+
+                if (in_array($field, $unrelevantfields)) {
+                    continue;
                 }
 
+                $val = $this->xml_get_field_content($item, $field, $multilangfields);
+                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                 if (\core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
-                    // Otherwise: It is empty, do not evaluate: jump.
-                }
-
-                if ($field == 'content') {
-                    $itemid = $item->get_itemid();
-                    if ($files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid)) {
-                        foreach ($files as $file) {
-                            $filename = $file->get_filename();
-                            if ($filename == '.') {
-                                continue;
-                            }
-                            $xmlembedded = $xmltable->addChild('embedded');
-                            $xmlembedded->addChild('filename', $filename);
-                            $xmlembedded->addChild('filecontent', base64_encode($file->get_content()));
-                        }
-                    }
-                }
+                    $xmlfield = $xmltable->addChild($field, $val);
+                } // Otherwise: It is empty, do not evaluate: jump.
             }
         }
 
-        // The case: $option == false if 100% waste of time
+        // In the coming code, "$option == false;" if 100% waste of time and should be changed to "$option == true;"
         // BUT BUT BUT...
         // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
@@ -497,29 +596,45 @@ class mtemplate_save extends mtemplate_base {
 
     /**
      * Get the content of a field for the XML file.
+     * This tree is needed to build the lang files of the master template.
+     * The idea is:
+     *     if the field am I dialing with is a multilang field {
+     *         return the key of the lang file
+     *     }
+     *     if the field am I dialing with is NOT a multilang field {
+     *         return the content of the field
+     *     }
      *
-     * @param object $item
-     * @param string $plugin
+     * Once this function returns its output the XML describing the surveypro of this master template will be:
+     *     <content>boolean_content_01</content>
+     * or
+     *     <hiddenfield>0</hiddenfield>
+     *
+     * @param object $itemclass The class needed to call $itemclass->get_generic_property($field);
      * @param string $field
      * @param array $multilangfields
-     * @return void
+     * @return string the key for the lang file of the direct content of the file
      */
-    public function xml_get_field_content($item, $plugin, $field, $multilangfields) {
-        // 1a: Has the plugin $plugin multilang fields?.
-        if (isset($multilangfields[$plugin])) {
-            // 1b: If the field that is going to be assigned belongs to your multilang fields.
-            if (in_array($field, $multilangfields[$plugin])) {
-                $component = $plugin.'_'.$field;
+    public function xml_get_field_content($itemclass, $field, $multilangfields) {
+        // 1a: Has the current plugin multilang fields?.
+        if (!empty($multilangfields)) { // Pagebrak and fieldsetend don't have $multilangfields.
+            $plugin = $itemclass->get_plugin();
+            foreach ($multilangfields as $table => $multilangfield) {
+                // 1b: Is the field that is going to be assigned belongs to the multilang fields of this plugin?
+                if (in_array($field, $multilangfield)) {
+                    $key = $plugin.'_'.$field; // For instance: boolean_content
 
-                if (isset($this->langtree[$component])) {
-                    end($this->langtree[$component]);
-                    $val = key($this->langtree[$component]);
-                    return $val;
+                    if (isset($this->langtree[$key])) { // Langtree has already been defined.
+                        $index = count($this->langtree[$key]);
+                        $stringindex = sprintf('%02d', $index);
+                        $val = $key.'_'.$stringindex;
+                        return $val;
+                    }
                 }
             }
         }
 
-        $content = $item->get_generic_property($field);
+        $content = $itemclass->get_generic_property($field);
         if (\core_text::strlen($content)) {
             $val = $content;
         } else {

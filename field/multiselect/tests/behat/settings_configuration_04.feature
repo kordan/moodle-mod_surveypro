@@ -57,7 +57,7 @@ Feature: Submit using multiselect item and check form validation (4 of 4)
 
     # Test number 2: Student submits a standard answer
     And I press "New response"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, coffee"
+    And I set the field "id_field_multiselect_1" to "milk, coffee"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions
@@ -86,13 +86,13 @@ Feature: Submit using multiselect item and check form validation (4 of 4)
     # Test number 3: Student flies over the answer
     And I press "New response"
     Then I should not see "No answer"
-    Then I should see "At least 2 items have to be selected"
+    Then I should see "At least 2 options have to be selected"
     And I press "Submit"
     Then I should see "Please select at least 2 options"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk"
+    And I set the field "id_field_multiselect_1" to "milk"
     And I press "Submit"
     Then I should see "Please select at least 2 options"
-    And I set the field "id_surveypro_field_multiselect_1" to "milk, bread"
+    And I set the field "id_field_multiselect_1" to "milk, bread"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "1" submissions
@@ -100,8 +100,8 @@ Feature: Submit using multiselect item and check form validation (4 of 4)
 
     # Test number 4: Student submits a standard answer
     And I press "New response"
-    Then I should see "At least 2 items have to be selected"
-    And I set the field "id_surveypro_field_multiselect_1" to "bread, coffee"
+    Then I should see "At least 2 options have to be selected"
+    And I set the field "id_field_multiselect_1" to "bread, coffee"
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "2" submissions

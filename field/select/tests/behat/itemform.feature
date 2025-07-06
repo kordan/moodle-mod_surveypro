@@ -83,6 +83,6 @@ Feature: Create a select item
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Which summer holidays place do you prefer?"
-    Then the field "id_surveypro_field_select_2" matches value "other"
-    Then the field "id_surveypro_field_select_2_text" matches value "specify"
+    Then the field "id_field_select_2" matches value "other"
+    Then the field "id_field_select_2_text" matches value "specify"
     Then I should see "Additional note"

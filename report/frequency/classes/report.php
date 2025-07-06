@@ -103,7 +103,6 @@ class report extends reportbase {
         $this->outputtable->column_suppress('fullname');
 
         // General properties for the whole table.
-        $this->outputtable->summary = get_string('submissionslist', 'mod_surveypro');
         $this->outputtable->set_attribute('cellpadding', '5');
         $this->outputtable->set_attribute('id', 'frequencies');
         $this->outputtable->set_attribute('class', 'generaltable');
@@ -166,7 +165,7 @@ class report extends reportbase {
         // TAKE CARE: this is the answer count, not the submissions count! They may be different.
         [$sql, $whereparams] = $this->get_answercount_sql($itemid);
         $answercount = $DB->count_records_sql($sql, $whereparams);
-        $item = surveypro_get_item($this->cm, $this->surveypro, $itemid);
+        $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemid);
 
         $decimalseparator = get_string('decsep', 'langconfig');
         foreach ($answers as $answer) {
