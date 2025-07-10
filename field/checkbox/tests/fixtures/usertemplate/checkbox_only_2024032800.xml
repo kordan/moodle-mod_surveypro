@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;h5&gt;CHECKBOX&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;checkbox specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Options&lt;/li&gt;&lt;li&gt;"Option other"&lt;/li&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;"No answer" as defaults&lt;/li&gt;&lt;li&gt;Adjustment&lt;/li&gt;&lt;li&gt;Minimum required options&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with one &lt;b&gt;validation options&lt;/b&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Minimum required options&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -54,7 +54,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -95,7 +95,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select al least two checkboxes.&lt;br /&gt;</content>
       <contentformat>1</contentformat>
@@ -136,7 +136,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum &#13;
 required options is set to 2. So he/she is forced to or select al least two checkboxes.&lt;/p&gt;</content>
@@ -178,7 +178,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -218,7 +218,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -258,7 +258,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least two checkboxes.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -298,7 +298,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is mandatory and the default is not set so the user is forced to tick at least two checkboxes.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -338,7 +338,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -379,7 +379,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;br /&gt;&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer".&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -420,7 +420,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid &#13;
 value but the user can not "fly" over this element because the minimum &#13;
@@ -464,7 +464,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"butter" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select two options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -505,7 +505,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -546,7 +546,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to an invalid value so the user is forced to tick at least one checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -587,7 +587,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value &lt;span class="rangySelectionBoundary" style="line-height:0;"&gt;﻿&lt;/span&gt;so the user can "fly" over this element leaving the proposed default untouched (and the question not read).&lt;br /&gt;</content>
       <contentformat>1</contentformat>
@@ -628,7 +628,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;"No answer" is the default&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is set to a valid value but the user can not "fly" over this element because the minimum required options is set to 2. So he/she is forced to or select two &#13;
 options or to tick the "No answer" checkbox.&lt;/p&gt;</content>
@@ -670,7 +670,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least one checkbox or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -710,7 +710,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 1&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least one checkbox or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -750,7 +750,7 @@ bread</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are horizzontally displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least two checkboxes or to select the "No answer" chackbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -790,7 +790,7 @@ bread</options>
       <adjustment>1</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;default is not set&lt;br /&gt;&lt;/li&gt;&lt;li&gt;minimum required options set to 2&lt;br /&gt;&lt;/li&gt;&lt;li&gt;checkboxes are vertically displayed&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Behaviour: The item is not mandatory and the default is not set so the user is forced to tick at least two checkboxes or to select the "No answer" checkbox.&lt;/p&gt;</content>
       <contentformat>1</contentformat>

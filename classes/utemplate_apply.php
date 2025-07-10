@@ -143,7 +143,7 @@ class utemplate_apply extends utemplate_base {
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
             // Read the attributes of the item node:
-            // The xmlitem looks like: <item type="field" plugin="character" version="2025010100">.
+            // The xmlitem looks like: <item type="field" plugin="character" version="2025071001">.
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 if ($attribute == 'type') {
                     $currenttype = (string)$value;

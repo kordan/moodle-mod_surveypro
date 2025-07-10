@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;h5&gt;INTEGER&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only one &lt;b&gt;integer specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Default&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lower bound&lt;/li&gt;&lt;li&gt;Upper bound&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to at least 19&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value.&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different value or select the "No answer" item.</content>
       <contentformat>1</contentformat>
@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -48,7 +48,7 @@
       <upperbound>19</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to at least 19&lt;/li&gt;&lt;li&gt;the default is set to 1 (to count the person filling the survey)&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different value or select the "No answer" item.</content>
       <contentformat>1</contentformat>
@@ -62,7 +62,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -83,7 +83,7 @@
       <upperbound>19</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is upper limited to 19&lt;/li&gt;&lt;li&gt;the default is set to 1 (to count the person filling the survey)&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this item leaving the proposed default untouched (and the question not read) or select the "No answer" item.</content>
       <contentformat>1</contentformat>
@@ -97,7 +97,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -118,7 +118,7 @@
       <upperbound>19</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;input is lower limited to 1&lt;/li&gt;&lt;li&gt;input is limited to at least 19&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value.&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different date or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
@@ -132,7 +132,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>&lt;p&gt;How many children do your parents have?&lt;/p&gt;</content>
       <contentformat>1</contentformat>

@@ -50,7 +50,7 @@ final class separator_test extends advanced_testcase {
      *     $itemman->required = 1; // Needed to define $mandatory.
      *     $itemman->required = 0; // Needed to define $mandatory.
      */
-    public function userform_get_separator_provider(): array {
+    public static function userform_get_separator_provider(): array {
         $userinput = [];
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
         $userinput['options'] = "mum\ndad";

@@ -65,7 +65,7 @@ final class lib_test extends advanced_testcase {
      *
      * Cases to be tested by surveypro_pre_process_checkboxes
      */
-    public function surveypro_pre_process_checkboxes_provider(): array {
+    public static function surveypro_pre_process_checkboxes_provider(): array {
         return [
             'test01' => [
                 (object) [

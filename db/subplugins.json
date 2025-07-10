@@ -1,8 +1,8 @@
 {
     "plugintypes": {
-        "surveyprofield": "mod\/surveypro\/field",
-        "surveyproformat": "mod\/surveypro\/format",
-        "surveyprotemplate": "mod\/surveypro\/template",
-        "surveyproreport": "mod\/surveypro\/report"
+        "surveyprofield": "mod/surveypro/field",
+        "surveyproformat": "mod/surveypro/format",
+        "surveyprotemplate": "mod/surveypro/template",
+        "surveyproreport": "mod/surveypro/report"
     }
 }

@@ -33,7 +33,7 @@ final class mastertemplate_test extends advanced_testcase {
      *
      * Cases to be tested by test_surveyprotemplate_get_plugin_name
      */
-    public function surveyprotemplate_get_plugin_name_provider(): array {
+    public static function surveyprotemplate_get_plugin_name_provider(): array {
         return [
             'test01' => ['correct_pluginname', 'correct_pluginname'],
             'test02' => ['123startswitnumbers', 'startswitnumbers'],

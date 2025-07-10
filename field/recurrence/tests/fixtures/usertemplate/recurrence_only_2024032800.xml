@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;h5&gt;RECURRENCE&lt;/h5&gt;&lt;p&gt;This plugin, like all the others provided by surveypro core, is equipped with a set of common settings shared with all the other surveypro elements.&lt;/p&gt;&lt;p&gt;The &lt;b&gt;common settings&lt;/b&gt; set is done by:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Required&lt;/li&gt;&lt;li&gt;Indent&lt;/li&gt;&lt;li&gt;Question position&lt;/li&gt;&lt;li&gt;Element number&lt;/li&gt;&lt;li&gt;Hide filling instruction&lt;/li&gt;&lt;li&gt;Variable&lt;/li&gt;&lt;li&gt;Additional note&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;This plugin is equipped with only two &lt;b&gt;date specific setting&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Default&lt;/li&gt;&lt;li&gt;Download format&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and with two more &lt;b&gt;validation options&lt;/b&gt;:&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lower bound&lt;/li&gt;&lt;li&gt;Upper bound&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;and two &lt;b&gt;validaion option&lt;/b&gt;&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lower bound&lt;/li&gt;&lt;li&gt;Upper bound&lt;/li&gt;&lt;/ol&gt;&lt;p&gt;The cartesian product of all these settings makes a very long list of possible implementations of this element. In this usertemplate few use cases are described.&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -13,7 +13,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a not valid value so the user is forced to choose a different drecurrenceate or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
@@ -27,7 +27,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -48,7 +48,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
@@ -62,7 +62,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -83,7 +83,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
@@ -97,7 +97,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -118,7 +118,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date or to tick the "No answer" checkbox.</content>
       <contentformat>1</contentformat>
@@ -132,7 +132,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -153,7 +153,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;not mandatory (so: "No answer" is expected)&lt;/li&gt;&lt;li&gt;the default is set to "No answer"&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is not mandatory and the default is set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read) or tick the "No answer" checkbox or tick the "No answer" checkbox and setting a different date.</content>
       <contentformat>1</contentformat>
@@ -167,7 +167,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -188,7 +188,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default invites the user to choose a value&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is set to a not valid value so the user is forced to choose a different date.</content>
       <contentformat>1</contentformat>
@@ -202,7 +202,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -223,7 +223,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to a valid value&lt;/li&gt;&lt;/ul&gt;Behaviour: the user can "fly" over this element leaving the proposed default untouched (and the question not read).</content>
       <contentformat>1</contentformat>
@@ -237,7 +237,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -258,7 +258,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the last input&lt;/li&gt;&lt;/ul&gt;Behaviour: The item is mandatory and the default is probably set to a valid value so the user can "fly" over this element leaving the proposed default untouched (and the question not read)</content>
       <contentformat>1</contentformat>
@@ -272,7 +272,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>
@@ -293,7 +293,7 @@
       <upperbound>31489200</upperbound>
     </surveyprofield_recurrence>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;ul&gt;&lt;li&gt;mandatory (so: "No answer" is not expected)&lt;/li&gt;&lt;li&gt;the default is set to the current date&lt;/li&gt;&lt;/ul&gt;Behaviour: If the default is valid the user can "fly" over this element leaving the proposed default untouched (and the question not read) otherwise he/she is forced to choose a different date.</content>
       <contentformat>1</contentformat>
@@ -307,7 +307,7 @@
       <fullwidth>0</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="recurrence" version="2025010100">
+  <item type="field" plugin="recurrence" version="2025071001">
     <surveypro_item>
       <content>When do you usually celebrate your name-day?</content>
       <contentformat>1</contentformat>

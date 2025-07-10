@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <items>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>&lt;p&gt;Before starting I need to let you know few details at general level.&lt;/p&gt;&#13;
 &lt;p&gt;In a parent child relation almost each item can be a child while only few items can be parent.&lt;/p&gt;&#13;
@@ -30,7 +30,7 @@
       <fullwidth>1</fullwidth>
     </surveyproformat_label>
   </item>
-  <item type="field" plugin="boolean" version="2025010100">
+  <item type="field" plugin="boolean" version="2025071001">
     <surveypro_item>
       <content>Example with boolean item: Is this true or false?&lt;/p&gt;</content>
       <contentformat>1</contentformat>
@@ -50,13 +50,13 @@
       <style>2</style>
     </surveyprofield_boolean>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="character" version="2025010100">
+  <item type="field" plugin="character" version="2025071001">
     <surveypro_item>
       <content>Enter you name&lt;br&gt;(Just a detail: I marked this question as mandatory question. The attribute is actually considered ONLY if the parent item allows his child otherwise the attribute is neglected).</content>
       <contentformat>1</contentformat>
@@ -81,7 +81,7 @@
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>Number of friends you would like to invite to your next birthday party.</content>
       <contentformat>1</contentformat>
@@ -107,7 +107,7 @@
       <upperbound>105</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="label" version="2025010100">
+  <item type="format" plugin="label" version="2025071001">
     <surveypro_item>
       <content>As you can see, by answering "No answer" to the parent item you get disabled the first such as the second child too.</content>
       <contentformat>1</contentformat>
@@ -146,13 +146,13 @@ A4 paper</options>
       <adjustment>0</adjustment>
     </surveyprofield_checkbox>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="character" version="2025010100">
+  <item type="field" plugin="character" version="2025071001">
     <surveypro_item>
       <content>Write something.</content>
       <contentformat>1</contentformat>
@@ -177,7 +177,7 @@ A4 paper</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="textarea" version="2025010100">
+  <item type="field" plugin="textarea" version="2025071001">
     <surveypro_item>
       <content>Please describe the best motor you have ever seen.</content>
       <contentformat>1</contentformat>
@@ -204,7 +204,7 @@ A4 paper</options>
       <minlength>0</minlength>
     </surveyprofield_textarea>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>Example with numeric (small integer) item: Enter an integer value.</content>
       <contentformat>1</contentformat>
@@ -225,13 +225,13 @@ A4 paper</options>
       <upperbound>30</upperbound>
     </surveyprofield_integer>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="character" version="2025010100">
+  <item type="field" plugin="character" version="2025071001">
     <surveypro_item>
       <content>Enter you name.</content>
       <contentformat>1</contentformat>
@@ -256,7 +256,7 @@ A4 paper</options>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
-  <item type="field" plugin="integer" version="2025010100">
+  <item type="field" plugin="integer" version="2025071001">
     <surveypro_item>
       <content>Number of friends you would like to invite to your next birthday party.</content>
       <contentformat>1</contentformat>
@@ -311,13 +311,13 @@ ham</defaultvalue>
       <heightinrows>4</heightinrows>
     </surveyprofield_multiselect>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="numeric" version="2025010100">
+  <item type="field" plugin="numeric" version="2025071001">
     <surveypro_item>
       <content>You preferred room temperature?</content>
       <contentformat>1</contentformat>
@@ -342,7 +342,7 @@ ham</defaultvalue>
       <decimals>2</decimals>
     </surveyprofield_numeric>
   </item>
-  <item type="field" plugin="date" version="2025010100">
+  <item type="field" plugin="date" version="2025071001">
     <surveypro_item>
       <content>Enter a full date.</content>
       <contentformat>1</contentformat>
@@ -369,7 +369,7 @@ ham</defaultvalue>
       <upperbound>1609416000</upperbound>
     </surveyprofield_date>
   </item>
-  <item type="field" plugin="radiobutton" version="2025010100">
+  <item type="field" plugin="radiobutton" version="2025071001">
     <surveypro_item>
       <content>Example with radio button item: which countryside do you like more for your summer holidays?</content>
       <contentformat>1</contentformat>
@@ -394,13 +394,13 @@ City</options>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="shortdate" version="2025010100">
+  <item type="field" plugin="shortdate" version="2025071001">
     <surveypro_item>
       <content>When did you buy your last car?</content>
       <contentformat>1</contentformat>
@@ -426,7 +426,7 @@ City</options>
       <upperbound>1606824000</upperbound>
     </surveyprofield_shortdate>
   </item>
-  <item type="field" plugin="rate" version="2025010100">
+  <item type="field" plugin="rate" version="2025071001">
     <surveypro_item>
       <content>Order the following languages as you better can make use of them.</content>
       <contentformat>1</contentformat>
@@ -465,7 +465,7 @@ bad</defaultvalue>
       <differentrates>0</differentrates>
     </surveyprofield_rate>
   </item>
-  <item type="field" plugin="select" version="2025010100">
+  <item type="field" plugin="select" version="2025071001">
     <surveypro_item>
       <content>Example with select item: Indicate your preferred direction.</content>
       <contentformat>1</contentformat>
@@ -487,13 +487,13 @@ left</options>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
-  <item type="format" plugin="pagebreak" version="2025010100">
+  <item type="format" plugin="pagebreak" version="2025071001">
     <surveypro_item>
       <hidden>1</hidden>
       <reserved>0</reserved>
     </surveypro_item>
   </item>
-  <item type="field" plugin="age" version="2025010100">
+  <item type="field" plugin="age" version="2025071001">
     <surveypro_item>
       <content>How old were you when you first travelled alone?</content>
       <contentformat>1</contentformat>
@@ -519,7 +519,7 @@ left</options>
       <upperbound>3339835200</upperbound>
     </surveyprofield_age>
   </item>
-  <item type="field" plugin="fileupload" version="2025010100">
+  <item type="field" plugin="fileupload" version="2025071001">
     <surveypro_item>
       <content>Please attach your curriculum vitae.</content>
       <contentformat>1</contentformat>
