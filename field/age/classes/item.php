@@ -574,11 +574,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $stryears = get_string('years');
         $strmonths = get_string('months', 'surveyprofield_age');
 
@@ -591,7 +591,7 @@ EOS;
         // Begin of: element values.
         $years = [];
         $months = [];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_age');
                 $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_age');
@@ -636,17 +636,15 @@ EOS;
         }
 
         if ($this->required) {
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
 
-                if (!$searchform) {
-                    // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
-                    // I do not want JS form validation if the page is submitted through the "previous" button.
-                    // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
-                    // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                    $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
-                    $mform->_required[] = $starplace;
-                }
+                // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
+                // I do not want JS form validation if the page is submitted through the "previous" button.
+                // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
+                // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $mform->_required[] = $starplace;
             } else {
                 $starstr = get_string('star', 'mod_surveypro');
                 $attributes['id'] = $baseid.'_ignoreme';
@@ -662,7 +660,7 @@ EOS;
             $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $strnoanswer, $attributes);
             $separator[] = ' ';
 
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
                 $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
             } else {
@@ -678,7 +676,7 @@ EOS;
         // End of: mform element.
 
         // Begin of: default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_INVITEDEFAULT:
                     $agearray['year'] = SURVEYPRO_INVITEVALUE;

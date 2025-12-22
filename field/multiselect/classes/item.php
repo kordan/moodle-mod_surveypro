@@ -573,11 +573,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
@@ -603,7 +603,7 @@ EOS;
 
         unset($attributes['size']); // No longer needed.
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
             } else {
@@ -637,7 +637,7 @@ EOS;
             $mform->setDefault($basename.'_ignoreme', '1');
         }
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
@@ -649,7 +649,7 @@ EOS;
         }
 
         // Begin of: defaults.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
                 $defaultkeys = [];
                 foreach ($defaults as $default) {

@@ -441,11 +441,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $starstr = get_string('star', 'mod_surveypro');
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -464,7 +464,7 @@ EOS;
         // $attributes['type'] = 'number';
         // But it doesn't work because "type" property is reserved to mform library.
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
             $mform->setType($basename, PARAM_RAW); // See: moodlelib.php lines 133+.

@@ -57,6 +57,9 @@ class response_searchform extends \moodleform {
         [$where, $params] = surveypro_fetch_items_seeds($surveypro->id, true, $canaccessreserveditems, true);
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', 'id, type, plugin');
 
+        // Count the number of elements that are going to populate the serach form
+        $searchformelementscount = $DB->count_records_select('surveypro_item', $where, $params);
+
         // This dummy item is needed for the colours alternation.
         // Because 'label' or ($position == SURVEYPRO_POSITIONFULLWIDTH).
         // as first item are out from the a fieldset
@@ -101,7 +104,7 @@ class response_searchform extends \moodleform {
             }
 
             // Element.
-            $item->userform_mform_element($mform, true, false);
+            $item->userform_mform_element($mform, $searchformelementscount, false);
 
             // Note.
             if ($fullinfo = $item->userform_get_full_info(true)) {

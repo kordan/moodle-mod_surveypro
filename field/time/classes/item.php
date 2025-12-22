@@ -586,11 +586,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         global $DB, $USER;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
@@ -602,7 +602,7 @@ EOS;
         // Begin of: element values.
         $hours = [];
         $minutes = [];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $hours[SURVEYPRO_INVITEVALUE] = get_string('invitehour', 'surveyprofield_time');
                 $minutes[SURVEYPRO_INVITEVALUE] = get_string('inviteminute', 'surveyprofield_time');
@@ -646,7 +646,7 @@ EOS;
 
         $separator = [':'];
         if ($this->required) {
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false);
 
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
@@ -670,7 +670,7 @@ EOS;
             $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
             $separator[] = ' ';
 
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
                 $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
             } else {
@@ -686,7 +686,7 @@ EOS;
         // End of: mform element.
 
         // Default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_INVITEDEFAULT:
                     $timearray['hours'] = SURVEYPRO_INVITEVALUE;
@@ -720,7 +720,7 @@ EOS;
             $mform->setDefault($basename.'_hour', $timearray['hours']);
             $mform->setDefault($basename.'_minute', $timearray['minutes']);
         }
-        if ($searchform) {
+        if ($searchformelementscount) {
             if (!$this->required) {
                 $mform->setDefault($basename.'_noanswer', '0');
             }

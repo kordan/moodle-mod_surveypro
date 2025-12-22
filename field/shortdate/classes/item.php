@@ -570,11 +570,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         global $DB, $USER;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
@@ -586,7 +586,7 @@ EOS;
         // Begin of: element values.
         $months = [];
         $years = [];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_shortdate');
                 $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_shortdate');
@@ -618,7 +618,7 @@ EOS;
         $elementgroup[] = $mform->createElement('select', $basename.'_year', '', $years, $attributes);
 
         if ($this->required) {
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false);
 
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
@@ -641,7 +641,7 @@ EOS;
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
             $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
 
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
                 $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
             } else {
@@ -657,7 +657,7 @@ EOS;
         // End of: mform element.
 
         // Default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_INVITEDEFAULT:
                     $shortdatearray['mon'] = SURVEYPRO_INVITEVALUE;
@@ -691,7 +691,7 @@ EOS;
             $mform->setDefault($basename.'_month', $shortdatearray['mon']);
             $mform->setDefault($basename.'_year', $shortdatearray['year']);
         }
-        if ($searchform) {
+        if ($searchformelementscount) {
             if (!$this->required) {
                 $mform->setDefault($basename.'_noanswer', '0');
             }

@@ -157,7 +157,7 @@ class response_submitform extends \moodleform {
                     }
 
                     // Element.
-                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYMODE));
+                    $item->userform_mform_element($mform, 0, ($mode == SURVEYPRO_READONLYMODE));
 
                     // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {

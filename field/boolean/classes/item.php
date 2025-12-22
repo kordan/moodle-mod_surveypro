@@ -479,11 +479,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
@@ -503,7 +503,7 @@ EOS;
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
             // Begin of: element values.
             $options = [];
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $options[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
                 }
@@ -528,7 +528,7 @@ EOS;
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br>' : ' ';
 
             // Begin of: mform element.
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $choosedotsstr = get_string('choosedots');
                     $attributes['id'] = $baseid.'_invite';
@@ -550,14 +550,14 @@ EOS;
             }
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
 
-            if ($searchform) {
+            if ($searchformelementscount) {
                 $mform->setDefault($basename.'_group', SURVEYPRO_IGNOREMEVALUE);
             }
             // End of: mform element.
         }
 
         // Default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.

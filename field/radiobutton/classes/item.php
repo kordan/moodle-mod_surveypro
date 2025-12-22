@@ -555,11 +555,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $choosedotsstr = get_string('choosedots');
         $starsstr = get_string('star', 'mod_surveypro');
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
@@ -576,7 +576,7 @@ EOS;
         $basename = $this->itemname;
 
         // Begin of: mform element.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $attributes['id'] = $baseid.'_invite';
                 $elementgroup[] = $mform->createElement('radio', $basename, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
@@ -622,7 +622,7 @@ EOS;
         $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
 
         // Begin of: default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.

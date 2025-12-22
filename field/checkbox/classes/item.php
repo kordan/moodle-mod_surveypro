@@ -629,11 +629,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -660,7 +660,7 @@ EOS;
             $attributes['id'] = $baseid.'_'.$i;
             $elementgroup[] = $mform->createElement('advcheckbox', $itemname, '', $label, $attributes, $options);
 
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 if (in_array($label, $defaults)) {
                     $mform->setDefault($itemname, '1');
                 }
@@ -678,7 +678,7 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $basename.'_text', '', $attributes);
             $mform->setType($basename.'_text', PARAM_RAW);
 
-            if (!$searchform) {
+            if (!$searchformelementscount) {
                 $mform->setDefault($basename.'_text', $othervalue);
                 if (in_array($otherlabel, $defaults)) {
                     $mform->setDefault($basename.'_other', '1');
@@ -708,7 +708,7 @@ EOS;
             $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
         }
 
-        if ($searchform) {
+        if ($searchformelementscount) {
             $this->item_add_color_unifier($mform);
 
             $elementgroup = [];
@@ -721,7 +721,7 @@ EOS;
             $mform->disabledIf($basename.'_group', $itemname, 'checked');
         }
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because:
                 // I do not want JS form validation if the page is submitted through the "previous" button.

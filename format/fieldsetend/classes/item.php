@@ -209,11 +209,11 @@ class item extends itembase {
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         // Workaround suggested by Marina Glancy in MDL-42946.

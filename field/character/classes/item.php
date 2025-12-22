@@ -465,11 +465,11 @@ EOS;
      * But it doesn't work because "type" property is reserved to mform library
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
@@ -496,7 +496,7 @@ EOS;
             $attributes['size'] = $thresholdsize * $lengthtochar;
         }
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
 

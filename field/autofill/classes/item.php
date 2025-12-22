@@ -681,11 +681,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         global $DB;
 
         $starstr = get_string('star', 'mod_surveypro');
@@ -701,7 +701,7 @@ EOS;
         $elementgroup = [];
         $basename = $this->itemname;
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             // I can not say: "I can write the content as if the record is new because if the record is not new,
             // this value will be overwritten later when defaults will be applied to the form.".
             // This is a label! Defults will not be applied.
