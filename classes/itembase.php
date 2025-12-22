@@ -228,7 +228,7 @@ abstract class itembase {
      * If itemid is provided, load the object (item = base + plugin) from database
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
-     * @param integer $itemid
+     * @param int $itemid
      * @param boolean $getparentcontent To include among item elements the 'parentcontent' too
      * @return void
      */
@@ -635,7 +635,7 @@ abstract class itembase {
      * Show/Hide chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      *
-     * @param integer $itemid
+     * @param int $itemid
      * @param boolean $oldhidden
      * @param boolean $newhidden
      * @param boolean $oldreserved
@@ -835,7 +835,7 @@ abstract class itembase {
      *     [minutes] => 00
      * )
      *
-     * @param integer $unixtime
+     * @param int $unixtime
      * @return array $dateout
      */
     protected function item_split_unix_time($unixtime) {

@@ -507,7 +507,10 @@ EOS;
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $options[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
                 }
+            } else {
+                $options[SURVEYPRO_IGNOREMEVALUE] = '*';
             }
+
             $options['1'] = $yeslabel;
             $options['0'] = $nolabel;
             if (!$this->required) {
@@ -518,15 +521,6 @@ EOS;
             // Begin of: mform element.
             $attributes['id'] = $baseid;
             $elementgroup[] = $mform->createElement('select', $basename, $elementlabel, $options, $attributes);
-
-            if ($searchform) {
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
-
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                $mform->setDefault($basename.'_ignoreme', '1');
-            }
 
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
             // End of: mform element.

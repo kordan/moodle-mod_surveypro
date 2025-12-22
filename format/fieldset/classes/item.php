@@ -302,8 +302,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname];
-
-        return $elementnames;
+        return [$this->itemname];
     }
 }

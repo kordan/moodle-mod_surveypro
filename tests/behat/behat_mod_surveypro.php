@@ -148,7 +148,7 @@ class behat_mod_surveypro extends behat_base {
      *
      * @throws ExpectationException
      * @Then /^I should see "(?P<given_number>\d+)" submissions$/
-     * @param integer $givennumber
+     * @param int $givennumber
      * @return void|ExpectationException
      */
     public function i_should_see_submission($givennumber) {
@@ -169,7 +169,7 @@ class behat_mod_surveypro extends behat_base {
      *
      * @throws ExpectationException
      * @Then /^I should see "(?P<given_number>\d+)" (?P<status>reserved|available|searchable|not searchable|visible|hidden) items$/
-     * @param integer $givennumber
+     * @param int $givennumber
      * @param string $status
      * @return void|ExpectationException
      */

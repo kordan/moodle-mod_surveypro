@@ -553,7 +553,7 @@ EOS;
                 $labels = [SURVEYPRO_INVITEVALUE => get_string('choosedots')] + $labels;
             }
         } else {
-            $labels = [SURVEYPRO_IGNOREMEVALUE => ''] + $labels;
+            $labels = [SURVEYPRO_IGNOREMEVALUE => get_string('star', 'mod_surveypro')] + $labels;
         }
         if (!empty($this->labelother)) {
             [$othervalue, $otherlabel] = $this->get_other();
@@ -823,9 +823,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname.'_group'];
     }
 
     // MARK other.
