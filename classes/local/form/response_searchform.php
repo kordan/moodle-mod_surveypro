@@ -73,10 +73,12 @@ class response_searchform extends \moodleform {
             $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
             if ($position == SURVEYPRO_POSITIONTOP) {
                 $itemname = $item->get_itemname().'_extrarow';
-                $content = $item->get_content();
+                $content = $item->get_contentwithnumber();
+                $class = ['class' => 'indent-'.$item->get_indent()];
 
+                $elementgroup = [];
                 $elementgroup[] = $mform->createElement('static', $itemname, $elementnumber, $content);
-                $mform->addGroup($elementgroup, $this->itemname.'_group', '', '', false, $class);
+                $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
 
                 $item->item_add_color_unifier($mform);
             }

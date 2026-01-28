@@ -543,7 +543,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -656,13 +656,18 @@ EOS;
                 $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             } else {
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                if ($searchformelementscount > 1) {
+                    $starstr = get_string('star', 'mod_surveypro');
+                    $attributes['id'] = $baseid.'_ignoreme';
+                    $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                }
 
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                $mform->setDefault($basename.'_ignoreme', '1');
+
+                if ($searchformelementscount > 1) {
+                    $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                    $mform->setDefault($basename.'_ignoreme', '1');
+                }
             }
         } else {
             $attributes['id'] = $baseid.'_noanswer';
@@ -674,13 +679,18 @@ EOS;
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
                 $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
             } else {
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                if ($searchformelementscount > 1) {
+                    $starstr = get_string('star', 'mod_surveypro');
+                    $attributes['id'] = $baseid.'_ignoreme';
+                    $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                }
 
                 $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                $mform->setDefault($basename.'_ignoreme', '1');
+
+                if ($searchformelementscount > 1) {
+                    $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                    $mform->setDefault($basename.'_ignoreme', '1');
+                }
             }
         }
         // End of: mform element.
@@ -721,6 +731,9 @@ EOS;
             $mform->setDefault($basename.'_minute', $timearray['minutes']);
         }
         if ($searchformelementscount) {
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename.'_ignoreme', '1');
+            }
             if (!$this->required) {
                 $mform->setDefault($basename.'_noanswer', '0');
             }

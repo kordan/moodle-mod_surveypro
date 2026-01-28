@@ -137,6 +137,7 @@ class response_submitform extends \moodleform {
                         $itemname = $item->get_itemname().'_extrarow';
                         $content = $item->get_contentwithnumber();
                         $class = ['class' => 'indent-'.$item->get_indent()];
+
                         $elementgroup = [];
                         $elementgroup[] = $mform->createElement('static', $itemname, $elementnumber, $content);
                         $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);

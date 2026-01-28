@@ -229,7 +229,7 @@ abstract class itembase {
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
      * @param int $itemid
-     * @param boolean $getparentcontent To include among item elements the 'parentcontent' too
+     * @param bool $getparentcontent To include among item elements the 'parentcontent' too
      * @return void
      */
     protected function item_load($itemid, $getparentcontent) {
@@ -636,10 +636,10 @@ abstract class itembase {
      * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      *
      * @param int $itemid
-     * @param boolean $oldhidden
-     * @param boolean $newhidden
-     * @param boolean $oldreserved
-     * @param boolean $newreserved
+     * @param bool $oldhidden
+     * @param bool $newhidden
+     * @param bool $oldreserved
+     * @param bool $newreserved
      * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
@@ -1348,7 +1348,7 @@ abstract class itembase {
      * Make the list of the fields using multilang.
      * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     abstract public function get_multilang_fields($includemetafields=true);
@@ -1636,7 +1636,7 @@ abstract class itembase {
     /**
      * Provide the list of the fields of surveypro_item using multilang.
      *
-     * @param boolean $includemetafields true if you need filename and filecontent too.
+     * @param bool $includemetafields true if you need filename and filecontent too.
      * @return array the list of the fields of surveypro_item using multilang
      */
     public function get_base_multilang_fields($includemetafields) {
@@ -2082,7 +2082,7 @@ EOS;
      * Get full info == extranote + fillinginstruction
      * provides extra info THAT IS NOT SAVED IN THE DATABASE but is shown in the Add/Search form
      *
-     * @param boolean $searchform
+     * @param bool $searchform
      * @return string fullinfo
      */
     public function userform_get_full_info($searchform) {

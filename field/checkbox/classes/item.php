@@ -459,7 +459,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -655,6 +655,7 @@ EOS;
 
         $options = ['0', '1'];
         $i = 0;
+        // Add each checkbox and set its defaults.
         foreach ($labels as $label) {
             $itemname = $basename.'_'.$i;
             $attributes['id'] = $baseid.'_'.$i;
@@ -667,6 +668,7 @@ EOS;
             }
             $i++;
         }
+        // Add "other" field, if required, and set its defaults.
         if (!empty($this->labelother)) {
             [$othervalue, $otherlabel] = $this->get_other();
 
@@ -709,16 +711,18 @@ EOS;
         }
 
         if ($searchformelementscount) {
-            $this->item_add_color_unifier($mform);
+            if ($searchformelementscount > 1) {
+                $this->item_add_color_unifier($mform);
 
-            $elementgroup = [];
-            $itemname = $basename.'_ignoreme';
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
-            $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
-            $mform->setDefault($itemname, '1');
+                $elementgroup = [];
+                $itemname = $basename.'_ignoreme';
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
+                $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+                $mform->setDefault($itemname, '1');
 
-            $mform->disabledIf($basename.'_group', $itemname, 'checked');
+                $mform->disabledIf($basename.'_group', $itemname, 'checked');
+            }
         }
 
         if (!$searchformelementscount) {

@@ -14,7 +14,7 @@ Feature: Submit using an integer item
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course          | role           |
+      | user     | course                  | role           |
       | teacher1 | Integer submission test | editingteacher |
       | student1 | Integer submission test | student        |
     And the following "activities" exist:

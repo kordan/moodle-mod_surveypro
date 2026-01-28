@@ -1,6 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_character
 Feature: Submit using character item and check form validation (6 of 7)
-  Setting I check in this test are:
+  Settings I check in this test are:
       # required:                       0 - 1
       # Text pattern:                   free pattern - email address - web page URL - custom
       # Minimum length (in characters): empty - 20
@@ -14,7 +14,7 @@ Feature: Submit using character item and check form validation (6 of 7)
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course         | role            |
+      | user     | course         | role           |
       | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
     And the following "activities" exist:

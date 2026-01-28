@@ -396,7 +396,7 @@ class item extends itembase {
     /**
      * Make the list of multilang plugin fields.
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -515,13 +515,18 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
             $mform->setType($basename, PARAM_RAW);
 
-            $starstr = get_string('star', 'mod_surveypro');
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            }
 
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->setDefault($basename.'_ignoreme', '1');
+            }
         }
     }
 

@@ -14,7 +14,7 @@ Feature: Test submission modification time
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student   | student  | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course                | role           |
+      | user     | course                                 | role           |
       | teacher1 | Timemodified only at modification time | editingteacher |
       | student1 | Timemodified only at modification time | student        |
     And the following "activities" exist:
