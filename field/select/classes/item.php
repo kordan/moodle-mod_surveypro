@@ -360,7 +360,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -553,7 +553,9 @@ EOS;
                 $labels = [SURVEYPRO_INVITEVALUE => get_string('choosedots')] + $labels;
             }
         } else {
-            $labels = [SURVEYPRO_IGNOREMEVALUE => get_string('star', 'mod_surveypro')] + $labels;
+            if ($searchformelementscount > 1) {
+                $labels = [SURVEYPRO_IGNOREMEVALUE => get_string('star', 'mod_surveypro')] + $labels;
+            }
         }
         if (!empty($this->labelother)) {
             [$othervalue, $otherlabel] = $this->get_other();
@@ -574,6 +576,7 @@ EOS;
         }
         $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
 
+        // Begin of: default section.
         if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
@@ -583,8 +586,10 @@ EOS;
                 $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
                 $mform->_required[] = $starplace;
             }
+        }
 
-            // Default section.
+        // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_CUSTOMDEFAULT:
                     if ($key = array_search($this->defaultvalue, $labels)) {
@@ -604,12 +609,15 @@ EOS;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            }
         }
-        // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+
         if (!empty($this->labelother)) {
             $mform->setDefault($basename.'_text', $othervalue);
         }
+        // End of: default section.
     }
 
     /**

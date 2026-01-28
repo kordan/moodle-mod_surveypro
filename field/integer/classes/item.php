@@ -303,7 +303,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -467,7 +467,9 @@ EOS;
                 $integers[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
             }
         } else {
-            $integers[SURVEYPRO_IGNOREMEVALUE] = '';
+            if ($searchformelementscount > 1) {
+                $integers[SURVEYPRO_IGNOREMEVALUE] = get_string('star', 'surveypro');
+            }
         }
         $integersrange = range($this->lowerbound, $this->upperbound);
         $integers += array_combine($integersrange, $integersrange);
@@ -514,7 +516,9 @@ EOS;
                 $mform->setDefault($basename, "$defaultinteger");
             }
         } else {
-            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            }
         }
     }
 

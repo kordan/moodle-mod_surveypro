@@ -14,7 +14,7 @@ Feature: In read only mode browse a submission jumping not filled pages
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student   | student  | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course                | role           |
+      | user     | course                 | role           |
       | teacher1 | Jump not allowed pages | editingteacher |
       | student1 | Jump not allowed pages | student        |
     And the following "activities" exist:

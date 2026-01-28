@@ -93,7 +93,7 @@ class utemplate_save extends utemplate_base {
      * For this reason, at "usertemplate creation" time, I AM FORCED to use a "hot" calculated sortindex instead of using the one
      * taken from the db.
      *
-     * @param boolean $visiblesonly
+     * @param bool $visiblesonly
      * @return void
      */
     public function write_template_content($visiblesonly) {

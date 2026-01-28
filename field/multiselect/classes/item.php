@@ -397,7 +397,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -622,8 +622,10 @@ EOS;
                 $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
             }
 
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            }
 
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '<br>', false, $class);
             if (!$this->required) {
@@ -633,8 +635,9 @@ EOS;
                 $mform->disabledIf($basename.'[]', $basename.'_noanswer', 'checked');
             }
             $mform->disabledIf($basename.'[]', $basename.'_ignoreme', 'checked');
-            $mform->disabledIf($basename.'_noanswer', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename.'_noanswer', $basename.'_ignoreme', 'checked');
+            }
         }
 
         if (!$searchformelementscount) {
@@ -659,6 +662,10 @@ EOS;
             }
             if (!empty($this->noanswerdefault)) {
                 $mform->setDefault($basename.'_noanswer', '1');
+            }
+        } else {
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename.'_ignoreme', '1');
             }
         }
         // End of: defaults.

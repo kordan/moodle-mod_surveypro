@@ -50,8 +50,8 @@ Feature: Submit using checkbox item and check form validation
   @javascript
   Scenario: Test checkbox element having maximumrequired = 3
     Given I set the following fields to these values:
-      | Content                  | What do you usually get for breakfast? |
-      | Maximum allowed options  | 3                                      |
+      | Content                 | What do you usually get for breakfast? |
+      | Maximum allowed options | 3                                      |
     And I set the multiline field "Options" to "milk\ncoffee\nbutter\nbread"
     And I press "Add"
 

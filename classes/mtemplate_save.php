@@ -439,7 +439,7 @@ class mtemplate_save extends mtemplate_base {
     /**
      * Write master template content.
      *
-     * @param boolean $visiblesonly
+     * @param bool $visiblesonly
      * @return void
      */
     public function write_template_content($visiblesonly=true) {

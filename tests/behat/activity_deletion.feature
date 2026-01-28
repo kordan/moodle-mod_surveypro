@@ -13,7 +13,7 @@ Feature: Delete an instance
       | username | firstname | lastname | email                |
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course    | role           |
+      | user     | course            | role           |
       | teacher1 | Activity deletion | editingteacher |
     And the following "activities" exist:
       | activity  | name                 | intro    | course            |

@@ -399,7 +399,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -469,10 +469,6 @@ EOS;
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
             $mform->setType($basename, PARAM_RAW); // See: moodlelib.php lines 133+.
 
-            if (core_text::strlen($this->defaultvalue)) {
-                $mform->setDefault($basename, "$this->defaultvalue");
-            }
-
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
@@ -485,12 +481,29 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $basename, '', $attributes);
             $mform->setType($basename, PARAM_RAW);
 
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            }
 
             $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+            }
         }
+
+        // Begin of: defaults.
+        if (!$searchformelementscount) {
+            if (core_text::strlen($this->defaultvalue)) {
+                $mform->setDefault($basename, "$this->defaultvalue");
+            }
+        } else {
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename.'_ignoreme', '1');
+            }
+        }
+        // End of: defaults.
+
     }
 
     /**

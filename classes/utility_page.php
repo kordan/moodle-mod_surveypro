@@ -70,7 +70,7 @@ class utility_page {
     /**
      * Display the Blocks editing on/Blocks editing off in each page
      *
-     * @param boolean $edit
+     * @param bool $edit
      * @return array $pluginlist;
      */
     public function manage_editbutton($edit) {

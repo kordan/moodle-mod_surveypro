@@ -385,7 +385,7 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields=true) {
@@ -582,8 +582,10 @@ EOS;
                 $elementgroup[] = $mform->createElement('radio', $basename, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
             }
         } else {
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('radio', $basename, '', $starsstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
+            if ($searchformelementscount > 1) {
+                $attributes['id'] = $baseid.'_ignoreme';
+                $elementgroup[] = $mform->createElement('radio', $basename, '', $starsstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
+            }
         }
 
         $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
@@ -650,7 +652,9 @@ EOS;
                     debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            }
         }
         // Note: $basename.'_text' has to ALWAYS get a default (if it exists) even if it is not selected.
         if (!empty($this->labelother)) {

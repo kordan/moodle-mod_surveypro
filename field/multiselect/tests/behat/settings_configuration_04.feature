@@ -1,6 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_multiselect
 Feature: Submit using multiselect item and check form validation (4 of 4)
-  Setting I check in this test are:
+  Settings I check in this test are:
       # required:               0 - 1
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                empty - coffee
@@ -37,10 +37,9 @@ Feature: Submit using multiselect item and check form validation (4 of 4)
     Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I set the following fields to these values:
       | Default                | coffee                                 |
       | Minimum required items | 0                                      |
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I press "Add"
 
     And I log out
@@ -73,10 +72,9 @@ Feature: Submit using multiselect item and check form validation (4 of 4)
     Given I set the following fields to these values:
       | Content                | What do you usually get for breakfast? |
       | Required               | 1                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I set the following fields to these values:
       | Default                | coffee                                 |
       | Minimum required items | 2                                      |
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I press "Add"
 
     And I log out
