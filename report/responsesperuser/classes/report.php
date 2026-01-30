@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
 
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * The class to missing count report
@@ -37,8 +37,8 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var flexible_table $outputtable
      */
@@ -140,7 +140,7 @@ class report extends reportbase {
             // User fullname.
             $paramurl = ['id' => $usersubmission->id, 'course' => $COURSE->id];
             $url = new \moodle_url('/user/view.php', $paramurl);
-            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
+            $tablerow[] = '<a href="' . $url->out() . '">' . fullname($usersubmission) . '</a>';
 
             // User attempts.
             $tablerow[] = isset($usersubmission->attempts) ? $usersubmission->attempts : '--';
@@ -166,9 +166,9 @@ class report extends reportbase {
                             FROM {surveypro_submission}
                             GROUP BY userid, surveyproid';
 
-        $sql = 'SELECT s.attempts'.$userfieldsapi->selects.'
+        $sql = 'SELECT s.attempts' . $userfieldsapi->selects . '
                 FROM {user} u
-                JOIN ('.$submissiontable.') s ON s.userid = u.id';
+                JOIN (' . $submissiontable . ') s ON s.userid = u.id';
 
         [$middlesql, $whereparams] = $this->get_middle_sql();
         $sql .= $middlesql;
@@ -178,7 +178,7 @@ class report extends reportbase {
         }
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY ' . $this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY u.lastname ASC';
         }

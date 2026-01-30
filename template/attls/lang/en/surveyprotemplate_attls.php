@@ -66,9 +66,3 @@ $string['useradio'] = 'Radio buttons';
 $string['useritem'] = 'Style of the choice elements';
 $string['useritem_desc'] = 'This option let you choose the style of the elemets for the choices of the survey. "Radio buttons" is the standard, "Drop down menu" is better for not huge monitors.<br>Changes will take effect with new surveypro';
 $string['useselect'] = 'Use drop down menus';
-
-
-
-
-
-

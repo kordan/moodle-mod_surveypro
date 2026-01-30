@@ -33,5 +33,3 @@ $string['textarea_content_03'] = '<p>In classe in quale momento sei meno parteci
 $string['textarea_content_04'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi più utile?</p>';
 $string['textarea_content_05'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi disorientante e confusionaria?</p>';
 $string['textarea_content_06'] = '<p>Quale evento ti ha sorpreso di più?</p>';
-
-

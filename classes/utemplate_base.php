@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_base extends templatebase {
-
+class utemplate_base extends templatebase
+{
     /**
      * @var int ID of the current user template
      */
@@ -65,8 +65,8 @@ class utemplate_base extends templatebase {
                 $sharinglabel = get_string('user');
                 break;
             default:
-                $message = 'Unexpected $contextid = '.$contextid;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $contextid = ' . $contextid;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         return $sharinglabel;
@@ -158,7 +158,7 @@ class utemplate_base extends templatebase {
      * @param int $acontextid Context that we are looking for
      * @return array
      */
-    public function get_xmlfiles_list($acontextid=null) {
+    public function get_xmlfiles_list($acontextid = null) {
         $utemplates = [];
 
         $contexts = $this->get_sharingcontexts();
@@ -187,7 +187,7 @@ class utemplate_base extends templatebase {
      * @param int $action
      * @return void
      */
-    public function trigger_event($eventname, $action=null) {
+    public function trigger_event($eventname, $action = null) {
         $eventdata = ['context' => $this->context, 'objectid' => $this->surveypro->id];
         switch ($eventname) {
             case 'all_usertemplates_viewed':
@@ -231,8 +231,8 @@ class utemplate_base extends templatebase {
                 $event = \mod_surveypro\event\usertemplate_deleted::create($eventdata);
                 break;
             default:
-                $message = 'Unexpected $event = '.$eventname;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $event = ' . $eventname;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         $event->trigger();
     }

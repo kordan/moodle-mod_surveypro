@@ -33,8 +33,8 @@ use mod_surveypro\reportbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var string $template
      */
@@ -320,7 +320,7 @@ class report extends reportbase {
 
         // Begin of: names of areas of investigation.
         for ($i = 1; $i < 7; $i++) {
-            $this->xlabels[] = get_string('fieldset_content_0'.$i, 'surveyprotemplate_'.$this->template);
+            $this->xlabels[] = get_string('fieldset_content_0' . $i, 'surveyprotemplate_' . $this->template);
         }
         // End of: names of areas of investigation.
 
@@ -352,7 +352,7 @@ class report extends reportbase {
                 $sql .= $middlesql;
 
                 $whereparams = array_merge($whereparams, $inparams);
-                $sql .= ' AND a.itemid '.$insql;
+                $sql .= ' AND a.itemid ' . $insql;
                 if ($this->onlypersonaldata) {
                     $sql .= ' AND u.id = :userid';
                     $whereparams['userid'] = $USER->id;
@@ -376,7 +376,7 @@ class report extends reportbase {
                 $sql .= $middlesql;
 
                 $whereparams = array_merge($whereparams, $inparams);
-                $sql .= ' AND a.itemid '.$insql;
+                $sql .= ' AND a.itemid ' . $insql;
                 if ($this->onlypersonaldata) {
                     $sql .= ' AND u.id = :userid';
                     $whereparams['userid'] = $USER->id;
@@ -408,7 +408,7 @@ class report extends reportbase {
                     $sql = 'SELECT COUNT(a.id) as answerscount, SUM(a.content) as sumofanswers
                             FROM {surveypro_answer} a
                                 JOIN {surveypro_submission} s ON s.id = a.submissionid
-                            WHERE a.itemid '.$insql.'
+                            WHERE a.itemid ' . $insql . '
                                 AND s.userid = :userid';
                     $aggregate = $DB->get_record_sql($sql, $whereparams);
 
@@ -466,16 +466,16 @@ class report extends reportbase {
      * @param int $areaidx
      * @return void
      */
-    public function fetch_scalesdata($areaidx=0) {
+    public function fetch_scalesdata($areaidx = 0) {
         global $DB, $USER;
 
-        $this->graphtitle = get_string('fieldset_content_0'.($areaidx + 1), 'surveyprotemplate_'.$this->template);
+        $this->graphtitle = get_string('fieldset_content_0' . ($areaidx + 1), 'surveyprotemplate_' . $this->template);
 
         // Begin of: names of areas of investigation.
         // Short names of questions.
         for ($i = 1; $i < 5; $i++) {
             $index = sprintf('%02d', 4 * $areaidx + $i);
-            $key = 'question'.$index.'short';
+            $key = 'question' . $index . 'short';
             $this->xlabels[] = get_string($key, 'surveyproreport_colles');
         }
         // End of: names of areas of investigation.
@@ -527,7 +527,7 @@ class report extends reportbase {
                             JOIN {surveypro_answer} a ON a.submissionid = s.id';
 
                 [$middlesql, $whereparams] = $this->get_middle_sql();
-                $sql .= $middlesql.' AND a.itemid = :itemid';
+                $sql .= $middlesql . ' AND a.itemid = :itemid';
                 $whereparams['itemid'] = $itemid;
                 if ($this->onlypersonaldata) {
                     $sql .= ' AND u.id = :userid';

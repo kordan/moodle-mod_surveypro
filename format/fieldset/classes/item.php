@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/format/fieldset/lib.php');
 
 /**
  * Class to manage each aspect of the fieldset item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -203,7 +203,7 @@ class item extends itembase {
      * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = ['content', 'extranote'];
         $fieldlist['surveyprofield_time'] = [];
 
@@ -292,7 +292,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         return '';
     }
 

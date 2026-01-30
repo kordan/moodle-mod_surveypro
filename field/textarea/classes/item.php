@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use core_text;
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/textarea/lib.php');
 
 /**
  * Class to manage each aspect of the textarea item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -353,7 +353,7 @@ class item extends itembase {
      * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_textarea'] = [];
 
@@ -399,8 +399,8 @@ EOS;
     public static function response_get_whereclause($itemid, $searchrestriction) {
         global $DB;
 
-        $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
-        $whereparam = '%'.$searchrestriction.'%';
+        $whereclause = $DB->sql_like('a.content', ':content_' . $itemid, false);
+        $whereparam = '%' . $searchrestriction . '%';
 
         return [$whereclause, $whereparam];
     }
@@ -433,8 +433,8 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_textarea_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_textarea_' . $this->sortindex;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid;
@@ -444,26 +444,26 @@ EOS;
             $attributes['wrap'] = 'virtual';
             $elementgroup[] = $mform->createElement('textarea', $basename, $elementlabel, $attributes);
             if (!$searchformelementscount) {
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
                 $mform->setType($basename, PARAM_TEXT);
             } else {
                 if ($searchformelementscount > 1) {
                     $starstr = get_string('star', 'mod_surveypro');
-                    $attributes['id'] = $baseid.'_ignoreme';
-                    $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                    $attributes['id'] = $baseid . '_ignoreme';
+                    $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
                 }
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
                 if ($searchformelementscount > 1) {
-                    $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                    $mform->setDefault($basename.'_ignoreme', '1');
+                    $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
+                    $mform->setDefault($basename . '_ignoreme', '1');
                 }
             }
         } else {
-            $fieldname = $basename.'_editor';
+            $fieldname = $basename . '_editor';
             $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
-            $elementgroup[] = $mform->createElement('editor', $basename.'_editor', $elementlabel, $attributes, $editoroptions);
-            $mform->addGroup($elementgroup, $basename.'_editor'.'_group', $elementlabel, ' ', false, $class);
-            $mform->setType($basename.'_editor', PARAM_CLEANHTML);
+            $elementgroup[] = $mform->createElement('editor', $basename . '_editor', $elementlabel, $attributes, $editoroptions);
+            $mform->addGroup($elementgroup, $basename . '_editor' . '_group', $elementlabel, ' ', false, $class);
+            $mform->setType($basename . '_editor', PARAM_CLEANHTML);
         }
 
         if (!$searchformelementscount) {
@@ -473,9 +473,9 @@ EOS;
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
                 if ($this->position == SURVEYPRO_POSITIONTOP) {
-                    $starplace = $basename.'_extrarow_group';
+                    $starplace = $basename . '_extrarow_group';
                 } else {
-                    $starplace = empty($this->useeditor) ? $basename.'_group' : $basename.'_editor_group';
+                    $starplace = empty($this->useeditor) ? $basename . '_group' : $basename . '_editor_group';
                 }
                 $mform->_required[] = $starplace;
             }
@@ -496,11 +496,11 @@ EOS;
         }
 
         if (!empty($this->useeditor)) {
-            $errorkey = $this->itemname.'_editor_group';
-            $fieldname = $this->itemname.'_editor';
+            $errorkey = $this->itemname . '_editor_group';
+            $fieldname = $this->itemname . '_editor';
             $userinput = $data[$fieldname]['text'];
         } else {
-            $errorkey = $this->itemname.'_group';
+            $errorkey = $this->itemname . '_group';
             $fieldname = $this->itemname;
             $userinput = $data[$fieldname];
         }
@@ -525,14 +525,14 @@ EOS;
 
         // I don't care if this element is required or not.
         // If the user provided an answer, it has to be compliant with the field validation rules.
-        if ( $this->maxlength && (\core_text::strlen($userinput) > $this->maxlength) ) {
+        if ($this->maxlength && (\core_text::strlen($userinput) > $this->maxlength)) {
             $errors[$errorkey] = get_string('uerr_texttoolong', 'surveyprofield_textarea');
         }
         if (\core_text::strlen($userinput) < $this->minlength) {
             $errors[$errorkey] = get_string('uerr_texttooshort', 'surveyprofield_textarea');
         }
 
-        if ( $errors && isset($warnings) ) {
+        if ($errors && isset($warnings)) {
             // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
             $errors = array_merge($warnings, $errors);
         }
@@ -588,11 +588,18 @@ EOS;
     public function userform_prepare_user_answer($answer, &$olduseranswer, $searchform) {
         if (!empty($this->useeditor) && (!$searchform)) {
             $context = \context_module::instance($this->cm->id);
-            $olduseranswer->{$this->itemname.'_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
+            $olduseranswer->{$this->itemname . '_editor'} = empty($this->trimonsave) ? $answer['editor'] : trim($answer['editor']);
 
             $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $context];
-            $olduseranswer = file_postupdate_standard_editor($olduseranswer, $this->itemname, $editoroptions, $context,
-                    'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $olduseranswer->id);
+            $olduseranswer = file_postupdate_standard_editor(
+                $olduseranswer,
+                $this->itemname,
+                $editoroptions,
+                $context,
+                'mod_surveypro',
+                SURVEYPROFIELD_TEXTAREA_FILEAREA,
+                $olduseranswer->id
+            );
             $olduseranswer->content = $olduseranswer->{$this->itemname};
             $olduseranswer->contentformat = $answer['editor']['format'];
         } else {
@@ -622,10 +629,17 @@ EOS;
                 $editoroptions['subdirs'] = true;
                 $editoroptions['maxfiles'] = EDITOR_UNLIMITED_FILES;
                 $editoroptions['context'] = $context;
-                $fromdb = file_prepare_standard_editor($fromdb, 'content', $editoroptions, $context,
-                                                       'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $fromdb->id);
+                $fromdb = file_prepare_standard_editor(
+                    $fromdb,
+                    'content',
+                    $editoroptions,
+                    $context,
+                    'mod_surveypro',
+                    SURVEYPROFIELD_TEXTAREA_FILEAREA,
+                    $fromdb->id
+                );
 
-                $prefill[$this->itemname.'_editor'] = $fromdb->content_editor;
+                $prefill[$this->itemname . '_editor'] = $fromdb->content_editor;
             } else {
                 $prefill[$this->itemname] = $fromdb->content;
             }
@@ -641,7 +655,7 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         if (!empty($this->useeditor)) {
-            $elementnames = [$this->itemname.'_editor'];
+            $elementnames = [$this->itemname . '_editor'];
         } else {
             $elementnames = [$this->itemname];
         }
@@ -656,7 +670,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         $context = \context_module::instance($this->cm->id);
 
         // The content of the provided answer.
@@ -672,8 +686,13 @@ EOS;
         if (core_text::strlen($content)) {
             if ($this->useeditor) {
                 $content = file_rewrite_pluginfile_urls(
-                           $content, 'pluginfile.php', $context->id,
-                           'mod_surveypro', SURVEYPROFIELD_TEXTAREA_FILEAREA, $answer->id);
+                    $content,
+                    'pluginfile.php',
+                    $context->id,
+                    'mod_surveypro',
+                    SURVEYPROFIELD_TEXTAREA_FILEAREA,
+                    $answer->id
+                );
 
                 $return = format_text($content, FORMAT_MOODLE, ['overflowdiv' => false, 'allowid' => true, 'para' => false]);
             } else {

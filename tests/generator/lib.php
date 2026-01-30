@@ -31,8 +31,8 @@
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_generator extends testing_module_generator {
-
+class mod_surveypro_generator extends testing_module_generator
+{
     /**
      * @var int Keep track of how many items have been created,
      */
@@ -58,7 +58,7 @@ class mod_surveypro_generator extends testing_module_generator {
     public function create_instance($record = null, array $options = null) {
         global $CFG;
 
-        require_once($CFG->dirroot.'/mod/surveypro/tests/behat/lib_behattest.php');
+        require_once($CFG->dirroot . '/mod/surveypro/tests/behat/lib_behattest.php');
 
         // Add default values for surveypro.
         $record = (array)$record + [

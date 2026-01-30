@@ -26,7 +26,6 @@ namespace mod_surveypro;
 
 use core_text;
 use mod_surveypro\utility_layout;
-
 use mod_surveypro\local\ipe\usertemplate_name;
 
 /**
@@ -36,8 +35,8 @@ use mod_surveypro\local\ipe\usertemplate_name;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_apply extends utemplate_base {
-
+class utemplate_apply extends utemplate_base
+{
     /**
      * @var int User confirmation to actions
      */
@@ -110,7 +109,7 @@ class utemplate_apply extends utemplate_base {
             foreach ($xmlfiles[$contextid] as $xmlfile) {
                 $xmlid = $xmlfile->get_id();
                 $filename = $xmlfile->get_filename();
-                $items[$contextid.'_'.$xmlid] = '('.$contextlabel.') '.$filename;
+                $items[$contextid . '_' . $xmlid] = '(' . $contextlabel . ') ' . $filename;
             }
         }
         asort($items);
@@ -386,8 +385,8 @@ class utemplate_apply extends utemplate_base {
 
                 break;
             default:
-                $message = 'Unexpected $applyaction = '.$applyaction;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $applyaction = ' . $applyaction;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         // Now actually add items from template.

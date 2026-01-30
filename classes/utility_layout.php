@@ -33,8 +33,8 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utility_layout {
-
+class utility_layout
+{
     /**
      * @var object Course module object
      */
@@ -56,7 +56,7 @@ class utility_layout {
      * @param object $cm
      * @param object $surveypro
      */
-    public function __construct($cm, $surveypro=null) {
+    public function __construct($cm, $surveypro = null) {
         global $DB;
 
         $this->cm = $cm;
@@ -149,14 +149,14 @@ class utility_layout {
      * @param int $returncount
      * @return bool|int as required by $returncount
      */
-    public function has_items($formpage=0, $type=null, $includehidden=false, $includereserved=false, $returncount=false) {
+    public function has_items($formpage = 0, $type = null, $includehidden = false, $includereserved = false, $returncount = false) {
         global $DB;
 
         if (!empty($type)) {
             if (($type != 'field') && ($type != 'format')) {
                 $message = 'Unexpected value for $type found.';
                 $message .= 'Valid values are only: \'field\' or \'format\'';
-                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
 
@@ -187,7 +187,7 @@ class utility_layout {
      * @param bool $returncount
      * @return bool|int as required by $returncount
      */
-    public function has_search_items($returncount=false) {
+    public function has_search_items($returncount = false) {
         global $DB;
 
         $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -210,7 +210,7 @@ class utility_layout {
      * @param int $userid
      * @return int
      */
-    public function has_submissions($returncount=false, $status=SURVEYPRO_STATUSALL, $userid=null) {
+    public function has_submissions($returncount = false, $status = SURVEYPRO_STATUSALL, $userid = null) {
         global $DB;
 
         $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -262,8 +262,8 @@ class utility_layout {
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
-                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'I can not delete answers using ' . $startingparam . '. It is not an answer attribute.';
+                debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
         // End of: Verify input params integrity.
@@ -317,7 +317,7 @@ class utility_layout {
         $condition = $condition || array_key_exists('id', $whereparams);
         if (!$condition) {
             $message = 'I can not delete submissions missing submissionid AND surveyproid both';
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         // End of: Verify input params integrity.
 
@@ -368,7 +368,7 @@ class utility_layout {
      * @param \stdClass $item
      * @return void
      */
-    public function delete_answers($whereparams, $item=null) {
+    public function delete_answers($whereparams, $item = null) {
         global $DB, $COURSE;
 
         // Verify input params integrity.
@@ -376,15 +376,15 @@ class utility_layout {
         $condition2 = array_key_exists('submissionid', $whereparams);
         if ($condition1 && !$condition2) {
             $message = 'I refuse to delete answers by content witout submissionid. Too dangerous.';
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         $validanswerparams = ['id', 'submissionid', 'itemid', 'content', 'verified'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
-                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'I can not delete answers using ' . $startingparam . '. It is not an answer attribute.';
+                debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
         // End of: Verify input params integrity.
@@ -425,9 +425,9 @@ class utility_layout {
             // If this method was called from delete_items, you are supposed to delete related item too.
             if ($item) {
                 // Here I actually delete items.
-                $tablename = 'surveypro'.$item->type.'_'.$item->plugin;
+                $tablename = 'surveypro' . $item->type . '_' . $item->plugin;
                 if ($DB->get_manager()->table_exists($tablename)) {
-                    $DB->delete_records('surveypro'.$item->type.'_'.$item->plugin, ['itemid' => $item->id]);
+                    $DB->delete_records('surveypro' . $item->type . '_' . $item->plugin, ['itemid' => $item->id]);
                 }
                 $DB->delete_records('surveypro_item', ['id' => $item->id]);
             }
@@ -554,12 +554,12 @@ class utility_layout {
         if (count($whereparams) > 1) { // Some more detail about submissions were provided in $whereparams.
             $conditions = [];
             foreach ($whereparams as $field => $unused) {
-                $conditions[$field] = $field.' = :'.$field;
+                $conditions[$field] = $field . ' = :' . $field;
             }
 
             $sql = 'SELECT DISTINCT userid as id
                     FROM {surveypro_submission}
-                    WHERE '.implode(' AND ', $conditions);
+                    WHERE ' . implode(' AND ', $conditions);
             $possibleusers = $DB->get_records_sql($sql, $whereparams);
 
             // Update completion state.
@@ -591,7 +591,7 @@ class utility_layout {
                 FROM {surveypro_submission} s
                     JOIN {surveypro_answer} a ON s.id = a.submissionid
                 WHERE s.surveyproid = :surveyproid
-                    AND a.itemid '.$insql.'
+                    AND a.itemid ' . $insql . '
                 GROUP BY s.id';
         $whereparams = $inparams;
         $whereparams['surveyproid'] = $this->surveypro->id;
@@ -614,8 +614,8 @@ class utility_layout {
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not delete answers using '.$startingparam.'. It is not an answer attribute.';
-                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'I can not delete answers using ' . $startingparam . '. It is not an answer attribute.';
+                debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
 
@@ -623,22 +623,22 @@ class utility_layout {
         $condition2 = array_key_exists('submissionid', $whereparams);
         if ($condition1 && !$condition2) {
             $message = 'I refuse to delete answers by content witout submissionid. Too dangerous.';
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         // End of: Verify input params integrity.
 
         if (array_key_exists('content', $whereparams)) {
             $conditions = [];
             foreach ($whereparams as $field => $unused) {
-                $conditions[$field] = $field.' = :'.$field;
+                $conditions[$field] = $field . ' = :' . $field;
             }
             unset($conditions['content']);
 
             $sql = 'SELECT id
                     FROM {surveypro_answer}
-                    WHERE content = '.$DB->sql_compare_text(':content');
+                    WHERE content = ' . $DB->sql_compare_text(':content');
             // Note: $whereparams['content'] is never alone.
-            $sql .= ' AND '.implode(' AND ', $conditions);
+            $sql .= ' AND ' . implode(' AND ', $conditions);
             $answers = $DB->get_records_sql($sql, $whereparams);
         } else {
             // Take note about the submissionid of the answers you are going to delete.
@@ -660,7 +660,7 @@ class utility_layout {
 
         if (!is_array($answersid)) {
             $message = 'Answer ids must be an array';
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         if (empty($answersid)) {
             return [];
@@ -669,7 +669,7 @@ class utility_layout {
         [$insql, $inparams] = $DB->get_in_or_equal($answersid, SQL_PARAMS_NAMED, 'answerid');
         $sql = 'SELECT submissionid
                 FROM {surveypro_answer}
-                WHERE id '.$insql.'
+                WHERE id ' . $insql . '
                 GROUP BY submissionid
                 ORDER BY submissionid';
         $submissionsid = $DB->get_records_sql_menu($sql, $inparams);
@@ -692,8 +692,8 @@ class utility_layout {
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not get answers using '.$startingparam.'. It is not an answer attribute.';
-                debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'I can not get answers using ' . $startingparam . '. It is not an answer attribute.';
+                debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
         // End of: Verify input params integrity.
@@ -709,7 +709,7 @@ class utility_layout {
                 WHERE (s.surveyproid = :surveyproid)';
         $conditions = [];
         foreach ($whereparams as $field => $unused) {
-            $conditions[$field] = 'a.'.$field.' = :'.$field;
+            $conditions[$field] = 'a.' . $field . ' = :' . $field;
         }
         unset($conditions['surveyproid']); // That has s. as prefix.
         if (isset($conditions['content'])) {
@@ -717,10 +717,10 @@ class utility_layout {
         }
 
         if (count($conditions)) {
-            $sql .= ' AND '.implode(' AND ', $conditions);
+            $sql .= ' AND ' . implode(' AND ', $conditions);
         }
         if (array_key_exists('content', $whereparams)) {
-            $sql .= ' AND a.content = '.$DB->sql_compare_text(':content');
+            $sql .= ' AND a.content = ' . $DB->sql_compare_text(':content');
             unset($conditions['content']);
         }
 
@@ -740,7 +740,7 @@ class utility_layout {
 
         if (!is_array($answersid)) {
             $message = 'Answer ids must be an array';
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         if (empty($answersid)) {
             return;
@@ -772,7 +772,7 @@ class utility_layout {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
 
-        if ( ($visibility != 0) && ($visibility != 1) ) {
+        if (($visibility != 0) && ($visibility != 1)) {
             debugging('Bad parameters passed to items_set_visibility', DEBUG_DEVELOPER);
         }
 
@@ -814,7 +814,7 @@ class utility_layout {
      * @param int $startingsortindex
      * @return void
      */
-    public function items_reindex($startingsortindex=0) {
+    public function items_reindex($startingsortindex = 0) {
         global $DB;
 
         $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -869,7 +869,7 @@ class utility_layout {
      * @param int $userid Optional userid
      * @return bool
      */
-    public function can_submit_more($userid=null) {
+    public function can_submit_more($userid = null) {
         global $USER;
 
         if (empty($userid)) {

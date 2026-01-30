@@ -58,10 +58,3 @@ $string['summary'] = 'Summary report';
 
 
 $string['summaryreport'] = 'Summary report';
-
-
-
-
-
-
-

@@ -24,8 +24,8 @@
 
 define('NO_MOODLE_COOKIES', true); // Session not used here.
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $cmid = optional_param('cmid', 0, PARAM_INT);
@@ -39,7 +39,7 @@ if ($surveypro = $DB->get_record('surveypro', ['id' => $id])) {
 
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
     header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $lifetime) . ' GMT');
-    header('Cache-control: max_age = '. $lifetime);
+    header('Cache-control: max_age = ' . $lifetime);
     header('Pragma: ');
     header('Content-type: text/css; charset=utf-8');  // Correct MIME type.
 

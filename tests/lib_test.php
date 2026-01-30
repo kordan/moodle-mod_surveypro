@@ -30,8 +30,8 @@ require_once($CFG->dirroot . '/mod/surveypro/lib.php');
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class lib_test extends advanced_testcase {
-
+final class lib_test extends advanced_testcase
+{
     /**
      * surveypro_cutdownstring provider
      *

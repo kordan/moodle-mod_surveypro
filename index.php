@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course ID.
 
@@ -75,7 +75,7 @@ if ($course->format == 'weeks') {
     $strtopic = get_string('topic');
     $table->head = [$strtopic, $strname, $strintro, $inprogress, $closed];
 } else {
-    $strsectionname = get_string('sectionname', 'format_'.$course->format);
+    $strsectionname = get_string('sectionname', 'format_' . $course->format);
     $table->head = [$strsectionname, $strname, $strintro, $inprogress, $closed];
 }
 $table->colclasses = ['col1', 'col2', 'col3', 'col4', 'col5'];

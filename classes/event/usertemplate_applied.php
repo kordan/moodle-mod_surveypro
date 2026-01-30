@@ -31,8 +31,8 @@ namespace mod_surveypro\event;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class usertemplate_applied extends \core\event\base {
-
+class usertemplate_applied extends \core\event\base
+{
     /**
      * Set basic properties for the event
      */
@@ -57,8 +57,8 @@ class usertemplate_applied extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "User with id '{$this->userid}' ".
-            "has applied the user template '{$this->other['templatename']}' ".
+        return "User with id '{$this->userid}' " .
+            "has applied the user template '{$this->other['templatename']}' " .
             "with action: '{$this->other['action']}'.";
     }
 

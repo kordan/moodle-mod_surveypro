@@ -31,7 +31,8 @@ namespace mod_surveypro\task;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class crontaskbase extends \core\task\scheduled_task {
+abstract class crontaskbase extends \core\task\scheduled_task
+{
     /**
      * Provide the first part of the query needed from every cron tasks.
      *
@@ -43,7 +44,7 @@ abstract class crontaskbase extends \core\task\scheduled_task {
         $timenow = time();
 
         $fieldslist = implode(', ', $surveyprofields);
-        $sql = 'SELECT '.$fieldslist.'
+        $sql = 'SELECT ' . $fieldslist . '
             FROM {surveypro} s
 	        JOIN {course} c ON c.id = s.course
         WHERE (

@@ -26,7 +26,7 @@ namespace surveyproreport_colles;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class to filter the attachment item to overview
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class groupjumperform extends \moodleform {
-
+class groupjumperform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -73,4 +73,3 @@ class groupjumperform extends \moodleform {
         // $mform->addGroup($elementgroup, 'groupid_group', get_string('filter'), array(' '), false);
     }
 }
-

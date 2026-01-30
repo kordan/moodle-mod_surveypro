@@ -55,7 +55,6 @@ function xmldb_surveyprofield_datetime_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024022701) {
-
         // Define field content to be dropped from surveyprofield_datetime.
         $table = new xmldb_table('surveyprofield_datetime');
         $field1 = new xmldb_field('content');
@@ -68,9 +67,9 @@ function xmldb_surveyprofield_datetime_upgrade($oldversion) {
             // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
-                    SET content = (SELECT f.content FROM {surveyprofield_datetime} f '.$whereclause.'),
-                        contentformat = (SELECT f.contentformat FROM {surveyprofield_datetime} f '.$whereclause.')
-                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_datetime} f '.$whereclause.')';
+                    SET content = (SELECT f.content FROM {surveyprofield_datetime} f ' . $whereclause . '),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_datetime} f ' . $whereclause . ')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_datetime} f ' . $whereclause . ')';
             $DB->execute($sql);
         }
 
@@ -89,7 +88,6 @@ function xmldb_surveyprofield_datetime_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024032800) {
-
         $table = new xmldb_table('surveyprofield_datetime');
 
         $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
@@ -104,8 +102,8 @@ function xmldb_surveyprofield_datetime_upgrade($oldversion) {
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
-                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_datetime} f '.$whereclause.')
-                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_datetime} f '.$whereclause.')';
+                        SET ' . $fieldname . ' = (SELECT f.' . $fieldname . ' FROM {surveyprofield_datetime} f ' . $whereclause . ')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_datetime} f ' . $whereclause . ')';
                 $DB->execute($sql);
             }
 

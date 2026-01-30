@@ -25,19 +25,17 @@
 use mod_surveypro\utility_page;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
-
 use mod_surveypro\templatebase;
 use mod_surveypro\utemplate_manage;
 use mod_surveypro\utemplate_save;
 use mod_surveypro\utemplate_import;
 use mod_surveypro\utemplate_apply;
-
 use mod_surveypro\local\form\utemplate_createform;
 use mod_surveypro\local\form\utemplate_importform;
 use mod_surveypro\local\form\utemplate_applyform;
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('utemplates');
 
@@ -49,8 +47,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['manage', 'save', 'import', 'apply'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 

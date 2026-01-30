@@ -27,8 +27,7 @@ use renderable;
  * @copyright  2013 onwards kordan <stringapiccola@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_action_bar implements templatable, renderable {
-
+class view_action_bar implements renderable, templatable {
     /** @var int $id The surveypro module id. */
     private $id;
 

@@ -33,8 +33,8 @@ use mod_surveypro\task\crontaskbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mail_neverstarted extends crontaskbase {
-
+class mail_neverstarted extends crontaskbase
+{
     /**
      * Get a descriptive name for this task (shown to admins).
      *
@@ -73,9 +73,9 @@ class mail_neverstarted extends crontaskbase {
                 $userfieldssql = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
 
                 [$enrolsql, $whereparams] = get_enrolled_sql($context);
-                $sql = 'SELECT '.$userfieldssql;
+                $sql = 'SELECT ' . $userfieldssql;
                 $sql .= ' FROM {user} u
-                            JOIN ('.$enrolsql.') eu ON eu.id = u.id
+                            JOIN (' . $enrolsql . ') eu ON eu.id = u.id
                             LEFT JOIN (SELECT id, userid
                                 FROM {surveypro_submission}
                                 WHERE surveyproid = :surveyproid) s ON s.userid = u.id
@@ -84,7 +84,7 @@ class mail_neverstarted extends crontaskbase {
 
                 $a = new \stdClass();
                 $a->surveyproname = $surveypro->name;
-                $a->surveyprourl = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$surveypro->id;
+                $a->surveyprourl = $CFG->wwwroot . '/mod/surveypro/view.php?s=' . $surveypro->id;
                 $rs = $DB->get_recordset_sql($sql, $whereparams);
                 foreach ($rs as $user) {
                     $a->fullname = fullname($user);

@@ -24,9 +24,9 @@
 
 use surveyproreport_frequency\report;
 
-require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->libdir.'/graphlib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/frequency/lib.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->libdir . '/graphlib.php');
+require_once($CFG->dirroot . '/mod/surveypro/report/frequency/lib.php');
 
 $id = required_param('id', PARAM_INT); // Course Module ID.
 $itemid = required_param('itemid', PARAM_INT); // Item ID.
@@ -45,7 +45,7 @@ $reportman->setup();
 $reportman->prevent_direct_user_input();
 $reportman->set_groupid($groupid);
 
-list($sql, $whereparams) = $reportman->get_submissions_sql($itemid);
+[$sql, $whereparams] = $reportman->get_submissions_sql($itemid);
 $answers = $DB->get_recordset_sql($sql, $whereparams);
 $item = surveypro_get_itemclass($cm, $surveypro, $itemid);
 

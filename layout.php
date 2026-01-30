@@ -25,25 +25,21 @@
 use mod_surveypro\utility_page;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
-
 use mod_surveypro\layout_itemsetup;
 use mod_surveypro\layout_itemlist;
 use mod_surveypro\layout_preview;
 use mod_surveypro\layout_branchingvalidation;
-
 use mod_surveypro\utemplate_apply;
 use mod_surveypro\mtemplate_apply;
-
 use mod_surveypro\mastertemplate;
-
 use mod_surveypro\local\form\item_chooser;
 use mod_surveypro\local\form\utemplate_applyform;
 use mod_surveypro\local\form\mtemplate_applyform;
 use mod_surveypro\local\form\item_bulkactionform;
 use mod_surveypro\local\form\response_submitform;
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('layout');
 
@@ -55,8 +51,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['preview', 'itemslist', 'itemsetup', 'branchingvalidation'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 
@@ -391,7 +387,7 @@ if ($section == 'itemsetup') {
 
     $itemsetupman->prevent_direct_user_input();
 
-    require_once($CFG->dirroot.'/mod/surveypro/'.$itemsetupman->get_type().'/'.$itemsetupman->get_plugin().'/classes/itemsetupform.php');
+    require_once($CFG->dirroot . '/mod/surveypro/' . $itemsetupman->get_type() . '/' . $itemsetupman->get_plugin() . '/classes/itemsetupform.php');
 
     // Begin of: get item.
     $itemtype = $itemsetupman->get_type();
@@ -425,7 +421,7 @@ if ($section == 'itemsetup') {
     // End of: define $itemform return url.
 
     // Begin of: prepare params for the form.
-    $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemplugin.'\itemsetupform';
+    $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $itemplugin . '\itemsetupform';
     $itemform = new $classname($formurl, ['item' => $item], null, null, ['id' => 'itemsetup']);
     // End of: prepare params for the form.
 

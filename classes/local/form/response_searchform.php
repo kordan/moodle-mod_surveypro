@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class representing the surveypro search form for the student
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class response_searchform extends \moodleform {
-
+class response_searchform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -70,15 +70,15 @@ class response_searchform extends \moodleform {
 
             // Position.
             $position = $item->get_position();
-            $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
+            $elementnumber = $item->get_customnumber() ? $item->get_customnumber() . ':' : '';
             if ($position == SURVEYPRO_POSITIONTOP) {
-                $itemname = $item->get_itemname().'_extrarow';
+                $itemname = $item->get_itemname() . '_extrarow';
                 $content = $item->get_contentwithnumber();
-                $class = ['class' => 'indent-'.$item->get_indent()];
+                $class = ['class' => 'indent-' . $item->get_indent()];
 
                 $elementgroup = [];
                 $elementgroup[] = $mform->createElement('static', $itemname, $elementnumber, $content);
-                $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+                $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
 
                 $item->item_add_color_unifier($mform);
             }
@@ -89,9 +89,9 @@ class response_searchform extends \moodleform {
                     // to
                     // "<p dir="ltr" style="text-align:left;">4.2: Do you live in NY?</p>".
                     if (preg_match('~^<p([^>]*)>(.*)$~', $questioncontent, $match)) {
-                        $questioncontent = '<p'.$match[1].'>'.$elementnumber.' '.$match[2];
+                        $questioncontent = '<p' . $match[1] . '>' . $elementnumber . ' ' . $match[2];
                     } else {
-                        $questioncontent = $elementnumber.' '.$questioncontent;
+                        $questioncontent = $elementnumber . ' ' . $questioncontent;
                     }
                 }
                 $content = '';
@@ -112,12 +112,11 @@ class response_searchform extends \moodleform {
             if ($fullinfo = $item->userform_get_full_info(true)) {
                 $item->item_add_color_unifier($mform);
 
-                $itemname = $item->get_itemname().'_info';
+                $itemname = $item->get_itemname() . '_info';
 
                 $elementgroup = [];
                 $elementgroup[] = $mform->createElement('static', $itemname, get_string('note', 'mod_surveypro'), $fullinfo);
-                $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
-
+                $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
             }
         }
         $itemseeds->close();

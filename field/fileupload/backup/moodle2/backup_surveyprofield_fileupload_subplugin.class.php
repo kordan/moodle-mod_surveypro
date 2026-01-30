@@ -29,8 +29,8 @@
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_surveyprofield_fileupload_subplugin extends backup_subplugin {
-
+class backup_surveyprofield_fileupload_subplugin extends backup_subplugin
+{
     /**
      * Define_item_subplugin_structure.
      *

@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\mastertemplate;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->libdir.'/adminlib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->libdir . '/adminlib.php');
 
 /**
  * The class representing the form to apply a master template
@@ -38,8 +38,8 @@ require_once($CFG->libdir.'/adminlib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplate_applyform extends \moodleform {
-
+class mtemplate_applyform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -59,9 +59,9 @@ class mtemplate_applyform extends \moodleform {
             if ($inlineform) {
                 $elementgroup = [];
                 $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
-                $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
-                $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
-                $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+                $elementgroup[] = $mform->createElement('submit', $fieldname . '_button', get_string('apply', 'mod_surveypro'));
+                $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
+                $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');
             } else {
                 $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $mtemplates);
                 $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
@@ -97,7 +97,7 @@ class mtemplate_applyform extends \moodleform {
         $errors = parent::validation($data, $files);
 
         $templatename = $data['mastertemplate'];
-        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$templatename.'/template.xml';
+        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $templatename . '/template.xml';
         $xml = file_get_contents($templatepath);
 
         $applyman->validate_xml($xml);
@@ -105,9 +105,9 @@ class mtemplate_applyform extends \moodleform {
         if (!empty($errormessage->key)) {
             $addendum = get_string('mastertemplateaddendum', 'mod_surveypro');
             if (isset($errormessage->a)) {
-                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a).$addendum;
+                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro', $errormessage->a) . $addendum;
             } else {
-                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro').$addendum;
+                $errors['mastertemplate'] = get_string($errormessage->key, 'mod_surveypro') . $addendum;
             }
         }
 

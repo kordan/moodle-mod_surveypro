@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/character/lib.php');
 
 /**
  * The class representing the plugin form
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -81,15 +81,15 @@ class itemsetupform extends item_setupbaseform {
         $options[SURVEYPROFIELD_CHARACTER_REGEXPATTERN] = get_string('regex', 'surveyprofield_character');
         $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname, '', $options);
-        $elementgroup[] = $mform->createElement('text', $fieldname.'text', '', ['size' => 55]);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);
+        $elementgroup[] = $mform->createElement('text', $fieldname . 'text', '', ['size' => 55]);
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_character'), ' ', false);
 
-        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_FREEPATTERN);
-        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_EMAILPATTERN);
-        $mform->disabledIf($fieldname.'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_URLPATTERN);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_character');
+        $mform->disabledIf($fieldname . 'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_FREEPATTERN);
+        $mform->disabledIf($fieldname . 'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_EMAILPATTERN);
+        $mform->disabledIf($fieldname . 'text', $fieldname, 'eq', SURVEYPROFIELD_CHARACTER_URLPATTERN);
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_character');
         $mform->setType($fieldname, PARAM_RAW);
-        $mform->setType($fieldname.'text', PARAM_TEXT);
+        $mform->setType($fieldname . 'text', PARAM_TEXT);
 
         // Item: minlength.
         $fieldname = 'minlength';
@@ -174,8 +174,8 @@ class itemsetupform extends item_setupbaseform {
                     }
                     break;
                 default:
-                    $message = 'Unexpected $data[\'pattern\'] = '.$data['pattern'];
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $message = 'Unexpected $data[\'pattern\'] = ' . $data['pattern'];
+                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
 

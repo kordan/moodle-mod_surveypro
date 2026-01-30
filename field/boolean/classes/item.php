@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/boolean/lib.php');
 
 /**
  * Class to manage each aspect of the boolean item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -198,8 +198,8 @@ class item extends itembase {
         $constraints = [];
 
         $optionstr = get_string('option', 'surveyprofield_boolean');
-        $constraints[] = $optionstr.': 0';
-        $constraints[] = $optionstr.': 1';
+        $constraints[] = $optionstr . ': 0';
+        $constraints[] = $optionstr . ': 1';
 
         return implode('<br>', $constraints);
     }
@@ -293,7 +293,7 @@ class item extends itembase {
         $options = [];
 
         for ($i = 1; $i < 11; $i++) {
-            $strname = 'strfbool'.str_pad($i, 2, '0', STR_PAD_LEFT);
+            $strname = 'strfbool' . str_pad($i, 2, '0', STR_PAD_LEFT);
             $options[$strname] = get_string($strname, 'surveyprofield_boolean');
         }
 
@@ -327,7 +327,7 @@ class item extends itembase {
      * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_boolean'] = [];
 
@@ -496,8 +496,8 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_boolean_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_boolean_' . $this->sortindex;
         $basename = $this->itemname;
 
         if ($this->style == SURVEYPROFIELD_BOOLEAN_USESELECT) {
@@ -524,7 +524,7 @@ EOS;
             $attributes['id'] = $baseid;
             $elementgroup[] = $mform->createElement('select', $basename, $elementlabel, $options, $attributes);
 
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
             // End of: mform element.
         } else { // SURVEYPROFIELD_BOOLEAN_USERADIOV or SURVEYPROFIELD_BOOLEAN_USERADIOH.
             $separator = ($this->style == SURVEYPROFIELD_BOOLEAN_USERADIOV) ? '<br>' : ' ';
@@ -533,29 +533,29 @@ EOS;
             if (!$searchformelementscount) {
                 if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                     $choosedotsstr = get_string('choosedots');
-                    $attributes['id'] = $baseid.'_invite';
+                    $attributes['id'] = $baseid . '_invite';
                     $elementgroup[] = $mform->createElement('radio', $basename, '', $choosedotsstr, SURVEYPRO_INVITEVALUE, $attributes);
                 }
             } else {
                 if ($searchformelementscount > 1) {
                     $starstr = get_string('star', 'mod_surveypro');
-                    $attributes['id'] = $baseid.'_ignoreme';
+                    $attributes['id'] = $baseid . '_ignoreme';
                     $elementgroup[] = $mform->createElement('radio', $basename, '', $starstr, SURVEYPRO_IGNOREMEVALUE, $attributes);
                 }
             }
 
-            $attributes['id'] = $baseid.'_1';
+            $attributes['id'] = $baseid . '_1';
             $elementgroup[] = $mform->createElement('radio', $basename, '', $yeslabel, '1', $attributes);
-            $attributes['id'] = $baseid.'_0';
+            $attributes['id'] = $baseid . '_0';
             $elementgroup[] = $mform->createElement('radio', $basename, '', $nolabel, '0', $attributes);
             if (!$this->required) {
-                $attributes['id'] = $baseid.'_noanswer';
+                $attributes['id'] = $baseid . '_noanswer';
                 $elementgroup[] = $mform->createElement('radio', $basename, '', $noanswerstr, SURVEYPRO_NOANSWERVALUE, $attributes);
             }
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, $separator, false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, $separator, false, $class);
 
             if ($searchformelementscount > 1) {
-                $mform->setDefault($basename.'_group', SURVEYPRO_IGNOREMEVALUE);
+                $mform->setDefault($basename . '_group', SURVEYPRO_IGNOREMEVALUE);
             }
             // End of: mform element.
         }
@@ -567,7 +567,7 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
 
@@ -582,8 +582,8 @@ EOS;
                     $mform->setDefault($this->itemname, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
-                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         } else {
             if ($searchformelementscount > 1) {
@@ -609,7 +609,7 @@ EOS;
         }
 
         $fieldname = $this->itemname;
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         // I need to check value is different from SURVEYPRO_INVITEVALUE even if it is not required.
         if ($data[$fieldname] == SURVEYPRO_INVITEVALUE) {
@@ -702,7 +702,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 
@@ -733,6 +733,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return [$this->itemname.'_group'];
+        return [$this->itemname . '_group'];
     }
 }

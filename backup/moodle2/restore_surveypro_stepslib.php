@@ -26,8 +26,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 // Include the required mod surveypro upgrade code.
-require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->dirroot . '/mod/surveypro/db/upgradelib.php');
 
 /**
  * Define all the restore steps that will be used by the restore_surveypro_activity_task
@@ -36,8 +36,8 @@ require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_surveypro_activity_structure_step extends restore_activity_structure_step {
-
+class restore_surveypro_activity_structure_step extends restore_activity_structure_step
+{
     /**
      * Define the structure of the restore workflow.
      *

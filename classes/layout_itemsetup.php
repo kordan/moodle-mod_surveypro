@@ -39,8 +39,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_itemsetup {
-
+class layout_itemsetup
+{
     /**
      * @var object Course module object
      */
@@ -167,13 +167,13 @@ class layout_itemsetup {
      * @return void
      */
     public function set_typeplugin($typeplugin) {
-        if (preg_match('~^('.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')_(\w+)$~', $typeplugin, $match)) {
+        if (preg_match('~^(' . SURVEYPRO_TYPEFIELD . '|' . SURVEYPRO_TYPEFORMAT . ')_(\w+)$~', $typeplugin, $match)) {
             // Execution comes from /form/items/selectitemform.php.
             $this->type = $match[1]; // Field or format.
             $this->plugin = $match[2]; // Boolean or char ... or fieldset ...
         } else {
             $message = 'Malformed typeplugin parameter passed to set_typeplugin';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
@@ -291,13 +291,12 @@ class layout_itemsetup {
         global $OUTPUT;
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $friendlyname = get_string('userfriendlypluginname', 'surveypro'.$this->type.'_'.$this->plugin);
+        $friendlyname = get_string('userfriendlypluginname', 'surveypro' . $this->type . '_' . $this->plugin);
 
         $iconparams = ['title' => $friendlyname, 'class' => 'icon'];
-        $message = $OUTPUT->pix_icon('icon', $friendlyname, 'surveypro'.$this->type.'_'.$this->plugin, $iconparams);
-        $message .= get_string($this->type, 'mod_surveypro').$labelsep.$friendlyname;
+        $message = $OUTPUT->pix_icon('icon', $friendlyname, 'surveypro' . $this->type . '_' . $this->plugin, $iconparams);
+        $message .= get_string($this->type, 'mod_surveypro') . $labelsep . $friendlyname;
 
         echo $OUTPUT->box($message);
     }
-
 }

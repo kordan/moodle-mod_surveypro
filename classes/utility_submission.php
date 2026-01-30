@@ -33,8 +33,8 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utility_submission {
-
+class utility_submission
+{
     /**
      * @var object Course module object
      */
@@ -56,7 +56,7 @@ class utility_submission {
      * @param object $cm
      * @param object $surveypro
      */
-    public function __construct($cm, $surveypro=null) {
+    public function __construct($cm, $surveypro = null) {
         global $DB;
 
         $this->cm = $cm;
@@ -85,7 +85,7 @@ class utility_submission {
             $whereparams['surveyproid'] = $this->surveypro->id;
         }
 
-        if ( ($status != SURVEYPRO_STATUSCLOSED) && ($status != SURVEYPRO_STATUSINPROGRESS) ) {
+        if (($status != SURVEYPRO_STATUSCLOSED) && ($status != SURVEYPRO_STATUSINPROGRESS)) {
             debugging('Bad parameters passed to submissions_set_status', DEBUG_DEVELOPER);
         }
 
@@ -125,7 +125,7 @@ class utility_submission {
      * @param string $type Optional plugin type
      * @return array $pluginlist;
      */
-    public function get_used_plugin_list($type='') {
+    public function get_used_plugin_list($type = '') {
         global $DB;
 
         $whereparams = [];
@@ -150,7 +150,7 @@ class utility_submission {
      * @param int $userid Optional $userid: the user you want to know his/her groupmates
      * @return Array with the list of groupmates of the user
      */
-    public function get_groupmates($userid=0) {
+    public function get_groupmates($userid = 0) {
         global $COURSE, $USER;
 
         if (empty($userid)) {

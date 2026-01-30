@@ -23,17 +23,15 @@
  */
 
 use mod_surveypro\utility_page;
-
 // Needed only if $section == 'view'.
 use surveyproreport_attachments\groupjumperform;
 use surveyproreport_attachments\report;
-
 // Needed only if $section == 'details'.
 use surveyproreport_attachments\filterform;
 use surveyproreport_attachments\form;
 
-require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->libdir.'/tablelib.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -43,8 +41,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['view', 'details'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 
@@ -189,7 +187,7 @@ if ($section == 'details') {
     $formparams->itemid = $itemid;
     $formparams->userid = $userid;
     $formparams->submissionid = $submissionid;
-    $formparams->container = $userid.'_'.$submissionid;
+    $formparams->container = $userid . '_' . $submissionid;
     $formparams->canaccessreserveditems = $canaccessreserveditems;
     $formparams->canviewhiddenactivities = $canviewhiddenactivities;
     // End of: prepare params for the form.

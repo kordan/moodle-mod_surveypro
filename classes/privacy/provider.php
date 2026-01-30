@@ -38,11 +38,7 @@ use core_privacy\local\request\writer;
  * @copyright  2018 onwards kordan <kordan@mclink.it>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements
-    \core_privacy\local\metadata\provider,
-    \core_privacy\local\request\core_userlist_provider,
-    \core_privacy\local\request\plugin\provider {
-
+class provider implements \core_privacy\local\request\core_userlist_provider, \core_privacy\local\metadata\provider, \core_privacy\local\request\plugin\provider {
     /**
      * Return the fields which contain personal data.
      *
@@ -131,7 +127,7 @@ class provider implements
                     INNER JOIN {surveypro_item} si ON si.surveyproid = s.id
                     INNER JOIN {surveypro_submission} ss ON ss.surveyproid = s.id
                     INNER JOIN {surveypro_answer} sa ON sa.submissionid = ss.id AND sa.itemid = si.id
-                WHERE c.id '.$contextsql.'
+                WHERE c.id ' . $contextsql . '
                      AND ss.userid = :userid
                      AND si.type = :type
                 ORDER BY cmid, submissionid, answerid';
@@ -205,21 +201,21 @@ class provider implements
         // Store the current answer in $surveyprodata.
         $submissionid = $surveyproanswer->submissionid;
 
-        if (!isset($surveyprodata['submissions']['submission_'.$submissionid])) {
+        if (!isset($surveyprodata['submissions']['submission_' . $submissionid])) {
             $timecreated = \core_privacy\local\request\transform::datetime($surveyproanswer->timecreated);
             if ($surveyproanswer->timemodified) {
                 $timemodified = \core_privacy\local\request\transform::datetime($surveyproanswer->timemodified);
             } else {
                 $timemodified = 'never';
             }
-            $surveyprodata['submissions']['submission_'.$submissionid] = [
+            $surveyprodata['submissions']['submission_' . $submissionid] = [
                 'items' => [],
                 'timecreated' => $timecreated,
                 'timemodified' => $timemodified,
             ];
         }
         $itemanswer = ['content' => $itemcontent, 'answer' => $surveyproanswer->answer];
-        $surveyprodata['submissions']['submission_'.$submissionid]['items']['item_'.$surveyproanswer->itemid] = $itemanswer;
+        $surveyprodata['submissions']['submission_' . $submissionid]['items']['item_' . $surveyproanswer->itemid] = $itemanswer;
 
         // Store the current attachment.
         if ($surveyproanswer->plugin == 'fileupload') {
@@ -237,7 +233,7 @@ class provider implements
     protected static function export_get_itemcontent($surveyproanswer) {
         global $DB;
 
-        $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$surveyproanswer->plugin;
+        $tablename = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $surveyproanswer->plugin;
         $itemid = $surveyproanswer->itemid;
         $params = ['itemid' => $itemid];
         $plugin = $DB->get_record($tablename, $params);
@@ -425,7 +421,6 @@ class provider implements
 
         // Delete submissions listed in $submissions.
         $DB->delete_records_list('surveypro_submission', 'id', $submissions);
-
     }
 
     /**

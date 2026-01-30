@@ -31,8 +31,8 @@ namespace mod_surveypro\event;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_module_viewed extends \core\event\course_module_viewed {
-
+class course_module_viewed extends \core\event\course_module_viewed
+{
     /**
      * Set basic properties for the event
      */

@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use core_text;
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/numeric/lib.php');
 
 /**
  * Class to manage each aspect of the numeric item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/numeric/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -354,7 +354,7 @@ class item extends itembase {
             if ($condition) {
                 $return = $this->get_international_number($this->{$field});
             } else {
-                $method = 'get_'.$field;
+                $method = 'get_' . $field;
                 $return = $this->{$method}();
             }
         } else {
@@ -402,7 +402,7 @@ class item extends itembase {
      * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_numeric'] = [];
 
@@ -455,8 +455,8 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_numeric_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_numeric_' . $this->sortindex;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid;
@@ -466,7 +466,7 @@ EOS;
 
         if (!$searchformelementscount) {
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
             $mform->setType($basename, PARAM_RAW); // See: moodlelib.php lines 133+.
 
             if ($this->required) {
@@ -474,7 +474,7 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
         } else {
@@ -482,13 +482,13 @@ EOS;
             $mform->setType($basename, PARAM_RAW);
 
             if ($searchformelementscount > 1) {
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                $attributes['id'] = $baseid . '_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
             }
 
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
             if ($searchformelementscount > 1) {
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
+                $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
             }
         }
 
@@ -499,11 +499,10 @@ EOS;
             }
         } else {
             if ($searchformelementscount > 1) {
-                $mform->setDefault($basename.'_ignoreme', '1');
+                $mform->setDefault($basename . '_ignoreme', '1');
             }
         }
         // End of: defaults.
-
     }
 
     /**
@@ -519,7 +518,7 @@ EOS;
             return $errors;
         }
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         $draftuserinput = $data[$this->itemname];
         if (!core_text::strlen($draftuserinput)) {
@@ -552,7 +551,7 @@ EOS;
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
-            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+            if (($userinput < $this->lowerbound) || ($userinput > $this->upperbound)) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_numeric');
             }
 

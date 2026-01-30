@@ -34,8 +34,8 @@ use mod_surveypro\local\form\submissions_importform;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tools_import {
-
+class tools_import
+{
     /**
      * @var object Course module object
      */
@@ -168,7 +168,7 @@ class tools_import {
         if ($intersection = array_intersect($foundheaders, $variablenames)) {
             $error = new \stdClass();
             $error->key = 'import_attachmentsnotallowed';
-            $error->a = '<ul><li>'.implode(';</li><li>', $intersection).'.</li></ul>';
+            $error->a = '<ul><li>' . implode(';</li><li>', $intersection) . '.</li></ul>';
 
             return $error;
         } else {
@@ -186,7 +186,7 @@ class tools_import {
         if (count($nonmatchingheaders)) {
             $error = new \stdClass();
             $error->key = 'import_extraheaderfound';
-            $error->a = '<ul><li>'.implode(';</li><li>', $nonmatchingheaders).'.</li></ul>';
+            $error->a = '<ul><li>' . implode(';</li><li>', $nonmatchingheaders) . '.</li></ul>';
 
             return $error;
         } else {
@@ -221,7 +221,7 @@ class tools_import {
         if (!empty($orphansheader)) {
             $error = new \stdClass();
             $error->key = 'import_orphanchild';
-            $error->a = '<ul><li>'.implode(';</li><li>', $orphansheader).'</li></ul>';
+            $error->a = '<ul><li>' . implode(';</li><li>', $orphansheader) . '</li></ul>';
 
             return $error;
         }
@@ -410,7 +410,7 @@ class tools_import {
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
                     $error->a->csvcol = $col;
-                    $error->a->bounds = '0..'.$itemoptionscount;
+                    $error->a->bounds = '0..' . $itemoptionscount;
                     $error->a->prettywarning = get_string('import_prettywarning', 'mod_surveypro');
 
                     return $error;
@@ -426,7 +426,7 @@ class tools_import {
                         $error->a->plugin = $itemhelper->plugin;
                         $error->a->content = $itemhelper->content;
                         $error->a->csvcol = $col;
-                        $error->a->bounds = '0..'.$itemoptionscount;
+                        $error->a->bounds = '0..' . $itemoptionscount;
                         $error->a->prettywarning = get_string('import_prettywarning', 'mod_surveypro');
 
                         return $error;
@@ -439,7 +439,7 @@ class tools_import {
                     $error->a->plugin = $itemhelper->plugin;
                     $error->a->content = $itemhelper->content;
                     $error->a->csvcol = $col;
-                    $error->a->bounds = '0..'.$itemoptionscount;
+                    $error->a->bounds = '0..' . $itemoptionscount;
                     $error->a->prettywarning = get_string('import_prettywarning', 'mod_surveypro');
 
                     return $error;
@@ -466,7 +466,7 @@ class tools_import {
                 $sql = 'SELECT userid, COUNT(\'x\')
                         FROM {surveypro_submission}
                         WHERE surveyproid = :surveyproid
-                          AND userid '.$insql.'
+                          AND userid ' . $insql . '
                         GROUP BY userid';
                 $oldsubmissionsperuser = $DB->get_records_sql_menu($sql, $inparams);
 
@@ -511,14 +511,14 @@ class tools_import {
 
         $whereparams = ['surveyproid' => $this->surveypro->id];
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
+            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin . '\item';
             $usesmandatoryattribute = $classname::has_mandatoryattribute();
 
-            $tablename = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $tablename = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin;
             $fieldname = ($usesmandatoryattribute) ? ', p.required' : '';
-            $sql = 'SELECT p.itemid, p.variable'.$fieldname.'
+            $sql = 'SELECT p.itemid, p.variable' . $fieldname . '
                     FROM {surveypro_item} i
-                      JOIN {'.$tablename.'} p ON p.itemid = i.id
+                      JOIN {' . $tablename . '} p ON p.itemid = i.id
                     WHERE i.surveyproid = :surveyproid
                     ORDER BY p.itemid';
             $itemvars = $DB->get_records_sql($sql, $whereparams);
@@ -526,7 +526,7 @@ class tools_import {
             foreach ($itemvars as $itemvar) {
                 $surveyheaders[$itemvar->itemid] = $itemvar->variable;
                 if ($classname::response_uses_format()) {
-                    $surveyheaders[$itemvar->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $itemvar->variable.SURVEYPRO_IMPFORMATSUFFIX;
+                    $surveyheaders[$itemvar->itemid . SURVEYPRO_IMPFORMATSUFFIX] = $itemvar->variable . SURVEYPRO_IMPFORMATSUFFIX;
                 }
                 if ($usesmandatoryattribute) {
                     if ($itemvar->required > 0) {
@@ -606,7 +606,7 @@ class tools_import {
                     continue;
                 }
             } else {
-                if (!preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $foundheader)) {
+                if (!preg_match('/' . SURVEYPRO_IMPFORMATSUFFIX . '$/', $foundheader)) {
                     $nonmatchingheaders[] = (string)$foundheader;
                 }
             }
@@ -623,7 +623,7 @@ class tools_import {
     public function buil_item_helpers() {
         $optionscountpercol = []; // Elements only for items saving position to db.
         foreach ($this->columntoitemid as $col => $itemid) {
-            if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
+            if (preg_match('/' . SURVEYPRO_IMPFORMATSUFFIX . '$/', $itemid)) {
                 continue;
             }
 
@@ -657,7 +657,7 @@ class tools_import {
             $itemhelper->parentid = $item->get_parentid();
             $itemhelper->parentvalue = $item->get_parentvalue();
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemhelper->plugin.'\item';
+            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $itemhelper->plugin . '\item';
             $itemhelper->usescontentformat = $classname::response_uses_format();
             $this->itemhelperinfo[$col] = $itemhelper;
 
@@ -687,8 +687,8 @@ class tools_import {
         $csvcontent = $this->get_csv_content();
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
-            echo '$iid = '.$iid;
+            echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
+            echo '$iid = ' . $iid;
             echo \html_writer::end_tag('pre');
 
             echo \html_writer::start_tag('pre');
@@ -697,7 +697,7 @@ class tools_import {
             echo \html_writer::end_tag('pre');
 
             echo \html_writer::start_tag('pre');
-            echo '$csvcontent = '.$csvcontent;
+            echo '$csvcontent = ' . $csvcontent;
             echo \html_writer::end_tag('pre');
         }
 
@@ -738,7 +738,7 @@ class tools_import {
         [$surveyheaders, $requireditems] = $this->get_survey_infos();
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+            echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
             echo '$surveyheaders:';
             var_dump($surveyheaders);
             echo \html_writer::end_tag('pre');
@@ -765,7 +765,7 @@ class tools_import {
         $nonmatchingheaders = $this->get_columntoitemid($foundheaders, $surveyheaders);
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+            echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
             echo '$this->columntoitemid:';
             var_dump($this->columntoitemid);
             echo \html_writer::end_tag('pre');
@@ -798,7 +798,7 @@ class tools_import {
 
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+            echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
             echo '$this->itemhelperinfo:';
             var_dump($this->itemhelperinfo);
             echo \html_writer::end_tag('pre');
@@ -863,18 +863,18 @@ class tools_import {
                     }
 
                     $itemid = $this->columntoitemid[$col];
-                    if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
+                    if (preg_match('/' . SURVEYPRO_IMPFORMATSUFFIX . '$/', $itemid)) {
                         // TODO: format should be verified too.
                         continue;
                     }
 
-                    $message = 'Missing itemhelper for item ID = '.$this->columntoitemid[$col].' found in column: '.$col;
-                    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $message = 'Missing itemhelper for item ID = ' . $this->columntoitemid[$col] . ' found in column: ' . $col;
+                    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
                 } else {
                     $itemhelper = $this->itemhelperinfo[$col]; // The itemhelperinfo of the item in column = $col.
                     if ($debug) {
                         echo \html_writer::start_tag('pre');
-                        echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+                        echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
                         echo '$itemhelper:';
                         var_dump($itemhelper);
                         echo \html_writer::end_tag('pre');
@@ -936,7 +936,7 @@ class tools_import {
         $debug = false;
         if ($debug) {
             echo \html_writer::start_tag('pre');
-            echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+            echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
             echo 'I start the import';
             echo \html_writer::end_tag('pre');
         }
@@ -944,7 +944,7 @@ class tools_import {
         // Create helper $contentformattocol.
         $contentformattocol = [];
         foreach ($this->columntoitemid as $col => $itemid) {
-            if (preg_match('/'.SURVEYPRO_IMPFORMATSUFFIX.'$/', $itemid)) {
+            if (preg_match('/' . SURVEYPRO_IMPFORMATSUFFIX . '$/', $itemid)) {
                 $contentformattocol[$itemid] = $col;
             }
         }
@@ -980,8 +980,8 @@ class tools_import {
         while ($csvrow = $this->cir->next()) {
             if ($debug) {
                 echo \html_writer::start_tag('pre');
-                echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
-                echo '$csvrow = '.implode(', ', $csvrow);
+                echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
+                echo '$csvrow = ' . implode(', ', $csvrow);
                 echo \html_writer::end_tag('pre');
             }
 
@@ -1048,8 +1048,8 @@ class tools_import {
                 $record->content = $content;
                 $itemhelper = $this->itemhelperinfo[$col];
                 if ($itemhelper->usescontentformat) {
-                    if (isset($contentformattocol[$itemid.SURVEYPRO_IMPFORMATSUFFIX])) {
-                        $formatcol = $contentformattocol[$itemid.SURVEYPRO_IMPFORMATSUFFIX];
+                    if (isset($contentformattocol[$itemid . SURVEYPRO_IMPFORMATSUFFIX])) {
+                        $formatcol = $contentformattocol[$itemid . SURVEYPRO_IMPFORMATSUFFIX];
                         $record->contentformat = $csvrow[$formatcol];
                     } else {
                         // Content format should always be provided.
@@ -1061,7 +1061,7 @@ class tools_import {
                 $record->verified = 1;
                 if ($debug) {
                     echo \html_writer::start_tag('pre');
-                    echo 'I am at the line '.__LINE__.' of the file '.__FILE__.'<br>';
+                    echo 'I am at the line ' . __LINE__ . ' of the file ' . __FILE__ . '<br>';
                     echo 'I am going to save to surveypro_answer:<br>';
                     echo '$record:';
                     var_dump($record);

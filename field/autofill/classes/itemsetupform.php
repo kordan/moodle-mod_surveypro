@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/autofill/lib.php');
 
 /**
  * The class representing the plugin form
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -60,18 +60,18 @@ class itemsetupform extends item_setupbaseform {
         $options = surveypro_autofill_get_elements($surveyproid);
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            $fieldname = 'element'.$index;
+            $fieldname = 'element' . $index;
 
             $elementgroup = [];
-            $elementgroup[] = $mform->createElement('selectgroups', $fieldname.'select', '', $options);
-            $elementgroup[] = $mform->createElement('text', $fieldname.'text', '');
-            $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_autofill'), ' ', false);
-            $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
+            $elementgroup[] = $mform->createElement('selectgroups', $fieldname . 'select', '', $options);
+            $elementgroup[] = $mform->createElement('text', $fieldname . 'text', '');
+            $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_autofill'), ' ', false);
+            $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT' . SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
 
-            $mform->disabledIf($fieldname.'text', $fieldname.'select', 'neq', constant($constantname));
+            $mform->disabledIf($fieldname . 'text', $fieldname . 'select', 'neq', constant($constantname));
 
-            $mform->addHelpButton($fieldname.'_group', 'contentelement_group', 'surveyprofield_autofill');
-            $mform->setType($fieldname.'text', PARAM_TEXT);
+            $mform->addHelpButton($fieldname . '_group', 'contentelement_group', 'surveyprofield_autofill');
+            $mform->setType($fieldname . 'text', PARAM_TEXT);
         }
         $mform->addRule('element01_group', get_string('required'), 'required', null, 'client');
 
@@ -97,12 +97,12 @@ class itemsetupform extends item_setupbaseform {
 
         $errors = parent::validation($data, $files);
 
-        $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
+        $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT' . SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            $fieldname = 'element'.$index;
-            if ( ($data[$fieldname.'select'] == constant($constantname)) && (!$data[$fieldname.'text']) ) {
-                $errors[$fieldname.'_group'] = get_string('ierr_contenttext', 'surveyprofield_autofill');
+            $fieldname = 'element' . $index;
+            if (($data[$fieldname . 'select'] == constant($constantname)) && (!$data[$fieldname . 'text'])) {
+                $errors[$fieldname . '_group'] = get_string('ierr_contenttext', 'surveyprofield_autofill');
             }
         }
 

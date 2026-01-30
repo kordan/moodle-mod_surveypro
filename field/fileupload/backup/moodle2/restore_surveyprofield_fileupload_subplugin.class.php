@@ -33,8 +33,8 @@
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
-
+class restore_surveyprofield_fileupload_subplugin extends restore_subplugin
+{
     /**
      * Define new path for subplugin at item level
      */
@@ -43,7 +43,7 @@ class restore_surveyprofield_fileupload_subplugin extends restore_subplugin {
 
         $elename = $this->get_namefor();
         $elepath = $this->get_pathfor($elename);
-        $paths[] = new restore_path_element($elename.'_item', $elepath);
+        $paths[] = new restore_path_element($elename . '_item', $elepath);
 
         return $paths; // And we return the interesting paths.
     }

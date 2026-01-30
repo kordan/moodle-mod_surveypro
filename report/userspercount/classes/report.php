@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
 
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * The class to manage userspercount report
@@ -37,8 +37,8 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var flexible_table $outputtable
      */
@@ -154,7 +154,7 @@ class report extends reportbase {
         $subquery = 'SELECT s.userid, COUNT(s.userid) as userresponses
                 FROM {surveypro_submission} s
                     JOIN {user} u ON u.id = s.userid
-                    '.$middlesql;
+                    ' . $middlesql;
         if ($this->onlypersonaldata) {
             $subquery .= ' AND s.userid = :userid';
             $whereparams['userid'] = $USER->id;
@@ -162,11 +162,11 @@ class report extends reportbase {
         $subquery .= ' GROUP BY s.userid';
 
         $sql = 'SELECT userresponses, count(userresponses) as usercount
-                FROM ('.$subquery.') as rpu
+                FROM (' . $subquery . ') as rpu
                 GROUP BY userresponses';
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY ' . $this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY u.lastname ASC';
         }

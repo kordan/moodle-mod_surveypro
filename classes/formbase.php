@@ -33,8 +33,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class formbase {
-
+class formbase
+{
     /**
      * @var object Course module object
      */
@@ -160,7 +160,7 @@ class formbase {
      * @param int $startingpage
      * @return void
      */
-    public function next_not_empty_page($rightdirection, $startingpage=null) {
+    public function next_not_empty_page($rightdirection, $startingpage = null) {
         if ($startingpage === null) {
             $startingpage = $this->get_formpage();
         }
@@ -219,7 +219,12 @@ class formbase {
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
         [$where, $params] = surveypro_fetch_items_seeds(
-            $this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage
+            $this->surveypro->id,
+            true,
+            $canaccessreserveditems,
+            null,
+            null,
+            $formpage
         );
         // Here I can not use get_recordset_select because I could browse returned records twice.
         $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', 'id, parentid, parentvalue');
@@ -325,13 +330,13 @@ class formbase {
             $a->formpage = $this->formpage;
             $a->userformpagecount = $this->userformpagecount;
 
-            if ( ($this->userfirstpage > 1) || ($this->userlastpage < $this->userformpagecount) ) {
+            if (($this->userfirstpage > 1) || ($this->userlastpage < $this->userformpagecount)) {
                 $unaccesiblepagesnote = get_string('unaccesiblepages_note', 'mod_surveypro');
             } else {
                 $unaccesiblepagesnote = '';
             }
 
-            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a).' '.$unaccesiblepagesnote);
+            echo $OUTPUT->heading(get_string('pagexofy', 'mod_surveypro', $a) . ' ' . $unaccesiblepagesnote);
         }
     }
 
@@ -343,7 +348,7 @@ class formbase {
     public function warning_submission_copy() {
         global $OUTPUT;
 
-        if ( (!empty($this->surveypro->history)) && (!empty($this->submissionid)) ) {
+        if ((!empty($this->surveypro->history)) && (!empty($this->submissionid))) {
             echo $OUTPUT->notification(get_string('editingcopy', 'mod_surveypro'), 'notifysuccess');
         }
     }

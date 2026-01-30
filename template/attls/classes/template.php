@@ -26,7 +26,7 @@ namespace surveyprotemplate_attls;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/template/attls/lib.php');
 
 /**
  * The class to manage attls template
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/mod/surveypro/template/attls/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class template {
-
+class template
+{
     /**
      * Apply template settings.
      *

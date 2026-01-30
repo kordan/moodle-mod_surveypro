@@ -35,8 +35,8 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_responselist {
-
+class view_responselist
+{
     /**
      * @var object Course module object
      */
@@ -218,12 +218,12 @@ class view_responselist {
         [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
-                FROM ('.$enrolsql.') eu';
+                FROM (' . $enrolsql . ') eu';
         // If there are not enrolled users, give up!
         if (!$DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) { // If you are not an admin like.
                 // Prepare an empty SQL to return if conditions force it.
-                $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid'.$userfieldsapi->selects.'
+                $emptysql = 'SELECT DISTINCT s.*, s.id as submissionid' . $userfieldsapi->selects . '
                              FROM {surveypro_submission} s
                                  JOIN {user} u ON u.id = s.userid
                              WHERE u.id = :userid';
@@ -262,7 +262,7 @@ class view_responselist {
         if ($canviewhiddenactivities) { // You are a student so make the selection among enrolled users only.
             $whereparams = [];
         } else {
-            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+            $sql .= ' JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
             $whereparams = $eparams;
         }
 
@@ -272,7 +272,7 @@ class view_responselist {
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
+            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid)
               FROM {surveypro_answer} a';
 
             // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
@@ -280,20 +280,21 @@ class view_responselist {
             $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
+                $classname = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin . '\item';
                 // Ask to the item class how to write the query.
                 [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
-                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
-                $whereparams['content_'.$itemid] = $whereparam;
+                $userquery[] = '(a.itemid = ' . $itemid . ' AND ' . $whereclause . ')';
+                $whereparams['content_' . $itemid] = $whereparam;
             }
-            $sqlanswer .= ' WHERE ('.implode(' OR ', $userquery).')';
-
+            $sqlanswer .= ' WHERE (' . implode(' OR ', $userquery) . ')';
             $sqlanswer .= ' GROUP BY a.submissionid';
-            $sqlanswer .= ' HAVING matchcount = :matchcount';
+            // HAVING clause 'HAVING matchcount = :matchcount' is not correct for pgsql.
+            // Because of this, instead of using ' HAVING matchcount = :matchcount' I use:
+            $sqlanswer .= ' HAVING COUNT(a.submissionid) = :matchcount';
             $whereparams['matchcount'] = count($userquery);
 
             // Finally, continue writing $sql.
-            $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = ss.id';
+            $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = ss.id';
         }
 
         $debug = false;
@@ -315,14 +316,14 @@ class view_responselist {
             }
             echo '$mygroups =';
             // Note: print_object($mygroups); // <-- This is better than var_dump but codechecker doesn't like it.
-            echo '<br>count($mygroups) = '.count($mygroups).'<br>';
+            echo '<br>count($mygroups) = ' . count($mygroups) . '<br>';
         }
 
         if (count($mygroups)) { // User is, at least, in a group.
             if ($canseeotherssubmissions && (!$canaccessallgroups)) {
                 $sql .= ' JOIN (SELECT DISTINCT gm.userid
                                 FROM {groups_members} gm
-                                WHERE gm.groupid '.$ingroupsql.') gr ON gr.userid = u.id';
+                                WHERE gm.groupid ' . $ingroupsql . ') gr ON gr.userid = u.id';
                 $whereparams = array_merge($whereparams, $groupsparams);
             }
         }
@@ -339,13 +340,13 @@ class view_responselist {
         // Manage table alphabetical filter.
         [$wherefilter, $wherefilterparams] = $table->get_sql_where();
         if ($wherefilter) {
-            $sql .= ' AND '.$wherefilter;
+            $sql .= ' AND ' . $wherefilter;
             $whereparams = $whereparams + $wherefilterparams;
         }
 
         if ($table->get_sql_sort()) {
             // Sort coming from $table->get_sql_sort().
-            $sql .= ' ORDER BY '.$table->get_sql_sort();
+            $sql .= ' ORDER BY ' . $table->get_sql_sort();
         } else {
             $sql .= ' ORDER BY ss.timecreated';
         }
@@ -354,9 +355,9 @@ class view_responselist {
         if ($debug) {
             global $CFG;
 
-            $sql2display = preg_replace('~{([a-z_]*)}~', $CFG->prefix.'\1', $sql);
+            $sql2display = preg_replace('~{([a-z_]*)}~', $CFG->prefix . '\1', $sql);
             $sql2display = str_replace('JOIN', '<br>&nbsp;&nbsp;&nbsp;&nbsp;JOIN', $sql2display);
-            echo '$sql2display = '.$sql2display.'<br>';
+            echo '$sql2display = ' . $sql2display . '<br>';
             echo '$whereparams =';
             // Note: print_object($whereparams); // <-- This is better than var_dump but codechecker doesn't like it.
             var_dump($whereparams);
@@ -369,7 +370,7 @@ class view_responselist {
      * Get counters.
      *
      * @param flexible_table $table
-     * @return array of cunters
+     * @return array of counters
      */
     public function get_counter($table) {
         global $DB, $COURSE, $USER;
@@ -381,7 +382,7 @@ class view_responselist {
         [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
 
         $sql = 'SELECT COUNT(eu.id)
-                FROM ('.$enrolsql.') eu';
+                FROM (' . $enrolsql . ') eu';
         // If there are no enrolled people, give up!
         if (!$enrolledusers = $DB->count_records_sql($sql, $eparams)) {
             if (!$canviewhiddenactivities) {
@@ -401,12 +402,12 @@ class view_responselist {
         $whereparams = [];
 
         $sqlselectstart = 's.status, COUNT(DISTINCT(s.id)) submissions, ';
-        $sql = 'SELECT '.$sqlselectstart.'COUNT(DISTINCT(u.id)) users';
+        $sql = 'SELECT ' . $sqlselectstart . 'COUNT(DISTINCT(u.id)) users';
         $sql .= ' FROM {surveypro_submission} s
                   JOIN {user} u ON u.id = s.userid';
 
         if (!$canviewhiddenactivities) { // You are a student so make the selection among enrolled users only.
-            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+            $sql .= ' JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
         }
 
         if ($this->searchquery) {
@@ -415,7 +416,7 @@ class view_responselist {
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid) as matchcount
+            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid)
               FROM {surveypro_answer} a';
 
             // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
@@ -423,20 +424,21 @@ class view_responselist {
             $userquery = [];
             foreach ($searchrestrictions as $itemid => $searchrestriction) {
                 $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin.'\item';
+                $classname = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin . '\item';
                 // Ask to the item class how to write the query.
                 [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
-                $userquery[] = '(a.itemid = '.$itemid.' AND '.$whereclause.')';
-                $whereparams['content_'.$itemid] = $whereparam;
+                $userquery[] = '(a.itemid = ' . $itemid . ' AND ' . $whereclause . ')';
+                $whereparams['content_' . $itemid] = $whereparam;
             }
-            $sqlanswer .= ' WHERE ('.implode(' OR ', $userquery).')';
-
+            $sqlanswer .= ' WHERE (' . implode(' OR ', $userquery) . ')';
             $sqlanswer .= ' GROUP BY a.submissionid';
-            $sqlanswer .= ' HAVING matchcount = :matchcount';
+            // HAVING clause 'HAVING matchcount = :matchcount' is not correct for pgsql.
+            // Because of this, instead of using ' HAVING matchcount = :matchcount' I use:
+            $sqlanswer .= ' HAVING COUNT(a.submissionid) = :matchcount';
             $whereparams['matchcount'] = count($userquery);
 
             // Finally, continue writing $sql.
-            $sql .= ' JOIN ('.$sqlanswer.') a ON a.submissionid = s.id';
+            $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = s.id';
         }
 
         if ($groupmode && (!$canaccessallgroups)) {
@@ -459,7 +461,7 @@ class view_responselist {
         // Manage table alphabetical filter.
         [$wherefilter, $wherefilterparams] = $table->get_sql_where();
         if ($wherefilter) {
-            $sql .= ' AND '.$wherefilter;
+            $sql .= ' AND ' . $wherefilter;
             $whereparams = $whereparams + $wherefilterparams;
         }
 
@@ -469,7 +471,6 @@ class view_responselist {
         if (!$canviewhiddenactivities) {
             $whereparams = array_merge($whereparams, $eparams);
         }
-
         $counters = $DB->get_records_sql($sql, $whereparams);
 
         $counter = [];
@@ -506,13 +507,13 @@ class view_responselist {
     private function get_image_file($fileurl) {
         global $CFG;
 
-        if (strpos($fileurl, $CFG->wwwroot.'/pluginfile.php') === false) {
+        if (strpos($fileurl, $CFG->wwwroot . '/pluginfile.php') === false) {
             return null;
         }
 
         $fs = get_file_storage();
 
-        $params = \core_text::substr($fileurl, \core_text::strlen($CFG->wwwroot.'/pluginfile.php'));
+        $params = \core_text::substr($fileurl, \core_text::strlen($CFG->wwwroot . '/pluginfile.php'));
         if (\core_text::substr($params, 0, 1) == '?') { // Slasharguments off.
             $pos = strpos($params, 'file=');
             $params = \core_text::substr($params, $pos + 5);
@@ -539,7 +540,7 @@ class view_responselist {
         if (empty($params)) {
             $filepath = '/';
         } else {
-            $filepath = '/'.implode('/', $params).'/';
+            $filepath = '/' . implode('/', $params) . '/';
         }
 
         if ($component != 'mod_surveypro') {
@@ -548,7 +549,7 @@ class view_responselist {
 
         if (!$file = $fs->get_file($contextid, $component, $filearea, $itemid, $filepath, $filename)) {
             if ($itemid) {
-                $filepath = '/'.$itemid.$filepath; // See if there was no itemid in the originalPath URL.
+                $filepath = '/' . $itemid . $filepath; // See if there was no itemid in the originalPath URL.
                 $itemid = 0;
                 $file = $fs->get_file($contextid, $component, $filename, $itemid, $filepath, $filename);
             }
@@ -598,14 +599,14 @@ class view_responselist {
         $col23width = $col2width + $col3width;
 
         $twocolstemplate = '<table style="width:100%;"><tr>';
-        $twocolstemplate .= '<td style="width:'.$col1width.'%; text-align:left;">@@col1@@</td>';
-        $twocolstemplate .= '<td style="width:'.$col23width.'%; text-align:left;">@@col2@@</td>';
+        $twocolstemplate .= '<td style="width:' . $col1width . '%; text-align:left;">@@col1@@</td>';
+        $twocolstemplate .= '<td style="width:' . $col23width . '%; text-align:left;">@@col2@@</td>';
         $twocolstemplate .= '</tr></table>';
 
         $threecolstemplate = '<table style="width:100%;"><tr>';
-        $threecolstemplate .= '<td style="width:'.$col1width.'%; text-align:left;">@@col1@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col2width.'%; text-align:left;">@@col2@@</td>';
-        $threecolstemplate .= '<td style="width:'.$col3width.'%; text-align:left;">@@col3@@</td>';
+        $threecolstemplate .= '<td style="width:' . $col1width . '%; text-align:left;">@@col1@@</td>';
+        $threecolstemplate .= '<td style="width:' . $col2width . '%; text-align:left;">@@col2@@</td>';
+        $threecolstemplate .= '<td style="width:' . $col3width . '%; text-align:left;">@@col3@@</td>';
         $threecolstemplate .= '</tr></table>';
 
         return [$twocolstemplate, $threecolstemplate];
@@ -654,7 +655,7 @@ class view_responselist {
     public function display_submissions_table() {
         global $CFG, $OUTPUT, $DB, $COURSE, $USER;
 
-        require_once($CFG->libdir.'/tablelib.php');
+        require_once($CFG->libdir . '/tablelib.php');
 
         $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
@@ -741,14 +742,18 @@ class view_responselist {
         $counter = $this->get_counter($table);
         $table->pagesize(20, $counter['closedsubmissions'] + $counter['inprogresssubmissions']);
 
-        $this->display_submissions_overview($counter['enrolled'], $counter['allusers'],
-                                            $counter['closedsubmissions'], $counter['closedusers'],
-                                            $counter['inprogresssubmissions'], $counter['inprogressusers']);
+        $this->display_submissions_overview(
+            $counter['enrolled'],
+            $counter['allusers'],
+            $counter['closedsubmissions'],
+            $counter['closedusers'],
+            $counter['inprogresssubmissions'],
+            $counter['inprogressusers']
+        );
 
         [$sql, $whereparams] = $this->get_submissions_sql($table);
         $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
         if ($submissions->valid()) {
-
             $iconparams = [];
 
             $nonhistoryeditstr = get_string('edit');
@@ -795,7 +800,7 @@ class view_responselist {
             foreach ($submissions as $submission) {
                 // Count each submission.
                 $tablerowcounter++;
-                $submissionsuffix = 'row_'.$tablerowcounter;
+                $submissionsuffix = 'row_' . $tablerowcounter;
 
                 // Before starting, just set some information.
                 $ismine = ($submission->userid == $USER->id);
@@ -818,7 +823,7 @@ class view_responselist {
                     // User fullname.
                     $paramurl = ['id' => $submission->userid, 'course' => $COURSE->id];
                     $url = new \moodle_url('/user/view.php', $paramurl);
-                    $tablerow[] = '<a href="'.$url->out().'">'.fullname($submission).'</a>';
+                    $tablerow[] = '<a href="' . $url->out() . '">' . fullname($submission) . '</a>';
                 }
 
                 // Surveypro status.
@@ -857,7 +862,7 @@ class view_responselist {
                     $paramurl['section'] = 'responsesubmit';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                    $paramlink = ['id' => 'view_submission_'.$submissionsuffix, 'title' => $readonlyaccessstr];
+                    $paramlink = ['id' => 'view_submission_' . $submissionsuffix, 'title' => $readonlyaccessstr];
                     $icons .= $OUTPUT->action_icon($link, $readonlyicn, null, $paramlink);
                 }
 
@@ -889,12 +894,12 @@ class view_responselist {
                     if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
                         // Here title and alt are ALWAYS $nonhistoryeditstr.
                         $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                        $paramlink = ['id' => 'edit_submission_'.$submissionsuffix, 'title' => $nonhistoryeditstr];
+                        $paramlink = ['id' => 'edit_submission_' . $submissionsuffix, 'title' => $nonhistoryeditstr];
                         $icons .= $OUTPUT->action_icon($link, $nonhistoryediticn, null, $paramlink);
                     } else {
                         // Here title and alt depend from $this->surveypro->history.
                         $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                        $paramlink = ['id' => $linkidprefix.$submissionsuffix, 'title' => $attributestr];
+                        $paramlink = ['id' => $linkidprefix . $submissionsuffix, 'title' => $attributestr];
                         $icons .= $OUTPUT->action_icon($link, $attributeicn, null, $paramlink);
                     }
                 }
@@ -920,7 +925,7 @@ class view_responselist {
                         $paramurl['section'] = 'submissionslist';
 
                         $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                        $paramlink = ['id' => 'duplicate_submission_'.$submissionsuffix, 'title' => $duplicatestr];
+                        $paramlink = ['id' => 'duplicate_submission_' . $submissionsuffix, 'title' => $duplicatestr];
                         $icons .= $OUTPUT->action_icon($link, $duplicateicn, null, $paramlink);
                     }
                 }
@@ -943,7 +948,7 @@ class view_responselist {
                     $paramurl['section'] = 'submissionslist';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                    $paramlink = ['id' => 'delete_submission_'.$submissionsuffix, 'title' => $deletestr];
+                    $paramlink = ['id' => 'delete_submission_' . $submissionsuffix, 'title' => $deletestr];
                     $icons .= $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
                 }
 
@@ -968,7 +973,7 @@ class view_responselist {
                     $paramurl['section'] = 'submissionslist';
 
                     $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                    $paramlink = ['id' => 'pdfdownload_submission_'.$submissionsuffix, 'title' => $downloadpdfstr];
+                    $paramlink = ['id' => 'pdfdownload_submission_' . $submissionsuffix, 'title' => $downloadpdfstr];
                     $icons .= $OUTPUT->action_icon($link, $downloadpdficn, null, $paramlink);
                 }
 
@@ -1073,7 +1078,7 @@ class view_responselist {
             // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
             // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
-            echo \html_writer::tag('div', $OUTPUT->render($addbutton).$OUTPUT->render($deleteallbutton), ['class' => 'buttons']);
+            echo \html_writer::tag('div', $OUTPUT->render($addbutton) . $OUTPUT->render($deleteallbutton), ['class' => 'buttons']);
             echo $OUTPUT->box_end();
         }
     }
@@ -1148,8 +1153,8 @@ class view_responselist {
                 }
                 break;
             default:
-                $message = 'Unexpected $this->action = '.$this->action;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->action = ' . $this->action;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
@@ -1172,8 +1177,8 @@ class view_responselist {
                 $this->all_submission_deletion_feedback();
                 break;
             default:
-                $message = 'Unexpected $this->action = '.$this->action;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->action = ' . $this->action;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
@@ -1230,7 +1235,7 @@ class view_responselist {
 
             echo $OUTPUT->box_start('generalbox centerpara', 'notice');
             echo \html_writer::tag('p', $message);
-            echo \html_writer::tag('div', $OUTPUT->render($onemore).$OUTPUT->render($gotolist), ['class' => 'buttons']);
+            echo \html_writer::tag('div', $OUTPUT->render($onemore) . $OUTPUT->render($gotolist), ['class' => 'buttons']);
             echo $OUTPUT->box_end();
         } else {
             echo $OUTPUT->box($message, 'notice centerpara');
@@ -1438,9 +1443,14 @@ class view_responselist {
      * @param int $inprogressusers
      * @return void
      */
-    public function display_submissions_overview($enrolledusers, $distinctusers,
-                                                 $countclosed, $closedusers,
-                                                 $countinprogress, $inprogressusers) {
+    public function display_submissions_overview(
+        $enrolledusers,
+        $distinctusers,
+        $countclosed,
+        $closedusers,
+        $countinprogress,
+        $inprogressusers
+    ) {
         global $OUTPUT;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
@@ -1691,8 +1701,8 @@ class view_responselist {
         $event = \mod_surveypro\event\submissiontopdf_downloaded::create($eventdata);
         $event->trigger();
 
-        require_once($CFG->libdir.'/tcpdf/tcpdf.php');
-        require_once($CFG->libdir.'/tcpdf/config/tcpdf_config.php');
+        require_once($CFG->libdir . '/tcpdf/tcpdf.php');
+        require_once($CFG->libdir . '/tcpdf/config/tcpdf_config.php');
 
         $submission = $DB->get_record('surveypro_submission', ['id' => $this->submissionid]);
         $user = $DB->get_record('user', ['id' => $submission->userid]);
@@ -1723,7 +1733,7 @@ class view_responselist {
             $html = ($template == SURVEYPRO_2COLUMNSTEMPLATE) ? $twocolstemplate : $threecolstemplate;
 
             // First column.
-            $content = ($item->get_customnumber()) ? $item->get_customnumber().':' : '';
+            $content = ($item->get_customnumber()) ? $item->get_customnumber() . ':' : '';
             $html = str_replace('@@col1@@', $content, $html);
 
             // Second column.
@@ -1748,7 +1758,7 @@ class view_responselist {
             $pdf->writeHTMLCell(0, 0, '', '', $html, $border, 1, 0, true, '', true);
         }
 
-        $filename = $this->surveypro->name.'_'.$this->submissionid.'.pdf';
+        $filename = $this->surveypro->name . '_' . $this->submissionid . '.pdf';
         $pdf->Output($filename, 'D');
         die();
     }
@@ -1796,7 +1806,7 @@ class view_responselist {
     private function replace_http_url($content) {
         global $CFG;
 
-        $regex = '~"('.$CFG->wwwroot.'/pluginfile.php/[^"]*)"~';
+        $regex = '~"(' . $CFG->wwwroot . '/pluginfile.php/[^"]*)"~';
         $regex = addslashes($regex);
         preg_match_all($regex, $content, $httpurls, PREG_SET_ORDER);
 
@@ -1805,7 +1815,7 @@ class view_responselist {
             $fileurl = $httpurl[0];
             if ($file = $this->get_image_file($fileurl)) {
                 $filecontent = $file->get_content();
-                $encodedfilecontent = '@'.base64_encode($filecontent);
+                $encodedfilecontent = '@' . base64_encode($filecontent);
                 $content = str_replace($httpurl[1], $encodedfilecontent, $content);
             }
         }

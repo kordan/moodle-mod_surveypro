@@ -149,7 +149,6 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024022701) {
-
         // Define field content to be dropped from surveyprofield_multiselect.
         $table = new xmldb_table('surveyprofield_multiselect');
         $field1 = new xmldb_field('content');
@@ -162,9 +161,9 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
             // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
-                    SET content = (SELECT f.content FROM {surveyprofield_multiselect} f '.$whereclause.'),
-                        contentformat = (SELECT f.contentformat FROM {surveyprofield_multiselect} f '.$whereclause.')
-                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f '.$whereclause.')';
+                    SET content = (SELECT f.content FROM {surveyprofield_multiselect} f ' . $whereclause . '),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_multiselect} f ' . $whereclause . ')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f ' . $whereclause . ')';
             $DB->execute($sql);
         }
 
@@ -183,7 +182,6 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024032800) {
-
         $table = new xmldb_table('surveyprofield_multiselect');
 
         $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
@@ -198,8 +196,8 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
-                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_multiselect} f '.$whereclause.')
-                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f '.$whereclause.')';
+                        SET ' . $fieldname . ' = (SELECT f.' . $fieldname . ' FROM {surveyprofield_multiselect} f ' . $whereclause . ')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_multiselect} f ' . $whereclause . ')';
                 $DB->execute($sql);
             }
 
@@ -214,7 +212,6 @@ function xmldb_surveyprofield_multiselect_upgrade($oldversion) {
     }
 
     if ($oldversion < 2025062600) {
-
         // Changing the default of field noanswerdefault on table surveyprofield_multiselect to 0.
         $table = new xmldb_table('surveyprofield_multiselect');
         $field = new xmldb_field('noanswerdefault', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, '0', 'defaultvalue');

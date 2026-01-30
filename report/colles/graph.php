@@ -24,9 +24,9 @@
 
 use surveyproreport_colles\report;
 
-require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->libdir.'/graphlib.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->libdir . '/graphlib.php');
+require_once($CFG->dirroot . '/mod/surveypro/report/colles/lib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -132,7 +132,7 @@ if ($type == 'summary') {
 
             // $graph5params (the same as $graph1params except for...).
             $graph1params['colour'] = 'blue';
-            $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph1;
+            $graph1params['legend'] = fullname($USER) . $labelsep . $legendgraph1;
 
             // 5rd graph.
             $graph->y_data['answers3'] = $reportman->studenttrend1;
@@ -141,7 +141,7 @@ if ($type == 'summary') {
             if ($reportman->template == 'collesactualpreferred') {
                 // $graph6params (the same as $graph1params except for...).
                 $graph1params['colour'] = 'orange';
-                $graph1params['legend'] = fullname($USER).$labelsep.$legendgraph2;
+                $graph1params['legend'] = fullname($USER) . $labelsep . $legendgraph2;
 
                 // 6th graph.
                 $graph->y_data['answers4'] = $reportman->studenttrend2;

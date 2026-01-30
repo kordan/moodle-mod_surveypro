@@ -24,11 +24,13 @@
 
 namespace mod_surveypro\plugininfo;
 
-use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
+use core_text,
+
+core\plugininfo\base, core_plugin_manager, moodle_url;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(dirname(__FILE__).'/../../lib.php');
+require_once(dirname(__FILE__) . '/../../lib.php');
 
 /**
  * The mod_surveypro field plugin class.
@@ -37,8 +39,8 @@ require_once(dirname(__FILE__).'/../../lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprofield extends base {
-
+class surveyprofield extends base
+{
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      *
@@ -53,7 +55,7 @@ class surveyprofield extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin;
+            $installed[] = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
@@ -100,7 +102,7 @@ class surveyprofield extends base {
      * @return settings section name
      */
     public function get_settings_section_name() {
-        return $this->type.'_'.$this->name;
+        return $this->type . '_' . $this->name;
     }
 
     /**
@@ -137,6 +139,6 @@ class surveyprofield extends base {
             include_once($this->full_path('settings.php'));
         }
 
-        $adminroot->add($this->type.'plugins', $settings);
+        $adminroot->add($this->type . 'plugins', $settings);
     }
 }

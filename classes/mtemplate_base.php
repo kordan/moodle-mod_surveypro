@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplate_base extends templatebase {
-
+class mtemplate_base extends templatebase
+{
     // MARK other.
 
     /**
@@ -52,8 +52,8 @@ class mtemplate_base extends templatebase {
                 $event = \mod_surveypro\event\mastertemplate_saved::create($eventdata);
                 break;
             default:
-                $message = 'Unexpected $eventname = '.$eventname;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $eventname = ' . $eventname;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         $event->trigger();
     }

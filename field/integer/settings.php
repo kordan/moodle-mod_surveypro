@@ -24,6 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$settings->add(new admin_setting_configtext('surveyprofield_integer/maximuminteger',
+$settings->add(new admin_setting_configtext(
+    'surveyprofield_integer/maximuminteger',
     get_string('maximuminteger', 'surveyprofield_integer'),
-    get_string('maximuminteger_desc', 'surveyprofield_integer'), 255, PARAM_INT));
+    get_string('maximuminteger_desc', 'surveyprofield_integer'),
+    255,
+    PARAM_INT
+));

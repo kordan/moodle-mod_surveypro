@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class generator_test extends \advanced_testcase {
-
+final class generator_test extends \advanced_testcase
+{
     /**
      * Test_create_instance.
      *

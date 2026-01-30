@@ -33,8 +33,8 @@ use core_external\external_api;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_reserved extends \core\output\inplace_editable {
-
+class layout_reserved extends \core\output\inplace_editable
+{
     /**
      * @var sortindex
      * to provide an ID to the toggle image
@@ -66,12 +66,12 @@ class layout_reserved extends \core\output\inplace_editable {
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
             $reservedstr = get_string('reserved_title', 'mod_surveypro');
-            $iconparams = ['id' => 'makeavailable_item_'.$this->sortindex];
+            $iconparams = ['id' => 'makeavailable_item_' . $this->sortindex];
             $this->edithint = $reservedstr;
             $this->displayvalue = $output->pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
         } else {
             $availablestr = get_string('available_title', 'mod_surveypro');
-            $iconparams = ['id' => 'makereserved_item_'.$this->sortindex];
+            $iconparams = ['id' => 'makereserved_item_' . $this->sortindex];
             $this->edithint = $availablestr;
             $this->displayvalue = $output->pix_icon('free', $availablestr, 'surveypro', $iconparams);
         }

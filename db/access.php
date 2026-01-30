@@ -510,4 +510,3 @@ $deprecatedcapabilities = [
         'message' => 'This capability was replaced with mod/surveypro:exportresponses ',
     ],
 ];
-

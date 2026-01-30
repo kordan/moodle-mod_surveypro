@@ -27,8 +27,8 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyproreport_attachments_renderer extends plugin_renderer_base {
-
+class surveyproreport_attachments_renderer extends plugin_renderer_base
+{
     /**
      * Renders the action bar for the view page.
      *

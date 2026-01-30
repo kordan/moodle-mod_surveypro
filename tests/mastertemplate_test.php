@@ -26,8 +26,8 @@ use advanced_testcase;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \mod_surveypro\mastertemplate
  */
-final class mastertemplate_test extends advanced_testcase {
-
+final class mastertemplate_test extends advanced_testcase
+{
     /**
      * Data provider for surveyprotemplate_get_plugin_name_provider()
      *

@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/boolean/lib.php');
 
 /**
  * The class representing the plugin form
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/boolean/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -74,9 +74,9 @@ class itemsetupform extends item_setupbaseform {
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $customdefaultstr, SURVEYPRO_CUSTOMDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_boolean'), ' ', false);
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_boolean'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_boolean');
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_boolean');
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
@@ -108,7 +108,7 @@ class itemsetupform extends item_setupbaseform {
         $errors = parent::validation($data, $files);
 
         // Editing teacher can not set "noanswer" as default option if the item is mandatory.
-        if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
+        if (($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required'])) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }

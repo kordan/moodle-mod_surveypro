@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/shortdate/lib.php');
 
 /**
  * The class representing the plugin form
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -77,19 +77,19 @@ class itemsetupform extends item_setupbaseform {
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $invitedefaultstr, SURVEYPRO_INVITEDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $likelaststr, SURVEYPRO_LIKELASTDEFAULT);
         $elementgroup[] = $mform->createElement('radio', $fieldname, '', $noanswerstr, SURVEYPRO_NOANSWERDEFAULT);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
         $mform->setDefault($fieldname, SURVEYPRO_INVITEDEFAULT);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_shortdate');
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_shortdate');
 
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
-        $mform->addGroup($elementgroup, $fieldname.'_group', null, ' ', false);
-        $mform->disabledIf($fieldname.'_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
-        $mform->setDefault($fieldname.'month', '1');
-        $mform->setDefault($fieldname.'year', $startyear);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        $mform->addGroup($elementgroup, $fieldname . '_group', null, ' ', false);
+        $mform->disabledIf($fieldname . '_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
+        $mform->setDefault($fieldname . 'month', '1');
+        $mform->setDefault($fieldname . 'year', $startyear);
 
         // Item: downloadformat.
         $fieldname = 'downloadformat';
@@ -105,22 +105,22 @@ class itemsetupform extends item_setupbaseform {
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_shortdate');
-        $mform->setDefault($fieldname.'month', '1');
-        $mform->setDefault($fieldname.'year', $startyear);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_shortdate');
+        $mform->setDefault($fieldname . 'month', '1');
+        $mform->setDefault($fieldname . 'year', $startyear);
 
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname.'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname.'year', '', $years);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveyprofield_shortdate');
-        $mform->setDefault($fieldname.'month', '12');
-        $mform->setDefault($fieldname.'year', $stopyear);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_shortdate');
+        $mform->setDefault($fieldname . 'month', '12');
+        $mform->setDefault($fieldname . 'year', $stopyear);
 
         $this->add_item_buttons();
     }
@@ -152,13 +152,13 @@ class itemsetupform extends item_setupbaseform {
             $defaultvalue = $item->item_shortdate_to_unix_time($data['defaultvaluemonth'], $data['defaultvalueyear']);
 
             // Internal range.
-            if ( ($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound) ) {
+            if (($defaultvalue < $lowerbound) || ($defaultvalue > $upperbound)) {
                 $errors['defaultvalue_group'] = get_string('ierr_outofrangedefault', 'surveyprofield_shortdate');
             }
         }
 
         // Editing teacher can not set "noanswer" as default option if the item is mandatory.
-        if ( ($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required']) ) {
+        if (($data['defaultoption'] == SURVEYPRO_NOANSWERDEFAULT) && isset($data['required'])) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultoption_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/fileupload/lib.php');
 
 /**
  * Class to manage each aspect of the fileupload item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -254,7 +254,7 @@ class item extends itembase {
      * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_fileupload'] = [];
 
@@ -307,8 +307,8 @@ EOS;
         if (self::$useinline) {
             $attributes = [];
             $elementgroup = [];
-            $class = ['class' => 'indent-'.$this->indent];
-            $baseid = 'id_field_fileupload_'.$this->sortindex;
+            $class = ['class' => 'indent-' . $this->indent];
+            $baseid = 'id_field_fileupload_' . $this->sortindex;
             $basename = $this->itemname;
 
             $filetypes = array_map('trim', explode(',', $this->filetypes));
@@ -319,27 +319,27 @@ EOS;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
 
-            $elementgroup[] = $mform->createElement('filemanager', $basename.'_filemanager', $elementlabel, null, $attributes);
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+            $elementgroup[] = $mform->createElement('filemanager', $basename . '_filemanager', $elementlabel, null, $attributes);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
 
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
         } else {
-            $fieldname = $this->itemname.'_filemanager';
+            $fieldname = $this->itemname . '_filemanager';
 
-            $idprefix = 'id_surveypro_field_fileupload_'.$this->sortindex;
+            $idprefix = 'id_surveypro_field_fileupload_' . $this->sortindex;
 
             $filetypes = array_map('trim', explode(',', $this->filetypes));
 
             $attributes = [];
             $attributes['id'] = $idprefix;
-            $attributes['class'] = 'indent-'.$this->indent.' fileupload_filemanager'; // Does not work: MDL-28194.
+            $attributes['class'] = 'indent-' . $this->indent . ' fileupload_filemanager'; // Does not work: MDL-28194.
             $attributes['maxbytes'] = $this->maxbytes;
             $attributes['accepted_types'] = $filetypes;
             $attributes['subdirs'] = false;
@@ -351,7 +351,7 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $fieldname.'_extrarow' : $fieldname;
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $fieldname . '_extrarow' : $fieldname;
                 $mform->_required[] = $starplace;
             }
         }
@@ -371,14 +371,14 @@ EOS;
         }
 
         if ($this->required) {
-            $fieldname = $this->itemname.'_filemanager';
+            $fieldname = $this->itemname . '_filemanager';
             $draftitemid = $data[$fieldname];
 
             if (!$this->has_files_in_draft_area($draftitemid)) {
                 if (self::$useinline) {
-                    $errors[$this->itemname.'_group'] = get_string('required');
+                    $errors[$this->itemname . '_group'] = get_string('required');
                 } else {
-                    $errors[$this->itemname.'_filemanager'] = get_string('required');
+                    $errors[$this->itemname . '_filemanager'] = get_string('required');
                 }
             }
         }
@@ -433,8 +433,12 @@ EOS;
             $attributes['subdirs'] = false;
             $attributes['maxfiles'] = $this->maxfiles;
             file_save_draft_area_files(
-                $answer['filemanager'], $context->id, 'surveyprofield_fileupload',
-                'fileuploadfiles', $olduseranswer->id, $attributes
+                $answer['filemanager'],
+                $context->id,
+                'surveyprofield_fileupload',
+                'fileuploadfiles',
+                $olduseranswer->id,
+                $attributes
             );
 
             $olduseranswer->content = ''; // Nothing is expected here.
@@ -455,7 +459,7 @@ EOS;
         }
 
         $context = \context_module::instance($this->cm->id);
-        $fieldname = $this->itemname.'_filemanager';
+        $fieldname = $this->itemname . '_filemanager';
 
         $draftitemid = file_get_submitted_draft_itemid('surveyprofield_fileupload'); // ????
         $attributes = [];
@@ -479,7 +483,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         $context = \context_module::instance($this->cm->id);
 
         $fs = get_file_storage();
@@ -501,6 +505,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return [$this->itemname.'_filemanager'];
+        return [$this->itemname . '_filemanager'];
     }
 }

@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_branchingvalidation {
-
+class layout_branchingvalidation
+{
     /**
      * @var object Course module object
      */
@@ -69,7 +69,7 @@ class layout_branchingvalidation {
     public function display_relations_table() {
         global $CFG, $DB, $OUTPUT;
 
-        require_once($CFG->libdir.'/tablelib.php');
+        require_once($CFG->libdir . '/tablelib.php');
 
         $statusstr = get_string('relation_status', 'mod_surveypro');
         $table = new \flexible_table('relations');
@@ -172,7 +172,7 @@ class layout_branchingvalidation {
             $tablerow = [];
 
             // Plugin.
-            $component = 'surveypro'.$item->get_type().'_'.$item->get_plugin();
+            $component = 'surveypro' . $item->get_type() . '_' . $item->get_plugin();
             $alt = get_string('pluginname', $component);
             $iconparams = ['title' => $alt, 'class' => 'icon'];
             $content = $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
@@ -254,7 +254,7 @@ class layout_branchingvalidation {
             $paramurl['mode'] = SURVEYPRO_NEWITEM;
 
             $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            $paramlink = ['id' => 'edit_'.$item->get_itemid(), 'title' => $editstr];
+            $paramlink = ['id' => 'edit_' . $item->get_itemid(), 'title' => $editstr];
             $icons = $OUTPUT->action_icon($link, $editicn, null, $paramlink);
 
             $tablerow[] = $icons;

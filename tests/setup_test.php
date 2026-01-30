@@ -29,8 +29,8 @@
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-final class setup_test extends advanced_testcase {
-
+final class setup_test extends advanced_testcase
+{
     /**
      * Test that all the global settings are stored properly and with expected defaults.
      *

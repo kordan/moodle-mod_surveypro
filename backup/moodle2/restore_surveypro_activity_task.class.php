@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/backup/moodle2/restore_surveypro_stepslib.php'); // Because it exists (must).
+require_once($CFG->dirroot . '/mod/surveypro/backup/moodle2/restore_surveypro_stepslib.php'); // Because it exists (must).
 
 /**
  * surveypro restore task that provides all the settings and steps to perform one complete restore of the activity
@@ -34,8 +34,8 @@ require_once($CFG->dirroot.'/mod/surveypro/backup/moodle2/restore_surveypro_step
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class restore_surveypro_activity_task extends restore_activity_task {
-
+class restore_surveypro_activity_task extends restore_activity_task
+{
     /**
      * Define (add) particular settings this activity can have
      *
@@ -116,8 +116,15 @@ class restore_surveypro_activity_task extends restore_activity_task {
         $rules = [];
 
         // Fix old wrong uses (missing extension).
-        $rules[] = new restore_log_rule('surveypro', 'view all', 'index?id={course}', null,
-                                        null, null, 'index.php?id={course}');
+        $rules[] = new restore_log_rule(
+            'surveypro',
+            'view all',
+            'index?id={course}',
+            null,
+            null,
+            null,
+            'index.php?id={course}'
+        );
         $rules[] = new restore_log_rule('surveypro', 'view all', 'index.php?id={course}', null);
 
         return $rules;

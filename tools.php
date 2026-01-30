@@ -23,17 +23,15 @@
  */
 
 use mod_surveypro\utility_page;
-
 // Needed only if $section == 'export'.
 use mod_surveypro\tools_export;
 use mod_surveypro\local\form\submissions_exportform;
-
 // Needed only if $section == 'import'.
 use mod_surveypro\tools_import;
 use mod_surveypro\local\form\submissions_importform;
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('tools');
 
@@ -45,8 +43,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['export', 'import'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 
