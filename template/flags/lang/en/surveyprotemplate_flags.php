@@ -29,4 +29,3 @@ $string['boolean_filecontent_01'] = '/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxISEhU
 $string['boolean_filename_01'] = 'ENflag.jpg';
 $string['pluginname'] = 'flags';
 $string['privacy:metadata'] = 'The "flags" template plugin does not store any personal data.';
-

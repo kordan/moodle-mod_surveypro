@@ -33,8 +33,8 @@ use core_text;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class tools_export {
-
+class tools_export
+{
     /**
      * @var object Course module object
      */
@@ -98,7 +98,7 @@ class tools_export {
      * @param bool $forceuserid
      * @return void
      */
-    public function get_export_sql($forceuserid=false) {
+    public function get_export_sql($forceuserid = false) {
         global $USER, $COURSE;
 
         $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
@@ -107,7 +107,7 @@ class tools_export {
         $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
         if (empty($this->surveypro->anonymous) || ($forceuserid)) {
             $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-            $sql .= 'u.id as userid'.$userfieldsapi->selects.', ';
+            $sql .= 'u.id as userid' . $userfieldsapi->selects . ', ';
         }
         $sql .= 'a.id as id, a.itemid, a.content, a.contentformat,
                  si.sortindex, si.plugin
@@ -230,17 +230,17 @@ class tools_export {
         $filename = str_replace(' ', '_', $filename);
 
         if ($this->formdata->status == SURVEYPRO_STATUSCLOSED) {
-            $filename .= ' '.str_replace(' ', '', get_string('statusclosed', 'surveypro'));
+            $filename .= ' ' . str_replace(' ', '', get_string('statusclosed', 'surveypro'));
         }
         if ($this->formdata->status == SURVEYPRO_STATUSINPROGRESS) {
-            $filename .= ' '.str_replace(' ', '', get_string('statusinprogress', 'surveypro'));
+            $filename .= ' ' . str_replace(' ', '', get_string('statusinprogress', 'surveypro'));
         }
         if ($this->formdata->outputstyle == SURVEYPRO_VERBOSE) {
             $filename .= ' verbose';
         }
         $filename .= userdate(time(), ' %Y%m%d%H%M', 99, false, false);
         if ($extension) {
-            $filename .= '.'.$extension;
+            $filename .= '.' . $extension;
         }
 
         return $filename;
@@ -271,10 +271,10 @@ class tools_export {
             $headerlabels[] = $currentheader;
             $itemseedskeys[] = $itemseed->id;
             if ($this->formdata->outputstyle == SURVEYPRO_RAW) {
-                $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin.'\item';
+                $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $itemseed->plugin . '\item';
                 if ($classname::response_uses_format()) {
-                    $headerlabels[] = $currentheader.SURVEYPRO_IMPFORMATSUFFIX;
-                    $itemseedskeys[] = $itemseed->id.SURVEYPRO_IMPFORMATSUFFIX;
+                    $headerlabels[] = $currentheader . SURVEYPRO_IMPFORMATSUFFIX;
+                    $itemseedskeys[] = $itemseed->id . SURVEYPRO_IMPFORMATSUFFIX;
                 }
             }
         }
@@ -305,7 +305,7 @@ class tools_export {
     public function output_to_csv($richsubmissions) {
         global $CFG, $DB;
 
-        require_once($CFG->libdir.'/csvlib.class.php');
+        require_once($CFG->libdir . '/csvlib.class.php');
 
         if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADCSV) {
             $csvexport = new \csv_export_writer('comma');
@@ -352,7 +352,7 @@ class tools_export {
     public function output_to_xls($richsubmissions) {
         global $CFG, $DB;
 
-        require_once($CFG->libdir.'/excellib.class.php');
+        require_once($CFG->libdir . '/excellib.class.php');
 
         $filename = $this->get_export_filename('xls');
 
@@ -411,8 +411,10 @@ class tools_export {
         if (!isset($this->formdata->includehidden)) {
             $where['hidden'] = 0;
         }
-        if (($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
-            ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)) {
+        if (
+            ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) ||
+            ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM)
+        ) {
             $where['plugin'] = 'fileupload';
             if (!$itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, plugin')) {
                 return SURVEYPRO_NOFIELDSSELECTED;
@@ -420,7 +422,7 @@ class tools_export {
         } else {
             $conditions = [];
             foreach ($where as $field => $value) {
-                $conditions[] = $field.' = :'.$field;
+                $conditions[] = $field . ' = :' . $field;
             }
             $select = implode(' AND ', $conditions);
 
@@ -526,9 +528,9 @@ class tools_export {
         } else {
             $recordtoexport[$richsubmission->itemid] = $richsubmission->content;
 
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$richsubmission->plugin.'\item';
+            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $richsubmission->plugin . '\item';
             if ($classname::response_uses_format()) {
-                $recordtoexport[$richsubmission->itemid.SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
+                $recordtoexport[$richsubmission->itemid . SURVEYPRO_IMPFORMATSUFFIX] = $richsubmission->contentformat;
             }
         }
     }
@@ -601,7 +603,7 @@ class tools_export {
 
         $packagename = clean_filename($this->surveypro->name);
         $packagename = clean_param($packagename, PARAM_ALPHAEXT);
-        $packagename .= '_attachments_by_'.$type;
+        $packagename .= '_attachments_by_' . $type;
         // In MS Azure files with a name longer than 80 characters give problems.
         $packagename = \core_text::substr($packagename, 0, 80);
 
@@ -616,7 +618,7 @@ class tools_export {
     public function attachments_downloadbyuser() {
         global $CFG, $DB;
 
-        require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+        require_once($CFG->dirroot . '/mod/surveypro/field/fileupload/lib.php');
 
         $anonymousstr = get_string('anonymous', 'mod_surveypro');
         $itemstr = get_string('item', 'mod_surveypro');
@@ -632,8 +634,8 @@ class tools_export {
         if ($richsubmissions->valid()) {
             $packagename = $this->attachments_define_packagename('user');
 
-            $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
-            $tempbasedir = $CFG->tempdir.$tempsubdir;
+            $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
+            $tempbasedir = $CFG->tempdir . $tempsubdir;
 
             $currentsubmissionid = 0;
             $olduserid = 0;
@@ -646,12 +648,12 @@ class tools_export {
                         // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid.
                         if (!empty($this->surveypro->anonymous)) {
                             $dummyuserid++;
-                            $tempuserdir = $anonymousstr.'_'.$dummyuserid;
+                            $tempuserdir = $anonymousstr . '_' . $dummyuserid;
                         } else {
-                            $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                            $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
                         }
                         $tempuserdir = str_replace(' ', '_', $tempuserdir);
-                        $temppath = $tempsubdir.'/'.$tempuserdir;
+                        $temppath = $tempsubdir . '/' . $tempuserdir;
                         make_temp_directory($temppath);
                         $dirnames[] = $temppath;
 
@@ -659,9 +661,9 @@ class tools_export {
                     }
 
                     // Add a new folder named $richsubmission->submissionid.
-                    $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
+                    $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
                     $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
-                    $temppath = $tempsubdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
+                    $temppath = $tempsubdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
                     make_temp_directory($temppath);
                     $dirnames[] = $temppath;
 
@@ -669,14 +671,14 @@ class tools_export {
                 }
 
                 // Add a new folder named $itemid.
-                $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
+                $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
                 $tempitemdir = str_replace(' ', '_', $tempitemdir);
-                $currentfilepath = $tempuserdir.'/'.$tempsubmissiondir.'/'.$tempitemdir;
-                $temppath = $tempsubdir.'/'.$currentfilepath;
+                $currentfilepath = $tempuserdir . '/' . $tempsubmissiondir . '/' . $tempitemdir;
+                $temppath = $tempsubdir . '/' . $currentfilepath;
                 make_temp_directory($temppath);
                 $dirnames[] = $temppath;
 
-                $tempfullpath = $CFG->tempdir.'/'.$temppath;
+                $tempfullpath = $CFG->tempdir . '/' . $temppath;
                 // Finally add the attachment.
                 $component = 'surveyprofield_fileupload';
                 $filearea = 'fileuploadfiles';
@@ -688,15 +690,15 @@ class tools_export {
                             continue;
                         }
 
-                        $file->copy_content_to($tempfullpath.'/'.$filename);
-                        $filelist[$packagename.'/'.$currentfilepath.'/'.$filename] = $tempfullpath.'/'.$filename;
+                        $file->copy_content_to($tempfullpath . '/' . $filename);
+                        $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
                     }
                 }
             }
             $richsubmissions->close();
 
             // Continue making zip file available ONLY IF selection was valid.
-            $exportfile = $tempbasedir.'.zip';
+            $exportfile = $tempbasedir . '.zip';
             file_exists($exportfile) && unlink($exportfile);
 
             $fp = get_file_packer('application/zip');
@@ -707,7 +709,7 @@ class tools_export {
             }
             $dirnames = array_reverse($dirnames);
             foreach ($dirnames as $dir) {
-                rmdir($CFG->tempdir.$dir);
+                rmdir($CFG->tempdir . $dir);
             }
             rmdir($tempbasedir);
 
@@ -725,7 +727,7 @@ class tools_export {
     public function attachments_downloadbyitem() {
         global $CFG, $DB;
 
-        require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+        require_once($CFG->dirroot . '/mod/surveypro/field/fileupload/lib.php');
 
         $anonymousstr = get_string('anonymous', 'mod_surveypro');
         $itemstr = get_string('item', 'mod_surveypro');
@@ -742,8 +744,8 @@ class tools_export {
         if ($richsubmissions->valid()) {
             $packagename = $this->attachments_define_packagename('item');
 
-            $tempsubdir = '/mod_surveypro/attachmentsexport/'.$packagename;
-            $tempbasedir = $CFG->tempdir.$tempsubdir;
+            $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
+            $tempbasedir = $CFG->tempdir . $tempsubdir;
 
             $olduserid = 0;
             $olditemid = 0;
@@ -752,9 +754,9 @@ class tools_export {
                 if ($olditemid != $richsubmission->itemid) {
                     // New item.
                     // Add a new folder named 'element_'.$richsubmission->itemid.
-                    $tempitemdir = $itemstr.'_'.$richsubmission->itemid;
+                    $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
                     $tempitemdir = str_replace(' ', '_', $tempitemdir);
-                    $temppath = $tempsubdir.'/'.$tempitemdir;
+                    $temppath = $tempsubdir . '/' . $tempitemdir;
                     make_temp_directory($temppath);
                     $dirnames[] = $temppath;
 
@@ -769,12 +771,12 @@ class tools_export {
                     // Add a new folder named $richsubmission->userid.
                     if (!empty($this->surveypro->anonymous)) {
                         $dummyuserid++;
-                        $tempuserdir = $anonymousstr.'_'.$dummyuserid;
+                        $tempuserdir = $anonymousstr . '_' . $dummyuserid;
                     } else {
-                        $tempuserdir = fullname($richsubmission).'_'.$richsubmission->userid;
+                        $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
                     }
                     $tempuserdir = str_replace(' ', '_', $tempuserdir);
-                    $temppath = $tempsubdir.'/'.$tempitemdir.'/'.$tempuserdir;
+                    $temppath = $tempsubdir . '/' . $tempitemdir . '/' . $tempuserdir;
                     make_temp_directory($temppath);
                     $dirnames[] = $temppath;
 
@@ -782,14 +784,14 @@ class tools_export {
                 }
 
                 // Add a new folder named $richsubmission->submissionid.
-                $tempsubmissiondir = $submissionstr.'_'.$richsubmission->submissionid;
+                $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
                 $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
-                $currentfilepath = $tempitemdir.'/'.$tempuserdir.'/'.$tempsubmissiondir;
-                $temppath = $tempsubdir.'/'.$currentfilepath;
+                $currentfilepath = $tempitemdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
+                $temppath = $tempsubdir . '/' . $currentfilepath;
                 make_temp_directory($temppath);
                 $dirnames[] = $temppath;
 
-                $tempfullpath = $CFG->tempdir.'/'.$temppath;
+                $tempfullpath = $CFG->tempdir . '/' . $temppath;
                 // Finally add the attachment.
                 $component = 'surveyprofield_fileupload';
                 $filearea = 'fileuploadfiles';
@@ -801,15 +803,15 @@ class tools_export {
                             continue;
                         }
 
-                        $file->copy_content_to($tempfullpath.'/'.$filename);
-                        $filelist[$packagename.'/'.$currentfilepath.'/'.$filename] = $tempfullpath.'/'.$filename;
+                        $file->copy_content_to($tempfullpath . '/' . $filename);
+                        $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
                     }
                 }
             }
             $richsubmissions->close();
 
             // Continue making zip file available ONLY IF selection was valid.
-            $exportfile = $tempbasedir.'.zip';
+            $exportfile = $tempbasedir . '.zip';
             file_exists($exportfile) && unlink($exportfile);
 
             $fp = get_file_packer('application/zip');
@@ -820,7 +822,7 @@ class tools_export {
             }
             $dirnames = array_reverse($dirnames, true);
             foreach ($dirnames as $dir) {
-                rmdir($CFG->tempdir.$dir);
+                rmdir($CFG->tempdir . $dir);
             }
             rmdir($tempbasedir);
 

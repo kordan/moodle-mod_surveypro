@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
 
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * The class to manage attachment overview report.
@@ -37,8 +37,8 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var flexible_table $outputtable
      */
@@ -139,7 +139,7 @@ class report extends reportbase {
             $cellcontent = \html_writer::start_tag('a', ['title' => $userfullname, 'href' => $url]);
             $cellcontent .= $userfullname;
             $cellcontent .= \html_writer::end_tag('a');
-            $cellcontent .= ' [id: '.$usersubmission->id.']';
+            $cellcontent .= ' [id: ' . $usersubmission->id . ']';
             $tablerow[] = $cellcontent;
             // $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).' [id: '.$usersubmission->id.']</a>';
 
@@ -149,10 +149,10 @@ class report extends reportbase {
                 $paramurl['s'] = $this->surveypro->id;
                 $paramurl['report'] = 'attachments';
                 $paramurl['section'] = 'details';
-                $paramurl['container'] = $usersubmission->id.'_'.$usersubmission->submissionid;
+                $paramurl['container'] = $usersubmission->id . '_' . $usersubmission->submissionid;
                 // $url = new \moodle_url('/mod/surveypro/report/attachments/uploads.php', $paramurl);
                 $url = new \moodle_url('/mod/surveypro/report/attachments/view.php', $paramurl);
-                $cellcontent = '('.$submissionidstr.': '.$usersubmission->submissionid.')&nbsp;';
+                $cellcontent = '(' . $submissionidstr . ': ' . $usersubmission->submissionid . ')&nbsp;';
                 $cellcontent .= \html_writer::start_tag('a', ['title' => $displayuploadsstr, 'href' => $url]);
                 $cellcontent .= s($displayuploadsstr);
                 $cellcontent .= \html_writer::end_tag('a');
@@ -237,7 +237,7 @@ class report extends reportbase {
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
         $whereparams = [];
-        $sql = 'SELECT s.id as submissionid'.$userfieldsapi->selects.'
+        $sql = 'SELECT s.id as submissionid' . $userfieldsapi->selects . '
                 FROM {user} u
                 JOIN {surveypro_submission} s ON s.userid = u.id';
 
@@ -250,7 +250,7 @@ class report extends reportbase {
         }
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort().', submissionid ASC';
+            $sql .= ' ORDER BY ' . $this->outputtable->get_sql_sort() . ', submissionid ASC';
         } else {
             $sql .= ' ORDER BY u.lastname ASC, submissionid ASC';
         }

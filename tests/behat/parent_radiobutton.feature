@@ -14,7 +14,7 @@ Feature: Set radiobutton as parent item
       | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student   | student  | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course           | role           |
+      | user     | course                | role           |
       | teacher1 | Radiobutton as parent | editingteacher |
       | student1 | Radiobutton as parent | student        |
     And the following "activities" exist:

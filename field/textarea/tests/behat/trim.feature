@@ -14,7 +14,7 @@ Feature: Trim textarea content
       | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course         | role           |
+      | user     | course             | role           |
       | teacher1 | Textarea trim test | editingteacher |
       | student1 | Textarea trim test | student        |
     And the following "activities" exist:

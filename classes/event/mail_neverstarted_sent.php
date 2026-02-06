@@ -31,8 +31,8 @@ namespace mod_surveypro\event;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mail_neverstarted_sent extends \core\event\base {
-
+class mail_neverstarted_sent extends \core\event\base
+{
     /**
      * Set basic properties for the event
      */

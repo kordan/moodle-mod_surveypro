@@ -68,7 +68,6 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024022701) {
-
         // Define field content to be dropped from surveyproformat_label.
         $table = new xmldb_table('surveyproformat_label');
         $field1 = new xmldb_field('content');
@@ -81,9 +80,9 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
             // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
-                    SET content = (SELECT f.content FROM {surveyproformat_label} f '.$whereclause.'),
-                        contentformat = (SELECT f.contentformat FROM {surveyproformat_label} f '.$whereclause.')
-                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_label} f '.$whereclause.')';
+                    SET content = (SELECT f.content FROM {surveyproformat_label} f ' . $whereclause . '),
+                        contentformat = (SELECT f.contentformat FROM {surveyproformat_label} f ' . $whereclause . ')
+                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_label} f ' . $whereclause . ')';
             $DB->execute($sql);
         }
 
@@ -102,7 +101,6 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024032800) {
-
         $table = new xmldb_table('surveyproformat_label');
 
         $fieldnames = ['indent', 'customnumber'];
@@ -117,8 +115,8 @@ function xmldb_surveyproformat_label_upgrade($oldversion) {
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
-                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyproformat_label} f '.$whereclause.')
-                        WHERE EXISTS (SELECT 1 FROM {surveyproformat_label} f '.$whereclause.')';
+                        SET ' . $fieldname . ' = (SELECT f.' . $fieldname . ' FROM {surveyproformat_label} f ' . $whereclause . ')
+                        WHERE EXISTS (SELECT 1 FROM {surveyproformat_label} f ' . $whereclause . ')';
                 $DB->execute($sql);
             }
 

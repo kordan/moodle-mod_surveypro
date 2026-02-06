@@ -33,8 +33,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_cover {
-
+class view_cover
+{
     /**
      * @var object Course module object
      */
@@ -129,7 +129,7 @@ class view_cover {
             } else {
                 $maxentries = $this->surveypro->maxentries;
             }
-            $messages[] = get_string('maxentries', 'mod_surveypro').$labelsep.$maxentries;
+            $messages[] = get_string('maxentries', 'mod_surveypro') . $labelsep . $maxentries;
 
             // Your 'closed' responses.
             $a = new \stdClass();
@@ -209,16 +209,16 @@ class view_cover {
         global $PAGE;
 
         foreach ($childrenreports as $reportkey => $childparams) {
-            $subreport = get_string($reportkey, 'surveyprotemplate_'.$this->surveypro->template);
+            $subreport = get_string($reportkey, 'surveyprotemplate_' . $this->surveypro->template);
             if (is_array(reset($childparams))) { // If the first element of $childparams is an array.
-                $categoryname .= ' > '.$subreport;
+                $categoryname .= ' > ' . $subreport;
                 $this->add_report_link($childparams, $pluginname, $messages, $categoryname);
             } else {
                 $childparams = ['s' => $this->cm->instance] + $childparams;
-                $url = new \moodle_url('/mod/surveypro/report/'.$pluginname.'/view.php', $childparams);
+                $url = new \moodle_url('/mod/surveypro/report/' . $pluginname . '/view.php', $childparams);
                 $a = new \stdClass();
                 $a->href = $url->out();
-                $a->reportname = $categoryname.' > '.$subreport;
+                $a->reportname = $categoryname . ' > ' . $subreport;
                 $messages[] = get_string('runreport', 'mod_surveypro', $a);
             }
         }

@@ -23,11 +23,11 @@
  */
 
 // Patterns.
-define('SURVEYPROFIELD_CHARACTER_FREEPATTERN'  , 'PATTERN_FREE');
-define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN' , 'PATTERN_EMAIL');
-define('SURVEYPROFIELD_CHARACTER_URLPATTERN'   , 'PATTERN_URL');
+define('SURVEYPROFIELD_CHARACTER_FREEPATTERN', 'PATTERN_FREE');
+define('SURVEYPROFIELD_CHARACTER_EMAILPATTERN', 'PATTERN_EMAIL');
+define('SURVEYPROFIELD_CHARACTER_URLPATTERN', 'PATTERN_URL');
 define('SURVEYPROFIELD_CHARACTER_CUSTOMPATTERN', 'PATTERN_CUSTOM');
-define('SURVEYPROFIELD_CHARACTER_REGEXPATTERN' , 'PATTERN_REGEX');
+define('SURVEYPROFIELD_CHARACTER_REGEXPATTERN', 'PATTERN_REGEX');
 
 /**
  * Validate the passed text against the known pattern
@@ -45,7 +45,7 @@ function surveypro_character_validate_pattern_integrity($pattern) {
     // Pattern can be done only using 'A', 'a', '*' and '0'.
     if (preg_match_all('~[^Aa\*0]~', $pattern, $matches)) {
         $denied = array_unique($matches[0]);
-        $a = '"'.implode('", "', $denied).'"';
+        $a = '"' . implode('", "', $denied) . '"';
         $message = get_string('ierr_extracharfound', 'surveyprofield_character', $a);
     }
 
@@ -125,7 +125,7 @@ function surveypro_character_validate_against_pattern($userinput, $pattern) {
 function surveypro_character_validate_against_regex($userinput, $regex) {
     preg_match($regex, $userinput, $matches);
 
-    if ( $matches && (strcmp(reset($matches), $userinput) === 0) ) {
+    if ($matches && (strcmp(reset($matches), $userinput) === 0)) {
         $return = true;
     } else {
         $return = false;

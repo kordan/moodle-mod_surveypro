@@ -33,8 +33,8 @@ use core_external\external_api;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_insearchform extends \core\output\inplace_editable {
-
+class layout_insearchform extends \core\output\inplace_editable
+{
     /**
      * @var sortindex
      * to provide an ID to the toggle image
@@ -66,12 +66,12 @@ class layout_insearchform extends \core\output\inplace_editable {
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
             $insearchformstr = get_string('insearchform_title', 'mod_surveypro');
-            $iconparams = ['id' => 'removefromsearch_item_'.$this->sortindex];
+            $iconparams = ['id' => 'removefromsearch_item_' . $this->sortindex];
             $this->edithint = $insearchformstr;
             $this->displayvalue = $output->pix_icon('insearch', $insearchformstr, 'mod_surveypro', $iconparams);
         } else {
             $notinsearchformstr = get_string('notinsearchform_title', 'mod_surveypro');
-            $iconparams = ['id' => 'addtosearch_item_'.$this->sortindex];
+            $iconparams = ['id' => 'addtosearch_item_' . $this->sortindex];
             $this->edithint = $notinsearchformstr;
             $this->displayvalue = $output->pix_icon('notinsearch', $notinsearchformstr, 'mod_surveypro', $iconparams);
         }

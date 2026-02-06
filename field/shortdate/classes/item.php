@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/shortdate/lib.php');
 
 /**
  * Class to manage each aspect of the shortdate item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/shortdate/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -223,8 +223,8 @@ class item extends itembase {
                 continue;
             }
             $shortdatearray = $this->item_split_unix_time($this->{$field});
-            $this->{$field.'month'} = $shortdatearray['mon'];
-            $this->{$field.'year'} = $shortdatearray['year'];
+            $this->{$field . 'month'} = $shortdatearray['mon'];
+            $this->{$field . 'year'} = $shortdatearray['year'];
         }
     }
 
@@ -238,10 +238,10 @@ class item extends itembase {
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (isset($record->{$field.'month'}) && isset($record->{$field.'year'})) {
-                $record->{$field} = $this->item_shortdate_to_unix_time($record->{$field.'month'}, $record->{$field.'year'});
-                unset($record->{$field.'month'});
-                unset($record->{$field.'year'});
+            if (isset($record->{$field . 'month'}) && isset($record->{$field . 'year'})) {
+                $record->{$field} = $this->item_shortdate_to_unix_time($record->{$field . 'month'}, $record->{$field . 'year'});
+                unset($record->{$field . 'month'});
+                unset($record->{$field . 'year'});
             } else {
                 $record->{$field} = null;
             }
@@ -488,7 +488,7 @@ class item extends itembase {
         $timenow = time();
 
         for ($i = 1; $i < 7; $i++) {
-            $strname = 'strftime'.str_pad($i, 2, '0', STR_PAD_LEFT);
+            $strname = 'strftime' . str_pad($i, 2, '0', STR_PAD_LEFT);
             $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_shortdate'));
         }
         $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
@@ -523,10 +523,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_shortdate'] = [];
 
@@ -570,11 +570,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         global $DB, $USER;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
@@ -586,7 +586,7 @@ EOS;
         // Begin of: element values.
         $months = [];
         $years = [];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $months[SURVEYPRO_INVITEVALUE] = get_string('invitemonth', 'surveyprofield_shortdate');
                 $years[SURVEYPRO_INVITEVALUE] = get_string('inviteyear', 'surveyprofield_shortdate');
@@ -608,63 +608,73 @@ EOS;
         // Begin of: mform element.
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_shortdate_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_shortdate_' . $this->sortindex;
         $basename = $this->itemname;
 
-        $attributes['id'] = $baseid.'_month';
-        $elementgroup[] = $mform->createElement('select', $basename.'_month', '', $months, $attributes);
-        $attributes['id'] = $baseid.'_year';
-        $elementgroup[] = $mform->createElement('select', $basename.'_year', '', $years, $attributes);
+        $attributes['id'] = $baseid . '_month';
+        $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
+        $attributes['id'] = $baseid . '_year';
+        $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
 
         if ($this->required) {
-            if (!$searchform) {
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false);
+            if (!$searchformelementscount) {
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false);
 
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             } else {
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                if ($searchformelementscount > 1) {
+                    $starstr = get_string('star', 'mod_surveypro');
+                    $attributes['id'] = $baseid . '_ignoreme';
+                    $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
+                }
 
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                $mform->setDefault($basename.'_ignoreme', '1');
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
+
+                if ($searchformelementscount > 1) {
+                    $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
+                    $mform->setDefault($basename . '_ignoreme', '1');
+                }
             }
         } else {
-            $attributes['id'] = $baseid.'_noanswer';
+            $attributes['id'] = $baseid . '_noanswer';
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
+            $elementgroup[] = $mform->createElement('checkbox', $basename . '_noanswer', '', $noanswerstr, $attributes);
 
-            if (!$searchform) {
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-                $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
+            if (!$searchformelementscount) {
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
+                $mform->disabledIf($basename . '_group', $basename . '_noanswer', 'checked');
             } else {
-                $starstr = get_string('star', 'mod_surveypro');
-                $attributes['id'] = $baseid.'_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+                if ($searchformelementscount > 1) {
+                    $starstr = get_string('star', 'mod_surveypro');
+                    $attributes['id'] = $baseid . '_ignoreme';
+                    $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
+                }
 
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-                $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-                $mform->setDefault($basename.'_ignoreme', '1');
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
+
+                if ($searchformelementscount > 1) {
+                    $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
+                    $mform->setDefault($basename . '_ignoreme', '1');
+                }
             }
         }
         // End of: mform element.
 
         // Default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_INVITEDEFAULT:
                     $shortdatearray['mon'] = SURVEYPRO_INVITEVALUE;
                     $shortdatearray['year'] = SURVEYPRO_INVITEVALUE;
                     break;
                 case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($basename.'_noanswer', '1');
+                    $mform->setDefault($basename . '_noanswer', '1');
                     // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
                 case SURVEYPRO_CUSTOMDEFAULT:
                     $shortdatearray = $this->item_split_unix_time($this->defaultvalue);
@@ -685,15 +695,18 @@ EOS;
                     }
                     break;
                 default:
-                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
-            $mform->setDefault($basename.'_month', $shortdatearray['mon']);
-            $mform->setDefault($basename.'_year', $shortdatearray['year']);
+            $mform->setDefault($basename . '_month', $shortdatearray['mon']);
+            $mform->setDefault($basename . '_year', $shortdatearray['year']);
         }
-        if ($searchform) {
+        if ($searchformelementscount) {
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename . '_ignoreme', '1');
+            }
             if (!$this->required) {
-                $mform->setDefault($basename.'_noanswer', '0');
+                $mform->setDefault($basename . '_noanswer', '0');
             }
         }
         // End of: default section.
@@ -711,31 +724,31 @@ EOS;
         // This plugin displays as dropdown menu. It will never return empty values.
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
 
-        if (isset($data[$this->itemname.'_noanswer'])) {
+        if (isset($data[$this->itemname . '_noanswer'])) {
             return $errors; // Nothing to validate.
         }
 
         // Make validation in the search form too.
         // I can not use if ($searchform) { return; because I still need to validate the correcteness of the date.
-        if (isset($data[$this->itemname.'_ignoreme'])) {
+        if (isset($data[$this->itemname . '_ignoreme'])) {
             return $errors; // Nothing to validate.
         }
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         // Begin of: verify the content of each drop down menu.
         if (!$searchform) {
             $testpassed = true;
-            $testpassed = $testpassed && ($data[$this->itemname.'_month'] != SURVEYPRO_INVITEVALUE);
-            $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname . '_month'] != SURVEYPRO_INVITEVALUE);
+            $testpassed = $testpassed && ($data[$this->itemname . '_year'] != SURVEYPRO_INVITEVALUE);
         } else {
             // Both drop down menues are allowed to be == SURVEYPRO_IGNOREMEVALUE.
             // But not only 1.
             $testpassed = true;
-            if ($data[$this->itemname.'_month'] == SURVEYPRO_IGNOREMEVALUE) {
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] == SURVEYPRO_IGNOREMEVALUE);
+            if ($data[$this->itemname . '_month'] == SURVEYPRO_IGNOREMEVALUE) {
+                $testpassed = $testpassed && ($data[$this->itemname . '_year'] == SURVEYPRO_IGNOREMEVALUE);
             } else {
-                $testpassed = $testpassed && ($data[$this->itemname.'_year'] != SURVEYPRO_IGNOREMEVALUE);
+                $testpassed = $testpassed && ($data[$this->itemname . '_year'] != SURVEYPRO_IGNOREMEVALUE);
             }
         }
         if (!$testpassed) {
@@ -757,11 +770,11 @@ EOS;
         $haslowerbound = ($this->lowerbound != $this->item_shortdate_to_unix_time(1, $this->surveypro->startyear));
         $hasupperbound = ($this->upperbound != $this->item_shortdate_to_unix_time(12, $this->surveypro->stopyear));
 
-        $userinput = $this->item_shortdate_to_unix_time($data[$this->itemname.'_month'], $data[$this->itemname.'_year']);
+        $userinput = $this->item_shortdate_to_unix_time($data[$this->itemname . '_month'], $data[$this->itemname . '_year']);
 
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
-            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+            if (($userinput < $this->lowerbound) || ($userinput > $this->upperbound)) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_shortdate');
             }
         } else {
@@ -854,18 +867,18 @@ EOS;
 
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                $prefill[$this->itemname.'_noanswer'] = 1;
+                $prefill[$this->itemname . '_noanswer'] = 1;
                 return $prefill;
             }
 
             $shortdatearray = $this->item_split_unix_time($fromdb->content);
-            $prefill[$this->itemname.'_month'] = $shortdatearray['mon'];
-            $prefill[$this->itemname.'_year'] = $shortdatearray['year'];
+            $prefill[$this->itemname . '_month'] = $shortdatearray['mon'];
+            $prefill[$this->itemname . '_year'] = $shortdatearray['year'];
         }
 
         // If the "No answer" checkbox is part of the element GUI...
         if ($this->defaultoption = SURVEYPRO_NOANSWERDEFAULT) {
-            $prefill[$this->itemname.'_noanswer'] = 0;
+            $prefill[$this->itemname . '_noanswer'] = 0;
         }
 
         return $prefill;
@@ -878,7 +891,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 
@@ -914,8 +927,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname . '_group'];
     }
 }

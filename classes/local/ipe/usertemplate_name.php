@@ -34,7 +34,8 @@ use core_external\external_api;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class usertemplate_name extends \core\output\inplace_editable {
+class usertemplate_name extends \core\output\inplace_editable
+{
     /**
      * Constructor.
      *

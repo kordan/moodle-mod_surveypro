@@ -29,8 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\utility_item;
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/multiselect/lib.php');
 
 /**
  * The class representing the plugin form
@@ -39,8 +39,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -186,7 +186,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Third check.
         // No answer is not allowed if the item is mandatory.
-        if ( isset($data['noanswerdefault']) && (isset($data['required'])) ) {
+        if (isset($data['noanswerdefault']) && (isset($data['required']))) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['noanswerdefault'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }

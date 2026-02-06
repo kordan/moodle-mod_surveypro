@@ -22,7 +22,7 @@ use surveyprofield_radiobutton;
 defined('MOODLE_INTERNAL') || die;
 
 global $CFG;
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
 /**
  * The class to verify all the lib.php global functions do work as expected.
@@ -32,8 +32,8 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers    \surveyprofield_radiobutton
  */
-final class separator_test extends advanced_testcase {
-
+final class separator_test extends advanced_testcase
+{
     /**
      * Data provider for test_userform_get_separator()
      *
@@ -129,8 +129,8 @@ final class separator_test extends advanced_testcase {
         return [
             $test01, $test02,
             $test04, $test05,
-            $test07, $test08,  $test09,
-            $test10, $test11,  $test12,
+            $test07, $test08, $test09,
+            $test10, $test11, $test12,
         ];
     }
 

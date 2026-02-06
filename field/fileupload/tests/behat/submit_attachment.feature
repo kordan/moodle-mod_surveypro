@@ -44,7 +44,6 @@ Feature: Submit using a fileupload item
     And I press "New response"
 
     # student1 submits
-    # And I pause scenario execution
     And I upload "mod/surveypro/tests/fixtures/dummyCV.pdf" file to "Upload your CV" filemanager
 
     And I press "Submit"

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
 
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * The class to manage lateusers report
@@ -37,8 +37,8 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var flexible_table $outputtable
      */
@@ -137,7 +137,7 @@ class report extends reportbase {
             // User fullname.
             $paramurl = ['id' => $usersubmission->id, 'course' => $COURSE->id];
             $url = new \moodle_url('/user/view.php', $paramurl);
-            $tablerow[] = '<a href="'.$url->out().'">'.fullname($usersubmission).'</a>';
+            $tablerow[] = '<a href="' . $url->out() . '">' . fullname($usersubmission) . '</a>';
 
             // Add row to the table.
             $this->outputtable->add_data($tablerow);
@@ -168,9 +168,9 @@ class report extends reportbase {
         $whereparams['status'] = SURVEYPRO_STATUSCLOSED;
         $whereparams['completionsubmit'] = $this->surveypro->completionsubmit;
 
-        $sql = 'SELECT s.surveyproid'.$userfieldsapi->selects.'
+        $sql = 'SELECT s.surveyproid' . $userfieldsapi->selects . '
                 FROM {user} u
-                LEFT JOIN ('.$submissiontable.') s ON s.userid = u.id';
+                LEFT JOIN (' . $submissiontable . ') s ON s.userid = u.id';
 
         [$middlesql, $middleparams] = $this->get_middle_sql(false);
         $sql .= $middlesql;
@@ -182,7 +182,7 @@ class report extends reportbase {
         unset($whereparams['surveyproid']);
 
         if ($this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY ' . $this->outputtable->get_sql_sort();
         } else {
             $sql .= ' ORDER BY u.lastname ASC';
         }

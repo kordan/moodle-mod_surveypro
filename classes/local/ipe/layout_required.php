@@ -34,8 +34,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_required extends \core\output\inplace_editable {
-
+class layout_required extends \core\output\inplace_editable
+{
     /**
      * @var sortindex
      * to provide an ID to the toggle image
@@ -67,12 +67,12 @@ class layout_required extends \core\output\inplace_editable {
     public function export_for_template(\renderer_base $output) {
         if ($this->value) {
             $requiredstr = get_string('requireditem_title', 'mod_surveypro');
-            $iconparams = ['id' => 'makeoptional_item_'.$this->sortindex];
+            $iconparams = ['id' => 'makeoptional_item_' . $this->sortindex];
             $this->edithint = $requiredstr;
             $this->displayvalue = $output->pix_icon('red', $requiredstr, 'mod_surveypro', $iconparams);
         } else {
             $optionalstr = get_string('optionalitem_title', 'mod_surveypro');
-            $iconparams = ['id' => 'makerequired_item_'.$this->sortindex];
+            $iconparams = ['id' => 'makerequired_item_' . $this->sortindex];
             $this->edithint = $optionalstr;
             $this->displayvalue = $output->pix_icon('green', $optionalstr, 'mod_surveypro', $iconparams);
         }

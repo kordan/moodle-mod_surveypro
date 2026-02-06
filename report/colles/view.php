@@ -26,9 +26,9 @@ use mod_surveypro\utility_page;
 use surveyproreport_colles\report;
 use surveyproreport_colles\groupjumperform;
 
-require_once(dirname(__FILE__).'/../../../../config.php');
-require_once($CFG->dirroot.'/mod/surveypro/report/colles/lib.php');
-require_once($CFG->libdir.'/tablelib.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once($CFG->dirroot . '/mod/surveypro/report/colles/lib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -55,7 +55,7 @@ $utilitypageman = new utility_page($cm, $surveypro);
 
 // Set $PAGE params.
 $paramurl = ['s' => $surveypro->id, 'area' => 'reports', 'section' => 'view', 'type' => $type, 'report' => 'colles'];
-if ( ($type == 'questions') && ($areaidx !== false) ) { // areaidx can be zero.
+if (($type == 'questions') && ($areaidx !== false)) { // areaidx can be zero.
     $paramurl['areaidx'] = $areaidx;
 }
 $url = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
@@ -111,7 +111,7 @@ $reportman->prevent_direct_user_input();
 $reportman->nosubmissions_stop();
 
 // Begin of: manage form submission.
-if ( $showjumper && ($fromform = $groupfilterform->get_data()) ) {
+if ($showjumper && ($fromform = $groupfilterform->get_data())) {
     $reportman->set_groupid($fromform->groupid);
 }
 // End of: manage form submission.
@@ -135,8 +135,8 @@ switch ($type) {
     case 'student':
         break;
     default:
-        $message = 'Unexpected $type = '.$type;
-        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        $message = 'Unexpected $type = ' . $type;
+        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 
 // Finish the page.

@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class templatebase {
-
+class templatebase
+{
     /**
      * @var object Course module object
      */
@@ -89,7 +89,7 @@ class templatebase {
      * @param stdClass $xmlvalidationoutcome
      * @return void
      */
-    public function set_xmlvalidationoutcome($xmlvalidationoutcome=null) {
+    public function set_xmlvalidationoutcome($xmlvalidationoutcome = null) {
         if (is_null($xmlvalidationoutcome)) {
             $xmlvalidationoutcome = new \stdClass();
         }
@@ -105,21 +105,21 @@ class templatebase {
      * @param string $plugin (optional)
      * @return void
      */
-    public function get_table_structure($type=null, $plugin=null) {
+    public function get_table_structure($type = null, $plugin = null) {
         global $CFG;
 
         if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
             $message = '$type and $plugin must be provided both or none.';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         $fieldlist = [];
         if (empty($type) && empty($plugin)) {
-            $installxml = $CFG->dirroot.'/mod/surveypro/db/install.xml';
+            $installxml = $CFG->dirroot . '/mod/surveypro/db/install.xml';
             $targettable = 'surveypro_item';
         } else {
-            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
-            $targettable = 'surveypro'.$type.'_'.$plugin;
+            $installxml = $CFG->dirroot . '/mod/surveypro/' . $type . '/' . $plugin . '/db/install.xml';
+            $targettable = 'surveypro' . $type . '_' . $plugin;
 
             // Some plugins are missing the install.xml because they don't have attributes.
             if (!file_exists($installxml)) {
@@ -163,7 +163,7 @@ class templatebase {
         foreach ($types as $type) {
             $plugins = surveypro_get_plugin_list($type, true);
             foreach ($plugins as $plugin => $unused) {
-                $versions[$plugin] = get_config('surveypro'.$plugin, 'version');
+                $versions[$plugin] = get_config('surveypro' . $plugin, 'version');
             }
         }
 
@@ -185,7 +185,7 @@ class templatebase {
      * @param int $utemplateid
      * @return void
      */
-    public function get_utemplate_content($utemplateid=0) {
+    public function get_utemplate_content($utemplateid = 0) {
         $fs = get_file_storage();
         if (empty($utemplateid)) {
             $utemplateid = $this->utemplateid;
@@ -254,7 +254,7 @@ class templatebase {
 
             // Ok, $currenttype and $currentplugin are onboard.
             // Do they define correctly a class?
-            if (!file_exists($CFG->dirroot.'/mod/surveypro/'.$currenttype.'/'.$currentplugin.'/version.php')) {
+            if (!file_exists($CFG->dirroot . '/mod/surveypro/' . $currenttype . '/' . $currentplugin . '/version.php')) {
                 $error = new \stdClass();
                 $error->key = 'invalidtypeorplugin';
 
@@ -262,7 +262,7 @@ class templatebase {
                 break;
             }
 
-            $index = $currenttype.'_'.$currentplugin;
+            $index = $currenttype . '_' . $currentplugin;
             if ($pluginversion[$index] > $currentversion) {
                 $a = new \stdClass();
                 $a->type = $currenttype;
@@ -286,7 +286,7 @@ class templatebase {
                     // I could use a random class here because they all share the same parent get_itembase_schema
                     // but, in spite of this, I need the right class name for the next table
                     // so I choose to load the correct class from the beginning.
-                    $classname = 'surveypro'.$currenttype.'_'.$currentplugin.'\item';
+                    $classname = 'surveypro' . $currenttype . '_' . $currentplugin . '\item';
                     $xsd = $classname::get_itembase_schema(); // Itembase schema.
                 } else {
                     // Classname has already been defined because of the previous loop over surveypro_item fields.
@@ -354,8 +354,8 @@ class templatebase {
                 if (!$status) {
                     // Stop here. It is useless to continue.
                     if ($debug) {
-                        echo '<hr /><textarea rows="10" cols="100">'.$xmltable->asXML().'</textarea>';
-                        echo '<textarea rows="10" cols="100">'.$xsd.'</textarea>';
+                        echo '<hr /><textarea rows="10" cols="100">' . $xmltable->asXML() . '</textarea>';
+                        echo '<textarea rows="10" cols="100">' . $xsd . '</textarea>';
                     }
 
                     $error = new \stdClass();
@@ -409,7 +409,7 @@ class templatebase {
 
         $context = \context_module::instance($this->cm->id);
 
-        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$mtemplate.'/template.xml';
+        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $mtemplate . '/template.xml';
         if (!file_exists($templatepath)) {
             return;
         }
@@ -433,11 +433,11 @@ class templatebase {
                         $fileattributename = $xmlfileattribute->getName();
                         if ($fileattributename == 'filename') {
                             $attributecontent = (string)$xmlfileattribute;
-                            $filename = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                            $filename = get_string($attributecontent, 'surveyprotemplate_' . $mtemplate);
                         }
                         if ($fileattributename == 'filecontent') {
                             $attributecontent = (string)$xmlfileattribute;
-                            $encodedcontent = get_string($attributecontent, 'surveyprotemplate_'.$mtemplate);
+                            $encodedcontent = get_string($attributecontent, 'surveyprotemplate_' . $mtemplate);
                             $filecontent = base64_decode($encodedcontent);
                         }
                     }

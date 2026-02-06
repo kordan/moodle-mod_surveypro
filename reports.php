@@ -22,7 +22,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/../../config.php');
+require_once(dirname(__FILE__) . '/../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
@@ -41,14 +41,14 @@ require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 if (isset($report)) {
-    $classname = 'surveyproreport_'.$report.'\report';
+    $classname = 'surveyproreport_' . $report . '\report';
     $reportman = new $classname($cm, $context, $surveypro);
     $reportman->setup();
 
     $reportman->set_additionalparams();
     $paramurl = $reportman->get_paramurl();
 
-    $returnurl = new \moodle_url('/mod/surveypro/report/'.$report.'/view.php', $paramurl);
+    $returnurl = new \moodle_url('/mod/surveypro/report/' . $report . '/view.php', $paramurl);
     redirect($returnurl);
 }
 

@@ -58,7 +58,6 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
     // Put any upgrade step following this.
 
     if ($oldversion < 2016062401) {
-
         // Define field trimonsave to be added to surveyprofield_character.
         $table = new xmldb_table('surveyprofield_character');
         $field = new xmldb_field('trimonsave', XMLDB_TYPE_INTEGER, '4', null, null, null, null, 'required');
@@ -106,7 +105,6 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024022701) {
-
         // Define field content to be dropped from surveyprofield_character.
         $table = new xmldb_table('surveyprofield_character');
         $field1 = new xmldb_field('content');
@@ -119,9 +117,9 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
             // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
-                    SET content = (SELECT f.content FROM {surveyprofield_character} f '.$whereclause.'),
-                        contentformat = (SELECT f.contentformat FROM {surveyprofield_character} f '.$whereclause.')
-                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f '.$whereclause.')';
+                    SET content = (SELECT f.content FROM {surveyprofield_character} f ' . $whereclause . '),
+                        contentformat = (SELECT f.contentformat FROM {surveyprofield_character} f ' . $whereclause . ')
+                    WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f ' . $whereclause . ')';
             $DB->execute($sql);
         }
 
@@ -140,7 +138,6 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024032800) {
-
         $table = new xmldb_table('surveyprofield_character');
 
         $fieldnames = ['required', 'indent', 'position', 'customnumber', 'hideinstructions', 'variable', 'extranote'];
@@ -155,8 +152,8 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
-                        SET '.$fieldname.' = (SELECT f.'.$fieldname.' FROM {surveyprofield_character} f '.$whereclause.')
-                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f '.$whereclause.')';
+                        SET ' . $fieldname . ' = (SELECT f.' . $fieldname . ' FROM {surveyprofield_character} f ' . $whereclause . ')
+                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f ' . $whereclause . ')';
                 $DB->execute($sql);
             }
 

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/autofill/lib.php');
 
 /**
  * Class to manage each aspect of the autofill item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/autofill/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     /**
      * @var bool $hiddenfield = is the static text visible in the mform?
      */
@@ -231,19 +231,19 @@ class item extends itembase {
         // 3. special management for autofill contents
         $referencearray = ['']; // Take care: the first element is already on board.
         for ($i = 1; $i <= SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT; $i++) {
-            $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.sprintf('%02d', $i));
+            $referencearray[] = constant('SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT' . sprintf('%02d', $i));
         }
 
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            $fieldname = 'element'.$index.'select';
-            if (in_array($this->{'element'.$index}, $referencearray)) {
-                $this->{$fieldname} = $this->{'element'.$index};
+            $fieldname = 'element' . $index . 'select';
+            if (in_array($this->{'element' . $index}, $referencearray)) {
+                $this->{$fieldname} = $this->{'element' . $index};
             } else {
-                $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
+                $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT' . SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
                 $this->{$fieldname} = constant($constantname);
-                $fieldname = 'element'.$index.'text';
-                $this->{$fieldname} = $this->{'element'.$index};
+                $fieldname = 'element' . $index . 'text';
+                $this->{$fieldname} = $this->{'element' . $index};
             }
         }
     }
@@ -272,13 +272,13 @@ class item extends itembase {
         // 4. Other: special management for autofill contents.
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            if (!empty($record->{'element'.$index.'select'})) {
-                $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT'.SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
+            if (!empty($record->{'element' . $index . 'select'})) {
+                $constantname = 'SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT' . SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT_COUNT;
                 // In the meantime, update variables linked to fields of table surveypro_autofill.
-                if ($record->{'element'.$index.'select'} == constant($constantname)) {
-                    $record->{'element'.$index} = $record->{'element'.$index.'text'};
+                if ($record->{'element' . $index . 'select'} == constant($constantname)) {
+                    $record->{'element' . $index} = $record->{'element' . $index . 'text'};
                 } else {
-                    $record->{'element'.$index} = $record->{'element'.$index.'select'};
+                    $record->{'element' . $index} = $record->{'element' . $index . 'select'};
                 }
             }
         }
@@ -620,10 +620,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_autofill'] = [];
 
@@ -669,8 +669,8 @@ EOS;
     public static function response_get_whereclause($itemid, $searchrestriction) {
         global $DB;
 
-        $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
-        $whereparam = '%'.$searchrestriction.'%';
+        $whereclause = $DB->sql_like('a.content', ':content_' . $itemid, false);
+        $whereparam = '%' . $searchrestriction . '%';
 
         return [$whereclause, $whereparam];
     }
@@ -681,11 +681,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         global $DB;
 
         $starstr = get_string('star', 'mod_surveypro');
@@ -695,13 +695,13 @@ EOS;
             $elementlabel = '&nbsp;';
         }
 
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_autofill_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_autofill_' . $this->sortindex;
         $attributes = [];
         $elementgroup = [];
         $basename = $this->itemname;
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             // I can not say: "I can write the content as if the record is new because if the record is not new,
             // this value will be overwritten later when defaults will be applied to the form.".
             // This is a label! Defults will not be applied.
@@ -731,8 +731,8 @@ EOS;
 
             if (!$this->hiddenfield) {
                 $attributes = ['id' => $baseid];
-                $elementgroup[] = $mform->createElement('static', $basename.'_static', '', $value, $attributes);
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+                $elementgroup[] = $mform->createElement('static', $basename . '_static', '', $value, $attributes);
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
             }
         } else {
             $basename = $this->itemname;
@@ -741,12 +741,16 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $basename, '', $attributes);
             $mform->setType($basename, PARAM_RAW);
 
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $attributes['id'] = $baseid . '_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
+            }
 
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
+                $mform->setDefault($basename . '_ignoreme', '1');
+            }
         }
     }
 
@@ -782,7 +786,7 @@ EOS;
                 if (isset($answer['mainelement'])) {
                     $olduseranswer->content = $answer['mainelement'];
                 } else {
-                    $a = '$answer = '.$answer;
+                    $a = '$answer = ' . $answer;
                     throw new \moodle_exception('unhandledvalue', 'mod_surveypro', null, $a);
                 }
             }
@@ -808,7 +812,7 @@ EOS;
         if (isset($fromdb->content)) {
             $prefill[$this->itemname] = $fromdb->content;
             if (!$this->hiddenfield) {
-                $prefill[$this->itemname.'_static'] = $fromdb->content;
+                $prefill[$this->itemname . '_static'] = $fromdb->content;
             }
         }
 
@@ -834,8 +838,8 @@ EOS;
         $label = '';
         for ($i = 1; $i < 6; $i++) {
             $index = sprintf('%02d', $i);
-            if (!empty($this->{'element'.$index})) {
-                switch ($this->{'element'.$index}) {
+            if (!empty($this->{'element' . $index})) {
+                switch ($this->{'element' . $index}) {
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT01: // Submissionid.
                         if ($submissionid) {
                             $label .= $submission->id;
@@ -878,6 +882,7 @@ EOS;
                             $label = get_string('latevalue', 'surveyprofield_autofill');
                             break 2; // It is the first time I use it! Coooool :-).
                         }
+                        // Fall through.
                     case SURVEYPROFIELD_AUTOFILL_CONTENTELEMENT05: // Userid.
                         $label .= $user->id;
                         break;
@@ -915,7 +920,7 @@ EOS;
                         $label .= $COURSE->name;
                         break;
                     default:                                       // Label.
-                        $label .= $this->{'element'.$index};
+                        $label .= $this->{'element' . $index};
                 }
             }
         }

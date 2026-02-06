@@ -24,7 +24,9 @@
 
 namespace mod_surveypro\plugininfo;
 
-use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
+use core_text,
+
+core\plugininfo\base, core_plugin_manager, moodle_url;
 
 /**
  * The mod_surveypro (master) template plugin class.
@@ -33,8 +35,8 @@ use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveyprotemplate extends base {
-
+class surveyprotemplate extends base
+{
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      *
@@ -49,7 +51,7 @@ class surveyprotemplate extends base {
         }
         $installed = [];
         foreach ($plugins as $plugin => $version) {
-            $installed[] = 'surveyprotemplate_'.$plugin;
+            $installed[] = 'surveyprotemplate_' . $plugin;
         }
 
         [$installed, $params] = $DB->get_in_or_equal($installed, SQL_PARAMS_NAMED);
@@ -96,7 +98,7 @@ class surveyprotemplate extends base {
      * @return settings section name
      */
     public function get_settings_section_name() {
-        return $this->type.'_'.$this->name;
+        return $this->type . '_' . $this->name;
     }
 
     /**
@@ -133,6 +135,6 @@ class surveyprotemplate extends base {
             include_once($this->full_path('settings.php'));
         }
 
-        $adminroot->add($this->type.'plugins', $settings);
+        $adminroot->add($this->type . 'plugins', $settings);
     }
 }

@@ -28,7 +28,7 @@ use mod_surveypro\task\crontaskbase;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
 /**
  * The main schedule task for the surveypro module.
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mail_pauseresume extends crontaskbase {
-
+class mail_pauseresume extends crontaskbase
+{
     /**
      * Get a descriptive name for this task (shown to admins).
      *
@@ -98,14 +98,14 @@ class mail_pauseresume extends crontaskbase {
                 $userfields = ['id', 'firstname', 'lastname', 'username', 'email'];
                 $userfieldsapi = \core_user\fields::for_name()->including(...$userfields);
                 $userfieldssql = $userfieldsapi->get_sql('u', false, '', '', false)->selects;
-                $sql = 'SELECT s.surveyproid, '.$userfieldssql;
+                $sql = 'SELECT s.surveyproid, ' . $userfieldssql;
                 $sql .= ' FROM {user} u
-                        RIGHT JOIN ('.$submissiontable.') s ON s.userid = u.id';
+                        RIGHT JOIN (' . $submissiontable . ') s ON s.userid = u.id';
 
                 $warningstr = get_string('reminderpaused_content2', 'surveypro');
                 $a = new \stdClass();
                 $a->surveyproname = $surveypro->name;
-                $a->surveyprourl = $CFG->wwwroot.'/mod/surveypro/view.php?id='.$surveypro->id;
+                $a->surveyprourl = $CFG->wwwroot . '/mod/surveypro/view.php?id=' . $surveypro->id;
                 $rs = $DB->get_recordset_sql($sql, $whereparams);
                 foreach ($rs as $user) {
                     $a->fullname = fullname($user);

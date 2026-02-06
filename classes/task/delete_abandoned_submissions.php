@@ -29,7 +29,7 @@ use mod_surveypro\task\crontaskbase;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
 /**
  * The main schedule task for the surveypro module.
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class delete_abandoned_submissions extends crontaskbase {
-
+class delete_abandoned_submissions extends crontaskbase
+{
     /**
      * Get a descriptive name for this task (shown to admins).
      *

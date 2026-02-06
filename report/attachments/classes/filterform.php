@@ -26,7 +26,7 @@ namespace surveyproreport_attachments;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class to filter the attachment item to overview
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class filterform extends \moodleform {
-
+class filterform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -86,12 +86,12 @@ class filterform extends \moodleform {
 
         $whereparams = [];
         $whereparams['surveyproid'] = $surveypro->id;
-        $sql = 'SELECT DISTINCT u.id as userid'.$userfieldsapi->selects.'
+        $sql = 'SELECT DISTINCT u.id as userid' . $userfieldsapi->selects . '
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id';
         if (!$canviewhiddenactivities) { // Exclude global admins and managers.
             [$enrolsql, $eparams] = get_enrolled_sql($coursecontext);
-            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+            $sql .= ' JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
         }
 
         $sql .= ' WHERE surveyproid = :surveyproid';
@@ -113,12 +113,12 @@ class filterform extends \moodleform {
         $user = $DB->get_record('user', ['id' => $userid], '*', MUST_EXIST);
         foreach ($submissions as $submission) {
             if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
-                $itemcontent = $userstring.' id: '.$userid.' - '.$submissionidstring.' id: '.$submission->id;
+                $itemcontent = $userstring . ' id: ' . $userid . ' - ' . $submissionidstring . ' id: ' . $submission->id;
             } else {
                 $i++;
-                $itemcontent = fullname($user).' - '.$submissionidstring.': '.$i;
+                $itemcontent = fullname($user) . ' - ' . $submissionidstring . ': ' . $i;
             }
-            $options[$userid.'_'.$submission->id] = $itemcontent;
+            $options[$userid . '_' . $submission->id] = $itemcontent;
         }
 
         // Add next user to make simpler the navigation.
@@ -129,7 +129,7 @@ class filterform extends \moodleform {
             // The first is ALWAYS correct.
             if (!$firstuserid && ($user->id != $userid)) {
                 $firstuserid = $user->id;
-                $options[$user->userid.'_0'] = $this->set_select_option($user);
+                $options[$user->userid . '_0'] = $this->set_select_option($user);
                 if ($nextiscorrect) {
                     break;
                 } else {
@@ -144,12 +144,12 @@ class filterform extends \moodleform {
             }
 
             if ($nextiscorrect) {
-                $options[$user->userid.'_0'] = $this->set_select_option($user);
+                $options[$user->userid . '_0'] = $this->set_select_option($user);
                 break;
             }
         }
         if (count($options) == $optionscount + 2) {
-            unset($options[$firstuserid.'_0']);
+            unset($options[$firstuserid . '_0']);
         }
         $mform->addElement('select', 'container', get_string('submission', 'surveypro'), $options);
         $mform->setDefault('container', $container);
@@ -172,7 +172,7 @@ class filterform extends \moodleform {
 
         if (isset($CFG->forcefirstname) || isset($CFG->forcelastname)) {
             $userstring = get_string('user');
-            $itemcontent = $userstring.' id: '.$user->userid;
+            $itemcontent = $userstring . ' id: ' . $user->userid;
         } else {
             $itemcontent = fullname($user);
         }
@@ -180,4 +180,3 @@ class filterform extends \moodleform {
         return $itemcontent;
     }
 }
-

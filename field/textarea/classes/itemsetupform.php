@@ -29,8 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 use core_text;
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/textarea/lib.php');
 
 /**
  * The class representing the plugin form
@@ -39,8 +39,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/textarea/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *

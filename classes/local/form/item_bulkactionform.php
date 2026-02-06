@@ -26,7 +26,7 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * Class to manage the form for bulk action performed agains items
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item_bulkactionform extends \moodleform {
-
+class item_bulkactionform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -57,7 +57,7 @@ class item_bulkactionform extends \moodleform {
         $elementgroup = [];
         $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
         $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
-        $mform->addElement('group', $fieldname.'_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+        $mform->addElement('group', $fieldname . '_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);
+        $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');
     }
 }

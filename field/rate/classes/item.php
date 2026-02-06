@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/rate/lib.php');
 
 /**
  * Class to manage each aspect of the rate item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/rate/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -400,10 +400,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_rate'] = ['options', 'rates', 'defaultvalue'];
 
@@ -444,11 +444,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
@@ -457,8 +457,8 @@ EOS;
         $rates = $this->get_textarea_content(SURVEYPRO_LABELS, 'rates');
         $defaultvalues = $utilityitemman->multilinetext_to_array($this->defaultvalue);
 
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_rate_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_rate_' . $this->sortindex;
         $elementgroup = [];
         $attributes = [];
         $basename = $this->itemname;
@@ -474,12 +474,12 @@ EOS;
         if ($this->style == SURVEYPROFIELD_RATE_USERADIO) {
             foreach ($options as $row => $option) {
                 $elementgroup = [];
-                $uniquename = $basename.'_'.$row;
+                $uniquename = $basename . '_' . $row;
                 foreach ($rates as $col => $rate) {
-                    $attributes['id'] = $baseid.'_'.$row.'_'.$col;
+                    $attributes['id'] = $baseid . '_' . $row . '_' . $col;
                     $elementgroup[] = $mform->createElement('radio', $uniquename, '', $rate, $col, $attributes);
                 }
-                $mform->addGroup($elementgroup, $uniquename.'_group', $option, ' ', false, $class);
+                $mform->addGroup($elementgroup, $uniquename . '_group', $option, ' ', false, $class);
 
                 // Don' add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
@@ -491,10 +491,10 @@ EOS;
         if ($this->style == SURVEYPROFIELD_RATE_USESELECT) {
             foreach ($options as $row => $option) {
                 $elementgroup = [];
-                $uniquename = $basename.'_'.$row;
-                $attributes['id'] = $baseid.'_'.$row;
+                $uniquename = $basename . '_' . $row;
+                $attributes['id'] = $baseid . '_' . $row;
                 $elementgroup[] = $mform->createElement('select', $uniquename, '', $rates, $attributes);
-                $mform->addGroup($elementgroup, $uniquename.'_group', $option, '', false, $class);
+                $mform->addGroup($elementgroup, $uniquename . '_group', $option, '', false, $class);
 
                 // Don't add a colorunifier div after the last rate element.
                 if ($row < $optioncount) {
@@ -508,9 +508,9 @@ EOS;
 
             $elementgroup = [];
             $noanswerstr = get_string('noanswer', 'mod_surveypro');
-            $attributes['id'] = $baseid.'_noanswer';
-            $elementgroup[] = $mform->createElement('advcheckbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
-            $mform->addGroup($elementgroup, $basename.'_noanswer_group', $noanswerstr, '', false, $class);
+            $attributes['id'] = $baseid . '_noanswer';
+            $elementgroup[] = $mform->createElement('advcheckbox', $basename . '_noanswer', '', $noanswerstr, $attributes);
+            $mform->addGroup($elementgroup, $basename . '_noanswer_group', $noanswerstr, '', false, $class);
         }
 
         if ($this->required) {
@@ -518,41 +518,41 @@ EOS;
             // I do not want JS form validation if the page is submitted through the "previous" button.
             // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
             // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-            $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_0_group';
+            $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_0_group';
             $mform->_required[] = $starplace;
         } else {
             // Disable if $basename.'_noanswer' is selected.
             $optionindex = 0;
             foreach ($options as $row => $option) {
-                $uniquename = $basename.'_'.$row;
-                $mform->disabledIf($uniquename, $basename.'_noanswer', 'checked');
+                $uniquename = $basename . '_' . $row;
+                $mform->disabledIf($uniquename, $basename . '_noanswer', 'checked');
             }
             if ($this->defaultoption == SURVEYPRO_NOANSWERDEFAULT) {
-                $mform->setDefault($basename.'_noanswer', '1');
+                $mform->setDefault($basename . '_noanswer', '1');
             }
         }
 
         switch ($this->defaultoption) {
             case SURVEYPRO_CUSTOMDEFAULT:
                 foreach ($options as $row => $option) {
-                    $uniquename = $basename.'_'.$row;
+                    $uniquename = $basename . '_' . $row;
                     $defaultindex = array_search($defaultvalues[$row], $rates);
                     $mform->setDefault($uniquename, "$defaultindex");
                 }
                 break;
             case SURVEYPRO_INVITEDEFAULT:
                 foreach ($options as $row => $option) {
-                    $uniquename = $basename.'_'.$row;
+                    $uniquename = $basename . '_' . $row;
                     $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
                 }
                 break;
             case SURVEYPRO_NOANSWERDEFAULT:
-                $uniquename = $basename.'_noanswer[checkbox]';
+                $uniquename = $basename . '_noanswer[checkbox]';
                 $mform->setDefault($uniquename, 1);
                 break;
             default:
-                $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
@@ -575,14 +575,14 @@ EOS;
         // If different rates were requested, it is time to verify this.
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
-        if ((isset($data[$this->itemname.'_noanswer']['checkbox'])) && ($data[$this->itemname.'_noanswer']['checkbox'] == 1)) {
+        if ((isset($data[$this->itemname . '_noanswer']['checkbox'])) && ($data[$this->itemname . '_noanswer']['checkbox'] == 1)) {
             return $errors; // Nothing to validate.
         }
 
         $return = false;
         foreach ($options as $optionindex => $unused) {
-            $uniquename = $this->itemname.'_'.$optionindex;
-            $elementname = $uniquename.'_group';
+            $uniquename = $this->itemname . '_' . $optionindex;
+            $elementname = $uniquename . '_group';
             if ($data[$uniquename] == SURVEYPRO_INVITEVALUE) {
                 $errors[$elementname] = get_string('uerr_optionnotset', 'surveyprofield_rate');
                 $return = true;
@@ -596,14 +596,14 @@ EOS;
             $optionscount = count($this->get_textarea_content(SURVEYPRO_LABELS, 'options'));
             $rates = [];
             for ($i = 0; $i < $optionscount; $i++) {
-                $rates[] = $data[$this->itemname.'_'.$i];
+                $rates[] = $data[$this->itemname . '_' . $i];
             }
 
             $uniquerates = array_unique($rates);
             $duplicaterates = array_diff_assoc($rates, $uniquerates);
 
             foreach ($duplicaterates as $row => $unused) {
-                $elementname = $this->itemname.'_'.$optionindex.'_group';
+                $elementname = $this->itemname . '_' . $optionindex . '_group';
                 $errors[$elementname] = get_string('uerr_duplicaterate', 'surveyprofield_rate');
             }
         }
@@ -667,12 +667,12 @@ EOS;
 
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                $prefill[$this->itemname.'_noanswer']['checkbox'] = 1;
+                $prefill[$this->itemname . '_noanswer']['checkbox'] = 1;
             } else {
                 $answers = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $fromdb->content);
 
                 foreach ($answers as $optionindex => $unused) {
-                    $uniquename = $this->itemname.'_'.$optionindex;
+                    $uniquename = $this->itemname . '_' . $optionindex;
                     $prefill[$uniquename] = $answers[$optionindex];
                 }
             }
@@ -688,7 +688,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 
@@ -717,7 +717,7 @@ EOS;
                 $rates = $this->get_textarea_content(SURVEYPRO_VALUES, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
-                    $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
+                    $output[] = $label . SURVEYPROFIELD_RATE_VALUERATESEPARATOR . $rates[$index];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
@@ -729,7 +729,7 @@ EOS;
                 $rates = $this->get_textarea_content(SURVEYPRO_LABELS, 'rates');
                 foreach ($labels as $col => $label) {
                     $index = $answers[$col];
-                    $output[] = $label.SURVEYPROFIELD_RATE_VALUERATESEPARATOR.$rates[$index];
+                    $output[] = $label . SURVEYPROFIELD_RATE_VALUERATESEPARATOR . $rates[$index];
                 }
                 $return = implode(SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR, $output);
                 break;
@@ -739,8 +739,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                $message = 'Unexpected $format = '.$format;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = ' . $format;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         return $return;
@@ -758,11 +758,11 @@ EOS;
         $options = $utilityitemman->multilinetext_to_array($this->options);
 
         foreach ($options as $row => $option) {
-            $elementnames[] = $this->itemname.'_'.$row.'_group';
+            $elementnames[] = $this->itemname . '_' . $row . '_group';
         }
 
         if (!$this->required) {
-            $elementnames[] = $this->itemname.'_noanswer';
+            $elementnames[] = $this->itemname . '_noanswer';
         }
 
         return $elementnames;

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/format/pagebreak/lib.php');
 
 /**
  * Class to manage each aspect of the pagebreak item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/format/pagebreak/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     // Service variables.
@@ -173,10 +173,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = [];
         $fieldlist['surveyprofield_time'] = [];
 
@@ -209,13 +209,13 @@ class item extends itembase {
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
-        // This function is never called because to simulate a page break, I show anly fields before this field.
+        // This function is never called because, to simulate a page break, I show anly fields before this field.
 
         $mform->addElement('html', '<hr />');
     }
@@ -252,7 +252,7 @@ class item extends itembase {
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         return '';
     }
 

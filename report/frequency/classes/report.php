@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\reportbase;
 
-require_once($CFG->libdir.'/tablelib.php');
+require_once($CFG->libdir . '/tablelib.php');
 
 /**
  * The class to manage frequency report
@@ -37,8 +37,8 @@ require_once($CFG->libdir.'/tablelib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class report extends reportbase {
-
+class report extends reportbase
+{
     /**
      * @var flexible_table $outputtable
      */
@@ -181,7 +181,7 @@ class report extends reportbase {
             $tablerow[] = $answer->absolute;
 
             // Percentage.
-            $tablerow[] = number_format(100 * $answer->absolute / $answercount, 2, $decimalseparator, ' ').'%';
+            $tablerow[] = number_format(100 * $answer->absolute / $answercount, 2, $decimalseparator, ' ') . '%';
 
             // Add row to the table.
             $this->outputtable->add_data($tablerow);
@@ -200,7 +200,7 @@ class report extends reportbase {
         global $COURSE, $DB, $USER;
 
         $whereparams = [];
-        $sql = 'SELECT '.$DB->sql_compare_text('a.content', 255).', MIN(a.id) as id, COUNT(a.id) as absolute
+        $sql = 'SELECT ' . $DB->sql_compare_text('a.content', 255) . ', MIN(a.id) as id, COUNT(a.id) as absolute
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id
                     JOIN {surveypro_answer} a ON a.submissionid = s.id';
@@ -214,13 +214,13 @@ class report extends reportbase {
             $whereparams['userid'] = $USER->id;
         }
 
-        $sql .= ' GROUP BY '.$DB->sql_compare_text('a.content', 255);
+        $sql .= ' GROUP BY ' . $DB->sql_compare_text('a.content', 255);
 
         // The query for the graph doesn't make use of $this->outputtable.
         if (isset($this->outputtable) && $this->outputtable->get_sql_sort()) {
-            $sql .= ' ORDER BY '.$this->outputtable->get_sql_sort();
+            $sql .= ' ORDER BY ' . $this->outputtable->get_sql_sort();
         } else {
-            $sql .= ' ORDER BY '.$DB->sql_compare_text('a.content', 255);
+            $sql .= ' ORDER BY ' . $DB->sql_compare_text('a.content', 255);
         }
 
         return [$sql, $whereparams];
@@ -278,7 +278,7 @@ class report extends reportbase {
         global $CFG;
 
         if (empty($CFG->gdversion)) {
-            echo '('.get_string('gdneed').')';
+            echo '(' . get_string('gdneed') . ')';
         } else {
             $imgparams = [];
             $imgparams['class'] = 'resultgraph';

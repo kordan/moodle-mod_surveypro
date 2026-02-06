@@ -32,7 +32,7 @@
  * @param string $content
  * @return object
  */
-function get_dummy_contents($type, $plugin, $content=null) {
+function get_dummy_contents($type, $plugin, $content = null) {
 
     $return = new \stdClass();
     $return->itemid = 0;

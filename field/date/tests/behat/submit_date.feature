@@ -18,7 +18,7 @@ Feature: Submit using a date item
       | teacher1 | Date submission test | editingteacher |
       | student1 | Date submission test | student        |
     And the following "activities" exist:
-      | activity  | name         | intro                        | course               |
+      | activity  | name      | intro                        | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
     And I am on the "Date test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 

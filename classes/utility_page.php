@@ -33,8 +33,8 @@ use mod_surveypro\utility_page;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utility_page {
-
+class utility_page
+{
     /**
      * @var object Course module object
      */
@@ -56,7 +56,7 @@ class utility_page {
      * @param object $cm
      * @param object $surveypro
      */
-    public function __construct($cm, $surveypro=null) {
+    public function __construct($cm, $surveypro = null) {
         global $DB;
 
         $this->cm = $cm;
@@ -70,7 +70,7 @@ class utility_page {
     /**
      * Display the Blocks editing on/Blocks editing off in each page
      *
-     * @param boolean $edit
+     * @param bool $edit
      * @return array $pluginlist;
      */
     public function manage_editbutton($edit) {
@@ -80,7 +80,7 @@ class utility_page {
         if (!isset($pageparams['s']) && !isset($pageparams['id'])) {
             $message = '<br>It seems you have not defined either \'s\' or \'id\' in the URL.';
             $message .= '<br>Maybe you forget to define $PAGE->set_url before calling $PAGE->manage_editbutton()';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         if (($edit != -1) && $PAGE->user_allowed_editing()) {

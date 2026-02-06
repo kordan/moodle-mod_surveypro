@@ -33,7 +33,8 @@ use file_info;
  * @copyright 2012 David Mudrak <david@moodle.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class surveypro_file_info extends file_info {
+class surveypro_file_info extends file_info
+{
     /**
      * @var stdClass course
      */
@@ -138,7 +139,7 @@ class surveypro_file_info extends file_info {
      * @param bool $returnemptyfolders if true returns items that don't have matching files inside
      * @return array|int array of file_info instances or the count
      */
-    private function get_filtered_children($extensions='*', $countonly=false, $returnemptyfolders=false) {
+    private function get_filtered_children($extensions = '*', $countonly = false, $returnemptyfolders = false) {
         global $DB;
 
         $params = [
@@ -157,8 +158,8 @@ class surveypro_file_info extends file_info {
             $params['emptyfilename'] = '.';
         }
 
-        list($sql2, $params2) = $this->build_search_files_sql($extensions);
-        $sql .= ' '.$sql2;
+        [$sql2, $params2] = $this->build_search_files_sql($extensions);
+        $sql .= ' ' . $sql2;
         $params = array_merge($params, $params2);
 
         if ($countonly === false) {
@@ -190,7 +191,7 @@ class surveypro_file_info extends file_info {
      * @param string|array $extensions either '*' or array of lowercase extensions, i.e. array('.gif','.jpg')
      * @return array of file_info instances
      */
-    public function get_non_empty_children($extensions='*') {
+    public function get_non_empty_children($extensions = '*') {
         return $this->get_filtered_children($extensions, false);
     }
 
@@ -202,7 +203,7 @@ class surveypro_file_info extends file_info {
      * @param int $limit stop counting after at least $limit non-empty children are found
      * @return int
      */
-    public function count_non_empty_children($extensions='*', $limit=1) {
+    public function count_non_empty_children($extensions = '*', $limit = 1) {
         return $this->get_filtered_children($extensions, $limit);
     }
 

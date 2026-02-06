@@ -34,5 +34,3 @@ $string['textarea_content_03'] = '<p>At what moment in class were you most dista
 $string['textarea_content_04'] = '<p>What action from anyone in the forums did you find most affirming or helpful?</p>';
 $string['textarea_content_05'] = '<p>What action from anyone in the forums did you find most puzzling or confusing?</p>';
 $string['textarea_content_06'] = '<p>What event surprised you most?</p>';
-
-

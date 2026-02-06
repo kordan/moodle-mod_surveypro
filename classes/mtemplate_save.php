@@ -34,8 +34,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplate_save extends mtemplate_base {
-
+class mtemplate_save extends mtemplate_base
+{
     /**
      * @var array
      */
@@ -56,7 +56,7 @@ class mtemplate_save extends mtemplate_base {
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $originalstring) {
                 if (empty($originalstring)) {
-                    $stringsastext[] = '$string[\''.$k.'\'] = \'\';';
+                    $stringsastext[] = '$string[\'' . $k . '\'] = \'\';';
                 } else {
                     $a->stringkey = $k;
                     $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
@@ -64,7 +64,7 @@ class mtemplate_save extends mtemplate_base {
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n" . implode("\n", $stringsastext) . "\n";
     }
 
     /**
@@ -77,12 +77,12 @@ class mtemplate_save extends mtemplate_base {
         foreach ($this->langtree as $langbranch) {
             foreach ($langbranch as $k => $stringcontent) {
                 // Do not use php addslashes() because it adds slashes to " too.
-                $stringcontent = str_replace("'",  "\\'", $stringcontent);
-                $stringsastext[] = '$string[\''.$k.'\'] = \''.$stringcontent.'\';';
+                $stringcontent = str_replace("'", "\\'", $stringcontent);
+                $stringsastext[] = '$string[\'' . $k . '\'] = \'' . $stringcontent . '\';';
             }
         }
 
-        return "\n".implode("\n", $stringsastext)."\n";
+        return "\n" . implode("\n", $stringsastext) . "\n";
     }
 
     /**
@@ -114,7 +114,7 @@ class mtemplate_save extends mtemplate_base {
         $condition = !($condition1 && $condition2);
         if ($condition) {
             // This test provides a 100% correct name. I do not need to iterate it.
-            $this->formdata->mastertemplatename = 'mtemplate_'.$this->surveypro->name;
+            $this->formdata->mastertemplatename = 'mtemplate_' . $this->surveypro->name;
             $pluginname = $this->get_plugin_name();
         }
 
@@ -138,12 +138,12 @@ class mtemplate_save extends mtemplate_base {
         foreach ($multilangfields as $table => $multilanfields) {
             foreach ($multilanfields as $multilanfield) {
                 // Filename and filecontent are multilang fields BUT I they may not be set.
-                if ( ($multilanfield == 'filename') || ($multilanfield == 'filecontent') ) {
+                if (($multilanfield == 'filename') || ($multilanfield == 'filecontent')) {
                     continue;
                 }
 
                 // Key.
-                $key = $plugin.'_'.$multilanfield;
+                $key = $plugin . '_' . $multilanfield;
                 if (isset($this->langtree[$key])) {
                     $index = count($this->langtree[$key]);
                 } else {
@@ -157,7 +157,7 @@ class mtemplate_save extends mtemplate_base {
                 } else {
                     $value = str_replace("\r", '', $item->get_generic_property($multilanfield));
                 }
-                $this->langtree[$key][$key.'_'.$stringindex] = $value;
+                $this->langtree[$key][$key . '_' . $stringindex] = $value;
             }
         }
     }
@@ -193,8 +193,8 @@ class mtemplate_save extends mtemplate_base {
 
         // Before starting, clean the destination folder
         // just in case it is not empty as expected.
-        $datarelativedir = 'mod_surveypro/surveyproplugins/'.$pluginname;
-        $dataabsolutedir = $CFG->tempdir.'/'.$datarelativedir;
+        $datarelativedir = 'mod_surveypro/surveyproplugins/' . $pluginname;
+        $dataabsolutedir = $CFG->tempdir . '/' . $datarelativedir;
         fulldelete($dataabsolutedir);
 
         $masterbasepath = "$CFG->dirroot/mod/surveypro/templatemaster";
@@ -228,32 +228,32 @@ class mtemplate_save extends mtemplate_base {
             $masterfileinfo = pathinfo($masterfile);
             // Create the structure of the temporary folder.
             // The folder has to be created WITHOUT $CFG->tempdir/.
-            $temppath = $datarelativedir.'/'.dirname($masterfile);
+            $temppath = $datarelativedir . '/' . dirname($masterfile);
             make_temp_directory($temppath); // I just created the folder for the current plugin.
 
-            $dataabsolutepath = $CFG->tempdir.'/'.$temppath;
+            $dataabsolutepath = $CFG->tempdir . '/' . $temppath;
 
             if ($masterfileinfo['basename'] == 'icon.png') {
                 // Simply copy icon.png.
-                copy($masterbasepath.'/'.$masterfile, $dataabsolutepath.'/'.$masterfileinfo['basename']);
+                copy($masterbasepath . '/' . $masterfile, $dataabsolutepath . '/' . $masterfileinfo['basename']);
                 continue;
             }
 
             if ($masterfileinfo['basename'] == 'icon.svg') {
                 // Simply copy icon.svg.
-                copy($masterbasepath.'/'.$masterfile, $dataabsolutepath.'/'.$masterfileinfo['basename']);
+                copy($masterbasepath . '/' . $masterfile, $dataabsolutepath . '/' . $masterfileinfo['basename']);
                 continue;
             }
 
             if (preg_match('~^classes~', $masterfileinfo['dirname'])) {
                 // Here I deal with 'classes/privacy/provider.php' or 'classes/template.php'.
-                $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
+                $filecontent = file_get_contents($masterbasepath . '/' . $masterfile);
                 $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
 
                 // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
                 $filecontent = $this->replace_package($filecontent, $pluginname);
 
-                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/'.$masterfile;
+                $temppath = $CFG->tempdir . '/' . $datarelativedir . '/' . $masterfile;
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
@@ -265,7 +265,7 @@ class mtemplate_save extends mtemplate_base {
             }
 
             if ($masterfileinfo['basename'] == 'template.xml') {
-                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/'.$masterfileinfo['basename'];
+                $temppath = $CFG->tempdir . '/' . $datarelativedir . '/' . $masterfileinfo['basename'];
 
                 // Create $temppath.
                 $filehandler = fopen($temppath, 'w');
@@ -279,25 +279,25 @@ class mtemplate_save extends mtemplate_base {
             if ($masterfileinfo['dirname'] == 'lang/en') {
                 // In which language the user is using Moodle?.
                 $userlang = current_language();
-                $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/'.$userlang;
+                $temppath = $CFG->tempdir . '/' . $datarelativedir . '/lang/' . $userlang;
 
                 // This is the language folder of the strings hardcoded in surveypro.
                 // The folder lang/en already exist.
                 if ($userlang != 'en') {
                     // I need to create the folder lang/it.
-                    make_temp_directory($datarelativedir.'/lang/'.$userlang);
+                    make_temp_directory($datarelativedir . '/lang/' . $userlang);
                 }
 
-                $filecontent = file_get_contents($masterbasepath.'/lang/en/surveyprotemplate_pluginname.php');
+                $filecontent = file_get_contents($masterbasepath . '/lang/en/surveyprotemplate_pluginname.php');
 
                 // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
                 $filecontent = $this->replace_package($filecontent, $pluginname);
 
-                $savedstrings = $filecontent.$this->get_lang_file_content();
+                $savedstrings = $filecontent . $this->get_lang_file_content();
                 $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
                 // Create - this could be 'en' such as 'it'.
-                $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
+                $filehandler = fopen($temppath . '/surveyprotemplate_' . $pluginname . '.php', 'w');
                 // Append all the $string['xxx'] = 'yyy' rows.
                 fwrite($filehandler, $savedstrings);
                 // Close.
@@ -306,12 +306,12 @@ class mtemplate_save extends mtemplate_base {
                 // This is the folder of the language en in case the user language is different from en.
                 if ($userlang != 'en') {
                     // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
-                    $savedstrings = $filecontent.$this->get_translated_strings($userlang);
+                    $savedstrings = $filecontent . $this->get_translated_strings($userlang);
                     $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
-                    $temppath = $CFG->tempdir.'/'.$datarelativedir.'/lang/en';
+                    $temppath = $CFG->tempdir . '/' . $datarelativedir . '/lang/en';
                     // Create.
-                    $filehandler = fopen($temppath.'/surveyprotemplate_'.$pluginname.'.php', 'w');
+                    $filehandler = fopen($temppath . '/surveyprotemplate_' . $pluginname . '.php', 'w');
                     // Save into surveyprotemplate_<<$pluginname>>.php.
                     fwrite($filehandler, $savedstrings);
                     // Close.
@@ -322,23 +322,23 @@ class mtemplate_save extends mtemplate_base {
 
             if ($masterfileinfo['basename'] == 'version.php') {
                 // Read the master.
-                $filecontent = file_get_contents($masterbasepath.'/'.$masterfile);
+                $filecontent = file_get_contents($masterbasepath . '/' . $masterfile);
                 $filecontent = str_replace("\r\n", "\n", $filecontent); // Fix line ending.
 
                 // Replace 'package   mod_surveypro' with 'package   surveyprotemplate_'.$pluginname.
                 $filecontent = $this->replace_package($filecontent, $pluginname);
 
                 $oldstring = '$plugin->version = 1965100401;';
-                $newstring = '$plugin->version = '.gmdate("Ymd").'01;';
+                $newstring = '$plugin->version = ' . gmdate("Ymd") . '01;';
                 $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
                 $requires = get_config('moodle', 'version');
                 $oldstring = '$plugin->requires = 1965100401;';
-                $newstring = '$plugin->requires = '.$requires.';';
+                $newstring = '$plugin->requires = ' . $requires . ';';
                 $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
                 // Create.
-                $filehandler = fopen($dataabsolutedir.'/'.$masterfile, 'w');
+                $filehandler = fopen($dataabsolutedir . '/' . $masterfile, 'w');
                 // Write.
                 fwrite($filehandler, $filecontent);
                 // Close.
@@ -351,20 +351,20 @@ class mtemplate_save extends mtemplate_base {
             'version.php',
             'classes/template.php',
             'classes/privacy/provider.php',
-            'lang/en/surveyprotemplate_'.$pluginname.'.php',
+            'lang/en/surveyprotemplate_' . $pluginname . '.php',
             'pix/icon.png',
             'pix/icon.svg',
         ];
         if ($userlang != 'en') {
-            $filenames[] = 'lang/'.$userlang.'/surveyprotemplate_'.$pluginname.'.php';
+            $filenames[] = 'lang/' . $userlang . '/surveyprotemplate_' . $pluginname . '.php';
         }
 
         $filelist = [];
         foreach ($filenames as $filename) {
-            $filelist[$filename] = $dataabsolutedir.'/'.$filename;
+            $filelist[$filename] = $dataabsolutedir . '/' . $filename;
         }
 
-        $exportfile = $dataabsolutedir.'.zip';
+        $exportfile = $dataabsolutedir . '.zip';
         file_exists($exportfile) && unlink($exportfile);
 
         $fp = get_file_packer('application/zip');
@@ -373,7 +373,7 @@ class mtemplate_save extends mtemplate_base {
         // Zip file has been created. Now clean the temporary folder.
         $dirnames = ['classes/privacy/', 'classes/', 'lang/en/', 'pix/'];
         if ($userlang != 'en') {
-            $dirnames[] = 'lang/'.$userlang.'/';
+            $dirnames[] = 'lang/' . $userlang . '/';
         }
         $dirnames[] = 'lang/';
 
@@ -381,7 +381,7 @@ class mtemplate_save extends mtemplate_base {
             unlink($file);
         }
         foreach ($dirnames as $dir) {
-            rmdir($dataabsolutedir.'/'.$dir);
+            rmdir($dataabsolutedir . '/' . $dir);
         }
         rmdir($dataabsolutedir);
 
@@ -405,7 +405,7 @@ class mtemplate_save extends mtemplate_base {
         $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
         $oldstring = ' * @package   mod_surveypro';
-        $newstring = ' * @package   surveyprotemplate_'.$pluginname;
+        $newstring = ' * @package   surveyprotemplate_' . $pluginname;
         $filecontent = str_replace($oldstring, $newstring, $filecontent);
 
         return $filecontent;
@@ -423,14 +423,14 @@ class mtemplate_save extends mtemplate_base {
      * @return string $stringindex
      */
     public function add_entry_in_langtree($plugin, $field, $content) {
-        $key = $plugin.'_'.$field;
+        $key = $plugin . '_' . $field;
         if (isset($this->langtree[$key])) {
             $index = count($this->langtree[$key]);
         } else {
             $index = 0;
         }
         $stringindex = sprintf('%02d', 1 + $index);
-        $val = $key.'_'.$stringindex;
+        $val = $key . '_' . $stringindex;
         $this->langtree[$key][$val] = $content;
 
         return $val;
@@ -439,10 +439,10 @@ class mtemplate_save extends mtemplate_base {
     /**
      * Write master template content.
      *
-     * @param boolean $visiblesonly
+     * @param bool $visiblesonly
      * @return void
      */
-    public function write_template_content($visiblesonly=true) {
+    public function write_template_content($visiblesonly = true) {
         global $DB;
 
         $pluginversion = self::get_subplugin_versions();
@@ -463,7 +463,7 @@ class mtemplate_save extends mtemplate_base {
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
             $xmlitem->addAttribute('plugin', $itemseed->plugin);
-            $index = $itemseed->type.'_'.$itemseed->plugin;
+            $index = $itemseed->type . '_' . $itemseed->plugin;
             $xmlitem->addAttribute('version', $pluginversion[$index]);
 
             // Surveypro_item.
@@ -553,7 +553,7 @@ class mtemplate_save extends mtemplate_base {
             }
 
             // Child table.
-            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $tablename = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin;
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
 
             // Take care: some items plugin may be free of their own specific table.
@@ -564,7 +564,6 @@ class mtemplate_save extends mtemplate_base {
             $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }
@@ -622,12 +621,12 @@ class mtemplate_save extends mtemplate_base {
             foreach ($multilangfields as $table => $multilangfield) {
                 // 1b: Is the field that is going to be assigned belongs to the multilang fields of this plugin?
                 if (in_array($field, $multilangfield)) {
-                    $key = $plugin.'_'.$field; // For instance: boolean_content
+                    $key = $plugin . '_' . $field; // For instance: boolean_content
 
                     if (isset($this->langtree[$key])) { // Langtree has already been defined.
                         $index = count($this->langtree[$key]);
                         $stringindex = sprintf('%02d', $index);
-                        $val = $key.'_'.$stringindex;
+                        $val = $key . '_' . $stringindex;
                         return $val;
                     }
                 }

@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/course/moodleform_mod.php');
+require_once($CFG->dirroot . '/course/moodleform_mod.php');
 
 /**
  * Surveypro settings form.
@@ -33,8 +33,8 @@ require_once($CFG->dirroot.'/course/moodleform_mod.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_mod_form extends \moodleform_mod {
-
+class mod_surveypro_mod_form extends \moodleform_mod
+{
     /**
      * Definition.
      *
@@ -138,8 +138,8 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // Userstyle.
         $fieldname = 'userstyle';
         $attributes = surveypro_get_user_style_options();
-        $mform->addElement('filemanager', $fieldname.'_filemanager', get_string($fieldname, 'mod_surveypro'), null, $attributes);
-        $mform->addHelpButton($fieldname.'_filemanager', $fieldname, 'surveypro');
+        $mform->addElement('filemanager', $fieldname . '_filemanager', get_string($fieldname, 'mod_surveypro'), null, $attributes);
+        $mform->addHelpButton($fieldname . '_filemanager', $fieldname, 'surveypro');
 
         // Maxentries.
         $fieldname = 'maxentries';
@@ -170,7 +170,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         $roleoptions = get_role_names_with_caps_in_context($context, ['mod/surveypro:accessreports']);
         foreach ($roleoptions as $roleid => $rolename) {
             $users = get_role_users($roleid, $context, true);
-            $options[$roleid] = $rolename.' ('.count($users).')';
+            $options[$roleid] = $rolename . ' (' . count($users) . ')';
         }
         $select = $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $select->setMultiple(true);
@@ -250,13 +250,18 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // Manage userstyle filemanager.
         $filename = 'userstyle';
         $filemanageroptions = surveypro_get_user_style_options();
-        $draftitemid = file_get_submitted_draft_itemid($filename.'_filemanager');
+        $draftitemid = file_get_submitted_draft_itemid($filename . '_filemanager');
 
         if ($this->current->instance) {
             file_prepare_draft_area(
-                $draftitemid, $this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions
+                $draftitemid,
+                $this->context->id,
+                'mod_surveypro',
+                SURVEYPRO_STYLEFILEAREA,
+                0,
+                $filemanageroptions
             );
-            $defaults[$filename.'_filemanager'] = $draftitemid;
+            $defaults[$filename . '_filemanager'] = $draftitemid;
 
             // Manage thankspage editor.
             $filename = 'thankspageeditor';
@@ -264,8 +269,13 @@ class mod_surveypro_mod_form extends \moodleform_mod {
             // Editing an existing surveypro - let us prepare the added editor elements (intro done automatically).
             $draftitemid = file_get_submitted_draft_itemid('thankspage');
             $defaults[$filename]['text'] = file_prepare_draft_area(
-                $draftitemid, $this->context->id,
-                'mod_surveypro', SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $defaults['thankspage']
+                $draftitemid,
+                $this->context->id,
+                'mod_surveypro',
+                SURVEYPRO_THANKSPAGEFILEAREA,
+                0,
+                $editoroptions,
+                $defaults['thankspage']
             );
             $defaults[$filename]['format'] = $defaults['thankspageformat'];
             $defaults[$filename]['itemid'] = $draftitemid;
@@ -286,9 +296,14 @@ class mod_surveypro_mod_form extends \moodleform_mod {
             }
         } else {
             file_prepare_draft_area(
-                $draftitemid, $this->context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, $filemanageroptions
+                $draftitemid,
+                $this->context->id,
+                'mod_surveypro',
+                SURVEYPRO_STYLEFILEAREA,
+                0,
+                $filemanageroptions
             );
-            $defaults[$filename.'_filemanager'] = $draftitemid;
+            $defaults[$filename . '_filemanager'] = $draftitemid;
 
             // Manage thankspage editor.
             $filename = 'thankspageeditor';
@@ -306,7 +321,7 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         }
 
         $fieldname = 'completionsubmit';
-        $defaults[$fieldname.'_check'] = !empty($defaults[$fieldname]) ? 1 : 0;
+        $defaults[$fieldname . '_check'] = !empty($defaults[$fieldname]) ? 1 : 0;
         if (empty($defaults[$fieldname])) {
             $defaults[$fieldname] = 1;
         }
@@ -350,15 +365,15 @@ class mod_surveypro_mod_form extends \moodleform_mod {
         // See data_preprocessing method just few lines above.
         $fieldname = 'completionsubmit';
         $elementgroup = [];
-        $checklabel = get_string($fieldname.'_check', 'mod_surveypro');
-        $elementgroup[] = $mform->createElement('checkbox', $fieldname.'_check', '', $checklabel);
+        $checklabel = get_string($fieldname . '_check', 'mod_surveypro');
+        $elementgroup[] = $mform->createElement('checkbox', $fieldname . '_check', '', $checklabel);
         $elementgroup[] = $mform->createElement('text', $fieldname, '', ['size' => 3]);
         $mform->setType($fieldname, PARAM_INT);
-        $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname.'_group', 'mod_surveypro'), ' ', false);
-        $mform->addHelpButton($fieldname.'_group', $fieldname.'_group', 'surveypro');
-        $mform->disabledIf($fieldname, $fieldname.'_check', 'notchecked');
+        $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname . '_group', 'mod_surveypro'), ' ', false);
+        $mform->addHelpButton($fieldname . '_group', $fieldname . '_group', 'surveypro');
+        $mform->disabledIf($fieldname, $fieldname . '_check', 'notchecked');
 
-        return [$fieldname.'_group'];
+        return [$fieldname . '_group'];
     }
 
     /**

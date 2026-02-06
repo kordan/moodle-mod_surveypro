@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class representing the surveypro form for the student
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class response_submitform extends \moodleform {
-
+class response_submitform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -84,15 +84,21 @@ class response_submitform extends \moodleform {
         $mform->addElement('hidden', 'formpage', 0);
         $mform->setType('formpage', PARAM_INT);
 
-        if ( ($formpage > 0) && ($formpage <= $userformpagecount) ) {
+        if (($formpage > 0) && ($formpage <= $userformpagecount)) {
             // Case: $canaccessreserveditems, $searchform=false, $type=false, $formpage.
-            [$where, $params] = surveypro_fetch_items_seeds($surveypro->id, true,
-                                        $canaccessreserveditems, null, null, $formpage);
+            [$where, $params] = surveypro_fetch_items_seeds(
+                $surveypro->id,
+                true,
+                $canaccessreserveditems,
+                null,
+                null,
+                $formpage
+            );
             $fields = 'id, type, plugin, parentid, parentvalue';
             $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, 'sortindex', $fields);
 
             // There are no items in this page.
-            if ( (!$itemseeds->valid()) || ($overflowpage) ) {
+            if ((!$itemseeds->valid()) || ($overflowpage)) {
                 $oneshotsurvey = ($surveypro->pauseresume == SURVEYPRO_ONESHOTNOEMAIL);
                 $oneshotsurvey = $oneshotsurvey || ($surveypro->pauseresume == SURVEYPRO_ONESHOTEMAIL);
                 $a = $oneshotsurvey ? get_string('onlyreview', 'mod_surveypro') : get_string('revieworpause', 'mod_surveypro');
@@ -132,14 +138,15 @@ class response_submitform extends \moodleform {
 
                     // Position.
                     $position = $item->get_position();
-                    $elementnumber = $item->get_customnumber() ? $item->get_customnumber().':' : '';
+                    $elementnumber = $item->get_customnumber() ? $item->get_customnumber() . ':' : '';
                     if ($position == SURVEYPRO_POSITIONTOP) {
-                        $itemname = $item->get_itemname().'_extrarow';
+                        $itemname = $item->get_itemname() . '_extrarow';
                         $content = $item->get_contentwithnumber();
-                        $class = ['class' => 'indent-'.$item->get_indent()];
+                        $class = ['class' => 'indent-' . $item->get_indent()];
+
                         $elementgroup = [];
                         $elementgroup[] = $mform->createElement('static', $itemname, $elementnumber, $content);
-                        $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+                        $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
 
                         $item->item_add_color_unifier($mform);
                     }
@@ -157,17 +164,17 @@ class response_submitform extends \moodleform {
                     }
 
                     // Element.
-                    $item->userform_mform_element($mform, false, ($mode == SURVEYPRO_READONLYMODE));
+                    $item->userform_mform_element($mform, 0, ($mode == SURVEYPRO_READONLYMODE));
 
                     // Note.
                     if ($fullinfo = $item->userform_get_full_info(false)) {
                         $item->item_add_color_unifier($mform);
 
-                        $itemname = $item->get_itemname().'_note';
-                        $class = ['class' => 'indent-'.$item->get_indent()];
+                        $itemname = $item->get_itemname() . '_note';
+                        $class = ['class' => 'indent-' . $item->get_indent()];
                         $elementgroup = [];
                         $elementgroup[] = $mform->createElement('static', $itemname, '', $fullinfo);
-                        $mform->addGroup($elementgroup, $itemname.'_group', '', '', false, $class);
+                        $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
                     }
 
                     if (!$surveypro->newpageforchild) {

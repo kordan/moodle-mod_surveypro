@@ -26,7 +26,7 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class representing the form to apply a user template
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_applyform extends \moodleform {
-
+class utemplate_applyform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -62,9 +62,9 @@ class utemplate_applyform extends \moodleform {
             $fieldname = 'usertemplateinfo';
             $elementgroup = [];
             $elementgroup[] = $mform->createElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $utemplates);
-            $elementgroup[] = $mform->createElement('submit', $fieldname.'_button', get_string('apply', 'mod_surveypro'));
-            $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
-            $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+            $elementgroup[] = $mform->createElement('submit', $fieldname . '_button', get_string('apply', 'mod_surveypro'));
+            $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'mod_surveypro'), [' '], false);
+            $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');
         } else {
             $fieldname = 'usertemplateinfo';
             array_unshift($utemplates, get_string('choosedots'));
@@ -84,8 +84,8 @@ class utemplate_applyform extends \moodleform {
             $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deleteallitemsstr, SURVEYPRO_DELETEALLITEMS);
             $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletevisibleitemsstr, SURVEYPRO_DELETEVISIBLEITEMS);
             $elementgroup[] = $mform->createElement('radio', $fieldname, '', $deletehiddenitemsstr, SURVEYPRO_DELETEHIDDENITEMS);
-            $mform->addGroup($elementgroup, $fieldname.'_group', get_string($fieldname, 'mod_surveypro'), '<br>', false);
-            $mform->addHelpButton($fieldname.'_group', $fieldname, 'surveypro');
+            $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'mod_surveypro'), '<br>', false);
+            $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');
             $mform->setDefault($fieldname, SURVEYPRO_IGNOREITEMS);
 
             $this->add_action_buttons(false, get_string('apply', 'mod_surveypro'));

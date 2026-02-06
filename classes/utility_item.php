@@ -33,8 +33,8 @@ use core_text;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utility_item {
-
+class utility_item
+{
     /**
      * @var object Course module object
      */
@@ -56,7 +56,7 @@ class utility_item {
      * @param object $cm
      * @param object $surveypro
      */
-    public function __construct($cm, $surveypro=null) {
+    public function __construct($cm, $surveypro = null) {
         global $DB;
 
         $this->cm = $cm;
@@ -99,10 +99,10 @@ class utility_item {
 
         // Trim each part whether exists.
         foreach ($rows as $k => $row) {
-            if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $row, $match)) {
+            if (preg_match('~^(.*)' . SURVEYPRO_VALUELABELSEPARATOR . '(.*)$~', $row, $match)) {
                 $value = $match[1];
                 $label = $match[2];
-                $rows[$k] = trim($value).SURVEYPRO_VALUELABELSEPARATOR.trim($label);
+                $rows[$k] = trim($value) . SURVEYPRO_VALUELABELSEPARATOR . trim($label);
             }
         }
 
@@ -117,7 +117,7 @@ class utility_item {
      * @param int $year
      * @return boolean true if the date is valid, false otherwise.
      */
-    public static function date_is_valid($day, $month, $year=2001) {
+    public static function date_is_valid($day, $month, $year = 2001) {
         return checkdate($month, $day, $year);
     }
 
@@ -140,9 +140,9 @@ class utility_item {
      */
     public static function get_regexp() {
         $regex = '~';
-        $regex .= '(?P<prefix>'.SURVEYPRO_ITEMPREFIX.'|'.SURVEYPRO_PLACEHOLDERPREFIX.'|'.SURVEYPRO_DONTSAVEMEPREFIX.')';
+        $regex .= '(?P<prefix>' . SURVEYPRO_ITEMPREFIX . '|' . SURVEYPRO_PLACEHOLDERPREFIX . '|' . SURVEYPRO_DONTSAVEMEPREFIX . ')';
         $regex .= '_';
-        $regex .= '(?P<type>'.SURVEYPRO_TYPEFIELD.'|'.SURVEYPRO_TYPEFORMAT.')';
+        $regex .= '(?P<type>' . SURVEYPRO_TYPEFIELD . '|' . SURVEYPRO_TYPEFORMAT . ')';
         $regex .= '_';
         $regex .= '(?P<plugin>[^_]+)';
         $regex .= '_';

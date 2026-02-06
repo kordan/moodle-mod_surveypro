@@ -26,7 +26,6 @@ namespace mod_surveypro;
 
 use core_text;
 use mod_surveypro\utility_layout;
-
 use mod_surveypro\local\ipe\usertemplate_name;
 
 /**
@@ -36,8 +35,8 @@ use mod_surveypro\local\ipe\usertemplate_name;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_save extends utemplate_base {
-
+class utemplate_save extends utemplate_base
+{
     /**
      * Setup.
      *
@@ -93,7 +92,7 @@ class utemplate_save extends utemplate_base {
      * For this reason, at "usertemplate creation" time, I AM FORCED to use a "hot" calculated sortindex instead of using the one
      * taken from the db.
      *
-     * @param boolean $visiblesonly
+     * @param bool $visiblesonly
      * @return void
      */
     public function write_template_content($visiblesonly) {
@@ -117,7 +116,7 @@ class utemplate_save extends utemplate_base {
             $xmlitem = $xmltemplate->addChild('item');
             $xmlitem->addAttribute('type', $itemseed->type);
             $xmlitem->addAttribute('plugin', $itemseed->plugin);
-            $index = $itemseed->type.'_'.$itemseed->plugin;
+            $index = $itemseed->type . '_' . $itemseed->plugin;
             $xmlitem->addAttribute('version', $pluginversion[$index]);
 
             // Surveypro_item.
@@ -135,7 +134,7 @@ class utemplate_save extends utemplate_base {
                     // in case of pictures, for instance, $item->content has to look like:
                     // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
                     // and not like:
-                    // '<img src="http://localhost:8888/m405/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
+                    // '<img src="http://localhost/m405/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt="img1"...
                     $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
                     if (core_text::strlen($val)) {
                         $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
@@ -196,7 +195,7 @@ class utemplate_save extends utemplate_base {
             }
 
             // Child table.
-            $tablename = 'surveypro'.$itemseed->type.'_'.$itemseed->plugin;
+            $tablename = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin;
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
 
             // Take care: some items plugin may be free of their own specific table.
@@ -207,7 +206,6 @@ class utemplate_save extends utemplate_base {
             $unrelevantfields = ['id', 'itemid'];
             $xmltable = $xmlitem->addChild($tablename);
             foreach ($structure as $field) {
-
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }
@@ -254,7 +252,7 @@ class utemplate_save extends utemplate_base {
         // Debug: echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';.
 
         $fs = get_file_storage();
-        $filerecord = new \stdClass;
+        $filerecord = new \stdClass();
 
         $contextid = $this->formdata->sharinglevel;
         $filerecord->contextid = $contextid;

@@ -31,7 +31,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/db/upgradelib.php');
+require_once($CFG->dirroot . '/mod/surveypro/db/upgradelib.php');
 
 /**
  * xmldb_surveypro_upgrade
@@ -92,7 +92,7 @@ function xmldb_surveypro_upgrade($oldversion) {
         $oldcontents = ['__invItat10n__', '__n0__Answer__', '__1gn0rE__me__'];
         $newcontents = ['@@_INVITE_@@', '@@_NOANSW_@@', '@@_IGNORE_@@'];
 
-        $sql = 'UPDATE {surveypro_answer} SET content = :newcontent WHERE content = '.$DB->sql_compare_text(':oldcontent');
+        $sql = 'UPDATE {surveypro_answer} SET content = :newcontent WHERE content = ' . $DB->sql_compare_text(':oldcontent');
         foreach ($oldcontents as $k => $oldcontent) {
             $DB->execute($sql, ['oldcontent' => $oldcontent, 'newcontent' => $newcontents[$k]]);
         }
@@ -156,7 +156,7 @@ function xmldb_surveypro_upgrade($oldversion) {
     }
 
     if ($oldversion < 2016100601) {
-        $where = $DB->sql_compare_text('content').' = :content';
+        $where = $DB->sql_compare_text('content') . ' = :content';
         $DB->delete_records_select('surveypro_answer', $where, ['content' => '@@_ANINDB_@@']);
 
         // Surveypro savepoint reached.

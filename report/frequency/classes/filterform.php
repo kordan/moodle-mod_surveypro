@@ -26,7 +26,7 @@ namespace surveyproreport_frequency;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * Class to filter output by group
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class filterform extends \moodleform {
-
+class filterform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -74,11 +74,11 @@ class filterform extends \moodleform {
             $where = ['id' => $itemseed->id];
             $thiscontent = $DB->get_field('surveypro_item', 'content', $where);
             if (!empty($surveypro->template)) {
-                $thiscontent = get_string($thiscontent, 'surveyprotemplate_'.$surveypro->template);
+                $thiscontent = get_string($thiscontent, 'surveyprotemplate_' . $surveypro->template);
             }
 
-            $content = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$itemseed->plugin);
-            $content .= $labelsep.strip_tags($thiscontent);
+            $content = get_string('pluginname', 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $itemseed->plugin);
+            $content .= $labelsep . strip_tags($thiscontent);
             $content = surveypro_cutdownstring($content);
             $options[$itemseed->id] = $content;
         }

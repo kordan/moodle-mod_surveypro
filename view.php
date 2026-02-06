@@ -24,17 +24,15 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_page;
-
 use mod_surveypro\view_cover;
 use mod_surveypro\view_responselist;
 use mod_surveypro\view_responsesubmit;
 use mod_surveypro\view_responsesearch;
-
 use mod_surveypro\local\form\response_submitform;
 use mod_surveypro\local\form\response_searchform;
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('surveypro');
 
@@ -46,8 +44,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['cover', 'submissionslist', 'responsesubmit', 'responsesearch'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 
@@ -330,8 +328,8 @@ if ($section == 'responsesubmit') {
             // It should never be verified.
             break;
         default:
-            $message = 'Unexpected $mode = '.$mode;
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            $message = 'Unexpected $mode = ' . $mode;
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
     // Is it useful? $PAGE->add_body_class('mediumwidth');.
     $utilitypageman->manage_editbutton($edit);

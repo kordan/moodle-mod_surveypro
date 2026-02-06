@@ -26,8 +26,8 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/lib/csvlib.class.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/csvlib.class.php');
 
 /**
  * Class to manage the data import form
@@ -36,8 +36,8 @@ require_once($CFG->dirroot.'/lib/csvlib.class.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submissions_importform extends \moodleform {
-
+class submissions_importform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -53,8 +53,8 @@ class submissions_importform extends \moodleform {
         // Here I use filepicker because I want ONE, and only ONE, file to import.
         $fieldname = 'csvfile';
         $attributes = ['accepted_types' => ['.csv']];
-        $mform->addElement('filepicker', $fieldname.'_filepicker', get_string('file'), null, $attributes);
-        $mform->addRule($fieldname.'_filepicker', null, 'required');
+        $mform->addElement('filepicker', $fieldname . '_filepicker', get_string('file'), null, $attributes);
+        $mform->addRule($fieldname . '_filepicker', null, 'required');
 
         // Submissionimport: csvdelimiter.
         $fieldname = 'csvdelimiter';

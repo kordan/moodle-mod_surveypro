@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use core_text;
 use mod_surveypro\utility_layout;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class representing the base form shared by all the items of the module
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item_setupbaseform extends \moodleform {
-
+class item_setupbaseform extends \moodleform
+{
     /**
      * Definition.
      *
@@ -231,7 +231,7 @@ class item_setupbaseform extends \moodleform {
                 $sql .= ' AND sortindex < :sortindex';
                 $whereparams['sortindex'] = $item->get_sortindex();
             }
-            $sql .= ' AND plugin IN (\''.implode("','", $pluginlist).'\')
+            $sql .= ' AND plugin IN (\'' . implode("','", $pluginlist) . '\')
                     ORDER BY sortindex';
             $parentsseeds = $DB->get_recordset_sql($sql, $whereparams);
 
@@ -245,8 +245,8 @@ class item_setupbaseform extends \moodleform {
                 // I do not need to take care of contents of items of master templates
                 // because if I am here, $parent is a standard item and not a multilang one.
                 $content = $star;
-                $content .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$parentitem->get_plugin());
-                $content .= ' ['.$parentitem->get_sortindex().']: '.strip_tags($parentitem->get_content());
+                $content .= get_string('pluginname', 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $parentitem->get_plugin());
+                $content .= ' [' . $parentitem->get_sortindex() . ']: ' . strip_tags($parentitem->get_content());
                 $content = surveypro_cutdownstring($content);
 
                 $condition = ($parentitem->get_hidden() == 1);
@@ -277,11 +277,11 @@ class item_setupbaseform extends \moodleform {
                 $rowparity = 1 - $rowparity;
                 $a->examples .= \html_writer::start_tag('tr', ['class' => 'r' . $rowparity]);
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'pluginname']);
-                $a->examples .= get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
+                $a->examples .= get_string('pluginname', 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin);
                 $a->examples .= \html_writer::end_tag('td');
 
                 $a->examples .= \html_writer::start_tag('td', ['class' => 'inputformat']);
-                $a->examples .= get_string('parentformat', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin);
+                $a->examples .= get_string('parentformat', 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin);
                 $a->examples .= \html_writer::end_tag('td');
                 $a->examples .= \html_writer::end_tag('tr');
             }
@@ -293,7 +293,7 @@ class item_setupbaseform extends \moodleform {
         if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
             // Here I open a new fieldset.
             $fieldname = 'specializations';
-            $typename = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$item->get_plugin());
+            $typename = get_string('pluginname', 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $item->get_plugin());
             $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
         }
     }
@@ -326,8 +326,8 @@ class item_setupbaseform extends \moodleform {
                 $elementgroup[] = $mform->createElement('submit', 'saveasnew', get_string('saveasnew', 'mod_surveypro'));
             }
             $elementgroup[] = $mform->createElement('cancel');
-            $mform->addGroup($elementgroup, $fieldname.'_group', '', ' ', false);
-            $mform->closeHeaderBefore($fieldname.'_group');
+            $mform->addGroup($elementgroup, $fieldname . '_group', '', ' ', false);
+            $mform->closeHeaderBefore($fieldname . '_group');
         } else {
             $this->add_action_buttons(true, get_string('add'));
         }
@@ -347,26 +347,26 @@ class item_setupbaseform extends \moodleform {
         $errors = parent::validation($data, $files);
 
         // Editing teacher can not set "noanswer" as default option if the item is mandatory.
-        if ( isset($data['defaultvalue_check']) && isset($data['required']) ) {
+        if (isset($data['defaultvalue_check']) && isset($data['required'])) {
             $a = get_string('noanswer', 'mod_surveypro');
             $errors['defaultvalue_group'] = get_string('ierr_notalloweddefault', 'mod_surveypro', $a);
         }
 
         if ($item->get_insetupform('parentid')) { // Some plugin may not have it, like pagebreak.
-            if ( empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) {
+            if (empty($data['parentid']) && (!core_text::strlen($data['parentcontent']))) {
                 // Stop validation here.
                 return $errors;
             }
 
             // You choosed a parentid but you are missing the parentcontent.
             // Take care: $data['parentcontent'] can be '0'.
-            if ( empty($data['parentid']) && (core_text::strlen($data['parentcontent'])) ) {
+            if (empty($data['parentid']) && (core_text::strlen($data['parentcontent']))) {
                 $a = get_string('parentcontent', 'mod_surveypro');
                 $errors['parentid'] = get_string('ierr_missingparentid', 'mod_surveypro', $a);
             }
 
             // You did not choose a parent item but you entered an answer.
-            if ( !empty($data['parentid']) && (!core_text::strlen($data['parentcontent'])) ) {
+            if (!empty($data['parentid']) && (!core_text::strlen($data['parentcontent']))) {
                 $a = get_string('parentid', 'mod_surveypro');
                 $errors['parentcontent'] = get_string('ierr_missingparentcontent', 'mod_surveypro', $a);
             }

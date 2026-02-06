@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/multiselect/lib.php');
 
 /**
  * Class to manage each aspect of the multiselect item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/multiselect/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -213,7 +213,7 @@ class item extends itembase {
         $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_multiselect');
         foreach ($values as $value) {
-            $constraints[] = $optionstr.$labelsep.$value;
+            $constraints[] = $optionstr . $labelsep . $value;
         }
 
         return implode('<br>', $constraints);
@@ -397,10 +397,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_multiselect'] = ['options', 'defaultvalue'];
 
@@ -573,11 +573,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $noanswerstr = get_string('noanswer', 'mod_surveypro');
         $starstr = get_string('star', 'mod_surveypro');
@@ -589,8 +589,8 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $baseid = 'id_field_multiselect_'.$this->sortindex;
-        $class = ['class' => 'indent-'.$this->indent];
+        $baseid = 'id_field_multiselect_' . $this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
         $basename = $this->itemname;
 
         $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
@@ -603,53 +603,56 @@ EOS;
 
         unset($attributes['size']); // No longer needed.
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
             } else {
-                $attributes['id'] = $baseid.'_noanswer';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
+                $attributes['id'] = $baseid . '_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_noanswer', '', $noanswerstr, $attributes);
 
-                $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+                $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
                 // Multiselect uses a special syntax
                 // that is different from all the other mform group with disabilitation chechbox syntax.
                 // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
-                $mform->disabledIf($basename.'[]', $basename.'_noanswer', 'checked');
+                $mform->disabledIf($basename . '[]', $basename . '_noanswer', 'checked');
             }
         } else {
             if (!$this->required) {
-                $attributes['id'] = $baseid.'_noanswer';
-                $elementgroup[] = $mform->createElement('checkbox', $basename.'_noanswer', '', $noanswerstr, $attributes);
+                $attributes['id'] = $baseid . '_noanswer';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_noanswer', '', $noanswerstr, $attributes);
             }
 
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $attributes['id'] = $baseid . '_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
+            }
 
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '<br>', false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '<br>', false, $class);
             if (!$this->required) {
                 // Multiselect uses a special syntax
                 // that is different from all the other mform group with disabilitation chechbox syntax.
                 // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
-                $mform->disabledIf($basename.'[]', $basename.'_noanswer', 'checked');
+                $mform->disabledIf($basename . '[]', $basename . '_noanswer', 'checked');
             }
-            $mform->disabledIf($basename.'[]', $basename.'_ignoreme', 'checked');
-            $mform->disabledIf($basename.'_noanswer', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+            $mform->disabledIf($basename . '[]', $basename . '_ignoreme', 'checked');
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename . '_noanswer', $basename . '_ignoreme', 'checked');
+            }
         }
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
         }
 
         // Begin of: defaults.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
                 $defaultkeys = [];
                 foreach ($defaults as $default) {
@@ -658,7 +661,11 @@ EOS;
                 $mform->setDefault($basename, $defaultkeys);
             }
             if (!empty($this->noanswerdefault)) {
-                $mform->setDefault($basename.'_noanswer', '1');
+                $mform->setDefault($basename . '_noanswer', '1');
+            }
+        } else {
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename . '_ignoreme', '1');
             }
         }
         // End of: defaults.
@@ -670,7 +677,7 @@ EOS;
         //
         // Take care: I choose a name for this item that IS UNIQUE BUT is missing the SURVEYPRO_ITEMPREFIX.'_'.
         // In this way I am sure it will be used as indicator that something has to be done on the element.
-        $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
+        $placeholderitemname = SURVEYPRO_PLACEHOLDERPREFIX . '_' . $this->type . '_' . $this->plugin . '_' . $this->itemid;
         $mform->addElement('hidden', $placeholderitemname, 1);
         $mform->setType($placeholderitemname, PARAM_INT);
     }
@@ -687,11 +694,11 @@ EOS;
         if ($searchform) {
             return $errors;
         }
-        if (isset($data[$this->itemname.'_noanswer']) && ($data[$this->itemname.'_noanswer'] == 1) ) {
+        if (isset($data[$this->itemname . '_noanswer']) && ($data[$this->itemname . '_noanswer'] == 1)) {
             return $errors; // Nothing to validate.
         }
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         // I don't care if this element is required or not.
         // If the user provides an answer, it has to be compliant with the field validation rules.
@@ -739,7 +746,7 @@ EOS;
 
         if ($indexsubset) {
             $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname.'[]';
+            $mformelementinfo->parentname = $this->itemname . '[]';
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $indexsubset;
             $disabilitationinfo[] = $mformelementinfo;
@@ -749,7 +756,7 @@ EOS;
         // If this item foresees the "No answer" checkbox, provide a directive for it too.
         if (!$this->required) {
             $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname.'_noanswer';
+            $mformelementinfo->parentname = $this->itemname . '_noanswer';
             $mformelementinfo->content = 'checked';
 
             $disabilitationinfo[] = $mformelementinfo;
@@ -758,7 +765,7 @@ EOS;
         if ($labelsubset) {
             // Only garbage, but user wrote it.
             $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname.'[]';
+            $mformelementinfo->parentname = $this->itemname . '[]';
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $labelsubset;
             $disabilitationinfo[] = $mformelementinfo;
@@ -889,7 +896,7 @@ EOS;
 
         if (isset($fromdb->content)) {
             if ($fromdb->content == SURVEYPRO_NOANSWERVALUE) {
-                $prefill[$this->itemname.'_noanswer'] = '1';
+                $prefill[$this->itemname . '_noanswer'] = '1';
                 return $prefill;
             }
 
@@ -906,7 +913,7 @@ EOS;
 
         // If the "No answer" checkbox is part of the element GUI...
         if ($this->noanswerdefault) {
-            $prefill[$this->itemname.'_noanswer'] = 0;
+            $prefill[$this->itemname . '_noanswer'] = 0;
         }
 
         return $prefill;
@@ -919,7 +926,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 
@@ -969,8 +976,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                $message = 'Unexpected $format = '.$format;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = ' . $format;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         return $return;
@@ -983,8 +990,8 @@ EOS;
      */
     public function userform_get_root_elements_name() {
         $elementnames = [];
-        $elementnames[] = $this->itemname.'[]';
-        $elementnames[] = SURVEYPRO_DONTSAVEMEPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid.'_placeholder';
+        $elementnames[] = $this->itemname . '[]';
+        $elementnames[] = SURVEYPRO_DONTSAVEMEPREFIX . '_' . $this->type . '_' . $this->plugin . '_' . $this->itemid . '_placeholder';
 
         return $elementnames;
     }

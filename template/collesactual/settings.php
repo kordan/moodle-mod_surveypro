@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/mod/surveypro/lib.php');
-require_once($CFG->dirroot.'/mod/surveypro/template/collesactual/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/template/collesactual/lib.php');
 
 $options = [
     SURVEYPRO_POSITIONLEFT => get_string('left', 'mod_surveypro'),

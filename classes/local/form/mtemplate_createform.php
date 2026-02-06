@@ -26,7 +26,7 @@ namespace mod_surveypro\local\form;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot.'/lib/formslib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
 
 /**
  * The class representing the form to create a master template
@@ -35,8 +35,8 @@ require_once($CFG->dirroot.'/lib/formslib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplate_createform extends \moodleform {
-
+class mtemplate_createform extends \moodleform
+{
     /**
      * Definition.
      *

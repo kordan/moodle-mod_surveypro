@@ -24,6 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$settings->add(new admin_setting_configtext('surveyprofield_age/maximumage',
+$settings->add(new admin_setting_configtext(
+    'surveyprofield_age/maximumage',
     get_string('maximumage', 'surveyprofield_age'),
-    get_string('maximumage_desc', 'surveyprofield_age'), 105, PARAM_INT));
+    get_string('maximumage_desc', 'surveyprofield_age'),
+    105,
+    PARAM_INT
+));

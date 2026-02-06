@@ -33,8 +33,8 @@ use mod_surveypro\formbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class layout_preview extends formbase {
-
+class layout_preview extends formbase
+{
     /**
      * Do what is needed ONLY AFTER the view parameter is set.
      *
@@ -58,7 +58,6 @@ class layout_preview extends formbase {
 
         $this->prevent_direct_user_input();
         $this->trigger_event();
-
     }
 
     /**

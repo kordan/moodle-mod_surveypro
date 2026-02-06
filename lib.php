@@ -37,79 +37,79 @@ defined('MOODLE_INTERNAL') || die();
  * Some constants
  */
 define('SURVEYPRO_VALUELABELSEPARATOR', '::');
-define('SURVEYPRO_OTHERSEPARATOR'     , '->');
+define('SURVEYPRO_OTHERSEPARATOR', '->');
 
 /**
  * ITEM TYPES
  */
-define('SURVEYPRO_TYPEFIELD' , 'field');
+define('SURVEYPRO_TYPEFIELD', 'field');
 define('SURVEYPRO_TYPEFORMAT', 'format');
 
 /**
  * KIND OF SUBMISSION
  */
-define('SURVEYPRO_ONESHOTNOEMAIL',     0);
-define('SURVEYPRO_ONESHOTEMAIL',       1);
+define('SURVEYPRO_ONESHOTNOEMAIL', 0);
+define('SURVEYPRO_ONESHOTEMAIL', 1);
 define('SURVEYPRO_PAUSERESUMENOEMAIL', 2);
-define('SURVEYPRO_PAUSERESUMEEMAIL',   3);
+define('SURVEYPRO_PAUSERESUMEEMAIL', 3);
 
 /**
  * ACTIONS
  */
-define('SURVEYPRO_NOACTION'          , '0');
+define('SURVEYPRO_NOACTION', '0');
 
 /**
  * ACTIONS in LAYOUT MANAGEMENT page
  */
-define('SURVEYPRO_CHANGEORDER'       , '1');
-define('SURVEYPRO_DELETEITEM'        , '2');
-define('SURVEYPRO_DROPMULTILANG'     , '3');
-define('SURVEYPRO_CHANGEINDENT'      , '4');
-define('SURVEYPRO_HIDEITEM'          , '5');
-define('SURVEYPRO_SHOWITEM'          , '6');
-define('SURVEYPRO_MAKERESERVED'      , '7');
-define('SURVEYPRO_MAKEAVAILABLE'     , '8');
-define('SURVEYPRO_RESPONSETOPDF'     , '9');
+define('SURVEYPRO_CHANGEORDER', '1');
+define('SURVEYPRO_DELETEITEM', '2');
+define('SURVEYPRO_DROPMULTILANG', '3');
+define('SURVEYPRO_CHANGEINDENT', '4');
+define('SURVEYPRO_HIDEITEM', '5');
+define('SURVEYPRO_SHOWITEM', '6');
+define('SURVEYPRO_MAKERESERVED', '7');
+define('SURVEYPRO_MAKEAVAILABLE', '8');
+define('SURVEYPRO_RESPONSETOPDF', '9');
 
 /**
  * BULK ACTIONS in LAYOUT MANAGEMENT and in APPLY UTEMPLATE page
  */
-define('SURVEYPRO_IGNOREITEMS'       , '0');
-define('SURVEYPRO_HIDEALLITEMS'      , '13');
-define('SURVEYPRO_SHOWALLITEMS'      , '14');
-define('SURVEYPRO_DELETEALLITEMS'    , '15');
+define('SURVEYPRO_IGNOREITEMS', '0');
+define('SURVEYPRO_HIDEALLITEMS', '13');
+define('SURVEYPRO_SHOWALLITEMS', '14');
+define('SURVEYPRO_DELETEALLITEMS', '15');
 define('SURVEYPRO_DELETEVISIBLEITEMS', '16');
-define('SURVEYPRO_DELETEHIDDENITEMS' , '17');
+define('SURVEYPRO_DELETEHIDDENITEMS', '17');
 
 // ACTIONS in RESPONSES section.
-define('SURVEYPRO_DELETERESPONSE'    , '18');
+define('SURVEYPRO_DELETERESPONSE', '18');
 define('SURVEYPRO_DELETEALLRESPONSES', '19');
-define('SURVEYPRO_DUPLICATERESPONSE' , '20');
+define('SURVEYPRO_DUPLICATERESPONSE', '20');
 
 // ACTIONS in UTEMPLATE section.
-define('SURVEYPRO_DELETEUTEMPLATE'   , '21');
-define('SURVEYPRO_EXPORTUTEMPLATE'   , '22');
-define('SURVEYPRO_APPLYUTEMPLATE'    , '23');
+define('SURVEYPRO_DELETEUTEMPLATE', '21');
+define('SURVEYPRO_EXPORTUTEMPLATE', '22');
+define('SURVEYPRO_APPLYUTEMPLATE', '23');
 
 /**
  * VIEW
  */
 // MODE in which the USER FORM is going to be used.
-define('SURVEYPRO_NOMODE'         , '0');
+define('SURVEYPRO_NOMODE', '0');
 define('SURVEYPRO_NEWRESPONSEMODE', '1');
-define('SURVEYPRO_EDITMODE'       , '2');
-define('SURVEYPRO_READONLYMODE'   , '3');
-define('SURVEYPRO_PREVIEWMODE'    , '4');
+define('SURVEYPRO_EDITMODE', '2');
+define('SURVEYPRO_READONLYMODE', '3');
+define('SURVEYPRO_PREVIEWMODE', '4');
 
 // VIEW in ITEM section.
-define('SURVEYPRO_NEWITEM'        , '5');
-define('SURVEYPRO_EDITITEM'       , '6');
-define('SURVEYPRO_CHANGEORDERASK' , '7');
+define('SURVEYPRO_NEWITEM', '5');
+define('SURVEYPRO_EDITITEM', '6');
+define('SURVEYPRO_CHANGEORDERASK', '7');
 
 /**
  * SENDERS
  */
-define('SURVEYPRO_TAB'  , 1);
+define('SURVEYPRO_TAB', 1);
 define('SURVEYPRO_BLOCK', 2);
 
 /**
@@ -120,32 +120,32 @@ define('SURVEYPRO_NOFEEDBACK', 0);
 /**
  * ITEMPREFIX
  */
-define('SURVEYPRO_ITEMPREFIX'       , 'surveypro');
+define('SURVEYPRO_ITEMPREFIX', 'surveypro');
 define('SURVEYPRO_PLACEHOLDERPREFIX', 'placeholder');
-define('SURVEYPRO_DONTSAVEMEPREFIX' , 'placeholder');
+define('SURVEYPRO_DONTSAVEMEPREFIX', 'placeholder');
 
 /**
  * INVITE, NO-ANSWER AND IGNOREME VALUE
  */
 // Starting from version 2015090901.
-define('SURVEYPRO_INVITEVALUE'    , '@@_INVITE_@@'); // User should never guess it.
-define('SURVEYPRO_NOANSWERVALUE'  , '@@_NOANSW_@@'); // User should never guess it.
-define('SURVEYPRO_IGNOREMEVALUE'  , '@@_IGNORE_@@'); // User should never guess it.
-define('SURVEYPRO_EXPNULLVALUE'   , '@@_NULVAL_@@'); // User should never guess it.
+define('SURVEYPRO_INVITEVALUE', '@@_INVITE_@@'); // User should never guess it.
+define('SURVEYPRO_NOANSWERVALUE', '@@_NOANSW_@@'); // User should never guess it.
+define('SURVEYPRO_IGNOREMEVALUE', '@@_IGNORE_@@'); // User should never guess it.
+define('SURVEYPRO_EXPNULLVALUE', '@@_NULVAL_@@'); // User should never guess it.
 define('SURVEYPRO_IMPFORMATSUFFIX', '@@_FORMAT_@@'); // User should never guess it.
 
 /**
  * ITEM ADJUSTMENTS
  */
-define('SURVEYPRO_VERTICAL'  , 0);
+define('SURVEYPRO_VERTICAL', 0);
 define('SURVEYPRO_HORIZONTAL', 1);
 
 /**
  * SURVEYPRO STATUS
  */
-define('SURVEYPRO_STATUSCLOSED'    , 0);
+define('SURVEYPRO_STATUSCLOSED', 0);
 define('SURVEYPRO_STATUSINPROGRESS', 1);
-define('SURVEYPRO_STATUSALL'       , 2);
+define('SURVEYPRO_STATUSALL', 2);
 
 /**
  * DOWNLOAD
@@ -155,8 +155,8 @@ define('SURVEYPRO_DOWNLOADTSV', 2);
 define('SURVEYPRO_DOWNLOADXLS', 3);
 define('SURVEYPRO_FILESBYUSER', 4);
 define('SURVEYPRO_FILESBYITEM', 5);
-define('SURVEYPRO_NOFIELDSSELECTED' , 1);
-define('SURVEYPRO_NORECORDSFOUND'   , 2);
+define('SURVEYPRO_NOFIELDSSELECTED', 1);
+define('SURVEYPRO_NORECORDSFOUND', 2);
 define('SURVEYPRO_NOATTACHMENTFOUND', 3);
 define('SURVEYPRO_OWNERIDLABEL', 'ownerid');
 define('SURVEYPRO_TIMECREATEDLABEL', 'timecreated');
@@ -165,32 +165,32 @@ define('SURVEYPRO_TIMEMODIFIEDLABEL', 'timemodified');
 /**
  * SEPARATORS
  */
-define('SURVEYPRO_DBMULTICONTENTSEPARATOR',     ';');
+define('SURVEYPRO_DBMULTICONTENTSEPARATOR', ';');
 define('SURVEYPRO_OUTPUTMULTICONTENTSEPARATOR', '; ');
 
 /**
  * CONFIRMATION
  */
-define('SURVEYPRO_UNCONFIRMED'    , 0);
-define('SURVEYPRO_CONFIRMED_YES'  , 1);
-define('SURVEYPRO_CONFIRMED_NO'   , 2);
+define('SURVEYPRO_UNCONFIRMED', 0);
+define('SURVEYPRO_CONFIRMED_YES', 1);
+define('SURVEYPRO_CONFIRMED_NO', 2);
 define('SURVEYPRO_ACTION_EXECUTED', 3);
 
 /**
  * DEFAULTVALUE OPTION
  */
-define('SURVEYPRO_CUSTOMDEFAULT'  , 1);
-define('SURVEYPRO_INVITEDEFAULT'  , 2);
+define('SURVEYPRO_CUSTOMDEFAULT', 1);
+define('SURVEYPRO_INVITEDEFAULT', 2);
 define('SURVEYPRO_NOANSWERDEFAULT', 3);
 define('SURVEYPRO_LIKELASTDEFAULT', 4);
-define('SURVEYPRO_TIMENOWDEFAULT' , 5);
+define('SURVEYPRO_TIMENOWDEFAULT', 5);
 
 /**
  * FILEAREAS
  */
-define('SURVEYPRO_STYLEFILEAREA'      , 'userstyle');
-define('SURVEYPRO_TEMPLATEFILEAREA'   , 'templatefilearea');
-define('SURVEYPRO_THANKSPAGEFILEAREA' , 'thankshtml');
+define('SURVEYPRO_STYLEFILEAREA', 'userstyle');
+define('SURVEYPRO_TEMPLATEFILEAREA', 'templatefilearea');
+define('SURVEYPRO_THANKSPAGEFILEAREA', 'thankshtml');
 define('SURVEYPRO_ITEMCONTENTFILEAREA', 'itemcontent');
 
 /**
@@ -201,30 +201,30 @@ define('SURVEYPRO_FRIENDLYFORMAT', -1);
 /**
  * POSITION OF THE QUESTION CONTENT IN THE ITEM
  */
-define('SURVEYPRO_POSITIONLEFT'     , 0);
-define('SURVEYPRO_POSITIONTOP'      , 1);
+define('SURVEYPRO_POSITIONLEFT', 0);
+define('SURVEYPRO_POSITIONTOP', 1);
 define('SURVEYPRO_POSITIONFULLWIDTH', 2);
 
 /**
  * STATUS OF CONDITIONS OF RELATIONS
  */
-define('SURVEYPRO_CONDITIONOK'        , 0);
+define('SURVEYPRO_CONDITIONOK', 0);
 define('SURVEYPRO_CONDITIONNEVERMATCH', 1);
-define('SURVEYPRO_CONDITIONMALFORMED' , 2);
+define('SURVEYPRO_CONDITIONMALFORMED', 2);
 
 /**
  * SEMANTIC OF CONTENT RETURNED BY ITEMS
  */
-define('SURVEYPRO_ITEMSRETURNSVALUES' , 0);
-define('SURVEYPRO_ITEMRETURNSLABELS'  , 1);
+define('SURVEYPRO_ITEMSRETURNSVALUES', 0);
+define('SURVEYPRO_ITEMRETURNSLABELS', 1);
 define('SURVEYPRO_ITEMRETURNSPOSITION', 2);
 
 /**
  * OUTPUT CONTENT
  */
-define('SURVEYPRO_LABELS'    , 'labels');
-define('SURVEYPRO_VALUES'    , 'values');
-define('SURVEYPRO_POSITIONS' , 'positions');
+define('SURVEYPRO_LABELS', 'labels');
+define('SURVEYPRO_VALUES', 'values');
+define('SURVEYPRO_POSITIONS', 'positions');
 define('SURVEYPRO_ITEMDRIVEN', 'itemdriven');
 
 /**
@@ -235,8 +235,8 @@ define('SURVEYPRO_DUMMYCONTENT', '__my_dummy_content@@');
 /**
  * OUTPUT OF FINAL SUBMISSION EVALUATION
  */
-define('SURVEYPRO_VALIDRESPONSE'    , 0);
-define('SURVEYPRO_MISSINGMANDATORY' , 1);
+define('SURVEYPRO_VALIDRESPONSE', 0);
+define('SURVEYPRO_MISSINGMANDATORY', 1);
 define('SURVEYPRO_MISSINGVALIDATION', 2);
 
 /**
@@ -248,7 +248,7 @@ define('SURVEYPRO_3COLUMNSTEMPLATE', 3);
 /**
  * EXPORT CSV FILE STYLE
  */
-define('SURVEYPRO_RAW',     0);
+define('SURVEYPRO_RAW', 0);
 define('SURVEYPRO_VERBOSE', 1);
 
 /**
@@ -258,8 +258,8 @@ define('SURVEYPRO_EVENT_TYPE_OPEN', 'open');
 
 // Moodle core API.
 
-require_once($CFG->dirroot.'/lib/formslib.php'); // Needed by unittest.
-require_once($CFG->dirroot.'/mod/surveypro/deprecatedlib.php');
+require_once($CFG->dirroot . '/lib/formslib.php'); // Needed by unittest.
+require_once($CFG->dirroot . '/mod/surveypro/deprecatedlib.php');
 /* Do not include any libraries here! */
 
 /**
@@ -302,8 +302,15 @@ function surveypro_add_instance($surveypro, $mform) {
     // Manage thankspage editor.
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankspageeditor['itemid']) {
-        $surveypro->thankspage = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $surveypro->thankspageeditor['text']);
+        $surveypro->thankspage = file_save_draft_area_files(
+            $draftitemid,
+            $context->id,
+            'mod_surveypro',
+            SURVEYPRO_THANKSPAGEFILEAREA,
+            0,
+            $editoroptions,
+            $surveypro->thankspageeditor['text']
+        );
         $surveypro->thankspageformat = $surveypro->thankspageeditor['format'];
     }
 
@@ -355,8 +362,15 @@ function surveypro_update_instance($surveypro, $mform) {
     // Manage thankspage editor.
     $editoroptions = surveypro_get_editor_options();
     if ($draftitemid = $surveypro->thankspageeditor['itemid']) {
-        $surveypro->thankspage = file_save_draft_area_files($draftitemid, $context->id, 'mod_surveypro',
-                SURVEYPRO_THANKSPAGEFILEAREA, 0, $editoroptions, $surveypro->thankspageeditor['text']);
+        $surveypro->thankspage = file_save_draft_area_files(
+            $draftitemid,
+            $context->id,
+            'mod_surveypro',
+            SURVEYPRO_THANKSPAGEFILEAREA,
+            0,
+            $editoroptions,
+            $surveypro->thankspageeditor['text']
+        );
         $surveypro->thankspageformat = $surveypro->thankspageeditor['format'];
     }
 
@@ -383,12 +397,12 @@ function surveypro_update_instance($surveypro, $mform) {
 function surveypro_create_event_on_calendar($surveypro, $type) {
     global $CFG, $DB, $USER;
 
-    require_once($CFG->dirroot.'/calendar/lib.php');
+    require_once($CFG->dirroot . '/calendar/lib.php');
 
     $types = ['open', 'close'];
     if (!in_array($type, $types)) {
         $message = 'Wrong type passed to surveypro_create_event_on_calendar';
-        debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
+        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
 
     $condition = (!is_null($surveypro->timeopen) && ($type == 'open'));
@@ -499,14 +513,14 @@ function surveypro_delete_instance($id) {
 
         // Delete all associated item<<$type>>_<<plugin>>.
         foreach ($pluginlist as $plugin) {
-            $tablename = 'surveypro'.$type.'_'.$plugin;
+            $tablename = 'surveypro' . $type . '_' . $plugin;
             if ($DB->get_manager()->table_exists($tablename)) {
                 $whereparams['plugin'] = $plugin;
 
                 if ($deletelist = $DB->get_records('surveypro_item', $whereparams, 'id', 'id')) {
                     $deletelist = array_keys($deletelist);
                     [$insql, $inparams] = $DB->get_in_or_equal($deletelist, SQL_PARAMS_NAMED, 'delete');
-                    $select = 'itemid '.$insql;
+                    $select = 'itemid ' . $insql;
 
                     if (!$DB->delete_records_select($tablename, $select, $inparams)) {
                         $status = false;
@@ -619,7 +633,7 @@ function surveypro_print_recent_activity($course, $viewfullnames, $timestart) {
  * @param int $groupid Optional group id
  * @return void
  */
-function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function surveypro_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid = 0, $groupid = 0) {
 }
 
 /**
@@ -781,7 +795,7 @@ function surveypro_get_file_info($browser, $areas, $course, $cm, $context, $file
         return null;
     }
 
-    $urlbase = $CFG->wwwroot.'/pluginfile.php';
+    $urlbase = $CFG->wwwroot . '/pluginfile.php';
 
     return new file_info_stored($browser, $context, $storedfile, $urlbase, $itemid, true, true, false, false);
 }
@@ -798,7 +812,7 @@ function surveypro_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param array $options additional options affecting the file serving
  * @return bool false if the file is not found, just send the file otherwise returning nothing
  */
-function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=[]) {
+function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = []) {
     global $DB;
 
     require_login($course, true, $cm);
@@ -947,8 +961,8 @@ function surveypro_get_defaults_section_per_area($area) {
 
     // Verify a correct $area was requested.
     if (!isset($defaultsection[$area])) {
-        $message = 'The requested area \''.$area.'\' is invalid.';
-        debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+        $message = 'The requested area \'' . $area . '\' is invalid.';
+        debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
     // End of: Verify a correct $area was requested.
 
@@ -1027,7 +1041,7 @@ function surveypro_get_link_and_condition($area) {
                 $reportname = surveypro_get_first_allowed_report();
             }
             if (!empty($reportname)) {
-                $classname = 'surveyproreport_'.$reportname.'\report';
+                $classname = 'surveyproreport_' . $reportname . '\report';
                 $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
                 $reportman = new $classname($cm, $context, $surveypro);
                 $reportman->setup();
@@ -1088,8 +1102,8 @@ function surveypro_get_link_and_condition($area) {
             }
             break;
         default:
-            $message = 'Unexpected $linkid = '.$linkid;
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            $message = 'Unexpected $linkid = ' . $linkid;
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
 
     return [$condition, $label, $url];
@@ -1116,7 +1130,7 @@ function surveypro_get_first_allowed_report() {
     $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
     if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
         foreach ($surveyproreportlist as $reportname => $reportpath) {
-            $classname = 'surveyproreport_'.$reportname.'\report';
+            $classname = 'surveyproreport_' . $reportname . '\report';
             $reportman = new $classname($cm, $context, $surveypro);
             $reportman->setup();
             $condition = $reportman->is_report_allowed();
@@ -1149,20 +1163,20 @@ function surveypro_site_recaptcha_enabled() {
  * @param bool $count
  * @return void
  */
-function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=false) {
+function surveypro_get_plugin_list($plugintype = null, $includetype = false, $count = false) {
     $plugincount = 0;
     $fieldplugins = [];
     $formatplugins = [];
 
     if ($plugintype == SURVEYPRO_TYPEFIELD || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(\core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD));
+            $plugincount += count(\core_component::get_plugin_list('surveypro' . SURVEYPRO_TYPEFIELD));
         } else {
-            $fieldplugins = \core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFIELD);
+            $fieldplugins = \core_component::get_plugin_list('surveypro' . SURVEYPRO_TYPEFIELD);
             if (!empty($includetype)) {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
-                        $fieldplugins[$k] = SURVEYPRO_TYPEFIELD.'_'.$k;
+                    if (!get_config('surveypro' . SURVEYPRO_TYPEFIELD . '_' . $k, 'disabled')) {
+                        $fieldplugins[$k] = SURVEYPRO_TYPEFIELD . '_' . $k;
                     } else {
                         unset($fieldplugins[$k]);
                     }
@@ -1170,7 +1184,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $fieldplugins = array_flip($fieldplugins);
             } else {
                 foreach ($fieldplugins as $k => $v) {
-                    if (!get_config('surveypro'.SURVEYPRO_TYPEFIELD.'_'.$k, 'disabled')) {
+                    if (!get_config('surveypro' . SURVEYPRO_TYPEFIELD . '_' . $k, 'disabled')) {
                         $fieldplugins[$k] = $k;
                     } else {
                         unset($fieldplugins[$k]);
@@ -1181,13 +1195,13 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
     }
     if ($plugintype == SURVEYPRO_TYPEFORMAT || is_null($plugintype)) {
         if ($count) {
-            $plugincount += count(\core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT));
+            $plugincount += count(\core_component::get_plugin_list('surveypro' . SURVEYPRO_TYPEFORMAT));
         } else {
-            $formatplugins = \core_component::get_plugin_list('surveypro'.SURVEYPRO_TYPEFORMAT);
+            $formatplugins = \core_component::get_plugin_list('surveypro' . SURVEYPRO_TYPEFORMAT);
             if (!empty($includetype)) {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
-                        $formatplugins[$k] = SURVEYPRO_TYPEFORMAT.'_'.$k;
+                    if (!get_config('surveypro' . SURVEYPRO_TYPEFORMAT . '_' . $k, 'disabled')) {
+                        $formatplugins[$k] = SURVEYPRO_TYPEFORMAT . '_' . $k;
                     } else {
                         unset($formatplugins[$k]);
                     }
@@ -1195,7 +1209,7 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
                 $formatplugins = array_flip($formatplugins);
             } else {
                 foreach ($formatplugins as $k => $v) {
-                    if (!get_config('surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$k, 'disabled')) {
+                    if (!get_config('surveypro' . SURVEYPRO_TYPEFORMAT . '_' . $k, 'disabled')) {
                         $formatplugins[$k] = $k;
                     } else {
                         unset($formatplugins[$k]);
@@ -1226,8 +1240,15 @@ function surveypro_get_plugin_list($plugintype=null, $includetype=false, $count=
  * @param bool $pagebreak
  * @return [$where, $params]
  */
-function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccessreserveditems=false,
-                                     $searchform=false, $type=false, $formpage=false, $pagebreak=false) {
+function surveypro_fetch_items_seeds(
+    $surveyproid,
+    $visibleonly = true,
+    $canaccessreserveditems = false,
+    $searchform = false,
+    $type = false,
+    $formpage = false,
+    $pagebreak = false
+) {
     $params = [];
     $conditions = [];
 
@@ -1264,7 +1285,7 @@ function surveypro_fetch_items_seeds($surveyproid, $visibleonly=true, $canaccess
         $params['plugin'] = 'pagebreak';
     }
 
-    $where = '( ('.implode(') AND (', $conditions).') )';
+    $where = '( (' . implode(') AND (', $conditions) . ') )';
 
     return [$where, $params];
 }
@@ -1320,11 +1341,11 @@ function surveypro_get_user_style_options() {
  *
  * @return void
  */
-function surveypro_cutdownstring($plainstring, $maxlength=60) {
+function surveypro_cutdownstring($plainstring, $maxlength = 60) {
     if (\core_text::strlen($plainstring) > $maxlength) {
         $ellipsis = '...';
         $cutlength = $maxlength - \core_text::strlen($ellipsis);
-        $plainstring = \core_text::substr($plainstring, 0, $cutlength).$ellipsis;
+        $plainstring = \core_text::substr($plainstring, 0, $cutlength) . $ellipsis;
     }
 
     return $plainstring;
@@ -1339,7 +1360,7 @@ function surveypro_cutdownstring($plainstring, $maxlength=60) {
  * @return \core\output\inplace_editable
  */
 function surveypro_inplace_editable($itemtype, $id, $newvalue) {
-    $classname = 'mod_surveypro\local\ipe\\'.$itemtype;
+    $classname = 'mod_surveypro\local\ipe\\' . $itemtype;
 
     return $classname::update($id, $newvalue);
 }
@@ -1355,21 +1376,21 @@ function surveypro_inplace_editable($itemtype, $id, $newvalue) {
  * @param bool $getparentcontent
  * @return $item object
  */
-function surveypro_get_itemclass($cm, $surveypro, $itemid=0, $type='', $plugin='', $getparentcontent=false) {
+function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plugin = '', $getparentcontent = false) {
     global $CFG, $DB;
 
     if (!empty($itemid)) {
         $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'surveyproid, type, plugin', MUST_EXIST);
         if ($cm->instance != $itemseed->surveyproid) {
-            $message = 'Mismatch between passed itemid ('.$itemid.') and corresponding cm->instance ('.$cm->instance.')';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
+            $message = 'Mismatch between passed itemid (' . $itemid . ') and corresponding cm->instance (' . $cm->instance . ')';
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
     if (empty($type) || empty($plugin)) {
         if (empty($itemid)) {
             $message = 'Unexpected empty($itemid)';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         $type = $itemseed->type;
@@ -1377,17 +1398,17 @@ function surveypro_get_itemclass($cm, $surveypro, $itemid=0, $type='', $plugin='
     } else {
         if (isset($itemseed)) {
             if ($type != $itemseed->type) {
-                $message = 'Mismatch between passed type ('.$type.') and found type ('.$itemseed->type.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
+                $message = 'Mismatch between passed type (' . $type . ') and found type (' . $itemseed->type . ')';
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
             if ($plugin != $itemseed->plugin) {
-                $message = 'Mismatch between passed plugin ('.$plugin.') and found plugin ('.$itemseed->plugin.')';
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message, DEBUG_DEVELOPER);
+                $message = 'Mismatch between passed plugin (' . $plugin . ') and found plugin (' . $itemseed->plugin . ')';
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
     }
 
-    $classname = 'surveypro'.$type.'_'.$plugin.'\item';
+    $classname = 'surveypro' . $type . '_' . $plugin . '\item';
     $item = new $classname($cm, $surveypro, $itemid, $getparentcontent);
 
     return $item;

@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/character/lib.php');
 
 /**
  * Class to manage each aspect of the character item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/character/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -396,10 +396,10 @@ class item extends itembase {
     /**
      * Make the list of multilang plugin fields.
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_character'] = ['defaultvalue'];
 
@@ -444,8 +444,8 @@ EOS;
     public static function response_get_whereclause($itemid, $searchrestriction) {
         global $DB;
 
-        $whereclause = $DB->sql_like('a.content', ':content_'.$itemid, false);
-        $whereparam = '%'.$searchrestriction.'%';
+        $whereclause = $DB->sql_like('a.content', ':content_' . $itemid, false);
+        $whereparam = '%' . $searchrestriction . '%';
 
         return [$whereclause, $whereparam];
     }
@@ -465,11 +465,11 @@ EOS;
      * But it doesn't work because "type" property is reserved to mform library
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
@@ -478,8 +478,8 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_character_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_character_' . $this->sortindex;
         $basename = $this->itemname;
 
         $thresholdsize = 37;
@@ -496,9 +496,9 @@ EOS;
             $attributes['size'] = $thresholdsize * $lengthtochar;
         }
 
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
 
             $mform->setType($basename, PARAM_RAW);
             $mform->setDefault($basename, $this->defaultvalue);
@@ -508,20 +508,25 @@ EOS;
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
         } else {
             $elementgroup[] = $mform->createElement('text', $basename, $elementlabel, $attributes);
             $mform->setType($basename, PARAM_RAW);
 
-            $starstr = get_string('star', 'mod_surveypro');
-            $attributes['id'] = $baseid.'_ignoreme';
-            $elementgroup[] = $mform->createElement('checkbox', $basename.'_ignoreme', '', $starstr, $attributes);
+            if ($searchformelementscount > 1) {
+                $starstr = get_string('star', 'mod_surveypro');
+                $attributes['id'] = $baseid . '_ignoreme';
+                $elementgroup[] = $mform->createElement('checkbox', $basename . '_ignoreme', '', $starstr, $attributes);
+            }
 
-            $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
-            $mform->disabledIf($basename.'_group', $basename.'_ignoreme', 'checked');
-            $mform->setDefault($basename.'_ignoreme', '1');
+            $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
+
+            if ($searchformelementscount > 1) {
+                $mform->disabledIf($basename . '_group', $basename . '_ignoreme', 'checked');
+                $mform->setDefault($basename . '_ignoreme', '1');
+            }
         }
     }
 
@@ -538,7 +543,7 @@ EOS;
             return $errors;
         }
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
         $fieldname = $this->itemname;
         if ($this->trimonsave) {
             if (trim($data[$fieldname]) != $data[$fieldname]) {
@@ -594,11 +599,11 @@ EOS;
                 }
                 break;
             default:
-                $message = 'Unexpected $this->pattern = '.$this->pattern;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->pattern = ' . $this->pattern;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
-        if ( $errors && isset($warnings) ) {
+        if ($errors && isset($warnings)) {
             // Always sum $warnings to $errors so if an element has a warning and an error too, the error it will be preferred.
             $errors += $warnings;
         }
@@ -653,8 +658,8 @@ EOS;
                 $arrayinstruction[] = get_string('restrictions_regex', 'surveyprofield_character', $this->patterntext);
                 break;
             default:
-                $message = 'Unexpected $this->pattern = '.$this->pattern;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->pattern = ' . $this->pattern;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         if ($this->trimonsave) {
@@ -722,6 +727,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return [$this->itemname.'_group'];
+        return [$this->itemname . '_group'];
     }
 }

@@ -1,6 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_textarea
 Feature: Submit using textarea item and check form validation
-  Setting I check in this test are:
+  Settings I check in this test are:
       # required:                       0 - 1
       # Use html editor:                0 - 1
       # Minimum length (in characters): 20
@@ -42,6 +42,7 @@ Feature: Submit using textarea item and check form validation
       | Minimum length (in characters) | 20                                    |
       | Maximum length (in characters) | 1                                     |
     And I press "Add"
+
     Then I should see "Maximum length can not be lower-equal than minimum length"
     And I set the field "Maximum length (in characters)" to ""
     And I press "Add"
@@ -123,6 +124,7 @@ Feature: Submit using textarea item and check form validation
       | Minimum length (in characters) | 20                                    |
       | Maximum length (in characters) | 1                                     |
     And I press "Add"
+
     Then I should see "Maximum length can not be lower-equal than minimum length"
     # End of test number 8
 

@@ -18,8 +18,6 @@ use mod_surveypro\local\importer\preset_existing_importer;
 use mod_surveypro\manager;
 use mod_surveypro\output\view_action_bar;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Surveypro activity renderer.
  *
@@ -27,8 +25,8 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_renderer extends plugin_renderer_base {
-
+class mod_surveypro_renderer extends plugin_renderer_base
+{
     /**
      * Renders the action bar for the view page.
      *

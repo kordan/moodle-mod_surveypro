@@ -1,6 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
 Feature: Submit using checkbox item and check form validation (2 of 4)
-  Setting I check in this test are:
+  Settings I check in this test are:
       # required:                 0 - 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty - coffee
@@ -37,10 +37,9 @@ Feature: Submit using checkbox item and check form validation (2 of 4)
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 0                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 0                                      |
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I press "Add"
 
     And I log out
@@ -84,10 +83,9 @@ Feature: Submit using checkbox item and check form validation (2 of 4)
     Given I set the following fields to these values:
       | Content                  | What do you usually get for breakfast? |
       | Required                 | 0                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I set the following fields to these values:
       | Default                  | coffee                                 |
       | Minimum required options | 2                                      |
+    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
     And I press "Add"
 
     And I log out

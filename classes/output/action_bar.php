@@ -28,8 +28,8 @@ use action_link;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class action_bar {
-
+class action_bar
+{
     /**
      * @var object Course module object
      */
@@ -423,13 +423,13 @@ class action_bar {
 
         if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
-                $classname = 'surveyproreport_'.$reportname.'\report';
+                $classname = 'surveyproreport_' . $reportname . '\report';
                 $reportman = new $classname($this->cm, $this->context, $this->surveypro);
                 $reportman->setup();
                 if ($reportman->is_report_allowed()) {
                     $paramurl = ['s' => $this->cm->instance, 'area' => 'reports', 'section' => 'view', 'report' => $reportname];
                     $linktoreport = new \moodle_url('/mod/surveypro/reports.php', $paramurl);
-                    $menu[$linktoreport->out(false)] = get_string('pluginname', 'surveyproreport_'.$reportname);
+                    $menu[$linktoreport->out(false)] = get_string('pluginname', 'surveyproreport_' . $reportname);
                 }
             }
         }

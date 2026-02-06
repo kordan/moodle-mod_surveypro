@@ -29,8 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 use core_text;
 use mod_surveypro\local\form\item_setupbaseform;
 
-require_once($CFG->dirroot.'/lib/formslib.php');
-require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
+require_once($CFG->dirroot . '/lib/formslib.php');
+require_once($CFG->dirroot . '/mod/surveypro/format/fieldset/lib.php');
 
 /**
  * The class representing the plugin form
@@ -39,8 +39,8 @@ require_once($CFG->dirroot.'/mod/surveypro/format/fieldset/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itemsetupform extends item_setupbaseform {
-
+class itemsetupform extends item_setupbaseform
+{
     /**
      * Definition.
      *
@@ -57,7 +57,7 @@ class itemsetupform extends item_setupbaseform {
 
         // Here I open a new fieldset.
         $fieldname = 'specializations';
-        $typename = get_string('pluginname', 'surveypro'.SURVEYPRO_TYPEFORMAT.'_'.$item->get_plugin());
+        $typename = get_string('pluginname', 'surveypro' . SURVEYPRO_TYPEFORMAT . '_' . $item->get_plugin());
         $mform->addElement('header', $fieldname, get_string($fieldname, 'mod_surveypro', $typename));
 
         // Item: defaultstatus.

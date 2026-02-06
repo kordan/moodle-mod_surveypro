@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
 
-require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/format/label/lib.php');
 
 /**
  * Class to manage each aspect of the label item
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/format/label/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -253,10 +253,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         if ($includemetafields) {
             $fieldlist['surveypro_item'] = ['content', 'filename', 'filecontent'];
         } else {
@@ -305,11 +305,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         // This plugin has $this->insetupform['insearchform'] = false; so it will never be part of a search form.
 
         if ($this->fullwidth) {
@@ -322,13 +322,13 @@ EOS;
             $mform->addElement('html', $content);
         } else {
             $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-            $elementnumber = $this->customnumber ? $this->customnumber.$labelsep : '';
-            $elementlabel = $elementnumber.$this->leftlabel;
+            $elementnumber = $this->customnumber ? $this->customnumber . $labelsep : '';
+            $elementlabel = $elementnumber . $this->leftlabel;
 
             $elementgroup = [];
-            $class = ['class' => 'indent-'.$this->indent];
+            $class = ['class' => 'indent-' . $this->indent];
             $elementgroup[] = $mform->createElement('static', $this->itemname, $elementlabel, $this->get_content());
-            $mform->addGroup($elementgroup, $this->itemname.'_group', $elementlabel, '', false, $class);
+            $mform->addGroup($elementgroup, $this->itemname . '_group', $elementlabel, '', false, $class);
         }
     }
 
@@ -364,7 +364,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         return '';
     }
 
@@ -374,8 +374,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [];
-
-        return $elementnames;
+        return [];
     }
 }

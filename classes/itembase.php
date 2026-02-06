@@ -38,8 +38,8 @@ use mod_surveypro\utility_submission;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class itembase {
-
+abstract class itembase
+{
     // Itembase properties.
 
     /**
@@ -228,8 +228,8 @@ abstract class itembase {
      * If itemid is provided, load the object (item = base + plugin) from database
      * If evaluateparentcontent is true, load the parentitem parentcontent property too
      *
-     * @param integer $itemid
-     * @param boolean $getparentcontent To include among item elements the 'parentcontent' too
+     * @param int $itemid
+     * @param bool $getparentcontent To include among item elements the 'parentcontent' too
      * @return void
      */
     protected function item_load($itemid, $getparentcontent) {
@@ -242,10 +242,10 @@ abstract class itembase {
 
         // Some item, like pagebreak or fieldsetend, may do not use the plugin table.
         if ($this->get_usesplugintable()) {
-            $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
+            $tablename = 'surveypro' . $this->type . '_' . $this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
                     FROM {surveypro_item} i
-                      JOIN {'.$tablename.'} p ON p.itemid = i.id
+                      JOIN {' . $tablename . '} p ON p.itemid = i.id
                     WHERE i.id = :itemid';
         } else {
             $sql = 'SELECT *, i.id as itemid
@@ -259,7 +259,7 @@ abstract class itembase {
                 if (in_array($field, $unrelevantfields)) {
                     continue;
                 }
-                $method = 'set_'.$field;
+                $method = 'set_' . $field;
                 $this->{$method}($value);
             }
             // Plugins not using contentformat (only Fieldset and pagebreak, at the moment) are satisfied.
@@ -268,20 +268,24 @@ abstract class itembase {
             if (isset($this->content) && strpos($this->content, '@@PLUGINFILE@@/')) { // Pagebreak don't use $this->content.
                 // Special care to fields with format.
                 $this->content = file_rewrite_pluginfile_urls(
-                    $this->content, 'pluginfile.php', $this->context->id,
-                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $itemid
+                    $this->content,
+                    'pluginfile.php',
+                    $this->context->id,
+                    'mod_surveypro',
+                    SURVEYPRO_ITEMCONTENTFILEAREA,
+                    $itemid
                 );
             }
 
-            $this->itemname = SURVEYPRO_ITEMPREFIX.'_'.$this->type.'_'.$this->plugin.'_'.$this->itemid;
+            $this->itemname = SURVEYPRO_ITEMPREFIX . '_' . $this->type . '_' . $this->plugin . '_' . $this->itemid;
 
             if ($getparentcontent && $this->parentid) {
                 $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $this->parentid);
                 $this->parentcontent = $parentitem->parent_decode_child_parentvalue($this->parentvalue);
             }
         } else {
-            $message = 'I can not find surveypro item ID = '.$itemid;
-            debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            $message = 'I can not find surveypro item ID = ' . $itemid;
+            debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 
@@ -428,12 +432,11 @@ abstract class itembase {
         // so, do not forget to reset items per page.
         $utilitylayoutman->reset_pages();
 
-        $tablename = 'surveypro'.$this->type.'_'.$this->plugin;
+        $tablename = 'surveypro' . $this->type . '_' . $this->plugin;
         $this->itemeditingfeedback = SURVEYPRO_NOFEEDBACK;
 
         // Is this a new item or does it already exist?
         if (empty($record->itemid)) { // Item is new.
-
             // Sortindex.
             $sql = 'SELECT COUNT(\'x\')
                     FROM {surveypro_item}
@@ -454,9 +457,14 @@ abstract class itembase {
                         $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context];
                         $record->id = $itemid;
                         $record = file_postupdate_standard_editor(
-                                      $record, 'content', $editoroptions,
-                                      $this->context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
-                                  );
+                            $record,
+                            'content',
+                            $editoroptions,
+                            $this->context,
+                            'mod_surveypro',
+                            SURVEYPRO_ITEMCONTENTFILEAREA,
+                            $record->id
+                        );
                         $DB->update_record('surveypro_item', $record);
                     }
 
@@ -510,9 +518,14 @@ abstract class itembase {
                     // Special care to "editors".
                     $editoroptions = ['trusttext' => true, 'subdirs' => false, 'maxfiles' => -1, 'context' => $this->context];
                     $record = file_postupdate_standard_editor(
-                                  $record, 'content', $editoroptions,
-                                  $this->context, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $record->id
-                              );
+                        $record,
+                        'content',
+                        $editoroptions,
+                        $this->context,
+                        'mod_surveypro',
+                        SURVEYPRO_ITEMCONTENTFILEAREA,
+                        $record->id
+                    );
                 }
 
                 // Variable.
@@ -597,7 +610,7 @@ abstract class itembase {
 
         // Define $testname and $basename.
         if (!isset($record->variable) || empty($record->variable)) {
-            $testname = $this->plugin.'_001';
+            $testname = $this->plugin . '_001';
             $basename = $this->plugin;
         } else {
             $testname = clean_param($record->variable, PARAM_TEXT);
@@ -625,7 +638,7 @@ abstract class itembase {
         $i = 0; // If the name is a duplicate, concatenate a suffix starting from 1.
         while (in_array($testname, $usednames)) {
             $i++;
-            $testname = $basename.'_'.str_pad($i, 3, '0', STR_PAD_LEFT);
+            $testname = $basename . '_' . str_pad($i, 3, '0', STR_PAD_LEFT);
         }
 
         $record->variable = $testname;
@@ -635,18 +648,17 @@ abstract class itembase {
      * Show/Hide chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      * Make reserved/standard chains of descendant/ancestors on the basis of the settings provided in the current editing process.
      *
-     * @param integer $itemid
-     * @param boolean $oldhidden
-     * @param boolean $newhidden
-     * @param boolean $oldreserved
-     * @param boolean $newreserved
+     * @param int $itemid
+     * @param bool $oldhidden
+     * @param bool $newhidden
+     * @param bool $oldreserved
+     * @param bool $newreserved
      * @return void
      */
     private function item_manage_chains($itemid, $oldhidden, $newhidden, $oldreserved, $newreserved) {
 
         // Now hide or unhide (whether needed) chain of ancestors or descendents.
         if ($this->itemeditingfeedback & 1) { // Bitwise logic, alias: if the item was successfully saved.
-
             // Management of ($oldhidden != $newhidden).
             if ($oldhidden != $newhidden) {
                 $action = ($oldhidden) ? SURVEYPRO_SHOWITEM : SURVEYPRO_HIDEITEM;
@@ -661,12 +673,12 @@ abstract class itembase {
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Hide/unhide part 2.
-                if ( ($oldhidden == 1) && ($newhidden == 0) ) {
+                if (($oldhidden == 1) && ($newhidden == 0)) {
                     $itemlistman->item_show_execute();
                     // A chain of parent items was shown.
                     $this->itemeditingfeedback += 4; // 1*2^2.
                 }
-                if ( ($oldhidden == 0) && ($newhidden == 1) ) {
+                if (($oldhidden == 0) && ($newhidden == 1)) {
                     $itemlistman->item_hide_execute();
                     // Chain of children items was hided.
                     $this->itemeditingfeedback += 8; // 1*2^3.
@@ -688,13 +700,13 @@ abstract class itembase {
                 $itemlistman->set_confirm(SURVEYPRO_CONFIRMED_YES);
 
                 // Begin of: Make reserved/free part 2.
-                if ( ($oldreserved == 1) && ($newreserved == 0) ) {
+                if (($oldreserved == 1) && ($newreserved == 0)) {
                     if ($itemlistman->item_makeavailable_execute()) {
                         // A chain of parents items inherited free access.
                         $this->itemeditingfeedback += 16; // 1*2^4.
                     }
                 }
-                if ( ($oldreserved == 0) && ($newreserved == 1) ) {
+                if (($oldreserved == 0) && ($newreserved == 1)) {
                     if ($itemlistman->item_makereserved_execute()) {
                         // A chain of children items inherited reserved access.
                         $this->itemeditingfeedback += 32; // 1*2^5.
@@ -759,7 +771,7 @@ abstract class itembase {
         $DB->set_field('surveypro', 'template', null, ['id' => $surveyproid]);
 
         // Take care: I verify the existence of the english folder even if, maybe, I will ask for strings in a different language.
-        if (!file_exists($CFG->dirroot.'/mod/surveypro/template/'.$template.'/lang/en/surveyprotemplate_'.$template.'.php')) {
+        if (!file_exists($CFG->dirroot . '/mod/surveypro/template/' . $template . '/lang/en/surveyprotemplate_' . $template . '.php')) {
             // This template does not support multilang.
             return;
         }
@@ -781,7 +793,7 @@ abstract class itembase {
                     if (!empty($this->{$mlfield})) {
                         // At the beginning $this->{$mlfield} may be "boolean_content_02".
                         $stringkey = $this->{$mlfield};
-                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_'.$template);
+                        $this->{$mlfield} = get_string($stringkey, 'surveyprotemplate_' . $template);
                         // Now $this->{$mlfield} is "<img class="img-fluid align-top" src="@@PLUGINFILE@@/TrackingDot.png" ...
                     }
                 }
@@ -811,8 +823,12 @@ abstract class itembase {
 
                 // Special care to fields with format.
                 $this->content = file_rewrite_pluginfile_urls(
-                    $this->content, 'pluginfile.php', $this->context->id,
-                    'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid
+                    $this->content,
+                    'pluginfile.php',
+                    $this->context->id,
+                    'mod_surveypro',
+                    SURVEYPRO_ITEMCONTENTFILEAREA,
+                    $this->itemid
                 );
             }
         }
@@ -835,7 +851,7 @@ abstract class itembase {
      *     [minutes] => 00
      * )
      *
-     * @param integer $unixtime
+     * @param int $unixtime
      * @return array $dateout
      */
     protected function item_split_unix_time($unixtime) {
@@ -1041,7 +1057,7 @@ abstract class itembase {
      * @return the specific where clause for this plugin
      */
     public static function response_get_whereclause($itemid, $searchrestriction) {
-        $whereclause = 'a.content = :content_'.$itemid;
+        $whereclause = 'a.content = :content_' . $itemid;
         $whereparam = $searchrestriction;
 
         return [$whereclause, $whereparam];
@@ -1281,7 +1297,13 @@ abstract class itembase {
             $data->content = $this->get_content();
             $data->contentformat = $this->get_contentformat();
             $data = file_prepare_standard_editor(
-                $data, 'content', $editoroptions, $this->context, 'mod_surveypro', $filearea, $this->itemid
+                $data,
+                'content',
+                $editoroptions,
+                $this->context,
+                'mod_surveypro',
+                $filearea,
+                $this->itemid
             );
         }
 
@@ -1348,10 +1370,10 @@ abstract class itembase {
      * Make the list of the fields using multilang.
      * This is the "default" list that is supposed to be empty because Pagebreak and fieldset inherit from it
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    abstract public function get_multilang_fields($includemetafields=true);
+    abstract public function get_multilang_fields($includemetafields = true);
 
     /**
      * Get course module.
@@ -1470,20 +1492,20 @@ abstract class itembase {
 
         if ((empty($type) && !empty($plugin)) || (!empty($type) && empty($plugin))) {
             $message = '$type and $plugin must be provided both or none.';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         $installxmls = ['surveypro_item', 'db/install.xml'];
         if (!empty($type) && !empty($plugin)) {
-            $installxml = $CFG->dirroot.'/mod/surveypro/'.$type.'/'.$plugin.'/db/install.xml';
+            $installxml = $CFG->dirroot . '/mod/surveypro/' . $type . '/' . $plugin . '/db/install.xml';
             // Some plugins are missing the install.xml because they don't have specific attributes.
             if (file_exists($installxml)) {
-                $installxmls['surveypro'.$type.'_'.$plugin] = $type.'/'.$plugin.'/db/install.xml';
+                $installxmls['surveypro' . $type . '_' . $plugin] = $type . '/' . $plugin . '/db/install.xml';
             }
         }
 
         foreach ($installxmls as $targettable => $installxml) {
-            $currentfile = $CFG->dirroot.'/mod/surveypro/'.$installxml;
+            $currentfile = $CFG->dirroot . '/mod/surveypro/' . $installxml;
             $xmlall = simplexml_load_file($installxml);
             foreach ($xmlall->children() as $xmltables) { // TABLES opening tag.
                 foreach ($xmltables->children() as $xmltable) { // TABLE opening tag.
@@ -1623,7 +1645,7 @@ abstract class itembase {
 
         $values = [];
         foreach ($options as $option) {
-            if (preg_match('~^(.*)'.SURVEYPRO_VALUELABELSEPARATOR.'(.*)$~', $option, $match)) {
+            if (preg_match('~^(.*)' . SURVEYPRO_VALUELABELSEPARATOR . '(.*)$~', $option, $match)) {
                 $values[] = $match[$index];
             } else {
                 $values[] = $option;
@@ -1636,7 +1658,7 @@ abstract class itembase {
     /**
      * Provide the list of the fields of surveypro_item using multilang.
      *
-     * @param boolean $includemetafields true if you need filename and filecontent too.
+     * @param bool $includemetafields true if you need filename and filecontent too.
      * @return array the list of the fields of surveypro_item using multilang
      */
     public function get_base_multilang_fields($includemetafields) {
@@ -1664,7 +1686,7 @@ abstract class itembase {
      * @param string $separator Required separator
      * @return the content of $parentcontent property, properly separated
      */
-    public function get_parentcontent($separator="\n") {
+    public function get_parentcontent($separator = "\n") {
         if ($separator != "\n") {
             $parentcontent = explode("\n", $this->parentcontent);
             $parentcontent = implode($separator, $parentcontent);
@@ -1692,7 +1714,7 @@ abstract class itembase {
      */
     public function get_generic_property($field) {
         if (isset($this->{$field})) {
-            $method = 'get_'.$field;
+            $method = 'get_' . $field;
             $return = $this->{$method}();
         } else {
             $return = false;
@@ -1827,7 +1849,7 @@ abstract class itembase {
             $data->itemid = $this->get_itemid(); // Mandatory!
             $data->pluginid = $this->get_pluginid(); // Mandatory!
             foreach ($properties as $property) {
-                $method = 'get_'.$property;
+                $method = 'get_' . $property;
                 $data->{$property} = $this->{$method}();
             }
             // Parentcontent does not come from db.
@@ -1945,18 +1967,18 @@ abstract class itembase {
             return $questioncontent;
         }
 
-        $return = $elementnumber.' '.$questioncontent;
+        $return = $elementnumber . ' ' . $questioncontent;
         $regex = '~(<[^>]*>)?([^<]*)?(<\/[^>]*>)?~';
         if (preg_match_all($regex, $questioncontent, $matches)) {
             foreach ($matches[2] as $tagcontent) {
                 $cleanedtagcontent = $tagcontent;
                 $cleanedtagcontent = preg_replace('~(^\s+|\s+$)~', '', $cleanedtagcontent);
-                $cleanedtagcontent = trim($cleanedtagcontent, ' '.chr(194).chr(160));
+                $cleanedtagcontent = trim($cleanedtagcontent, ' ' . chr(194) . chr(160));
                 if (!empty($cleanedtagcontent)) {
-                    $newcontent = $elementnumber.' '.$tagcontent;
+                    $newcontent = $elementnumber . ' ' . $tagcontent;
                     // I don't want regular expression meta-characters to be interpreted.
                     // I use preg_replace instead of str_replace because I want to replace ONLY the first occurrence of $tagcontent.
-                    $return = preg_replace('~\Q'.$tagcontent.'\E~', $newcontent, $questioncontent, 1);
+                    $return = preg_replace('~\Q' . $tagcontent . '\E~', $newcontent, $questioncontent, 1);
                     break;
                 }
             }
@@ -1989,7 +2011,7 @@ abstract class itembase {
      * @return the content of the static property "usesplugintable"
      */
     public function get_usesplugintable() {
-        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
+        $classname = 'surveypro' . $this->type . '_' . $this->plugin . '\item';
 
         return $classname::$usesplugintable;
     }
@@ -2000,7 +2022,7 @@ abstract class itembase {
      * @return the content of the static property "canbeparent"
      */
     public function get_canbeparent() {
-        $classname = 'surveypro'.$this->type.'_'.$this->plugin.'\item';
+        $classname = 'surveypro' . $this->type . '_' . $this->plugin . '\item';
 
         return $classname::$canbeparent;
     }
@@ -2082,7 +2104,7 @@ EOS;
      * Get full info == extranote + fillinginstruction
      * provides extra info THAT IS NOT SAVED IN THE DATABASE but is shown in the Add/Search form
      *
-     * @param boolean $searchform
+     * @param bool $searchform
      * @return string fullinfo
      */
     public function userform_get_full_info($searchform) {
@@ -2110,7 +2132,7 @@ EOS;
 
         $return = '';
         if (isset($fillinginstruction) && $fillinginstruction && isset($extranote) && $extranote) {
-            $return = $fillinginstruction.'<br>'.$extranote;
+            $return = $fillinginstruction . '<br>' . $extranote;
         } else {
             if (isset($fillinginstruction) && $fillinginstruction) {
                 $return = $fillinginstruction;
@@ -2152,12 +2174,12 @@ EOS;
 
         if (!isset($childitemrecord->parentid)) {
             $message = 'Unexpected $childitemrecord->parentid not set';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         if (!isset($childitemrecord->parentvalue)) {
             $message = 'Unexpected $childitemrecord->parentvalue not set';
-            debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         if (!$childitemrecord->parentid) {
@@ -2226,18 +2248,18 @@ EOS;
             if ($displaydebuginfo) {
                 foreach ($disabilitationinfo as $parentinfo) {
                     if (is_array($parentinfo->content)) {
-                        $contentdisplayed = 'array('.implode(',', $parentinfo->content).')';
+                        $contentdisplayed = 'array(' . implode(',', $parentinfo->content) . ')';
                     } else {
-                        $contentdisplayed = '\''.$parentinfo->content.'\'';
+                        $contentdisplayed = '\'' . $parentinfo->content . '\'';
                     }
                     foreach ($fieldnames as $fieldname) {
                         echo '<span style="color:green;">';
-                        echo '$mform->disabledIf(\''.$fieldname.'\', ';
-                        echo '\''.$parentinfo->parentname.'\', ';
+                        echo '$mform->disabledIf(\'' . $fieldname . '\', ';
+                        echo '\'' . $parentinfo->parentname . '\', ';
                         if (isset($parentinfo->operator)) {
-                            echo '\''.$parentinfo->operator.'\', ';
+                            echo '\'' . $parentinfo->operator . '\', ';
                         }
-                        echo $contentdisplayed.');';
+                        echo $contentdisplayed . ');';
                         echo '</span><br>';
                     }
                 }
@@ -2282,7 +2304,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 

@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/integer/lib.php');
 
 /**
  * Class to manage each aspect of the integer item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/integer/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -202,8 +202,8 @@ class item extends itembase {
         $constraints = [];
 
         $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
-        $constraints[] = get_string('lowerbound', 'surveyprofield_integer').$labelsep.$this->lowerbound;
-        $constraints[] = get_string('upperbound', 'surveyprofield_integer').$labelsep.$this->upperbound;
+        $constraints[] = get_string('lowerbound', 'surveyprofield_integer') . $labelsep . $this->lowerbound;
+        $constraints[] = get_string('upperbound', 'surveyprofield_integer') . $labelsep . $this->upperbound;
 
         return implode('<br>', $constraints);
     }
@@ -303,10 +303,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_integer'] = [];
 
@@ -449,11 +449,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
@@ -462,12 +462,14 @@ EOS;
 
         // Begin of: element values.
         $integers = [];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $integers[SURVEYPRO_INVITEVALUE] = get_string('choosedots');
             }
         } else {
-            $integers[SURVEYPRO_IGNOREMEVALUE] = '';
+            if ($searchformelementscount > 1) {
+                $integers[SURVEYPRO_IGNOREMEVALUE] = get_string('star', 'surveypro');
+            }
         }
         $integersrange = range($this->lowerbound, $this->upperbound);
         $integers += array_combine($integersrange, $integersrange);
@@ -478,28 +480,28 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_integer_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_integer_' . $this->sortindex;
         $basename = $this->itemname;
 
         $attributes = ['id' => $baseid];
         $elementgroup[] = $mform->createElement('select', $basename, '', $integers, $attributes);
-        $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, '', false, $class);
+        $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
 
         $attributes = ['id' => $baseid];
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
         }
 
         // Default section.
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $mform->setDefault($basename, SURVEYPRO_INVITEVALUE);
             } else {
@@ -514,7 +516,9 @@ EOS;
                 $mform->setDefault($basename, "$defaultinteger");
             }
         } else {
-            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            }
         }
     }
 
@@ -535,7 +539,7 @@ EOS;
         // If ($this->required) { if (empty($data[$this->itemname])) { is useless.
         $userinput = $data[$this->itemname];
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         $maximuminteger = get_config('surveyprofield_integer', 'maximuminteger');
 
@@ -558,7 +562,7 @@ EOS;
         }
         if ($haslowerbound && $hasupperbound) {
             // Internal range.
-            if ( ($userinput < $this->lowerbound) || ($userinput > $this->upperbound) ) {
+            if (($userinput < $this->lowerbound) || ($userinput > $this->upperbound)) {
                 $errors[$errorkey] = get_string('uerr_outofinternalrange', 'surveyprofield_integer');
             }
         } else {
@@ -681,6 +685,6 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        return [$this->itemname.'_group'];
+        return [$this->itemname . '_group'];
     }
 }

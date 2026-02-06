@@ -26,7 +26,6 @@ namespace mod_surveypro;
 
 use core_text;
 use mod_surveypro\utility_layout;
-
 use mod_surveypro\local\ipe\usertemplate_name;
 
 /**
@@ -36,8 +35,8 @@ use mod_surveypro\local\ipe\usertemplate_name;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_import extends utemplate_base {
-
+class utemplate_import extends utemplate_base
+{
     /**
      * Setup.
      *
@@ -99,7 +98,7 @@ class utemplate_import extends utemplate_base {
 
         // Add current files.
         $fieldname = 'importfile';
-        if ($draftitemid = $this->formdata->{$fieldname.'_filemanager'}) {
+        if ($draftitemid = $this->formdata->{$fieldname . '_filemanager'}) {
             if (isset($templateoptions['return_types']) && !($templateoptions['return_types'] & FILE_REFERENCE)) {
                 // We assume that if $options['return_types'] is NOT specified, we DO allow references.
                 // This is not exactly right. BUT there are many places in code where filemanager options...

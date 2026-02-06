@@ -34,8 +34,8 @@ use mod_surveypro\utility_layout;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mtemplate_apply extends mtemplate_base {
-
+class mtemplate_apply extends mtemplate_base
+{
     /**
      * @var array
      */
@@ -69,8 +69,8 @@ class mtemplate_apply extends mtemplate_base {
         $mtemplates = [];
         if ($mtemplatepluginlist = \core_component::get_plugin_list('surveyprotemplate')) {
             foreach ($mtemplatepluginlist as $mtemplatename => $mtemplatepath) {
-                if (!get_config('surveyprotemplate_'.$mtemplatename, 'disabled')) {
-                    $mtemplates[$mtemplatename] = get_string('pluginname', 'surveyprotemplate_'.$mtemplatename);
+                if (!get_config('surveyprotemplate_' . $mtemplatename, 'disabled')) {
+                    $mtemplates[$mtemplatename] = get_string('pluginname', 'surveyprotemplate_' . $mtemplatename);
                 }
             }
             asort($mtemplates);
@@ -89,7 +89,7 @@ class mtemplate_apply extends mtemplate_base {
     public function lastminute_template_check() {
         global $CFG;
 
-        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->mastertemplate.'/template.xml';
+        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $this->mastertemplate . '/template.xml';
         $xml = file_get_contents($templatepath);
 
         $this->validate_xml($xml);
@@ -104,12 +104,12 @@ class mtemplate_apply extends mtemplate_base {
         global $CFG, $DB;
 
         // Create the class to apply mastertemplate settings.
-        $classname = 'surveyprotemplate_'.$this->templatename.'\template';
+        $classname = 'surveyprotemplate_' . $this->templatename . '\template';
         $mastertemplate = new $classname();
 
         $fs = get_file_storage();
 
-        $templatepath = $CFG->dirroot.'/mod/surveypro/template/'.$this->templatename.'/template.xml';
+        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $this->templatename . '/template.xml';
         $templatecontent = file_get_contents($templatepath);
 
         $simplexml = new \SimpleXMLElement($templatecontent);
@@ -119,7 +119,7 @@ class mtemplate_apply extends mtemplate_base {
         }
 
         // Load it only once. You are going to use it later.
-        $config = get_config('surveyprotemplate_'.$this->templatename);
+        $config = get_config('surveyprotemplate_' . $this->templatename);
 
         $naturalsortindex = 0;
         foreach ($simplexml->children() as $xmlitem) {
@@ -192,11 +192,11 @@ class mtemplate_apply extends mtemplate_base {
                             $fileattributename = $xmlfileattribute->getName();
                             if ($fileattributename == 'filename') {
                                 $attributecontent = (string)$xmlfileattribute;
-                                $filename = get_string($attributecontent, 'surveyprotemplate_'.$this->templatename);
+                                $filename = get_string($attributecontent, 'surveyprotemplate_' . $this->templatename);
                             }
                             if ($fileattributename == 'filecontent') {
                                 $attributecontent = (string)$xmlfileattribute;
-                                $encodedcontent = get_string($attributecontent, 'surveyprotemplate_'.$this->templatename);
+                                $encodedcontent = get_string($attributecontent, 'surveyprotemplate_' . $this->templatename);
                                 $filecontent = base64_decode($encodedcontent);
                             }
                         }
@@ -327,8 +327,8 @@ class mtemplate_apply extends mtemplate_base {
                 $event = \mod_surveypro\event\mastertemplate_saved::create($eventdata);
                 break;
             default:
-                $message = 'Unexpected $eventname = '.$eventname;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $eventname = ' . $eventname;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
         $event->trigger();
     }

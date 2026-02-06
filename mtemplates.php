@@ -25,15 +25,13 @@
 use mod_surveypro\utility_page;
 use mod_surveypro\utility_layout;
 use mod_surveypro\utility_submission;
-
 use mod_surveypro\mtemplate_apply;
 use mod_surveypro\mtemplate_save;
-
 use mod_surveypro\local\form\mtemplate_createform;
 use mod_surveypro\local\form\mtemplate_applyform;
 
-require_once(dirname(__FILE__).'/../../config.php');
-require_once(dirname(__FILE__).'/lib.php');
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('mtemplates');
 
@@ -45,8 +43,8 @@ $edit = optional_param('edit', -1, PARAM_BOOL);
 // Verify I used correct names all along the module code.
 $validsections = ['save', 'apply'];
 if (!in_array($section, $validsections)) {
-    $message = 'The section param \''.$section.'\' is invalid.';
-    debugging('Error at line '.__LINE__.' of file '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
 }
 // End of: Verify I used correct names all along the module code.
 
@@ -191,4 +189,3 @@ if ($section == 'apply') {
 
 // Finish the page.
 echo $OUTPUT->footer();
-

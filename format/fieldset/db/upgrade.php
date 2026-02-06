@@ -82,7 +82,6 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
     }
 
     if ($oldversion < 2024022701) {
-
         // Define field content to be dropped from surveyproformat_fieldset.
         $table = new xmldb_table('surveyproformat_fieldset');
         $field = new xmldb_field('content');
@@ -92,8 +91,8 @@ function xmldb_surveyproformat_fieldset_upgrade($oldversion) {
             // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
             $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
             $sql = 'UPDATE {surveypro_item}
-                    SET content = (SELECT f.content FROM {surveyproformat_fieldset} f '.$whereclause.')
-                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_fieldset} f '.$whereclause.')';
+                    SET content = (SELECT f.content FROM {surveyproformat_fieldset} f ' . $whereclause . ')
+                    WHERE EXISTS (SELECT 1 FROM {surveyproformat_fieldset} f ' . $whereclause . ')';
             $DB->execute($sql);
 
             $dbman->drop_field($table, $field);

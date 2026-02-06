@@ -13,8 +13,8 @@ Feature: Validate input with different number format
       | username | firstname | lastname | email                |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course    | role           |
-      | student1 | MF Number | student        |
+      | user     | course    | role    |
+      | student1 | MF Number | student |
     And the following "activities" exist:
       | activity  | name                           | intro                          | course    |
       | surveypro | Test multiformat numeric input | Test multiformat numeric input | MF Number |

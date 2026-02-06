@@ -36,8 +36,8 @@ use mod_surveypro\formbase;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class view_responsesubmit extends formbase {
-
+class view_responsesubmit extends formbase
+{
     /**
      * @var int $mode
      */
@@ -144,7 +144,7 @@ class view_responsesubmit extends formbase {
         if (!empty($this->surveypro->mailcontent)) {
             $fullname = fullname($USER);
             $surveyproname = $this->surveypro->name;
-            $url = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&section=collectedsubmissions';
+            $url = $CFG->wwwroot . '/mod/surveypro/view.php?s=' . $this->surveypro->id . '&section=collectedsubmissions';
 
             $content = $this->surveypro->mailcontent;
             $originals = ['{FIRSTNAME}', '{LASTNAME}', '{FULLNAME}', '{COURSENAME}', '{SURVEYPRONAME}', '{SURVEYPROURL}'];
@@ -160,7 +160,7 @@ class view_responsesubmit extends formbase {
             $a->username = empty($this->surveypro->anonymous) ? fullname($USER) : $coveredattr;
             $a->surveyproname = $this->surveypro->name;
             $a->title = get_string('reviewsubmissions', 'mod_surveypro');
-            $a->href = $CFG->wwwroot.'/mod/surveypro/view.php?s='.$this->surveypro->id.'&section=collectedsubmissions';
+            $a->href = $CFG->wwwroot . '/mod/surveypro/view.php?s=' . $this->surveypro->id . '&section=collectedsubmissions';
 
             $content = get_string('newsubmissionbody', 'mod_surveypro', $a);
         }
@@ -430,7 +430,7 @@ class view_responsesubmit extends formbase {
             if ($matches = utility_item::get_item_parts($elementname)) {
                 // If among returned fields there is a placeholder...
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
-                    $newelement = SURVEYPRO_ITEMPREFIX.'_'.$matches['type'].'_'.$matches['plugin'].'_'.$matches['itemid'];
+                    $newelement = SURVEYPRO_ITEMPREFIX . '_' . $matches['type'] . '_' . $matches['plugin'] . '_' . $matches['itemid'];
                     // ... but not the corresponding field, drop the placeholder and set to null the unexisting item.
                     if (!isset($this->formdata->$newelement)) {
                         $this->formdata->$newelement = null;
@@ -599,12 +599,12 @@ class view_responsesubmit extends formbase {
         // Begin of: get the list of all mandatory fields.
         $requireditems = [];
         foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro'.SURVEYPRO_TYPEFIELD.'_'.$plugin.'\item';
+            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin . '\item';
             $usesmandatoryattribute = $classname::has_mandatoryattribute();
             if ($usesmandatoryattribute) {
                 $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
                         FROM {surveypro_item} i
-                            JOIN {surveyprofield_'.$plugin.'} p ON p.itemid = i.id
+                            JOIN {surveyprofield_' . $plugin . '} p ON p.itemid = i.id
                         WHERE i.surveyproid = :surveyproid
                             AND i.hidden = :hidden
                             AND i.required > :required
@@ -614,9 +614,9 @@ class view_responsesubmit extends formbase {
                 $pluginitems = $DB->get_records_sql($sql, $whereparams);
 
                 foreach ($pluginitems as $pluginitem) {
-                    if ( (!$pluginitem->reserved) || $canaccessreserveditems ) {
+                    if ((!$pluginitem->reserved) || $canaccessreserveditems) {
                         // Just to save few bits of RAM.
-                        unset ($pluginitem->reserved);
+                        unset($pluginitem->reserved);
 
                         $requireditems[] = $pluginitem;
                     }
@@ -708,7 +708,7 @@ class view_responsesubmit extends formbase {
     public function notifypeople() {
         global $CFG, $DB, $COURSE, $USER;
 
-        require_once($CFG->dirroot.'/group/lib.php');
+        require_once($CFG->dirroot . '/group/lib.php');
 
         if ($this->status != SURVEYPRO_STATUSCLOSED) {
             return;
@@ -845,15 +845,15 @@ class view_responsesubmit extends formbase {
                 if (isset($backwardbutton) && isset($forwardbutton)) {
                     // This code comes from "public function confirm(" around line 1711 in outputrenderers.php.
                     // It is not wrong. The misalign comes from bootstrapbase theme and is present in clean theme too.
-                    $content = $firstleveldiv.$OUTPUT->render($backwardbutton).$OUTPUT->render($forwardbutton);
+                    $content = $firstleveldiv . $OUTPUT->render($backwardbutton) . $OUTPUT->render($forwardbutton);
                     echo \html_writer::tag('div', $content, ['class' => 'row']);
                 } else {
                     if (isset($backwardbutton)) {
-                        $content = $firstleveldiv.$OUTPUT->render($backwardbutton);
+                        $content = $firstleveldiv . $OUTPUT->render($backwardbutton);
                         echo \html_writer::tag('div', $content, ['class' => 'row']);
                     }
                     if (isset($forwardbutton)) {
-                        $content = $firstleveldiv.$OUTPUT->render($forwardbutton);
+                        $content = $firstleveldiv . $OUTPUT->render($forwardbutton);
                         echo \html_writer::tag('div', $content, ['class' => 'row']);
                     }
                 }
@@ -904,7 +904,12 @@ class view_responsesubmit extends formbase {
         $formpage = $this->formdata->formpage;
 
         [$where, $params] = surveypro_fetch_items_seeds(
-            $this->surveypro->id, true, $canaccessreserveditems, null, null, $formpage
+            $this->surveypro->id,
+            true,
+            $canaccessreserveditems,
+            null,
+            null,
+            $formpage
         );
         $fieldlist = 'id, plugin, type, parentid, parentvalue';
         $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', $fieldlist);
@@ -1050,7 +1055,7 @@ class view_responsesubmit extends formbase {
                     echo '$this->mode = SURVEYPRO_READONLYMODE<br>';
                     break;
                 default:
-                    echo '$this->mode = '.$this->mode;
+                    echo '$this->mode = ' . $this->mode;
             }
 
             if ($ismine) {
@@ -1069,7 +1074,6 @@ class view_responsesubmit extends formbase {
         $allowed = false;
         switch ($this->mode) {
             case SURVEYPRO_NEWRESPONSEMODE:
-
                 $timenow = time();
                 $allowed = $cansubmit;
                 if ($this->surveypro->timeopen) {
@@ -1161,8 +1165,8 @@ class view_responsesubmit extends formbase {
                 $event->trigger();
                 break;
             default:
-                $message = 'Unexpected $this->mode = '.$this->mode;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $this->mode = ' . $this->mode;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
     }
 }

@@ -26,7 +26,6 @@ namespace mod_surveypro;
 
 use core_text;
 use mod_surveypro\utility_layout;
-
 use mod_surveypro\local\ipe\usertemplate_name;
 
 /**
@@ -36,8 +35,8 @@ use mod_surveypro\local\ipe\usertemplate_name;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class utemplate_manage extends utemplate_base {
-
+class utemplate_manage extends utemplate_base
+{
     /**
      * @var int What the user is trying to do.
      */
@@ -144,9 +143,15 @@ class utemplate_manage extends utemplate_base {
             $sortflag[$k] = ($pair[1] == 'ASC') ? SORT_ASC : SORT_DESC;
         }
 
-        array_multisort($originaltablepercols[$fieldindex[0]], $sortflag[0],
-                        $originaltablepercols[$fieldindex[1]], $sortflag[1],
-                        $originaltablepercols[$fieldindex[2]], $sortflag[2], $originaltableperrows);
+        array_multisort(
+            $originaltablepercols[$fieldindex[0]],
+            $sortflag[0],
+            $originaltablepercols[$fieldindex[1]],
+            $sortflag[1],
+            $originaltablepercols[$fieldindex[2]],
+            $sortflag[2],
+            $originaltableperrows
+        );
 
         return $originaltableperrows;
     }
@@ -217,7 +222,7 @@ class utemplate_manage extends utemplate_base {
     public function display_usertemplates_table() {
         global $CFG, $USER, $OUTPUT;
 
-        require_once($CFG->libdir.'/tablelib.php');
+        require_once($CFG->libdir . '/tablelib.php');
 
         $canapplyutemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
         $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context);
@@ -290,7 +295,6 @@ class utemplate_manage extends utemplate_base {
 
         $row = 0;
         foreach ($utemplates as $utemplate) {
-
             $xmlfileid = $virtualtable[$row]['xmlfileid'];
             $templatename = $virtualtable[$row]['templatename'];
             $tmpl = new usertemplate_name($xmlfileid, $templatename);
@@ -367,7 +371,7 @@ class utemplate_manage extends utemplate_base {
         $exportsubdir = "mod_surveypro/templateexport";
         make_temp_directory($exportsubdir);
         $exportdir = "$CFG->tempdir/$exportsubdir";
-        $exportfile = $exportdir.'/'.$templatename;
+        $exportfile = $exportdir . '/' . $templatename;
         if (!preg_match('~\.xml$~', $exportfile)) {
             $exportfile .= '.xml';
         }
@@ -380,10 +384,10 @@ class utemplate_manage extends utemplate_base {
         header('Expires: 0');
         header('Cache-Control: must-revalidate,post-check=0,pre-check=0');
         header('Pragma: public');
-        $xmlfile = fopen($exportdir.'/'.$this->templatename, 'w');
+        $xmlfile = fopen($exportdir . '/' . $this->templatename, 'w');
         print $content;
         fclose($xmlfile);
-        unlink($exportdir.'/'.$this->templatename);
+        unlink($exportdir . '/' . $this->templatename);
     }
 
     /**

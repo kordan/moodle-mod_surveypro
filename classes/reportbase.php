@@ -31,8 +31,8 @@ namespace mod_surveypro;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class reportbase {
-
+abstract class reportbase
+{
     /**
      * @var object Course module object
      */
@@ -223,7 +223,7 @@ abstract class reportbase {
         $sql = 'SELECT COUNT(\'x\')
                 FROM {user} u
                     JOIN {surveypro_submission} s ON s.userid = u.id
-                    LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id
+                    LEFT JOIN (' . $enrolsql . ') eu ON eu.id = u.id
                 WHERE s.surveyproid = :surveyproid
                     AND eu.id IS NULL';
 
@@ -288,7 +288,7 @@ abstract class reportbase {
      * @param bool $actualrelation the kind of relation I need in the query
      * @return [$sql, $whereparams];
      */
-    public function get_middle_sql($actualrelation=true) {
+    public function get_middle_sql($actualrelation = true) {
         global $COURSE;
 
         $coursecontext = \context_course::instance($COURSE->id);
@@ -307,18 +307,18 @@ abstract class reportbase {
         if ($canviewhiddenactivities) { // You are an admin.
             switch ($this->groupid) {
                 case -1: // Users not enrolled in this course.
-                    $sql .= ' LEFT JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+                    $sql .= ' LEFT JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
                     break;
                 case 0: // Each user with submissions.
                     // JOIN $enrolsql is needed to take guest out!
-                    $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+                    $sql .= ' JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
                     break;
                 default: // Each user of group xx with submissions.
                     $sql .= ' JOIN {groups_members} gm ON gm.userid = u.id';
                     $whereparams['groupid'] = $this->groupid;
             }
         } else { // You are a teacher.
-            $sql .= ' JOIN ('.$enrolsql.') eu ON eu.id = u.id';
+            $sql .= ' JOIN (' . $enrolsql . ') eu ON eu.id = u.id';
 
             // Case $this->groupid == -1 is IMPOSSIBLE. If !$canviewhiddenactivities, $groupid can't be -1.
             if ($this->groupid > 0) {
@@ -330,19 +330,19 @@ abstract class reportbase {
         $conditions = [];
         foreach ($whereparams as $k => $v) {
             if ($v === null) {
-                $conditions[] = $k.' IS NULL';
+                $conditions[] = $k . ' IS NULL';
             } else {
-                $conditions[] = $k.' = :'.$k;
+                $conditions[] = $k . ' = :' . $k;
             }
         }
-        $sql .= ' WHERE '.implode(' AND ', $conditions);
+        $sql .= ' WHERE ' . implode(' AND ', $conditions);
 
         // The query for graphs don't make use of $this->outputtable.
         if (isset($this->outputtable)) {
             [$where, $filterparams] = $this->outputtable->get_sql_where();
             if ($where) {
-                $sql .= ' AND '.$where;
-                $whereparams = array_merge($whereparams,  $filterparams);
+                $sql .= ' AND ' . $where;
+                $whereparams = array_merge($whereparams, $filterparams);
             }
         }
 

@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use mod_surveypro\itembase;
 use mod_surveypro\utility_item;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/select/lib.php');
 
 /**
  * Class to manage each aspect of the select item
@@ -38,8 +38,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/select/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class item extends itembase {
-
+class item extends itembase
+{
     // Itembase properties.
 
     /**
@@ -211,12 +211,12 @@ class item extends itembase {
         $values = $this->get_textarea_content(SURVEYPRO_VALUES, 'options');
         $optionstr = get_string('option', 'surveyprofield_select');
         foreach ($values as $value) {
-            $constraints[] = $optionstr.$labelsep.$value;
+            $constraints[] = $optionstr . $labelsep . $value;
         }
         if (!empty($this->labelother)) {
             $labelotherstr = get_string('labelother', 'surveyprofield_select');
             $allowedstr = get_string('allowed', 'surveyprofield_select');
-            $constraints[] = $labelotherstr.$labelsep.$allowedstr;
+            $constraints[] = $labelotherstr . $labelsep . $allowedstr;
         }
 
         return implode('<br>', $constraints);
@@ -360,10 +360,10 @@ class item extends itembase {
     /**
      * Make the list of the fields using multilang
      *
-     * @param boolean $includemetafields
+     * @param bool $includemetafields
      * @return array of fields
      */
-    public function get_multilang_fields($includemetafields=true) {
+    public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = $this->get_base_multilang_fields($includemetafields);
         $fieldlist['surveyprofield_select'] = ['options', 'labelother', 'defaultvalue'];
 
@@ -529,11 +529,11 @@ EOS;
      * Define the mform element for the userform and the searchform.
      *
      * @param \moodleform $mform
-     * @param bool $searchform
+     * @param int $searchformelementscount // 0 means: I am not drawing this element in a search form.
      * @param bool $readonly
      * @return void
      */
-    public function userform_mform_element($mform, $searchform, $readonly) {
+    public function userform_mform_element($mform, $searchformelementscount, $readonly) {
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {
@@ -542,18 +542,20 @@ EOS;
 
         $attributes = [];
         $elementgroup = [];
-        $class = ['class' => 'indent-'.$this->indent];
-        $baseid = 'id_field_select_'.$this->sortindex;
+        $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_select_' . $this->sortindex;
         $basename = $this->itemname;
 
         // Begin of: element values.
         $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
-        if (!$searchform) {
+        if (!$searchformelementscount) {
             if ($this->defaultoption == SURVEYPRO_INVITEDEFAULT) {
                 $labels = [SURVEYPRO_INVITEVALUE => get_string('choosedots')] + $labels;
             }
         } else {
-            $labels = [SURVEYPRO_IGNOREMEVALUE => ''] + $labels;
+            if ($searchformelementscount > 1) {
+                $labels = [SURVEYPRO_IGNOREMEVALUE => get_string('star', 'mod_surveypro')] + $labels;
+            }
         }
         if (!empty($this->labelother)) {
             [$othervalue, $otherlabel] = $this->get_other();
@@ -564,27 +566,30 @@ EOS;
         }
         // End of: element values.
 
-        $attributes = ['id' => $baseid, 'class' => 'indent-'.$this->indent.' select_select'];
+        $attributes = ['id' => $baseid, 'class' => 'indent-' . $this->indent . ' select_select'];
         $elementgroup[] = $mform->createElement('select', $basename, '', $labels, $attributes);
         if ($this->labelother) {
-            $attributes = ['id' => $baseid.'_text'];
-            $elementgroup[] = $mform->createElement('text', $basename.'_text', '', $attributes);
-            $mform->setType($basename.'_text', PARAM_RAW);
-            $mform->disabledIf($basename.'_text', $basename, 'neq', 'other');
+            $attributes = ['id' => $baseid . '_text'];
+            $elementgroup[] = $mform->createElement('text', $basename . '_text', '', $attributes);
+            $mform->setType($basename . '_text', PARAM_RAW);
+            $mform->disabledIf($basename . '_text', $basename, 'neq', 'other');
         }
-        $mform->addGroup($elementgroup, $basename.'_group', $elementlabel, ' ', false, $class);
+        $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
 
-        if (!$searchform) {
+        // Begin of: default section.
+        if (!$searchformelementscount) {
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
                 // Because of this, I simply add a dummy star to the item and the footer note about mandatory fields.
-                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename.'_extrarow_group' : $basename.'_group';
+                $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
+        }
 
-            // Default section.
+        // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+        if (!$searchformelementscount) {
             switch ($this->defaultoption) {
                 case SURVEYPRO_CUSTOMDEFAULT:
                     if ($key = array_search($this->defaultvalue, $labels)) {
@@ -600,16 +605,19 @@ EOS;
                     $mform->setDefault($basename, SURVEYPRO_NOANSWERVALUE);
                     break;
                 default:
-                    $message = 'Unexpected $this->defaultoption = '.$this->defaultoption;
-                    debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         } else {
-            $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            if ($searchformelementscount > 1) {
+                $mform->setDefault($basename, SURVEYPRO_IGNOREMEVALUE);
+            }
         }
-        // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+
         if (!empty($this->labelother)) {
-            $mform->setDefault($basename.'_text', $othervalue);
+            $mform->setDefault($basename . '_text', $othervalue);
         }
+        // End of: default section.
     }
 
     /**
@@ -628,7 +636,7 @@ EOS;
             return $errors;
         }
 
-        $errorkey = $this->itemname.'_group';
+        $errorkey = $this->itemname . '_group';
 
         if ($data[$this->itemname] == SURVEYPRO_INVITEVALUE) {
             $errors[$errorkey] = get_string('uerr_optionnotset', 'surveyprofield_select');
@@ -636,7 +644,7 @@ EOS;
         }
 
         if (!empty($this->labelother)) {
-            if (($data[$this->itemname] == 'other') && empty($data[$this->itemname.'_text']) ) {
+            if (($data[$this->itemname] == 'other') && empty($data[$this->itemname . '_text'])) {
                 $errors[$errorkey] = get_string('uerr_missingothertext', 'surveyprofield_select');
             }
         }
@@ -664,7 +672,7 @@ EOS;
             $disabilitationinfo[] = $mformelementinfo;
 
             $mformelementinfo = new \stdClass();
-            $mformelementinfo->parentname = $this->itemname.'_text';
+            $mformelementinfo->parentname = $this->itemname . '_text';
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $parentvalues[1];
             $disabilitationinfo[] = $mformelementinfo;
@@ -696,10 +704,10 @@ EOS;
     public function userform_is_child_allowed_dynamic($childparentvalue, $data) {
         $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // For instance: shark.
 
-        if ($parentvalues[0] == '>' ) {
+        if ($parentvalues[0] == '>') {
             // The expected answer is a custom text.
             $status = ($data[$this->itemname] == 'other');
-            $status = $status && ($data[$this->itemname.'_text'] == $parentvalues[1]);
+            $status = $status && ($data[$this->itemname . '_text'] == $parentvalues[1]);
         } else {
             // Note: $childparentvalue === $parentvalues[0] of course!
             $status = ($data[$this->itemname] == $childparentvalue);
@@ -755,7 +763,7 @@ EOS;
                 } else {
                     // It is, for sure, the content of _text.
                     $prefill[$this->itemname] = 'other';
-                    $prefill[$this->itemname.'_text'] = $fromdb->content;
+                    $prefill[$this->itemname . '_text'] = $fromdb->content;
                 }
             }
         }
@@ -770,7 +778,7 @@ EOS;
      * @param string $format
      * @return string - the string for the export file
      */
-    public function userform_db_to_export($answer, $format='') {
+    public function userform_db_to_export($answer, $format = '') {
         // The content of the provided answer.
         $content = $answer->content;
 
@@ -810,8 +818,8 @@ EOS;
                 $return = $content;
                 break;
             default:
-                $message = 'Unexpected $format = '.$format;
-                debugging('Error at line '.__LINE__.' of '.__FILE__.'. '.$message , DEBUG_DEVELOPER);
+                $message = 'Unexpected $format = ' . $format;
+                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
         }
 
         return $return;
@@ -823,9 +831,7 @@ EOS;
      * @return array
      */
     public function userform_get_root_elements_name() {
-        $elementnames = [$this->itemname.'_group'];
-
-        return $elementnames;
+        return [$this->itemname . '_group'];
     }
 
     // MARK other.
@@ -837,7 +843,7 @@ EOS;
      * @return $label
      */
     protected function get_other() {
-        if (preg_match('~^(.*)'.SURVEYPRO_OTHERSEPARATOR.'(.*)$~', $this->labelother, $match)) {
+        if (preg_match('~^(.*)' . SURVEYPRO_OTHERSEPARATOR . '(.*)$~', $this->labelother, $match)) {
             $label = trim($match[1]);
             $value = trim($match[2]);
         } else {

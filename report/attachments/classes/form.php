@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use surveyproreport_attachments\output\view_report_paragraph;
 
-require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
+require_once($CFG->dirroot . '/mod/surveypro/field/fileupload/lib.php');
 
 /**
  * The class managing the attachement overview report
@@ -37,8 +37,8 @@ require_once($CFG->dirroot.'/mod/surveypro/field/fileupload/lib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class form {
-
+class form
+{
     /**
      * @var object Course module object
      */
@@ -151,10 +151,10 @@ class form {
         echo \html_writer::tag('div', '<br>', ['id' => 'global_container', 'class' => 'form-group row fitem']);
 
         $data = [];
-        $data['elementid'] = 'user_'.$user->id;
+        $data['elementid'] = 'user_' . $user->id;
         $data['paragraphlabel'] = get_string('fullnameuser');
         if ($this->surveypro->anonymous) {
-            $paragraphcontent = get_string('user').': '.$user->id;
+            $paragraphcontent = get_string('user') . ': ' . $user->id;
         } else {
             $paragraphcontent = fullname($user);
         }
@@ -165,14 +165,14 @@ class form {
         echo $renderer->render_report_paragraph($viewreportparagraph);
 
         $data = [];
-        $data['elementid'] = 'submission_'.$submission->id;
+        $data['elementid'] = 'submission_' . $submission->id;
         $data['paragraphlabel'] = get_string('submissioninfo', 'surveyproreport_attachments');
-        $paragraphcontent = get_string('submissionid', 'surveyproreport_attachments').': '.$submission->id.'<br>';
-        $paragraphcontent .= get_string('timecreated', 'mod_surveypro').': '.userdate($submission->timecreated).'<br>';
+        $paragraphcontent = get_string('submissionid', 'surveyproreport_attachments') . ': ' . $submission->id . '<br>';
+        $paragraphcontent .= get_string('timecreated', 'mod_surveypro') . ': ' . userdate($submission->timecreated) . '<br>';
         if ($submission->timemodified) {
-            $paragraphcontent .= get_string('timemodified', 'mod_surveypro').': '.userdate($submission->timemodified);
+            $paragraphcontent .= get_string('timemodified', 'mod_surveypro') . ': ' . userdate($submission->timemodified);
         } else {
-            $paragraphcontent .= get_string('timemodified', 'mod_surveypro').': '.get_string('never');
+            $paragraphcontent .= get_string('timemodified', 'mod_surveypro') . ': ' . get_string('never');
         }
         $data['paragraphcontent'] = $paragraphcontent;
 
@@ -206,13 +206,13 @@ class form {
                     $iconparams = ['class' => 'fp-icon inlineicon'];
                     $iconimage = $OUTPUT->pix_icon(file_file_icon($file), $mimetype, 'core', $iconparams);
 
-                    $path = '/'.$this->context->id.'/surveyprofield_fileupload/'.$filearea.'/'.$item->answerid.'/'.$filename;
-                    $url = file_encode_url($CFG->wwwroot.'/pluginfile.php', $path);
+                    $path = '/' . $this->context->id . '/surveyprofield_fileupload/' . $filearea . '/' . $item->answerid . '/' . $filename;
+                    $url = file_encode_url($CFG->wwwroot . '/pluginfile.php', $path);
 
                     $data = [];
-                    $data['elementid'] = 'answer_'.$item->answerid;
+                    $data['elementid'] = 'answer_' . $item->answerid;
                     $data['paragraphlabel'] = $item->content;
-                    $tagacontent = \html_writer::tag('span', $iconimage.s($filename));
+                    $tagacontent = \html_writer::tag('span', $iconimage . s($filename));
                     $paragraphcontent = \html_writer::tag('a', $tagacontent, ['href' => $url]);
                     $data['paragraphcontent'] = $paragraphcontent;
 
@@ -222,7 +222,7 @@ class form {
                 }
             } else {
                 $data = [];
-                $data['elementid'] = 'answer_'.$item->answerid;
+                $data['elementid'] = 'answer_' . $item->answerid;
                 $data['paragraphlabel'] = $item->content;
                 $data['paragraphcontent'] = $nofilesfound;
 

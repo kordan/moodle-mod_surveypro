@@ -29,8 +29,8 @@
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class backup_surveypro_activity_structure_step extends backup_activity_structure_step {
-
+class backup_surveypro_activity_structure_step extends backup_activity_structure_step
+{
     /**
      * Define the structure for the assign activity.
      *

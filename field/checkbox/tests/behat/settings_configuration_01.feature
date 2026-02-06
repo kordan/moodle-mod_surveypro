@@ -1,6 +1,6 @@
 @mod @mod_surveypro @surveyprofield @surveyprofield_checkbox
 Feature: Submit using checkbox item and check form validation (1 of 4)
-  Setting I check in this test are:
+  Settings I check in this test are:
       # required:                 0 - 1
       # Options (fixed):          milk\ncoffee\nbutter\nbread
       # Default:                  empty - coffee

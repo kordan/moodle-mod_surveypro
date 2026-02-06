@@ -25,12 +25,12 @@
 
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
-require_once(dirname(__FILE__).'/../../../../lib/behat/behat_base.php');
+require_once(dirname(__FILE__) . '/../../../../lib/behat/behat_base.php');
 
-use Behat\Behat\Context\Step\Given as Given,
-    Behat\Gherkin\Node\PyStringNode as PyStringNode,
-    Behat\Gherkin\Node\TableNode as TableNode,
-    Behat\Mink\Exception\ExpectationException as ExpectationException;
+use Behat\Behat\Context\Step\Given,
+    Behat\Gherkin\Node\PyStringNode,
+    Behat\Gherkin\Node\TableNode,
+    Behat\Mink\Exception\ExpectationException;
 
 /**
  * Library for surveypro behat tests
@@ -40,7 +40,8 @@ use Behat\Behat\Context\Step\Given as Given,
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class behat_mod_surveypro extends behat_base {
+class behat_mod_surveypro extends behat_base
+{
     use core_behat_file_helper;
 
     /**
@@ -60,60 +61,88 @@ class behat_mod_surveypro extends behat_base {
 
         switch ($type) {
             case 'Surveypro from secondary navigation':
-                return new \moodle_url('/mod/surveypro/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'Layout from secondary navigation':
-                return new \moodle_url('/mod/surveypro/layout.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/layout.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'Reports from secondary navigation':
-                return new \moodle_url('/mod/surveypro/reports.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/reports.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'Tools from secondary navigation':
-                return new \moodle_url('/mod/surveypro/tools.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/tools.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'User templates from secondary navigation':
-                return new \moodle_url('/mod/surveypro/utemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/utemplates.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'Master templates from secondary navigation':
-                return new \moodle_url('/mod/surveypro/mtemplates.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id]);
+                return new \moodle_url(
+                    '/mod/surveypro/mtemplates.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id]
+                );
 
             case 'Colles > Summary report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'summary']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'summary']
+                );
 
             case 'Colles > Scales report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'scales']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'scales']
+                );
 
             case 'Colles > Relevance report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '0']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '0']
+                );
 
             case 'Colles > Reflective thinking report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '1']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '1']
+                );
 
             case 'Colles > Interactivity report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '2']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '2']
+                );
 
             case 'Colles > Tutor support report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '3']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '3']
+                );
 
             case 'Colles > Peer support report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '4']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '4']
+                );
 
             case 'Colles > Interpretation report':
-                return new \moodle_url('/mod/surveypro/report/colles/view.php',
-                        ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '5']);
+                return new \moodle_url(
+                    '/mod/surveypro/report/colles/view.php',
+                    ['id' => $this->get_cm_by_surveypro_name($identifier)->id, 'type' => 'questions', 'area' => '5']
+                );
 
             default:
                 throw new Exception('Unrecognised surveypro page type "' . $type . '."');
@@ -148,7 +177,7 @@ class behat_mod_surveypro extends behat_base {
      *
      * @throws ExpectationException
      * @Then /^I should see "(?P<given_number>\d+)" submissions$/
-     * @param integer $givennumber
+     * @param int $givennumber
      * @return void|ExpectationException
      */
     public function i_should_see_submission($givennumber) {
@@ -169,7 +198,7 @@ class behat_mod_surveypro extends behat_base {
      *
      * @throws ExpectationException
      * @Then /^I should see "(?P<given_number>\d+)" (?P<status>reserved|available|searchable|not searchable|visible|hidden) items$/
-     * @param integer $givennumber
+     * @param int $givennumber
      * @param string $status
      * @return void|ExpectationException
      */

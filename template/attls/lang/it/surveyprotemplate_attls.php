@@ -65,9 +65,3 @@ $string['useradio'] = 'Bottoni radio';
 $string['useritem'] = 'Tipo di selettore';
 $string['useritem_desc'] = 'Questa opzione consente di scegliere il tipo di selettore per rispondere al sondaggio. "Bottoni radio" è lo standard, "Menu a tendina" è consigliato per i monitor di modeste dimensioni.<br>Le modifiche avranno effetto sui prossimi nuovi somdaggi.';
 $string['useselect'] = 'Menu a tendina';
-
-
-
-
-
-

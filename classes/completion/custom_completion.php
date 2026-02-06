@@ -30,8 +30,8 @@ use core_completion\activity_custom_completion;
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class custom_completion extends activity_custom_completion {
-
+class custom_completion extends activity_custom_completion
+{
     /**
      * Fetches the completion state for a given completion rule.
      *
