@@ -272,26 +272,7 @@ class view_responselist
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid)
-              FROM {surveypro_answer} a';
-
-            // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
-            // Example: (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
-            $userquery = [];
-            foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin . '\item';
-                // Ask to the item class how to write the query.
-                [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
-                $userquery[] = '(a.itemid = ' . $itemid . ' AND ' . $whereclause . ')';
-                $whereparams['content_' . $itemid] = $whereparam;
-            }
-            $sqlanswer .= ' WHERE (' . implode(' OR ', $userquery) . ')';
-            $sqlanswer .= ' GROUP BY a.submissionid';
-            // HAVING clause 'HAVING matchcount = :matchcount' is not correct for pgsql.
-            // Because of this, instead of using ' HAVING matchcount = :matchcount' I use:
-            $sqlanswer .= ' HAVING COUNT(a.submissionid) = :matchcount';
-            $whereparams['matchcount'] = count($userquery);
+            $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
 
             // Finally, continue writing $sql.
             $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = ss.id';
@@ -416,26 +397,7 @@ class view_responselist
 
             $searchrestrictions = unserialize($this->searchquery);
 
-            $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid)
-              FROM {surveypro_answer} a';
-
-            // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
-            // Example: (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
-            $userquery = [];
-            foreach ($searchrestrictions as $itemid => $searchrestriction) {
-                $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
-                $classname = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin . '\item';
-                // Ask to the item class how to write the query.
-                [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
-                $userquery[] = '(a.itemid = ' . $itemid . ' AND ' . $whereclause . ')';
-                $whereparams['content_' . $itemid] = $whereparam;
-            }
-            $sqlanswer .= ' WHERE (' . implode(' OR ', $userquery) . ')';
-            $sqlanswer .= ' GROUP BY a.submissionid';
-            // HAVING clause 'HAVING matchcount = :matchcount' is not correct for pgsql.
-            // Because of this, instead of using ' HAVING matchcount = :matchcount' I use:
-            $sqlanswer .= ' HAVING COUNT(a.submissionid) = :matchcount';
-            $whereparams['matchcount'] = count($userquery);
+            $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
 
             // Finally, continue writing $sql.
             $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = s.id';
@@ -496,6 +458,40 @@ class view_responselist
         $counter['allusers'] = (int) $counters->users;
 
         return $counter;
+    }
+
+    /**
+     * Get the file content starting from its URL
+     *
+     * @param string $searchrestrictions
+     * @param array $whereparams
+     * @return $sqlanswer
+     */
+    private function get_sqlanswer($searchrestrictions, &$whereparams) {
+        global $DB;
+
+        $sqlanswer = 'SELECT a.submissionid, COUNT(a.submissionid)
+          FROM {surveypro_answer} a';
+
+        // Example: (a.itemid = 7720 AND a.content = 0) OR (a.itemid = 7722 AND a.content = 1)).
+        // Example: (a.itemid = 1219 AND $DB->sql_like('a.content', ':content_1219', false)).
+        $userquery = [];
+        foreach ($searchrestrictions as $itemid => $searchrestriction) {
+            $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'type, plugin', MUST_EXIST);
+            $classname = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin . '\item';
+            // Ask to the item class how to write the query.
+            [$whereclause, $whereparam] = $classname::response_get_whereclause($itemid, $searchrestriction);
+            $userquery[] = '(a.itemid = ' . $itemid . ' AND ' . $whereclause . ')';
+            $whereparams['content_' . $itemid] = $whereparam;
+        }
+        $sqlanswer .= ' WHERE (' . implode(' OR ', $userquery) . ')';
+        $sqlanswer .= ' GROUP BY a.submissionid';
+        // HAVING clause 'HAVING matchcount = :matchcount' is not correct for pgsql.
+        // Because of this, instead of using ' HAVING matchcount = :matchcount' I use:
+        $sqlanswer .= ' HAVING COUNT(a.submissionid) = :matchcount';
+        $whereparams['matchcount'] = count($userquery);
+
+        return $sqlanswer;
     }
 
     /**
