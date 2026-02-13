@@ -198,9 +198,18 @@ class view_responsesubmit extends formbase
             // Add a new record to surveypro_submission.
             $submission->surveyproid = $this->surveypro->id;
             $submission->userid = $USER->id;
-            if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
-                $submission->timecreated = $timenow;
-            }
+
+            // Let's talk about timecreated.
+            // A tricky case: step 1.
+            // I have a SurveyPro form spread over several pages.
+            // The original idea was: When I submit the first page, I thought, I don't need to fill in the creation date
+            // because I will fill it at the final submission time. (the submission of the last page)
+            // The problem that arises is: what happens if the form is not submitted because, for instance,
+            // the user forgets a mandatory field? The creation date remains set to null, and this is not good.
+            // For this reason, I choose to save the creation date
+            // not only when I push $savebutton || $saveasnewbutton || $pausebutton
+            // BUT ALWAYS!
+            $submission->timecreated = $timenow;
 
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
 
@@ -215,19 +224,17 @@ class view_responsesubmit extends formbase
             $params = ['id' => $submission->id];
             $originalrecord = $DB->get_record('surveypro_submission', $params, 'status, timecreated', MUST_EXIST);
 
-            // Define $submission times.
+            // Define $submission time.
             if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
-                if ($originalrecord->timecreated) {
+                if ($this->mode == SURVEYPRO_EDITMODE) {
                     $submission->timemodified = $timenow;
-                } else {
-                    $submission->timecreated = $timenow;
-                }
 
-                // Note: $DB->update_record must be inside curly brackets (this if statement) otherwise
-                // using "<< previous" or "next >>" to browse the submission
-                // I get the error:
-                // moodle_database::update_record_raw() no fields found.
-                $DB->update_record('surveypro_submission', $submission);
+                    // Note: $DB->update_record must be inside curly brackets (this if statement) otherwise
+                    // using "<< previous" or "next >>" to browse the submission
+                    // I get the error:
+                    // moodle_database::update_record_raw() no fields found.
+                    $DB->update_record('surveypro_submission', $submission);
+                }
             }
 
             $eventdata = ['context' => $this->context, 'objectid' => $submission->id];
