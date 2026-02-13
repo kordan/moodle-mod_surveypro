@@ -198,9 +198,18 @@ class view_responsesubmit extends formbase
             // Add a new record to surveypro_submission.
             $submission->surveyproid = $this->surveypro->id;
             $submission->userid = $USER->id;
-            if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
-                $submission->timecreated = $timenow;
-            }
+
+            // Let's talk about timecreated.
+            // A tricky case: step 1.
+            // I have a SurveyPro form spread over several pages.
+            // The original idea was: When I submit the first page, I thought, I don't need to fill in the creation date
+            // because I will fill it at the final submission time. (the submission of the last page)
+            // The problem that arises is: what happens if the form is not submitted because, for instance,
+            // the user forgets a mandatory field? The creation date remains set to null, and this is not good.
+            // For this reason, I choose to save the creation date
+            // not only when I push $savebutton || $saveasnewbutton || $pausebutton
+            // BUT ALWAYS!
+            $submission->timecreated = $timenow;
 
             $submission->id = $DB->insert_record('surveypro_submission', $submission);
 
@@ -217,10 +226,23 @@ class view_responsesubmit extends formbase
 
             // Define $submission times.
             if ($savebutton || $saveasnewbutton || $pausebutton) { // I exclude previous and forward.
-                if ($originalrecord->timecreated) {
+                // A tricky case: step 2.
+                // I cannot distinguish between submissions interrupted due to negligence (the user omitted a mandatory field)
+                // and submissions that were deliberately interrupted to be resumed at a later time.
+                // If I started compiling page 1 a minute ago and I am now definitively submit page 2,
+                // the modification date should be: NEVER
+                // If I started compiling page 1 yesterday and I am now definitively submit page 2,
+                // the modification date should be: $timenow
+                // but, given:
+                // I am unable to recognize whether this submission was interrupted by mistake or deliberately,
+                // I should ALWAYS record the timemodified.
+                // Given I don't like to lose...
+                // As I assumed as maximum time required to complete a surveypro is 4 hours
+                // (see: public function execute() in surveypro/classes/task/delete_abandoned_submissions.php)
+                // If $timecreated is earlier than this interval respect to now, I write $timemodified, otherwise I do not.
+                $timedelay = $timenow - $originalrecord->timecreated;
+                if ($timedelay > 14400) {
                     $submission->timemodified = $timenow;
-                } else {
-                    $submission->timecreated = $timenow;
                 }
 
                 // Note: $DB->update_record must be inside curly brackets (this if statement) otherwise
