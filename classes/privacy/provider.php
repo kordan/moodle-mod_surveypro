@@ -27,10 +27,13 @@ namespace mod_surveypro\privacy;
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\request\approved_userlist;
+use core_privacy\local\request\contextlist;
+// use core_privacy\local\request\deletion_criteria;
 use core_privacy\local\request\helper;
-use core_privacy\local\request\transform;
+// use core_privacy\local\request\transform;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
+
 
 /**
  * Implementation of the privacy subsystem plugin provider for the surveypro activity module.

@@ -17,6 +17,8 @@
 namespace mod_surveypro;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * The class to verify all the lib.php global functions do work as expected.
@@ -24,8 +26,9 @@ use advanced_testcase;
  * @package   mod_surveypro
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers    \mod_surveypro\mastertemplate
  */
+#[CoversClass(\mod_surveypro\mtemplate_save::get_plugin_name)]
+#[CoversMethod(\mod_surveypro\mtemplate_save::get_plugin_name, 'get_plugin_name')]
 final class mastertemplate_test extends advanced_testcase
 {
     /**
@@ -33,7 +36,7 @@ final class mastertemplate_test extends advanced_testcase
      *
      * Cases to be tested by test_surveyprotemplate_get_plugin_name
      */
-    public function surveyprotemplate_get_plugin_name_provider(): array {
+    public static function surveyprotemplate_get_plugin_name_provider(): array {
         return [
             'test01' => ['correct_pluginname', 'correct_pluginname'],
             'test02' => ['123startswitnumbers', 'startswitnumbers'],
@@ -45,12 +48,12 @@ final class mastertemplate_test extends advanced_testcase
     }
 
     /**
-     * test_surveyprotemplate_get_plugin_name
+     * Test surveyprotemplate_get_plugin_name method
      *
-     * @dataProvider surveyprotemplate_get_plugin_name_provider
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
+    #[DataProvider('surveyprotemplate_get_plugin_name_provider')]
     public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();

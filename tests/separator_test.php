@@ -18,6 +18,8 @@ namespace mod_surveypro;
 
 use advanced_testcase;
 use surveyprofield_radiobutton;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -30,12 +32,13 @@ require_once($CFG->dirroot . '/mod/surveypro/lib.php');
  * @package   mod_surveypro
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @covers    \surveyprofield_radiobutton
  */
+#[CoversClass(\mod_surveypro\surveyprofield_radiobutton::class)]
+#[CoversMethod(\mod_surveypro\surveyprofield_radiobutton::class, 'userform_get_separator')]
 final class separator_test extends advanced_testcase
 {
     /**
-     * Data provider for test_userform_get_separator()
+     * Data provider for userform_get_separator_provider()
      *
      * Cases to be tested by surveyprotemplate_get_plugin_name_provider
      *
@@ -50,7 +53,7 @@ final class separator_test extends advanced_testcase
      *     $itemman->required = 1; // Needed to define $mandatory.
      *     $itemman->required = 0; // Needed to define $mandatory.
      */
-    public function userform_get_separator_provider(): array {
+    public static function userform_get_separator_provider(): array {
         $userinput = [];
         $userinput['defaultoption'] = SURVEYPRO_CUSTOMDEFAULT;
         $userinput['options'] = "mum\ndad";
@@ -135,12 +138,12 @@ final class separator_test extends advanced_testcase
     }
 
     /**
-     * test_userform_get_separator
+     * Test userform_get_separator method
      *
-     * @dataProvider userform_get_separator_provider
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
+    #[DataProvider('userform_get_separator_provider')]
     public function test_userform_get_separator($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();

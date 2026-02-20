@@ -49,13 +49,13 @@ class mod_surveypro_generator extends testing_module_generator
     }
 
     /**
-     * Create_instance.
+     * Create an instance of the module.
      *
-     * @param array $record
-     * @param array $options
-     * @return void
+     * @param \stdClass|null $record
+     * @param array|null $options
+     * @return \stdClass
      */
-    public function create_instance($record = null, array $options = null) {
+    public function create_instance($record = null, ?array $options = []): \stdClass {
         global $CFG;
 
         require_once($CFG->dirroot . '/mod/surveypro/tests/behat/lib_behattest.php');
@@ -106,11 +106,11 @@ class mod_surveypro_generator extends testing_module_generator
     /**
      * Apply a template to the surveypro instance.
      *
-     * @param array $record array|\stdClass $record containing course, surveypro and valid template
+     * @param \stdClass|null $record
      * @param array $options
      * @return \stdClass[] of created items
      */
-    public function apply_mastertemplate($record = null, array $options = null) {
+    public function apply_mastertemplate(?\stdClass $record = null, array $options = []): \stdClass {
 
         $record = (object)(array)$record;
         $options = (array) $options;

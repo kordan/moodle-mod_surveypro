@@ -155,6 +155,7 @@ $string['event_mastertemplate_applied'] = 'A master template has been applied';
 $string['event_mastertemplate_saved'] = 'A master template has been saved';
 $string['event_submission_created'] = 'A response has been created';
 $string['event_submission_deleted'] = 'A response has been deleted';
+$string['event_submission_duplicated'] = 'duplicated submission event';
 $string['event_submission_modified'] = 'A response has been modified';
 $string['event_submission_viewed'] = 'A response has been viewed';
 $string['event_submissions_imported'] = 'Responses imported';

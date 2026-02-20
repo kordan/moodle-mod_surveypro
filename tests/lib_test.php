@@ -17,6 +17,8 @@
 namespace mod_surveypro;
 
 use advanced_testcase;
+use PHPUnit\Framework\Attributes\CoversFunction;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,6 +32,8 @@ require_once($CFG->dirroot . '/mod/surveypro/lib.php');
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+#[CoversFunction('surveypro_cutdownstring')]
+#[CoversFunction('surveypro_pre_process_checkboxes')]
 final class lib_test extends advanced_testcase
 {
     /**
@@ -37,7 +41,7 @@ final class lib_test extends advanced_testcase
      *
      * Cases to be tested by surveypro_cutdownstring
      */
-    public function surveypro_cutdownstring_provider(): array {
+    public static function surveypro_cutdownstring_provider(): array {
         return [
             'plain_short_string' => ['Hello world!', 60, 'Hello world!'],
             'utf8_short_string' => ['Hello 🌍 !', 60, 'Hello 🌍 !'],
@@ -47,17 +51,16 @@ final class lib_test extends advanced_testcase
     }
 
     /**
-     * surveypro_cutdownstring
+     * Test surveypro_cutdownstring function
      *
-     * @covers ::surveypro_cutdownstring
-     * @dataProvider surveypro_cutdownstring_provider
      * @param string $plainstring The string being passed
      * @param int $maxlength The length passed
      * @param string $expected The expected result
      */
+    #[DataProvider('surveypro_cutdownstring_provider')]
     public function test_surveypro_cutdownstring($plainstring, $maxlength, $expected): void {
         // Let's test that surveypro_cutdownstring() works as expected.
-        $this->assertSame($expected, surveypro_cutdownstring($plainstring, $maxlength));
+        $this->assertEquals($expected, surveypro_cutdownstring($plainstring, $maxlength));
     }
 
     /**
@@ -65,7 +68,7 @@ final class lib_test extends advanced_testcase
      *
      * Cases to be tested by surveypro_pre_process_checkboxes
      */
-    public function surveypro_pre_process_checkboxes_provider(): array {
+    public static function surveypro_pre_process_checkboxes_provider(): array {
         return [
             'test01' => [
                 (object) [
@@ -114,13 +117,12 @@ final class lib_test extends advanced_testcase
     }
 
     /**
-     * test_surveypro_pre_process_checkboxes
+     * Test surveypro_pre_process_checkboxes function
      *
-     * @covers ::surveypro_pre_process_checkboxes
-     * @dataProvider surveypro_pre_process_checkboxes_provider
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
+    #[DataProvider('surveypro_pre_process_checkboxes_provider')]
     public function test_surveypro_pre_process_checkboxes($userinput, $expected): void {
         // Let's test that surveypro_pre_process_checkboxes() works as expected.
         surveypro_pre_process_checkboxes($userinput);
