@@ -256,9 +256,6 @@ class item extends itembase
         // 1. Special management for composite fields.
         $fieldlist = $this->get_composite_fields();
         foreach ($fieldlist as $field) {
-            if (!$this->{$field}) {
-                continue;
-            }
             $datearray = $this->item_split_unix_time($this->{$field});
             $this->{$field . 'year'} = $datearray['year'];
             $this->{$field . 'month'} = $datearray['mon'];
