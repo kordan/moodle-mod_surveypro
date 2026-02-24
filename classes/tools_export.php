@@ -546,10 +546,10 @@ class tools_export
     public function export_write_xlsrecord($row, $recordtoexport, &$worksheet) {
         $col = 0;
         foreach ($recordtoexport as $value) {
-            if ($value == SURVEYPRO_EXPNULLVALUE) {
-                $worksheet[0]->write_string($row, $col, $value);
+            if (is_numeric($value)) {
+                $worksheet[0]->write_number($row, $col, $value);
             } else {
-                $worksheet[0]->write($row, $col, $value, '');
+                $worksheet[0]->write_string($row, $col, $value);
             }
             $col++;
         }
