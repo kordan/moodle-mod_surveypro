@@ -34,7 +34,6 @@ use core_privacy\local\request\helper;
 use core_privacy\local\request\userlist;
 use core_privacy\local\request\writer;
 
-
 /**
  * Implementation of the privacy subsystem plugin provider for the surveypro activity module.
  *

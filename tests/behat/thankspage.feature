@@ -81,7 +81,7 @@ Feature: Thanks users properly
     And I click on "thankyou.png" "link"
     And I click on "Select this file" "button"
     # And I set the field "Describe this image for someone who cannot see it" to "Thank you!"
-    And I set the field "How would you describe this image to someone who can't see it?" to "Thank you!"
+    And I set the field "How would you describe this image to someone who cannot see it?" to "Thank you!"
     And I click on "Save" "button" in the "Image details" "dialogue"
     And I press "Save and display"
     And I log out

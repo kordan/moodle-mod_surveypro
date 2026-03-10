@@ -23,17 +23,13 @@
         "paragraphcontent": "Foo Bar"
     }
 }}
-<div id="paragraph_{{{elementid}}}" class="form-group row fitem">
-    <div class="col-md-3 col-form-label d-flex pb-0 pr-md-0">
-        <span class="d-inline-block">
-            {{{paragraphlabel}}}
-        </span>
+<div id="paragraph_{{{elementid}}}" class="fitem row">
+    <div class="fitemtitle col-md-3">
+        <span>{{{paragraphlabel}}}</span>
     </div>
-    <div class="col-md-9 form-inline align-items-start felement" data-fieldtype="static">
-        <div class="form-control-static">
-            <div class="indent-0 label_static">
-                {{{paragraphcontent}}}
-            </div>
+    <div class="felement fstatic col-md-9">
+        <div class="indent-0 label_static">
+            {{{paragraphcontent}}}
         </div>
     </div>
 </div>
