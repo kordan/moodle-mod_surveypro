@@ -148,7 +148,7 @@ class form
         $renderer = $PAGE->get_renderer('surveyproreport_attachments');
 
         // Separation at the beginning.
-        echo \html_writer::tag('div', '<br>', ['id' => 'global_container', 'class' => 'form-group row fitem']);
+        echo \html_writer::tag('div', '<br>', ['id' => 'global_container', 'class' => 'mb3 row fitem']);
 
         $data = [];
         $data['elementid'] = 'user_' . $user->id;
@@ -206,8 +206,14 @@ class form
                     $iconparams = ['class' => 'fp-icon inlineicon'];
                     $iconimage = $OUTPUT->pix_icon(file_file_icon($file), $mimetype, 'core', $iconparams);
 
-                    $path = '/' . $this->context->id . '/surveyprofield_fileupload/' . $filearea . '/' . $item->answerid . '/' . $filename;
-                    $url = file_encode_url($CFG->wwwroot . '/pluginfile.php', $path);
+                    $url = \core\url::make_pluginfile_url(
+                        $this->context->id,
+                        'surveyprofield_fileupload',
+                        $filearea,
+                        $item->answerid,
+                        '/',
+                        $filename
+                    )->out(false);
 
                     $data = [];
                     $data['elementid'] = 'answer_' . $item->answerid;
