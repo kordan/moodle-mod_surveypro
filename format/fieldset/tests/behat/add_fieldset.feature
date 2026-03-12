@@ -21,7 +21,7 @@ Feature: Create a fieldset item
     And I am on the "Fieldset test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Fieldset"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the field "Content" to "A bunch of items"

@@ -25,7 +25,7 @@ Feature: Create a radiobutton item
 
     # add an radiobutton item
     And I set the field "typeplugin" to "Radio buttons"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

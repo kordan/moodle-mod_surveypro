@@ -8,7 +8,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:15
+        image: postgres:16
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
@@ -32,12 +32,12 @@ jobs:
       matrix:
         include:
           - php: 8.4
-            moodle-branch: MOODLE_501_STABLE
+            moodle-branch: main
             database: mariadb
             suite: classic
             profile: default
-          - php: 8.2
-            moodle-branch: MOODLE_501_STABLE
+          - php: 8.3
+            moodle-branch: main
             database: pgsql
             suite: default
             profile: chrome
@@ -68,6 +68,7 @@ jobs:
       - name: Install moodle-plugin-ci
         run: moodle-plugin-ci install --plugin ./plugin --db-host=127.0.0.1
         env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
 

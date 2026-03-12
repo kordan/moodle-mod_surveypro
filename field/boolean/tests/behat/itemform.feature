@@ -25,7 +25,7 @@ Feature: Create a boolean item
 
     # add an boolean item
     And I set the field "typeplugin" to "Boolean"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

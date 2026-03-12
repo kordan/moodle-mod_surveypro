@@ -25,7 +25,7 @@ Feature: Create an age item
 
     # add an age item
     And I set the field "typeplugin" to "Age [yy/mm]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

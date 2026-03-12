@@ -25,7 +25,7 @@ Feature: Create a character item
 
     # add an character item
     And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

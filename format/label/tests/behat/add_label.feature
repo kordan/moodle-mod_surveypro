@@ -21,7 +21,7 @@ Feature: Create a label item
     And I am on the "Label test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Label"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the field "Content" to "This is just a comment"

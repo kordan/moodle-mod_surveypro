@@ -25,7 +25,7 @@ Feature: Create a rate item
 
     # add an rate item
     And I set the field "typeplugin" to "Rate"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

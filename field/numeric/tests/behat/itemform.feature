@@ -25,7 +25,7 @@ Feature: Create a numeric item
 
     # add an numeric item
     And I set the field "typeplugin" to "Numeric"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

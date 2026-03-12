@@ -42,7 +42,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I press "Save and display"
 
     And I set the field "typeplugin" to "Autofill"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -54,7 +54,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I press "Add"
 
     And I set the field "typeplugin" to "Autofill"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -65,7 +65,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I press "Add"
 
     And I set the field "typeplugin" to "Autofill"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -76,7 +76,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

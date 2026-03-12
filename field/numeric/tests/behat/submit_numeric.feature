@@ -23,7 +23,7 @@ Feature: Submit using a numeric item
     And I am on the "Numeric test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Numeric"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
