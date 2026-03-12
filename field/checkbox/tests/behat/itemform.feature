@@ -25,7 +25,7 @@ Feature: Create a checkbox item
 
     # add an checkbox item
     And I set the field "typeplugin" to "Checkbox"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

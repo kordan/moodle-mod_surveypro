@@ -24,7 +24,7 @@ Feature: Use reserved elements
 
     # add the first age item generally available
     And I set the field "typeplugin" to "Age [yy/mm]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -41,7 +41,7 @@ Feature: Use reserved elements
 
     # add the second age item (as reserved element)
     And I set the field "typeplugin" to "Age [yy/mm]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

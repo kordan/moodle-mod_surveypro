@@ -25,7 +25,7 @@ Feature: Create a datetime item
 
     # add an datetime item
     And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

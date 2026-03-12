@@ -27,7 +27,7 @@ Feature: Trim textarea content
 
     # add an textarea item
     And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -41,7 +41,7 @@ Feature: Trim textarea content
 
     # add one more textarea item
     And I set the field "typeplugin" to "Text (long)"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

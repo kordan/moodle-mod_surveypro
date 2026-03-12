@@ -24,7 +24,7 @@ Feature: Search using one and two select items
 
     # Create a two items long surveypro
     And I set the field "typeplugin" to "Select"
-    And I press "Add"
+    And I press "typeplugin_button"
     And I expand all fieldsets
 
     Given I set the following fields to these values:
@@ -37,7 +37,7 @@ Feature: Search using one and two select items
     And I press "Add"
 
     And I set the field "typeplugin" to "Select"
-    And I press "Add"
+    And I press "typeplugin_button"
     And I expand all fieldsets
 
     Given I set the following fields to these values:

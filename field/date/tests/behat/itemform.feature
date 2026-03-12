@@ -25,7 +25,7 @@ Feature: Create a date item
 
     # add an date item
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

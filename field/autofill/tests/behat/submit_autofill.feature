@@ -23,7 +23,7 @@ Feature: Submit using an autofill item
     And I am on the "Autofill test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Autofill"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

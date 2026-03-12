@@ -21,7 +21,7 @@ Feature: Submit using checkbox item and check form validation
     And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Checkbox"
-    And I press "Add"
+    And I press "typeplugin_button"
     And I expand all fieldsets
 
   @javascript

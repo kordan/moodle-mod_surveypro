@@ -24,7 +24,7 @@ Feature: Search using one and two date items
 
     # Create a two items long surveypro
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "Add"
+    And I press "typeplugin_button"
     And I expand all fieldsets
 
     Given I set the following fields to these values:
@@ -44,7 +44,7 @@ Feature: Search using one and two date items
     And I press "Add"
 
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "Add"
+    And I press "typeplugin_button"
     And I expand all fieldsets
 
     Given I set the following fields to these values:

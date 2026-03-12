@@ -25,7 +25,7 @@ Feature: Test each student sees only personal submissions
     And I am on the "Get only my own submissions" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Text (short)"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -38,7 +38,7 @@ Feature: Test each student sees only personal submissions
     And I press "Add"
 
     And I set the field "typeplugin" to "Boolean"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

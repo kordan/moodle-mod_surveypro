@@ -21,6 +21,6 @@ Feature: Create a fieldsetend item
     And I am on the "Fieldset test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Fieldset closure"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I press "Add"

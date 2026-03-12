@@ -23,7 +23,7 @@ Feature: Submit using a date item
     And I am on the "Date test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

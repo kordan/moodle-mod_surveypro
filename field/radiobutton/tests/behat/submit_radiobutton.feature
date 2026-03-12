@@ -23,7 +23,7 @@ Feature: Submit using a radiobutton item
     And I am on the "Radiobutton test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I set the field "typeplugin" to "Radio buttons"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
@@ -37,7 +37,7 @@ Feature: Submit using a radiobutton item
     And I press "Add"
 
     And I set the field "typeplugin" to "Radio buttons"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:

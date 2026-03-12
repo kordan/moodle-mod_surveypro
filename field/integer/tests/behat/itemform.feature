@@ -25,7 +25,7 @@ Feature: Create an integer item
 
     # add an integer item
     And I set the field "typeplugin" to "Integer"
-    And I press "Add"
+    And I press "typeplugin_button"
 
     And I expand all fieldsets
     And I set the following fields to these values:
