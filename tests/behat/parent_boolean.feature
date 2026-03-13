@@ -32,6 +32,7 @@ Feature: Set boolean as parent item
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Write down your name     |
+      | Required       | 0                        |
       | Parent element | Boolean [1]: Is it true? |
       | Parent content | 1                        |
     And I press "Add"

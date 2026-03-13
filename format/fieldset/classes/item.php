@@ -204,8 +204,7 @@ class item extends itembase
      * @return array of fields
      */
     public function get_multilang_fields($includemetafields = true) {
-        $fieldlist['surveypro_item'] = ['content', 'extranote'];
-        $fieldlist['surveyprofield_time'] = [];
+        $fieldlist['surveypro_item'] = ['content'];
 
         return $fieldlist;
     }

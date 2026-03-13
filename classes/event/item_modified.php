@@ -73,6 +73,7 @@ class item_modified extends \core\event\base
         $paramurl['plugin'] = $this->other['plugin'];
         $paramurl['view'] = $this->other['view'];
         $paramurl['section'] = 'itemsetup';
+
         return new \moodle_url('/mod/surveypro/layout.php', $paramurl);
     }
 

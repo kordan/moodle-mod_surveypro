@@ -227,7 +227,7 @@ class item extends itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
+    public function set_options($options): void {
         $this->options = $options;
     }
 

@@ -36,22 +36,22 @@ use core_text;
 class tools_export
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
     /**
-     * @var object Form content as submitted by the user
+     * @var \stdClass Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -303,7 +303,7 @@ class tools_export
      * @return void
      */
     public function output_to_csv($richsubmissions) {
-        global $CFG, $DB;
+        global $CFG;
 
         require_once($CFG->libdir . '/csvlib.class.php');
 
@@ -350,7 +350,7 @@ class tools_export
      * @return void
      */
     public function output_to_xls($richsubmissions) {
-        global $CFG, $DB;
+        global $CFG;
 
         require_once($CFG->libdir . '/excellib.class.php');
 
@@ -421,7 +421,7 @@ class tools_export
             }
         } else {
             $conditions = [];
-            foreach ($where as $field => $value) {
+            foreach ($where as $field => $unused) {
                 $conditions[] = $field . ' = :' . $field;
             }
             $select = implode(' AND ', $conditions);

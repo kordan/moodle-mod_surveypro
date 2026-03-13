@@ -24,8 +24,6 @@
 
 namespace mod_surveypro;
 
-use mod_surveypro\utility_page;
-
 /**
  * The utility class
  *
@@ -36,17 +34,17 @@ use mod_surveypro\utility_page;
 class utility_page
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 

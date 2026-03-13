@@ -157,7 +157,7 @@ class report extends reportbase
      * @return void
      */
     public function fetch_data($itemid) {
-        global $DB, $COURSE;
+        global $DB;
 
         [$sql, $whereparams] = $this->get_submissions_sql($itemid);
         $answers = $DB->get_recordset_sql($sql, $whereparams);
@@ -197,7 +197,7 @@ class report extends reportbase
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql($itemid) {
-        global $COURSE, $DB, $USER;
+        global $DB, $USER;
 
         $whereparams = [];
         $sql = 'SELECT ' . $DB->sql_compare_text('a.content', 255) . ', MIN(a.id) as id, COUNT(a.id) as absolute
@@ -233,7 +233,7 @@ class report extends reportbase
      * @return [$sql, $whereparams];
      */
     public function get_answercount_sql($itemid) {
-        global $COURSE, $DB, $USER;
+        global $USER;
 
         $sql = 'SELECT COUNT(\'x\')
                 FROM {user} u

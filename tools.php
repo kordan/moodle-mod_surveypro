@@ -30,7 +30,7 @@ use mod_surveypro\local\form\submissions_exportform;
 use mod_surveypro\tools_import;
 use mod_surveypro\local\form\submissions_importform;
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('tools');

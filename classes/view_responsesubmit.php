@@ -28,6 +28,7 @@ use mod_surveypro\utility_layout;
 use mod_surveypro\utility_item;
 use mod_surveypro\utility_submission;
 use mod_surveypro\formbase;
+use mod_surveypro\tests\view_responsesubmit_test_helper;
 
 /**
  * The class managing the form where users are supposed to enter expected data
@@ -54,7 +55,7 @@ class view_responsesubmit extends formbase
     protected $userdeservesthanks;
 
     /**
-     * @var object Form content as submitted by the user
+     * @var \stdClass Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -99,7 +100,7 @@ class view_responsesubmit extends formbase
      * @param int $mode
      * @return void
      */
-    private function set_mode($mode) {
+    protected function set_mode($mode) {
         $this->mode = $mode;
     }
 
@@ -108,7 +109,7 @@ class view_responsesubmit extends formbase
     /**
      * Get mode.
      *
-     * @return the content of $mode property
+     * @return int the content of $mode property
      */
     public function get_mode() {
         return $this->mode;
@@ -117,7 +118,7 @@ class view_responsesubmit extends formbase
     /**
      * Get responsestatus.
      *
-     * @return the content of $responsestatus property
+     * @return int the content of $responsestatus property
      */
     public function get_responsestatus() {
         return $this->responsestatus;
@@ -126,7 +127,7 @@ class view_responsesubmit extends formbase
     /**
      * Get userdeservesthanks.
      *
-     * @return the content of $userdeservesthanks property
+     * @return int the content of $userdeservesthanks property
      */
     public function get_userdeservesthanks() {
         return $this->userdeservesthanks;
@@ -433,58 +434,7 @@ class view_responsesubmit extends formbase
         // End of: let's start by saving one record in surveypro_submission.
 
         // Generate $itemhelperinfo.
-        foreach ($this->formdata as $elementname => $content) {
-            if ($matches = utility_item::get_item_parts($elementname)) {
-                // If among returned fields there is a placeholder...
-                if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
-                    $newelement = SURVEYPRO_ITEMPREFIX . '_' . $matches['type'] . '_' . $matches['plugin'] . '_' . $matches['itemid'];
-                    // ... but not the corresponding field, drop the placeholder and set to null the unexisting item.
-                    if (!isset($this->formdata->$newelement)) {
-                        $this->formdata->$newelement = null;
-                    }
-                    unset($this->formdata->$elementname);
-                }
-            }
-        }
-
-        $itemhelperinfo = [];
-        foreach ($this->formdata as $elementname => $content) {
-            if ($matches = utility_item::get_item_parts($elementname)) {
-                // With the introduction of interactive fieldset...
-                // those format elements are now equipped with open/close triangle...
-                // and they submit their own state.
-                // Drop them out.
-                $condition = false;
-                $condition = $condition || ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX);
-                $condition = $condition || ($matches['type'] == SURVEYPRO_TYPEFORMAT);
-                if ($condition) {
-                    continue; // To next foreach.
-                }
-            } else {
-                // Button or something not relevant.
-                if ($elementname == 's') {
-                    $surveyproid = $content;
-                }
-                // This is the black hole where is thrown each useless info like:
-                // - formpage
-                // - nextbutton
-                // and some more.
-                continue; // To next foreach.
-            }
-
-            $itemid = $matches['itemid'];
-            if (!isset($itemhelperinfo[$itemid])) {
-                $itemhelperinfo[$itemid] = new \stdClass();
-                $itemhelperinfo[$itemid]->type = $matches['type'];
-                $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
-                $itemhelperinfo[$itemid]->itemid = $itemid;
-            }
-            if (!isset($matches['option'])) {
-                $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
-            } else {
-                $itemhelperinfo[$itemid]->contentperelement[$matches['option']] = $content;
-            }
-        }
+        $itemhelperinfo = $this->build_itemhelperinfo();
 
         // Once $itemhelperinfo is onboard...
         // ->   I update/create the corresponding record asking to each item class to manage its informations.
@@ -496,7 +446,7 @@ class view_responsesubmit extends formbase
             if (!$useranswer = $DB->get_record('surveypro_answer', $where)) {
                 // Quickly make one new!
                 $useranswer = new \stdClass();
-                $useranswer->surveyproid = $surveyproid;
+                $useranswer->surveyproid = $this->surveypro->id;
                 $useranswer->submissionid = $submissionid;
                 $useranswer->itemid = $iteminfo->itemid;
                 $useranswer->content = SURVEYPRO_DUMMYCONTENT;
@@ -590,72 +540,126 @@ class view_responsesubmit extends formbase
     }
 
     /**
+     * Build the itemhelperinfo array from formdata.
+     * Groups form elements by itemid, resolving placeholders.
+     *
+     * @return array $itemhelperinfo
+     */
+    protected function build_itemhelperinfo(): array {
+        // Gestione placeholder.
+        foreach ($this->formdata as $elementname => $content) {
+            if ($matches = utility_item::get_item_parts($elementname)) {
+                if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
+                    $newelement = SURVEYPRO_ITEMPREFIX . '_' . $matches['type'] . '_' . $matches['plugin'] . '_' . $matches['itemid'];
+                    if (!isset($this->formdata->$newelement)) {
+                        $this->formdata->$newelement = null;
+                    }
+                    unset($this->formdata->$elementname);
+                }
+            }
+        }
+
+        // Costruzione itemhelperinfo.
+        $surveyproid = 0;
+        $itemhelperinfo = [];
+        foreach ($this->formdata as $elementname => $content) {
+            if (!$matches = utility_item::get_item_parts($elementname)) {
+                // Button or something not relevant.
+                // This is the black hole where is thrown each useless info like:
+                // - formpage
+                // - nextbutton
+                // and some more.
+                continue; // To next foreach.
+            }
+            if ($matches['prefix'] == SURVEYPRO_DONTSAVEMEPREFIX) {
+                continue;
+            }
+            if ($matches['type'] == SURVEYPRO_TYPEFORMAT) {
+                continue;
+            }
+
+            $itemid = $matches['itemid'];
+            if (!isset($itemhelperinfo[$itemid])) {
+                $itemhelperinfo[$itemid] = new \stdClass();
+                $itemhelperinfo[$itemid]->type = $matches['type'];
+                $itemhelperinfo[$itemid]->plugin = $matches['plugin'];
+                $itemhelperinfo[$itemid]->itemid = $itemid;
+            }
+            if (!isset($matches['option'])) {
+                $itemhelperinfo[$itemid]->contentperelement['mainelement'] = $content;
+            } else {
+                $itemhelperinfo[$itemid]->contentperelement[$matches['option']] = $content;
+            }
+        }
+
+        return $itemhelperinfo;
+    }
+
+    /**
+     * Get the list of all mandatory items for this surveypro.
+     *
+     * @return array
+     */
+    protected function get_required_items(): array {
+        global $DB;
+
+        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
+
+        $requireditems = [];
+        foreach ($pluginlist as $plugin) {
+            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin . '\item';
+            if (!$classname::has_mandatoryattribute()) {
+                continue;
+            }
+            $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
+                    FROM {surveypro_item} i
+                        JOIN {surveyprofield_' . $plugin . '} p ON p.itemid = i.id
+                    WHERE i.surveyproid = :surveyproid
+                        AND i.hidden = :hidden
+                        AND i.required > :required
+                    ORDER BY p.itemid';
+            $pluginitems = $DB->get_records_sql($sql, ['surveyproid' => $this->surveypro->id, 'hidden' => 0, 'required' => 0]);
+
+            foreach ($pluginitems as $pluginitem) {
+                if (!$pluginitem->reserved || $canaccessreserveditems) {
+                    unset($pluginitem->reserved);
+                    $requireditems[] = $pluginitem;
+                }
+            }
+        }
+
+        return $requireditems;
+    }
+
+    /**
      * Check mandatory item were filled.
      *
      * @return void
      */
     private function check_mandatories_are_in() {
-        global $CFG, $DB;
+        global $DB;
 
-        $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
+        $requireditems = $this->get_required_items();
 
-        // Get the list of used plugin.
-        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-        $pluginlist = $utilitysubmissionman->get_used_plugin_list(SURVEYPRO_TYPEFIELD);
-
-        // Begin of: get the list of all mandatory fields.
-        $requireditems = [];
-        foreach ($pluginlist as $plugin) {
-            $classname = 'surveypro' . SURVEYPRO_TYPEFIELD . '_' . $plugin . '\item';
-            $usesmandatoryattribute = $classname::has_mandatoryattribute();
-            if ($usesmandatoryattribute) {
-                $sql = 'SELECT i.id, i.parentid, i.parentvalue, i.reserved
-                        FROM {surveypro_item} i
-                            JOIN {surveyprofield_' . $plugin . '} p ON p.itemid = i.id
-                        WHERE i.surveyproid = :surveyproid
-                            AND i.hidden = :hidden
-                            AND i.required > :required
-                        ORDER BY p.itemid';
-
-                $whereparams = ['surveyproid' => $this->surveypro->id, 'hidden' => 0, 'required' => 0];
-                $pluginitems = $DB->get_records_sql($sql, $whereparams);
-
-                foreach ($pluginitems as $pluginitem) {
-                    if ((!$pluginitem->reserved) || $canaccessreserveditems) {
-                        // Just to save few bits of RAM.
-                        unset($pluginitem->reserved);
-
-                        $requireditems[] = $pluginitem;
-                    }
-                }
-            }
-        }
-        // End of: get the list of all mandatory fields.
-
-        // Make only ONE query taking ALL the answer provided in the frame of this submission.
-        // (and, implicitally, for this surveypro).
         $whereparams = ['submissionid' => $this->get_submissionid()];
         $providedanswers = $DB->get_records_menu('surveypro_answer', $whereparams, 'itemid', 'itemid, 1');
 
         foreach ($requireditems as $itemseed) {
-            if (!isset($providedanswers[$itemseed->id])) { // Answer was not provided for the required item.
-                if (empty($itemseed->parentid)) { // There is no parent item!!! Answer was jumped.
-                    $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
-                    break;
-                } else {
-                    $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->parentid);
-                    if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
-                        // Parent is here but it allows this item as child in this submission. Answer was jumped.
-                        // Take care: this check is valid for chains of parent-child relations too.
-                        // If the parent item was not allowed by its parent,
-                        // it was not answered and userform_is_child_allowed_static returns false.
-                        $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
-                    }
-                }
+            if (isset($providedanswers[$itemseed->id])) {
+                continue;
+            }
+            if (empty($itemseed->parentid)) {
+                $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
+                break;
+            }
+            $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->parentid);
+            if ($parentitem->userform_is_child_allowed_static($this->get_submissionid(), $itemseed)) {
+                $this->responsestatus = SURVEYPRO_MISSINGMANDATORY;
             }
         }
     }
-
     /**
      * Check that each answer of the passed submission was actually verified at submission time.
      * If at least one answer was not veritied, the responsestatus is SURVEYPRO_MISSINGVALIDATION.
@@ -713,7 +717,7 @@ class view_responsesubmit extends formbase
      * @return void
      */
     public function notifypeople() {
-        global $CFG, $DB, $COURSE, $USER;
+        global $CFG, $COURSE;
 
         require_once($CFG->dirroot . '/group/lib.php');
 
@@ -731,13 +735,13 @@ class view_responsesubmit extends formbase
         $fields = implode(', u.', $attributes);
 
         $recipients = [];
+        $firstlist = [];
         if ($this->surveypro->mailroles) {
             $rolesid = explode(',', $this->surveypro->mailroles);
             // For each roles (as selected in mod_form.php) get the list of users.
             foreach ($rolesid as $roleid) {
                 $recipients += get_role_users($roleid, $context, false, $fields);
             }
-            $firstlist = [];
             foreach ($recipients as $recipient) {
                 $firstlist[] = $recipient->email;
             }
@@ -757,7 +761,7 @@ class view_responsesubmit extends formbase
             $recipient->mailformat = 1;
             foreach ($morerecipients as $moreemail) {
                 // Do not create duplicates.
-                if (isset($firstlist) && in_array($moreemail, $firstlist)) {
+                if (in_array($moreemail, $firstlist)) {
                     continue;
                 }
                 $recipient->firstname = $moreemail;
@@ -908,21 +912,18 @@ class view_responsesubmit extends formbase
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
-        $formpage = $this->formdata->formpage;
-
         [$where, $params] = surveypro_fetch_items_seeds(
             $this->surveypro->id,
             true,
             $canaccessreserveditems,
             null,
             null,
-            $formpage
+            $submittedformpage
         );
         $fieldlist = 'id, plugin, type, parentid, parentvalue';
         $itemseeds = $DB->get_records_select('surveypro_item', $where, $params, 'sortindex', $fieldlist);
 
         $disposelist = [];
-        $olditemid = 0;
         foreach ($itemseeds as $itemseed) {
             // With the introduction of interactive fieldset...
             // those format elements are now equipped with open/close triangle...
@@ -937,8 +938,6 @@ class view_responsesubmit extends formbase
             }
 
             $itemid = $itemseed->id;
-            $plugin = $itemseed->plugin;
-            $type = $itemseed->type; // It is, for sure, SURVEYPRO_TYPEFIELD,
 
             // If my parent is already in $disposelist, I have to go to $disposelist FOR SURE.
             if (in_array($itemseed->parentid, $disposelist)) {
@@ -986,7 +985,6 @@ class view_responsesubmit extends formbase
         $elementnames = array_keys($dirtydata);
 
         if (count($disposelist)) {
-            $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             foreach ($elementnames as $elementname) {
                 if ($matches = utility_item::get_item_parts($elementname)) {
                     $itemid = $matches['itemid'];
@@ -999,156 +997,207 @@ class view_responsesubmit extends formbase
     }
 
     /**
+     * Resolve ownership and group membership for the current submission.
+     *
+     * @return array [$ismine, $mysamegroup]
+     */
+    protected function resolve_ownership(): array {
+        global $DB, $USER, $COURSE;
+
+        $submissionid = $this->get_submissionid();
+
+        if (!$submissionid) {
+            // The submission does not exist.
+            // As a consequence, its owner is not defined.
+            // Is the owner in my same group? No, of course!
+            return [false, false];
+        }
+
+        if (!$submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], 'userid, status', IGNORE_MISSING)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $ownerid = $submission->userid;
+        $ismine = ($ownerid == $USER->id);
+
+        if (has_capability('moodle/site:accessallgroups', $this->context)) {
+            return [$ismine, true];
+        }
+
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        if (!$groupmode) {
+            return [$ismine, true];
+        }
+
+        $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+        if (!count($mygroups)) {
+            return [$ismine, true];
+        }
+
+        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+        $mygroupmates = $utilitysubmissionman->get_groupmates();
+
+        return [$ismine, in_array($ownerid, $mygroupmates)];
+    }
+
+    /**
+     * Check whether access is allowed for the current mode.
+     *
+     * @param bool $ismine
+     * @param bool $mysamegroup
+     * @param \stdClass|null $submission
+     * @return bool
+     */
+    protected function is_access_allowed(bool $ismine, bool $mysamegroup, ?\stdClass $submission): bool {
+        $capabilities = $this->get_access_capabilities();
+
+        switch ($this->mode) {
+            case SURVEYPRO_NEWRESPONSEMODE:
+                return $this->is_newresponse_access_allowed($capabilities);
+
+            case SURVEYPRO_EDITMODE:
+                return $this->is_edit_access_allowed($ismine, $mysamegroup, $submission, $capabilities);
+
+            case SURVEYPRO_READONLYMODE:
+                return $this->is_readonly_access_allowed($ismine, $mysamegroup, $submission, $capabilities);
+
+            default:
+                return false;
+        }
+    }
+
+    /**
+     * Read capabilities needed by access rules.
+     *
+     * @return array
+     */
+    protected function get_access_capabilities(): array {
+        return [
+            'cansubmit' => has_capability('mod/surveypro:submit', $this->context),
+            'canignoremaxentries' => has_capability('mod/surveypro:ignoremaxentries', $this->context),
+            'canseeotherssubmissions' => has_capability('mod/surveypro:seeotherssubmissions', $this->context),
+            'caneditownsubmissions' => has_capability('mod/surveypro:editownsubmissions', $this->context),
+            'caneditotherssubmissions' => has_capability('mod/surveypro:editotherssubmissions', $this->context),
+        ];
+    }
+
+    /**
+     * Evaluate access for new response mode.
+     *
+     * @param array $capabilities
+     * @return bool
+     */
+    protected function is_newresponse_access_allowed(array $capabilities): bool {
+        $timenow = time();
+        $allowed = $capabilities['cansubmit'];
+        if ($this->surveypro->timeopen) {
+            $allowed = $allowed && ($this->surveypro->timeopen < $timenow);
+        }
+        if ($this->surveypro->timeclose) {
+            $allowed = $allowed && ($this->surveypro->timeclose > $timenow);
+        }
+        if ($capabilities['canignoremaxentries']) {
+            return $allowed;
+        }
+        return $allowed && $this->is_within_max_entries_limit();
+    }
+
+    /**
+     * Determine whether current user is within max entries limit.
+     *
+     * @return bool
+     */
+    protected function is_within_max_entries_limit(): bool {
+        global $USER;
+
+        // Take care! Let's suppose this scenario:
+        // $this->surveypro->maxentries = N
+        // $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1.
+        // When I fill the FIRST page of a survey, I get $next = N
+        // but when I go to fill the SECOND page of a survey I have one more "in progress" survey
+        // that is the one that I created when I saved the FIRST page, so...
+        // when $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N, I get
+        // $next = N + 1 and I am wrongly stopped here!
+        // Because of this, I increase $next only if submissionid == 0.
+        $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+        $next = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
+        if (!$this->get_submissionid()) {
+            $next += 1;
+        }
+        return (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
+    }
+
+    /**
+     * Evaluate access for edit mode.
+     *
+     * @param bool $ismine
+     * @param bool $mysamegroup
+     * @param \stdClass|null $submission
+     * @param array $capabilities
+     * @return bool
+     */
+    protected function is_edit_access_allowed(
+        bool $ismine,
+        bool $mysamegroup,
+        ?\stdClass $submission,
+        array $capabilities
+    ): bool {
+        if (!$submission) {
+            return false;
+        }
+        if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+            if ($ismine) {
+                return true;
+            }
+            return $mysamegroup ? $capabilities['canseeotherssubmissions'] : false;
+        }
+        if ($ismine) {
+            return $capabilities['caneditownsubmissions'];
+        }
+        return $mysamegroup ? $capabilities['caneditotherssubmissions'] : false;
+    }
+
+    /**
+     * Evaluate access for readonly mode.
+     *
+     * @param bool $ismine
+     * @param bool $mysamegroup
+     * @param \stdClass|null $submission
+     * @param array $capabilities
+     * @return bool
+     */
+    protected function is_readonly_access_allowed(
+        bool $ismine,
+        bool $mysamegroup,
+        ?\stdClass $submission,
+        array $capabilities
+    ): bool {
+        if (!$submission || $submission->status == SURVEYPRO_STATUSINPROGRESS) {
+            return false;
+        }
+        if ($ismine) {
+            return true;
+        }
+        return $mysamegroup ? $capabilities['canseeotherssubmissions'] : false;
+    }
+
+    /**
      * Prevent direct user input.
      *
      * @return void
      */
-    private function prevent_direct_user_input() {
-        global $DB, $USER, $COURSE;
-
-        $cansubmit = has_capability('mod/surveypro:submit', $this->context);
-        $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
-        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+    protected function prevent_direct_user_input(): void {
+        global $DB;
 
         $submissionid = $this->get_submissionid();
+        $submission = null;
         if ($submissionid) {
-            $where = ['id' => $submissionid];
-            if (!$submission = $DB->get_record('surveypro_submission', $where, 'userid, status', IGNORE_MISSING)) {
-                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
-            }
-            $ownerid = $submission->userid;
-            $ismine = ($ownerid == $USER->id);
-
-            if ($canaccessallgroups) {
-                $mysamegroup = true;
-            } else {
-                $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-                if ($groupmode) { // Activity is divided into groups.
-                    // Does the user belong to any group?
-                    $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
-                    if (count($mygroups)) {
-                        $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                        $mygroupmates = $utilitysubmissionman->get_groupmates();
-                        $mysamegroup = in_array($ownerid, $mygroupmates);
-                    } else {
-                        // My group is the world so, for sure you are in my group.
-                        $mysamegroup = true;
-                    }
-                } else {
-                    $mysamegroup = true;
-                }
-            }
-        } else {
-            // The submission does not exist.
-            // As a consequence, its owner is not defined.
-            // Is the owner in my same group? No, of course!
-            $ismine = false;
-            $mysamegroup = false;
+            $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], 'userid, status', IGNORE_MISSING);
         }
 
-        $debug = false;
-        if ($debug) {
-            switch ($this->mode) {
-                case SURVEYPRO_NEWRESPONSEMODE:
-                    echo '$this->mode = SURVEYPRO_NEWRESPONSEMODE<br>';
-                    break;
-                case SURVEYPRO_EDITMODE:
-                    echo '$this->mode = SURVEYPRO_EDITMODE<br>';
-                    break;
-                case SURVEYPRO_READONLYMODE:
-                    echo '$this->mode = SURVEYPRO_READONLYMODE<br>';
-                    break;
-                default:
-                    echo '$this->mode = ' . $this->mode;
-            }
+        [$ismine, $mysamegroup] = $this->resolve_ownership();
 
-            if ($ismine) {
-                echo '$ismine = true<br>';
-            } else {
-                echo '$ismine = false<br>';
-            }
-            if ($mysamegroup) {
-                echo '$mysamegroup = true<br>';
-            } else {
-                echo '$mysamegroup = false<br>';
-            }
-            die();
-        }
-
-        $allowed = false;
-        switch ($this->mode) {
-            case SURVEYPRO_NEWRESPONSEMODE:
-                $timenow = time();
-                $allowed = $cansubmit;
-                if ($this->surveypro->timeopen) {
-                    $allowed = $allowed && ($this->surveypro->timeopen < $timenow);
-                }
-                if ($this->surveypro->timeclose) {
-                    $allowed = $allowed && ($this->surveypro->timeclose > $timenow);
-                }
-
-                if (!$canignoremaxentries) {
-                    // Take care! Let's suppose this scenario:
-                    // $this->surveypro->maxentries = N
-                    // $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id) = N - 1.
-                    // When I fill the FIRST page of a survey, I get $next = N
-                    // but when I go to fill the SECOND page of a survey I have one more "in progress" survey
-                    // that is the one that I created when I saved the FIRST page, so...
-                    // when $this->user_sent_submissions(SURVEYPRO_STATUSALL) = N, I get
-                    // $next = N + 1
-                    // and I am wrongly stopped here!
-                    // Because of this, I increase $next only if submissionid == 0.
-                    $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
-                    $next = $utilitylayoutman->has_submissions(true, SURVEYPRO_STATUSALL, $USER->id);
-                    if (!$this->get_submissionid()) {
-                        $next += 1;
-                    }
-
-                    $allowed = $allowed && (($this->surveypro->maxentries == 0) || ($next <= $this->surveypro->maxentries));
-                }
-                break;
-            case SURVEYPRO_EDITMODE:
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    // If $submission->status == SURVEYPRO_STATUSINPROGRESS it is a resume acction.
-                    if ($ismine) { // Owner is me.
-                        $allowed = true;
-                    } else {
-                        if ($mysamegroup) { // Owner is from a group of mine.
-                            $allowed = $canseeotherssubmissions;
-                        }
-                    }
-                } else {
-                    // If $submission->status == SURVEYPRO_STATUSCLOSED it is an edit acction.
-                    if ($ismine) { // Owner is me.
-                        $allowed = $caneditownsubmissions;
-                    } else {
-                        if ($mysamegroup) { // Owner is from a group of mine.
-                            $allowed = $caneditotherssubmissions;
-                        }
-                    }
-                }
-                break;
-            case SURVEYPRO_READONLYMODE:
-                // Whether SURVEYPRO_STATUSINPROGRESS, always deny.
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    $allowed = false;
-                } else {
-                    if ($ismine) { // Owner is me.
-                        $allowed = true;
-                    } else {
-                        if ($mysamegroup) { // Owner is from a group of mine.
-                            $allowed = $canseeotherssubmissions;
-                        }
-                    }
-                }
-                break;
-            default:
-                $allowed = false;
-        }
-        if (!$allowed) {
+        if (!$this->is_access_allowed($ismine, $mysamegroup, $submission)) {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }

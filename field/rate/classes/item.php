@@ -232,7 +232,7 @@ class item extends itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
+    public function set_options($options): void {
         $this->options = $options;
     }
 
@@ -253,6 +253,14 @@ class item extends itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            throw new \coding_exception('Passed parameter defaultoption is not allowed.');
+        }
+
         $this->defaultoption = $defaultoption;
     }
 
@@ -522,7 +530,6 @@ EOS;
             $mform->_required[] = $starplace;
         } else {
             // Disable if $basename.'_noanswer' is selected.
-            $optionindex = 0;
             foreach ($options as $row => $option) {
                 $uniquename = $basename . '_' . $row;
                 $mform->disabledIf($uniquename, $basename . '_noanswer', 'checked');
@@ -603,7 +610,7 @@ EOS;
             $duplicaterates = array_diff_assoc($rates, $uniquerates);
 
             foreach ($duplicaterates as $row => $unused) {
-                $elementname = $this->itemname . '_' . $optionindex . '_group';
+                $elementname = $this->itemname . '_' . $row . '_group';
                 $errors[$elementname] = get_string('uerr_duplicaterate', 'surveyprofield_rate');
             }
         }
@@ -757,7 +764,7 @@ EOS;
         $utilityitemman = new utility_item($this->cm, $this->surveypro);
         $options = $utilityitemman->multilinetext_to_array($this->options);
 
-        foreach ($options as $row => $option) {
+        foreach ($options as $row => $unused) {
             $elementnames[] = $this->itemname . '_' . $row . '_group';
         }
 

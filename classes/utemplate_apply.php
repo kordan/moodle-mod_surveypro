@@ -125,7 +125,7 @@ class utemplate_apply extends utemplate_base
      * @return void
      */
     public function add_items_from_template() {
-        global $CFG, $DB;
+        global $DB;
 
         $fs = get_file_storage();
 

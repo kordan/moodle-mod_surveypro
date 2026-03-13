@@ -26,7 +26,7 @@ use mod_surveypro\utility_page;
 use surveyproreport_colles\report;
 use surveyproreport_colles\groupjumperform;
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../../config.php');
 require_once($CFG->dirroot . '/mod/surveypro/report/colles/lib.php');
 require_once($CFG->libdir . '/tablelib.php');
 

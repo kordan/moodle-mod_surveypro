@@ -1224,6 +1224,7 @@ function surveypro_get_plugin_list($plugintype = null, $includetype = false, $co
     } else {
         $pluginlist = $fieldplugins + $formatplugins;
         asort($pluginlist);
+
         return $pluginlist;
     }
 }
@@ -1377,7 +1378,7 @@ function surveypro_inplace_editable($itemtype, $id, $newvalue) {
  * @return $item object
  */
 function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plugin = '', $getparentcontent = false) {
-    global $CFG, $DB;
+    global $DB;
 
     if (!empty($itemid)) {
         $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'surveyproid, type, plugin', MUST_EXIST);

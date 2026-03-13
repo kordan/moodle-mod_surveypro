@@ -251,7 +251,7 @@ class item extends itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
+    public function set_options($options): void {
         $this->options = $options;
     }
 
@@ -634,7 +634,6 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchformelementscount, $readonly) {
-        $labelsep = get_string('labelsep', 'langconfig'); // Separator usually is ': '.
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
         } else {

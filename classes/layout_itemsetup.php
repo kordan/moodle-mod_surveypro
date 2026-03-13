@@ -42,17 +42,17 @@ use mod_surveypro\utility_layout;
 class layout_itemsetup
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -132,7 +132,7 @@ class layout_itemsetup
     protected $actionfeedback;
 
     /**
-     * @var object Form content as submitted by the user
+     * @var \stdClass Form content as submitted by the user
      */
     public $formdata = null;
 

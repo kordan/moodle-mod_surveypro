@@ -67,7 +67,7 @@ Feature: Test correctness of urls
     # Layout -> Elements: table headers
     And I click on "Type" "link" in the ".plugin" "css_element"
     And I click on "Order" "link" in the ".sortindex" "css_element"
-    And I click on "Branching" "link" in the ".parentitem" "css_element"
+    And I click on "Branching" "link" in the ".parentid" "css_element"
     And I click on "Page" "link" in the ".formpage" "css_element"
 
     #

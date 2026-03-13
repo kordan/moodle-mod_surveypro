@@ -46,7 +46,7 @@ class item_setupbaseform extends \moodleform
      * @return void
      */
     public function definition() {
-        global $CFG, $DB;
+        global $DB;
 
         $mform = $this->_form;
 

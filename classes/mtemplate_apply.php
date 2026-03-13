@@ -267,7 +267,7 @@ class mtemplate_apply extends mtemplate_base
      * @return void
      */
     public function apply_template() {
-        global $DB, $CFG;
+        global $DB;
 
         // Begin of: delete all existing items.
         $utilitylayoutman = new utility_layout($this->cm);

@@ -71,6 +71,7 @@ class submission_viewed extends \core\event\base
         $paramurl['submissionid'] = $this->objectid;
         $paramurl['mode'] = $this->other['mode'];
         $paramurl['section'] = 'responsesubmit';
+
         return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 

@@ -36,7 +36,7 @@ require_once($CFG->libdir . '/adminlib.php');
 class mod_surveypro_plugin_manager
 {
     /**
-     * @var object Url of the manage submission plugin page
+     * @var \stdClass Url of the manage submission plugin page
      */
     private $pageurl;
 
@@ -299,6 +299,7 @@ class mod_surveypro_plugin_manager
      */
     public function hide_plugin($plugin) {
         set_config('disabled', 1, $this->subtype . '_' . $plugin);
+
         return 'view';
     }
 
@@ -310,6 +311,7 @@ class mod_surveypro_plugin_manager
      */
     public function show_plugin($plugin) {
         set_config('disabled', 0, $this->subtype . '_' . $plugin);
+
         return 'view';
     }
 

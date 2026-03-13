@@ -30,7 +30,7 @@ use mod_surveypro\mtemplate_save;
 use mod_surveypro\local\form\mtemplate_createform;
 use mod_surveypro\local\form\mtemplate_applyform;
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('mtemplates');

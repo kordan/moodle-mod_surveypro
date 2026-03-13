@@ -71,6 +71,7 @@ class submissiontopdf_downloaded extends \core\event\base
         $paramurl['submissionid'] = $this->objectid;
         $paramurl['section'] = 'submissionslist';
         $paramurl['act'] = $this->other['act'];
+
         return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 

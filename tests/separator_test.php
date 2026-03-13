@@ -152,7 +152,7 @@ final class separator_test extends advanced_testcase
         $params = ['course' => $course->id, 'name' => 'One more surveypro'];
         $surveypro = $this->getDataGenerator()->create_module('surveypro', $params);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-        $context = \context_module::instance($cm->id);
+        // $context = \context_module::instance($cm->id);
 
         $itemman = new surveyprofield_radiobutton\item($cm, $surveypro, null, false);
 

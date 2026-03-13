@@ -34,17 +34,17 @@ namespace mod_surveypro;
 abstract class reportbase
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -347,6 +347,7 @@ abstract class reportbase
         }
 
         $whereparams = array_merge($whereparams, $eparams);
+
         return [$sql, $whereparams];
     }
 

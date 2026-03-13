@@ -36,17 +36,17 @@ use mod_surveypro\utility_layout;
 class view_cover
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -69,7 +69,7 @@ class view_cover
      * @return void
      */
     public function display_cover() {
-        global $CFG, $OUTPUT, $COURSE, $USER;
+        global $OUTPUT, $COURSE, $USER;
 
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
@@ -77,17 +77,9 @@ class view_cover
 
         $cansubmit = has_capability('mod/surveypro:submit', $this->context);
         $canmanageitems = has_capability('mod/surveypro:manageitems', $this->context);
-        $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
-        $cansaveusertemplate = has_capability('mod/surveypro:saveusertemplates', \context_course::instance($COURSE->id));
-        $canimportusertemplates = has_capability('mod/surveypro:importusertemplates', $this->context);
-        $canapplyusertemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
-        $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $this->context);
-        $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $this->context);
         $canignoremaxentries = has_capability('mod/surveypro:ignoremaxentries', $this->context);
         $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $this->context);
 
-        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-        $hassubmissions = $utilitylayoutman->has_submissions();
         $itemcount = $utilitylayoutman->has_items(0, SURVEYPRO_TYPEFIELD, $canmanageitems, $canaccessreserveditems, true);
 
         $messages = [];
@@ -206,8 +198,6 @@ class view_cover
      * @return void
      */
     public function add_report_link($childrenreports, $pluginname, &$messages, $categoryname) {
-        global $PAGE;
-
         foreach ($childrenreports as $reportkey => $childparams) {
             $subreport = get_string($reportkey, 'surveyprotemplate_' . $this->surveypro->template);
             if (is_array(reset($childparams))) { // If the first element of $childparams is an array.

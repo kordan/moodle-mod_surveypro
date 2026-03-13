@@ -461,9 +461,9 @@ EOS;
         } else {
             $fieldname = $basename . '_editor';
             $editoroptions = ['trusttext' => true, 'subdirs' => true, 'maxfiles' => EDITOR_UNLIMITED_FILES];
-            $elementgroup[] = $mform->createElement('editor', $basename . '_editor', $elementlabel, $attributes, $editoroptions);
-            $mform->addGroup($elementgroup, $basename . '_editor' . '_group', $elementlabel, ' ', false, $class);
-            $mform->setType($basename . '_editor', PARAM_CLEANHTML);
+            $elementgroup[] = $mform->createElement('editor', $fieldname, $elementlabel, $attributes, $editoroptions);
+            $mform->addGroup($elementgroup, $fieldname . '_group', $elementlabel, ' ', false, $class);
+            $mform->setType($fieldname, PARAM_CLEANHTML);
         }
 
         if (!$searchformelementscount) {
