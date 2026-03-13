@@ -1224,6 +1224,7 @@ function surveypro_get_plugin_list($plugintype = null, $includetype = false, $co
     } else {
         $pluginlist = $fieldplugins + $formatplugins;
         asort($pluginlist);
+
         return $pluginlist;
     }
 }

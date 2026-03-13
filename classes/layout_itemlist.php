@@ -42,17 +42,17 @@ use mod_surveypro\utility_layout;
 class layout_itemlist
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -165,441 +165,61 @@ class layout_itemlist
 
         require_once($CFG->libdir . '/tablelib.php');
 
-        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+        $table = $this->setup_items_table();
+        $iconset = $this->get_icon_set();
 
-        $table = new \flexible_table('itemslist');
-
-        $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
-        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-        $table->define_baseurl($baseurl);
-
-        $tablecolumns = [];
-        $tablecolumns[] = 'plugin';
-        $tablecolumns[] = 'sortindex';
-        $tablecolumns[] = 'parentid';
-        $tablecolumns[] = 'customnumber';
-        $tablecolumns[] = 'content';
-        $tablecolumns[] = 'variable';
-        $tablecolumns[] = 'formpage';
-        $tablecolumns[] = 'availability';
-        $tablecolumns[] = 'actions';
-        $table->define_columns($tablecolumns);
-
-        $tableheaders = [];
-        $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
-        $tableheaders[] = get_string('sortindex', 'mod_surveypro');
-        $tableheaders[] = get_string('branching', 'mod_surveypro');
-        $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
-        $tableheaders[] = get_string('content', 'mod_surveypro');
-        $tableheaders[] = get_string('variable', 'mod_surveypro');
-        $tableheaders[] = get_string('page');
-        $tableheaders[] = get_string('availability', 'mod_surveypro');
-        $tableheaders[] = get_string('actions');
-        $table->define_headers($tableheaders);
-
-        $table->sortable(true, 'sortindex'); // Sorted by sortindex by default.
-        $table->no_sorting('customnumber');
-        $table->no_sorting('content');
-        $table->no_sorting('variable');
-        $table->no_sorting('availability');
-        $table->no_sorting('actions');
-
-        $table->column_class('plugin', 'plugin');
-        $table->column_class('sortindex', 'sortindex');
-        $table->column_class('parentid', 'parentitem');
-        $table->column_class('customnumber', 'customnumber');
-        $table->column_class('content', 'content');
-        $table->column_class('variable', 'variable');
-        $table->column_class('formpage', 'formpage');
-        $table->column_class('availability', 'availability');
-        $table->column_class('actions', 'actions');
-
-        // General properties for the whole table.
-        if ($this->mode == SURVEYPRO_CHANGEORDERASK) {
-            $table->set_attribute('id', 'sortitems');
-        } else {
-            $table->set_attribute('id', 'manageitems');
-        }
-        $table->set_attribute('class', 'generaltable');
-        $table->setup();
-
-        // Strings.
-        $iconparams = [];
-        // Icons for further use.
-        $editstr = get_string('edit');
-        $iconparams = ['title' => $editstr];
-        $editicn = new \pix_icon('t/edit', $editstr, 'moodle', $iconparams);
-
-        $parentelementstr = get_string('parentelement_title', 'mod_surveypro');
-        $iconparams = ['title' => $parentelementstr];
-        $branchicn = new \pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
-
-        $reorderstr = get_string('changeorder_title', 'mod_surveypro');
-        $iconparams = ['title' => $reorderstr];
-        $moveicn = new \pix_icon('t/move', $editstr, 'moodle', $iconparams);
-
-        $hidestr = get_string('hidefield_title', 'mod_surveypro');
-        $iconparams = ['title' => $hidestr];
-        $hideicn = new \pix_icon('i/hide', $hidestr, 'moodle', $iconparams);
-
-        $showstr = get_string('showfield_title', 'mod_surveypro');
-        $iconparams = ['title' => $showstr];
-        $showicn = new \pix_icon('i/show', $showstr, 'moodle', $iconparams);
-
-        $deletestr = get_string('delete');
-        $iconparams = ['title' => $deletestr];
-        $deleteicn = new \pix_icon('t/delete', $deletestr, 'moodle', $iconparams);
-
-        $indentstr = get_string('indent', 'mod_surveypro');
-        $iconparams = ['title' => $indentstr];
-        $lefticn = new \pix_icon('t/left', $indentstr, 'moodle', $iconparams);
-        $righticn = new \pix_icon('t/right', $indentstr, 'moodle', $iconparams);
-
-        $moveherestr = get_string('movehere');
-        $iconparams = ['title' => $moveherestr];
-        $movehereicn = new \pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
-
-        $availablestr = get_string('available_title', 'mod_surveypro');
-        $iconparams = ['title' => $availablestr];
-        $freeicn = new \pix_icon('free', $availablestr, 'surveypro', $iconparams);
-
-        $reservedstr = get_string('reserved_title', 'mod_surveypro');
-        $iconparams = ['title' => $reservedstr];
-        $reservedicn = new \pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
-
-        $unreservablestr = get_string('unreservable_title', 'mod_surveypro');
-        $iconparams = ['title' => $unreservablestr];
-        $unreservableicn = new \pix_icon('unreservable', $unreservablestr, 'surveypro', $iconparams);
-
-        $unsearchablestr = get_string('unsearchable_title', 'mod_surveypro');
-        $iconparams = ['title' => $unsearchablestr];
-        $unsearchableicn = new \pix_icon('unsearchable', $unsearchablestr, 'surveypro', $iconparams);
-
-        $unavailablestr = get_string('unavailableelement_title', 'mod_surveypro');
-        $iconparams = ['title' => $unavailablestr];
-        $unavailableicn = new \pix_icon('unavailable', $unavailablestr, 'surveypro', $iconparams);
-
-        $forcedoptionalitemstr = get_string('forcedoptionalitem_title', 'mod_surveypro');
-        $iconparams = ['title' => $forcedoptionalitemstr];
-        $lockedgreenicn = new \pix_icon('lockedgreen', $forcedoptionalitemstr, 'surveypro', $iconparams);
-
-        // Begin of: $paramurlmove definition.
-        $paramurlmove = [];
-        $paramurlmove['s'] = $this->cm->instance;
-        $paramurlmove['act'] = SURVEYPRO_CHANGEORDER;
-        $paramurlmove['itm'] = $this->itemtomove;
-        // End of: $paramurlmove definition.
+        // Build $paramurlmove.
+        $paramurlmove = [
+            's'   => $this->cm->instance,
+            'act' => SURVEYPRO_CHANGEORDER,
+            'itm' => $this->itemtomove,
+        ];
 
         [$where, $params] = surveypro_fetch_items_seeds($this->surveypro->id, false, true, null, null, null, true);
-        // If you are reordering, force ordering to...
         $orderby = ($this->mode == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
 
-        // This is the very first position, so if the item has a parent, no "moveherebox" must appear.
+        // Draw the very first moveherebox if needed.
         if (($this->mode == SURVEYPRO_CHANGEORDERASK) && (!$this->parentid)) {
             $drawmoveherebox = true;
             $paramurl = $paramurlmove;
-            $paramurl['lib'] = 0; // Move just after this sortindex (lib == last item before).
+            $paramurl['lib'] = 0;
             $paramurl['section'] = 'itemslist';
             $paramurl['sesskey'] = sesskey();
 
             $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            $paramlink = ['id' => 'moveafter_0', 'title' => $moveherestr];
-            $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
+            $paramlink = ['id' => 'moveafter_0', 'title' => $iconset['moveherestr']];
+            $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
 
-            $tablerow = [];
-            $tablerow[] = $icons;
-            $tablerow = array_pad($tablerow, count($table->columns), '');
-
+            $tablerow = array_pad([$icons], count($table->columns), '');
             $table->add_data($tablerow);
         } else {
             $drawmoveherebox = false;
         }
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
-            $itemid = $itemseed->itemid;
-            $itemishidden = $item->get_hidden();
-            $sortindex = $item->get_sortindex();
-
-            // Begin of: $paramurlbase definition.
-            $paramurlbase = [];
-            $paramurlbase['s'] = $this->cm->instance;
-            $paramurlbase['itemid'] = $item->get_itemid();
-            $paramurlbase['type'] = $item->get_type();
-            $paramurlbase['plugin'] = $item->get_plugin();
-            // End of: $paramurlbase definition.
-
-            $tablerow = [];
+            $item = surveypro_get_itemclass(
+                $this->cm,
+                $this->surveypro,
+                $itemseed->itemid,
+                $itemseed->type,
+                $itemseed->plugin,
+                true
+            );
 
             if (($this->mode == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
-                // Do not draw the item you are going to move.
                 continue;
             }
 
-            // Plugin.
-            $component = 'surveypro' . $item->get_type() . '_' . $item->get_plugin();
-            $alt = get_string('userfriendlypluginname', $component);
-            $content = \html_writer::tag('a', '', ['name' => 'sortindex_' . $sortindex]);
-            $iconparams = ['title' => $alt];
-            $icon = $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
-            $content .= \html_writer::tag('span', $icon, ['class' => 'pluginicon']);
-
-            $tablerow[] = $content;
-
-            // Sortindex.
-            $tablerow[] = $sortindex;
-
-            // Parentid.
-            if ($item->get_parentid()) {
-                $parentsortindex = $DB->get_field('surveypro_item', 'sortindex', ['id' => $item->get_parentid()]);
-                $content = $parentsortindex;
-                $content .= \html_writer::tag('span', $OUTPUT->render($branchicn), ['class' => 'branch']);
-                $content .= $item->get_parentcontent('; ');
-            } else {
-                $content = '';
-            }
-            $tablerow[] = $content;
-
-            // Customnumber.
-            if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
-                $itemid = $item->get_itemid();
-                $customnumber = $item->get_customnumber();
-                $tmpl = new layout_customnumber($itemid, $customnumber);
-
-                $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
-            } else {
-                $tablerow[] = '';
-            }
-
-            // Content.
-            $tablerow[] = $item->get_content();
-
-            // Variable.
-            if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
-                $itemid = $item->get_itemid();
-                $variablename = $item->get_variable();
-                $tmpl = new layout_variable($itemid, $variablename);
-
-                $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
-            } else {
-                $tablerow[] = '';
-            }
-
-            // Page.
-            if ($item->item_uses_form_page()) {
-                $content = $item->get_formpage();
-            } else {
-                $content = '';
-            }
-            $tablerow[] = $content;
-
-            // Availability.
-            $icons = '';
-            // First icon: reserved vs generally available.
-            if (!$itemishidden) {
-                if ($item->get_insetupform('reserved')) {
-                    $reserved = $item->get_reserved();
-                    if ($item->item_has_children() || $item->item_is_child()) {
-                        $paramurl = $paramurlbase;
-                        if ($reserved) {
-                            $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
-                            $paramurl['sortindex'] = $sortindex;
-                            $paramurl['section'] = 'itemslist';
-                            $paramurl['sesskey'] = sesskey();
-
-                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                            $paramlink = ['id' => 'makeavailable_item_' . $sortindex, 'title' => $reservedstr];
-                            $actionicon = $OUTPUT->action_icon($link, $reservedicn, null, $paramlink);
-                            $icons .= \html_writer::tag('span', $actionicon, ['class' => 'reserveitem']);
-                        } else {
-                            $paramurl['act'] = SURVEYPRO_MAKERESERVED;
-                            $paramurl['sortindex'] = $sortindex;
-                            $paramurl['section'] = 'itemslist';
-                            $paramurl['sesskey'] = sesskey();
-
-                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                            $paramlink = ['id' => 'makereserved_item_' . $sortindex, 'title' => $availablestr];
-                            $actionicon = $OUTPUT->action_icon($link, $freeicn, null, $paramlink);
-                            $icons .= \html_writer::tag('span', $actionicon, ['class' => 'freeitem']);
-                        }
-                    } else {
-                        $tmpl = new layout_reserved($itemid, $reserved, $sortindex);
-                        $tmpl->set_type_toggle();
-                        $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
-                    }
-                } else {
-                    // Icon only, not a link!
-                    $icons .= \html_writer::tag('span', $OUTPUT->render($unreservableicn), ['class' => 'noactionicon']);
-                }
-            } else {
-                // Icon only, not a link!
-                $icons .= \html_writer::tag('span', $OUTPUT->render($unavailableicn), ['class' => 'noactionicon']);
-            }
-
-            // Second icon: insearchform vs notinsearchform.
-            if (!$itemishidden) {
-                if ($item->get_insetupform('insearchform')) {
-                    // Second icon: insearchform vs not insearchform.
-                    $insearchform = $item->get_insearchform();
-                    $tmpl = new layout_insearchform($itemid, $insearchform, $sortindex);
-                    $tmpl->set_type_toggle();
-                    $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
-                } else {
-                    // Icon only, not a link!
-                    $icons .= \html_writer::tag('span', $OUTPUT->render($unsearchableicn), ['class' => 'noactionicon']);
-                }
-            } else {
-                // Icon only, not a link!
-                $icons .= \html_writer::tag('span', $OUTPUT->render($unavailableicn), ['class' => 'noactionicon']);
-            }
-
-            // Third icon: hide vs show.
-            // Here I can not use the cool \core\output\inplace_editable because
-            // this action make changes not limited to the state of this icon.
-            if (!$this->hassubmissions || $riskyediting) {
-                $paramurl = $paramurlbase;
-                $paramurl['section'] = 'itemslist';
-                $paramurl['sesskey'] = sesskey();
-                if (empty($itemishidden)) {
-                    $paramurl['act'] = SURVEYPRO_HIDEITEM;
-                    $paramurl['sortindex'] = $sortindex;
-                    $linkidprefix = 'hide_item_';
-                } else {
-                    $paramurl['act'] = SURVEYPRO_SHOWITEM;
-                    $paramurl['sortindex'] = $sortindex;
-                    $linkidprefix = 'show_item_';
-                }
-                $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                $paramlink = ['id' => $linkidprefix . $sortindex, 'class' => 'icon'];
-                if (empty($itemishidden)) {
-                    $paramlink['title'] = $hidestr;
-                    $actionicon = $OUTPUT->action_icon($link, $hideicn, null, $paramlink);
-                    $icons .= \html_writer::tag('span', $actionicon, ['class' => 'hideitem']);
-                } else {
-                    $paramlink['title'] = $showstr;
-                    $actionicon = $OUTPUT->action_icon($link, $showicn, null, $paramlink);
-                    $icons .= \html_writer::tag('span', $actionicon, ['class' => 'showitem']);
-                }
-            }
-            $tablerow[] = $icons;
-
-            // Action icons.
-            $icons = '';
-            if ($this->mode != SURVEYPRO_CHANGEORDERASK) {
-                // SURVEYPRO_EDITITEM.
-                $paramurl = $paramurlbase;
-                $paramurl['mode'] = SURVEYPRO_EDITITEM;
-                $paramurl['section'] = 'itemsetup';
-
-                $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-                $paramlink = ['id' => 'edit_item_' . $sortindex, 'class' => 'icon', 'title' => $editstr];
-                $actionicon = $OUTPUT->action_icon($link, $editicn, null, $paramlink);
-                $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
-
-                // SURVEYPRO_CHANGEORDERASK.
-                if ($this->itemcount > 1) {
-                    $paramurl = $paramurlbase;
-                    $paramurl['mode'] = SURVEYPRO_CHANGEORDERASK;
-                    $paramurl['itm'] = $sortindex;
-                    $paramurl['section'] = 'itemslist';
-
-                    $currentparentid = $item->get_parentid();
-                    if (!empty($currentparentid)) {
-                        $paramurl['pid'] = $currentparentid;
-                    }
-
-                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . ($sortindex - 1), $paramurl);
-                    $paramlink = ['id' => 'move_item_' . $sortindex, 'class' => 'icon', 'title' => $reorderstr];
-                    $actionicon = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
-                    $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
-                }
-
-                // SURVEYPRO_DELETEITEM.
-                if (!$this->hassubmissions || $riskyediting) {
-                    $paramurl = $paramurlbase;
-                    $paramurl['act'] = SURVEYPRO_DELETEITEM;
-                    $paramurl['sortindex'] = $sortindex;
-                    $paramurl['section'] = 'itemslist';
-                    $paramurl['sesskey'] = sesskey();
-
-                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                    $paramlink = ['id' => 'delete_item_' . $sortindex, 'class' => 'icon', 'title' => $deletestr];
-                    $actionicon = $OUTPUT->action_icon($link, $deleteicn, null, $paramlink);
-                    $icons .= \html_writer::tag('span', $actionicon, ['class' => 'fatspan']);
-                }
-
-                // SURVEYPRO_REQUIRED ON/OFF.
-                $plugin = $item->get_plugin();
-                $type = $item->get_type();
-                $classname = 'surveypro' . $type . '_' . $plugin . '\item';
-                $usesmandatoryattribute = $classname::has_mandatoryattribute();
-                if ($usesmandatoryattribute) { // It may be not used as in page_break, autofill or some more.
-                    $paramurl = $paramurlbase;
-                    $paramurl['sesskey'] = sesskey();
-
-                    if ($item->item_canbesettomandatory()) {
-                        $required = $item->get_required();
-                        $tmpl = new layout_required($itemid, $required, $sortindex);
-                        $tmpl->set_type_toggle();
-                        $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
-                    } else {
-                        $icons .= \html_writer::tag('span', $OUTPUT->render($lockedgreenicn), ['class' => 'noactionicon']);
-                    }
-                } else {
-                    // Icon only, not a link!
-                    $icons .= \html_writer::tag('span', $OUTPUT->spacer(), ['class' => 'spacericon']);
-                }
-
-                // SURVEYPRO_CHANGEINDENT.
-                if ($item->get_insetupform('indent')) { // It may not be set as in page_break, fieldset and some more.
-                    $currentindent = $item->get_indent();
-                    if ($currentindent !== false) { // It may be false like for labels with fullwidth == 1.
-                        $paramurl = $paramurlbase;
-                        $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
-                        $paramurl['section'] = 'itemslist';
-                        $paramurl['sesskey'] = sesskey();
-
-                        $actionicon = '';
-                        $paramlink = ['title' => $indentstr, 'class' => 'lastspan'];
-                        if ($currentindent > 0) {
-                            $indentvalue = $currentindent - 1;
-                            $paramurl['ind'] = $indentvalue;
-
-                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                            $paramlink += ['id' => 'reduceindent_item_' . $sortindex];
-                            $actionicon .= $OUTPUT->action_icon($link, $lefticn, null, $paramlink);
-                        } else {
-                            // Icon only, not a link!
-                            $actionicon .= $OUTPUT->spacer(['class' => 'spacericon']);
-                        }
-                        $actionicon .= '[' . $currentindent . ']';
-                        if ($currentindent < 9) {
-                            $indentvalue = $currentindent + 1;
-                            $paramurl['ind'] = $indentvalue;
-
-                            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                            $paramlink += ['id' => 'increaseindent_item_' . $sortindex];
-                            $actionicon .= $OUTPUT->action_icon($link, $righticn, null, $paramlink);
-                        }
-                        $icons .= \html_writer::tag('span', $actionicon, ['class' => 'lastspan']);
-                    }
-                }
-            }
-            $tablerow[] = $icons;
-
-            $rowclass = empty($itemishidden) ? '' : 'dimmed';
+            $tablerow = $this->build_item_row($item, $iconset);
+            $rowclass = empty($item->get_hidden()) ? '' : 'dimmed';
             $table->add_data($tablerow, $rowclass);
 
+            // Draw moveherebox after each row if needed.
+            $sortindex = $item->get_sortindex();
             if ($this->mode == SURVEYPRO_CHANGEORDERASK) {
-                // It was asked to move the item with: $this->rootitemid and $this->parentid.
-                if ($this->parentid) { // This is the parentid of the item that I am going to move.
-                    // If a parentid is foreseen then...
-                    // Draw the moveherebox only if the current (already displayed) item has: $item->itemid == $this->parentid.
-                    // Once you start to draw the moveherebox, you will never stop.
+                if ($this->parentid) {
                     $drawmoveherebox = $drawmoveherebox || ($item->get_itemid() == $this->parentid);
-
-                    // If you just passed an item with $item->get_parentid == $itemid, stop forever.
                     if ($item->get_parentid() == $this->rootitemid) {
                         $drawmoveherebox = false;
                     }
@@ -614,20 +234,417 @@ class layout_itemlist
                     $paramurl['sesskey'] = sesskey();
 
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                    $paramlink = ['id' => 'move_item_' . $sortindex, 'title' => $moveherestr];
-                    $icons = $OUTPUT->action_icon($link, $movehereicn, null, $paramlink);
+                    $paramlink = ['id' => 'move_item_' . $sortindex, 'title' => $iconset['moveherestr']];
+                    $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
 
-                    $tablerow = [];
-                    $tablerow[] = $icons;
-                    $tablerow = array_pad($tablerow, count($table->columns), '');
-
+                    $tablerow = array_pad([$icons], count($table->columns), '');
                     $table->add_data($tablerow);
                 }
             }
         }
+        $itemseeds->close();
 
         $table->set_attribute('align', 'center');
         $table->print_html();
+    }
+
+    /**
+     * Setup the flexible_table for the items list.
+     *
+     * @return \flexible_table
+     */
+    protected function setup_items_table(): \flexible_table {
+        $table = new \flexible_table('itemslist');
+
+        $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+        $table->define_baseurl($baseurl);
+
+        $tablecolumns = [
+            'plugin', 'sortindex', 'parentid', 'customnumber',
+            'content', 'variable', 'formpage', 'availability', 'actions',
+        ];
+        $table->define_columns($tablecolumns);
+
+        $tableheaders = [
+            get_string('typeplugin', 'mod_surveypro'),
+            get_string('sortindex', 'mod_surveypro'),
+            get_string('branching', 'mod_surveypro'),
+            get_string('customnumber_header', 'mod_surveypro'),
+            get_string('content', 'mod_surveypro'),
+            get_string('variable', 'mod_surveypro'),
+            get_string('page'),
+            get_string('availability', 'mod_surveypro'),
+            get_string('actions'),
+        ];
+        $table->define_headers($tableheaders);
+
+        $table->sortable(true, 'sortindex');
+        $table->no_sorting('customnumber');
+        $table->no_sorting('content');
+        $table->no_sorting('variable');
+        $table->no_sorting('availability');
+        $table->no_sorting('actions');
+
+        foreach ($tablecolumns as $col) {
+            $table->column_class($col, $col);
+        }
+
+        $id = ($this->mode == SURVEYPRO_CHANGEORDERASK) ? 'sortitems' : 'manageitems';
+        $table->set_attribute('id', $id);
+        $table->set_attribute('class', 'generaltable');
+        $table->setup();
+
+        return $table;
+    }
+
+    /**
+     * Build the set of icons used in the items table.
+     *
+     * @return array keyed by icon/string name
+     */
+    protected function get_icon_set(): array {
+        $iconset = [];
+
+        // Strings.
+        $iconset['editstr'] = get_string('edit');
+        $iconset['parentelementstr'] = get_string('parentelement_title', 'mod_surveypro');
+        $iconset['reorderstr'] = get_string('changeorder_title', 'mod_surveypro');
+        $iconset['hidestr'] = get_string('hidefield_title', 'mod_surveypro');
+        $iconset['showstr'] = get_string('showfield_title', 'mod_surveypro');
+        $iconset['deletestr'] = get_string('delete');
+        $iconset['indentstr'] = get_string('indent', 'mod_surveypro');
+        $iconset['moveherestr'] = get_string('movehere');
+        $iconset['availablestr'] = get_string('available_title', 'mod_surveypro');
+        $iconset['reservedstr'] = get_string('reserved_title', 'mod_surveypro');
+        $iconset['unreservablestr'] = get_string('unreservable_title', 'mod_surveypro');
+        $iconset['unsearchablestr'] = get_string('unsearchable_title', 'mod_surveypro');
+        $iconset['unavailablestr'] = get_string('unavailableelement_title', 'mod_surveypro');
+        $iconset['forcedoptionalstr'] = get_string('forcedoptionalitem_title', 'mod_surveypro');
+
+        // Icons.
+        $iconset['editicn'] = new \pix_icon('t/edit', $iconset['editstr'], 'moodle', ['title' => $iconset['editstr']]);
+        $iconset['parentelementicn'] = new \pix_icon('branch', $iconset['parentelementstr'], 'surveypro', ['title' => $iconset['parentelementstr']]);
+        $iconset['reordericn'] = new \pix_icon('t/move', $iconset['editstr'], 'moodle', ['title' => $iconset['reorderstr']]);
+        $iconset['hideicn'] = new \pix_icon('i/hide', $iconset['hidestr'], 'moodle', ['title' => $iconset['hidestr']]);
+        $iconset['showicn'] = new \pix_icon('i/show', $iconset['showstr'], 'moodle', ['title' => $iconset['showstr']]);
+        $iconset['deleteicn'] = new \pix_icon('t/delete', $iconset['deletestr'], 'moodle', ['title' => $iconset['deletestr']]);
+        $iconset['lefticn'] = new \pix_icon('t/left', $iconset['indentstr'], 'moodle', ['title' => $iconset['indentstr']]);
+        $iconset['righticn'] = new \pix_icon('t/right', $iconset['indentstr'], 'moodle', ['title' => $iconset['indentstr']]);
+        $iconset['movehereicn'] = new \pix_icon('movehere', $iconset['moveherestr'], 'moodle', ['title' => $iconset['moveherestr']]);
+        $iconset['availableicn'] = new \pix_icon('free', $iconset['availablestr'], 'surveypro', ['title' => $iconset['availablestr']]);
+        $iconset['reservedicn'] = new \pix_icon('reserved', $iconset['reservedstr'], 'surveypro', ['title' => $iconset['reservedstr']]);
+        $iconset['unreservableicn'] = new \pix_icon('unreservable', $iconset['unreservablestr'], 'surveypro', ['title' => $iconset['unreservablestr']]);
+        $iconset['unsearchableicn'] = new \pix_icon('unsearchable', $iconset['unsearchablestr'], 'surveypro', ['title' => $iconset['unsearchablestr']]);
+        $iconset['unavailableicn'] = new \pix_icon('unavailable', $iconset['unavailablestr'], 'surveypro', ['title' => $iconset['unavailablestr']]);
+        $iconset['forcedoptionalicn'] = new \pix_icon('lockedgreen', $iconset['forcedoptionalstr'], 'surveypro', ['title' => $iconset['forcedoptionalstr']]);
+
+        return $iconset;
+    }
+
+    /**
+     * Build the table row array for a single item.
+     *
+     * @param \mod_surveypro\itembase $item
+     * @param array $iconset
+     * @return array
+     */
+    protected function build_item_row(\mod_surveypro\itembase $item, array $iconset): array {
+        global $DB, $OUTPUT;
+
+        $sortindex = $item->get_sortindex();
+        $itemid    = $item->get_itemid();
+
+        $tablerow = [];
+
+        // Plugin icon.
+        $component = 'surveypro' . $item->get_type() . '_' . $item->get_plugin();
+        $alt = get_string('userfriendlypluginname', $component);
+        $content = \html_writer::tag('a', '', ['name' => 'sortindex_' . $sortindex]);
+        $content .= \html_writer::tag(
+            'span',
+            $OUTPUT->pix_icon('icon', $alt, $component, ['title' => $alt]),
+            ['class' => 'pluginicon']
+        );
+        $tablerow[] = $content;
+
+        // Sortindex.
+        $tablerow[] = $sortindex;
+
+        // Parentid.
+        if ($item->get_parentid()) {
+            $parentsortindex = $DB->get_field('surveypro_item', 'sortindex', ['id' => $item->get_parentid()]);
+            $content = $parentsortindex;
+            $content .= \html_writer::tag('span', $OUTPUT->render($iconset['parentelementicn']), ['class' => 'branch']);
+            $content .= $item->get_parentcontent('; ');
+        } else {
+            $content = '';
+        }
+        $tablerow[] = $content;
+
+        // Customnumber.
+        if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
+            $tmpl = new \mod_surveypro\local\ipe\layout_customnumber($itemid, $item->get_customnumber());
+            $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+        } else {
+            $tablerow[] = '';
+        }
+
+        // Content.
+        $tablerow[] = $item->get_content();
+
+        // Variable.
+        if ($item->get_type() == SURVEYPRO_TYPEFIELD) {
+            $tmpl = new \mod_surveypro\local\ipe\layout_variable($itemid, $item->get_variable());
+            $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+        } else {
+            $tablerow[] = '';
+        }
+
+        // Page.
+        $tablerow[] = $item->item_uses_form_page() ? $item->get_formpage() : '';
+
+        // Availability icons.
+        $tablerow[] = $this->get_availability_icons($item, $iconset);
+
+        // Action icons.
+        $tablerow[] = $this->get_action_icons($item, $iconset);
+
+        return $tablerow;
+    }
+
+    /**
+     * Build the availability icons for a single item row.
+     *
+     * @param \mod_surveypro\itembase $item
+     * @param array $iconset
+     * @return string HTML
+     */
+    protected function get_availability_icons(\mod_surveypro\itembase $item, array $iconset): string {
+        global $OUTPUT;
+
+        $itemishidden = $item->get_hidden();
+        $sortindex    = $item->get_sortindex();
+        $itemid       = $item->get_itemid();
+        $icons        = '';
+
+        $paramurlbase = [
+            's'      => $this->cm->instance,
+            'itemid' => $itemid,
+            'type'   => $item->get_type(),
+            'plugin' => $item->get_plugin(),
+        ];
+
+        // First icon: reserved vs available.
+        if (!$itemishidden) {
+            if ($item->get_insetupform('reserved')) {
+                $reserved = $item->get_reserved();
+                if ($item->item_has_children() || $item->item_is_child()) {
+                    $paramurl = $paramurlbase;
+                    if ($reserved) {
+                        $paramurl['act'] = SURVEYPRO_MAKEAVAILABLE;
+                        $paramurl['sortindex'] = $sortindex;
+                        $paramurl['section'] = 'itemslist';
+                        $paramurl['sesskey'] = sesskey();
+                        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                        $paramlink = ['id' => 'makeavailable_item_' . $sortindex, 'title' => $iconset['reservedstr']];
+                        $icons .= \html_writer::tag(
+                            'span',
+                            $OUTPUT->action_icon($link, $iconset['reservedicn'], null, $paramlink),
+                            ['class' => 'reserveitem']
+                        );
+                    } else {
+                        $paramurl['act'] = SURVEYPRO_MAKERESERVED;
+                        $paramurl['sortindex'] = $sortindex;
+                        $paramurl['section'] = 'itemslist';
+                        $paramurl['sesskey'] = sesskey();
+                        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                        $paramlink = ['id' => 'makereserved_item_' . $sortindex, 'title' => $iconset['availablestr']];
+                        $icons .= \html_writer::tag(
+                            'span',
+                            $OUTPUT->action_icon($link, $iconset['availableicn'], null, $paramlink),
+                            ['class' => 'freeitem']
+                        );
+                    }
+                } else {
+                    $tmpl = new \mod_surveypro\local\ipe\layout_reserved($itemid, $reserved, $sortindex);
+                    $tmpl->set_type_toggle();
+                    $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+                }
+            } else {
+                $icons .= \html_writer::tag('span', $OUTPUT->render($iconset['unreservableicn']), ['class' => 'noactionicon']);
+            }
+        } else {
+            $icons .= \html_writer::tag('span', $OUTPUT->render($iconset['unavailableicn']), ['class' => 'noactionicon']);
+        }
+
+        // Second icon: insearchform.
+        if (!$itemishidden) {
+            if ($item->get_insetupform('insearchform')) {
+                $tmpl = new \mod_surveypro\local\ipe\layout_insearchform($itemid, $item->get_insearchform(), $sortindex);
+                $tmpl->set_type_toggle();
+                $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+            } else {
+                $icons .= \html_writer::tag('span', $OUTPUT->render($iconset['unsearchableicn']), ['class' => 'noactionicon']);
+            }
+        } else {
+            $icons .= \html_writer::tag('span', $OUTPUT->render($iconset['unavailableicn']), ['class' => 'noactionicon']);
+        }
+
+        // Third icon: hide/show (only if no submissions or risky editing allowed).
+        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+        if (!$this->hassubmissions || $riskyediting) {
+            $paramurl = $paramurlbase;
+            $paramurl['section'] = 'itemslist';
+            $paramurl['sesskey'] = sesskey();
+            if (empty($itemishidden)) {
+                $paramurl['act'] = SURVEYPRO_HIDEITEM;
+                $paramurl['sortindex'] = $sortindex;
+                $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                $paramlink = ['id' => 'hide_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['hidestr']];
+                $icons .= \html_writer::tag(
+                    'span',
+                    $OUTPUT->action_icon($link, $iconset['hideicn'], null, $paramlink),
+                    ['class' => 'hideitem']
+                );
+            } else {
+                $paramurl['act'] = SURVEYPRO_SHOWITEM;
+                $paramurl['sortindex'] = $sortindex;
+                $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                $paramlink = ['id' => 'show_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['showstr']];
+                $icons .= \html_writer::tag(
+                    'span',
+                    $OUTPUT->action_icon($link, $iconset['showicn'], null, $paramlink),
+                    ['class' => 'showitem']
+                );
+            }
+        }
+
+        return $icons;
+    }
+
+    /**
+     * Build the action icons for a single item row.
+     *
+     * @param \mod_surveypro\itembase $item
+     * @param array $iconset
+     * @return string HTML
+     */
+    protected function get_action_icons(\mod_surveypro\itembase $item, array $iconset): string {
+        global $OUTPUT;
+
+        if ($this->mode == SURVEYPRO_CHANGEORDERASK) {
+            return '';
+        }
+
+        $sortindex = $item->get_sortindex();
+        $itemid    = $item->get_itemid();
+        $icons     = '';
+
+        $paramurlbase = [
+            's'      => $this->cm->instance,
+            'itemid' => $itemid,
+            'type'   => $item->get_type(),
+            'plugin' => $item->get_plugin(),
+        ];
+
+        // Edit.
+        $paramurl = $paramurlbase;
+        $paramurl['mode'] = SURVEYPRO_EDITITEM;
+        $paramurl['section'] = 'itemsetup';
+        $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+        $paramlink = ['id' => 'edit_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['editstr']];
+        $icons .= \html_writer::tag(
+            'span',
+            $OUTPUT->action_icon($link, $iconset['editicn'], null, $paramlink),
+            ['class' => 'fatspan']
+        );
+
+        // Move.
+        if ($this->itemcount > 1) {
+            $paramurl = $paramurlbase;
+            $paramurl['mode'] = SURVEYPRO_CHANGEORDERASK;
+            $paramurl['itm'] = $sortindex;
+            $paramurl['section'] = 'itemslist';
+            $currentparentid = $item->get_parentid();
+            if (!empty($currentparentid)) {
+                $paramurl['pid'] = $currentparentid;
+            }
+            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . ($sortindex - 1), $paramurl);
+            $paramlink = ['id' => 'move_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['reorderstr']];
+            $icons .= \html_writer::tag(
+                'span',
+                $OUTPUT->action_icon($link, $iconset['reordericn'], null, $paramlink),
+                ['class' => 'fatspan']
+            );
+        }
+
+        // Delete.
+        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
+        if (!$this->hassubmissions || $riskyediting) {
+            $paramurl = $paramurlbase;
+            $paramurl['act'] = SURVEYPRO_DELETEITEM;
+            $paramurl['sortindex'] = $sortindex;
+            $paramurl['section'] = 'itemslist';
+            $paramurl['sesskey'] = sesskey();
+            $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+            $paramlink = ['id' => 'delete_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['deletestr']];
+            $icons .= \html_writer::tag(
+                'span',
+                $OUTPUT->action_icon($link, $iconset['deleteicn'], null, $paramlink),
+                ['class' => 'fatspan']
+            );
+        }
+
+        // Required toggle.
+        $classname = 'surveypro' . $item->get_type() . '_' . $item->get_plugin() . '\item';
+        if ($classname::has_mandatoryattribute()) {
+            if ($item->item_canbesettomandatory()) {
+                $tmpl = new \mod_surveypro\local\ipe\layout_required($itemid, $item->get_required(), $sortindex);
+                $tmpl->set_type_toggle();
+                $icons .= $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+            } else {
+                $icons .= \html_writer::tag(
+                    'span',
+                    $OUTPUT->render($iconset['forcedoptionalicn']),
+                    ['class' => 'noactionicon']
+                );
+            }
+        } else {
+            $icons .= \html_writer::tag('span', $OUTPUT->spacer(), ['class' => 'spacericon']);
+        }
+
+        // Indent.
+        if ($item->get_insetupform('indent')) {
+            $currentindent = $item->get_indent();
+            if ($currentindent !== false) {
+                $paramurl = $paramurlbase;
+                $paramurl['act'] = SURVEYPRO_CHANGEINDENT;
+                $paramurl['section'] = 'itemslist';
+                $paramurl['sesskey'] = sesskey();
+
+                $actionicon = '';
+                $paramlink = ['title' => $iconset['indentstr'], 'class' => 'lastspan'];
+                if ($currentindent > 0) {
+                    $paramurl['ind'] = $currentindent - 1;
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                    $paramlink += ['id' => 'reduceindent_item_' . $sortindex];
+                    $actionicon .= $OUTPUT->action_icon($link, $iconset['lefticn'], null, $paramlink);
+                } else {
+                    $actionicon .= $OUTPUT->spacer(['class' => 'spacericon']);
+                }
+                $actionicon .= '[' . $currentindent . ']';
+                if ($currentindent < 9) {
+                    $paramurl['ind'] = $currentindent + 1;
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                    $paramlink += ['id' => 'increaseindent_item_' . $sortindex];
+                    $actionicon .= $OUTPUT->action_icon($link, $iconset['righticn'], null, $paramlink);
+                }
+                $icons .= \html_writer::tag('span', $actionicon, ['class' => 'lastspan']);
+            }
+        }
+
+        return $icons;
     }
 
     /**
@@ -898,29 +915,52 @@ class layout_itemlist
     public function get_children($baseitemid = null, $where = null) {
         global $DB;
 
+        [$baseitemid, $where] = $this->normalize_children_request($baseitemid, $where);
+        $idscontainer = [$baseitemid];
+        $childrenitems = $DB->get_records('surveypro_item', ['id' => $baseitemid], 'sortindex', 'id, parentid, sortindex');
+
+        return $this->collect_children_items($childrenitems, $idscontainer, $where);
+    }
+
+    /**
+     * Normalize request parameters for get_children().
+     *
+     * @param int|null $baseitemid
+     * @param array|null $where
+     * @return array
+     */
+    protected function normalize_children_request($baseitemid, $where): array {
         if (empty($baseitemid)) {
             $baseitemid = $this->rootitemid;
         }
-
         if (empty($where)) {
             $where = [];
         }
-
         if (!is_array($where)) {
             $a = 'get_children';
             throw new \moodle_exception('arrayexpected', 'mod_surveypro', null, $a);
         }
 
-        $idscontainer = [$baseitemid];
+        return [(int)$baseitemid, $where];
+    }
 
-        // Lets start populating the list of items to return.
-        $childrenitems = $DB->get_records('surveypro_item', ['id' => $baseitemid], 'sortindex', 'id, parentid, sortindex');
+    /**
+     * Collect recursive children records starting from current container.
+     *
+     * @param array $childrenitems
+     * @param array $idscontainer
+     * @param array $where
+     * @return array
+     */
+    protected function collect_children_items(array $childrenitems, array $idscontainer, array $where): array {
+        global $DB;
 
-        $childid = $baseitemid;
+        $childid = reset($idscontainer);
         $i = 1;
         do {
             $where['parentid'] = $childid;
-            if ($morechildren = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, parentid, sortindex')) {
+            $morechildren = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, parentid, sortindex');
+            if ($morechildren) {
                 foreach ($morechildren as $k => $unused) {
                     $idscontainer[] = $k;
                 }

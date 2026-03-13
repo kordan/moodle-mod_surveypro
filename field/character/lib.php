@@ -41,12 +41,13 @@ function surveypro_character_validate_pattern_integrity($pattern) {
     // Pattern can not be empty.
     if (!core_text::strlen($pattern)) {
         $message = get_string('ierr_patternisempty', 'surveyprofield_character');
-    }
-    // Pattern can be done only using 'A', 'a', '*' and '0'.
-    if (preg_match_all('~[^Aa\*0]~', $pattern, $matches)) {
-        $denied = array_unique($matches[0]);
-        $a = '"' . implode('", "', $denied) . '"';
-        $message = get_string('ierr_extracharfound', 'surveyprofield_character', $a);
+    } else {
+        // Pattern can be done only using 'A', 'a', '*' and '0'.
+        if (preg_match_all('~[^Aa\*0]~', $pattern, $matches)) {
+            $denied = array_unique($matches[0]);
+            $a = '"' . implode('", "', $denied) . '"';
+            $message = get_string('ierr_extracharfound', 'surveyprofield_character', $a);
+        }
     }
 
     return $message;

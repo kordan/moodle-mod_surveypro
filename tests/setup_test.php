@@ -37,7 +37,6 @@ final class setup_test extends advanced_testcase
      * Any new setting and/or change of default will require a change here.
      */
     public function test_global_config_defaults(): void {
-
         $this->assertCount(0, (array)get_config('surveypro'));
         $this->assertCount(4, (array)get_config('mod_surveypro'));
 

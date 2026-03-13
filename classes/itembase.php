@@ -43,17 +43,17 @@ abstract class itembase
     // Itembase properties.
 
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object $surveypro
+     * @var \stdClass $surveypro
      */
     public $surveypro;
 
@@ -601,14 +601,31 @@ abstract class itembase
      * @return void
      */
     public function item_validate_variablename($record) {
-        global $DB;
-
         // If variable does not exist.
         if ($this->type == SURVEYPRO_TYPEFORMAT) {
             return;
         }
 
-        // Define $testname and $basename.
+        [$testname, $basename] = $this->build_variablename_candidates($record);
+        $usednames = $this->get_used_variable_names($record);
+
+        // Verify the $testname name is unique. If not, change it.
+        $i = 0; // If the name is a duplicate, concatenate a suffix starting from 1.
+        while (in_array($testname, $usednames)) {
+            $i++;
+            $testname = $basename . '_' . str_pad($i, 3, '0', STR_PAD_LEFT);
+        }
+
+        $record->variable = $testname;
+    }
+
+    /**
+     * Build initial and base variable names from input record.
+     *
+     * @param \stdClass $record
+     * @return array
+     */
+    protected function build_variablename_candidates(\stdClass $record): array {
         if (!isset($record->variable) || empty($record->variable)) {
             $testname = $this->plugin . '_001';
             $basename = $this->plugin;
@@ -621,27 +638,29 @@ abstract class itembase
             }
         }
 
-        // Get all the other variables used in this surveypro. (eventually exluding the current one)
+        return [$testname, $basename];
+    }
+
+    /**
+     * Get variable names already used in current surveypro.
+     *
+     * @param \stdClass $record
+     * @return array
+     */
+    protected function get_used_variable_names(\stdClass $record): array {
+        global $DB;
+
         if (!isset($record->itemid) || empty($record->itemid)) {
             $whereparams = ['surveyproid' => (int)$record->surveyproid];
-            $usednames = $DB->get_records_menu('surveypro_item', $whereparams, 'id', 'id, variable');
-        } else {
-            $whereparams = ['surveyproid' => (int)$record->surveyproid, 'itemid' => $record->itemid];
-            $sql = 'SELECT i.id, i.variable
-                    FROM {surveypro_item} i
-                    WHERE ( (i.surveyproid = :surveyproid)
-                      AND (i.id <> :itemid) )';
-            $usednames = $DB->get_records_sql_menu($sql, $whereparams);
+            return $DB->get_records_menu('surveypro_item', $whereparams, 'id', 'id, variable');
         }
 
-        // Verify the $testname name is unique. If not, change it.
-        $i = 0; // If the name is a duplicate, concatenate a suffix starting from 1.
-        while (in_array($testname, $usednames)) {
-            $i++;
-            $testname = $basename . '_' . str_pad($i, 3, '0', STR_PAD_LEFT);
-        }
-
-        $record->variable = $testname;
+        $whereparams = ['surveyproid' => (int)$record->surveyproid, 'itemid' => $record->itemid];
+        $sql = 'SELECT i.id, i.variable
+                FROM {surveypro_item} i
+                WHERE ( (i.surveyproid = :surveyproid)
+                  AND (i.id <> :itemid) )';
+        return $DB->get_records_sql_menu($sql, $whereparams);
     }
 
     /**
@@ -1328,16 +1347,7 @@ abstract class itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
-        $condition = false;
-        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
-        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
-        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
-        if (!$condition) {
-            $message = 'Passed defaultoption is not allowed.';
-            debugging($message, DEBUG_DEVELOPER);
-        }
-
-        $this->defaultoption = $defaultoption;
+        throw new \coding_exception('Defaultoption not supported by this item type');
     }
 
     /**
@@ -1360,8 +1370,8 @@ abstract class itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
-        $this->options = $options;
+    public function set_options($options): void {
+        throw new \coding_exception('Options not supported by this item type');
     }
 
     // MARK get.
@@ -1418,6 +1428,7 @@ abstract class itembase
      */
     public function get_content() {
         $options = ['overflowdiv' => false, 'allowid' => true, 'para' => false];
+
         return format_text($this->content, $this->contentformat, $options);
     }
 

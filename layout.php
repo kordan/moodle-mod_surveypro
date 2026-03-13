@@ -38,7 +38,7 @@ use mod_surveypro\local\form\mtemplate_applyform;
 use mod_surveypro\local\form\item_bulkactionform;
 use mod_surveypro\local\form\response_submitform;
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('layout');

@@ -109,6 +109,14 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci phpunit --coverage-text
 
+      - name: PHPUnit tests subplugins
+        if: ${{ always() }}
+        run: |
+          MOODLE_DIR=/home/runner/work/moodle-mod_surveypro/moodle-mod_surveypro/moodle/public
+          cd $MOODLE_DIR
+          SUITES=$(grep -r 'testsuite name="surveypro' ../phpunit.xml | grep -v 'mod_surveypro_testsuite' | sed 's/.*name="\([^"]*\)".*/\1/' | tr '\n' ',' | sed 's/,$//')
+          php ../vendor/bin/phpunit --configuration ../phpunit.xml --testsuite "$SUITES"
+
       - name: Behat features
         if: ${{ always() }}
         run: moodle-plugin-ci behat --profile ${{ matrix.profile }} --suite ${{ matrix.suite }}

@@ -217,6 +217,14 @@ class item extends itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            throw new \coding_exception('Passed parameter defaultoption is not allowed.');
+        }
+
         $this->defaultoption = $defaultoption;
     }
 

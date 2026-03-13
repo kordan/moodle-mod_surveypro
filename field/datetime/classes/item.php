@@ -364,6 +364,16 @@ class item extends itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_TIMENOWDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_LIKELASTDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            throw new \coding_exception('Passed parameter defaultoption is not allowed.');
+        }
+
         $this->defaultoption = $defaultoption;
     }
 
@@ -766,13 +776,25 @@ class item extends itembase
         $options = [];
         $timenow = time();
 
-        for ($i = 1; $i < 13; $i++) {
-            $strname = 'strftime' . str_pad($i, 2, '0', STR_PAD_LEFT);
+        foreach ($this->get_strftime_format_keys() as $strname) {
             $options[$strname] = userdate($timenow, get_string($strname, 'surveyprofield_datetime'));
         }
         $options['unixtime'] = get_string('unixtime', 'mod_surveypro');
 
         return $options;
+    }
+
+    /**
+     * Return the list of supported strftime format keys.
+     *
+     * @return array
+     */
+    protected function get_strftime_format_keys(): array {
+        $keys = [];
+        for ($i = 1; $i < 13; $i++) {
+            $keys[] = 'strftime' . str_pad($i, 2, '0', STR_PAD_LEFT);
+        }
+        return $keys;
     }
 
     /**

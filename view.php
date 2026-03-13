@@ -31,7 +31,7 @@ use mod_surveypro\view_responsesearch;
 use mod_surveypro\local\form\response_submitform;
 use mod_surveypro\local\form\response_searchform;
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('surveypro');

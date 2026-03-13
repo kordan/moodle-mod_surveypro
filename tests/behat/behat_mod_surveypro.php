@@ -157,6 +157,7 @@ class behat_mod_surveypro extends behat_base
      */
     protected function get_cm_by_surveypro_name(string $name): \stdClass {
         $surveypro = $this->get_surveypro_by_name($name);
+
         return get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course);
     }
 
@@ -297,9 +298,15 @@ class behat_mod_surveypro extends behat_base
 
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);
             $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
-            $content = isset($surveyprodata['content']) ? clean_param($surveyprodata['content'], PARAM_TEXT) : null;
+            if (isset($surveyprodata['content'])) {
+                $content = [
+                    'content_editor' => ['text' => clean_param($surveyprodata['content'], PARAM_TEXT)],
+                ];
+            } else {
+                $content = [];
+            }
             // Get dummy contents based on type and plugin.
-            $record = get_dummy_contents($type, $plugin, $content);
+            $record = surveypro_get_dummy_contents($type, $plugin, $content);
 
             // Add the item.
             $item = surveypro_get_itemclass($cm, $surveypro, 0, $type, $plugin);

@@ -37,22 +37,22 @@ use mod_surveypro\local\form\submissions_importform;
 class tools_import
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
     /**
-     * @var object Form content as submitted by the user
+     * @var \stdClass Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -72,7 +72,7 @@ class tools_import
     public $environmentheaders;
 
     /**
-     * @var object csv import reader
+     * @var \stdClass csv import reader
      */
     public $cir;
 

@@ -34,7 +34,7 @@ use mod_surveypro\local\form\utemplate_createform;
 use mod_surveypro\local\form\utemplate_importform;
 use mod_surveypro\local\form\utemplate_applyform;
 
-require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
 $defaultsection = surveypro_get_defaults_section_per_area('utemplates');
