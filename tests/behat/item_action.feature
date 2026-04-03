@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Execute item actions
   In order to validate each action issues through inline icons
-  As teacher1
+  As admin
   I issue them and verify the outcome.
 
   Background:

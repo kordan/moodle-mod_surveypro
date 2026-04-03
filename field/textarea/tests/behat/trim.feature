@@ -23,38 +23,10 @@ Feature: Trim textarea content
     And the following "permission overrides" exist:
       | capability                          | permission | role    | contextlevel | reference          |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Textarea trim test |
-    And I am on the "Test textarea trim" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add an textarea item
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | This is a standard text  |
-      | Required                       | 1                        |
-      | Clean answer at save time      | 0                        |
-      | Additional note                | This will not be trimmed |
-      | Minimum length (in characters) | 20                       |
-      | Maximum length (in characters) | 30                       |
-    And I press "Add"
-
-    # add one more textarea item
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | Text to trim         |
-      | Required                       | 1                    |
-      | Clean answer at save time      | 1                    |
-      | Additional note                | This will be trimmed |
-      | Minimum length (in characters) | 20                   |
-      | Maximum length (in characters) | 30                   |
-    And I press "Add"
-
-    And I log out
-
+    And surveypro "Test textarea trim" has the following items:
+      | type  | plugin   | options                                                             |
+      | field | textarea | {"content":"This is a standard text", "required":"1", "customnumber":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30"} |
+      | field | textarea | {"content":"Text to trim",            "required":"1", "customnumber":"2", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"} |
     When I am on the "Test textarea trim" "surveypro activity" page logged in as student1
 
     # Test number 1: Student insert a record

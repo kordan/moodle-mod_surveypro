@@ -20,45 +20,11 @@ Feature: Search using one and two time items
     And the following "activities" exist:
       | activity  | name                  | intro                  | course      |
       | surveypro | Time search form test | For searching purposes | Search form |
-    And I am on the "Time search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Time"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | At what time do you usually get up in the morning? |
-      | Required                 | 1                                                  |
-      | Indent                   | 0                                                  |
-      | Question position        | left                                               |
-      | Search form              | 1                                                  |
-      | Element number           | 1                                                  |
-      | Hide filling instruction | 1                                                  |
-      | id_lowerboundhour        | 0                                                  |
-      | id_lowerboundminute      | 0                                                  |
-      | id_upperboundhour        | 23                                                 |
-      | id_upperboundminute      | 59                                                 |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Time"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | At what time do you usually go to sleep at night? |
-      | Required                 | 1                                                 |
-      | Indent                   | 0                                                 |
-      | Question position        | left                                              |
-      | Element number           | 2                                                 |
-      | Hide filling instruction | 1                                                 |
-      | id_lowerboundhour        | 0                                                 |
-      | id_lowerboundminute      | 0                                                 |
-      | id_upperboundhour        | 23                                                |
-      | id_upperboundminute      | 59                                                |
-    And I press "Add"
-
-    And I am on the "Time search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Time search form test" has the following items:
+      | type  | plugin | options                                                                                                                                                                                 |
+      | field | time   | {"content":"At what time do you usually get up in the morning?", "required":"1", "customnumber":"1", "hideinstruction":"1", "lowerbound":"0", "upperbound":"86340", "insearchform":"1"} |
+      | field | time   | {"content":"At what time do you usually go to sleep at night?",  "required":"1", "customnumber":"2", "hideinstruction":"1", "lowerbound":"0", "upperbound":"86340"}                     |
+    When I am on the "Time search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

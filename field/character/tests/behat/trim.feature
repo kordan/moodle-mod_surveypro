@@ -20,40 +20,10 @@ Feature: Test the use of character trim
     And the following "activities" exist:
       | activity  | name                | intro               | course              |
       | surveypro | Test character trim | Test character trim | Character trim test |
-    And I am on the "Test character trim" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add an character item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | This is a standard text  |
-      | Required                       | 1                        |
-      | Clean answer at save time      | 0                        |
-      | Additional note                | This will not be trimmed |
-      | pattern                        | free pattern             |
-      | Minimum length (in characters) | 20                       |
-      | Maximum length (in characters) | 30                       |
-    And I press "Add"
-
-    # add one more character item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                        | Text to trim         |
-      | Required                       | 1                    |
-      | Clean answer at save time      | 1                    |
-      | Additional note                | This will be trimmed |
-      | pattern                        | free pattern         |
-      | Minimum length (in characters) | 20                   |
-      | Maximum length (in characters) | 30                   |
-    And I press "Add"
-
-    And I log out
-
+    And surveypro "Test character trim" has the following items:
+      | type  | plugin    | options                                                                                                                                               |
+      | field | character | {"content":"This is a standard text", "required":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30", "insearchform":"1"} |
+      | field | character | {"content":"Text to trim",            "required":"1", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"}   |
     When I am on the "Test character trim" "surveypro activity" page logged in as student1
 
     # Test number 1: Student insert a record

@@ -20,37 +20,11 @@ Feature: Search using one and two multiselect items
     And the following "activities" exist:
       | activity  | name                                | intro                  | course      |
       | surveypro | Multiple selection search form test | For searching purposes | Search form |
-    And I am on the "Multiple selection search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | What do you usually get for breakfast? |
-      | Required          | 1                                      |
-      | Question position | left                                   |
-      | Element number    | 1                                      |
-      | Search form       | 1                                      |
-      | Height in rows    | 4                                      |
-    And I set the multiline field "Options" to "milk\ncoffee\nbutter\nbread"
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | What do you usually wear when you go out cycling and it is very cold? |
-      | Required          | 1                                                                     |
-      | Question position | left                                                                  |
-      | Element number    | 1                                                                     |
-      | Height in rows    | 4                                                                     |
-    And I set the multiline field "Options" to "gloves\nhat\nwindbreaker\nwool undershirt\ntights"
-    And I press "Add"
-
-    And I am on the "Multiple selection search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Multiple selection search form test" has the following items:
+      | type  | plugin      | options                                                                                                                                                                                                    |
+      | field | multiselect | {"content":"What do you usually get for breakfast?",                                "required":"1", "customnumber":"1", "heightinrows":"4", "options":"milk\ncoffee\nbutter\nbread", "insearchform":"1"}   |
+      | field | multiselect | {"content":"What do you usually wear when you go out cycling and it is very cold?", "required":"1", "customnumber":"2", "heightinrows":"4", "options":"gloves\nhat\nwindbreaker\nwool undershirt\ntights"} |
+    When I am on the "Multiple selection search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

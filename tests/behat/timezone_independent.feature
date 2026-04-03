@@ -14,12 +14,10 @@ Feature: Test answers are not timezone dependent
       | Group 1 | noTZ   | G1       |
     And the following "users" exist:
       | username | firstname | lastname | email                | timezone        |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net | Africa/Asmara   |
       | student1 | student1  | user1    | student1@nowhere.net | Indian/Maldives |
       | student2 | student2  | user2    | student2@nowhere.net | America/Bahia   |
     And the following "course enrolments" exist:
       | user     | course | role           |
-      | teacher1 | noTZ   | editingteacher |
       | student1 | noTZ   | student        |
       | student2 | noTZ   | student        |
     And the following "group members" exist:

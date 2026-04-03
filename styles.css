@@ -76,6 +76,7 @@
     width: 0.5em;
     padding: 0.5em;
     text-align: center;
+    vertical-align: middle;
 }
 
 .path-mod-surveypro table td.plugin span.pluginicon {
@@ -95,8 +96,8 @@
 }
 
 .path-mod-surveypro table td.parentid {
-    width: 0.5em;
-    padding: 0.5em;
+    width: .5em;
+    padding: .5em;
     margin: 0;
     white-space: nowrap;
     vertical-align: middle;

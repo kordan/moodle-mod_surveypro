@@ -50,12 +50,12 @@
  *
  * @param string $type
  * @param string $plugin
- * @param array $overrides
+ * @param array $customsettings
  * @return \stdClass
  */
-function surveypro_get_dummy_contents(string $type, string $plugin, array $overrides = []): \stdClass {
+function surveypro_get_dummy_contents(string $type, string $plugin, array $customsettings = []): \stdClass {
 
-    $base = [
+    $mandatory = [
         'itemid' => 0,
         'pluginid' => 0,
         'type' => $type,
@@ -71,9 +71,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $overr
         'contentformat' => 1,
         'content_editor' => ['format' => 1],
     ];
-
-    // $base[‘required’] sets a checkbox. If you want to leave it unselected, $base[‘required’] must not exist.
-    $defaults = [];
+    // $mandatory[‘required’] sets a checkbox. If you want to leave it unselected, $mandatory[‘required’] must not exist.
 
     if ($type === SURVEYPRO_TYPEFIELD) {
         $map = [
@@ -87,11 +85,11 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $overr
             ],
             'autofill' => [
                 'content_editor' => ['text' => 'Your userid'],
-                'element01select' => 'userid',
-                'element02select' => '',
-                'element03select' => '',
-                'element04select' => '',
-                'element05select' => '',
+                'element01' => 'userid',
+                'element02' => '',
+                'element03' => '',
+                'element04' => '',
+                'element05' => '',
             ],
             'boolean' => [
                 'content_editor' => ['text' => 'Is it true?'],
@@ -101,7 +99,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $overr
             ],
             'character' => [
                 'content_editor' => ['text' => 'Write down your email, please'],
-                'pattern' => 'PATTERN_EMAIL',
+                'pattern' => 'PATTERN_FREE',
                 'defaultvalue' => '',
                 'minlength' => 0,
                 'maxlength' => 0,
@@ -212,7 +210,6 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $overr
             ],
             'textarea' => [
                 'content_editor' => ['text' => 'Write a short description of yourself'],
-                'useeditor' => 1,
                 'arearows' => 10,
                 'areacols' => 60,
                 'minlength' => 0,
@@ -245,9 +242,11 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $overr
 
     if (isset($map[$plugin])) {
         $defaults = $map[$plugin];
+    } else {
+        $defaults = [];
     }
 
-    $data = array_replace_recursive($base, $defaults, $overrides);
+    $data = array_replace_recursive($mandatory, $defaults, $customsettings);
 
     return (object)$data;
 }

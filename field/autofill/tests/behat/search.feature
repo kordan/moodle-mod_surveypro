@@ -20,33 +20,11 @@ Feature: Search using one and two autofill items
     And the following "activities" exist:
       | activity  | name                      | intro                  | course      |
       | surveypro | Autofill search form test | For searching purposes | Search form |
-    And I am on the "Autofill search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Autofill"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    And I set the following fields to these values:
-      | Content            | Your first name |
-      | Indent             | 0               |
-      | Question position  | left            |
-      | Search form        | 1               |
-      | id_element01select | user first name |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Autofill"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content            | Your last name  |
-      | Indent             | 0               |
-      | Question position  | left            |
-      | id_element01select | user last name  |
-    And I press "Add"
-
-    And I am on the "Autofill search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Autofill search form test" has the following items:
+      | type  | plugin   | options                                                                        |
+      | field | autofill | {"content":"Your first name", "element01":"userfirstname", "insearchform":"1"} |
+      | field | autofill | {"content":"Your last name", "element01":"userlastname"}                       |
+    And I am on the "Autofill search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

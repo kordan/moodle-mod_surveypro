@@ -35,59 +35,17 @@ Feature: Editing a submission, autofill userID is not overwritten
     And the following "activities" exist:
       | activity  | name              | intro                                                              | course         |
       | surveypro | Preserve autofill | Test that editing a submission, autofill userID is not overwritten | Course grouped |
+    And surveypro "Preserve autofill" has the following items:
+      | type  | plugin   | options                                                                                        |
+      | field | autofill | {"content":"Your user ID",    "position":"0", "customnumber":"1", "element01":"userid"}        |
+      | field | autofill | {"content":"Your first name", "position":"0", "customnumber":"2", "element01":"userfirstname"} |
+      | field | autofill | {"content":"Your last name",  "position":"0", "customnumber":"3", "element01":"userlastname"}  |
+      | field | boolean  | {"content":"Is it true?",     "position":"0", "customnumber":"4", "required":"1", "style":"0"} |
 
     When I am on the "Preserve autofill" "Activity editing" page logged in as teacher1
     And I set the following fields to these values:
       | Group mode | Visible groups |
     And I press "Save and display"
-
-    And I set the field "typeplugin" to "Autofill"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content            | Your user ID |
-      | Indent             | 0            |
-      | Question position  | left         |
-      | Element number     | 1            |
-      | id_element01select | user ID      |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Autofill"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content            | Your first name |
-      | Question position  | left            |
-      | Element number     | 2               |
-      | id_element01select | user first name |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Autofill"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content            | Your last name |
-      | Question position  | left           |
-      | Element number     | 3              |
-      | id_element01select | user last name |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Boolean"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content           | Is it true?   |
-      | Required          | 1             |
-      | Question position | left          |
-      | Element number    | 4             |
-      | Element style     | dropdown menu |
-    And I press "Add"
-
-    And I log out
 
     # student1 logs in
     When I am on the "Preserve autofill" "surveypro activity" page logged in as student1

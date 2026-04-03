@@ -20,45 +20,10 @@ Feature: Use reserved elements
     And the following "activities" exist:
       | activity  | name                  | intro                    | course            |
       | surveypro | Reserved element test | To test reserved element | Reserved elements |
-    And I am on the "Reserved element test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add the first age item generally available
-    And I set the field "typeplugin" to "Age [yy/mm]"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | First age item |
-      | Required                 | 1              |
-      | Indent                   | 0              |
-      | Question position        | left           |
-      | Element number           | 1              |
-      | Hide filling instruction | 1              |
-      | id_defaultoption_2       | Custom         |
-      | id_defaultvalueyear      | 14             |
-      | id_defaultvaluemonth     | 4              |
-    And I press "Add"
-
-    # add the second age item (as reserved element)
-    And I set the field "typeplugin" to "Age [yy/mm]"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | Second age item |
-      | Required                 | 1               |
-      | Indent                   | 0               |
-      | Question position        | left            |
-      | Element number           | 2               |
-      | Reserved                 | 1               |
-      | Hide filling instruction | 1               |
-      | id_defaultoption_2       | Custom          |
-      | id_defaultvalueyear      | 14              |
-      | id_defaultvaluemonth     | 4               |
-    And I press "Add"
-
-    And I log out
-
+    And surveypro "Reserved element test" has the following items:
+      | type  | plugin | options                                                                                                                                                                                                                                                |
+      | field | age    | {"content":"First age item",  "required":"1", "indent":"0", "position":"0", "customnumber":"1", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "insearchform":"1"} |
+      | field | age     | {"content":"Second age item", "required":"1", "indent":"0", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "reserved":"1"}     |
     # test the user sees only the first age item
     When I am on the "Reserved element test" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect

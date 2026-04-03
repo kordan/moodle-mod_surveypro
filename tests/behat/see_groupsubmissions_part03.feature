@@ -33,32 +33,14 @@ Feature: Submissions seen from students divided into groups (Part 03)
       | student1 | group01 |
       | student2 | group01 |
       | student3 | group02 |
-
-    And I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage with editing mode on
-    And I add a surveypro activity to course "Verify permissions in groups" section "1" and I fill the form with:
-      | Name        | Verify submission selection    |
-      | Description | Test what each student can see |
-      | Group mode  | Separate groups                |
-    And I turn editing mode off
-    And I am on the "Verify submission selection" "surveypro activity" page
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | Enter your name |
-      | Indent                   | 0               |
-      | Question position        | left            |
-      | Element number           | 1               |
-      | Hide filling instruction | 0               |
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
+    And the following "activities" exist:
+      | activity  | name                        | intro                          | course             | groupmode |
+      | surveypro | Verify submission selection | Test what each student can see | Groups permissions | 1         |
+    And surveypro "Verify submission selection" has the following items:
+      | type  | plugin    | options                                                           |
+      | field | character | {"content":"Enter your name", "required":"1", "customnumber":"1"} |
     When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
+
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"

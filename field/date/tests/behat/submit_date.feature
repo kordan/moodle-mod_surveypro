@@ -11,37 +11,20 @@ Feature: Submit using a date item
       | Test submission for date item | Date submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course               | role           |
-      | teacher1 | Date submission test | editingteacher |
       | student1 | Date submission test | student        |
     And the following "activities" exist:
       | activity  | name      | intro                        | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
-    And I am on the "Date test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | When were you born? |
-      | Required                 | 1                   |
-      | Indent                   | 0                   |
-      | Question position        | left                |
-      | Element number           | 7                   |
-      | Hide filling instruction | 1                   |
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
+    And surveypro "Date test" has the following items:
+      | type  | plugin | options                                                                   |
+      | field | date   | {"required":"1", "indent":"0", "customnumber":"7", "hideinstruction":"1"} |
     When I am on the "Date test" "surveypro activity" page logged in as student1
-    And I press "New response"
 
     # student1 submits
+    And I press "New response"
     And I set the following fields to these values:
       | id_field_date_1_day   | 16      |
       | id_field_date_1_month | October |
@@ -51,3 +34,8 @@ Feature: Submit using a date item
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+
+    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    Then I should see "16"
+    Then I should see "October"
+    Then I should see "1988"

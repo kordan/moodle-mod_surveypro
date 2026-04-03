@@ -11,30 +11,16 @@ Feature: Submit using a time item
       | Test submission for time item | Time submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course               | role           |
-      | teacher1 | Time submission test | editingteacher |
       | student1 | Time submission test | student        |
     And the following "activities" exist:
       | activity  | name      | intro                           | course               |
       | surveypro | Time test | To test submission of time item | Time submission test |
-    And I am on the "Time test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Time"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | At what time do you usually get up in the morning in a working day? |
-      | Required                 | 1                                                                   |
-      | Element number           | 18                                                                  |
-      | Hide filling instruction | 1                                                                   |
-    And I press "Add"
-
-    And I log out
-
+    And surveypro "Time test" has the following items:
+      | type  | plugin | options                                                             |
+      | field | time   | {"content":"At what time...?", "required":"1", "customnumber":"18"} |
     When I am on the "Time test" "surveypro activity" page logged in as student1
 
     # student1 submits
@@ -47,3 +33,7 @@ Feature: Submit using a time item
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+
+    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    Then I should see "07"
+    Then I should see "15"

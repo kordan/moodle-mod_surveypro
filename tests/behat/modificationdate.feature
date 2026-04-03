@@ -11,11 +11,9 @@ Feature: Test submission modification time
       | Timemodified only at modification time | Timemodified only at modification time | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student   | student  | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course                                 | role           |
-      | teacher1 | Timemodified only at modification time | editingteacher |
       | student1 | Timemodified only at modification time | student        |
     And the following "activities" exist:
       | activity  | name                   | intro                  | newpageforchild | course                                 |

@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Execute bulk actions
   In order to validate each action issues through inline icons
-  As teacher1
+  As Admin
   I issue them and verify the outcome.
 
   Background:

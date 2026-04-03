@@ -20,57 +20,11 @@ Feature: Search using one and two datetime items
     And the following "activities" exist:
       | activity  | name                           | intro                  | course      |
       | surveypro | Date and time search form test | For searching purposes | Search form |
-    And I am on the "Date and time search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | Date and time of your last flight to Los Angeles? |
-      | Required                 | 1                                                 |
-      | Indent                   | 0                                                 |
-      | Question position        | left                                              |
-      | Search form              | 1                                                 |
-      | Element number           | 1                                                 |
-      | Hide filling instruction | 1                                                 |
-      | id_lowerboundday         | 1                                                 |
-      | id_lowerboundmonth       | 1                                                 |
-      | id_lowerboundyear        | 1975                                              |
-      | id_lowerboundhour        | 0                                                 |
-      | id_lowerboundminute      | 0                                                 |
-      | id_upperboundday         | 31                                                |
-      | id_upperboundmonth       | 12                                                |
-      | id_upperboundyear        | 1999                                              |
-      | id_upperboundhour        | 23                                                |
-      | id_upperboundminute      | 59                                                |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Date and time [dd/mm/yyyy;hh:mm]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | Date and time of your last flight to Las Vegas? |
-      | Required                 | 1                                               |
-      | Indent                   | 0                                               |
-      | Question position        | left                                            |
-      | Element number           | 2                                               |
-      | Hide filling instruction | 1                                               |
-      | id_lowerboundday         | 1                                               |
-      | id_lowerboundmonth       | 1                                               |
-      | id_lowerboundyear        | 1985                                            |
-      | id_lowerboundhour        | 0                                               |
-      | id_lowerboundminute      | 0                                               |
-      | id_upperboundday         | 31                                              |
-      | id_upperboundmonth       | 12                                              |
-      | id_upperboundyear        | 2010                                            |
-      | id_upperboundhour        | 23                                              |
-      | id_upperboundminute      | 59                                              |
-    And I press "Add"
-
-    And I am on the "Date and time search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Date and time search form test" has the following items:
+      | type  | plugin   | options                                                                                                                                                                                                                                                                     |
+      | field | datetime | {"content":"Date and time of your last flight to Los Angeles?", "required":"1", "customnumber":"1", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"0", "downloadformat":"strftime01", "lowerbound":"157766400", "upperbound":"946684740", "insearchform":"1"} |
+      | field | datetime | {"content":"Date and time of your last flight to Las Vegas?",   "required":"1", "customnumber":"2", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"0", "downloadformat":"strftime01", "lowerbound":"473385600", "upperbound":"1293839940"}                    |
+    When I am on the "Date and time search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

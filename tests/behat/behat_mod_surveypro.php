@@ -296,15 +296,22 @@ class behat_mod_surveypro extends behat_base
 
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);
             $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
-            if (isset($surveyprodata['content'])) {
-                $content = [
-                    'content_editor' => ['text' => clean_param($surveyprodata['content'], PARAM_TEXT)],
-                ];
-            } else {
-                $content = [];
+            if (isset($surveyprodata['options']) && core_text::strlen($surveyprodata['options'])) {
+                $options = clean_param($surveyprodata['options'], PARAM_RAW); // Preserve '>' or html tags.
+                try {
+                    $customsettings = json_decode($options, true, 512, JSON_THROW_ON_ERROR);
+                } catch (JsonException $e) {
+                    throw new coding_exception('Invalid JSON in ' . __FILE__ . ': ' . $e->getMessage());
+                }
+
+                if (isset($customsettings['content'])) {
+                    $customsettings['content_editor'] = ['text' => $customsettings['content']];
+                    unset($customsettings['content']);
+                }
             }
+
             // Get dummy contents based on type and plugin.
-            $record = surveypro_get_dummy_contents($type, $plugin, $content);
+            $record = surveypro_get_dummy_contents($type, $plugin, $customsettings ?? []);
 
             // Add the item.
             $item = surveypro_get_itemclass($cm, $surveypro, 0, $type, $plugin);
