@@ -19,7 +19,7 @@ Feature: Submit using a boolean item
       | activity  | name         | intro                              | course                  |
       | surveypro | Boolean test | To test submission of boolean item | Boolean submission test |
     And surveypro "Boolean test" has the following items:
-      | type  | plugin  | options                                                                     |
+      | type  | plugin  | settings                                                                    |
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4a", "style":"0"} |
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4b", "style":"1"} |
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4c", "style":"2"} |

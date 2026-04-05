@@ -11,20 +11,13 @@ Feature: Submit using character item and check form validation (4 of 7)
       | Test submission for character item | Character item | 0        | 3           |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course         | role           |
-      | teacher1 | Character item | editingteacher |
       | student1 | Character item | student        |
     And the following "activities" exist:
       | activity  | name           | intro              | course         |
       | surveypro | Surveypro test | For testing backup | Character item |
-    And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
 
   @javascript
   Scenario: Test character element using configuration 07
@@ -32,15 +25,9 @@ Feature: Submit using character item and check form validation (4 of 7)
       # required:                       0
       # Text pattern:                   custom
       # Minimum length (in characters): empty
-    Given I set the following fields to these values:
-      | Content        | Enter a zip code |
-      | Required       | 0                |
-      | id_pattern     | custom pattern   |
-      | id_patterntext | 00000            |
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin    | settings                                                                          |
+      | field | character | {"content":"Enter a zip code", "pattern":"PATTERN_CUSTOM", "patterntext":"00000"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
@@ -69,15 +56,9 @@ Feature: Submit using character item and check form validation (4 of 7)
       # required:                       1
       # Text pattern:                   custom
       # Minimum length (in characters): empty
-    Given I set the following fields to these values:
-      | Content        | Enter a zip code |
-      | Required       | 1                |
-      | id_pattern     | custom pattern   |
-      | id_patterntext | 00000            |
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin    | settings                                                                                          |
+      | field | character | {"content":"Enter a zip code", "required":"1", "pattern":"PATTERN_CUSTOM", "patterntext":"00000"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 3: Student flies over the answer

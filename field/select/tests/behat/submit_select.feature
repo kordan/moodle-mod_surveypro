@@ -19,7 +19,7 @@ Feature: Submit using a select item
       | activity  | name        | intro                             | course                 |
       | surveypro | Select test | To test submission of select item | Select submission test |
     And surveypro "Select test" has the following items:
-      | type  | plugin | options                                                                          |
+      | type  | plugin | settings                                                                         |
       | field | select | {"labelother":"other (specify)", "options":"sea\nmountain\nlake\nhills\ndesert"} |
     When I am on the "Select test" "surveypro activity" page logged in as student1
 

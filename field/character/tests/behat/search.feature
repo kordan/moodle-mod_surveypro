@@ -21,7 +21,7 @@ Feature: Search using one and two short text items
       | activity  | name                        | intro                  | course      |
       | surveypro | Short text search form test | For searching purposes | Search form |
     And surveypro "Short text search form test" has the following items:
-      | type  | plugin    | options                                                      |
+      | type  | plugin    | settings                                                     |
       | field | character | {"content":"First name", "required":"1", "insearchform":"1"} |
       | field | character | {"content":"Last name",  "required":"1"}                     |
     When I am on the "Short text search form test" "surveypro activity" page logged in as student1

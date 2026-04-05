@@ -11,19 +11,17 @@ Feature: Test each student sees only personal submissions
       | See only personal submissions | Only personal submissions | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
       | student2 | Student2  | user2    | student2@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course                    | role           |
-      | teacher1 | Only personal submissions | editingteacher |
       | student1 | Only personal submissions | student        |
       | student2 | Only personal submissions | student        |
     And the following "activities" exist:
       | activity  | name                        | intro                                                  | course                    |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
     And surveypro "Get only my own submissions" has the following items:
-      | type  | plugin    | options                                                                                                    |
+      | type  | plugin    | settings                                                                                                   |
       | field | character | {"content":"Write down your email, please", "required":"1", "customnumber":"1", "pattern":"PATTERN_EMAIL"} |
       | field | boolean   | {"content":"Is it true?",                   "required":"1", "customnumber":"2", "style":"0"}               |
     When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1

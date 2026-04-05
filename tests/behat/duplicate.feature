@@ -25,7 +25,6 @@ Feature: Duplicate a surveypro
       | format | pagebreak   |
       | field  | boolean     |
       | field  | select      |
-
     And I am on "Course 1" course homepage with editing mode on
     And I duplicate "surveypro test" activity editing the new copy with:
       | Name | Copy of surveypro test |

@@ -19,7 +19,7 @@ Feature: Submit using a recurrence item
       | activity  | name            | intro                           | course                     |
       | surveypro | Recurrence test | To test submission of date item | Recurrence submission test |
     And surveypro "Recurrence test" has the following items:
-      | type  | plugin     | options                                                                                   |
+      | type  | plugin     | settings                                                                                  |
       | field | recurrence | {"required":"1", "indent":"0", "position":"1", "customnumber":"1", "hideinstruction":"1"} |
     When I am on the "Recurrence test" "surveypro activity" page logged in as student1
 

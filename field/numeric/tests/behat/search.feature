@@ -21,7 +21,7 @@ Feature: Search using one and two numeric items
       | activity  | name                     | intro                  | course      |
       | surveypro | Numeric search form test | For searching purposes | Search form |
     And surveypro "Numeric search form test" has the following items:
-      | type  | plugin  | options                                                                                                                                                                                           |
+      | type  | plugin  | settings                                                                                                                                                                                          |
       | field | numeric | {"content":"Type the best approximation of π you know",                 "required":"1", "customnumber":"1", "signed":"1", "decimals":"2", "lowerbound":"3", "upperbound":"4", "insearchform":"1"} |
       | field | numeric | {"content":"Type the best approximation of Nepero's constant you know", "required":"1", "customnumber":"2", "signed":"1", "decimals":"2", "lowerbound":"2", "upperbound":"3"}                     |
     When I am on the "Numeric search form test" "surveypro activity" page logged in as student1

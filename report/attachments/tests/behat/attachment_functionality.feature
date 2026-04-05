@@ -30,17 +30,10 @@ Feature: Test attachment report
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
     And surveypro "Attachment report test" has the following items:
-      | type   | plugin     | options                                          |
+      | type   | plugin     | settings                                         |
       | field  | fileupload | {"content":"Upload a passport photo"}            |
       | field  | fileupload | {"content":"Upload your CV"}                     |
       | field  | fileupload | {"content":"Upload the picture for the contest"} |
-    And I log in as "teacher1"
-    And I am on "Test attachment report" course homepage
-
-    And I follow "Attachment report test"
-    And I follow "Layout"
-
-    And I log out
 
     # student1 logs in
     When I am on the "Attachment report test" "surveypro activity" page logged in as student1

@@ -19,7 +19,7 @@ Feature: Submit using a shortdate item
       | activity  | name           | intro                           | course                    |
       | surveypro | Shortdate test | To test submission of shortdate | Shortdate submission test |
     And surveypro "Shortdate test" has the following items:
-      | type  | plugin    | options                                                                   |
+      | type  | plugin    | settings                                                                  |
       | field | shortdate | {"required":"1", "indent":"0", "customnumber":"1", "hideinstruction":"1"} |
     When I am on the "Shortdate test" "surveypro activity" page logged in as student1
 

@@ -30,24 +30,6 @@
  * Defaults are provided for each plugin but can be overridden
  * by passing custom parameters.
  *
- * Usage:
- * $item = surveypro_get_dummy_contents(
- *     SURVEYPRO_TYPEFIELD,
- *     'textarea'
- * );
- *
- * or
- *
- * $item = surveypro_get_dummy_contents(
- *     SURVEYPRO_TYPEFIELD,
- *     'textarea',
- *     [
- *         'content_editor' => ['text' => 'Describe your experience'],
- *         'required' => 1,
- *         'maxlength' => 500
- *     ]
- * );
- *
  * @param string $type
  * @param string $plugin
  * @param array $customsettings
@@ -60,10 +42,11 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
         'pluginid' => 0,
         'type' => $type,
         'plugin' => $plugin,
-        // 'required' => 0,
+        // 'required' => 0, // it is a checkbox. To set it to 0 I must jump it.
         'indent' => 0,
         'position' => 0,
         'customnumber' => '',
+        // 'hideinstruction' => 0, // it is a checkbox. To set it to 0 I must jump it.
         'variable' => '',
         'extranote' => '',
         'parentid' => 0,
@@ -111,6 +94,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
                 'defaultvalue' => '',
                 'adjustment' => 0,
                 'minimumrequired' => 0,
+                'maximumrequired' => '0',
                 'downloadformat' => '1',
             ],
             'date' => [
@@ -163,7 +147,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
             'numeric' => [
                 'content_editor' => ['text' => 'Type the best approximation of π you know'],
                 'defaultvalue' => '',
-                'decimals' => 2,
+                'decimals' => 0,
                 'lowerbound' => '',
                 'upperbound' => '',
             ],
@@ -173,7 +157,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
                 'labelother' => '',
                 'defaultoption' => '2',
                 'downloadformat' => '1',
-                'adjustment' => '0',
+                'adjustment' => '1',
             ],
             'rate' => [
                 'content_editor' => ['text' => 'How confident are you with the following languages?'],
@@ -210,6 +194,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
             ],
             'textarea' => [
                 'content_editor' => ['text' => 'Write a short description of yourself'],
+                // 'useeditor' => 0, // it is a checkbox. To set it to 0 I must jump it.
                 'arearows' => 10,
                 'areacols' => 60,
                 'minlength' => 0,

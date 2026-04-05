@@ -12,20 +12,13 @@ Feature: Submit using multiselect item and check form validation (2 of 4)
       | Test submission for multiselect item | Multiselect item | 0        | 3           |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course           | role           |
-      | teacher1 | Multiselect item | editingteacher |
       | student1 | Multiselect item | student        |
     And the following "activities" exist:
       | activity  | name           | intro              | course           |
       | surveypro | Surveypro test | For testing backup | Multiselect item |
-    And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
 
   @javascript
   Scenario: Test multiselect element using configuration 03
@@ -34,16 +27,9 @@ Feature: Submit using multiselect item and check form validation (2 of 4)
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
       # Minimum required items: 0
-    Given I set the following fields to these values:
-      | Content                | What do you usually get for breakfast? |
-      | Required               | 0                                      |
-      | Default                | coffee                                 |
-      | Minimum required items | 0                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin      | settings                                                                                                                                |
+      | field | multiselect | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"", "minimumrequired":"0"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
@@ -65,7 +51,7 @@ Feature: Submit using multiselect item and check form validation (2 of 4)
     And I press "New response"
     And I set the following fields to these values:
       | id_field_multiselect_1 |milk, bread |
-      | No answer                        | 1          |
+      | No answer              | 1          |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "3" submissions
@@ -78,16 +64,9 @@ Feature: Submit using multiselect item and check form validation (2 of 4)
       # Options (fixed):        milk\ncoffee\nbutter\nbread
       # Default:                coffee
       # Minimum required items: 2
-    Given I set the following fields to these values:
-      | Content                | What do you usually get for breakfast? |
-      | Required               | 0                                      |
-      | Default                | coffee                                 |
-      | Minimum required items | 2                                      |
-    And I set the multiline field "Options" to "milk\n\n\ncoffee\n     butter\n\nbread\n\n\n      "
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin      | settings                                                                                                                                      |
+      | field | multiselect | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"coffee", "minimumrequired":"2"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 4: Student flies over the answer

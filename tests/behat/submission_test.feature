@@ -17,37 +17,37 @@ Feature: Submit each available item
       | user     | course          | role           |
       | teacher1 | Submission test | editingteacher |
       | student1 | Submission test | student        |
-    And the following "activities" exist:
-      | activity  | name                 | intro                                      | course          |
-      | surveypro | Each item submission | To test submission for each available item | Submission test |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference       |
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Submission test |
       | mod/surveypro:deleteownsubmissions    | Allow      | student | Course       | Submission test |
+    And the following "activities" exist:
+      | activity  | name                 | intro                                      | course          |
+      | surveypro | Each item submission | To test submission for each available item | Submission test |
     And surveypro "Each item submission" has the following items:
-      | type   | plugin      |
-      | field  | age         |
-      | field  | fileupload  |
-      | field  | autofill    |
-      | field  | boolean     |
-      | field  | checkbox    |
-      | field  | shortdate   |
-      | field  | date        |
-      | field  | datetime    |
-      | format | pagebreak   |
-      | field  | integer     |
-      | field  | multiselect |
-      | field  | numeric     |
-      | field  | radiobutton |
-      | format | fieldset    |
-      | field  | rate        |
-      | format | fieldsetend |
-      | field  | recurrence  |
-      | field  | select      |
-      | field  | textarea    |
-      | field  | character   |
-      | field  | time        |
-      | format | label       |
+      | type   | plugin      | settings         |
+      | field  | age         |                  |
+      | field  | fileupload  |                  |
+      | field  | autofill    |                  |
+      | field  | boolean     |                  |
+      | field  | checkbox    |                  |
+      | field  | shortdate   |                  |
+      | field  | date        |                  |
+      | field  | datetime    |                  |
+      | format | pagebreak   |                  |
+      | field  | integer     |                  |
+      | field  | multiselect |                  |
+      | field  | numeric     | {"decimals":"2"} |
+      | field  | radiobutton |                  |
+      | format | fieldset    |                  |
+      | field  | rate        |                  |
+      | format | fieldsetend |                  |
+      | field  | recurrence  |                  |
+      | field  | select      |                  |
+      | field  | textarea    |                  |
+      | field  | character   |                  |
+      | field  | time        |                  |
+      | format | label       |                  |
     And I am on the "Each item submission" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I select "Preview" from the "jump" singleselect

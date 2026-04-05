@@ -11,17 +11,15 @@ Feature: Test the use of character trim
       | Character trim test | Character trim test | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course              | role           |
-      | teacher1 | Character trim test | editingteacher |
       | student1 | Character trim test | student        |
     And the following "activities" exist:
       | activity  | name                | intro               | course              |
       | surveypro | Test character trim | Test character trim | Character trim test |
     And surveypro "Test character trim" has the following items:
-      | type  | plugin    | options                                                                                                                                               |
+      | type  | plugin    | settings                                                                                                                                              |
       | field | character | {"content":"This is a standard text", "required":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30", "insearchform":"1"} |
       | field | character | {"content":"Text to trim",            "required":"1", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"}   |
     When I am on the "Test character trim" "surveypro activity" page logged in as student1

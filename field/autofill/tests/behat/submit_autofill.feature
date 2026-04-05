@@ -19,7 +19,7 @@ Feature: Submit using an autofill item
       | activity  | name          | intro                               | course                   |
       | surveypro | Autofill test | To test submission of autofill item | Autofill submission test |
     And surveypro "Autofill test" has the following items:
-      | type  | plugin   | options                                                                     |
+      | type  | plugin   | settings                                                                    |
       | field | autofill | {"indent":"0", "element01":"Have a nice day ", "element02":"userfirstname"} |
     When I am on the "Autofill test" "surveypro activity" page logged in as student1
 

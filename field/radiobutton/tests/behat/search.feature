@@ -21,7 +21,7 @@ Feature: Search using one and two radiobutton items
       | activity  | name                          | intro                  | course      |
       | surveypro | Radio button search form test | For searching purposes | Search form |
     And surveypro "Radio button search form test" has the following items:
-      | type  | plugin      | options                                                                                                                                                          |
+      | type  | plugin      | settings                                                                                                                                                         |
       | field | radiobutton | {"content":"Which summer holidays place do you prefer?", "required":"1", "customnumber":"1", "options":"sea\nmountain\nlake\nhills\ndesert", "insearchform":"1"} |
       | field | radiobutton | {"content":"Which winter holidays place do you prefer?", "required":"1", "customnumber":"2", "options":"sea\nmountain\nlake\nhills\ndesert"}                     |
     When I am on the "Radio button search form test" "surveypro activity" page logged in as student1

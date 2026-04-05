@@ -21,7 +21,7 @@ Feature: Search using one and two shortdate items
       | activity  | name                       | intro                  | course      |
       | surveypro | Shortdate search form test | For searching purposes | Search form |
     And surveypro "Shortdate search form test" has the following items:
-      | type  | plugin    | options                                                                                                                                                         |
+      | type  | plugin    | settings                                                                                                                                                        |
       | field | shortdate | {"content":"When did you pass your driving test?", "required":"1", "customnumber":"1", "lowerbound":"946728000", "upperbound":"1606824000", "insearchform":"1"} |
       | field | shortdate | {"content":"When did you buy your current car?",   "required":"1", "customnumber":"2", "lowerbound":"946728000", "upperbound":"1606824000"}                     |
     When I am on the "Shortdate search form test" "surveypro activity" page logged in as student1

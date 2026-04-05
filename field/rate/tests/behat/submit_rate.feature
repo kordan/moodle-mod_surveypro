@@ -19,7 +19,7 @@ Feature: Submit using a rate item
       | activity  | name      | intro                           | course               |
       | surveypro | Rate test | To test submission of date item | Rate submission test |
     And surveypro "Rate test" has the following items:
-      | type  | plugin | options                                            |
+      | type  | plugin | settings                                           |
       | field | rate   | {"position":"1", "style":"0", "customnumber":"h1"} |
       | field | rate   | {"position":"2", "style":"1", "customnumber":"h2"} |
     When I am on the "Rate test" "surveypro activity" page logged in as student1

@@ -21,7 +21,7 @@ Feature: Search using one and two datetime items
       | activity  | name                           | intro                  | course      |
       | surveypro | Date and time search form test | For searching purposes | Search form |
     And surveypro "Date and time search form test" has the following items:
-      | type  | plugin   | options                                                                                                                                                                                                                                                                     |
+      | type  | plugin   | settings                                                                                                                                                                                                                                                                    |
       | field | datetime | {"content":"Date and time of your last flight to Los Angeles?", "required":"1", "customnumber":"1", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"0", "downloadformat":"strftime01", "lowerbound":"157766400", "upperbound":"946684740", "insearchform":"1"} |
       | field | datetime | {"content":"Date and time of your last flight to Las Vegas?",   "required":"1", "customnumber":"2", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"0", "downloadformat":"strftime01", "lowerbound":"473385600", "upperbound":"1293839940"}                    |
     When I am on the "Date and time search form test" "surveypro activity" page logged in as student1

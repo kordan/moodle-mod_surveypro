@@ -21,7 +21,7 @@ Feature: Search using one and two boolean items
       | activity  | name                     | intro                  | course      |
       | surveypro | Boolean search form test | For searching purposes | Search form |
     And surveypro "Boolean search form test" has the following items:
-      | type  | plugin  | options                                                    |
+      | type  | plugin  | settings                                                   |
       | field | boolean | {"content":"Is it true?", "style":"1", "insearchform":"1"} |
       | field | boolean | {"content":"Do you like it?", "style":"1"}                 |
     When I am on the "Boolean search form test" "surveypro activity" page logged in as student1

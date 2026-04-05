@@ -19,7 +19,7 @@ Feature: Submit using an age item
       | activity  | name     | intro                          | course              |
       | surveypro | Age test | To test submission of age item | Age submission test |
     And surveypro "Age test" has the following items:
-      | type  | plugin | options                                                                                       |
+      | type  | plugin | settings                                                                                      |
       | field | age    | {"customnumber":"5a", "hideinstruction":"1", "defaultoption":1, "defaultvalue":"-2148552000"} |
     When I am on the "Age test" "surveypro activity" page logged in as student1
 

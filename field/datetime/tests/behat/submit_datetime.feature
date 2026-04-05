@@ -19,7 +19,7 @@ Feature: Submit using a datetime item
       | activity  | name          | intro                           | course                   |
       | surveypro | Datetime test | To test submission of date item | Datetime submission test |
     And surveypro "Datetime test" has the following items:
-      | type  | plugin   | options                                                                                    |
+      | type  | plugin   | settings                                                                                   |
       | field | datetime | {"required":"1", "indent":"0", "position":"0", "customnumber":"5a", "hideinstruction":"1"} |
     When I am on the "Datetime test" "surveypro activity" page logged in as student1
 

@@ -19,7 +19,7 @@ Feature: Submit using a date item
       | activity  | name      | intro                        | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
     And surveypro "Date test" has the following items:
-      | type  | plugin | options                                                                   |
+      | type  | plugin | settings                                                                  |
       | field | date   | {"required":"1", "indent":"0", "customnumber":"7", "hideinstruction":"1"} |
     When I am on the "Date test" "surveypro activity" page logged in as student1
 

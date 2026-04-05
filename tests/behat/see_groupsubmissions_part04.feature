@@ -15,19 +15,16 @@ Feature: Submissions seen from students divided into groups (Part 04)
       | Group 2 | Groups permissions | group02  |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
       | student2 | student2  | user2    | student2@nowhere.net |
       | student3 | student3  | user3    | student3@nowhere.net |
       | student4 | student4  | user4    | student4@nowhere.net |
     And the following "user preferences" exist:
       | user     | preference | value    |
-      | teacher1 | htmleditor | textarea |
       | student1 | htmleditor | textarea |
       | student2 | htmleditor | textarea |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Groups permissions | editingteacher |
       | student1 | Groups permissions | student        |
       | student2 | Groups permissions | student        |
       | student3 | Groups permissions | student        |
@@ -44,7 +41,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
       | activity  | name                        | intro                          | course             | groupmode |
       | surveypro | Verify submission selection | Test what each student can see | Groups permissions | 1         |
     And surveypro "Verify submission selection" has the following items:
-      | type  | plugin    | options                                                           |
+      | type  | plugin    | settings                                                          |
       | field | character | {"content":"Enter your name", "required":"1", "customnumber":"1"} |
     When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 

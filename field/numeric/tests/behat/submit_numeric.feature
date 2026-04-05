@@ -19,7 +19,7 @@ Feature: Submit using a numeric item
       | activity  | name         | intro                         | course                  |
       | surveypro | Numeric test | To test submission of numeric | Numeric submission test |
     And surveypro "Numeric test" has the following items:
-      | type  | plugin  | options                                                       |
+      | type  | plugin  | settings                                                      |
       | field | numeric | {"hideinstructions":"1", "customnumber":"11", "decimals":"2"} |
     When I am on the "Numeric test" "surveypro activity" page logged in as student1
 

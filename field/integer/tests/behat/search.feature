@@ -21,7 +21,7 @@ Feature: Search using one and two integer items
       | activity  | name                     | intro                  | course      |
       | surveypro | Integer search form test | For searching purposes | Search form |
     And surveypro "Integer search form test" has the following items:
-      | type  | plugin  | options                                                                                                                |
+      | type  | plugin  | settings                                                                                                               |
       | field | integer | {"content":"How many people does your family counts?",         "required":"1", "customnumber":"1", "insearchform":"1"} |
       | field | integer | {"content":"How many people does your parents family counts?", "required":"1", "customnumber":"2"}                     |
     When I am on the "Integer search form test" "surveypro activity" page logged in as student1

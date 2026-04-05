@@ -19,7 +19,7 @@ Feature: Submit using a radiobutton item
       | activity  | name             | intro                                  | course                      |
       | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test |
     And surveypro "Radiobutton test" has the following items:
-      | type  | plugin      | options                                                                                          |
+      | type  | plugin      | settings                                                                                         |
       | field | radiobutton | {"content":"Which summer holidays place do you prefer?", "customnumber":"12a", "adjustment":"0"} |
       | field | radiobutton | {"content":"Which winter holidays place do you prefer?", "customnumber":"12b", "adjustment":"1"} |
     When I am on the "Radiobutton test" "surveypro activity" page logged in as student1

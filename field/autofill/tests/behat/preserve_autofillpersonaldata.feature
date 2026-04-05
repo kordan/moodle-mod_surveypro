@@ -36,7 +36,7 @@ Feature: Editing a submission, autofill userID is not overwritten
       | activity  | name              | intro                                                              | course         |
       | surveypro | Preserve autofill | Test that editing a submission, autofill userID is not overwritten | Course grouped |
     And surveypro "Preserve autofill" has the following items:
-      | type  | plugin   | options                                                                                        |
+      | type  | plugin   | settings                                                                                       |
       | field | autofill | {"content":"Your user ID",    "position":"0", "customnumber":"1", "element01":"userid"}        |
       | field | autofill | {"content":"Your first name", "position":"0", "customnumber":"2", "element01":"userfirstname"} |
       | field | autofill | {"content":"Your last name",  "position":"0", "customnumber":"3", "element01":"userlastname"}  |

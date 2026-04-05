@@ -27,7 +27,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
       | activity  | name                        | intro                          | course             |
       | surveypro | Verify submission selection | Test what each student can see | Groups permissions |
     And surveypro "Verify submission selection" has the following items:
-      | type  | plugin    | options                       |
+      | type  | plugin    | settings                                          |
       | field | character | {"content":"Enter your name", "customnumber":"1"} |
     When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 

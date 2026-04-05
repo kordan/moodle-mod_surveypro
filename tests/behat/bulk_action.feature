@@ -39,7 +39,6 @@ Feature: Execute bulk actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
-
     And I am on the "Test bulk item actions" "surveypro activity" page
     And I follow "Layout"
 

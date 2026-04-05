@@ -9,31 +9,19 @@ Feature: Submit using multiselect item and check form validation
       | Test submission for multiselect item | Multiselect item | 0        | 3           |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course           | role           |
-      | teacher1 | Multiselect item | editingteacher |
       | student1 | Multiselect item | student        |
     And the following "activities" exist:
       | activity  | name           | intro              | course           |
       | surveypro | Surveypro test | For testing backup | Multiselect item |
-    And I am on the "Surveypro test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Multiple selection"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
 
   @javascript
   Scenario: Test multiselect element having maximumrequired = 0
-    Given I set the following fields to these values:
-      | Content                 | What do you usually get for breakfast? |
-      | Maximum allowed options | Unlimited                              |
-    And I set the multiline field "Options" to "milk\ncoffee\nbutter\nbread"
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin      | settings                                                                                                             |
+      | field | multiselect | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "maximumrequired":"0"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student submits a standard answer
@@ -47,14 +35,9 @@ Feature: Submit using multiselect item and check form validation
 
   @javascript
   Scenario: Test multiselect element having maximumrequired = 3
-    Given I set the following fields to these values:
-      | Content                 | What do you usually get for breakfast? |
-      | Maximum allowed options | 3                                      |
-    And I set the multiline field "Options" to "milk\ncoffee\nbutter\nbread"
-    And I press "Add"
-
-    And I log out
-
+    Given surveypro "Surveypro test" has the following items:
+      | type  | plugin      | settings                                                                                                             |
+      | field | multiselect | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "maximumrequired":"3"} |
     When I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 2: Student ticks too many items

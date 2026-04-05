@@ -21,7 +21,7 @@ Feature: Search using one and two textarea items
       | activity  | name                      | intro                  | course      |
       | surveypro | Textarea search form test | For searching purposes | Search form |
     And surveypro "Textarea search form test" has the following items:
-      | type  | plugin   | options                                                                                                                                                      |
+      | type  | plugin   | settings                                                                                                                                                     |
       | field | textarea | {"content":"Describe your dog", "required":"1", "customnumber":"1", "arearows":"7", "areacols":"40", "minlength":"10", "maxlength":"25", "insearchform":"1"} |
       | field | textarea | {"content":"Describe your cat", "required":"1", "customnumber":"2", "arearows":"7", "areacols":"40", "minlength":"10", "maxlength":"25"}                     |
     When I am on the "Textarea search form test" "surveypro activity" page logged in as student1

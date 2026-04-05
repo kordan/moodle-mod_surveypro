@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Duplicate a response
   In order to test that response duplication works fine
-  As teacher1 and student1
+  As student1
   I fill a surveypro and go to duplicate the submitted response
 
   @javascript
@@ -11,7 +11,6 @@ Feature: Duplicate a response
       | Duplicate response | Duplicate response | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference          |
@@ -19,7 +18,6 @@ Feature: Duplicate a response
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Duplicate response |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Duplicate response | editingteacher |
       | student1 | Duplicate response | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                     | course             |

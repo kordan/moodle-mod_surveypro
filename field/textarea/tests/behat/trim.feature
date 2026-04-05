@@ -11,11 +11,9 @@ Feature: Trim textarea content
       | Textarea trim test | Textarea trim test | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | 1        | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Textarea trim test | editingteacher |
       | student1 | Textarea trim test | student        |
     And the following "activities" exist:
       | activity  | name               | intro              | course             |
@@ -24,8 +22,8 @@ Feature: Trim textarea content
       | capability                          | permission | role    | contextlevel | reference          |
       | mod/surveypro:editownsubmissions    | Allow      | student | Course       | Textarea trim test |
     And surveypro "Test textarea trim" has the following items:
-      | type  | plugin   | options                                                             |
-      | field | textarea | {"content":"This is a standard text", "required":"1", "customnumber":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30"} |
+      | type  | plugin   | settings                                                                                                                                                                |
+      | field | textarea | {"content":"This is a standard text", "required":"1", "customnumber":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30"}                   |
       | field | textarea | {"content":"Text to trim",            "required":"1", "customnumber":"2", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"} |
     When I am on the "Test textarea trim" "surveypro activity" page logged in as student1
 

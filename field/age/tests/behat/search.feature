@@ -21,7 +21,7 @@ Feature: Search using one and two age items
       | activity  | name                 | intro                  | course      |
       | surveypro | Age search form test | For searching purposes | Search form |
     And surveypro "Age search form test" has the following items:
-      | type  | plugin  | options                                                                                                                                                                                                                                                                           |
+      | type  | plugin  | settings                                                                                                                                                                                                                                                                          |
       | field | age     | {"content":"How old were you when you started cycling?", "required":"1", "indent":"1", "position":"0", "customnumber":"1", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2117016000", "upperbound":"-1706788800", "insearchform":"1"} |
       | field | age     | {"content":"How old were you when you got married?",     "required":"1", "indent":"1", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-1580558400", "upperbound":"533822400"}                       |
     When I am on the "Age search form test" "surveypro activity" page logged in as student1

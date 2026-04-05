@@ -19,10 +19,10 @@ Feature: Test submission modification time
       | activity  | name                   | intro                  | newpageforchild | course                                 |
       | surveypro | Test modification time | Test modification time | 1               | Timemodified only at modification time |
     And surveypro "Test modification time" has the following items:
-      | type   | plugin      |
-      | field  | boolean     |
-      | format | pagebreak   |
-      | field  | character   |
+      | type   | plugin    |
+      | field  | boolean   |
+      | format | pagebreak |
+      | field  | character |
 
     # Let the student start to fill the surveypro
     When I am on the "Test modification time" "surveypro activity" page logged in as student1

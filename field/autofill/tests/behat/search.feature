@@ -21,7 +21,7 @@ Feature: Search using one and two autofill items
       | activity  | name                      | intro                  | course      |
       | surveypro | Autofill search form test | For searching purposes | Search form |
     And surveypro "Autofill search form test" has the following items:
-      | type  | plugin   | options                                                                        |
+      | type  | plugin   | settings                                                                       |
       | field | autofill | {"content":"Your first name", "element01":"userfirstname", "insearchform":"1"} |
       | field | autofill | {"content":"Your last name", "element01":"userlastname"}                       |
     And I am on the "Autofill search form test" "surveypro activity" page logged in as student1

@@ -286,20 +286,28 @@ class behat_mod_surveypro extends behat_base
         // Add the questions.
         foreach ($data->getHash() as $surveyprodata) {
             if (!array_key_exists('type', $surveyprodata)) {
-                throw new ExpectationException('When adding an item to a surveypro, ' .
+                throw new ExpectationException('Adding an item to a surveypro, ' .
                         'the type column is required.', $this->getSession());
             }
             if (!array_key_exists('plugin', $surveyprodata)) {
-                throw new ExpectationException('When adding item to a surveypro, ' .
+                throw new ExpectationException('Adding item to a surveypro, ' .
                         'the plugin column is required.', $this->getSession());
+            }
+
+            // Verify only allowed keys were provided
+            $allowed = ['type' => 1, 'plugin' => 1, 'settings' => 1];
+            $extras = array_diff_key($surveyprodata, $allowed);
+            if (!empty($extras)) {
+                $illegal = implode(', ', array_keys($extras));
+                throw new coding_exception('Key/s "' . $illegal . '" are not allowed for surveypro_has_the_following_items');
             }
 
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);
             $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
-            if (isset($surveyprodata['options']) && core_text::strlen($surveyprodata['options'])) {
-                $options = clean_param($surveyprodata['options'], PARAM_RAW); // Preserve '>' or html tags.
+            if (isset($surveyprodata['settings']) && core_text::strlen($surveyprodata['settings'])) {
+                $settings = clean_param($surveyprodata['settings'], PARAM_RAW); // Preserve '>' or html tags.
                 try {
-                    $customsettings = json_decode($options, true, 512, JSON_THROW_ON_ERROR);
+                    $customsettings = json_decode($settings, true, 512, JSON_THROW_ON_ERROR);
                 } catch (JsonException $e) {
                     throw new coding_exception('Invalid JSON in ' . __FILE__ . ': ' . $e->getMessage());
                 }
