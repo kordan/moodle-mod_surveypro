@@ -24,8 +24,9 @@ Feature: Use reserved elements
       | type  | plugin | settings                                                                                                                                                                                                                                               |
       | field | age    | {"content":"First age item",  "required":"1", "indent":"0", "position":"0", "customnumber":"1", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "insearchform":"1"} |
       | field | age     | {"content":"Second age item", "required":"1", "indent":"0", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "reserved":"1"}    |
+
     # test the user sees only the first age item
-    When I am on the "Reserved element test" "surveypro activity" page logged in as student1
+    And I am on the "Reserved element test" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
@@ -41,7 +42,7 @@ Feature: Use reserved elements
     And I log out
 
     # test the teacher sees the first and the second age items both
-    When I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
+    And I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     Then I should see "1 First age item"

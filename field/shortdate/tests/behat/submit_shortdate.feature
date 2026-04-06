@@ -21,7 +21,7 @@ Feature: Submit using a shortdate item
     And surveypro "Shortdate test" has the following items:
       | type  | plugin    | settings                                                                  |
       | field | shortdate | {"required":"1", "indent":"0", "customnumber":"1", "hideinstruction":"1"} |
-    When I am on the "Shortdate test" "surveypro activity" page logged in as student1
+    And I am on the "Shortdate test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

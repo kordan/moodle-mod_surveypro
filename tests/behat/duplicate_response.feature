@@ -26,6 +26,7 @@ Feature: Duplicate a response
       | type  | plugin  |
       | field | boolean |
     And I am on the "Duplicate response sp" "surveypro activity" page logged in as student1
+
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -51,7 +52,7 @@ Feature: Duplicate a response
 
     And I log out
 
-    When I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
+    And I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
     And I select "Responses" from the "jump" singleselect
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"

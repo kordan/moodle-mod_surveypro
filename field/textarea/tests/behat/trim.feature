@@ -25,7 +25,7 @@ Feature: Trim textarea content
       | type  | plugin   | settings                                                                                                                                                                |
       | field | textarea | {"content":"This is a standard text", "required":"1", "customnumber":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30"}                   |
       | field | textarea | {"content":"Text to trim",            "required":"1", "customnumber":"2", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"} |
-    When I am on the "Test textarea trim" "surveypro activity" page logged in as student1
+    And I am on the "Test textarea trim" "surveypro activity" page logged in as student1
 
     # Test number 1: Student insert a record
     And I press "New response"

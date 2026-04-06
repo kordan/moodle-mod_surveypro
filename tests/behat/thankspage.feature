@@ -31,14 +31,14 @@ Feature: Thanks users properly
 
   @javascript
   Scenario: Test the empty thanks page
-    When I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
+    And I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Inline thanks page" to ""
     And I press "Save and display"
     And I log out
 
     # student1 logs in
-    When I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
+    And I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -71,7 +71,7 @@ Feature: Thanks users properly
     And I upload "mod/surveypro/tests/fixtures/thankyou.png" file to "Files" filemanager
     And I click on "Save changes" "button"
 
-    When I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
+    And I am on the "Thanks surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
 
     # Atto needs focus to add image, select empty p tag to do so.
@@ -87,7 +87,7 @@ Feature: Thanks users properly
     And I log out
 
     # student1 logs in
-    When I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
+    And I am on the "Thanks surveypro" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"

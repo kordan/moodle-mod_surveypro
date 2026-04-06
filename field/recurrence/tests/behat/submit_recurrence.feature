@@ -21,7 +21,7 @@ Feature: Submit using a recurrence item
     And surveypro "Recurrence test" has the following items:
       | type  | plugin     | settings                                                                                  |
       | field | recurrence | {"required":"1", "indent":"0", "position":"1", "customnumber":"1", "hideinstruction":"1"} |
-    When I am on the "Recurrence test" "surveypro activity" page logged in as student1
+    And I am on the "Recurrence test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

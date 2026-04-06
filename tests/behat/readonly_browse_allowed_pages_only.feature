@@ -58,7 +58,7 @@ Feature: In read only mode browse a submission jumping not filled pages
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test jump not allowed pages" "surveypro activity" page logged in as student1
+    And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Is it true?" to "1"

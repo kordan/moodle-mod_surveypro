@@ -28,7 +28,7 @@ Feature: Submit using character item and check form validation (1 of 7)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin    | settings                                                    |
       | field | character | {"content":"This is a free text", "pattern":"PATTERN_FREE"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
     And I press "New response"
@@ -54,7 +54,7 @@ Feature: Submit using character item and check form validation (1 of 7)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin    | settings                                                                      |
       | field | character | {"content":"This is a free text", "pattern":"PATTERN_FREE", "minlength":"20"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 3: Student flies over the answer
     And I press "New response"

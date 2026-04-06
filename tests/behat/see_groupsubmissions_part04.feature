@@ -43,7 +43,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
     And surveypro "Verify submission selection" has the following items:
       | type  | plugin    | settings                                                          |
       | field | character | {"content":"Enter your name", "required":"1", "customnumber":"1"} |
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 
     And I select "Responses" from the "jump" singleselect
 
@@ -69,7 +69,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
     And I log out
 
     # student2 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -89,7 +89,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
     And I log out
 
     # student3 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student3
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student3
     And I select "Responses" from the "jump" singleselect
 
     Then I should not see "student1" in the "submissions" "table"
@@ -112,7 +112,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
     And I log out
 
     # student4 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student4
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student4
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -131,7 +131,7 @@ Feature: Submissions seen from students divided into groups (Part 04)
     And I log out
 
     # student1 goes to check for his personal submissions
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Never" in the "student1 user1" "table_row"

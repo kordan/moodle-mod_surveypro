@@ -24,7 +24,7 @@ Feature: Search using one and two checkbox items
       | type  | plugin   | settings                                                                                                                                                                                                 |
       | field | checkbox | {"content":"What do you usually get for breakfast?",                                "required":"1", "customnumber":"1", "adjustment":"1", "options":"milk\ncoffee\nbutter\nbread", "insearchform":"1"}   |
       | field | checkbox | {"content":"What do you usually wear when you go out cycling and it is very cold?", "required":"1", "customnumber":"2", "adjustment":"1", "options":"gloves\nhat\nwindbreaker\nwool undershirt\ntights"} |
-    When I am on the "Checkbox search form test" "surveypro activity" page logged in as student1
+    And I am on the "Checkbox search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

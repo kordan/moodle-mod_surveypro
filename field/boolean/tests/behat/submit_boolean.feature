@@ -23,7 +23,7 @@ Feature: Submit using a boolean item
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4a", "style":"0"} |
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4b", "style":"1"} |
       | field | boolean | {"content":"Is it true?", "required":"1", "customnumber":"4c", "style":"2"} |
-    When I am on the "Boolean test" "surveypro activity" page logged in as student1
+    And I am on the "Boolean test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

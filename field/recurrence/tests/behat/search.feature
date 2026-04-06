@@ -24,7 +24,7 @@ Feature: Search using one and two recurrence items
       | type  | plugin     | settings                                                                                                                                                                                                                                             |
       | field | recurrence | {"content":"When do you usually celebrate your name-day?",        "required":"1", "customnumber":"1", "defaultoption":"2", "defaultvalue":"43200", "downloadformat":"strftime01", "lowerbound":"43200", "upperbound":"31492800", "insearchform":"1"} |
       | field | recurrence | {"content":"When do you celebrate your town's patron saint day?", "required":"1", "customnumber":"2", "defaultoption":"2", "defaultvalue":"43200", "downloadformat":"strftime01", "lowerbound":"43200", "upperbound":"31492800"}                     |
-    When I am on the "Recurrence search form test" "surveypro activity" page logged in as student1
+    And I am on the "Recurrence search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

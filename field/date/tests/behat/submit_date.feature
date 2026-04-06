@@ -21,7 +21,7 @@ Feature: Submit using a date item
     And surveypro "Date test" has the following items:
       | type  | plugin | settings                                                                  |
       | field | date   | {"required":"1", "indent":"0", "customnumber":"7", "hideinstruction":"1"} |
-    When I am on the "Date test" "surveypro activity" page logged in as student1
+    And I am on the "Date test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

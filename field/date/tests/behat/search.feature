@@ -24,7 +24,7 @@ Feature: Search using one and two date items
       | type  | plugin | settings                                                                                                                                                                                                                                               |
       | field | date   | {"content":"When were you born?",      "required":"1", "customnumber":"1", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"43200", "downloadformat":"strftime05", "lowerbound":"157809600", "upperbound":"946641600", "insearchform":"1"} |
       | field | date   | {"content":"When was your wife born?", "required":"1", "customnumber":"2", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"43200", "downloadformat":"strftime05", "lowerbound":"473428800", "upperbound":"1293796800"}                    |
-    When I am on the "Date search form test" "surveypro activity" page logged in as student1
+    And I am on the "Date search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

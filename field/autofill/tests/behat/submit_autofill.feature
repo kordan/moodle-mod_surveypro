@@ -21,7 +21,7 @@ Feature: Submit using an autofill item
     And surveypro "Autofill test" has the following items:
       | type  | plugin   | settings                                                                    |
       | field | autofill | {"indent":"0", "element01":"Have a nice day ", "element02":"userfirstname"} |
-    When I am on the "Autofill test" "surveypro activity" page logged in as student1
+    And I am on the "Autofill test" "surveypro activity" page logged in as student1
 
     # I want hiddenfield = 0 but it is a checkbox. So, in order to leave it untouched, I have to omit it.
     # This is the reason whu I do not add  "hiddenfield":"0"; in json.

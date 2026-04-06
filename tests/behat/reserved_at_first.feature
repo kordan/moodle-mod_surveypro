@@ -33,7 +33,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test start at 2" "surveypro activity" page logged in as student1
+    And I am on the "Test start at 2" "surveypro activity" page logged in as student1
 
     And I press "New response"
     Then I should see "Write down your email, please"

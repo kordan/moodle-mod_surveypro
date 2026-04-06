@@ -36,7 +36,7 @@ Feature: Test attachment report
       | field  | fileupload | {"content":"Upload the picture for the contest"} |
 
     # student1 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student1
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -62,7 +62,7 @@ Feature: Test attachment report
     And I log out
 
     # student2 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student2
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -80,7 +80,7 @@ Feature: Test attachment report
     And I log out
 
     # student3 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student3
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student3
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -98,7 +98,7 @@ Feature: Test attachment report
     And I log out
 
     # teacher logs in
-    When I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
     # Feature 1: only user who actually submitted are in the list
     Then I should see "student1"

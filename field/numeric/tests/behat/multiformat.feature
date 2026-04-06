@@ -32,7 +32,7 @@ Feature: Validate input with different number format
 
     And I log out
 
-    When I am on the "Test multiformat numeric input" "surveypro activity" page logged in as student1
+    And I am on the "Test multiformat numeric input" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the field "Type the best approximation of π you know" to "3,14"
     And I press "Submit"

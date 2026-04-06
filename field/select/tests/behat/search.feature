@@ -24,7 +24,7 @@ Feature: Search using one and two select items
       | type  | plugin | settings                                                                                                                                                         |
       | field | select | {"content":"Which summer holidays place do you prefer?", "required":"1", "customnumber":"1", "options":"sea\nmountain\nlake\nhills\ndesert", "insearchform":"1"} |
       | field | select | {"content":"Which winter holidays place do you prefer?", "required":"1", "customnumber":"2", "options":"sea\nmountain\nlake\nhills\ndesert"}                     |
-    When I am on the "Select search form test" "surveypro activity" page logged in as student1
+    And I am on the "Select search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

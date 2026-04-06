@@ -283,23 +283,27 @@ class behat_mod_surveypro extends behat_base
         $surveypro = $DB->get_record('surveypro', ['name' => $surveyproname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
 
+        $allowed = ['type' => 1, 'plugin' => 1, 'settings' => 1];
         // Add the questions.
         foreach ($data->getHash() as $surveyprodata) {
+            // Verify "type" was provided
             if (!array_key_exists('type', $surveyprodata)) {
-                throw new ExpectationException('Adding an item to a surveypro, ' .
-                        'the type column is required.', $this->getSession());
+                throw new ExpectationException('Type column is required.', $this->getSession());
             }
+
+            // Verify "plugin" was provided
             if (!array_key_exists('plugin', $surveyprodata)) {
-                throw new ExpectationException('Adding item to a surveypro, ' .
-                        'the plugin column is required.', $this->getSession());
+                throw new ExpectationException('Plugin column is required.', $this->getSession());
             }
 
             // Verify only allowed keys were provided
-            $allowed = ['type' => 1, 'plugin' => 1, 'settings' => 1];
             $extras = array_diff_key($surveyprodata, $allowed);
             if (!empty($extras)) {
                 $illegal = implode(', ', array_keys($extras));
-                throw new coding_exception('Key/s "' . $illegal . '" are not allowed for surveypro_has_the_following_items');
+                throw new ExpectationException(
+                    'Key/s "' . $illegal . '" are not allowed in surveypro_has_the_following_items',
+                    $this->getSession()
+                );
             }
 
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);

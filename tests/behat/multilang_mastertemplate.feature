@@ -65,7 +65,7 @@ Feature: Test multilang in mastertemplates
 
     And I log out
 
-    When I am on the "Multilang in ATTLS" "surveypro activity" page logged in as student1
+    And I am on the "Multilang in ATTLS" "surveypro activity" page logged in as student1
     And I follow "Language" in the user menu
     And I follow "Italiano"
     And I press "Nuova risposta"

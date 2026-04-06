@@ -21,7 +21,7 @@ Feature: Submit using a select item
     And surveypro "Select test" has the following items:
       | type  | plugin | settings                                                                         |
       | field | select | {"labelother":"other (specify)", "options":"sea\nmountain\nlake\nhills\ndesert"} |
-    When I am on the "Select test" "surveypro activity" page logged in as student1
+    And I am on the "Select test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

@@ -39,8 +39,8 @@ Feature: Test answers are not timezone dependent
       | field  | recurrence  |
       | field  | shortdate   |
       | field  | time        |
+    And I am on the "someanswers" "surveypro activity" page logged in as student1
 
-    When I am on the "someanswers" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the following fields to these values:
       | id_field_age_2_year         | 23      |
@@ -63,7 +63,7 @@ Feature: Test answers are not timezone dependent
 
     And I log out
 
-    When I am on the "someanswers" "surveypro activity" page logged in as student2
+    And I am on the "someanswers" "surveypro activity" page logged in as student2
     And I press "New response"
     And I set the following fields to these values:
       | id_field_age_2_year         | 23      |

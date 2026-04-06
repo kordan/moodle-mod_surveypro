@@ -22,7 +22,7 @@ Feature: Submit using checkbox item and check form validation
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin   | settings                                                                                                             |
       | field | checkbox | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "maximumrequired":"0"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student submits a standard answer
     And I press "New response"
@@ -40,7 +40,7 @@ Feature: Submit using checkbox item and check form validation
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin   | settings                                                                                                             |
       | field | checkbox | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "maximumrequired":"3"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 2: Student ticks too many checkboxes
     And I press "New response"

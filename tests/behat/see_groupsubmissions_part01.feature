@@ -29,7 +29,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
     And surveypro "Verify submission selection" has the following items:
       | type  | plugin    | settings                                          |
       | field | character | {"content":"Enter your name", "customnumber":"1"} |
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 
     And I select "Responses" from the "jump" singleselect
 
@@ -55,7 +55,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # student2 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -75,7 +75,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # teacher1 goes to check for his personal submissions
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "student1" in the "submissions" "table"

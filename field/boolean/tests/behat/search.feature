@@ -24,7 +24,7 @@ Feature: Search using one and two boolean items
       | type  | plugin  | settings                                                   |
       | field | boolean | {"content":"Is it true?", "style":"1", "insearchform":"1"} |
       | field | boolean | {"content":"Do you like it?", "style":"1"}                 |
-    When I am on the "Boolean search form test" "surveypro activity" page logged in as student1
+    And I am on the "Boolean search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

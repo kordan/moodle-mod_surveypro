@@ -24,7 +24,7 @@ Feature: Search using one and two shortdate items
       | type  | plugin    | settings                                                                                                                                                        |
       | field | shortdate | {"content":"When did you pass your driving test?", "required":"1", "customnumber":"1", "lowerbound":"946728000", "upperbound":"1606824000", "insearchform":"1"} |
       | field | shortdate | {"content":"When did you buy your current car?",   "required":"1", "customnumber":"2", "lowerbound":"946728000", "upperbound":"1606824000"}                     |
-    When I am on the "Shortdate search form test" "surveypro activity" page logged in as student1
+    And I am on the "Shortdate search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

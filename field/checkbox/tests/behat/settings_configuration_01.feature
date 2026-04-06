@@ -30,7 +30,7 @@ Feature: Submit using checkbox item and check form validation (1 of 4)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin   | settings                                                                                                                                |
       | field | checkbox | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"", "minimumrequired":"0"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
     And I press "New response"
@@ -69,7 +69,7 @@ Feature: Submit using checkbox item and check form validation (1 of 4)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin   | settings                                                                                                                                |
       | field | checkbox | {"content":"What do you usually get for breakfast?", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"", "minimumrequired":"2"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 4: Student flies over the answer
     And I press "New response"

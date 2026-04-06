@@ -39,7 +39,7 @@ Feature: Set select as parent item
     And I log out
 
     # test the the child item correctly appear or not appear
-    When I am on the "Test select as parent" "surveypro activity" page logged in as student1
+    And I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "id_field_select_1" to "sea"
@@ -77,7 +77,7 @@ Feature: Set select as parent item
     And I log out
 
     # test the the child item correctly appear or not appear
-    When I am on the "Test select as parent" "surveypro activity" page logged in as student1
+    And I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "id_field_select_1" to "sea"
@@ -104,7 +104,7 @@ Feature: Set select as parent item
 
     And I log out
 
-    When I am on the "Test select as parent" "Activity editing" page logged in as teacher1
+    And I am on the "Test select as parent" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Branches increase pages" to "0"
     And I press "Save and display"
@@ -112,7 +112,7 @@ Feature: Set select as parent item
     And I log out
 
     # test the the child item is correctly enabled or disabled
-    When I am on the "Test select as parent" "surveypro activity" page logged in as student1
+    And I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "id_field_select_1" to "sea"
@@ -139,7 +139,7 @@ Feature: Set select as parent item
     And I log out
 
     # test the the child item is correctly enabled or disabled
-    When I am on the "Test select as parent" "surveypro activity" page logged in as student1
+    And I am on the "Test select as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "id_field_select_1" to "sea"

@@ -41,14 +41,14 @@ Feature: Editing a submission, autofill userID is not overwritten
       | field | autofill | {"content":"Your first name", "position":"0", "customnumber":"2", "element01":"userfirstname"} |
       | field | autofill | {"content":"Your last name",  "position":"0", "customnumber":"3", "element01":"userlastname"}  |
       | field | boolean  | {"content":"Is it true?",     "position":"0", "customnumber":"4", "required":"1", "style":"0"} |
+    And I am on the "Preserve autofill" "Activity editing" page logged in as teacher1
 
-    When I am on the "Preserve autofill" "Activity editing" page logged in as teacher1
     And I set the following fields to these values:
       | Group mode | Visible groups |
     And I press "Save and display"
 
     # student1 logs in
-    When I am on the "Preserve autofill" "surveypro activity" page logged in as student1
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as student1
 
     And I press "New response"
 
@@ -65,7 +65,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I log out
 
     # student2 logs in
-    When I am on the "Preserve autofill" "surveypro activity" page logged in as student2
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"
     Then I should see "student1"
@@ -78,7 +78,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I log out
 
     # student1 logs in
-    When I am on the "Preserve autofill" "surveypro activity" page logged in as student1
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
@@ -89,7 +89,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I log out
 
     # teacher1 logs in
-    When I am on the "Preserve autofill" "surveypro activity" page logged in as teacher1
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"
@@ -102,7 +102,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I log out
 
     # student1 logs in
-    When I am on the "Preserve autofill" "surveypro activity" page logged in as student1
+    And I am on the "Preserve autofill" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     And I follow "edit_submission_row_1"

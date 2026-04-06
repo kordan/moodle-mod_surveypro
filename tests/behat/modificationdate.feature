@@ -25,7 +25,7 @@ Feature: Test submission modification time
       | field  | character |
 
     # Let the student start to fill the surveypro
-    When I am on the "Test modification time" "surveypro activity" page logged in as student1
+    And I am on the "Test modification time" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Is it true?" to "1"

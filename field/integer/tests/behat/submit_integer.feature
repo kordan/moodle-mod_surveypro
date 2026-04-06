@@ -21,7 +21,7 @@ Feature: Submit using an integer item
     And surveypro "Integer test" has the following items:
       | type  | plugin  |
       | field | integer |
-    When I am on the "Integer test" "surveypro activity" page logged in as student1
+    And I am on the "Integer test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

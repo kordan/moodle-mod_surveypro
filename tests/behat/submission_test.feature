@@ -57,7 +57,7 @@ Feature: Submit each available item
     And I log out
 
     # student1 logs in
-    When I am on the "Each item submission" "surveypro activity" page logged in as student1
+    And I am on the "Each item submission" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
     And I press "New response"
 
@@ -121,7 +121,7 @@ Feature: Submit each available item
 
     And I log out
 
-    When I am on the "Test submission for each available item" course page logged in as teacher1
+    And I am on the "Test submission for each available item" course page logged in as teacher1
     And I follow "Each item submission"
     And I select "Responses" from the "jump" singleselect
     And I follow "edit_submission_row_1"

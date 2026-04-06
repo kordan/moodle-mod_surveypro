@@ -35,7 +35,7 @@ Feature: Apply a COLLES (preferred) mastertemplate to test graphs
     And I log out
 
     # student1 logs in
-    When I am on the "Run COLLES report" "surveypro activity" page logged in as student1
+    And I am on the "Run COLLES report" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits his first response

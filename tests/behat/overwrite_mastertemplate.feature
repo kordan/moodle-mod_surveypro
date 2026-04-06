@@ -55,7 +55,7 @@ Feature: Verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
+    And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
     # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect
@@ -67,7 +67,7 @@ Feature: Verify the deletion of old items works as expected during master templa
     And I select "Elements" from the "jump" singleselect
     And I press "Yes"
 
-    When I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
+    And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
     # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect

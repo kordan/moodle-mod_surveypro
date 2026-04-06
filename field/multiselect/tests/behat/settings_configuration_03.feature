@@ -30,7 +30,7 @@ Feature: Submit using multiselect item and check form validation (3 of 4)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin      | settings                                                                                                                                                |
       | field | multiselect | {"content":"What do you usually get for breakfast?", "required":"1", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"", "minimumrequired":"0"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 1: Student flies over the answer
     And I press "New response"
@@ -58,7 +58,7 @@ Feature: Submit using multiselect item and check form validation (3 of 4)
     Given surveypro "Surveypro test" has the following items:
       | type  | plugin      | settings                                                                                                                                                |
       | field | multiselect | {"content":"What do you usually get for breakfast?", "required":"1", "options":"milk\ncoffee\nbutter\nbread", "defaultvalue":"", "minimumrequired":"2"} |
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 3: Student flies over the answer
     And I press "New response"

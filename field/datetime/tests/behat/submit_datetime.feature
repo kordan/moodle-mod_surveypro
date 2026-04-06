@@ -21,7 +21,7 @@ Feature: Submit using a datetime item
     And surveypro "Datetime test" has the following items:
       | type  | plugin   | settings                                                                                   |
       | field | datetime | {"required":"1", "indent":"0", "position":"0", "customnumber":"5a", "hideinstruction":"1"} |
-    When I am on the "Datetime test" "surveypro activity" page logged in as student1
+    And I am on the "Datetime test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

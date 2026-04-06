@@ -24,7 +24,7 @@ Feature: Search using one and two time items
       | type  | plugin | settings                                                                                                                                                                                |
       | field | time   | {"content":"At what time do you usually get up in the morning?", "required":"1", "customnumber":"1", "hideinstruction":"1", "lowerbound":"0", "upperbound":"86340", "insearchform":"1"} |
       | field | time   | {"content":"At what time do you usually go to sleep at night?",  "required":"1", "customnumber":"2", "hideinstruction":"1", "lowerbound":"0", "upperbound":"86340"}                     |
-    When I am on the "Time search form test" "surveypro activity" page logged in as student1
+    And I am on the "Time search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

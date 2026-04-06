@@ -39,8 +39,7 @@ Feature: Execute bulk actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
-    And I am on the "Test bulk item actions" "surveypro activity" page
-    And I follow "Layout"
+    And I am on the "Test bulk item actions" "mod_surveypro > Layout from secondary navigation" page
 
     Then I should see "22" visible items
     Then I should see "0" hidden items

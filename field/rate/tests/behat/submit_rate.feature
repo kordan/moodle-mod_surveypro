@@ -22,7 +22,7 @@ Feature: Submit using a rate item
       | type  | plugin | settings                                           |
       | field | rate   | {"position":"1", "style":"0", "customnumber":"h1"} |
       | field | rate   | {"position":"2", "style":"1", "customnumber":"h2"} |
-    When I am on the "Rate test" "surveypro activity" page logged in as student1
+    And I am on the "Rate test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

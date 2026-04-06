@@ -21,13 +21,13 @@ Feature: Test anonymous surveypro are really anonymous
     And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
+    And I am on the "Anonymous surveypro" "Activity editing" page logged in as teacher1
 
-    When I am on the "Anonymous surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
 
-    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
     And I select "Users per count of responses" from the "jump" singleselect
     And I select "Responses per user" from the "jump" singleselect
     And I select "Late users" from the "jump" singleselect
@@ -52,8 +52,8 @@ Feature: Test anonymous surveypro are really anonymous
     And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
+    And I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
-    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
     And I select "Users per count of responses" from the "jump" singleselect
     And I select "Responses per user" from the "jump" singleselect
     And I select "Late users" from the "jump" singleselect
@@ -84,13 +84,13 @@ Feature: Test anonymous surveypro are really anonymous
     And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
+    And I am on the "Anonymous surveypro" "Activity editing" page logged in as teacher1
 
-    When I am on the "Anonymous surveypro" "Activity editing" page logged in as teacher1
     And I expand all fieldsets
     And I set the field "Anonymous responses" to "1"
     And I press "Save and display"
 
-    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
     And I select "Users per count of responses" from the "jump" singleselect
     And I select "Frequency distribution" from the "jump" singleselect
     And I log out
@@ -118,8 +118,8 @@ Feature: Test anonymous surveypro are really anonymous
     And surveypro "Anonymous surveypro" has the following items:
       | type  | plugin  |
       | field | boolean |
+    And I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
-    When I am on the "Anonymous surveypro" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
     And I select "Users per count of responses" from the "jump" singleselect
     And I select "Responses per user" from the "jump" singleselect
     And I select "Late users" from the "jump" singleselect

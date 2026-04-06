@@ -24,7 +24,7 @@ Feature: Search using one and two short text items
       | type  | plugin    | settings                                                     |
       | field | character | {"content":"First name", "required":"1", "insearchform":"1"} |
       | field | character | {"content":"Last name",  "required":"1"}                     |
-    When I am on the "Short text search form test" "surveypro activity" page logged in as student1
+    And I am on the "Short text search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

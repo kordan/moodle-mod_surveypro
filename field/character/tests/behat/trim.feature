@@ -22,7 +22,7 @@ Feature: Test the use of character trim
       | type  | plugin    | settings                                                                                                                                              |
       | field | character | {"content":"This is a standard text", "required":"1", "extranote":"This will not be trimmed", "minlength":"20", "maxlength":"30", "insearchform":"1"} |
       | field | character | {"content":"Text to trim",            "required":"1", "extranote":"This will be trimmed",     "minlength":"20", "maxlength":"30", "trimonsave":"1"}   |
-    When I am on the "Test character trim" "surveypro activity" page logged in as student1
+    And I am on the "Test character trim" "surveypro activity" page logged in as student1
 
     # Test number 1: Student insert a record
     And I press "New response"

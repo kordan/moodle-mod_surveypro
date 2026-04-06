@@ -21,7 +21,7 @@ Feature: Submit using a time item
     And surveypro "Time test" has the following items:
       | type  | plugin | settings                                                            |
       | field | time   | {"content":"At what time...?", "required":"1", "customnumber":"18"} |
-    When I am on the "Time test" "surveypro activity" page logged in as student1
+    And I am on the "Time test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

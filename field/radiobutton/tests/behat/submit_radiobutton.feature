@@ -22,7 +22,7 @@ Feature: Submit using a radiobutton item
       | type  | plugin      | settings                                                                                         |
       | field | radiobutton | {"content":"Which summer holidays place do you prefer?", "customnumber":"12a", "adjustment":"0"} |
       | field | radiobutton | {"content":"Which winter holidays place do you prefer?", "customnumber":"12b", "adjustment":"1"} |
-    When I am on the "Radiobutton test" "surveypro activity" page logged in as student1
+    And I am on the "Radiobutton test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"

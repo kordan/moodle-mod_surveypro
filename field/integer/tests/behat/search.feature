@@ -24,7 +24,7 @@ Feature: Search using one and two integer items
       | type  | plugin  | settings                                                                                                               |
       | field | integer | {"content":"How many people does your family counts?",         "required":"1", "customnumber":"1", "insearchform":"1"} |
       | field | integer | {"content":"How many people does your parents family counts?", "required":"1", "customnumber":"2"}                     |
-    When I am on the "Integer search form test" "surveypro activity" page logged in as student1
+    And I am on the "Integer search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

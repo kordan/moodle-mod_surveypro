@@ -23,7 +23,7 @@ Feature: Submit using a fileupload item
     And surveypro "Attachment test" has the following items:
       | type  | plugin     | settings                     |
       | field | fileupload | {"content":"Upload your CV"} |
-    When I am on the "Attachment test" "surveypro activity" page logged in as student1
+    And I am on the "Attachment test" "surveypro activity" page logged in as student1
 
     # student1 submits
     And I press "New response"
