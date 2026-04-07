@@ -30,6 +30,8 @@ defined('MOODLE_INTERNAL') || die();
  * Expose protected methods of itembase for testing via character item.
  */
 class itembase_test_character_helper extends \surveyprofield_character\item {
+    use itembase_test_creator_trait;
+
     /**
      * Public wrapper for item_split_unix_time().
      *

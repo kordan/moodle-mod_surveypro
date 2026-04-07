@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for view_responsesubmit
+ * Trait for itembase_test_creator
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
@@ -24,11 +24,28 @@
 
 namespace mod_surveypro\tests;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
- * Expose protected methods of itembase for testing via checkbox item.
+ * Test trait for itembase_test_creator.
+ *
+ * @package    core_ai
+ * @category   test
+ * @copyright  2025 Stevani Andolo <stevani@hotmail.com.au>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class itembase_test_checkbox_helper extends \surveyprofield_checkbox\item {
-    use itembase_test_creator_trait;
+trait itembase_test_creator_trait {
+    /**
+     * Creates an item of the calling class.
+     *
+     * @param \advanced_testcase $atc
+     * @return static
+     */
+    public static function create(\advanced_testcase $atc): static {
+        $atc->setAdminUser();
+
+        $course = $atc->getDataGenerator()->create_course();
+        $surveypro = $atc->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
+
+        return new static($cm, $surveypro, 0, false);
+    }
 }

@@ -30,4 +30,5 @@ defined('MOODLE_INTERNAL') || die();
  * Expose protected methods of itembase for testing via select item.
  */
 class itembase_test_select_helper extends \surveyprofield_select\item {
+    use itembase_test_creator_trait;
 }

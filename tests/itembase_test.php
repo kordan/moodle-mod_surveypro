@@ -36,52 +36,6 @@ defined('MOODLE_INTERNAL') || die();
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\itembase::class)]
 final class itembase_test extends \advanced_testcase {
     // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Instantiate itembase_test_character_helper with minimal dependencies.
-     *
-     * @return itembase_test_character_helper
-     */
-    private function make_character_item(): itembase_test_character_helper {
-        $this->setAdminUser();
-        $course = $this->getDataGenerator()->create_course();
-        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
-        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-
-        return new itembase_test_character_helper($cm, $surveypro, 0, false);
-    }
-
-    /**
-     * Instantiate itembase_test_select_helper with minimal dependencies.
-     *
-     * @return itembase_test_select_helper
-     */
-    private function make_checkbox_item(): itembase_test_checkbox_helper {
-        $this->setAdminUser();
-        $course = $this->getDataGenerator()->create_course();
-        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
-        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-
-        return new itembase_test_checkbox_helper($cm, $surveypro, 0, false);
-    }
-
-    /**
-     * Instantiate itembase_test_select_helper with minimal dependencies.
-     *
-     * @return itembase_test_select_helper
-     */
-    private function make_select_item(): itembase_test_select_helper {
-        $this->setAdminUser();
-        $course = $this->getDataGenerator()->create_course();
-        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
-        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-
-        return new itembase_test_select_helper($cm, $surveypro, 0, false);
-    }
-
-    // -------------------------------------------------------------------------
     // Tests for item_split_unix_time()
     // -------------------------------------------------------------------------
 
@@ -91,8 +45,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_split_unix_time_returns_expected_keys(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->call_item_split_unix_time(mktime(10, 30, 0, 6, 15, 2024));
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->call_item_split_unix_time(mktime(10, 30, 0, 6, 15, 2024));
 
         $this->assertArrayHasKey('year', $result);
         $this->assertArrayHasKey('mon', $result);
@@ -107,8 +61,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_split_unix_time_correct_values(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->call_item_split_unix_time(gmmktime(10, 30, 0, 6, 15, 2024));
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->call_item_split_unix_time(gmmktime(10, 30, 0, 6, 15, 2024));
 
         $this->assertEquals(2024, $result['year']);
         $this->assertEquals(6, $result['mon']);
@@ -123,8 +77,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_split_unix_time_returns_integers(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->call_item_split_unix_time(mktime(0, 0, 0, 1, 1, 2024));
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->call_item_split_unix_time(mktime(0, 0, 0, 1, 1, 2024));
 
         foreach ($result as $value) {
             $this->assertIsInt($value);
@@ -141,7 +95,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_uses_form_page_returns_true(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
+        $item = itembase_test_character_helper::create($this);
         $this->assertTrue($item->item_uses_form_page());
     }
 
@@ -155,7 +109,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_left_position_allowed_returns_true(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
+        $item = itembase_test_character_helper::create($this);
         $this->assertTrue($item->item_left_position_allowed());
     }
 
@@ -208,8 +162,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_expected_null_fields_returns_array(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->item_expected_null_fields();
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->item_expected_null_fields();
 
         $this->assertIsArray($result);
     }
@@ -220,10 +174,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_expected_null_fields_matches_insetupform(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->item_expected_null_fields();
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->item_expected_null_fields();
 
-        foreach ($item->insetupform as $field => $value) {
+        foreach ($characteritem->insetupform as $field => $value) {
             if (!$value) {
                 $this->assertContains($field, $result);
             }
@@ -240,8 +194,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_get_base_multilang_fields_with_meta(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->get_base_multilang_fields(true);
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->get_base_multilang_fields(true);
 
         $this->assertContains('content', $result);
         $this->assertContains('filename', $result);
@@ -255,8 +209,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_get_base_multilang_fields_without_meta(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $result = $item->get_base_multilang_fields(false);
+        $characteritem = itembase_test_character_helper::create($this);
+        $result = $characteritem->get_base_multilang_fields(false);
 
         $this->assertContains('content', $result);
         $this->assertNotContains('filename', $result);
@@ -338,8 +292,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_is_child_returns_false_without_parent(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $this->assertFalse($item->item_is_child());
+        $characteritem = itembase_test_character_helper::create($this);
+        $this->assertFalse($characteritem->item_is_child());
     }
 
     /**
@@ -348,10 +302,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_is_child_returns_true_with_parent(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_parentid(42);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_parentid(42);
 
-        $this->assertTrue($item->item_is_child());
+        $this->assertTrue($characteritem->item_is_child());
     }
 
     // -------------------------------------------------------------------------
@@ -364,10 +318,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_itemid(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_itemid(42);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_itemid(42);
 
-        $this->assertEquals(42, $item->get_itemid());
+        $this->assertEquals(42, $characteritem->get_itemid());
     }
 
     /**
@@ -376,10 +330,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_type(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_type(SURVEYPRO_TYPEFIELD);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_type(SURVEYPRO_TYPEFIELD);
 
-        $this->assertEquals(SURVEYPRO_TYPEFIELD, $item->get_type());
+        $this->assertEquals(SURVEYPRO_TYPEFIELD, $characteritem->get_type());
     }
 
     /**
@@ -388,10 +342,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_plugin(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_plugin('character');
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_plugin('character');
 
-        $this->assertEquals('character', $item->get_plugin());
+        $this->assertEquals('character', $characteritem->get_plugin());
     }
 
     /**
@@ -400,10 +354,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_required(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_required(1);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_required(1);
 
-        $this->assertEquals(1, $item->get_required());
+        $this->assertEquals(1, $characteritem->get_required());
     }
 
     /**
@@ -412,10 +366,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_hidden(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_hidden(1);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_hidden(1);
 
-        $this->assertEquals(1, $item->get_hidden());
+        $this->assertEquals(1, $characteritem->get_hidden());
     }
 
     /**
@@ -424,10 +378,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_sortindex(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_sortindex(5);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_sortindex(5);
 
-        $this->assertEquals(5, $item->get_sortindex());
+        $this->assertEquals(5, $characteritem->get_sortindex());
     }
 
     /**
@@ -436,10 +390,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_parentid(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_parentid(10);
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_parentid(10);
 
-        $this->assertEquals(10, $item->get_parentid());
+        $this->assertEquals(10, $characteritem->get_parentid());
     }
 
     /**
@@ -448,10 +402,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_set_get_variable(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
-        $item->set_variable('myvar');
+        $characteritem = itembase_test_character_helper::create($this);
+        $characteritem->set_variable('myvar');
 
-        $this->assertEquals('myvar', $item->get_variable());
+        $this->assertEquals('myvar', $characteritem->get_variable());
     }
 
     // -------------------------------------------------------------------------
@@ -464,7 +418,8 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_canbesettomandatory_no_properties(): void {
         $this->resetAfterTest();
 
-        $selectitem = $this->make_select_item();
+        $selectitem = itembase_test_select_helper::create($this);
+
         $this->assertTrue($selectitem->item_canbesettomandatory());
     }
 
@@ -474,7 +429,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_canbesettomandatory_defaultoption_noanswer(): void {
         $this->resetAfterTest();
 
-        $selectitem = $this->make_select_item();
+        $selectitem = itembase_test_select_helper::create($this);
         $selectitem->set_defaultoption(SURVEYPRO_NOANSWERDEFAULT);
 
         $this->assertFalse($selectitem->item_canbesettomandatory());
@@ -486,7 +441,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_canbesettomandatory_defaultoption_custom(): void {
         $this->resetAfterTest();
 
-        $selectitem = $this->make_select_item();
+        $selectitem = itembase_test_select_helper::create($this);
         $selectitem->set_defaultoption(SURVEYPRO_CUSTOMDEFAULT);
 
         $this->assertTrue($selectitem->item_canbesettomandatory());
@@ -498,7 +453,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_canbesettomandatory_noanswerdefault_true(): void {
         $this->resetAfterTest();
 
-        $checkboxitem = $this->make_checkbox_item();
+        $checkboxitem = itembase_test_checkbox_helper::create($this);
         $checkboxitem->set_options("first\nsecond"); // Needed to set noanswerdefault.
         $checkboxitem->set_noanswerdefault(1);
 
@@ -511,7 +466,7 @@ final class itembase_test extends \advanced_testcase {
     public function test_item_canbesettomandatory_noanswerdefault_false(): void {
         $this->resetAfterTest();
 
-        $checkboxitem = $this->make_checkbox_item();
+        $checkboxitem = itembase_test_checkbox_helper::create($this);
         $checkboxitem->set_noanswerdefault(0);
 
         $this->assertTrue($checkboxitem->item_canbesettomandatory());
@@ -527,10 +482,10 @@ final class itembase_test extends \advanced_testcase {
     public function test_build_variablename_candidates_without_variable(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
+        $characteritem = itembase_test_character_helper::create($this);
         $record = new \stdClass();
 
-        [$testname, $basename] = $item->call_build_variablename_candidates($record);
+        [$testname, $basename] = $characteritem->call_build_variablename_candidates($record);
 
         $this->assertEquals('character_001', $testname);
         $this->assertEquals('character', $basename);
@@ -542,11 +497,11 @@ final class itembase_test extends \advanced_testcase {
     public function test_build_variablename_candidates_strips_numeric_suffix(): void {
         $this->resetAfterTest();
 
-        $item = $this->make_character_item();
+        $characteritem = itembase_test_character_helper::create($this);
         $record = new \stdClass();
         $record->variable = 'myfield_123';
 
-        [$testname, $basename] = $item->call_build_variablename_candidates($record);
+        [$testname, $basename] = $characteritem->call_build_variablename_candidates($record);
 
         $this->assertEquals('myfield_123', $testname);
         $this->assertEquals('myfield', $basename);
