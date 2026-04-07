@@ -595,6 +595,7 @@ EOS;
 
         $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
         $attributes['id'] = $baseid;
+        $attributes['aria-label'] = get_string('pluginname', 'surveyprofield_multiselect');
         $attributes['size'] = $this->heightinrows;
 
         $select = $mform->createElement('select', $basename, '', $labels, $attributes);

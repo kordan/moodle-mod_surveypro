@@ -45,6 +45,25 @@ class behat_mod_surveypro extends behat_base
     use core_behat_file_helper;
 
     /**
+     * Disabilita TinyMCE prima di ogni scenario per velocizzare i test.
+     *
+     * @BeforeScenario
+     */
+    public function disable_richtext_editor(): void {
+        set_config('texteditors', 'textarea,tiny,atto');
+    }
+
+    /**
+     * @Given /^I switch to plaintext editor for user "([^"]*)"$/
+     */
+    public function i_switch_to_plaintext_editor_for_user(string $username) {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        set_user_preference('htmleditor', 'textarea', $user->id);
+    }
+
+    /**
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
      *
      * Recognised page names are:
@@ -320,6 +339,8 @@ class behat_mod_surveypro extends behat_base
                     $customsettings['content_editor'] = ['text' => $customsettings['content']];
                     unset($customsettings['content']);
                 }
+            } else {
+                $customsettings = []; // Do not inherit previous items settings.
             }
 
             // Get dummy contents based on type and plugin.

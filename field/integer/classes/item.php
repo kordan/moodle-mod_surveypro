@@ -493,6 +493,7 @@ EOS;
         $basename = $this->itemname;
 
         $attributes = ['id' => $baseid];
+        $attributes['aria-label'] = get_string('pluginname', 'surveyprofield_integer');
         $elementgroup[] = $mform->createElement('select', $basename, '', $integers, $attributes);
         $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
 

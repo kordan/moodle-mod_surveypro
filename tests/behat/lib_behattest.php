@@ -59,7 +59,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
     if ($type === SURVEYPRO_TYPEFIELD) {
         $map = [
             'age' => [
-                'content_editor' => ['text' => 'How old were you when you started cycling?'],
+                'content_editor' => ['text' => 'How old were you when you learned to ride a bike?'],
                 'defaultoption' => '2',
                 'lowerboundyear' => '0',
                 'lowerboundmonth' => '0',

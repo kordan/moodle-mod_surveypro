@@ -144,6 +144,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
 
         $renderer = $PAGE->get_renderer('mod_surveypro');
@@ -226,6 +227,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
 
         $renderer = $PAGE->get_renderer('mod_surveypro');
@@ -272,6 +274,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -347,6 +350,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -400,6 +404,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -444,6 +449,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);

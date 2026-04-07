@@ -962,14 +962,19 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_day';
+        $attributes['aria-label'] = get_string('day');
         $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
         $attributes['id'] = $baseid . '_year';
+        $attributes['aria-label'] = get_string('year');
         $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
         $attributes['id'] = $baseid . '_hour';
+        $attributes['aria-label'] = get_string('hour');
         $elementgroup[] = $mform->createElement('select', $basename . '_hour', '', $hours, $attributes);
         $attributes['id'] = $baseid . '_minute';
+        $attributes['aria-label'] = get_string('minute');
         $elementgroup[] = $mform->createElement('select', $basename . '_minute', '', $minutes, $attributes);
 
         $separator = [' ', ' '];

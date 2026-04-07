@@ -625,6 +625,7 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_year';
+        $attributes['aria-label'] = get_string('years');
         $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
 
         if ($readonly) {
@@ -634,6 +635,7 @@ EOS;
         }
 
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
 
         if ($readonly) {

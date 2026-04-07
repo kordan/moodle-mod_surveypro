@@ -575,6 +575,7 @@ EOS;
         // End of: element values.
 
         $attributes = ['id' => $baseid, 'class' => 'indent-' . $this->indent . ' select_select'];
+        $attributes['aria-label'] = get_string('pluginname', 'surveyprofield_select');
         $elementgroup[] = $mform->createElement('select', $basename, '', $labels, $attributes);
         if ($this->labelother) {
             $attributes = ['id' => $baseid . '_text'];

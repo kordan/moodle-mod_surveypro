@@ -21,6 +21,7 @@ Feature: Create an age item
     And surveypro "Test age setup form" has the following items:
       | type  | plugin  |
       | field | boolean |
+    # And I switch to plaintext editor for user "teacher1"
     And I am on the "Test age setup form" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     # add an age item
@@ -29,26 +30,26 @@ Feature: Create an age item
 
     And I expand all fieldsets
     And I set the following fields to these values:
-      | Content                  | How old were you when you started cycling? |
-      | Required                 | 1                                          |
-      | Indent                   | 1                                          |
-      | Question position        | left                                       |
-      | Element number           | II.a                                       |
-      | Hide filling instruction | 1                                          |
-      | Variable                 | A1                                         |
-      | Additional note          | Additional note                            |
-      | Hidden                   | 1                                          |
-      | Search form              | 1                                          |
-      | Reserved                 | 1                                          |
-      | Parent element           | Boolean [1]: Is it true?                   |
-      | Parent content           | 1                                          |
-      | Custom                   | 1                                          |
-      | id_defaultvalueyear      | 14                                         |
-      | id_defaultvaluemonth     | 7                                          |
-      | id_lowerboundyear        | 14                                         |
-      | id_lowerboundmonth       | 4                                          |
-      | id_upperboundyear        | 14                                         |
-      | id_upperboundmonth       | 4                                          |
+      | Content                  | How old were you when you learned to ride a bike? |
+      | Required                 | 1                                                 |
+      | Indent                   | 1                                                 |
+      | Question position        | left                                              |
+      | Element number           | II.a                                              |
+      | Hide filling instruction | 1                                                 |
+      | Variable                 | A1                                                |
+      | Additional note          | Additional note                                   |
+      | Hidden                   | 1                                                 |
+      | Search form              | 1                                                 |
+      | Reserved                 | 1                                                 |
+      | Parent element           | Boolean [1]: Is it true?                          |
+      | Parent content           | 1                                                 |
+      | Custom                   | 1                                                 |
+      | id_defaultvalueyear      | 14                                                |
+      | id_defaultvaluemonth     | 7                                                 |
+      | id_lowerboundyear        | 14                                                |
+      | id_lowerboundmonth       | 4                                                 |
+      | id_upperboundyear        | 14                                                |
+      | id_upperboundmonth       | 4                                                 |
     And I press "Add"
 
     Then I should see "Default does not fall within the specified range"
@@ -64,7 +65,7 @@ Feature: Create an age item
     And I press "Add"
 
     And I follow "edit_item_2"
-    Then the field "Content" matches value "How old were you when you started cycling?"
+    Then the field "Content" matches value "How old were you when you learned to ride a bike?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
@@ -90,7 +91,7 @@ Feature: Create an age item
 
     And I follow "show_item_2"
     And I select "Preview" from the "jump" singleselect
-    Then I should see "II.a How old were you when you started cycling?"
+    Then I should see "II.a How old were you when you learned to ride a bike?"
     Then the field "id_field_age_2_year" matches value "14"
     Then the field "id_field_age_2_month" matches value "7"
     Then I should see "Additional note"

@@ -654,8 +654,10 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_hour';
+        $attributes['aria-label'] = get_string('hour');
         $elementgroup[] = $mform->createElement('select', $basename . '_hour', '', $hours, $attributes);
         $attributes['id'] = $baseid . '_minute';
+        $attributes['aria-label'] = get_string('minute');
         $elementgroup[] = $mform->createElement('select', $basename . '_minute', '', $minutes, $attributes);
 
         $separator = [':'];

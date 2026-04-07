@@ -54,7 +54,18 @@ class layout_required extends \core\output\inplace_editable
         $this->sortindex = $sortindex;
 
         $required = clean_param($required, PARAM_INT);
-        parent::__construct('mod_surveypro', 'layout_required', $itemid, true, '', $required);
+        $changerequired = get_string('changerequiredstatus', 'mod_surveypro');
+
+        parent::__construct(
+            'mod_surveypro',
+            'layout_required',
+            $itemid,
+            true,
+            $required,
+            $required,
+            $changerequired,
+            $changerequired,
+        );
         $this->set_type_toggle();
     }
 

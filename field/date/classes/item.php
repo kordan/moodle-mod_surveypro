@@ -733,12 +733,15 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_day';
+        $attributes['aria-label'] = get_string('day');
         $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
 
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
 
         $attributes['id'] = $baseid . '_year';
+        $attributes['aria-label'] = get_string('year');
         $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
 
         if ($this->required) {
