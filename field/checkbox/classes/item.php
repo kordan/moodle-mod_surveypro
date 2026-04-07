@@ -660,7 +660,7 @@ EOS;
             $attributes['id'] = $baseid . '_' . $i;
             $elementgroup[] = $mform->createElement('advcheckbox', $itemname, '', $label, $attributes, $options);
 
-            if (!$searchformelementscount) {
+            if ((!$searchformelementscount) && (!$readonly)) {
                 if (in_array($label, $defaults)) {
                     $mform->setDefault($itemname, '1');
                 }
@@ -679,7 +679,7 @@ EOS;
             $elementgroup[] = $mform->createElement('text', $basename . '_text', '', $attributes);
             $mform->setType($basename . '_text', PARAM_RAW);
 
-            if (!$searchformelementscount) {
+            if ((!$searchformelementscount) && (!$readonly)) {
                 $mform->setDefault($basename . '_text', $othervalue);
                 if (in_array($otherlabel, $defaults)) {
                     $mform->setDefault($basename . '_other', '1');
@@ -693,8 +693,10 @@ EOS;
             $noanswerstr = get_string('noanswer', 'surveypro');
             $options = ['0', '1'];
             $elementgroup[] = $mform->createElement('advcheckbox', $basename . '_noanswer', '', $noanswerstr, $attributes, $options);
-            if (!empty($this->noanswerdefault)) {
-                $mform->setDefault($basename . '_noanswer', '1');
+            if (!$searchformelementscount) {
+                if (!empty($this->noanswerdefault)) {
+                    $mform->setDefault($basename . '_noanswer', '1');
+                }
             }
         }
 
@@ -709,23 +711,21 @@ EOS;
             $mform->disabledIf($basename . '_group', $basename . '_noanswer', 'checked');
         }
 
-        if ($searchformelementscount) {
-            if ($searchformelementscount > 1) {
-                $this->item_add_color_unifier($mform);
+        if ($searchformelementscount > 1) {
+            $this->item_add_color_unifier($mform);
 
-                $elementgroup = [];
-                $itemname = $basename . '_ignoreme';
-                $attributes['id'] = $baseid . '_ignoreme';
-                $elementgroup[] = $mform->createElement('checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
-                $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
-                $mform->setDefault($itemname, '1');
+            $elementgroup = [];
+            $itemname = $basename . '_ignoreme';
+            $attributes['id'] = $baseid . '_ignoreme';
+            $elementgroup[] = $mform->createElement('checkbox', $itemname, '', get_string('star', 'mod_surveypro'), $attributes);
+            $mform->addGroup($elementgroup, $itemname . '_group', '', '', false, $class);
+            $mform->setDefault($itemname, '1');
 
-                $mform->disabledIf($basename . '_group', $itemname, 'checked');
-            }
+            $mform->disabledIf($basename . '_group', $itemname, 'checked');
         }
 
-        if (!$searchformelementscount) {
-            if ($this->required) {
+        if ($this->required) {
+            if (!$searchformelementscount) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because:
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.

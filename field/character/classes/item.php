@@ -501,7 +501,17 @@ EOS;
             $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
 
             $mform->setType($basename, PARAM_RAW);
-            $mform->setDefault($basename, $this->defaultvalue);
+
+            // Defaults have a serious issue.
+            // I need to apply the default ONLY IF
+            // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+            // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+            // If the answer is not present in the database
+            // because it’s a child field and its parent prevented the input
+            // I need to leave the field empty without applying the default.
+            if (!$readonly) {
+                $mform->setDefault($basename, $this->defaultvalue);
+            }
 
             if ($this->required) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...

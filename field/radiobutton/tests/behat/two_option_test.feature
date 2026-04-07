@@ -16,7 +16,7 @@ Feature: Load and apply mum_or_dad usertemplates to test preview do not rise up 
       | user     | course     | role           |
       | teacher1 | Mum or dad | editingteacher |
     And the following "activities" exist:
-      | activity  | name                  | intro                             | course     |
+      | activity  | name                  | intro                              | course     |
       | surveypro | Test two options only | Surveypro to test two options only | Mum or dad |
 
     And I am on the "Test two options only" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"

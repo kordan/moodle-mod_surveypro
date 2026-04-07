@@ -64,7 +64,7 @@ Feature: Thanks users properly
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
 
-  @javascript @_file_upload @editor_tiny
+  @javascript @_file_upload @editor_tiny @use_editor
   Scenario: Test the thanks page with images
     Given I log in as "teacher1"
     And I follow "Manage private files"

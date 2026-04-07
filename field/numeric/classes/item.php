@@ -494,8 +494,10 @@ EOS;
 
         // Begin of: defaults.
         if (!$searchformelementscount) {
-            if (core_text::strlen($this->defaultvalue)) {
-                $mform->setDefault($basename, "$this->defaultvalue");
+            if (!$readonly) {
+                if (core_text::strlen($this->defaultvalue)) {
+                    $mform->setDefault($basename, "$this->defaultvalue");
+                }
             }
         } else {
             if ($searchformelementscount > 1) {

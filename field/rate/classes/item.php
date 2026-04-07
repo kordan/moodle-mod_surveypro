@@ -538,28 +538,39 @@ EOS;
                 $mform->setDefault($basename . '_noanswer', '1');
             }
         }
-
-        switch ($this->defaultoption) {
-            case SURVEYPRO_CUSTOMDEFAULT:
-                foreach ($options as $row => $option) {
-                    $uniquename = $basename . '_' . $row;
-                    $defaultindex = array_search($defaultvalues[$row], $rates);
-                    $mform->setDefault($uniquename, "$defaultindex");
+        // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
+        if (!$searchformelementscount) {
+            if (!$readonly) {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_CUSTOMDEFAULT:
+                        foreach ($options as $row => $option) {
+                            $uniquename = $basename . '_' . $row;
+                            $defaultindex = array_search($defaultvalues[$row], $rates);
+                            $mform->setDefault($uniquename, "$defaultindex");
+                        }
+                        break;
+                    case SURVEYPRO_INVITEDEFAULT:
+                        foreach ($options as $row => $option) {
+                            $uniquename = $basename . '_' . $row;
+                            $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
+                        }
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $uniquename = $basename . '_noanswer[checkbox]';
+                        $mform->setDefault($uniquename, 1);
+                        break;
+                    default:
+                        $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
                 }
-                break;
-            case SURVEYPRO_INVITEDEFAULT:
-                foreach ($options as $row => $option) {
-                    $uniquename = $basename . '_' . $row;
-                    $mform->setDefault($uniquename, SURVEYPRO_INVITEVALUE);
-                }
-                break;
-            case SURVEYPRO_NOANSWERDEFAULT:
-                $uniquename = $basename . '_noanswer[checkbox]';
-                $mform->setDefault($uniquename, 1);
-                break;
-            default:
-                $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
-                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+            }
         }
     }
 
@@ -668,7 +679,11 @@ EOS;
     public function userform_get_prefill($fromdb) {
         $prefill = [];
 
-        if (!$fromdb) { // Param $fromdb may be boolean false for not existing data.
+        if (!$fromdb) {
+            $optionscount = count($this->get_textarea_content(SURVEYPRO_LABELS, 'options'));
+            for ($i = 0; $i < $optionscount; $i++) {
+                $prefill[$this->itemname . '_' . $i] = '';
+            }
             return $prefill;
         }
 

@@ -240,13 +240,20 @@ final class layout_itemlist_test extends \advanced_testcase {
         $result = $manager->call_get_icon_set();
 
         $this->assertArrayHasKey('editstr', $result);
-        $this->assertArrayHasKey('editicn', $result);
+        $this->assertArrayHasKey('parentelementstr', $result);
+        $this->assertArrayHasKey('reorderstr', $result);
+        $this->assertArrayHasKey('hidestr', $result);
+        $this->assertArrayHasKey('showstr', $result);
         $this->assertArrayHasKey('deletestr', $result);
-        $this->assertArrayHasKey('deleteicn', $result);
+        $this->assertArrayHasKey('outdentstr', $result);
+        $this->assertArrayHasKey('indentstr', $result);
         $this->assertArrayHasKey('moveherestr', $result);
-        $this->assertArrayHasKey('movehereicn', $result);
-        $this->assertArrayHasKey('lefticn', $result);
-        $this->assertArrayHasKey('righticn', $result);
+        $this->assertArrayHasKey('availablestr', $result);
+        $this->assertArrayHasKey('reservedstr', $result);
+        $this->assertArrayHasKey('unreservablestr', $result);
+        $this->assertArrayHasKey('unsearchablestr', $result);
+        $this->assertArrayHasKey('unavailablestr', $result);
+        $this->assertArrayHasKey('forcedoptionalstr', $result);
     }
 
     /**
