@@ -59,7 +59,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
     if ($type === SURVEYPRO_TYPEFIELD) {
         $map = [
             'age' => [
-                'content_editor' => ['text' => 'How old were you when you started cycling?'],
+                'content_editor' => ['text' => 'How old were you when you learned to ride a bike?'],
                 'defaultoption' => '2',
                 'lowerboundyear' => '0',
                 'lowerboundmonth' => '0',
@@ -164,6 +164,7 @@ function surveypro_get_dummy_contents(string $type, string $plugin, array $custo
                 'options' => "EN\nES\nIT\nFR",
                 'rates' => "Mother tongue\nVery confident\nSomewhat confident\nNot confident at all",
                 'style' => '0',
+                'position' => '1',
                 'defaultoption' => '2',
                 'downloadformat' => '1',
             ],

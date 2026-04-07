@@ -53,7 +53,17 @@ class layout_reserved extends \core\output\inplace_editable
         $this->sortindex = $sortindex;
 
         $reserved = clean_param($reserved, PARAM_INT);
-        parent::__construct('mod_surveypro', 'layout_reserved', $itemid, true, '', $reserved);
+        $changereserved = get_string('changereservedstatus', 'mod_surveypro');
+        parent::__construct(
+            'mod_surveypro',
+            'layout_reserved',
+            $itemid,
+            true,
+            $reserved,
+            $reserved,
+            $changereserved,
+            $changereserved,
+        );
         $this->set_type_toggle();
     }
 

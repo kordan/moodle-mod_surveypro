@@ -623,15 +623,18 @@ EOS;
         // End of: element values.
 
         // Begin of: mform element.
-        $attributes = [];
-        $elementgroup = [];
-        $baseid = 'id_field_recurrence_' . $this->sortindex;
         $class = ['class' => 'indent-' . $this->indent];
+        $baseid = 'id_field_recurrence_' . $this->sortindex;
+        $elementgroup = [];
+        $attributes = [];
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_day';
+        $attributes['aria-label'] = get_string('day');
         $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
+
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
 
         if ($this->required) {
@@ -684,41 +687,52 @@ EOS;
         // End of: mform element.
 
         // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
         if (!$searchformelementscount) {
-            switch ($this->defaultoption) {
-                case SURVEYPRO_INVITEDEFAULT:
-                    $recurrencearray['mday'] = SURVEYPRO_INVITEVALUE;
-                    $recurrencearray['mon'] = SURVEYPRO_INVITEVALUE;
-                    break;
-                case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($basename . '_noanswer', '1');
-                    // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
-                case SURVEYPRO_CUSTOMDEFAULT:
-                    $recurrencearray = $this->item_split_unix_time($this->defaultvalue);
-                    break;
-                case SURVEYPRO_TIMENOWDEFAULT:
-                    $recurrencearray = $this->item_split_unix_time(time());
-                    break;
-                case SURVEYPRO_LIKELASTDEFAULT:
-                    // Look for the most recent submission I made.
-                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                    $where = ['userid' => $USER->id];
-                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                        $recurrencearray = $this->item_split_unix_time($time);
-                    } else { // As in standard default.
+            if (!$readonly) {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_INVITEDEFAULT:
+                        $recurrencearray['mday'] = SURVEYPRO_INVITEVALUE;
+                        $recurrencearray['mon'] = SURVEYPRO_INVITEVALUE;
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $mform->setDefault($basename . '_noanswer', '1');
+                        // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
+                    case SURVEYPRO_CUSTOMDEFAULT:
+                        $recurrencearray = $this->item_split_unix_time($this->defaultvalue);
+                        break;
+                    case SURVEYPRO_TIMENOWDEFAULT:
                         $recurrencearray = $this->item_split_unix_time(time());
-                    }
-                    break;
-                default:
-                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
-                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                        break;
+                    case SURVEYPRO_LIKELASTDEFAULT:
+                        // Look for the most recent submission I made.
+                        $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                        $where = ['userid' => $USER->id];
+                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                        $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                        $time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING);
+                        if ($time === false) {
+                            // There is not a previous answer.
+                            // Apply defaults only in SURVEYPRO_NEWRESPONSEMODE
+                            $datearray = $this->item_split_unix_time(time());
+                        } else {
+                            $datearray = $this->item_split_unix_time($time);
+                        }
+                        break;
+                    default:
+                        $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                }
+                $mform->setDefault($basename . '_day', $recurrencearray['mday']);
+                $mform->setDefault($basename . '_month', $recurrencearray['mon']);
             }
-            $mform->setDefault($basename . '_day', $recurrencearray['mday']);
-            $mform->setDefault($basename . '_month', $recurrencearray['mon']);
-        }
-        if ($searchformelementscount) {
+        } else {
             if ($searchformelementscount > 1) {
                 $mform->setDefault($basename . '_ignoreme', '1');
             }

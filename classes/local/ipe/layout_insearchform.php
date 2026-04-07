@@ -53,7 +53,18 @@ class layout_insearchform extends \core\output\inplace_editable
         $this->sortindex = $sortindex;
 
         $insearchform = clean_param($insearchform, PARAM_INT);
-        parent::__construct('mod_surveypro', 'layout_insearchform', $itemid, true, '', $insearchform);
+        $chenageinsearchform = get_string('changesearchablestatus', 'mod_surveypro');
+
+        parent::__construct(
+            'mod_surveypro',
+            'layout_insearchform',
+            $itemid,
+            true,
+            $insearchform,
+            $insearchform,
+            $chenageinsearchform,
+            $chenageinsearchform,
+        );
         $this->set_type_toggle();
     }
 

@@ -646,142 +646,6 @@ class view_responselist
     }
 
     /**
-     * Display the submissions table.
-     *
-     * @return void
-     */
-    public function display_submissions_table() {
-        global $CFG, $OUTPUT, $DB, $COURSE, $USER;
-
-        require_once($CFG->libdir . '/tablelib.php');
-
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
-
-        $tablestate = $this->get_submissions_table_state($canalwaysseeowner);
-
-        $table = new \flexible_table('submissionslist');
-
-        if ($canseeotherssubmissions) {
-            $table->initialbars(true);
-        }
-
-        $paramurl = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
-        if ($this->searchquery) {
-            $paramurl['searchquery'] = $this->searchquery;
-        }
-        $baseurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-        $table->define_baseurl($baseurl);
-
-        $tablecolumns = $this->get_submissions_table_columns($tablestate);
-        $table->define_columns($tablecolumns);
-
-        $tableheaders = $this->get_submissions_table_headers($tablestate);
-        $table->define_headers($tableheaders);
-
-        $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
-        $table->no_sorting('actions');
-
-        $table->column_class('picture', 'picture');
-        $table->column_class('fullname', 'fullname');
-        $table->column_class('status', 'status');
-        $table->column_class('timecreated', 'timecreated');
-        if ($tablestate['showtimemodified']) {
-            $table->column_class('timemodified', 'timemodified');
-        }
-        $table->column_class('actions', 'actions');
-
-        // Hide the same info whether in two consecutive rows.
-        if ($tablestate['showowner']) {
-            $table->column_suppress('picture');
-            $table->column_suppress('fullname');
-        }
-
-        // General properties for the whole table.
-        $table->set_attribute('cellpadding', 5);
-        $table->set_attribute('id', 'submissions');
-        $table->set_attribute('class', 'generaltable');
-        $table->set_attribute('align', 'center');
-        $table->setup();
-
-        $status = [];
-        $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
-        $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
-
-        $neverstr = get_string('never');
-
-        $counter = $this->get_counter($table);
-        $table->pagesize(20, $counter['closedsubmissions'] + $counter['inprogresssubmissions']);
-
-        $this->display_submissions_overview(
-            $counter['enrolled'],
-            $counter['allusers'],
-            $counter['closedsubmissions'],
-            $counter['closedusers'],
-            $counter['inprogresssubmissions'],
-            $counter['inprogressusers']
-        );
-
-        [$sql, $whereparams] = $this->get_submissions_sql($table);
-        $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
-        if ($submissions->valid()) {
-            $actionresources = $this->get_submission_action_resources();
-
-            $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
-            if ($groupmode) { // Activity is divided into groups.
-                $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
-                $mygroupmates = $utilitysubmissionman->get_groupmates();
-            } else {
-                $mygroupmates = [];
-            }
-
-            $tablerowcounter = 0;
-            $paramurlbase = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
-
-            foreach ($submissions as $submission) {
-                // Count each submission.
-                $tablerowcounter++;
-                $submissionsuffix = 'row_' . $tablerowcounter;
-
-                $flags = $this->get_submission_flags(
-                    $submission,
-                    (int)$USER->id,
-                    $canaccessallgroups,
-                    (bool)$groupmode,
-                    $mygroupmates
-                );
-
-                $tablerow = $this->build_submission_tablerow(
-                    $submission,
-                    $tablestate,
-                    $status,
-                    $neverstr,
-                    $flags,
-                    $submissionsuffix,
-                    $paramurlbase,
-                    $actionresources,
-                    $COURSE->id
-                );
-
-                // Add row to the table.
-                $table->add_data($tablerow);
-            }
-        }
-        $submissions->close();
-
-        $table->print_html();
-
-        // If this is the output of a search and nothing has been found add a way to show all submissions.
-        if (!isset($tablerow) && ($this->searchquery)) {
-            $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
-            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            $label = get_string('showallsubmissions', 'mod_surveypro');
-            echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
-        }
-    }
-
-    /**
      * Build table state booleans for submissions list.
      *
      * @param bool $canalwaysseeowner
@@ -919,6 +783,406 @@ class view_responselist
             'deleteicn' => $deleteicn,
             'downloadpdficn' => $downloadpdficn,
         ];
+    }
+
+    /**
+     * Determine which action icons to show for a given submission row.
+     *
+     * @param bool $ismine True if the submission belongs to the current user.
+     * @param bool $mysamegroup True if the submission owner is in the same group as the current user.
+     * @param \stdClass $submission The submission record.
+     * @return array Associative array of booleans keyed by action name.
+     */
+    protected function get_row_permissions(bool $ismine, bool $mysamegroup, \stdClass $submission): array {
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
+        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
+        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
+        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
+        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
+        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
+        $cansavetopdfownsubmissions = has_capability('mod/surveypro:savetopdfownsubmissions', $this->context);
+        $cansavetopdfotherssubmissions = has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context);
+
+        // View.
+        $displayviewicon = false;
+        if ($ismine) {
+            $displayviewicon = ($submission->status != SURVEYPRO_STATUSINPROGRESS);
+        } else {
+            if ($mysamegroup) {
+                $displayviewicon = ($submission->status == SURVEYPRO_STATUSINPROGRESS) ? false : $canseeotherssubmissions;
+            }
+        }
+
+        // Edit.
+        $displayediticon = false;
+        if ($ismine) {
+            if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                $displayediticon = true;
+            } else {
+                $displayediticon = $caneditownsubmissions;
+            }
+        } else {
+            if ($mysamegroup) {
+                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
+                    $displayediticon = $canseeotherssubmissions;
+                } else {
+                    $displayediticon = $caneditotherssubmissions;
+                }
+            }
+        }
+
+        // Duplicate.
+        $displayduplicateicon = false;
+        if ($ismine) {
+            $displayduplicateicon = $canduplicateownsubmissions;
+        } else {
+            if ($mysamegroup) {
+                $displayduplicateicon = $canduplicateotherssubmissions;
+            }
+        }
+
+        // Delete.
+        $displaydeleteicon = false;
+        if ($ismine) {
+            $displaydeleteicon = $candeleteownsubmissions;
+        } else {
+            if ($mysamegroup) {
+                $displaydeleteicon = $candeleteotherssubmissions;
+            }
+        }
+
+        // Download to pdf.
+        $displaydownloadtopdficon = false;
+        if ($submission->status != SURVEYPRO_STATUSINPROGRESS) {
+            if ($ismine) {
+                $displaydownloadtopdficon = $cansavetopdfownsubmissions;
+            } else {
+                if ($mysamegroup) {
+                    $displaydownloadtopdficon = $cansavetopdfotherssubmissions;
+                }
+            }
+        }
+
+        return [
+            'view'        => $displayviewicon,
+            'edit'        => $displayediticon,
+            'duplicate'   => $displayduplicateicon,
+            'delete'      => $displaydeleteicon,
+            'downloadpdf' => $displaydownloadtopdficon,
+        ];
+    }
+
+    /**
+     * Build the URL used by "add new submission" button.
+     *
+     * @return \moodle_url
+     */
+    protected function get_addnew_submission_url(): \moodle_url {
+        $paramurl = ['s' => $this->cm->instance];
+        $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
+        $paramurl['begin'] = 1;
+        $paramurl['area'] = 'surveypro';
+        $paramurl['section'] = 'responsesubmit';
+
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
+    }
+
+    /**
+     * Build the URL used by "delete all submissions" button.
+     *
+     * @return \moodle_url
+     */
+    protected function get_deleteall_submissions_url(): \moodle_url {
+        $paramurl = ['s' => $this->cm->instance];
+        $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
+        $paramurl['sesskey'] = sesskey();
+        $paramurl['section'] = 'submissionslist';
+
+        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
+    }
+
+    /**
+     * Build the data array for the submissions overview.
+     *
+     * @param int $enrolledusers
+     * @param int $distinctusers
+     * @param int $countclosed
+     * @param int $closedusers
+     * @param int $countinprogress
+     * @param int $inprogressusers
+     * @return array
+     */
+    protected function get_submissions_overview_data(
+        int $enrolledusers,
+        int $distinctusers,
+        int $countclosed,
+        int $closedusers,
+        int $countinprogress,
+        int $inprogressusers
+    ): array {
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+
+        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
+        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
+
+        $allsubmissions = $countinprogress + $countclosed;
+
+        $data = [
+            'enrolledmessage'   => null,
+            'allsubmissions'    => $allsubmissions,
+            'totalmessage'      => null,
+            'inprogressmessage' => null,
+            'closedmessage'     => null,
+        ];
+
+        if (!$allsubmissions) {
+            return $data;
+        }
+
+        // Enrolled users message.
+        if ($canseeotherssubmissions) {
+            if ($enrolledusers == 1) {
+                $data['enrolledmessage'] = get_string('userenrolled', 'mod_surveypro');
+            } else {
+                $data['enrolledmessage'] = get_string('usersenrolled', 'mod_surveypro', $enrolledusers);
+            }
+        }
+
+        // Total submissions message.
+        $a = new \stdClass();
+        $a->submissions = $allsubmissions;
+        $a->usercount = $distinctusers;
+        if ($allsubmissions == 1) {
+            if ($distinctusers == 1) {
+                $data['totalmessage'] = get_string('submissions_all_1_1', 'mod_surveypro', $a);
+            } else {
+                $data['totalmessage'] = get_string('submissions_all_1_many', 'mod_surveypro', $a);
+            }
+        } else {
+            if ($distinctusers == 1) {
+                $data['totalmessage'] = get_string('submissions_all_many_1', 'mod_surveypro', $a);
+            } else {
+                $data['totalmessage'] = get_string('submissions_all_many_many', 'mod_surveypro', $a);
+            }
+        }
+
+        // Inprogress submissions message.
+        if (!empty($countinprogress)) {
+            $a = new \stdClass();
+            $a->submissions = $countinprogress;
+            $a->usercount = $inprogressusers;
+            $a->status = $strstatusinprogress;
+            if ($countinprogress == 1) {
+                if ($inprogressusers == 1) {
+                    $data['inprogressmessage'] = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
+                } else {
+                    $data['inprogressmessage'] = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
+                }
+            } else {
+                if ($inprogressusers == 1) {
+                    $data['inprogressmessage'] = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
+                } else {
+                    $data['inprogressmessage'] = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
+                }
+            }
+        }
+
+        // Closed submissions message.
+        if (!empty($countclosed)) {
+            $a = new \stdClass();
+            $a->submissions = $countclosed;
+            $a->usercount = $closedusers;
+            $a->status = $strstatusclosed;
+            if ($countclosed == 1) {
+                if ($closedusers == 1) {
+                    $data['closedmessage'] = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
+                } else {
+                    $data['closedmessage'] = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
+                }
+            } else {
+                if ($closedusers == 1) {
+                    $data['closedmessage'] = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
+                } else {
+                    $data['closedmessage'] = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Collect capabilities used by direct user input protection.
+     *
+     * @return array
+     */
+    protected function get_submission_permissions_context(): array {
+        return [
+            'canaccessallgroups' => has_capability('moodle/site:accessallgroups', $this->context),
+            'canseeotherssubmissions' => has_capability('mod/surveypro:seeotherssubmissions', $this->context),
+            'caneditownsubmissions' => has_capability('mod/surveypro:editownsubmissions', $this->context),
+            'caneditotherssubmissions' => has_capability('mod/surveypro:editotherssubmissions', $this->context),
+            'candeleteownsubmissions' => has_capability('mod/surveypro:deleteownsubmissions', $this->context),
+            'candeleteotherssubmissions' => has_capability('mod/surveypro:deleteotherssubmissions', $this->context),
+            'canduplicateownsubmissions' => has_capability('mod/surveypro:duplicateownsubmissions', $this->context),
+            'canduplicateotherssubmissions' => has_capability('mod/surveypro:duplicateotherssubmissions', $this->context),
+            'cansavetopdfownsubmissions' => has_capability('mod/surveypro:savetopdfownsubmissions', $this->context),
+            'cansavetopdfotherssubmissions' => has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context),
+        ];
+    }
+
+    /**
+     * Load submission targeted by current action and validate it.
+     *
+     * @param int $submissionid
+     * @return \stdClass
+     */
+    protected function get_target_submission_for_access_check(int $submissionid): \stdClass {
+        global $DB;
+
+        $fields = 'userid, status';
+        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], $fields, IGNORE_MISSING);
+        if (!$submission || empty($submission->userid)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+        return $submission;
+    }
+
+    /**
+     * Display the submissions table.
+     *
+     * @return void
+     */
+    public function display_submissions_table() {
+        global $CFG, $OUTPUT, $DB, $COURSE, $USER;
+
+        require_once($CFG->libdir . '/tablelib.php');
+
+        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
+        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $canaccessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+
+        $tablestate = $this->get_submissions_table_state($canalwaysseeowner);
+
+        $table = new \flexible_table('submissionslist');
+
+        if ($canseeotherssubmissions) {
+            $table->initialbars(true);
+        }
+
+        $paramurl = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
+        if ($this->searchquery) {
+            $paramurl['searchquery'] = $this->searchquery;
+        }
+        $baseurl = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+        $table->define_baseurl($baseurl);
+
+        $tablecolumns = $this->get_submissions_table_columns($tablestate);
+        $table->define_columns($tablecolumns);
+
+        $tableheaders = $this->get_submissions_table_headers($tablestate);
+        $table->define_headers($tableheaders);
+
+        $table->sortable(true, 'sortindex', 'ASC'); // Sorted by sortindex by default.
+        $table->no_sorting('actions');
+
+        $table->column_class('picture', 'picture');
+        $table->column_class('fullname', 'fullname');
+        $table->column_class('status', 'status');
+        $table->column_class('timecreated', 'timecreated');
+        if ($tablestate['showtimemodified']) {
+            $table->column_class('timemodified', 'timemodified');
+        }
+        $table->column_class('actions', 'actions');
+
+        // Hide the same info whether in two consecutive rows.
+        if ($tablestate['showowner']) {
+            $table->column_suppress('picture');
+            $table->column_suppress('fullname');
+        }
+
+        // General properties for the whole table.
+        $table->set_attribute('cellpadding', 5);
+        $table->set_attribute('id', 'submissions');
+        $table->set_attribute('class', 'generaltable');
+        $table->set_attribute('align', 'center');
+        $table->setup();
+
+        $status = [];
+        $status[SURVEYPRO_STATUSINPROGRESS] = get_string('statusinprogress', 'mod_surveypro');
+        $status[SURVEYPRO_STATUSCLOSED] = get_string('statusclosed', 'mod_surveypro');
+
+        $neverstr = get_string('never');
+
+        $counter = $this->get_counter($table);
+        $table->pagesize(20, $counter['closedsubmissions'] + $counter['inprogresssubmissions']);
+
+        $this->display_submissions_overview(
+            $counter['enrolled'],
+            $counter['allusers'],
+            $counter['closedsubmissions'],
+            $counter['closedusers'],
+            $counter['inprogresssubmissions'],
+            $counter['inprogressusers']
+        );
+
+        [$sql, $whereparams] = $this->get_submissions_sql($table);
+        $submissions = $DB->get_recordset_sql($sql, $whereparams, $table->get_page_start(), $table->get_page_size());
+        if ($submissions->valid()) {
+            $actionresources = $this->get_submission_action_resources();
+
+            $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+            if ($groupmode) { // Activity is divided into groups.
+                $utilitysubmissionman = new utility_submission($this->cm, $this->surveypro);
+                $mygroupmates = $utilitysubmissionman->get_groupmates();
+            } else {
+                $mygroupmates = [];
+            }
+
+            $tablerowcounter = 0;
+            $paramurlbase = ['s' => $this->cm->instance, 'area' => 'surveypro', 'section' => 'submissionslist'];
+
+            foreach ($submissions as $submission) {
+                // Count each submission.
+                $tablerowcounter++;
+                $submissionsuffix = 'row_' . $tablerowcounter;
+
+                $flags = $this->get_submission_flags(
+                    $submission,
+                    (int)$USER->id,
+                    $canaccessallgroups,
+                    (bool)$groupmode,
+                    $mygroupmates
+                );
+
+                $tablerow = $this->build_submission_tablerow(
+                    $submission,
+                    $tablestate,
+                    $status,
+                    $neverstr,
+                    $flags,
+                    $submissionsuffix,
+                    $paramurlbase,
+                    $actionresources,
+                    $COURSE->id
+                );
+
+                // Add row to the table.
+                $table->add_data($tablerow);
+            }
+        }
+        $submissions->close();
+
+        $table->print_html();
+
+        // If this is the output of a search and nothing has been found add a way to show all submissions.
+        if (!isset($tablerow) && ($this->searchquery)) {
+            $paramurl = ['s' => $this->cm->instance, 'section' => 'submissionslist'];
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            $label = get_string('showallsubmissions', 'mod_surveypro');
+            echo $OUTPUT->box($OUTPUT->single_button($url, $label, 'get'), 'clearfix mdl-align');
+        }
     }
 
     /**
@@ -1079,94 +1343,6 @@ class view_responselist
     }
 
     /**
-     * Determine which action icons to show for a given submission row.
-     *
-     * @param bool $ismine True if the submission belongs to the current user.
-     * @param bool $mysamegroup True if the submission owner is in the same group as the current user.
-     * @param \stdClass $submission The submission record.
-     * @return array Associative array of booleans keyed by action name.
-     */
-    protected function get_row_permissions(bool $ismine, bool $mysamegroup, \stdClass $submission): array {
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $caneditownsubmissions = has_capability('mod/surveypro:editownsubmissions', $this->context);
-        $caneditotherssubmissions = has_capability('mod/surveypro:editotherssubmissions', $this->context);
-        $canduplicateownsubmissions = has_capability('mod/surveypro:duplicateownsubmissions', $this->context);
-        $canduplicateotherssubmissions = has_capability('mod/surveypro:duplicateotherssubmissions', $this->context);
-        $candeleteownsubmissions = has_capability('mod/surveypro:deleteownsubmissions', $this->context);
-        $candeleteotherssubmissions = has_capability('mod/surveypro:deleteotherssubmissions', $this->context);
-        $cansavetopdfownsubmissions = has_capability('mod/surveypro:savetopdfownsubmissions', $this->context);
-        $cansavetopdfotherssubmissions = has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context);
-
-        // View.
-        $displayviewicon = false;
-        if ($ismine) {
-            $displayviewicon = ($submission->status != SURVEYPRO_STATUSINPROGRESS);
-        } else {
-            if ($mysamegroup) {
-                $displayviewicon = ($submission->status == SURVEYPRO_STATUSINPROGRESS) ? false : $canseeotherssubmissions;
-            }
-        }
-
-        // Edit.
-        $displayediticon = false;
-        if ($ismine) {
-            if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                $displayediticon = true;
-            } else {
-                $displayediticon = $caneditownsubmissions;
-            }
-        } else {
-            if ($mysamegroup) {
-                if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                    $displayediticon = $canseeotherssubmissions;
-                } else {
-                    $displayediticon = $caneditotherssubmissions;
-                }
-            }
-        }
-
-        // Duplicate.
-        $displayduplicateicon = false;
-        if ($ismine) {
-            $displayduplicateicon = $canduplicateownsubmissions;
-        } else {
-            if ($mysamegroup) {
-                $displayduplicateicon = $canduplicateotherssubmissions;
-            }
-        }
-
-        // Delete.
-        $displaydeleteicon = false;
-        if ($ismine) {
-            $displaydeleteicon = $candeleteownsubmissions;
-        } else {
-            if ($mysamegroup) {
-                $displaydeleteicon = $candeleteotherssubmissions;
-            }
-        }
-
-        // Download to pdf.
-        $displaydownloadtopdficon = false;
-        if ($submission->status != SURVEYPRO_STATUSINPROGRESS) {
-            if ($ismine) {
-                $displaydownloadtopdficon = $cansavetopdfownsubmissions;
-            } else {
-                if ($mysamegroup) {
-                    $displaydownloadtopdficon = $cansavetopdfotherssubmissions;
-                }
-            }
-        }
-
-        return [
-            'view'        => $displayviewicon,
-            'edit'        => $displayediticon,
-            'duplicate'   => $displayduplicateicon,
-            'delete'      => $displaydeleteicon,
-            'downloadpdf' => $displaydownloadtopdficon,
-        ];
-    }
-
-    /**
      * Display buttons in the "view submissions" page according to capabilities and already sent submissions.
      *
      * @param string $tifirst
@@ -1269,35 +1445,6 @@ class view_responselist
         $deleteall = $deleteall && ($next > 1);
 
         return $deleteall;
-    }
-
-    /**
-     * Build the URL used by "add new submission" button.
-     *
-     * @return \moodle_url
-     */
-    protected function get_addnew_submission_url(): \moodle_url {
-        $paramurl = ['s' => $this->cm->instance];
-        $paramurl['mode'] = SURVEYPRO_NEWRESPONSEMODE;
-        $paramurl['begin'] = 1;
-        $paramurl['area'] = 'surveypro';
-        $paramurl['section'] = 'responsesubmit';
-
-        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
-    }
-
-    /**
-     * Build the URL used by "delete all submissions" button.
-     *
-     * @return \moodle_url
-     */
-    protected function get_deleteall_submissions_url(): \moodle_url {
-        $paramurl = ['s' => $this->cm->instance];
-        $paramurl['act'] = SURVEYPRO_DELETEALLRESPONSES;
-        $paramurl['sesskey'] = sesskey();
-        $paramurl['section'] = 'submissionslist';
-
-        return new \moodle_url('/mod/surveypro/view.php', $paramurl);
     }
 
     /**
@@ -1710,116 +1857,6 @@ class view_responselist
     }
 
     /**
-     * Build the data array for the submissions overview.
-     *
-     * @param int $enrolledusers
-     * @param int $distinctusers
-     * @param int $countclosed
-     * @param int $closedusers
-     * @param int $countinprogress
-     * @param int $inprogressusers
-     * @return array
-     */
-    protected function get_submissions_overview_data(
-        int $enrolledusers,
-        int $distinctusers,
-        int $countclosed,
-        int $closedusers,
-        int $countinprogress,
-        int $inprogressusers
-    ): array {
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-
-        $strstatusinprogress = get_string('statusinprogress', 'mod_surveypro');
-        $strstatusclosed = get_string('statusclosed', 'mod_surveypro');
-
-        $allsubmissions = $countinprogress + $countclosed;
-
-        $data = [
-            'enrolledmessage'   => null,
-            'allsubmissions'    => $allsubmissions,
-            'totalmessage'      => null,
-            'inprogressmessage' => null,
-            'closedmessage'     => null,
-        ];
-
-        if (!$allsubmissions) {
-            return $data;
-        }
-
-        // Enrolled users message.
-        if ($canseeotherssubmissions) {
-            if ($enrolledusers == 1) {
-                $data['enrolledmessage'] = get_string('userenrolled', 'mod_surveypro');
-            } else {
-                $data['enrolledmessage'] = get_string('usersenrolled', 'mod_surveypro', $enrolledusers);
-            }
-        }
-
-        // Total submissions message.
-        $a = new \stdClass();
-        $a->submissions = $allsubmissions;
-        $a->usercount = $distinctusers;
-        if ($allsubmissions == 1) {
-            if ($distinctusers == 1) {
-                $data['totalmessage'] = get_string('submissions_all_1_1', 'mod_surveypro', $a);
-            } else {
-                $data['totalmessage'] = get_string('submissions_all_1_many', 'mod_surveypro', $a);
-            }
-        } else {
-            if ($distinctusers == 1) {
-                $data['totalmessage'] = get_string('submissions_all_many_1', 'mod_surveypro', $a);
-            } else {
-                $data['totalmessage'] = get_string('submissions_all_many_many', 'mod_surveypro', $a);
-            }
-        }
-
-        // Inprogress submissions message.
-        if (!empty($countinprogress)) {
-            $a = new \stdClass();
-            $a->submissions = $countinprogress;
-            $a->usercount = $inprogressusers;
-            $a->status = $strstatusinprogress;
-            if ($countinprogress == 1) {
-                if ($inprogressusers == 1) {
-                    $data['inprogressmessage'] = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
-                } else {
-                    $data['inprogressmessage'] = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
-                }
-            } else {
-                if ($inprogressusers == 1) {
-                    $data['inprogressmessage'] = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
-                } else {
-                    $data['inprogressmessage'] = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
-                }
-            }
-        }
-
-        // Closed submissions message.
-        if (!empty($countclosed)) {
-            $a = new \stdClass();
-            $a->submissions = $countclosed;
-            $a->usercount = $closedusers;
-            $a->status = $strstatusclosed;
-            if ($countclosed == 1) {
-                if ($closedusers == 1) {
-                    $data['closedmessage'] = get_string('submissions_detail_1_1', 'mod_surveypro', $a);
-                } else {
-                    $data['closedmessage'] = get_string('submissions_detail_1_many', 'mod_surveypro', $a);
-                }
-            } else {
-                if ($closedusers == 1) {
-                    $data['closedmessage'] = get_string('submissions_detail_many_1', 'mod_surveypro', $a);
-                } else {
-                    $data['closedmessage'] = get_string('submissions_detail_many_many', 'mod_surveypro', $a);
-                }
-            }
-        }
-
-        return $data;
-    }
-
-    /**
      * Prevent direct user input.
      *
      * @param bool $confirm
@@ -1888,43 +1925,6 @@ class view_responselist
             return true;
         }
         return false;
-    }
-
-    /**
-     * Collect capabilities used by direct user input protection.
-     *
-     * @return array
-     */
-    protected function get_submission_permissions_context(): array {
-        return [
-            'canaccessallgroups' => has_capability('moodle/site:accessallgroups', $this->context),
-            'canseeotherssubmissions' => has_capability('mod/surveypro:seeotherssubmissions', $this->context),
-            'caneditownsubmissions' => has_capability('mod/surveypro:editownsubmissions', $this->context),
-            'caneditotherssubmissions' => has_capability('mod/surveypro:editotherssubmissions', $this->context),
-            'candeleteownsubmissions' => has_capability('mod/surveypro:deleteownsubmissions', $this->context),
-            'candeleteotherssubmissions' => has_capability('mod/surveypro:deleteotherssubmissions', $this->context),
-            'canduplicateownsubmissions' => has_capability('mod/surveypro:duplicateownsubmissions', $this->context),
-            'canduplicateotherssubmissions' => has_capability('mod/surveypro:duplicateotherssubmissions', $this->context),
-            'cansavetopdfownsubmissions' => has_capability('mod/surveypro:savetopdfownsubmissions', $this->context),
-            'cansavetopdfotherssubmissions' => has_capability('mod/surveypro:savetopdfotherssubmissions', $this->context),
-        ];
-    }
-
-    /**
-     * Load submission targeted by current action and validate it.
-     *
-     * @param int $submissionid
-     * @return \stdClass
-     */
-    protected function get_target_submission_for_access_check(int $submissionid): \stdClass {
-        global $DB;
-
-        $fields = 'userid, status';
-        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], $fields, IGNORE_MISSING);
-        if (!$submission || empty($submission->userid)) {
-            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
-        }
-        return $submission;
     }
 
     /**

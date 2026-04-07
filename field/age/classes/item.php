@@ -625,6 +625,7 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_year';
+        $attributes['aria-label'] = get_string('years');
         $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
 
         if ($readonly) {
@@ -634,6 +635,7 @@ EOS;
         }
 
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
 
         if ($readonly) {
@@ -690,36 +692,33 @@ EOS;
         // End of: mform element.
 
         // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
         if (!$searchformelementscount) {
-            switch ($this->defaultoption) {
-                case SURVEYPRO_INVITEDEFAULT:
-                    $agearray['year'] = SURVEYPRO_INVITEVALUE;
-                    $agearray['mon'] = SURVEYPRO_INVITEVALUE;
-                    break;
-                case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($basename . '_noanswer', '1');
-                    // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
-                case SURVEYPRO_CUSTOMDEFAULT:
-                    // I need to set a value for the default field even if it disabled.
-                    // When opening this form for the first time, I have:
-                    // $this->defaultoption = SURVEYPRO_INVITEDEFAULT
-                    // so $this->defaultvalue may be empty.
-                    // Generally $this->lowerbound is set but... to avoid nasty surprises... I also provide a parachute else.
-                    if ($this->defaultvalue) {
+            if (!$readonly) {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_INVITEDEFAULT:
+                        $agearray['year'] = SURVEYPRO_INVITEVALUE;
+                        $agearray['mon'] = SURVEYPRO_INVITEVALUE;
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $mform->setDefault($basename . '_noanswer', '1');
+                        // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
+                    case SURVEYPRO_CUSTOMDEFAULT:
                         $agearray = $this->item_split_unix_time($this->defaultvalue);
-                    } else if ($this->lowerbound) {
-                        $agearray = $this->item_split_unix_time($this->lowerbound);
-                    } else {
-                        $agearray['year'] = $years[1];
-                        $agearray['mon'] = $months[1];
-                    }
-                    break;
-                default:
-                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
-                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                        break;
+                    default:
+                        $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                }
+                $mform->setDefault($basename . '_year', $agearray['year']);
+                $mform->setDefault($basename . '_month', $agearray['mon']);
             }
-            $mform->setDefault($basename . '_year', $agearray['year']);
-            $mform->setDefault($basename . '_month', $agearray['mon']);
         } else {
             if ($searchformelementscount > 1) {
                 $mform->setDefault($basename . '_year', SURVEYPRO_IGNOREMEVALUE);

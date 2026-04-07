@@ -43,7 +43,18 @@ class layout_variable extends \core\output\inplace_editable
      */
     public function __construct($itemid, $variablename) {
         $variablename = format_string($variablename);
-        parent::__construct('mod_surveypro', 'layout_variable', $itemid, true, $variablename, $variablename);
+        $editeditvariable = get_string('editvariable', 'mod_surveypro');
+
+        parent::__construct(
+            'mod_surveypro',
+            'layout_variable',
+            $itemid,
+            true,
+            $variablename,
+            $variablename,
+            $editeditvariable,
+            $editeditvariable,
+        );
     }
 
     /**
