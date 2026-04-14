@@ -1,5 +1,5 @@
-![PHPUnit](https://img.shields.io/badge/PHPUnit-Passing-brightgreen)
-<br>![Behat](https://img.shields.io/badge/Behat-Accessibility_Tested-blue)
+![Behat](https://img.shields.io/badge/Behat-Accessibility_Tested-blue)
+<br>![PHPUnit](https://img.shields.io/badge/PHPUnit-Passing-brightgreen)
 <br>![Coverage](https://img.shields.io/badge/Coverage-45%25-success)
 <br>![Accessibility Verified](https://img.shields.io/badge/Accessibility-WCAG_2.1_Compliant-green)
 
