@@ -1,3 +1,5 @@
+![Accessibility Verified](https://img.shields.io/badge/Accessibility-WCAG_2.1_Compliant-green)
+
 moodle-mod_surveypro
 ====================
 
