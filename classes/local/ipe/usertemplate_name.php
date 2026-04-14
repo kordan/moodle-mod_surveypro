@@ -44,7 +44,18 @@ class usertemplate_name extends \core\output\inplace_editable
      */
     public function __construct($xmlfileid, $templatename) {
         $templatename = format_string($templatename);
-        parent::__construct('mod_surveypro', 'usertemplate_name', $xmlfileid, true, $templatename, $templatename);
+        $editutemplatename = get_string('editutemplatename', 'mod_surveypro');
+
+        parent::__construct(
+            'mod_surveypro',
+            'usertemplate_name',
+            $xmlfileid,
+            true,
+            $templatename,
+            $templatename,
+            $editutemplatename,
+            $editutemplatename,
+        );
     }
 
     /**

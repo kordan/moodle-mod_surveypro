@@ -20,56 +20,24 @@ Feature: Search using one and two textarea items
     And the following "activities" exist:
       | activity  | name                      | intro                  | course      |
       | surveypro | Textarea search form test | For searching purposes | Search form |
-    And I am on the "Textarea search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                        | Write a short description of your dog |
-      | Required                       | 1                                     |
-      | Question position              | left                                  |
-      | Element number                 | 1                                     |
-      | Search form                    | 1                                     |
-      | Use html editor                | 0                                     |
-      | Area height in rows            | 7                                     |
-      | Area width in columns          | 40                                    |
-      | Minimum length (in characters) | 10                                    |
-      | Maximum length (in characters) | 25                                    |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Text (long)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                        | Write a short description of your cat |
-      | Required                       | 1                                     |
-      | Question position              | left                                  |
-      | Element number                 | 2                                     |
-      | Use html editor                | 0                                     |
-      | Area height in rows            | 7                                     |
-      | Area width in columns          | 40                                    |
-      | Minimum length (in characters) | 10                                    |
-      | Maximum length (in characters) | 25                                    |
-    And I press "Add"
-
-    And I am on the "Textarea search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Textarea search form test" has the following items:
+      | type  | plugin   | settings                                                                                                                                                     |
+      | field | textarea | {"content":"Describe your dog", "required":"1", "customnumber":"1", "arearows":"7", "areacols":"40", "minlength":"10", "maxlength":"25", "insearchform":"1"} |
+      | field | textarea | {"content":"Describe your cat", "required":"1", "customnumber":"2", "arearows":"7", "areacols":"40", "minlength":"10", "maxlength":"25"}                     |
+    And I am on the "Textarea search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"
     And I set the following fields to these values:
-      | Write a short description of your dog | I love it, trust me |
-      | Write a short description of your cat | It's the pet I love |
+      | Describe your dog | I love it, trust me |
+      | Describe your cat | It's the pet I love |
     And I press "Submit"
 
     # Add the second record
     And I press "New response"
     And I set the following fields to these values:
-      | Write a short description of your dog | It's old but still nice |
-      | Write a short description of your cat | It's the pet I love     |
+      | Describe your dog | It's old but still nice |
+      | Describe your cat | It's the pet I love     |
     And I press "Submit"
 
     # 1st search for submitted records
@@ -79,7 +47,7 @@ Feature: Search using one and two textarea items
     # With only one field in the search form, "Ignore me" must not be in the form.
     And I should not see "*"
 
-    And I set the field "Write a short description of your dog" to "love"
+    And I set the field "Describe your dog" to "love"
     And I press "Search"
     Then I should see "1" submissions
 
@@ -94,7 +62,7 @@ Feature: Search using one and two textarea items
     # With more than one field in the search form, "Ignore me" must be in the form.
     And I set the field "id_field_textarea_2_ignoreme" to "0"
 
-    And I set the field "Write a short description of your cat" to "love"
+    And I set the field "Describe your cat" to "love"
     And I press "Search"
     Then I should see "2" submissions
 
@@ -107,7 +75,7 @@ Feature: Search using one and two textarea items
 
     And I set the field "id_field_textarea_1_ignoreme" to "0"
     And I set the field "id_field_textarea_2_ignoreme" to "0"
-    And I set the field "Write a short description of your dog" to "love"
-    And I set the field "Write a short description of your cat" to "love"
+    And I set the field "Describe your dog" to "love"
+    And I set the field "Describe your cat" to "love"
     And I press "Search"
     Then I should see "1" submissions

@@ -120,7 +120,7 @@ class report extends reportbase
      * @return void
      */
     public function fetch_data() {
-        global $DB, $COURSE, $OUTPUT;
+        global $DB;
 
         [$sql, $whereparams] = $this->get_submissions_sql();
         $userspercounts = $DB->get_recordset_sql($sql, $whereparams);

@@ -15,13 +15,11 @@ Feature: Submissions seen from students divided into groups (Part 03)
       | Group 2 | Groups permissions | group02  |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
       | student2 | student2  | user2    | student2@nowhere.net |
       | student3 | student3  | user3    | student3@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Groups permissions | editingteacher |
       | student1 | Groups permissions | student        |
       | student2 | Groups permissions | student        |
       | student3 | Groups permissions | student        |
@@ -33,32 +31,14 @@ Feature: Submissions seen from students divided into groups (Part 03)
       | student1 | group01 |
       | student2 | group01 |
       | student3 | group02 |
+    And the following "activities" exist:
+      | activity  | name                        | intro                          | course             | groupmode |
+      | surveypro | Verify submission selection | Test what each student can see | Groups permissions | 1         |
+    And surveypro "Verify submission selection" has the following items:
+      | type  | plugin    | settings                                                          |
+      | field | character | {"content":"Enter your name", "required":"1", "customnumber":"1"} |
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 
-    And I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage with editing mode on
-    And I add a surveypro activity to course "Verify permissions in groups" section "1" and I fill the form with:
-      | Name        | Verify submission selection    |
-      | Description | Test what each student can see |
-      | Group mode  | Separate groups                |
-    And I turn editing mode off
-    And I am on the "Verify submission selection" "surveypro activity" page
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | Enter your name |
-      | Indent                   | 0               |
-      | Question position        | left            |
-      | Element number           | 1               |
-      | Hide filling instruction | 0               |
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -83,7 +63,7 @@ Feature: Submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student2 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "student1" in the "submissions" "table"
@@ -103,7 +83,7 @@ Feature: Submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student3 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student3
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student3
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -124,7 +104,7 @@ Feature: Submissions seen from students divided into groups (Part 03)
     And I log out
 
     # student1 goes to check for his personal submissions
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Never" in the "student1 user1" "table_row"

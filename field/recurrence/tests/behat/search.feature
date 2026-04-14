@@ -20,45 +20,11 @@ Feature: Search using one and two recurrence items
     And the following "activities" exist:
       | activity  | name                        | intro                  | course      |
       | surveypro | Recurrence search form test | For searching purposes | Search form |
-    And I am on the "Recurrence search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Recurrence [dd/mm]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When do you usually celebrate your name-day? |
-      | Required                 | 1                                            |
-      | Indent                   | 0                                            |
-      | Question position        | left                                         |
-      | Search form              | 1                                            |
-      | Element number           | 2                                            |
-      | Hide filling instruction | 1                                            |
-      | id_lowerboundday         | 1                                            |
-      | id_lowerboundmonth       | January                                      |
-      | id_upperboundday         | 31                                           |
-      | id_upperboundmonth       | December                                     |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Recurrence [dd/mm]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When do you celebrate your town's patron saint day? |
-      | Required                 | 1                                                   |
-      | Indent                   | 0                                                   |
-      | Question position        | left                                                |
-      | Element number           | 2                                                   |
-      | Hide filling instruction | 1                                                   |
-      | id_lowerboundday         | 1                                                   |
-      | id_lowerboundmonth       | January                                             |
-      | id_upperboundday         | 31                                                  |
-      | id_upperboundmonth       | December                                            |
-    And I press "Add"
-
-    And I am on the "Recurrence search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Recurrence search form test" has the following items:
+      | type  | plugin     | settings                                                                                                                                                                                                                                             |
+      | field | recurrence | {"content":"When do you usually celebrate your name-day?",        "required":"1", "customnumber":"1", "defaultoption":"2", "defaultvalue":"43200", "downloadformat":"strftime01", "lowerbound":"43200", "upperbound":"31492800", "insearchform":"1"} |
+      | field | recurrence | {"content":"When do you celebrate your town's patron saint day?", "required":"1", "customnumber":"2", "defaultoption":"2", "defaultvalue":"43200", "downloadformat":"strftime01", "lowerbound":"43200", "upperbound":"31492800"}                     |
+    And I am on the "Recurrence search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

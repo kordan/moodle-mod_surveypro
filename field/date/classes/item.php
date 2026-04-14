@@ -136,8 +136,6 @@ class item extends itembase
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
     public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
-        global $DB;
-
         parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
 
         // List of properties set to static values.
@@ -305,6 +303,16 @@ class item extends itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_TIMENOWDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_LIKELASTDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            throw new \coding_exception('Passed parameter defaultoption is not allowed.');
+        }
+
         $this->defaultoption = $defaultoption;
     }
 
@@ -725,12 +733,15 @@ EOS;
         $basename = $this->itemname;
 
         $attributes['id'] = $baseid . '_day';
+        $attributes['aria-label'] = get_string('day');
         $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
 
         $attributes['id'] = $baseid . '_month';
+        $attributes['aria-label'] = get_string('month');
         $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
 
         $attributes['id'] = $baseid . '_year';
+        $attributes['aria-label'] = get_string('year');
         $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
 
         if ($this->required) {
@@ -782,44 +793,55 @@ EOS;
         }
         // End of: mform element.
 
-        // Default section.
+        // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
         if (!$searchformelementscount) {
-            switch ($this->defaultoption) {
-                case SURVEYPRO_INVITEDEFAULT:
-                    $datearray['mday'] = SURVEYPRO_INVITEVALUE;
-                    $datearray['mon'] = SURVEYPRO_INVITEVALUE;
-                    $datearray['year'] = SURVEYPRO_INVITEVALUE;
-                    break;
-                case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($basename . '_noanswer', '1');
-                    // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
-                case SURVEYPRO_CUSTOMDEFAULT:
-                    $datearray = $this->item_split_unix_time($this->defaultvalue);
-                    break;
-                case SURVEYPRO_TIMENOWDEFAULT:
-                    $datearray = $this->item_split_unix_time(time());
-                    break;
-                case SURVEYPRO_LIKELASTDEFAULT:
-                    // Look for the most recent submission I made.
-                    $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
-                    $where = ['userid' => $USER->id];
-                    $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
-                    $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
-                    if ($time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING)) {
-                        $datearray = $this->item_split_unix_time($time);
-                    } else { // As in standard default.
+            if (!$readonly) {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_INVITEDEFAULT:
+                        $datearray['mday'] = SURVEYPRO_INVITEVALUE;
+                        $datearray['mon'] = SURVEYPRO_INVITEVALUE;
+                        $datearray['year'] = SURVEYPRO_INVITEVALUE;
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $mform->setDefault($basename . '_noanswer', '1');
+                        // No break here. SURVEYPRO_CUSTOMDEFAULT case is a subset of the SURVEYPRO_NOANSWERDEFAULT case.
+                    case SURVEYPRO_CUSTOMDEFAULT:
+                        $datearray = $this->item_split_unix_time($this->defaultvalue);
+                        break;
+                    case SURVEYPRO_TIMENOWDEFAULT:
                         $datearray = $this->item_split_unix_time(time());
-                    }
-                    break;
-                default:
-                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
-                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                        break;
+                    case SURVEYPRO_LIKELASTDEFAULT:
+                        // Look for the most recent submission I made.
+                        $sql = 'userid = :userid ORDER BY timecreated DESC LIMIT 1';
+                        $where = ['userid' => $USER->id];
+                        $mylastsubmissionid = $DB->get_field_select('surveypro_submission', 'id', $sql, $where, IGNORE_MISSING);
+                        $where = ['itemid' => $this->itemid, 'submissionid' => $mylastsubmissionid];
+                        $time = $DB->get_field('surveypro_answer', 'content', $where, IGNORE_MISSING);
+                        if ($time === false) {
+                            // There is not a previous answer.
+                            // Apply defaults only in SURVEYPRO_NEWRESPONSEMODE
+                            $datearray = $this->item_split_unix_time(time());
+                        } else {
+                            $datearray = $this->item_split_unix_time($time);
+                        }
+                        break;
+                    default:
+                        $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                }
+                $mform->setDefault($basename . '_day', $datearray['mday']);
+                $mform->setDefault($basename . '_month', $datearray['mon']);
+                $mform->setDefault($basename . '_year', $datearray['year']);
             }
-            $mform->setDefault($basename . '_day', $datearray['mday']);
-            $mform->setDefault($basename . '_month', $datearray['mon']);
-            $mform->setDefault($basename . '_year', $datearray['year']);
-        }
-        if ($searchformelementscount) {
+        } else {
             if ($searchformelementscount > 1) {
                 $mform->setDefault($basename . '_ignoreme', '1');
             }

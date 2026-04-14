@@ -20,45 +20,11 @@ Feature: Search using one and two shortdate items
     And the following "activities" exist:
       | activity  | name                       | intro                  | course      |
       | surveypro | Shortdate search form test | For searching purposes | Search form |
-    And I am on the "Shortdate search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When did you pass your driving test? |
-      | Required                 | 1                                    |
-      | Indent                   | 0                                    |
-      | Question position        | left                                 |
-      | Search form              | 1                                    |
-      | Element number           | 1                                    |
-      | Hide filling instruction | 1                                    |
-      | id_lowerboundmonth       | January                              |
-      | id_lowerboundyear        | 2000                                 |
-      | id_upperboundmonth       | December                             |
-      | id_upperboundyear        | 2020                                 |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Date (short) [mm/yyyy]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When did you buy your current car? |
-      | Required                 | 1                                  |
-      | Indent                   | 0                                  |
-      | Question position        | left                               |
-      | Element number           | 2                                  |
-      | Hide filling instruction | 1                                  |
-      | id_lowerboundmonth       | January                            |
-      | id_lowerboundyear        | 2000                               |
-      | id_upperboundmonth       | December                           |
-      | id_upperboundyear        | 2020                               |
-    And I press "Add"
-
-    And I am on the "Shortdate search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Shortdate search form test" has the following items:
+      | type  | plugin    | settings                                                                                                                                                        |
+      | field | shortdate | {"content":"When did you pass your driving test?", "required":"1", "customnumber":"1", "lowerbound":"946728000", "upperbound":"1606824000", "insearchform":"1"} |
+      | field | shortdate | {"content":"When did you buy your current car?",   "required":"1", "customnumber":"2", "lowerbound":"946728000", "upperbound":"1606824000"}                     |
+    And I am on the "Shortdate search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

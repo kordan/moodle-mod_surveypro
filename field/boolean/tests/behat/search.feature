@@ -20,31 +20,11 @@ Feature: Search using one and two boolean items
     And the following "activities" exist:
       | activity  | name                     | intro                  | course      |
       | surveypro | Boolean search form test | For searching purposes | Search form |
-    And I am on the "Boolean search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Boolean"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    And I set the following fields to these values:
-      | Content           | Is it true?           |
-      | Question position | left                  |
-      | Search form       | 1                     |
-      | Element style     | vertical radio button |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Boolean"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content           | Do you like it?       |
-      | Question position | left                  |
-      | Element style     | vertical radio button |
-    And I press "Add"
-
-    And I am on the "Boolean search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Boolean search form test" has the following items:
+      | type  | plugin  | settings                                                   |
+      | field | boolean | {"content":"Is it true?", "style":"1", "insearchform":"1"} |
+      | field | boolean | {"content":"Do you like it?", "style":"1"}                 |
+    And I am on the "Boolean search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

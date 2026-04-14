@@ -43,8 +43,6 @@ class groupjumperform extends \moodleform
      * @return void
      */
     public function definition() {
-        global $COURSE, $USER;
-
         $mform = $this->_form;
 
         // Get _customdata.

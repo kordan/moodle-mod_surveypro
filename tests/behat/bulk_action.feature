@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Execute bulk actions
   In order to validate each action issues through inline icons
-  As teacher1
+  As Admin
   I issue them and verify the outcome.
 
   Background:
@@ -39,9 +39,7 @@ Feature: Execute bulk actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
-
-    And I am on the "Test bulk item actions" "surveypro activity" page
-    And I follow "Layout"
+    And I am on the "Test bulk item actions" "mod_surveypro > Layout from secondary navigation" page
 
     Then I should see "22" visible items
     Then I should see "0" hidden items

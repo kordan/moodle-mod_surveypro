@@ -20,35 +20,11 @@ Feature: Search using one and two radiobutton items
     And the following "activities" exist:
       | activity  | name                          | intro                  | course      |
       | surveypro | Radio button search form test | For searching purposes | Search form |
-    And I am on the "Radio button search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Radio buttons"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | Which summer holidays place do you prefer? |
-      | Required          | 1                                          |
-      | Question position | left                                       |
-      | Search form       | 1                                          |
-      | Element number    | 1                                          |
-    And I set the multiline field "Options" to "sea\nmountain\nlake\nhills\ndesert"
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Radio buttons"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | Which winter holidays place do you prefer? |
-      | Required          | 1                                          |
-      | Question position | left                                       |
-      | Element number    | 2                                          |
-    And I set the multiline field "Options" to "sea\nmountain\nlake\nhills\ndesert"
-    And I press "Add"
-
-    And I am on the "Radio button search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Radio button search form test" has the following items:
+      | type  | plugin      | settings                                                                                                                                                         |
+      | field | radiobutton | {"content":"Which summer holidays place do you prefer?", "required":"1", "customnumber":"1", "options":"sea\nmountain\nlake\nhills\ndesert", "insearchform":"1"} |
+      | field | radiobutton | {"content":"Which winter holidays place do you prefer?", "required":"1", "customnumber":"2", "options":"sea\nmountain\nlake\nhills\ndesert"}                     |
+    And I am on the "Radio button search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

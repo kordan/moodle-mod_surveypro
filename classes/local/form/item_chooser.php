@@ -68,7 +68,9 @@ class item_chooser extends \moodleform
                             get_string('typeformat', 'mod_surveypro') => $formatplugins, ];
 
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('selectgroups', $fieldname, '', $pluginlist);
+        $selectlabel = get_string('typeplugin', 'mod_surveypro');
+        $attributes = ['aria-label' => $selectlabel];
+        $elementgroup[] = $mform->createElement('selectgroups', $fieldname, $selectlabel, $pluginlist, $attributes);
         $elementgroup[] = $mform->createElement('submit', $fieldname . '_button', get_string('add'));
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string('item', 'mod_surveypro'), [' '], false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');

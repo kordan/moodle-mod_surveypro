@@ -22,10 +22,10 @@ Feature: Access a surveypro from the second page if the first one has only reser
       | activity  | name            | intro           | newpageforchild | course     |
       | surveypro | Test start at 2 | Test start at 2 | 1               | Start at 2 |
     And surveypro "Test start at 2" has the following items:
-      | type   | plugin      |
-      | field  | boolean     |
-      | format | pagebreak   |
-      | field  | character   |
+      | type   | plugin    |
+      | field  | boolean   |
+      | format | pagebreak |
+      | field  | character |
     And I am on the "Test start at 2" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
@@ -33,7 +33,7 @@ Feature: Access a surveypro from the second page if the first one has only reser
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test start at 2" "surveypro activity" page logged in as student1
+    And I am on the "Test start at 2" "surveypro activity" page logged in as student1
 
     And I press "New response"
     Then I should see "Write down your email, please"

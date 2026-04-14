@@ -25,438 +25,214 @@
 // NOTE: no MOODLE_INTERNAL test here, this file may be required by behat before including /config.php.
 
 /**
- * Provide mandatory dummy contents for each plugin item
+ * Returns dummy contents for a surveypro item.
+ *
+ * Defaults are provided for each plugin but can be overridden
+ * by passing custom parameters.
  *
  * @param string $type
  * @param string $plugin
- * @param string $content
- * @return object
+ * @param array $customsettings
+ * @return \stdClass
  */
-function get_dummy_contents($type, $plugin, $content = null) {
+function surveypro_get_dummy_contents(string $type, string $plugin, array $customsettings = []): \stdClass {
 
-    $return = new \stdClass();
-    $return->itemid = 0;
-    $return->pluginid = 0;
-    $return->type = $type;
-    $return->plugin = $plugin;
-    $return->content_editor = [];
-    $return->content_editor['format'] = 1;
+    $mandatory = [
+        'itemid' => 0,
+        'pluginid' => 0,
+        'type' => $type,
+        'plugin' => $plugin,
+        // 'required' => 0, // it is a checkbox. To set it to 0 I must jump it.
+        'indent' => 0,
+        'position' => 0,
+        'customnumber' => '',
+        // 'hideinstruction' => 0, // it is a checkbox. To set it to 0 I must jump it.
+        'variable' => '',
+        'extranote' => '',
+        'parentid' => 0,
+        'parentcontent' => '',
+        'contentformat' => 1,
+        'content_editor' => ['format' => 1],
+    ];
+    // $mandatory[‘required’] sets a checkbox. If you want to leave it unselected, $mandatory[‘required’] must not exist.
 
-    // This is the default. Now each plugin is allowed to override.
-    // Take care: checkbox must not be defined as if they are defined (without care to the value) they are set to 1.
-    // $return->required = 0;
-    $return->indent = 0;
-    $return->position = 0;
-    // $return->hideinstructions = 0;
-    $return->customnumber = '';
-    $return->variable = '';
-    $return->extranote = '';
-    // $return->hidden = 0;
-    // $return->insearchform = 0;
-    // $return->reserved = 0;
-
-    $return->parentid = 0;
-    $return->parentcontent = '';
-
-    if ($type == SURVEYPRO_TYPEFIELD) {
-        if ($plugin == 'age') {
-            if (!$content) {
-                $content = 'How old were you when you started cycling?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->required = 0;
-            $return->indent = 0;
-            $return->position = 0;
-            $return->customnumber = '';
-            $return->variable = '';
-            $return->extranote = '';
-            $return->parentid = 0;
-            $return->parentcontent = '';
-
-            // Plugin properties.
-            $return->defaultoption = '2';
-            $return->lowerboundyear = '0';
-            $return->lowerboundmonth = '0';
-            $return->upperboundyear = '105';
-            $return->upperboundmonth = '11';
-
-            return $return;
-        }
-        if ($plugin == 'autofill') {
-            if (!$content) {
-                $content = 'Your userid';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->position = 0;
-            $return->customnumber = '';
-            $return->variable = '';
-            $return->extranote = '';
-            $return->element01select = 'userid';
-            $return->element02select = '';
-            $return->element03select = '';
-            $return->element04select = '';
-            $return->element05select = '';
-
-            return $return;
-        }
-        if ($plugin == 'boolean') {
-            if (!$content) {
-                $content = 'Is it true?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->position = 0;
-            $return->customnumber = '';
-            $return->variable = '';
-            $return->extranote = '';
-            $return->style = 0;
-            $return->defaultoption = 2;
-            $return->downloadformat = 'strfbool01';
-            return $return;
-        }
-        if ($plugin == 'character') {
-            if (!$content) {
-                $content = 'Write down your email, please';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->pattern = 'PATTERN_EMAIL';
-            $return->defaultvalue = '';
-            $return->minlength = 0;
-            $return->maxlength = 0;
-            return $return;
-        }
-        if ($plugin == 'checkbox') {
-            if (!$content) {
-                $content = 'What do you usually get for breakfast?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->options = "milk\nsugar\njam\nchocolate";
-            $return->labelother = '';
-            $return->defaultvalue = '';
-            $return->adjustment = 0;
-            $return->minimumrequired = 0;
-            $return->downloadformat = '1';
-
-            return $return;
-        }
-        if ($plugin == 'date') {
-            if (!$content) {
-                $content = 'When were you born?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->defaultoption = 2;
-            $return->downloadformat = 'strftime05';
-            $return->lowerboundday = '1';
-            $return->lowerboundmonth = '1';
-            $return->lowerboundyear = '1970';
-            $return->upperboundday = '31';
-            $return->upperboundmonth = '12';
-            $return->upperboundyear = '2020';
-
-            return $return;
-        }
-        if ($plugin == 'datetime') {
-            if (!$content) {
-                $content = 'Please, write down date and time of your last flight to Los Angeles.';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->step = '1';
-            $return->defaultoption = '2';
-            $return->downloadformat = 'strftime01';
-            $return->lowerboundday = '1';
-            $return->lowerboundmonth = '1';
-            $return->lowerboundyear = '1970';
-            $return->lowerboundhour = '0';
-            $return->lowerboundminute = '0';
-            $return->upperboundday = '31';
-            $return->upperboundmonth = '12';
-            $return->upperboundyear = '2020';
-            $return->upperboundhour = '23';
-            $return->upperboundminute = '59';
-
-            return $return;
-        }
-        if ($plugin == 'fileupload') {
-            if (!$content) {
-                $content = 'Please, upload your CV in PDF';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-            $return->position = 0;
-            $return->customnumber = '';
-            $return->variable = '';
-            $return->extranote = '';
-            $return->parentid = 0;
-            $return->parentcontent = '';
-
-            // Plugin properties.
-            $return->maxfiles = 1;
-            $return->maxbytes = 0;
-            $return->filetypes = '*';
-
-            return $return;
-        }
-        if ($plugin == 'integer') {
-            if (!$content) {
-                $content = 'How many people does your family counts?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->defaultoption = '2';
-            $return->lowerbound = '0';
-            $return->upperbound = '255';
-
-            return $return;
-        }
-        if ($plugin == 'multiselect') {
-            if (!$content) {
-                $content = 'What do you usually get for breakfast?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->options = "milk\nsugar\njam\nchocolate";
-            $return->defaultvalue = '';
-            $return->heightinrows = '4';
-            $return->minimumrequired = '0';
-            $return->downloadformat = '1';
-
-            return $return;
-        }
-        if ($plugin == 'numeric') {
-            if (!$content) {
-                $content = 'Type the best approximation of π you know';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->defaultvalue = '';
-            $return->decimals = 2;
-            $return->lowerbound = '';
-            $return->upperbound = '';
-
-            return $return;
-        }
-        if ($plugin == 'radiobutton') {
-            if (!$content) {
-                $content = 'Where do you usually spend your summer holidays?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->options = "sea\nmountain\nlake\nhills";
-            $return->labelother = '';
-            $return->defaultoption = '2';
-            $return->downloadformat = '1';
-            $return->adjustment = '0';
-
-            return $return;
-        }
-        if ($plugin == 'rate') {
-            if (!$content) {
-                $content = 'How confident are you with the following languages?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->options = "EN\nES\nIT\nFR";
-            $return->rates = "Mother tongue\nVery confident\nSomewhat confident\nNot confident at all";
-            $return->style = '0';
-            $return->defaultoption = '2';
-            $return->downloadformat = '1';
-
-            return $return;
-        }
-        if ($plugin == 'recurrence') {
-            if (!$content) {
-                $content = 'When do you usually celebrate your name-day?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->defaultoption = 2;
-            $return->downloadformat = 'strftime02';
-            $return->lowerboundday = '1';
-            $return->lowerboundmonth = '1';
-            $return->upperboundday = '31';
-            $return->upperboundmonth = '12';
-
-            return $return;
-        }
-        if ($plugin == 'select') {
-            if (!$content) {
-                $content = 'Where do you usually spend your summer holidays?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->options = "sea\nmountain\nlake\nhills";
-            $return->labelother = '';
-            $return->defaultoption = '2';
-            $return->downloadformat = '1';
-
-            return $return;
-        }
-        if ($plugin == 'shortdate') {
-            if (!$content) {
-                $content = 'When did you buy your current car?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->defaultoption = '2';
-            $return->downloadformat = 'strftime01';
-            $return->lowerboundmonth = '1';
-            $return->lowerboundyear = '1970';
-            $return->upperboundmonth = '12';
-            $return->upperboundyear = '2020';
-
-            return $return;
-        }
-        if ($plugin == 'textarea') {
-            if (!$content) {
-                $content = 'Write a short description of yourself';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->useeditor = 1;
-            $return->arearows = 10;
-            $return->areacols = 60;
-            $return->minlength = 0;
-            $return->maxlength = '';
-
-            return $return;
-        }
-        if ($plugin == 'time') {
-            if (!$content) {
-                $content = 'At what time do you usually get up in the morning in a working day?';
-            }
-            $return->content_editor['text'] = $content;
-            $return->contentformat = 1;
-
-            // Base properties.
-            $return->indent = 0;
-
-            // Plugin properties.
-            $return->step = '1';
-            $return->defaultoption = '2';
-            $return->downloadformat = 'strftime01';
-            $return->lowerboundhour = '0';
-            $return->lowerboundminute = '0';
-            $return->upperboundhour = '23';
-            $return->upperboundminute = '59';
-
-            return $return;
-        }
+    if ($type === SURVEYPRO_TYPEFIELD) {
+        $map = [
+            'age' => [
+                'content_editor' => ['text' => 'How old were you when you learned to ride a bike?'],
+                'defaultoption' => '2',
+                'lowerboundyear' => '0',
+                'lowerboundmonth' => '0',
+                'upperboundyear' => '105',
+                'upperboundmonth' => '11',
+            ],
+            'autofill' => [
+                'content_editor' => ['text' => 'Your userid'],
+                'element01' => 'userid',
+                'element02' => '',
+                'element03' => '',
+                'element04' => '',
+                'element05' => '',
+            ],
+            'boolean' => [
+                'content_editor' => ['text' => 'Is it true?'],
+                'style' => 0,
+                'defaultoption' => 2,
+                'downloadformat' => 'strfbool01',
+            ],
+            'character' => [
+                'content_editor' => ['text' => 'Write down your email, please'],
+                'pattern' => 'PATTERN_FREE',
+                'defaultvalue' => '',
+                'minlength' => 0,
+                'maxlength' => 0,
+            ],
+            'checkbox' => [
+                'content_editor' => ['text' => 'What do you usually get for breakfast?'],
+                'options' => "milk\nsugar\njam\nchocolate",
+                'labelother' => '',
+                'defaultvalue' => '',
+                'adjustment' => 0,
+                'minimumrequired' => 0,
+                'maximumrequired' => '0',
+                'downloadformat' => '1',
+            ],
+            'date' => [
+                'content_editor' => ['text' => 'When were you born?'],
+                'defaultoption' => 2,
+                'downloadformat' => 'strftime05',
+                'lowerboundday' => '1',
+                'lowerboundmonth' => '1',
+                'lowerboundyear' => '1970',
+                'upperboundday' => '31',
+                'upperboundmonth' => '12',
+                'upperboundyear' => '2020',
+            ],
+            'datetime' => [
+                'content_editor' => ['text' => 'Please, write down date and time of your last flight to Los Angeles.'],
+                'step' => '1',
+                'defaultoption' => '2',
+                'downloadformat' => 'strftime01',
+                'lowerboundday' => '1',
+                'lowerboundmonth' => '1',
+                'lowerboundyear' => '1970',
+                'lowerboundhour' => '0',
+                'lowerboundminute' => '0',
+                'upperboundday' => '31',
+                'upperboundmonth' => '12',
+                'upperboundyear' => '2020',
+                'upperboundhour' => '23',
+                'upperboundminute' => '59',
+            ],
+            'fileupload' => [
+                'content_editor' => ['text' => 'Please, upload your CV in PDF'],
+                'maxfiles' => 1,
+                'maxbytes' => 0,
+                'filetypes' => '*',
+            ],
+            'integer' => [
+                'content_editor' => ['text' => 'How many people does your family counts?'],
+                'defaultoption' => '2',
+                'lowerbound' => '0',
+                'upperbound' => '255',
+            ],
+            'multiselect' => [
+                'content_editor' => ['text' => 'What do you usually get for breakfast?'],
+                'options' => "milk\nsugar\njam\nchocolate",
+                'defaultvalue' => '',
+                'heightinrows' => '4',
+                'minimumrequired' => '0',
+                'downloadformat' => '1',
+            ],
+            'numeric' => [
+                'content_editor' => ['text' => 'Type the best approximation of π you know'],
+                'defaultvalue' => '',
+                'decimals' => 0,
+                'lowerbound' => '',
+                'upperbound' => '',
+            ],
+            'radiobutton' => [
+                'content_editor' => ['text' => 'Where do you usually spend your summer holidays?'],
+                'options' => "sea\nmountain\nlake\nhills",
+                'labelother' => '',
+                'defaultoption' => '2',
+                'downloadformat' => '1',
+                'adjustment' => '1',
+            ],
+            'rate' => [
+                'content_editor' => ['text' => 'How confident are you with the following languages?'],
+                'options' => "EN\nES\nIT\nFR",
+                'rates' => "Mother tongue\nVery confident\nSomewhat confident\nNot confident at all",
+                'style' => '0',
+                'position' => '1',
+                'defaultoption' => '2',
+                'downloadformat' => '1',
+            ],
+            'recurrence' => [
+                'content_editor' => ['text' => 'When do you usually celebrate your name-day?'],
+                'defaultoption' => 2,
+                'downloadformat' => 'strftime02',
+                'lowerboundday' => '1',
+                'lowerboundmonth' => '1',
+                'upperboundday' => '31',
+                'upperboundmonth' => '12',
+            ],
+            'select' => [
+                'content_editor' => ['text' => 'Where do you usually spend your summer holidays?'],
+                'options' => "sea\nmountain\nlake\nhills",
+                'labelother' => '',
+                'defaultoption' => '2',
+                'downloadformat' => '1',
+            ],
+            'shortdate' => [
+                'content_editor' => ['text' => 'When did you buy your current car?'],
+                'defaultoption' => '2',
+                'downloadformat' => 'strftime01',
+                'lowerboundmonth' => '1',
+                'lowerboundyear' => '1970',
+                'upperboundmonth' => '12',
+                'upperboundyear' => '2020',
+            ],
+            'textarea' => [
+                'content_editor' => ['text' => 'Write a short description of yourself'],
+                // 'useeditor' => 0, // it is a checkbox. To set it to 0 I must jump it.
+                'arearows' => 10,
+                'areacols' => 60,
+                'minlength' => 0,
+                'maxlength' => '',
+            ],
+            'time' => [
+                'content_editor' => ['text' => 'At what time do you usually get up in the morning in a working day?'],
+                'step' => '1',
+                'defaultoption' => '2',
+                'downloadformat' => 'strftime01',
+                'lowerboundhour' => '0',
+                'lowerboundminute' => '0',
+                'upperboundhour' => '23',
+                'upperboundminute' => '59',
+            ],
+        ];
+    } else if ($type === SURVEYPRO_TYPEFORMAT) {
+        $map = [
+            'label' => [
+                'content_editor' => ['text' => 'Welcome to this new instance of surveypro'],
+                'leftlabel' => '',
+            ],
+            'pagebreak' => [],
+            'fieldset' => [
+                'content' => 'Grouped data inside',
+            ],
+            'fieldsetend' => [],
+        ];
     }
 
-    if ($type == SURVEYPRO_TYPEFORMAT) {
-        if ($plugin == 'label') {
-            if (!$content) {
-                $content = 'Welcome to this new instance of surveypro';
-            }
-            $return->content_editor['text'] = $content;
-            $return->indent = 0;
-            $return->customnumber = '';
-
-            // Plugin properties.
-            $return->leftlabel = '';
-            unset($return->parentid);
-            unset($return->parentcontent);
-
-            return $return;
-        }
-        if ($plugin == 'pagebreak') {
-            unset($return->content_editor);
-            unset($return->parentid);
-            unset($return->parentcontent);
-
-            return $return;
-        }
-        if ($plugin == 'fieldset') {
-            if (!$content) {
-                $content = 'Grouped data inside';
-            }
-            $return->content = $content;
-            unset($return->content_editor);
-            unset($return->parentid);
-            unset($return->parentcontent);
-
-            return $return;
-        }
-        if ($plugin == 'fieldsetend') {
-            $return->content_editor['text'] = '';
-            unset($return->parentid);
-            unset($return->parentcontent);
-
-            return $return;
-        }
+    if (isset($map[$plugin])) {
+        $defaults = $map[$plugin];
+    } else {
+        $defaults = [];
     }
+
+    $data = array_replace_recursive($mandatory, $defaults, $customsettings);
+
+    return (object)$data;
 }

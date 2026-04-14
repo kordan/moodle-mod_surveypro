@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Execute item actions
   In order to validate each action issues through inline icons
-  As teacher1
+  As admin
   I issue them and verify the outcome.
 
   Background:
@@ -38,8 +38,7 @@ Feature: Execute item actions
       | format | label       |
       | format | fieldset    |
       | format | fieldsetend |
-    And I am on the "Test simple item actions" "surveypro activity" page logged in as admin
-    And I follow "Layout"
+    And I am on the "Test simple item actions" "mod_surveypro > Layout from secondary navigation" page logged in as admin
 
     Then I should see "0" reserved items
     # 22 available items: 19 + 3
@@ -128,7 +127,7 @@ Feature: Execute item actions
     Given the following "activities" exist:
       | activity  | name                      | intro       | course  |
       | surveypro | Test complex item actions | To test CIA | Test IA |
-    When I am on the "Test complex item actions" "mod_surveypro > User templates from secondary navigation" page logged in as "admin"
+    And I am on the "Test complex item actions" "mod_surveypro > User templates from secondary navigation" page logged in as "admin"
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect

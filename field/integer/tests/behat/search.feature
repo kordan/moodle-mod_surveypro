@@ -20,35 +20,11 @@ Feature: Search using one and two integer items
     And the following "activities" exist:
       | activity  | name                     | intro                  | course      |
       | surveypro | Integer search form test | For searching purposes | Search form |
-    And I am on the "Integer search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Integer (small)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | How many people does your family counts? |
-      | Required          | 1                                        |
-      | Indent            | 0                                        |
-      | Search form       | 1                                        |
-      | Question position | left                                     |
-      | Element number    | 1                                        |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Integer (small)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content           | How many people does your parents family counts? |
-      | Required          | 1                                                |
-      | Indent            | 0                                                |
-      | Question position | left                                             |
-      | Element number    | 2                                                |
-    And I press "Add"
-
-    And I am on the "Integer search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Integer search form test" has the following items:
+      | type  | plugin  | settings                                                                                                               |
+      | field | integer | {"content":"How many people does your family counts?",         "required":"1", "customnumber":"1", "insearchform":"1"} |
+      | field | integer | {"content":"How many people does your parents family counts?", "required":"1", "customnumber":"2"}                     |
+    And I am on the "Integer search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

@@ -14,12 +14,10 @@ Feature: Test answers are not timezone dependent
       | Group 1 | noTZ   | G1       |
     And the following "users" exist:
       | username | firstname | lastname | email                | timezone        |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net | Africa/Asmara   |
       | student1 | student1  | user1    | student1@nowhere.net | Indian/Maldives |
       | student2 | student2  | user2    | student2@nowhere.net | America/Bahia   |
     And the following "course enrolments" exist:
       | user     | course | role           |
-      | teacher1 | noTZ   | editingteacher |
       | student1 | noTZ   | student        |
       | student2 | noTZ   | student        |
     And the following "group members" exist:
@@ -41,8 +39,8 @@ Feature: Test answers are not timezone dependent
       | field  | recurrence  |
       | field  | shortdate   |
       | field  | time        |
+    And I am on the "someanswers" "surveypro activity" page logged in as student1
 
-    When I am on the "someanswers" "surveypro activity" page logged in as student1
     And I press "New response"
     And I set the following fields to these values:
       | id_field_age_2_year         | 23      |
@@ -65,7 +63,7 @@ Feature: Test answers are not timezone dependent
 
     And I log out
 
-    When I am on the "someanswers" "surveypro activity" page logged in as student2
+    And I am on the "someanswers" "surveypro activity" page logged in as student2
     And I press "New response"
     And I set the following fields to these values:
       | id_field_age_2_year         | 23      |

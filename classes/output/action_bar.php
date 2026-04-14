@@ -31,17 +31,17 @@ use action_link;
 class action_bar
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -144,6 +144,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
 
         $renderer = $PAGE->get_renderer('mod_surveypro');
@@ -226,6 +227,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
 
         $renderer = $PAGE->get_renderer('mod_surveypro');
@@ -239,7 +241,7 @@ class action_bar
      * @return string The HTML code for the action selector.
      */
     public function draw_tools_action_bar(): string {
-        global $PAGE, $DB;
+        global $PAGE;
 
         $canimportresponses = has_capability('mod/surveypro:importresponses', $this->context);
         $canexportresponses = has_capability('mod/surveypro:exportresponses', $this->context);
@@ -272,6 +274,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -287,7 +290,7 @@ class action_bar
      * @return string The HTML code for the action selector.
      */
     public function draw_utemplates_action_bar(): string {
-        global $PAGE, $DB;
+        global $PAGE;
 
         $canmanageusertemplates = has_capability('mod/surveypro:manageusertemplates', $this->context);
         $cansaveusertemplates = has_capability('mod/surveypro:saveusertemplates', $this->context);
@@ -347,6 +350,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -400,6 +404,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);
@@ -416,10 +421,6 @@ class action_bar
      */
     public function draw_reports_action_bar(): string {
         global $PAGE;
-
-        $canaccessreports = has_capability('mod/surveypro:accessreports', $this->context);
-        $canaccessownreports = has_capability('mod/surveypro:accessownreports', $this->context);
-        $canalwaysseeowner = has_capability('mod/surveypro:alwaysseeowner', $this->context);
 
         if ($surveyproreportlist = \core_component::get_plugin_list('surveyproreport')) {
             foreach ($surveyproreportlist as $reportname => $reportpath) {
@@ -448,6 +449,7 @@ class action_bar
         }
 
         $urlselect = new url_select($menu, $activeurl->out(false), null, 'viewactionselect');
+        $urlselect->set_label(get_string('layout_actionselector', 'mod_surveypro'), ['class' => 'sr-only']);
         // End of definition for urlselect.
 
         $viewactionbar = new view_action_bar($this->surveypro->id, $urlselect);

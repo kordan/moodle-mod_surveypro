@@ -47,6 +47,7 @@ function surveypro_get_completion_state($course, $cm, $userid, $type) {
     if ($surveypro->completionsubmit) {
         $params = ['surveyproid' => $cm->instance, 'userid' => $userid, 'status' => SURVEYPRO_STATUSCLOSED];
         $submissioncount = $DB->count_records('surveypro_submission', $params);
+
         return ($submissioncount >= $surveypro->completionsubmit);
     } else {
         // Completion option is not enabled so just return $type.

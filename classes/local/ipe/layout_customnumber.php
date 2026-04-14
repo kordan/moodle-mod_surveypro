@@ -43,7 +43,18 @@ class layout_customnumber extends \core\output\inplace_editable
      */
     public function __construct($itemid, $customnumber) {
         $custnumber = format_string($customnumber);
-        parent::__construct('mod_surveypro', 'layout_customnumber', $itemid, true, $custnumber, $custnumber);
+        $editcustnumber = get_string('editcustomnumber', 'mod_surveypro');
+
+        parent::__construct(
+            'mod_surveypro',
+            'layout_customnumber',
+            $itemid,
+            true,
+            $custnumber,
+            $custnumber,
+            $editcustnumber,
+            $editcustnumber,
+        );
     }
 
     /**

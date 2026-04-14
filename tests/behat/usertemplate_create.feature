@@ -19,7 +19,7 @@ Feature: Create a usertemplate
       | activity  | name                  | intro                              | course              |
       | surveypro | Create a usertemplate | Surveypro to cretae a usertemplate | Create usertemplate |
 
-    When I am on the "Create a usertemplate" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
+    And I am on the "Create a usertemplate" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect

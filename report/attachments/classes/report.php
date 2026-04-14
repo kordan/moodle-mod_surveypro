@@ -233,7 +233,7 @@ class report extends reportbase
      * @return [$sql, $whereparams];
      */
     public function get_submissions_sql() {
-        global $COURSE, $DB, $USER;
+        global $USER;
 
         $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
         $whereparams = [];

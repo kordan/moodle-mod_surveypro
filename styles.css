@@ -76,6 +76,7 @@
     width: 0.5em;
     padding: 0.5em;
     text-align: center;
+    vertical-align: middle;
 }
 
 .path-mod-surveypro table td.plugin span.pluginicon {
@@ -94,16 +95,16 @@
     vertical-align: middle;
 }
 
-.path-mod-surveypro table td.parentitem {
-    width: 0.5em;
-    padding: 0.5em;
+.path-mod-surveypro table td.parentid {
+    width: .5em;
+    padding: .5em;
     margin: 0;
     white-space: nowrap;
     vertical-align: middle;
     text-align: center;
 }
 
-.path-mod-surveypro table td.parentitem span.branch .icon {
+.path-mod-surveypro table td.parentid span.branch .icon {
     width: 16px;
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
@@ -224,7 +225,7 @@
 
 .path-mod-surveypro table .dimmed,
 .path-mod-surveypro table .dimmed:hover {
-    color: #cdcdcd;
+    color: #767676;
 }
 
 .path-mod-surveypro table#validaterelations .header {
@@ -424,3 +425,74 @@ table.surveypro_index td span.dimmed {
     padding-top: 0;
 }
 /* End of: padding bottom for noanswer checkbox in a dedicated row, like, for instence, in rate elements (but not only) */
+
+/* Workaround to fix the following accessibility issues found by "Then the page should meet accessibility standards"
+  1)  All touch targets must be 24px large, or leave sufficient space
+      Ensure touch targets have sufficient size and space
+      https://dequeuniversity.com/rules/axe/4.10/target-size?application=axeAPI
+  2)  - Target has insufficient size because it is partially obscured
+      (smallest space is 23px by 31px, should be at least 24px by 24px),
+      Target has insufficient space to its closest neighbors.
+      Safe clickable space has a diameter of 22px instead of at least 24px.:
+      #firstinitial_page-item_A > .page-link
+  3)  - Target has insufficient size (23.4px by 23px, should be at least 24px by 24px),
+      Target has insufficient space to its closest neighbors.
+      Safe clickable space has a diameter of 18.6px instead of at least 24px.:
+      span[data-itemid="469014"][data-itemtype="layout_insearchform"] \
+      [data-editlabel="Change search status"] > .quickeditlink.aalink[data-inplaceeditablelink="1"]
+  4)  - Target has insufficient size (19.2px by 23px, should be at least 24px by 24px),
+      Target has insufficient space to its closest neighbors.
+      Safe clickable space has a diameter of 18.6px instead of at least 24px.:
+      #hide_item_15
+*/
+[id^="page-mod-surveypro-"] .initialbar .page-item {
+    margin: 2px; /* Create some space between the letter containers */
+}
+
+[id^="page-mod-surveypro-"] .initialbar .page-item .page-link {
+    min-width: 24px;
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border-radius: 4px; /* Optional: helps visually highlight the targets */
+    box-sizing: border-box; /* Ensures that padding and borders do not affect the 24px */
+}
+
+/* Ensures that quick-edit links are always valid, even in headless mode on GitHub */
+/* stylelint-disable declaration-no-important */
+[id^="page-mod-surveypro-"] .quickeditlink.aalink[data-inplaceeditablelink="1"] {
+    min-width: 24px !important;
+    min-height: 24px !important;
+    align-items: center;
+    justify-content: center;
+    display: inline-flex !important;
+}
+/* stylelint-enable declaration-no-important */
+/* End of workaround */
+
+/* stylelint-disable declaration-no-important */
+#userentry.mform.frozen .mb-3 {
+    margin-bottom: 0 !important;
+}
+/* stylelint-enable declaration-no-important */
+
+/* Begin of: fixed width for action icons and spacers in #manageitems */
+.path-mod-surveypro table td.actions a.icon,
+.path-mod-surveypro table td.actions span.noactionicon,
+.path-mod-surveypro table td.actions span.spacericon,
+.path-mod-surveypro table td.actions a.quickeditlink {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    min-width: 40px;
+    box-sizing: border-box;
+}
+
+.path-mod-surveypro table td.actions span.spacericon i.icon {
+    width: 16px;
+    min-width: 16px;
+}
+/* End of: fixed width for action icons and spacers in #manageitems */

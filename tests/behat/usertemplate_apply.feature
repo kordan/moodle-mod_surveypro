@@ -19,7 +19,7 @@ Feature: Load and apply usertemplates to test partial item deletion
       | activity  | name                 | intro                             | course             |
       | surveypro | Apply a usertemplate | Surveypro to apply a usertemplate | Apply usertemplate |
 
-    When I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
+    And I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect

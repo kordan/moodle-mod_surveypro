@@ -24,8 +24,6 @@
 
 namespace mod_surveypro;
 
-use mod_surveypro\utility_submission;
-
 /**
  * The utility class
  *
@@ -36,17 +34,17 @@ use mod_surveypro\utility_submission;
 class utility_layout
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -150,8 +148,6 @@ class utility_layout
      * @return bool|int as required by $returncount
      */
     public function has_items($formpage = 0, $type = null, $includehidden = false, $includereserved = false, $returncount = false) {
-        global $DB;
-
         if (!empty($type)) {
             if (($type != 'field') && ($type != 'format')) {
                 $message = 'Unexpected value for $type found.';
@@ -160,6 +156,66 @@ class utility_layout
             }
         }
 
+        $whereparams = $this->build_has_items_whereparams(
+            (int)$formpage,
+            $type,
+            (bool)$includehidden,
+            (bool)$includereserved
+        );
+        return $this->count_or_presence('surveypro_item', $whereparams, (bool)$returncount);
+    }
+
+    /**
+     * Return if the survey has search items.
+     *
+     * @param bool $returncount
+     * @return bool|int as required by $returncount
+     */
+    public function has_search_items($returncount = false) {
+        $whereparams = [
+            'surveyproid' => $this->surveypro->id,
+            'type' => 'field',
+            'hidden' => 0,
+            'insearchform' => 1,
+        ];
+        return $this->count_or_presence('surveypro_item', $whereparams, (bool)$returncount);
+    }
+
+    /**
+     * Return the number (or the availability) of required submissions.
+     *
+     * @param bool $returncount
+     * @param int $status
+     * @param int $userid
+     * @return int
+     */
+    public function has_submissions($returncount = false, $status = SURVEYPRO_STATUSALL, $userid = null) {
+        $whereparams = ['surveyproid' => $this->surveypro->id];
+        if ($status != SURVEYPRO_STATUSALL) {
+            $whereparams['status'] = $status;
+        }
+        if (!empty($userid)) {
+            $whereparams['userid'] = $userid;
+        }
+
+        return $this->count_or_presence('surveypro_submission', $whereparams, (bool)$returncount);
+    }
+
+    /**
+     * Build where params for has_items().
+     *
+     * @param int $formpage
+     * @param string|null $type
+     * @param bool $includehidden
+     * @param bool $includereserved
+     * @return array
+     */
+    protected function build_has_items_whereparams(
+        int $formpage,
+        ?string $type,
+        bool $includehidden,
+        bool $includereserved
+    ): array {
         $whereparams = ['surveyproid' => $this->surveypro->id];
         if (!empty($type)) {
             $whereparams['type'] = $type;
@@ -173,59 +229,25 @@ class utility_layout
         if (!$includereserved) {
             $whereparams['reserved'] = 0;
         }
-
-        if ($returncount) {
-            return $DB->count_records('surveypro_item', $whereparams);
-        } else {
-            return ($DB->count_records('surveypro_item', $whereparams) > 0);
-        }
+        return $whereparams;
     }
 
     /**
-     * Return if the survey has search items.
+     * Return count or boolean presence for records.
      *
+     * @param string $table
+     * @param array $whereparams
      * @param bool $returncount
-     * @return bool|int as required by $returncount
+     * @return int|bool
      */
-    public function has_search_items($returncount = false) {
+    protected function count_or_presence(string $table, array $whereparams, bool $returncount) {
         global $DB;
 
-        $whereparams = ['surveyproid' => $this->surveypro->id];
-        $whereparams['type'] = 'field';
-        $whereparams['hidden'] = 0;
-        $whereparams['insearchform'] = 1;
-
+        $count = $DB->count_records($table, $whereparams);
         if ($returncount) {
-            return $DB->count_records('surveypro_item', $whereparams);
-        } else {
-            return ($DB->count_records('surveypro_item', $whereparams) > 0);
+            return $count;
         }
-    }
-
-    /**
-     * Return the number (or the availability) of required submissions.
-     *
-     * @param bool $returncount
-     * @param int $status
-     * @param int $userid
-     * @return int
-     */
-    public function has_submissions($returncount = false, $status = SURVEYPRO_STATUSALL, $userid = null) {
-        global $DB;
-
-        $whereparams = ['surveyproid' => $this->surveypro->id];
-        if ($status != SURVEYPRO_STATUSALL) {
-            $whereparams['status'] = $status;
-        }
-        if (!empty($userid)) {
-            $whereparams['userid'] = $userid;
-        }
-
-        if ($returncount) {
-            return $DB->count_records('surveypro_submission', $whereparams);
-        } else {
-            return ($DB->count_records('surveypro_submission', $whereparams) > 0);
-        }
+        return ($count > 0);
     }
 
     /**

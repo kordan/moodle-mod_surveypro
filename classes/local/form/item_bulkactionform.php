@@ -55,7 +55,9 @@ class item_bulkactionform extends \moodleform
         $options[SURVEYPRO_DELETEHIDDENITEMS] = get_string('deletehiddenitems', 'mod_surveypro');
 
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname, null, $options);
+        $selectlabel = get_string('typeplugin', 'mod_surveypro');
+        $attributes = ['aria-label' => $selectlabel];
+        $elementgroup[] = $mform->createElement('select', $fieldname, $selectlabel, $options, $attributes);
         $elementgroup[] = $mform->createElement('submit', 'button', get_string('go'));
         $mform->addElement('group', $fieldname . '_group', get_string($fieldname, 'surveypro'), $elementgroup, ' ', false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveypro');

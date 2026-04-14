@@ -20,49 +20,11 @@ Feature: Search using one and two date items
     And the following "activities" exist:
       | activity  | name                  | intro                  | course      |
       | surveypro | Date search form test | For searching purposes | Search form |
-    And I am on the "Date search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When were you born? |
-      | Required                 | 1                   |
-      | Indent                   | 0                   |
-      | Question position        | left                |
-      | Search form              | 1                   |
-      | Element number           | 1                   |
-      | Hide filling instruction | 1                   |
-      | id_lowerboundday         | 1                   |
-      | id_lowerboundmonth       | 1                   |
-      | id_lowerboundyear        | 1975                |
-      | id_upperboundday         | 31                  |
-      | id_upperboundmonth       | 12                  |
-      | id_upperboundyear        | 1999                |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Date [dd/mm/yyyy]"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | When was your spouse born? |
-      | Required                 | 1                          |
-      | Indent                   | 0                          |
-      | Question position        | left                       |
-      | Element number           | 2                          |
-      | Hide filling instruction | 1                          |
-      | id_lowerboundday         | 1                          |
-      | id_lowerboundmonth       | 1                          |
-      | id_lowerboundyear        | 1985                       |
-      | id_upperboundday         | 31                         |
-      | id_upperboundmonth       | 12                         |
-      | id_upperboundyear        | 2010                       |
-    And I press "Add"
-
-    And I am on the "Date search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Date search form test" has the following items:
+      | type  | plugin | settings                                                                                                                                                                                                                                               |
+      | field | date   | {"content":"When were you born?",      "required":"1", "customnumber":"1", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"43200", "downloadformat":"strftime05", "lowerbound":"157809600", "upperbound":"946641600", "insearchform":"1"} |
+      | field | date   | {"content":"When was your wife born?", "required":"1", "customnumber":"2", "defaultoption":"2", "hideinstructions":"1", "defaultvalue":"43200", "downloadformat":"strftime05", "lowerbound":"473428800", "upperbound":"1293796800"}                    |
+    And I am on the "Date search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

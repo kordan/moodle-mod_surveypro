@@ -230,7 +230,7 @@ class item extends itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
+    public function set_options($options): void {
         $this->options = $options;
     }
 
@@ -251,6 +251,14 @@ class item extends itembase
      * @return void
      */
     public function set_defaultoption($defaultoption) {
+        $condition = false;
+        $condition = $condition || ($defaultoption == SURVEYPRO_CUSTOMDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_INVITEDEFAULT);
+        $condition = $condition || ($defaultoption == SURVEYPRO_NOANSWERDEFAULT);
+        if (!$condition) {
+            throw new \coding_exception('Passed parameter defaultoption is not allowed.');
+        }
+
         $this->defaultoption = $defaultoption;
     }
 
@@ -567,6 +575,7 @@ EOS;
         // End of: element values.
 
         $attributes = ['id' => $baseid, 'class' => 'indent-' . $this->indent . ' select_select'];
+        $attributes['aria-label'] = get_string('pluginname', 'surveyprofield_select');
         $elementgroup[] = $mform->createElement('select', $basename, '', $labels, $attributes);
         if ($this->labelother) {
             $attributes = ['id' => $baseid . '_text'];
@@ -576,9 +585,8 @@ EOS;
         }
         $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, ' ', false, $class);
 
-        // Begin of: default section.
-        if (!$searchformelementscount) {
-            if ($this->required) {
+        if ($this->required) {
+            if (!$searchformelementscount) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
@@ -586,27 +594,38 @@ EOS;
                 $starplace = ($this->position == SURVEYPRO_POSITIONTOP) ? $basename . '_extrarow_group' : $basename . '_group';
                 $mform->_required[] = $starplace;
             }
+            // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+            // Maybe this is still in progress.
         }
 
-        // Note: $basename.'_text' has to ALWAYS get a default (if required) even if it is not selected.
+        // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
         if (!$searchformelementscount) {
-            switch ($this->defaultoption) {
-                case SURVEYPRO_CUSTOMDEFAULT:
-                    if ($key = array_search($this->defaultvalue, $labels)) {
-                        $mform->setDefault($basename, "$key");
-                    } else {
-                        $mform->setDefault($basename, 'other');
-                    }
-                    break;
-                case SURVEYPRO_INVITEDEFAULT:
-                    $mform->setDefault($basename, SURVEYPRO_INVITEVALUE);
-                    break;
-                case SURVEYPRO_NOANSWERDEFAULT:
-                    $mform->setDefault($basename, SURVEYPRO_NOANSWERVALUE);
-                    break;
-                default:
-                    $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
-                    debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+            if (!$readonly) {
+                switch ($this->defaultoption) {
+                    case SURVEYPRO_CUSTOMDEFAULT:
+                        if ($key = array_search($this->defaultvalue, $labels)) {
+                            $mform->setDefault($basename, "$key");
+                        } else {
+                            $mform->setDefault($basename, 'other');
+                        }
+                        break;
+                    case SURVEYPRO_INVITEDEFAULT:
+                        $mform->setDefault($basename, SURVEYPRO_INVITEVALUE);
+                        break;
+                    case SURVEYPRO_NOANSWERDEFAULT:
+                        $mform->setDefault($basename, SURVEYPRO_NOANSWERVALUE);
+                        break;
+                    default:
+                        $message = 'Unexpected $this->defaultoption = ' . $this->defaultoption;
+                        debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+                }
             }
         } else {
             if ($searchformelementscount > 1) {

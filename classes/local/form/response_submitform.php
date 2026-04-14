@@ -235,9 +235,8 @@ class response_submitform extends \moodleform
         $errors = parent::validation($data, $files);
 
         // Validate an item only if it is enabled, alias: only if its content matches the parent-child constrain.
-        $warnings = [];
         $olditemid = 0;
-        foreach ($data as $elementname => $content) {
+        foreach ($data as $elementname => $unused) {
             if ($matches = utility_item::get_item_parts($elementname)) {
                 if ($matches['itemid'] == $olditemid) {
                     continue; // To next foreach.

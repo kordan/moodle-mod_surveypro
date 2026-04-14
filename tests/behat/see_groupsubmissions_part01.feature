@@ -23,33 +23,14 @@ Feature: Submissions seen from students not divided into groups (Part 01)
       | teacher1 | Groups permissions | editingteacher |
       | student1 | Groups permissions | student        |
       | student2 | Groups permissions | student        |
+    And the following "activities" exist:
+      | activity  | name                        | intro                          | course             |
+      | surveypro | Verify submission selection | Test what each student can see | Groups permissions |
+    And surveypro "Verify submission selection" has the following items:
+      | type  | plugin    | settings                                          |
+      | field | character | {"content":"Enter your name", "customnumber":"1"} |
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student1
 
-    And I log in as "teacher1"
-    And I am on "Verify permissions in groups" course homepage with editing mode on
-
-    # And I add a "Surveypro" to section "1" and I fill the form with:
-    And I add a surveypro activity to course "Verify permissions in groups" section "1" and I fill the form with:
-      | Name        | Verify submission selection    |
-      | Description | Test what each student can see |
-    And I turn editing mode off
-    And I am on the "Verify submission selection" "surveypro activity" page
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | Enter your name |
-      | Indent                   | 0               |
-      | Question position        | left            |
-      | Element number           | 1               |
-      | Hide filling instruction | 0               |
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -74,7 +55,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # student2 logs in
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as student2
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -94,7 +75,7 @@ Feature: Submissions seen from students not divided into groups (Part 01)
     And I log out
 
     # teacher1 goes to check for his personal submissions
-    When I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
+    And I am on the "Verify submission selection" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "student1" in the "submissions" "table"

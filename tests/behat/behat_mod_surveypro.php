@@ -45,6 +45,40 @@ class behat_mod_surveypro extends behat_base
     use core_behat_file_helper;
 
     /**
+     * Disabilita TinyMCE prima di ogni scenario per velocizzare i test.
+     *
+     * @BeforeScenario ~@use_editor
+     */
+    public function disable_richtext_editor(): void {
+        set_config('texteditors', 'textarea,tiny,atto');
+    }
+
+    /**
+     * If a test forced the Tiny MCE editor,
+     * move the text area back to the top
+     * to use the textarea as next editor.
+     *
+     * @AfterScenario @use_editor
+     */
+    public function restore_fast_editor(): void {
+        set_config('texteditors', 'textarea,tiny,atto');
+    }
+
+    /**
+     * Set textarea as default editor for the user $username
+     *
+     * @Given /^I switch to plaintext editor for user "([^"]*)"$/
+     *
+     * @param string $username The user target of this change of textaeditor.
+     */
+    public function i_switch_to_plaintext_editor_for_user(string $username) {
+        global $DB;
+
+        $user = $DB->get_record('user', ['username' => $username], '*', MUST_EXIST);
+        set_user_preference('htmleditor', 'textarea', $user->id);
+    }
+
+    /**
      * Convert page names to URLs for steps like 'When I am on the "[identifier]" "[page type]" page'.
      *
      * Recognised page names are:
@@ -57,8 +91,6 @@ class behat_mod_surveypro extends behat_base
      * @throws Exception with a meaningful error message if the specified page cannot be found.
      */
     protected function resolve_page_instance_url(string $type, string $identifier): moodle_url {
-        global $DB;
-
         switch ($type) {
             case 'Surveypro from secondary navigation':
                 return new \moodle_url(
@@ -157,6 +189,7 @@ class behat_mod_surveypro extends behat_base
      */
     protected function get_cm_by_surveypro_name(string $name): \stdClass {
         $surveypro = $this->get_surveypro_by_name($name);
+
         return get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course);
     }
 
@@ -284,26 +317,73 @@ class behat_mod_surveypro extends behat_base
         $surveypro = $DB->get_record('surveypro', ['name' => $surveyproname], '*', MUST_EXIST);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
 
+        $parentids = [];
+        $allowed = ['type' => 1, 'plugin' => 1, 'settings' => 1];
         // Add the questions.
         foreach ($data->getHash() as $surveyprodata) {
+            // Verify "type" was provided
             if (!array_key_exists('type', $surveyprodata)) {
-                throw new ExpectationException('When adding an item to a surveypro, ' .
-                        'the type column is required.', $this->getSession());
+                throw new ExpectationException('Type column is required.', $this->getSession());
             }
+
+            // Verify "plugin" was provided
             if (!array_key_exists('plugin', $surveyprodata)) {
-                throw new ExpectationException('When adding item to a surveypro, ' .
-                        'the plugin column is required.', $this->getSession());
+                throw new ExpectationException('Plugin column is required.', $this->getSession());
+            }
+
+            // Verify only allowed keys were provided
+            $extras = array_diff_key($surveyprodata, $allowed);
+            if (!empty($extras)) {
+                $illegal = implode(', ', array_keys($extras));
+                throw new ExpectationException(
+                    'Key/s "' . $illegal . '" are not allowed in surveypro_has_the_following_items',
+                    $this->getSession()
+                );
             }
 
             $type = clean_param($surveyprodata['type'], PARAM_TEXT);
             $plugin = clean_param($surveyprodata['plugin'], PARAM_TEXT);
-            $content = isset($surveyprodata['content']) ? clean_param($surveyprodata['content'], PARAM_TEXT) : null;
+            if (isset($surveyprodata['settings']) && core_text::strlen($surveyprodata['settings'])) {
+                $settings = clean_param($surveyprodata['settings'], PARAM_RAW); // Preserve '>' or html tags.
+
+                // If I find parentid and $parentid esists
+                if (preg_match('/@@itemid_(\d+)@@/', $settings, $matches)) {
+                    // $matches[0] holds "@@itemid_04@@".
+                    // $matches[1] holdes "04".
+
+                    $index = (int)$matches[1]; // Convertiamo "04" in intero (4)
+                    $index--;
+                    if (isset($parentids[$index])) {
+                        $settings = str_replace($matches[0], (string)$parentids[$index], $settings);
+                    } else {
+                        $index++;
+                        throw new \coding_exception('The item with the index ' . $index . ' has not yet been created.');
+                    }
+                }
+
+                try {
+                    $customsettings = json_decode($settings, true, 512, JSON_THROW_ON_ERROR);
+                } catch (JsonException $e) {
+                    throw new coding_exception('Invalid JSON at lne ' . __LINE__ . ' of ' . __FILE__ . ': ' . $e->getMessage());
+                }
+
+                if (isset($customsettings['content'])) {
+                    $customsettings['content_editor'] = ['text' => $customsettings['content']];
+                    unset($customsettings['content']);
+                }
+            } else {
+                $customsettings = []; // Do not inherit previous items settings.
+            }
+
             // Get dummy contents based on type and plugin.
-            $record = get_dummy_contents($type, $plugin, $content);
+            $record = surveypro_get_dummy_contents($type, $plugin, $customsettings ?? []);
 
             // Add the item.
             $item = surveypro_get_itemclass($cm, $surveypro, 0, $type, $plugin);
-            $item->item_save($record);
+            $itemid = $item->item_save($record);
+
+            // I save the id of each item just in case I need it to make relations.
+            $parentids[] = $itemid;
         }
     }
 

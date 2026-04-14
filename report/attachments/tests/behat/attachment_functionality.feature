@@ -30,20 +30,13 @@ Feature: Test attachment report
       | activity  | name                   | intro                                      | course                 |
       | surveypro | Attachment report test | To test functionality of attachment report | Test attachment report |
     And surveypro "Attachment report test" has the following items:
-      | type   | plugin     | content                            |
-      | field  | fileupload | Upload a passport photo            |
-      | field  | fileupload | Upload your CV                     |
-      | field  | fileupload | Upload the picture for the contest |
-    And I log in as "teacher1"
-    And I am on "Test attachment report" course homepage
-
-    And I follow "Attachment report test"
-    And I follow "Layout"
-
-    And I log out
+      | type   | plugin     | settings                                         |
+      | field  | fileupload | {"content":"Upload a passport photo"}            |
+      | field  | fileupload | {"content":"Upload your CV"}                     |
+      | field  | fileupload | {"content":"Upload the picture for the contest"} |
 
     # student1 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student1
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -69,7 +62,7 @@ Feature: Test attachment report
     And I log out
 
     # student2 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student2
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -87,7 +80,7 @@ Feature: Test attachment report
     And I log out
 
     # student3 logs in
-    When I am on the "Attachment report test" "surveypro activity" page logged in as student3
+    And I am on the "Attachment report test" "surveypro activity" page logged in as student3
     And I select "Responses" from the "jump" singleselect
 
     And I press "New response"
@@ -105,7 +98,7 @@ Feature: Test attachment report
     And I log out
 
     # teacher logs in
-    When I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
+    And I am on the "Attachment report test" "mod_surveypro > Reports from secondary navigation" page logged in as teacher1
 
     # Feature 1: only user who actually submitted are in the list
     Then I should see "student1"

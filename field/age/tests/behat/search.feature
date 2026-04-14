@@ -20,51 +20,11 @@ Feature: Search using one and two age items
     And the following "activities" exist:
       | activity  | name                 | intro                  | course      |
       | surveypro | Age search form test | For searching purposes | Search form |
-    And I am on the "Age search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Age"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | How old were you when you started cycling? |
-      | Required                 | 1                                          |
-      | Indent                   | 0                                          |
-      | Question position        | left                                       |
-      | Search form              | 1                                          |
-      | Element number           | 1                                          |
-      | Hide filling instruction | 1                                          |
-      | id_defaultoption_2       | Custom                                     |
-      | id_defaultvalueyear      | 5                                          |
-      | id_defaultvaluemonth     | 0                                          |
-      | id_lowerboundyear        | 1                                          |
-      | id_lowerboundmonth       | 0                                          |
-      | id_upperboundyear        | 14                                         |
-      | id_upperboundmonth       | 0                                          |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Age"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content                  | How old were you when you married? |
-      | Required                 | 1                                  |
-      | Indent                   | 0                                  |
-      | Question position        | left                               |
-      | Element number           | 2                                  |
-      | Hide filling instruction | 1                                  |
-      | id_defaultoption_2       | Custom                             |
-      | id_defaultvalueyear      | 30                                 |
-      | id_defaultvaluemonth     | 6                                  |
-      | id_lowerboundyear        | 18                                 |
-      | id_lowerboundmonth       | 0                                  |
-      | id_upperboundyear        | 85                                 |
-      | id_upperboundmonth       | 0                                  |
-    And I press "Add"
-
-    And I am on the "Age search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Age search form test" has the following items:
+      | type  | plugin  | settings                                                                                                                                                                                                                                                                                 |
+      | field | age     | {"content":"How old were you when you learned to ride a bike?", "required":"1", "indent":"1", "position":"0", "customnumber":"1", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2117016000", "upperbound":"-1706788800", "insearchform":"1"} |
+      | field | age     | {"content":"How old were you when you got married?",            "required":"1", "indent":"1", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-1580558400", "upperbound":"533822400"}                       |
+    And I am on the "Age search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"

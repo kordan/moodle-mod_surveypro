@@ -21,7 +21,7 @@ Surveypro comes with 22 built-in element plugins, comprising 18 field types and 
 Here is a list of the 22 built-in elements with their intended use:
 ```
 |--- field ---| --------------------------- Example of question ---------------------------- | -- Example of answer - |
-| age         | How old were you when you started cycling?                                   | 4 years, 6 months      |
+| age         | How old were you when you learned to ride a bike?                            | 4 years, 6 months      |
 | autofill    | Autofill the response with infos from user, course, time, date or surveypro  | userid=528             |
 | boolean     | Is it true?                                                                  | yes                    |
 | character   | Write down your email, please                                                | thisisme@myserver.net  |

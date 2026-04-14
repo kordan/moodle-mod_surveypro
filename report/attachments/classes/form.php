@@ -40,17 +40,17 @@ require_once($CFG->dirroot . '/mod/surveypro/field/fileupload/lib.php');
 class form
 {
     /**
-     * @var object Course module object
+     * @var \stdClass Course module object
      */
     protected $cm;
 
     /**
-     * @var object Context object
+     * @var \stdClass Context object
      */
     protected $context;
 
     /**
-     * @var object Surveypro object
+     * @var \stdClass Surveypro object
      */
     protected $surveypro;
 
@@ -70,7 +70,7 @@ class form
     public $submissionid = 0;
 
     /**
-     * @var object Form content as submitted by the user
+     * @var \stdClass Form content as submitted by the user
      */
     public $formdata = null;
 
@@ -140,7 +140,7 @@ class form
      * @return void
      */
     public function display_attachment($submissionid, $itemid) {
-        global $CFG, $DB, $OUTPUT, $PAGE;
+        global $DB, $OUTPUT, $PAGE;
 
         $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], '*', MUST_EXIST);
         $user = $DB->get_record('user', ['id' => $submission->userid], '*', MUST_EXIST);

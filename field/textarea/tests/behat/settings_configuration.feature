@@ -50,7 +50,7 @@ Feature: Submit using textarea item and check form validation
 
     And I log out
 
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 2: Student flies over the answer
     And I press "New response"
@@ -89,7 +89,7 @@ Feature: Submit using textarea item and check form validation
 
     And I log out
 
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 5: student submits an empty answer
     And I press "New response"
@@ -134,7 +134,7 @@ Feature: Submit using textarea item and check form validation
 
     And I log out
 
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 9: Student flies over the answer
     And I press "New response"
@@ -173,7 +173,7 @@ Feature: Submit using textarea item and check form validation
 
     And I log out
 
-    When I am on the "Surveypro test" "surveypro activity" page logged in as student1
+    And I am on the "Surveypro test" "surveypro activity" page logged in as student1
 
     # Test number 12: student submits an empty answer
     And I press "New response"

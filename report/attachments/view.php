@@ -30,7 +30,7 @@ use surveyproreport_attachments\report;
 use surveyproreport_attachments\filterform;
 use surveyproreport_attachments\form;
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);

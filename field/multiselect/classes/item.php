@@ -227,7 +227,7 @@ class item extends itembase
      * @param string $options
      * @return void
      */
-    public function set_options($options) {
+    public function set_options($options): void {
         $this->options = $options;
     }
 
@@ -595,6 +595,7 @@ EOS;
 
         $labels = $this->get_textarea_content(SURVEYPRO_LABELS, 'options');
         $attributes['id'] = $baseid;
+        $attributes['aria-label'] = get_string('pluginname', 'surveyprofield_multiselect');
         $attributes['size'] = $this->heightinrows;
 
         $select = $mform->createElement('select', $basename, '', $labels, $attributes);
@@ -640,8 +641,8 @@ EOS;
             }
         }
 
-        if (!$searchformelementscount) {
-            if ($this->required) {
+        if ($this->required) {
+            if (!$searchformelementscount) {
                 // Even if the item is required I CAN NOT ADD ANY RULE HERE because...
                 // I do not want JS form validation if the page is submitted through the "previous" button.
                 // I do not want JS field validation even if this item is required BUT disabled. See: MDL-34815.
@@ -651,17 +652,26 @@ EOS;
             }
         }
 
-        // Begin of: defaults.
+         // Begin of: default section.
+        // Defaults have a serious issue.
+        // I need to apply the default ONLY IF
+        // $mode = SURVEYPRO_NOMODE, SURVEYPRO_NEWRESPONSEMODE, SURVEYPRO_EDITMODE, SURVEYPRO_PREVIEWMODE
+        // whereas if $mode = SURVEYPRO_READONLYMODE, I just need to display what’s in the database.
+        // If the answer is not present in the database
+        // because it’s a child field and its parent prevented the input
+        // I need to leave the field empty without applying the default.
         if (!$searchformelementscount) {
-            if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
-                $defaultkeys = [];
-                foreach ($defaults as $default) {
-                    $defaultkeys[] = array_search($default, $labels);
+            if (!$readonly) {
+                if ($defaults = $utilityitemman->multilinetext_to_array($this->defaultvalue)) {
+                    $defaultkeys = [];
+                    foreach ($defaults as $default) {
+                        $defaultkeys[] = array_search($default, $labels);
+                    }
+                    $mform->setDefault($basename, $defaultkeys);
                 }
-                $mform->setDefault($basename, $defaultkeys);
-            }
-            if (!empty($this->noanswerdefault)) {
-                $mform->setDefault($basename . '_noanswer', '1');
+                if (!empty($this->noanswerdefault)) {
+                    $mform->setDefault($basename . '_noanswer', '1');
+                }
             }
         } else {
             if ($searchformelementscount > 1) {

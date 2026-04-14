@@ -19,7 +19,7 @@ Feature: Load and apply usertemplates
       | activity  | name      | intro                                | course                  |
       | surveypro | Apply all | Surveypro to apply all usertemplates | Apply each usertemplate |
 
-    When I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
+    And I am on the "Apply all" "mod_surveypro > User templates from secondary navigation" page logged in as "teacher1"
     # now I am in the "Manage" page
 
     And I select "Import" from the "jump" singleselect

@@ -21,14 +21,14 @@ Feature: In read only mode browse a submission jumping not filled pages
       | activity  | name                        | intro                       | newpageforchild | course                 |
       | surveypro | Test jump not allowed pages | Test jump not allowed pages | 1               | Jump not allowed pages |
     And surveypro "Test jump not allowed pages" has the following items:
-      | type   | plugin      |
-      | field  | boolean     |
-      | format | pagebreak   |
-      | field  | select      |
-      | format | pagebreak   |
-      | field  | character   |
-      | format | pagebreak   |
-      | field  | boolean     |
+      | type   | plugin    |
+      | field  | boolean   |
+      | format | pagebreak |
+      | field  | select    |
+      | format | pagebreak |
+      | field  | character |
+      | format | pagebreak |
+      | field  | boolean   |
     And I am on the "Test jump not allowed pages" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
     And I follow "edit_item_3"
@@ -58,7 +58,7 @@ Feature: In read only mode browse a submission jumping not filled pages
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test jump not allowed pages" "surveypro activity" page logged in as student1
+    And I am on the "Test jump not allowed pages" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Is it true?" to "1"

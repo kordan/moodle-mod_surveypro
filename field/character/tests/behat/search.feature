@@ -20,40 +20,22 @@ Feature: Search using one and two short text items
     And the following "activities" exist:
       | activity  | name                        | intro                  | course      |
       | surveypro | Short text search form test | For searching purposes | Search form |
-    And I am on the "Short text search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # Create a two items long surveypro
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content     | First Name |
-      | Required    | 1          |
-      | Search form | 1          |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-    And I expand all fieldsets
-
-    Given I set the following fields to these values:
-      | Content  | Last Name |
-      | Required | 1         |
-    And I press "Add"
-
-    And I am on the "Short text search form test" "mod_surveypro > Surveypro from secondary navigation" page logged in as student1
+    And surveypro "Short text search form test" has the following items:
+      | type  | plugin    | settings                                                     |
+      | field | character | {"content":"First name", "required":"1", "insearchform":"1"} |
+      | field | character | {"content":"Last name",  "required":"1"}                     |
+    And I am on the "Short text search form test" "surveypro activity" page logged in as student1
 
     # Add the first record
     And I press "New response"
-    And I set the field "First Name" to "Johann"
-    And I set the field "Last Name" to "Bernoulli"
+    And I set the field "First name" to "Johann"
+    And I set the field "Last name" to "Bernoulli"
     And I press "Submit"
 
     # Add the second record
     And I press "New response"
-    And I set the field "First Name" to "Jakob"
-    And I set the field "Last Name" to "Bernoulli"
+    And I set the field "First name" to "Jakob"
+    And I set the field "Last name" to "Bernoulli"
     And I press "Submit"
 
     # 1st search for submitted records
@@ -63,7 +45,7 @@ Feature: Search using one and two short text items
     # With only one field in the search form, "Ignore me" must not be in the form.
     And I should not see "*"
 
-    And I set the field "First Name" to "Johann"
+    And I set the field "First name" to "Johann"
     And I press "Search"
     Then I should see "1" submissions
 
@@ -79,7 +61,7 @@ Feature: Search using one and two short text items
     # I test it is in the form setting it to 0
 
     And I set the field "id_field_character_2_ignoreme" to "0"
-    And I set the field "Last Name" to "Bernoulli"
+    And I set the field "Last name" to "Bernoulli"
     And I press "Search"
     Then I should see "2" submissions
 
@@ -91,8 +73,8 @@ Feature: Search using one and two short text items
     # I test it is in the form setting it to 0
 
     And I set the field "id_field_character_1_ignoreme" to "0"
-    And I set the field "First Name" to "Jakob"
+    And I set the field "First name" to "Jakob"
     And I set the field "id_field_character_2_ignoreme" to "0"
-    And I set the field "Last Name" to "Bernoulli"
+    And I set the field "Last name" to "Bernoulli"
     And I press "Search"
     Then I should see "1" submissions

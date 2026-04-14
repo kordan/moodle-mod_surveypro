@@ -1,7 +1,7 @@
 @mod @mod_surveypro
 Feature: Duplicate a response
   In order to test that response duplication works fine
-  As teacher1 and student1
+  As student1
   I fill a surveypro and go to duplicate the submitted response
 
   @javascript
@@ -11,7 +11,6 @@ Feature: Duplicate a response
       | Duplicate response | Duplicate response | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference          |
@@ -19,7 +18,6 @@ Feature: Duplicate a response
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Duplicate response |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Duplicate response | editingteacher |
       | student1 | Duplicate response | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                     | course             |
@@ -28,6 +26,7 @@ Feature: Duplicate a response
       | type  | plugin  |
       | field | boolean |
     And I am on the "Duplicate response sp" "surveypro activity" page logged in as student1
+
     And I press "New response"
     And I set the field "Is it true?" to "Yes"
     And I press "Submit"
@@ -53,7 +52,7 @@ Feature: Duplicate a response
 
     And I log out
 
-    When I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
+    And I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
     And I select "Responses" from the "jump" singleselect
     # Duplicate other original response
     And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"

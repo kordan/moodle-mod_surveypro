@@ -39,7 +39,7 @@ Feature: Test colles report for courses divided into groups having answers
       | activity  | name           | intro          | course         |
       | surveypro | Verify reports | Verify reports | Course grouped |
 
-    When I am on the "Verify reports" "Activity editing" page logged in as teacher1
+    And I am on the "Verify reports" "Activity editing" page logged in as teacher1
     And I set the following fields to these values:
       | Group mode | Visible groups |
     And I press "Save and display"
@@ -50,7 +50,7 @@ Feature: Test colles report for courses divided into groups having answers
     And I log out
 
     # student11 logs in
-    When I am on the "Verify reports" "surveypro activity" page logged in as student11
+    And I am on the "Verify reports" "surveypro activity" page logged in as student11
 
     And I press "New response"
 
@@ -87,7 +87,7 @@ Feature: Test colles report for courses divided into groups having answers
     And I log out
 
     # student12 logs in
-    When I am on the "Verify reports" "surveypro activity" page logged in as student12
+    And I am on the "Verify reports" "surveypro activity" page logged in as student12
 
     And I press "New response"
 
@@ -124,7 +124,7 @@ Feature: Test colles report for courses divided into groups having answers
     And I log out
 
     # student21 logs in
-    When I am on the "Verify reports" "surveypro activity" page logged in as student21
+    And I am on the "Verify reports" "surveypro activity" page logged in as student21
 
     And I press "New response"
 
@@ -160,7 +160,7 @@ Feature: Test colles report for courses divided into groups having answers
 
     And I log out
 
-    When I am on the "Verify reports" "mod_surveypro > Colles > Summary report" page logged in as teacher1
+    And I am on the "Verify reports" "mod_surveypro > Colles > Summary report" page logged in as teacher1
     Then I should not see "No responses were found in this survey for enrolled students."
     And I set the field "id_groupid" to "Group 1"
     Then I should not see "No responses were found in this survey for enrolled students."

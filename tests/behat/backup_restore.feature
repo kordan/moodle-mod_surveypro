@@ -59,7 +59,7 @@ Feature: Backup and restore a surveypro
 
     Then I should see "Welcome to this new instance of surveypro"
     And I should see "Grouped data inside"
-    And I should see "How old were you when you started cycling?"
+    And I should see "How old were you when you learned to ride a bike?"
     And I should see "Your userid"
     And I should see "Is it true?"
     And I should see "Write down your email, please"

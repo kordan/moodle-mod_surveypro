@@ -5,58 +5,27 @@ Feature: Submit using a radiobutton item
   I add a radio button item, I fill it and I go to see responses
 
   @javascript
-  Scenario: Test a submission for radio button item
+  Scenario: Test a submission for radiobutton item
     Given the following "courses" exist:
       | fullname                               | shortname                   | category |
       | Test submission for radio buttons item | Radiobutton submission test | 0        |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course                      | role           |
-      | teacher1 | Radiobutton submission test | editingteacher |
-      | student1 | Radiobutton submission test | student        |
+      | user     | course                      | role    |
+      | student1 | Radiobutton submission test | student |
     And the following "activities" exist:
       | activity  | name             | intro                                  | course                      |
       | surveypro | Radiobutton test | To test submission of radiobutton item | Radiobutton submission test |
-    And I am on the "Radiobutton test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    And I set the field "typeplugin" to "Radio buttons"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content           | Which summer holidays place do you prefer? |
-      | Required          | 1                                          |
-      | Indent            | 0                                          |
-      | Question position | left                                       |
-      | Element number    | 12a                                        |
-      | Adjustment        | vertical                                   |
-    And I set the multiline field "Options" to "\n   sea\nmountain\n\n\nlake\nhills\n            desert\n\n\n      "
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Radio buttons"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content           | Which summer holidays place do you prefer? |
-      | Required          | 1                                          |
-      | Indent            | 0                                          |
-      | Question position | left                                       |
-      | Element number    | 12b                                        |
-      | Adjustment        | horizontal                                 |
-    And I set the multiline field "Options" to "\n   sea\nmountain\n\n\nlake\nhills\n            desert\n\n\n      "
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
-    When I am on the "Radiobutton test" "surveypro activity" page logged in as student1
-    And I press "New response"
+    And surveypro "Radiobutton test" has the following items:
+      | type  | plugin      | settings                                                                                         |
+      | field | radiobutton | {"content":"Which summer holidays place do you prefer?", "customnumber":"12a", "adjustment":"0"} |
+      | field | radiobutton | {"content":"Which winter holidays place do you prefer?", "customnumber":"12b", "adjustment":"1"} |
+    And I am on the "Radiobutton test" "surveypro activity" page logged in as student1
 
     # student1 submits
+    And I press "New response"
     And I set the following fields to these values:
       | id_field_radiobutton_1_3 | 1 |
       | id_field_radiobutton_2_2 | 1 |
@@ -65,3 +34,7 @@ Feature: Submit using a radiobutton item
 
     And I press "Continue to responses list"
     Then I should see "1" submissions
+
+    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    Then the field "id_field_radiobutton_1_3" matches value "1"
+    Then the field "id_field_radiobutton_2_2" matches value "1"

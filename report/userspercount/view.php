@@ -26,7 +26,7 @@ use mod_surveypro\utility_page;
 use surveyproreport_userspercount\groupjumperform;
 use surveyproreport_userspercount\report;
 
-require_once(dirname(__FILE__) . '/../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../../config.php');
 require_once($CFG->libdir . '/tablelib.php');
 
 $id = optional_param('id', 0, PARAM_INT);

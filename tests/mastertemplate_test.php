@@ -56,8 +56,8 @@ final class mastertemplate_test extends advanced_testcase
     #[DataProvider('surveyprotemplate_get_plugin_name_provider')]
     public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {
         $this->resetAfterTest();
-        $this->setAdminUser();
 
+        $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
         $params = ['course' => $course->id, 'name' => 'One more surveypro'];
         $surveypro = $this->getDataGenerator()->create_module('surveypro', $params);

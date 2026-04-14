@@ -58,7 +58,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test change of mind" "surveypro activity" page logged in as student1
+    And I am on the "Test change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email, please" to "su@nowhere.net"
@@ -157,7 +157,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as student1
+    And I am on the "Test 1-2-1-3 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email, please" to "su@nowhere.net"
@@ -271,7 +271,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I log out
 
     # Let the student start to fill the surveypro
-    When I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as student1
+    And I am on the "Test 1-3-1-2 change of mind" "surveypro activity" page logged in as student1
 
     And I press "New response"
     And I set the field "Write down your email, please" to "su@nowhere.net"

@@ -11,49 +11,21 @@ Feature: Test each student sees only personal submissions
       | See only personal submissions | Only personal submissions | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Student1  | user1    | student1@nowhere.net |
       | student2 | Student2  | user2    | student2@nowhere.net |
     And the following "course enrolments" exist:
       | user     | course                    | role           |
-      | teacher1 | Only personal submissions | editingteacher |
       | student1 | Only personal submissions | student        |
       | student2 | Only personal submissions | student        |
     And the following "activities" exist:
       | activity  | name                        | intro                                                  | course                    |
       | surveypro | Get only my own submissions | Test each student can only see his/her own submissions | Only personal submissions |
-    And I am on the "Get only my own submissions" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
+    And surveypro "Get only my own submissions" has the following items:
+      | type  | plugin    | settings                                                                                                   |
+      | field | character | {"content":"Write down your email, please", "required":"1", "customnumber":"1", "pattern":"PATTERN_EMAIL"} |
+      | field | boolean   | {"content":"Is it true?",                   "required":"1", "customnumber":"2", "style":"0"}               |
+    And I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
 
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content                  | Write down your email, please |
-      | Indent                   | 0                             |
-      | Question position        | left                          |
-      | Element number           | 1                             |
-      | Hide filling instruction | 0                             |
-      | id_pattern               | email address                 |
-    And I press "Add"
-
-    And I set the field "typeplugin" to "Boolean"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content           | Is it true?   |
-      | Required          | 1             |
-      | Indent            | 0             |
-      | Question position | left          |
-      | Element number    | 2             |
-      | Element style     | dropdown menu |
-    And I press "Add"
-
-    And I log out
-
-    # student1 logs in
-    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
     And I press "New response"
 
     # student1 submits his first response
@@ -73,7 +45,7 @@ Feature: Test each student sees only personal submissions
     And I log out
 
     # student2 logs in
-    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student2
+    And I am on the "Get only my own submissions" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Nothing to display"
@@ -94,7 +66,7 @@ Feature: Test each student sees only personal submissions
     And I log out
 
     # student1 goes to check for his personal submissions
-    When I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
+    And I am on the "Get only my own submissions" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
     Then I should see "Never" in the "Student1 user1" "table_row"

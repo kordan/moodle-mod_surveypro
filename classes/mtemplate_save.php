@@ -97,11 +97,11 @@ class mtemplate_save extends mtemplate_base
         // Only lower case letters at the beginning.
         $pluginname = preg_replace('~^[^a-z]*~', '', $pluginname);
 
-        // Never spaces.
-        $pluginname = preg_replace('~[ ]*~', '', $pluginname);
-
         // Replace dash with underscore.
         $pluginname = str_replace('-', '_', $pluginname);
+
+        // Only valid characters: lowercase letters, digits, underscores.
+        $pluginname = preg_replace('~[^a-z0-9_]~', '', $pluginname);
 
         // Never double underscore.
         while (strpos($pluginname, '__') !== false) {
@@ -155,7 +155,7 @@ class mtemplate_save extends mtemplate_base
                 if ($multilanfield == 'content') {
                     $value = $DB->get_field('surveypro_item', 'content', ['id' => $itemid], MUST_EXIST);
                 } else {
-                    $value = str_replace("\r", '', $item->get_generic_property($multilanfield));
+                    $value = str_replace("\r", '', $item->get_generic_property($multilanfield) ?? '');
                 }
                 $this->langtree[$key][$key . '_' . $stringindex] = $value;
             }
@@ -618,7 +618,7 @@ class mtemplate_save extends mtemplate_base
         // 1a: Has the current plugin multilang fields?.
         if (!empty($multilangfields)) { // Pagebrak and fieldsetend don't have $multilangfields.
             $plugin = $itemclass->get_plugin();
-            foreach ($multilangfields as $table => $multilangfield) {
+            foreach ($multilangfields as $multilangfield) {
                 // 1b: Is the field that is going to be assigned belongs to the multilang fields of this plugin?
                 if (in_array($field, $multilangfield)) {
                     $key = $plugin . '_' . $field; // For instance: boolean_content

@@ -189,7 +189,6 @@ class item extends itembase
      */
     public function get_multilang_fields($includemetafields = true) {
         $fieldlist['surveypro_item'] = [];
-        $fieldlist['surveyprofield_time'] = [];
 
         return $fieldlist;
     }
