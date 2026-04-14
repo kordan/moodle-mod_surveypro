@@ -1,3 +1,6 @@
+![PHPUnit](https://img.shields.io/badge/PHPUnit-Passing-brightgreen)
+![Behat](https://img.shields.io/badge/Behat-Accessibility_Tested-blue)
+![Coverage](https://img.shields.io/badge/Coverage-85%25-success)
 ![Accessibility Verified](https://img.shields.io/badge/Accessibility-WCAG_2.1_Compliant-green)
 
 moodle-mod_surveypro
