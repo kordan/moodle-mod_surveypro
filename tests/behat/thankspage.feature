@@ -45,7 +45,7 @@ Feature: Thanks users properly
     Then I should see "Thank you. Your response has been successfully submitted!"
 
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
@@ -59,7 +59,7 @@ Feature: Thanks users properly
     Then I should see "Thank you very much for your commitment on this survey."
 
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"
@@ -94,7 +94,7 @@ Feature: Thanks users properly
     Then "//img[contains(@src, 'thankyou.png')]" "xpath_element" should exist
 
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I set the field "Is it true?" to "No"
     And I press "Submit"
     Then I should see "Thank you. Your response has been successfully modified!"

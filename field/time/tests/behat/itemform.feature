@@ -68,7 +68,7 @@ Feature: Create a time item
       | id_upperboundminute      | 0                                                                   |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "At what time do you usually get up in the morning in a working day?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -96,7 +96,7 @@ Feature: Create a time item
     Then the field "id_upperboundminute" matches value "0"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a At what time do you usually get up in the morning in a working day?"
     Then the field "id_field_time_2_hour" matches value "7"

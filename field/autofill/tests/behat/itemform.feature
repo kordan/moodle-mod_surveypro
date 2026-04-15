@@ -41,7 +41,7 @@ Feature: Create an autofill item
       | id_element01select | user ID         |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "Your user ID"
     Then the field "Indent" matches value "1"
     Then the field "Question position" matches value "left"
@@ -54,7 +54,7 @@ Feature: Create an autofill item
     Then the field "element01select" matches value "user ID"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Your user ID"
     Then I should see "Additional note"

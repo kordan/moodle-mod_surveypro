@@ -62,6 +62,48 @@ class layout_branchingvalidation
     }
 
     /**
+     * Setup the flexible_table for the relations validation table.
+     *
+     * @param string $statusstr
+     * @return \flexible_table
+     */
+    protected function setup_relations_table(string $statusstr): \flexible_table {
+        $table = new \flexible_table('relations');
+
+        $paramurl = ['s' => $this->cm->instance, 'section' => 'branchingvalidation'];
+        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
+        $table->define_baseurl($baseurl);
+
+        $tablecolumns = [
+            'plugin', 'sortindex', 'parentitem', 'customnumber',
+            'content', 'parentconstraints', 'status', 'actions',
+        ];
+        $table->define_columns($tablecolumns);
+
+        $tableheaders = [
+            get_string('typeplugin', 'mod_surveypro'),
+            get_string('sortindex', 'mod_surveypro'),
+            get_string('branching', 'mod_surveypro'),
+            get_string('customnumber_header', 'mod_surveypro'),
+            get_string('content', 'mod_surveypro'),
+            get_string('parentconstraints', 'mod_surveypro'),
+            $statusstr,
+            get_string('actions'),
+        ];
+        $table->define_headers($tableheaders);
+
+        foreach ($tablecolumns as $col) {
+            $table->column_class($col, $col);
+        }
+
+        $table->set_attribute('id', 'validaterelations');
+        $table->set_attribute('class', 'generaltable');
+        $table->setup();
+
+        return $table;
+    }
+
+    /**
      * Display the "validate_relations" table.
      *
      * @return void
@@ -72,59 +114,16 @@ class layout_branchingvalidation
         require_once($CFG->libdir . '/tablelib.php');
 
         $statusstr = get_string('relation_status', 'mod_surveypro');
-        $table = new \flexible_table('relations');
-
-        $paramurl = ['s' => $this->cm->instance, 'section' => 'branchingvalidation'];
-        $baseurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-        $table->define_baseurl($baseurl);
-
-        $tablecolumns = [];
-        $tablecolumns[] = 'plugin';
-        $tablecolumns[] = 'sortindex';
-        $tablecolumns[] = 'parentitem';
-        $tablecolumns[] = 'customnumber';
-        $tablecolumns[] = 'content';
-        $tablecolumns[] = 'parentconstraints';
-        $tablecolumns[] = 'status';
-        $tablecolumns[] = 'actions';
-        $table->define_columns($tablecolumns);
-
-        $tableheaders = [];
-        $tableheaders[] = get_string('typeplugin', 'mod_surveypro');
-        $tableheaders[] = get_string('sortindex', 'mod_surveypro');
-        $tableheaders[] = get_string('branching', 'mod_surveypro');
-        $tableheaders[] = get_string('customnumber_header', 'mod_surveypro');
-        $tableheaders[] = get_string('content', 'mod_surveypro');
-        $tableheaders[] = get_string('parentconstraints', 'mod_surveypro');
-        $tableheaders[] = $statusstr;
-        $tableheaders[] = get_string('actions');
-        $table->define_headers($tableheaders);
-
-        $table->column_class('plugin', 'plugin');
-        $table->column_class('sortindex', 'sortindex');
-        $table->column_class('parentitem', 'parentitem');
-        $table->column_class('customnumber', 'customnumber');
-        $table->column_class('content', 'content');
-        $table->column_class('parentconstraints', 'parentconstraints');
-        $table->column_class('status', 'status');
-        $table->column_class('actions', 'actions');
-
-        // General properties for the whole table.
-        $table->set_attribute('id', 'validaterelations');
-        $table->set_attribute('class', 'generaltable');
-        $table->setup();
-
-        $okstr = get_string('ok');
-
-        $iconparams = [];
+        $table = $this->setup_relations_table($statusstr);
 
         $editstr = get_string('edit');
-        $iconparams = ['title' => $editstr];
-        $editicn = new \pix_icon('t/edit', $editstr, 'moodle', $iconparams);
-
-        $parentelementstr = get_string('parentelement_title', 'mod_surveypro');
-        $iconparams = ['title' => $parentelementstr];
-        $branchicn = new \pix_icon('branch', $parentelementstr, 'surveypro', $iconparams);
+        $editicn = new \pix_icon('t/edit', $editstr, 'moodle', ['title' => $editstr]);
+        $branchicn = new \pix_icon(
+            'branch',
+            get_string('parentelement_title', 'mod_surveypro'),
+            'surveypro',
+            ['title' => get_string('parentelement_title', 'mod_surveypro')]
+        );
 
         // Get parents id only.
         $sql = 'SELECT DISTINCT id as paretid, 1
@@ -134,8 +133,7 @@ class layout_branchingvalidation
                     FROM {surveypro_item} child
                     WHERE child.parentid = parent.id)
                 AND surveyproid = ?';
-        $whereparams = [$this->surveypro->id];
-        $isparent = $DB->get_records_sql_menu($sql, $whereparams);
+        $isparent = $DB->get_records_sql_menu($sql, [$this->surveypro->id]);
 
         // Get itemseeds.
         $sql = 'SELECT DISTINCT id as itemid, plugin, type, sortindex
@@ -154,117 +152,150 @@ class layout_branchingvalidation
                     AND parentid > 0
 
                 ORDER BY sortindex;';
-        $whereparams = [$this->surveypro->id, $this->surveypro->id];
-        $itemseeds = $DB->get_recordset_sql($sql, $whereparams);
+        $itemseeds = $DB->get_recordset_sql($sql, [$this->surveypro->id, $this->surveypro->id]);
 
         $message = get_string('welcome_relationvalidation', 'mod_surveypro', $statusstr);
         echo $OUTPUT->notification($message, 'notifymessage');
 
         foreach ($itemseeds as $itemseed) {
-            $item = surveypro_get_itemclass($this->cm, $this->surveypro, $itemseed->itemid, $itemseed->type, $itemseed->plugin, true);
-            $itemishidden = $item->get_hidden();
+            $item = surveypro_get_itemclass(
+                $this->cm,
+                $this->surveypro,
+                $itemseed->itemid,
+                $itemseed->type,
+                $itemseed->plugin,
+                true,
+            );
 
+            $parentitem = null;
             if ($item->get_parentid()) {
-                // Here I do not know type and plugin.
                 $parentitem = surveypro_get_itemclass($this->cm, $this->surveypro, $item->get_parentid());
             }
 
-            $tablerow = [];
-
-            // Plugin.
-            $component = 'surveypro' . $item->get_type() . '_' . $item->get_plugin();
-            $alt = get_string('pluginname', $component);
-            $iconparams = ['title' => $alt, 'class' => 'icon'];
-            $content = $OUTPUT->pix_icon('icon', $alt, $component, $iconparams);
-            $tablerow[] = $content;
-
-            // Sortindex.
-            $tablerow[] = $item->get_sortindex();
-
-            // Parentid.
-            if ($item->get_parentid()) {
-                $content = $parentitem->get_sortindex();
-                $content .= \html_writer::tag('span', $OUTPUT->render($branchicn), ['class' => 'branch']);
-                $content .= $item->get_parentcontent('; ');
-            } else {
-                $content = '';
-            }
-            $tablerow[] = $content;
-
-            // Customnumber.
-            if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
-                $tablerow[] = $item->get_customnumber();
-            } else {
-                $tablerow[] = '';
-            }
-
-            // Content.
-            $tablerow[] = $item->get_content();
-
-            // Parentconstraints.
-            if (isset($isparent[$itemseed->itemid])) {
-                $tablerow[] = $item->item_list_constraints();
-            } else {
-                $tablerow[] = '-';
-            }
-
-            // Status.
-            if ($item->get_parentid()) {
-                $status = $parentitem->parent_validate_child_constraints($item->get_parentvalue());
-                if ($status == SURVEYPRO_CONDITIONOK) {
-                    $tablerow[] = $okstr;
-                } else {
-                    if ($status == SURVEYPRO_CONDITIONNEVERMATCH) {
-                        if (empty($itemishidden)) {
-                            $errormessage = \html_writer::start_tag('span', ['class' => 'errormessage']);
-                            $errormessage .= get_string('wrongrelation', 'mod_surveypro', $item->get_parentcontent('; '));
-                            $errormessage .= \html_writer::end_tag('span');
-                            $tablerow[] = $errormessage;
-                        } else {
-                            $tablerow[] = get_string('wrongrelation', 'mod_surveypro', $item->get_parentcontent('; '));
-                        }
-                    }
-                    if ($status == SURVEYPRO_CONDITIONMALFORMED) {
-                        if (empty($itemishidden)) {
-                            $errormessage = \html_writer::start_tag('span', ['class' => 'errormessage']);
-                            $errormessage .= get_string('badchildparentvalue', 'mod_surveypro', $item->get_parentcontent('; '));
-                            $errormessage .= \html_writer::end_tag('span');
-                            $tablerow[] = $errormessage;
-                        } else {
-                            $tablerow[] = get_string('badchildparentvalue', 'mod_surveypro', $item->get_parentcontent('; '));
-                        }
-                    }
-                }
-            } else {
-                $tablerow[] = '-';
-            }
-
-            // Actions.
-            // Begin of: $paramurlbase definition.
-            $paramurlbase = [];
-            $paramurlbase['s'] = $this->cm->instance;
-            $paramurlbase['itemid'] = $item->get_itemid();
-            $paramurlbase['type'] = $item->get_type();
-            $paramurlbase['plugin'] = $item->get_plugin();
-            $paramurlbase['section'] = 'itemsetup';
-            // End of $paramurlbase definition.
-
-            // SURVEYPRO_NEWITEM.
-            $paramurl = $paramurlbase;
-            $paramurl['mode'] = SURVEYPRO_NEWITEM;
-
-            $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            $paramlink = ['id' => 'edit_' . $item->get_itemid(), 'title' => $editstr];
-            $icons = $OUTPUT->action_icon($link, $editicn, null, $paramlink);
-
-            $tablerow[] = $icons;
-
-            $rowclass = empty($itemishidden) ? '' : 'dimmed';
+            $tablerow = $this->build_relation_row($item, $parentitem, $isparent, $branchicn, $editicn, $editstr);
+            $rowclass = empty($item->get_hidden()) ? '' : 'dimmed';
             $table->add_data($tablerow, $rowclass);
         }
         $itemseeds->close();
 
         $table->set_attribute('align', 'center');
         $table->print_html();
+    }
+
+    /**
+     * Build the status cell content for a relation row.
+     *
+     * @param \mod_surveypro\itembase $item
+     * @param \mod_surveypro\itembase|null $parentitem
+     * @return string HTML
+     */
+    protected function get_relation_status_cell(\mod_surveypro\itembase $item, ?\mod_surveypro\itembase $parentitem): string {
+        if (!$item->get_parentid() || !$parentitem) {
+            return '-';
+        }
+
+        $itemishidden = $item->get_hidden();
+        $status = $parentitem->parent_validate_child_constraints($item->get_parentvalue());
+
+        if ($status == SURVEYPRO_CONDITIONOK) {
+            return get_string('ok');
+        }
+
+        if ($status == SURVEYPRO_CONDITIONNEVERMATCH) {
+            $text = get_string('wrongrelation', 'mod_surveypro', $item->get_parentcontent('; '));
+        } else {
+            $text = get_string('badchildparentvalue', 'mod_surveypro', $item->get_parentcontent('; '));
+        }
+
+        if (empty($itemishidden)) {
+            return \html_writer::tag('span', $text, ['class' => 'errormessage']);
+        }
+
+        return $text;
+    }
+
+    /**
+     * Build the table row array for a single item in the relations table.
+     *
+     * @param \mod_surveypro\itembase $item
+     * @param \mod_surveypro\itembase|null $parentitem
+     * @param array $isparent
+     * @param \pix_icon $branchicn
+     * @param \pix_icon $editicn      (kept for signature compatibility but no longer used)
+     * @param string $editstr
+     * @return array
+     */
+    protected function build_relation_row(
+        \mod_surveypro\itembase $item,
+        ?\mod_surveypro\itembase $parentitem,
+        array $isparent,
+        \pix_icon $branchicn,
+        \pix_icon $editicn,
+        string $editstr
+    ): array {
+        global $OUTPUT;
+
+        $tablerow   = [];
+        $itemseedid = $item->get_itemid();
+
+        // Plugin.
+        $component = 'surveypro' . $item->get_type() . '_' . $item->get_plugin();
+        $alt = get_string('pluginname', $component);
+        $tablerow[] = $OUTPUT->pix_icon('icon', $alt, $component, ['title' => $alt, 'class' => 'icon']);
+
+        // Sortindex.
+        $tablerow[] = $item->get_sortindex();
+
+        // Parentid.
+        if ($item->get_parentid() && $parentitem) {
+            $content  = $parentitem->get_sortindex();
+            $content .= \html_writer::tag('span', $OUTPUT->render($branchicn), ['class' => 'branch']);
+            $content .= $item->get_parentcontent('; ');
+        } else {
+            $content = '';
+        }
+        $tablerow[] = $content;
+
+        // Customnumber.
+        if (($item->get_type() == SURVEYPRO_TYPEFIELD) || ($item->get_plugin() == 'label')) {
+            $tablerow[] = $item->get_customnumber();
+        } else {
+            $tablerow[] = '';
+        }
+
+        // Content.
+        $tablerow[] = $item->get_content();
+
+        // Parentconstraints.
+        $tablerow[] = isset($isparent[$itemseedid]) ? $item->item_list_constraints() : '-';
+
+        // Status.
+        $tablerow[] = $this->get_relation_status_cell($item, $parentitem);
+
+        // Actions – kebab menu with Edit only.
+        $paramurlbase = [
+            's'       => $this->cm->instance,
+            'itemid'  => $itemseedid,
+            'type'    => $item->get_type(),
+            'plugin'  => $item->get_plugin(),
+            'section' => 'itemsetup',
+            'mode'    => SURVEYPRO_EDITITEM,
+        ];
+        $link = new \moodle_url('/mod/surveypro/layout.php', $paramurlbase);
+
+        $menu = new \action_menu();
+        $menu->set_kebab_trigger(get_string('actions'));
+        $menu->set_menu_left(\action_menu::TR, \action_menu::BR);
+        $menu->set_boundary('window');
+        $menu->add(new \action_menu_link_secondary(
+            $link,
+            new \pix_icon('t/edit', ''),
+            $editstr,
+            ['id' => 'edit_' . $itemseedid]
+        ));
+
+        $tablerow[] = $OUTPUT->render($menu);
+
+        return $tablerow;
     }
 }

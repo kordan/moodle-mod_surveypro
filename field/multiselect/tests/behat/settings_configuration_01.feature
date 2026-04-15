@@ -51,7 +51,7 @@ Feature: Submit using multiselect item and check form validation (1 of 4)
     And I press "New response"
     And I set the following fields to these values:
       | id_field_multiselect_1 | milk, bread |
-      | No answer                        | 1           |
+      | No answer              | 1           |
     And I press "Submit"
     And I press "Continue to responses list"
     Then I should see "3" submissions

@@ -63,7 +63,7 @@ Feature: Create a numeric item
       | Maximum value            | 4 |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "Type the best approximation of π you know"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -84,7 +84,7 @@ Feature: Create a numeric item
     Then the field "Maximum value" matches value "4"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Type the best approximation of π you know"
     Then the field "id_field_numeric_2" matches value "3.14"

@@ -21,24 +21,9 @@ Feature: Set radiobutton as parent item
       | activity  | name                       | intro                      | newpageforchild | course                |
       | surveypro | Test radiobutton as parent | Test radiobutton as parent | 1               | Radiobutton as parent |
     And surveypro "Test radiobutton as parent" has the following items:
-      | type   | plugin      |
-      | field  | radiobutton |
-    And I am on the "Test radiobutton as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add a short text item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content        | Write down your name                                         |
-      | Parent element | Radio button [1]: Where do you usually spend your summer ... |
-      | Parent content | mountain                                                     |
-    And I press "Add"
-
-    And I log out
-
-    # test the the child item correctly appear or not appear
+      | type   | plugin      | settings                                                                                   |
+      | field  | radiobutton |                                                                                            |
+      | field  | character   | {"content":"Write down your name", "parentid":"@@itemid_01@@", "parentcontent":"mountain"} |
     And I am on the "Test radiobutton as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
@@ -74,7 +59,7 @@ Feature: Set radiobutton as parent item
 
     And I am on the "Test radiobutton as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "sea"
     And I press "Save changes"
@@ -144,7 +129,7 @@ Feature: Set radiobutton as parent item
 
     And I am on the "Test radiobutton as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "mountain"
     And I press "Save changes"

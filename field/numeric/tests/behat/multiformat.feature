@@ -53,20 +53,20 @@ Feature: Validate input with different number format
     And I press "Invia"
 
     And I press "Mostra la lista"
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     Then the field "Type the best approximation of π you know" matches value "3,14"
 
     And I select "Risposte" from the "jump" singleselect
-    And I follow "view_submission_row_2"
+    And I click action "Read only" on item 2
     Then the field "Type the best approximation of π you know" matches value "3,14"
 
     When I follow "Lingua" in the user menu
     And I follow "English"
 
     And I select "Responses" from the "jump" singleselect
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     Then the field "Type the best approximation of π you know" matches value "3.14"
 
     And I select "Responses" from the "jump" singleselect
-    And I follow "view_submission_row_2"
+    And I click action "Read only" on item 2
     Then the field "Type the best approximation of π you know" matches value "3.14"

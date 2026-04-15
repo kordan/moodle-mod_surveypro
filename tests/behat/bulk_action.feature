@@ -58,17 +58,17 @@ Feature: Execute bulk actions
     Then I should see "22" visible items
     Then I should see "0" hidden items
 
-    And I follow "hide_item_2"
-    And I follow "hide_item_4"
-    And I follow "hide_item_6"
-    And I follow "hide_item_8"
-    And I follow "hide_item_10"
-    And I follow "hide_item_12"
-    And I follow "hide_item_14"
-    And I follow "hide_item_16"
-    And I follow "hide_item_18"
-    And I follow "hide_item_20"
-    And I follow "hide_item_22"
+    And And I click action "Hide" on item 2
+    And And I click action "Hide" on item 4
+    And And I click action "Hide" on item 6
+    And And I click action "Hide" on item 8
+    And And I click action "Hide" on item 10
+    And And I click action "Hide" on item 12
+    And And I click action "Hide" on item 14
+    And And I click action "Hide" on item 16
+    And And I click action "Hide" on item 18
+    And And I click action "Hide" on item 20
+    And And I click action "Hide" on item 22
 
     Then I should see "11" visible items
     Then I should see "11" hidden items
@@ -80,11 +80,11 @@ Feature: Execute bulk actions
     Then I should see "11" visible items
     Then I should see "0" hidden items
 
-    And I follow "hide_item_2"
-    And I follow "hide_item_4"
-    And I follow "hide_item_6"
-    And I follow "hide_item_8"
-    And I follow "hide_item_10"
+    And And I click action "Hide" on item 2
+    And And I click action "Hide" on item 4
+    And And I click action "Hide" on item 6
+    And And I click action "Hide" on item 8
+    And And I click action "Hide" on item 10
 
     And I set the field "bulkaction" to "Delete visible elements"
     And I press "Go"

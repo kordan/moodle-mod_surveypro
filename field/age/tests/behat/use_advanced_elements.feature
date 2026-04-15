@@ -23,7 +23,7 @@ Feature: Use reserved elements
     And surveypro "Reserved element test" has the following items:
       | type  | plugin | settings                                                                                                                                                                                                                                               |
       | field | age    | {"content":"First age item",  "required":"1", "indent":"0", "position":"0", "customnumber":"1", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "insearchform":"1"} |
-      | field | age     | {"content":"Second age item", "required":"1", "indent":"0", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "reserved":"1"}    |
+      | field | age    | {"content":"Second age item", "required":"1", "indent":"0", "position":"0", "customnumber":"2", "hideinstructions":"1", "defaultoption":"2", "defaultvalue":"-2148552000", "lowerbound":"-2148552000", "upperbound":"-1193918400", "reserved":"1"}    |
 
     # test the user sees only the first age item
     And I am on the "Reserved element test" "surveypro activity" page logged in as student1
@@ -44,7 +44,8 @@ Feature: Use reserved elements
     # test the teacher sees the first and the second age items both
     And I am on the "Reserved element test" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
+
     Then I should see "1 First age item"
     Then I should see "2 Second age item"
 

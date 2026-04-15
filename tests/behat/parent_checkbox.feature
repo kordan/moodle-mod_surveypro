@@ -21,24 +21,9 @@ Feature: Set checkbox as parent item
       | activity  | name                    | intro                   | newpageforchild | course             |
       | surveypro | Test checkbox as parent | Test checkbox as parent | 1               | Checkbox as parent |
     And surveypro "Test checkbox as parent" has the following items:
-      | type   | plugin   |
-      | field  | checkbox |
-    And I am on the "Test checkbox as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add a short text item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content        | Write down your name                                 |
-      | Parent element | Checkbox [1]: What do you usually get for breakfast? |
-      | Parent content | milk                                                 |
-    And I press "Add"
-
-    And I log out
-
-    # test the the child item correctly appear or not appear
+      | type   | plugin    | settings                                                                               |
+      | field  | checkbox  |                                                                                        |
+      | field  | character | {"content":"Write down your name", "parentid":"@@itemid_01@@", "parentcontent":"milk"} |
     And I am on the "Test checkbox as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
@@ -138,7 +123,7 @@ Feature: Set checkbox as parent item
     And I log out
 
     And I am on the "Test checkbox as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the multiline field "Parent content" to "milk\nchocolate"
     And I press "Save changes"
@@ -294,7 +279,7 @@ Feature: Set checkbox as parent item
     And I log out
 
     And I am on the "Test checkbox as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "milk"
     And I press "Save changes"

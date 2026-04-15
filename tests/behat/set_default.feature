@@ -11,19 +11,17 @@ Feature: Verify good use of defaults
       | Test defaults | Test defaults | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | Teacher   | teacher  | teacher1@nowhere.net |
       | student1 | Ttudent   | student  | student1@nowhere.net |
     And the following "course enrolments" exist:
-      | user     | course        | role           |
-      | teacher1 | Test defaults | editingteacher |
-      | student1 | Test defaults | student        |
+      | user     | course        | role    |
+      | student1 | Test defaults | student |
     And the following "activities" exist:
       | activity  | name                  | intro             | course        |
       | surveypro | Defaults in surveypro | To check defaults | Test defaults |
     And surveypro "Defaults in surveypro" has the following items:
-      | type   | plugin      | settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-      | field  | boolean     | {"customnumber":"I",                                                                 "required":"1", "defaultoption":"1", "defaultvalue":"1"}                                                                                                                                                                                                                                                                                                                                                        |
-      | field  | age         | {"customnumber":"II",   "indent":"2", "parentid":"@@itemid_01@@", "parentcontent":"1", "required":"1", "defaultoption":"1", "defaultvalueyear":"10", "defaultvaluemonth":"10",                                                                               "lowerboundyear":"8", "lowerboundmonth":"0",                                                                       "upperboundyear":"99", "upperboundmonth":"11"}                                                                                                                                              |
+      | type   | plugin      | settings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+      | field  | boolean     | {"customnumber":"I",                                                                 "required":"1", "defaultoption":"1", "defaultvalue":"1"}                                                                                                                                                                                                                                                                                                                                                          |
+      | field  | age         | {"customnumber":"II",   "indent":"2", "parentid":"@@itemid_01@@", "parentcontent":"1", "required":"1", "defaultoption":"1", "defaultvalueyear":"10", "defaultvaluemonth":"10",                                                                               "lowerboundyear":"8", "lowerboundmonth":"0",                                                                       "upperboundyear":"99", "upperboundmonth":"11"}                                                                         |
       | field  | character   | {"customnumber":"III",  "indent":"2", "parentid":"@@itemid_01@@", "parentcontent":"1", "required":"1",                      "defaultvalue":"Happy New Year", "pattern":"PATTERN_FREE"}                                                                                                                                                                                                                                                                                                                 |
       | field  | checkbox    | {"customnumber":"IV",   "indent":"2", "parentid":"@@itemid_01@@", "parentcontent":"1", "required":"1",                      "defaultvalue":"North\nSouth", "options":"North\nEast\nSouth\nWest"}                                                                                                                                                                                                                                                                                                       |
       | field  | date        | {"customnumber":"V",    "indent":"2", "parentid":"@@itemid_01@@", "parentcontent":"1", "required":"1", "defaultoption":"1", "defaultvalueday":"10", "defaultvaluemonth":"10", "defaultvalueyear":"1980",                                                     "lowerboundday":"1", "lowerboundmonth":"1", "lowerboundyear":"1970",                                               "upperboundday":"31", "upperboundmonth":"12", "upperboundyear":"2019"}                                                 |
@@ -109,7 +107,7 @@ Feature: Verify good use of defaults
     And I press "Submit"
 
     And I press "Continue to responses list"
-    And I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    And I click action "Read only" on item 1
 
     # Boolean item
     Then I should see "No" in the "//span[@data-fieldtype='select']" "xpath_element"

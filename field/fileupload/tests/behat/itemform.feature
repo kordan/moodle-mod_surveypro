@@ -65,7 +65,7 @@ Feature: Create a fileupload item
     And I set the field "Allowed file types (comma separated)" to ".jpg, .png, .gif"
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "Please upload your profile image"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -82,7 +82,7 @@ Feature: Create a fileupload item
     Then the field "Allowed file types (comma separated)" matches value ".jpg, .png, .gif"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Please upload your profile image"
     Then I should see "Additional note"

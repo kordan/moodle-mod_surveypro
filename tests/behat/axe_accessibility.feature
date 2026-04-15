@@ -19,31 +19,31 @@ Feature: Execute accessibility tests
       | activity  | name               | intro              | course                  |
       | surveypro | Accessibility test | Accessibility test | Surveypro accessibility |
     And surveypro "Accessibility test" has the following items:
-      | type   | plugin      | settings                |
-      | field  | age         | {"insearchform":"1"}    |
-      | field  | fileupload  | {"indent":"1"}          |
-      | field  | autofill    | {"reserved":"1"}        |
-      | field  | boolean     | {"defaultoption":"3"}   |
-      | field  | checkbox    | {"defaultoption":"3"}   |
-      | field  | shortdate   | {"defaultoption":"3"}   |
-      | field  | date        | {"defaultoption":"3"}   |
-      | field  | date        | {"hidden":"1"}          |
-      | field  | date        | {"hidden":"1"}          |
-      | field  | datetime    | {"defaultoption":"3"}   |
-      | format | pagebreak   |                         |
-      | field  | integer     |                         |
-      | field  | multiselect | {"noanswerdefault":"3"} |
-      | field  | numeric     |                         |
-      | field  | radiobutton | {"defaultoption":"3"}   |
-      | format | fieldset    |                         |
-      | field  | rate        | {"defaultoption":"3"}   |
-      | format | fieldsetend |                         |
-      | field  | recurrence  | {"defaultoption":"3"}   |
-      | field  | select      | {"defaultoption":"3"}   |
-      | field  | textarea    |                         |
-      | field  | character   |                         |
-      | field  | time        | {"defaultoption":"3"}   |
-      | format | label       |                         |
+      | type   | plugin      | settings                                                                             |
+      | field  | age         | {"insearchform":"1"}                                                                 |
+      | field  | fileupload  | {"indent":"1"}                                                                       |
+      | field  | autofill    | {"reserved":"1"}                                                                     |
+      | field  | boolean     | {"defaultoption":"3"}                                                                |
+      | field  | checkbox    | {"defaultoption":"3", "indent":"2", "parentid":"@@itemid_04@@", "parentcontent":"1"} |
+      | field  | shortdate   | {"defaultoption":"3"}                                                                |
+      | field  | date        | {"defaultoption":"3"}                                                                |
+      | field  | date        | {"hidden":"1"}                                                                       |
+      | field  | date        | {"hidden":"1"}                                                                       |
+      | field  | datetime    | {"defaultoption":"3"}                                                                |
+      | format | pagebreak   |                                                                                      |
+      | field  | integer     |                                                                                      |
+      | field  | multiselect | {"noanswerdefault":"3"}                                                              |
+      | field  | numeric     |                                                                                      |
+      | field  | radiobutton | {"defaultoption":"3"}                                                                |
+      | format | fieldset    |                                                                                      |
+      | field  | rate        | {"defaultoption":"3"}                                                                |
+      | format | fieldsetend |                                                                                      |
+      | field  | recurrence  | {"defaultoption":"3"}                                                                |
+      | field  | select      | {"defaultoption":"3"}                                                                |
+      | field  | textarea    |                                                                                      |
+      | field  | character   |                                                                                      |
+      | field  | time        | {"defaultoption":"3"}                                                                |
+      | format | label       |                                                                                      |
 
     # Master templates - manage
     When I am on the "Accessibility test" "mod_surveypro > Master templates from secondary navigation" page logged in as admin
@@ -124,7 +124,7 @@ Feature: Execute accessibility tests
     # Surveypro - responses as student
     Then the page should meet accessibility standards
 
-    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    When I click action "Read only" on item 1
     Then the page should meet accessibility standards
 
     # Surveypro - search as student

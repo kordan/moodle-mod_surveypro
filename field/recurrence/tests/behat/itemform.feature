@@ -72,7 +72,7 @@ Feature: Create a recurrence item
       | id_upperboundmonth       | December |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "When do you usually celebrate your name-day?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -99,7 +99,7 @@ Feature: Create a recurrence item
     Then the field "id_upperboundmonth" matches value "December"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a When do you usually celebrate your name-day?"
     Then the field "id_field_recurrence_2_day" matches value "1"

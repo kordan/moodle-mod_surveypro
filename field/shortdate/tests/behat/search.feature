@@ -86,7 +86,7 @@ Feature: Search using one and two shortdate items
       | id_field_shortdate_1_month    | 8    |
       | id_field_shortdate_1_year     | 2011 |
       | id_field_shortdate_2_ignoreme | 0    |
-      | id_field_shortdate_2_month | 5    |
-      | id_field_shortdate_2_year  | 2001 |
+      | id_field_shortdate_2_month    | 5    |
+      | id_field_shortdate_2_year     | 2001 |
     And I press "Search"
     Then I should see "1" submissions

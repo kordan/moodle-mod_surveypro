@@ -54,7 +54,7 @@ Feature: Create a textarea item
     And I set the field "Maximum length (in characters)" to "40"
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "Write a short description of yourself"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -76,13 +76,13 @@ Feature: Create a textarea item
     Then the field "Maximum length (in characters)" matches value "40"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Write a short description of yourself"
     Then I should see "Additional note"
 
     And I select "Elements" from the "jump" singleselect
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the following fields to these values:
       | Element number                 | II.b                                  |

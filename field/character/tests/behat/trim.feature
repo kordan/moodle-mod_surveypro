@@ -42,6 +42,6 @@ Feature: Test the use of character trim
     And I press "Submit"
 
     And I press "Continue to responses list"
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     Then the field "id_field_character_1" matches value "   false long text   "
     Then the field "id_field_character_2" matches value "text correctly trimmed"

@@ -39,11 +39,11 @@ Feature: Load and apply usertemplates to test partial item deletion
     And I press "Apply"
 
     # now I am in the Element > Manage page
-    And I follow "hide_item_4"
-    And I follow "hide_item_5"
-    And I follow "hide_item_6"
-    And I follow "hide_item_7"
-    And I follow "hide_item_60"
+    And And I click action "Hide" on item 4
+    And And I click action "Hide" on item 5
+    And And I click action "Hide" on item 6
+    And And I click action "Hide" on item 7
+    And And I click action "Hide" on item 60
     And I press "Continue"
 
     And I am on the "Apply a usertemplate" "mod_surveypro > User templates from secondary navigation" page

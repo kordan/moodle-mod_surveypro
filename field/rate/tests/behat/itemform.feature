@@ -64,7 +64,7 @@ Feature: Create a rate item
     And I set the multiline field "id_defaultvalue" to "\n   Not confident at all\nReally ridicolous\n\n\nSomewhat confident\n\n\n100 words vocabulary\nVery confident\nMother tongue\n\n\n\n\n"
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "How confident are you with the following languages?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -109,7 +109,7 @@ Feature: Create a rate item
     Then the field "Force different rates" matches value "1"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a"
     Then I should see "How confident are you with the following languages?"
@@ -122,7 +122,7 @@ Feature: Create a rate item
     Then I should see "Additional note"
 
     And I select "Elements" from the "jump" singleselect
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I set the following fields to these values:
       | Content                  | How confident are you with the following languages? |
       | Required                 | 1                                                   |

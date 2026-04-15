@@ -101,47 +101,4 @@ class layout_itemlist_test_helper extends \mod_surveypro\layout_itemlist {
     public function call_get_action_icons(\mod_surveypro\itembase $item, array $iconset): string {
         return $this->get_action_icons($item, $iconset);
     }
-
-    /**
-     * Public wrapper to setup_relations_table.
-     *
-     * @param string $statusstr
-     * @return \flexible_table
-     */
-    public function call_setup_relations_table(string $statusstr): \flexible_table {
-        return $this->setup_relations_table($statusstr);
-    }
-
-    /**
-     * Public wrapper to build_relation_row.
-     *
-     * @param \mod_surveypro\itembase $item
-     * @param ?\mod_surveypro\itembase $parentitem
-     * @param array $isparent
-     * @param \pix_icon $branchicn
-     * @param \pix_icon $editicn
-     * @param string $editstr
-     * @return array
-     */
-    public function call_build_relation_row(
-        \mod_surveypro\itembase $item,
-        ?\mod_surveypro\itembase $parentitem,
-        array $isparent,
-        \pix_icon $branchicn,
-        \pix_icon $editicn,
-        string $editstr
-    ): array {
-        return $this->build_relation_row($item, $parentitem, $isparent, $branchicn, $editicn, $editstr);
-    }
-
-    /**
-     * Public wrapper to get_relation_status_cell.
-     *
-     * @param \mod_surveypro\itembase $item
-     * @param ?\mod_surveypro\itembase $parentitem
-     * @return string
-     */
-    public function call_get_relation_status_cell(\mod_surveypro\itembase $item, ?\mod_surveypro\itembase $parentitem): string {
-        return $this->get_relation_status_cell($item, $parentitem);
-    }
 }

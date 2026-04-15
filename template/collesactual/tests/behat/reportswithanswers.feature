@@ -31,10 +31,10 @@ Feature: Test colles report for courses divided into groups having answers
       | mod/surveypro:seeotherssubmissions  | Allow      | student | Course       | Course grouped |
       | mod/surveypro:editotherssubmissions | Allow      | student | Course       | Course grouped |
     And the following "group members" exist:
-      | user     | group |
-      | student11 | G1   |
-      | student12 | G1   |
-      | student21 | G2   |
+      | user      | group |
+      | student11 | G1    |
+      | student12 | G1    |
+      | student21 | G2    |
     And the following "activities" exist:
       | activity  | name           | intro          | course         |
       | surveypro | Verify reports | Verify reports | Course grouped |

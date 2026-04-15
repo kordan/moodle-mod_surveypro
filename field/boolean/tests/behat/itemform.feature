@@ -47,7 +47,7 @@ Feature: Create a boolean item
       | Download format    | yes/no                   |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "Is it true?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -66,14 +66,14 @@ Feature: Create a boolean item
     Then the field "Download format" matches value "yes/no"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a Is it true?"
     Then the field "id_field_boolean_2_1" matches value "1"
     Then I should see "Additional note"
 
     And I select "Elements" from the "jump" singleselect
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the following fields to these values:
       | Element number     | II.b                     |

@@ -7,7 +7,7 @@ Feature: Delete of no longer allowed answers on user change of mind
   @javascript
   Scenario: Test change of mind: 1-2-1-2
     Given the following "courses" exist:
-      | fullname        | shortname     | category | groupmode |
+      | fullname       | shortname      | category | groupmode |
       | Change of mind | Change of mind | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
@@ -29,15 +29,15 @@ Feature: Delete of no longer allowed answers on user change of mind
       | field  | character   |
     And I am on the "Test change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_1"
+    And I click action "Edit" on item 1
     And I set the field "Required" to "1"
     And I press "Save changes"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I set the field "Required" to "1"
     And I press "Save changes"
 
-    And I follow "edit_item_4"
+    And I click action "Edit" on item 4
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Choose a direction       |
@@ -47,7 +47,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I set the multiline field "Options" to "North\nEast\nSouth\nWest"
     And I press "Save changes"
 
-    And I follow "edit_item_5"
+    And I click action "Edit" on item 5
     And I set the following fields to these values:
       | Content    | Question without parent |
       | Required   | 1                       |
@@ -110,15 +110,15 @@ Feature: Delete of no longer allowed answers on user change of mind
       | field  | character   |
     And I am on the "Test 1-2-1-3 change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_1"
+    And I click action "Edit" on item 1
     And I set the field "Required" to "1"
     And I press "Save changes"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I set the field "Required" to "1"
     And I press "Save changes"
 
-    And I follow "edit_item_4"
+    And I click action "Edit" on item 4
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Which pet do you like more? |
@@ -128,7 +128,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I set the multiline field "Options" to "dog\ncat\nbird\ncrocodile"
     And I press "Save changes"
 
-    And I follow "edit_item_6"
+    And I click action "Edit" on item 6
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Choose a direction       |
@@ -138,7 +138,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I set the multiline field "Options" to "North\nEast\nSouth\nWest"
     And I press "Save changes"
 
-    And I follow "edit_item_7"
+    And I click action "Edit" on item 7
     And I expand all fieldsets
     And I set the following fields to these values:
       | Required       | 1                        |
@@ -146,7 +146,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | Parent content | 1                        |
     And I press "Save changes"
 
-    And I follow "edit_item_8"
+    And I click action "Edit" on item 8
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content    | Question without parent |
@@ -222,11 +222,11 @@ Feature: Delete of no longer allowed answers on user change of mind
       | field  | character   |
     And I am on the "Test 1-3-1-2 change of mind" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_1"
+    And I click action "Edit" on item 1
     And I set the field "Required" to "1"
     And I press "Save changes"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Which artwork did you make? |
@@ -234,7 +234,7 @@ Feature: Delete of no longer allowed answers on user change of mind
     And I set the multiline field "Options" to "p::painting\ns::sculpture\nm::musical"
     And I press "Save changes"
 
-    And I follow "edit_item_4"
+    And I click action "Edit" on item 4
     And I set the following fields to these values:
       | Content        | Is it A4 format?                              |
       | Required       | 1                                             |
@@ -242,7 +242,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | Parent content | p                                             |
     And I press "Save changes"
 
-    And I follow "edit_item_5"
+    And I click action "Edit" on item 5
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Simple parent child question                  |
@@ -252,7 +252,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | Parent content | p                                             |
     And I press "Save changes"
 
-    And I follow "edit_item_7"
+    And I click action "Edit" on item 7
     And I set the following fields to these values:
       | Content        | Was it carved in marble?                      |
       | Required       | 1                                             |
@@ -260,7 +260,7 @@ Feature: Delete of no longer allowed answers on user change of mind
       | Parent content | s                                             |
     And I press "Save changes"
 
-    And I follow "edit_item_8"
+    And I click action "Edit" on item 8
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content    | Question without parent |

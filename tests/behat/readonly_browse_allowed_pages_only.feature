@@ -31,7 +31,7 @@ Feature: In read only mode browse a submission jumping not filled pages
       | field  | boolean   |
     And I am on the "Test jump not allowed pages" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_3"
+    And I click action "Edit" on item 3
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | Question of page 2       |
@@ -41,14 +41,14 @@ Feature: In read only mode browse a submission jumping not filled pages
     And I set the multiline field "Options" to "Up\nDown"
     And I press "Save changes"
 
-    And I follow "edit_item_5"
+    And I click action "Edit" on item 5
     And I set the following fields to these values:
       | Content        | Question of page 3       |
       | Parent element | Boolean [1]: Is it true? |
       | Parent content | 0                        |
     And I press "Save changes"
 
-    And I follow "edit_item_7"
+    And I click action "Edit" on item 7
     And I set the following fields to these values:
       | Content        | Question of page 4             |
       | Parent element | Select [3]: Question of page 2 |
@@ -75,7 +75,7 @@ Feature: In read only mode browse a submission jumping not filled pages
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     Then I should see "Is it true?"
 
     And I press "Next page >>"

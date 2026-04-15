@@ -21,25 +21,9 @@ Feature: Set boolean as parent item
       | activity  | name                   | intro                  | newpageforchild | course            |
       | surveypro | Test boolean as parent | Test boolean as parent | 1               | Boolean as parent |
     And surveypro "Test boolean as parent" has the following items:
-      | type   | plugin  |
-      | field  | boolean |
-    And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add an boolean item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content        | Write down your name     |
-      | Required       | 0                        |
-      | Parent element | Boolean [1]: Is it true? |
-      | Parent content | 1                        |
-    And I press "Add"
-
-    And I log out
-
-    # test the the child item correctly appear or not appear
+      | type   | plugin    | settings                                                                            |
+      | field  | boolean   |                                                                                     |
+      | field  | character | {"content":"Write down your name", "parentid":"@@itemid_01@@", "parentcontent":"1"} |
     And I am on the "Test boolean as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
@@ -48,6 +32,7 @@ Feature: Set boolean as parent item
 
     And I set the field "id_field_boolean_1" to "Yes"
     And I press "Next page >>"
+
     Then I should see "Write down your name"
 
     And I press "<< Previous page"
@@ -65,7 +50,7 @@ Feature: Set boolean as parent item
     And I log out
 
     And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "0"
     And I press "Save changes"
@@ -125,7 +110,7 @@ Feature: Set boolean as parent item
     And I log out
 
     And I am on the "Test boolean as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "1"
     And I press "Save changes"

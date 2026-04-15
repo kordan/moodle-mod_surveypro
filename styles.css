@@ -479,20 +479,53 @@ table.surveypro_index td span.dimmed {
 /* stylelint-enable declaration-no-important */
 
 /* Begin of: fixed width for action icons and spacers in #manageitems */
-.path-mod-surveypro table td.actions a.icon,
-.path-mod-surveypro table td.actions span.noactionicon,
-.path-mod-surveypro table td.actions span.spacericon,
-.path-mod-surveypro table td.actions a.quickeditlink {
-    display: inline-flex;
+//
+// The 5 columns have fixed widths corresponding to:
+//   col1: 32px  — icon required (inplace editable) slightly wider
+//   col2: 28px  — icon outdent ◄
+//   col3: 28px  — text [n] (two digits + parentheses)
+//   col4: 28px  — icon indent ►
+//   col5: 36px  — button ⋮
+//
+.surveypro-actions-grid {
+    display: grid;
+    grid-template-columns: 32px 28px 28px 28px 36px;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    min-width: 40px;
-    box-sizing: border-box;
+    gap: 0;
 }
 
-.path-mod-surveypro table td.actions span.spacericon i.icon {
-    width: 16px;
-    min-width: 16px;
+.surveypro-actions-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove the extra margin/padding that Moodle adds to link buttons */
+.surveypro-actions-grid .btn-link {
+    padding: 0;
+    margin: 0;
+}
+
+/* Makes the div action-menu non-blocking so it doesn't break the grid */
+.surveypro-actions-grid .action-menu,
+.surveypro-actions-grid .moodle-actionmenu,
+.surveypro-actions-grid .menubar {
+    display: contents;  /* il div sparisce, i figli entrano nella griglia */
+}
+
+/* The trigger button (⋮) behaves like a normal cell */
+.surveypro-actions-grid .action-menu-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 /* End of: fixed width for action icons and spacers in #manageitems */
+
+/* Reduces the excessive padding of Moodle button links within the cell */
+.path-mod-surveypro table.generaltable td.actions .btn-link {
+    padding: 0 2px;
+}
+.path-mod-surveypro table.generaltable td.actions .action-menu {
+    display: inline-flex;   /* elimina il comportamento block del div */
+}
+

@@ -67,7 +67,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     # student2 logs in
     And I am on the "Preserve autofill" "surveypro activity" page logged in as student2
     And I select "Responses" from the "jump" singleselect
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     Then I should see "student1"
     Then I should see "user1"
     Then the field "4 Is it true?" matches value "Yes"
@@ -81,7 +81,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I am on the "Preserve autofill" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     Then I should see "student1"
     Then I should see "user1"
     Then the field "4 Is it true?" matches value "No"
@@ -92,7 +92,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I am on the "Preserve autofill" "surveypro activity" page logged in as teacher1
     And I select "Responses" from the "jump" singleselect
 
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     Then I should see "student1"
     Then I should see "user1"
     Then the field "4 Is it true?" matches value "No"
@@ -105,7 +105,7 @@ Feature: Editing a submission, autofill userID is not overwritten
     And I am on the "Preserve autofill" "surveypro activity" page logged in as student1
     And I select "Responses" from the "jump" singleselect
 
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     Then I should see "student1"
     Then I should see "user1"
     Then the field "4 Is it true?" matches value "Yes"

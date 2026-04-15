@@ -220,9 +220,11 @@ class utemplate_manage extends utemplate_base
      * @return void
      */
     public function display_usertemplates_table() {
-        global $CFG, $USER, $OUTPUT;
+        global $CFG, $USER, $OUTPUT, $PAGE;
 
         require_once($CFG->libdir . '/tablelib.php');
+
+        $renderer = $PAGE->get_renderer('core');
 
         $canapplyutemplates = has_capability('mod/surveypro:applyusertemplates', $this->context);
         $candownloadutemplates = has_capability('mod/surveypro:downloadusertemplates', $this->context);
@@ -300,7 +302,7 @@ class utemplate_manage extends utemplate_base
             $tmpl = new usertemplate_name($xmlfileid, $templatename);
 
             $tablerow = [];
-            $tablerow[] = $OUTPUT->render_from_template('core/inplace_editable', $tmpl->export_for_template($OUTPUT));
+            $tablerow[] = $renderer->render_from_template('core/inplace_editable', $tmpl->export_for_template($renderer));
             $tablerow[] = $virtualtable[$row]['sharinglevel'];
             $tablerow[] = userdate($virtualtable[$row]['creationdate']);
 

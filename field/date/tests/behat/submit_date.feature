@@ -16,7 +16,7 @@ Feature: Submit using a date item
       | user     | course               | role           |
       | student1 | Date submission test | student        |
     And the following "activities" exist:
-      | activity  | name      | intro                        | course               |
+      | activity  | name      | intro                           | course               |
       | surveypro | Date test | To test submission of date item | Date submission test |
     And surveypro "Date test" has the following items:
       | type  | plugin | settings                                                                  |
@@ -35,7 +35,7 @@ Feature: Submit using a date item
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
-    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    When I click action "Read only" on item 1
     Then I should see "16"
     Then I should see "October"
     Then I should see "1988"

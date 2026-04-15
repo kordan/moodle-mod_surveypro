@@ -104,18 +104,19 @@ Feature: Submit each available item
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     And I press "Next page >>"
     And I press "<< Previous page"
     And I select "Responses" from the "jump" singleselect
 
     And I should see "1" submissions
 
-    And I follow "duplicate_submission_row_1"
+    And I click action "Duplicate" on item 1
     And I press "Continue"
     And I should see "2" submissions
 
-    And I follow "delete_submission_row_2"
+    And I click action "Delete" on item 2
+
     And I press "Continue"
     And I should see "1" submissions
 
@@ -124,7 +125,7 @@ Feature: Submit each available item
     And I am on the "Test submission for each available item" course page logged in as teacher1
     And I follow "Each item submission"
     And I select "Responses" from the "jump" singleselect
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I press "Next page >>"
     And I set the field "id_field_multiselect_11" to "sugar, jam"
     And I press "Submit"

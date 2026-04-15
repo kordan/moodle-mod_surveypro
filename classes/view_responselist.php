@@ -742,9 +742,9 @@ class view_responselist
         $iconparams['title'] = $nonhistoryeditstr;
         $nonhistoryediticn = new \pix_icon('t/edit', $nonhistoryeditstr, 'moodle', $iconparams);
 
-        $readonlyaccessstr = get_string('readonlyaccess', 'mod_surveypro');
-        $iconparams['title'] = $readonlyaccessstr;
-        $readonlyicn = new \pix_icon('readonly', $readonlyaccessstr, 'surveypro', $iconparams);
+        $readonlystr = get_string('readonly', 'mod_surveypro');
+        $iconparams['title'] = $readonlystr;
+        $readonlyicn = new \pix_icon('readonly', $readonlystr, 'surveypro', $iconparams);
 
         $duplicatestr = get_string('duplicate');
         $iconparams['title'] = $duplicatestr;
@@ -770,7 +770,7 @@ class view_responselist
 
         return [
             'nonhistoryeditstr' => $nonhistoryeditstr,
-            'readonlyaccessstr' => $readonlyaccessstr,
+            'readonlystr' => $readonlystr,
             'duplicatestr' => $duplicatestr,
             'attributestr' => $attributestr,
             'linkidprefix' => $linkidprefix,
@@ -1156,7 +1156,7 @@ class view_responselist
                     $mygroupmates
                 );
 
-                $tablerow = $this->build_submission_tablerow(
+                $tablerow = $this->build_submission_row(
                     $submission,
                     $tablestate,
                     $status,
@@ -1216,7 +1216,7 @@ class view_responselist
      * @param int $courseid
      * @return array
      */
-    protected function build_submission_tablerow(
+    protected function build_submission_row(
         \stdClass $submission,
         array $tablestate,
         array $status,
@@ -1245,7 +1245,7 @@ class view_responselist
         }
 
         $permissions = $this->get_row_permissions($flags['ismine'], $flags['mysamegroup'], $submission);
-        $tablerow[] = $this->render_submission_action_icons(
+        $tablerow[] = $this->get_action_icons(
             $submission,
             $permissions,
             $submissionsuffix,
@@ -1266,7 +1266,7 @@ class view_responselist
      * @param array $actionresources
      * @return string
      */
-    protected function render_submission_action_icons(
+    protected function get_action_icons(
         \stdClass $submission,
         array $permissions,
         string $submissionsuffix,
@@ -1275,33 +1275,51 @@ class view_responselist
     ): string {
         global $OUTPUT;
 
-        $icons = '';
+        $menu = new \action_menu();
+        $menu->set_kebab_trigger(get_string('actions'));
+        $menu->set_boundary('window');
+
         $paramurl = $paramurlbase;
         $paramurl['submissionid'] = $submission->submissionid;
 
+        // Read Only view.
         if ($permissions['view']) {
             $paramurl['mode'] = SURVEYPRO_READONLYMODE;
             $paramurl['begin'] = 1;
             $paramurl['section'] = 'responsesubmit';
-            $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            $paramlink = ['id' => 'view_submission_' . $submissionsuffix, 'title' => $actionresources['readonlyaccessstr']];
-            $icons .= $OUTPUT->action_icon($link, $actionresources['readonlyicn'], null, $paramlink);
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu->add(new \action_menu_link_secondary(
+                $url,
+                $actionresources['readonlyicn'],
+                $actionresources['readonlystr'],
+                ['id' => 'view_submission_' . $submissionsuffix],
+            ));
         }
 
+        // Edit.
         if ($permissions['edit']) {
             $paramurl['mode'] = SURVEYPRO_EDITMODE;
             $paramurl['begin'] = 1;
             $paramurl['section'] = 'responsesubmit';
-            $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
             if ($submission->status == SURVEYPRO_STATUSINPROGRESS) {
-                $paramlink = ['id' => 'edit_submission_' . $submissionsuffix, 'title' => $actionresources['nonhistoryeditstr']];
-                $icons .= $OUTPUT->action_icon($link, $actionresources['nonhistoryediticn'], null, $paramlink);
+                $menu->add(new \action_menu_link_secondary(
+                    $url,
+                    $actionresources['nonhistoryediticn'],
+                    $actionresources['nonhistoryeditstr'],
+                    ['id' => 'edit_submission_' . $submissionsuffix],
+                ));
             } else {
-                $paramlink = ['id' => $actionresources['linkidprefix'] . $submissionsuffix, 'title' => $actionresources['attributestr']];
-                $icons .= $OUTPUT->action_icon($link, $actionresources['attributeicn'], null, $paramlink);
+                $menu->add(new \action_menu_link_secondary(
+                    $url,
+                    $actionresources['attributeicn'],
+                    $actionresources['attributestr'],
+                    ['id' => $actionresources['linkidprefix'] . $submissionsuffix],
+                ));
             }
         }
 
+        // Duplicate.
         if ($permissions['duplicate']) {
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $cansubmitmore = $utilitylayoutman->can_submit_more($submission->userid);
@@ -1311,35 +1329,59 @@ class view_responselist
                 $paramurl['sesskey'] = sesskey();
                 $paramurl['act'] = SURVEYPRO_DUPLICATERESPONSE;
                 $paramurl['section'] = 'submissionslist';
-                $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-                $paramlink = ['id' => 'duplicate_submission_' . $submissionsuffix, 'title' => $actionresources['duplicatestr']];
-                $icons .= $OUTPUT->action_icon($link, $actionresources['duplicateicn'], null, $paramlink);
+                $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+                $menu->add(new \action_menu_link_secondary(
+                    $url,
+                    $actionresources['duplicateicn'],
+                    $actionresources['duplicatestr'],
+                    ['id' => 'duplicate_submission_' . $submissionsuffix],
+                ));
             }
         }
 
         $paramurl = $paramurlbase;
+
+        // Delete.
         $paramurl['submissionid'] = $submission->submissionid;
         if ($permissions['delete']) {
             $paramurl['sesskey'] = sesskey();
             $paramurl['act'] = SURVEYPRO_DELETERESPONSE;
             $paramurl['section'] = 'submissionslist';
-            $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            $paramlink = ['id' => 'delete_submission_' . $submissionsuffix, 'title' => $actionresources['deletestr']];
-            $icons .= $OUTPUT->action_icon($link, $actionresources['deleteicn'], null, $paramlink);
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu->add(new \action_menu_link_secondary(
+                $url,
+                $actionresources['deleteicn'],
+                $actionresources['deletestr'],
+                ['id' => 'delete_submission_' . $submissionsuffix],
+            ));
         }
 
+        // Downloadpdf.
         if ($permissions['downloadpdf']) {
             $paramurl = $paramurlbase;
             $paramurl['submissionid'] = $submission->submissionid;
             $paramurl['act'] = SURVEYPRO_RESPONSETOPDF;
             $paramurl['sesskey'] = sesskey();
             $paramurl['section'] = 'submissionslist';
-            $link = new \moodle_url('/mod/surveypro/view.php', $paramurl);
-            $paramlink = ['id' => 'pdfdownload_submission_' . $submissionsuffix, 'title' => $actionresources['downloadpdfstr']];
-            $icons .= $OUTPUT->action_icon($link, $actionresources['downloadpdficn'], null, $paramlink);
+            $url = new \moodle_url('/mod/surveypro/view.php', $paramurl);
+            $menu->add(new \action_menu_link_secondary(
+                $url,
+                $actionresources['downloadpdficn'],
+                $actionresources['downloadpdfstr'],
+                ['id' => 'pdfdownload_submission_' . $submissionsuffix],
+            ));
         }
 
-        return $icons;
+        $parts[] = $OUTPUT->render($menu);
+
+        // ── Wrapper flex ─────────────────────────────────────
+        // gap-0 removes the extra space between slots; alignment
+        // is ensured by the fixed widths of the inner spans.
+        return \html_writer::tag(
+            'div',
+            implode('', $parts),
+            ['class' => 'd-flex align-items-center gap-0']
+        );
     }
 
     /**

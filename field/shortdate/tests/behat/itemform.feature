@@ -72,7 +72,7 @@ Feature: Create a shortdate item
       | id_upperboundyear        | 2014     |
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "When did you buy your current car?"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -99,7 +99,7 @@ Feature: Create a shortdate item
     Then the field "id_upperboundyear" matches value "2014"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a When did you buy your current car?"
     Then the field "id_field_shortdate_2_month" matches value "January"

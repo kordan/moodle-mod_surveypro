@@ -85,17 +85,17 @@ Feature: Execute item actions
     Then I should see "1" searchable items
     Then I should see "21" not searchable items
 
-    And I follow "delete_item_5"
+    And I click action "Delete" on item 5
     And I press "Yes"
-    And I follow "delete_item_6"
+    And I click action "Delete" on item 6
     And I press "Yes"
-    And I follow "delete_item_7"
+    And I click action "Delete" on item 7
     And I press "Yes"
-    And I follow "delete_item_8"
+    And I click action "Delete" on item 8
     And I press "Yes"
-    And I follow "delete_item_9"
+    And I click action "Delete" on item 9
     And I press "Yes"
-    And I follow "delete_item_10"
+    And I click action "Delete" on item 10
     And I press "Yes"
 
     Then I should see "6" reserved items
@@ -105,15 +105,15 @@ Feature: Execute item actions
     Then I should see "1" searchable items
     Then I should see "15" not searchable items
 
-    And I follow "hide_item_2"
-    And I follow "hide_item_3"
-    And I follow "hide_item_4"
-    And I follow "hide_item_11"
-    And I follow "hide_item_12"
-    And I follow "hide_item_13"
-    And I follow "hide_item_14"
-    And I follow "hide_item_15"
-    And I follow "hide_item_16"
+    And I click action "Hide" on item 2
+    And I click action "Hide" on item 3
+    And I click action "Hide" on item 4
+    And I click action "Hide" on item 11
+    And I click action "Hide" on item 12
+    And I click action "Hide" on item 13
+    And I click action "Hide" on item 14
+    And I click action "Hide" on item 15
+    And I click action "Hide" on item 16
 
     Then I should see "3" reserved items
     Then I should see "4" available items
@@ -143,10 +143,10 @@ Feature: Execute item actions
     And I select "Apply" from the "jump" singleselect
     And I set the following fields to these values:
       | User templates | (This course) item_action.xml |
-      | id_action_0    | 1                                  |
+      | id_action_0    | 1                             |
     And I press "Apply"
 
-    And I follow "makereserved_item_2"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
     Then I should see "Reserving the element"
     Then I should see "Very first parent"
     Then I should see "Dependencies are the elements in position: 3, 7, 4, 8, 5, 6, 9."
@@ -159,7 +159,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "14" not searchable items
 
-    And I follow "makeavailable_item_7"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_7')]" "xpath_element"
     Then I should see "Making available the element"
     Then I should see "Second generation, second parent question"
     Then I should see "Very first parent"
@@ -173,7 +173,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "14" not searchable items
 
-    And I follow "hide_item_2"
+    And I click action "Hide" on item 2
     Then I should see "Hiding the element"
     Then I should see "Very first parent"
     Then I should see "Dependencies are the elements in position: 3, 7, 4, 8, 5, 6, 9."
@@ -186,7 +186,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "6" not searchable items
 
-    And I follow "show_item_9"
+    And I click action "Show" on item 9
     Then I should see "Showing the element"
     Then I should see "Fourth generation unique question"
     Then I should see "Ancestors are the elements in position: 8, 7, 2."
@@ -199,7 +199,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "10" not searchable items
 
-    And I follow "delete_item_9"
+    And I click action "Delete" on item 9
     Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Fourth generation unique question"
     And I press "No"
@@ -211,7 +211,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "10" not searchable items
 
-    And I follow "delete_item_1"
+    And I click action "Delete" on item 1
     Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "First part of the test"
     And I press "Yes"
@@ -223,7 +223,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "9" not searchable items
 
-    And I follow "hide_item_1"
+    And I click action "Hide" on item 1
     Then I should see "Hiding the element"
     Then I should see "Very first parent"
     Then I should see "Dependencies are the elements in position: 6, 7, 8."
@@ -236,7 +236,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "9" not searchable items
 
-    And I follow "delete_item_1"
+    And I click action "Delete" on item 1
     Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Very first parent"
     Then I should see "The current element has child element(s) that are going to be deleted too."
@@ -250,7 +250,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makereserved_item_5"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_5')]" "xpath_element"
     Then I should see "Reserving the element"
     Then I should see "Second generation, third question"
     Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 3, 4."
@@ -263,7 +263,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makeavailable_item_5"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_5')]" "xpath_element"
     Then I should see "Making available the element"
     Then I should see "Second generation, third question"
     Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 3, 4."
@@ -276,7 +276,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makereserved_item_2"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
     Then I should see "Reserving the element"
     Then I should see "Simple parent"
     Then I should see "Dependencies are the elements in position: 3, 4, 5."
@@ -289,7 +289,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makeavailable_item_2"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_2')]" "xpath_element"
     Then I should see "Making available the element"
     Then I should see "Simple parent"
     Then I should see "Dependencies are the elements in position: 3, 4, 5."
@@ -302,7 +302,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makereserved_item_3"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_3')]" "xpath_element"
     Then I should see "Reserving the element"
     Then I should see "Second generation, first question"
     Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 4, 5."
@@ -315,7 +315,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "makeavailable_item_3"
+    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_3')]" "xpath_element"
     Then I should see "Making available the element"
     Then I should see "Second generation, first question"
     Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 4, 5."
@@ -328,7 +328,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I follow "delete_item_5"
+    And I click action "Delete" on item 5
     Then I should see "Are you sure you want to delete the 'select' element:"
     Then I should see "Second generation, third question"
     And I press "Yes"
@@ -340,7 +340,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "4" not searchable items
 
-    And I follow "delete_item_2"
+    And I click action "Delete" on item 2
     Then I should see "Are you sure you want to delete the 'radio button' element:"
     Then I should see "Simple parent"
     Then I should see "The child element(s) position is: 3, 4."
@@ -353,7 +353,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "1" not searchable items
 
-    And I follow "delete_item_1"
+    And I click action "Delete" on item 1
     Then I should see "Are you sure you want to delete the 'label' element:"
     Then I should see "Second part of the test"
     And I press "Yes"

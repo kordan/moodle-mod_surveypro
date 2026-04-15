@@ -7,7 +7,7 @@ Feature: Set integer as parent item
   @javascript
   Scenario: Test integer as parent
     Given the following "courses" exist:
-      | fullname         | shortname        | category | groupmode |
+      | fullname          | shortname         | category | groupmode |
       | Integer as parent | Integer as parent | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
@@ -21,24 +21,9 @@ Feature: Set integer as parent item
       | activity  | name                   | intro                  | newpageforchild | course            |
       | surveypro | Test integer as parent | Test integer as parent | 1               | Integer as parent |
     And surveypro "Test integer as parent" has the following items:
-      | type   | plugin  |
-      | field  | integer |
-    And I am on the "Test integer as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-
-    # add a short text item
-    And I set the field "typeplugin" to "Text (short)"
-    And I press "typeplugin_button"
-
-    And I expand all fieldsets
-    And I set the following fields to these values:
-      | Content        | Write down your name                                  |
-      | Parent element | Integer [1]: How many people does your family counts? |
-      | Parent content | 5                                                     |
-    And I press "Add"
-
-    And I log out
-
-    # test the the child item correctly appear or not appear
+      | type   | plugin    | settings                                                                            |
+      | field  | integer   |                                                                                     |
+      | field  | character | {"content":"Write down your name", "parentid":"@@itemid_01@@", "parentcontent":"5"} |
     And I am on the "Test integer as parent" "surveypro activity" page logged in as student1
 
     And I press "New response"
@@ -75,7 +60,7 @@ Feature: Set integer as parent item
 
     And I am on the "Test integer as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "0"
     And I press "Save changes"
@@ -145,7 +130,7 @@ Feature: Set integer as parent item
 
     And I am on the "Test integer as parent" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     And I expand all fieldsets
     And I set the field "Parent content" to "5"
     And I press "Save changes"

@@ -51,7 +51,7 @@ Feature: Verify export type menu after adding a fileupload item
     Then "//select[contains(@id, 'id_downloadtype')]//option[contains(@value, '5')]" "xpath_element" should exist
 
     And I am on the "Export-item test" "mod_surveypro > Layout from secondary navigation" page
-    And I follow "delete_item_2"
+    And I click action "Delete" on item 2
     And I press "Yes"
     And I am on the "Export-item test" "mod_surveypro > Tools from secondary navigation" page
 

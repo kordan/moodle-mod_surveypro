@@ -11,6 +11,7 @@ Feature: Duplicate a response
       | Duplicate response | Duplicate response | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
+      | teacher1 | teacher1  | teacher1 | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference          |
@@ -18,6 +19,7 @@ Feature: Duplicate a response
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Duplicate response |
     And the following "course enrolments" exist:
       | user     | course             | role           |
+      | teacher1 | Duplicate response | editingteacher |
       | student1 | Duplicate response | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                     | course             |
@@ -33,19 +35,20 @@ Feature: Duplicate a response
     And I press "Continue to responses list"
 
     # Duplicate my original response
-    And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
+
+    And I click action "Duplicate" on item 1
     Then I should see "Are you sure you want to duplicate the response created on"
     Then I should see "and never modified?"
     And I press "Continue"
 
     # Edit the duplicated response
-    And I click on "//a[contains(@id,'edit_submission_row_2')]" "xpath_element"
+    And I click action "Edit" on item 2
     And I set the field "Is it true?" to "No"
     And I press "Submit"
 
     And I press "Continue to responses list"
     # Duplicate my original edited response
-    And I click on "//a[contains(@id,'duplicate_submission_row_2')]" "xpath_element"
+    And I click action "Duplicate" on item 2
     Then I should see "Are you sure you want to duplicate the response created on"
     Then I should see "and modified on"
     And I press "No"
@@ -55,13 +58,13 @@ Feature: Duplicate a response
     And I am on the "Duplicate response sp" "surveypro activity" page logged in as admin
     And I select "Responses" from the "jump" singleselect
     # Duplicate other original response
-    And I click on "//a[contains(@id,'duplicate_submission_row_1')]" "xpath_element"
+    And I click action "Duplicate" on item 1
     Then I should see "Are you sure you want to duplicate the response owned by student1 user1, created on"
     Then I should see "and never modified?"
     And I press "No"
 
     # Duplicate other modified response
-    And I click on "//a[contains(@id,'duplicate_submission_row_2')]" "xpath_element"
+    And I click action "Duplicate" on item 2
     Then I should see "Are you sure you want to duplicate the response owned by student1 user1, created on"
     Then I should see "and modified on"
     And I press "No"

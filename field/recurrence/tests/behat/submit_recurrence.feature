@@ -34,6 +34,6 @@ Feature: Submit using a recurrence item
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
-    When I click on "//a[contains(@id,'view_submission_row_1')]" "xpath_element"
+    When I click action "Read only" on item 1
     Then I should see "7"
     Then I should see "June"

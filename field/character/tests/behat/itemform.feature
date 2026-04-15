@@ -57,7 +57,7 @@ Feature: Create a character item
     And I set the field "Default" to "simple, but longer, default"
     And I press "Add"
 
-    And I follow "edit_item_2"
+    And I click action "Edit" on item 2
     Then the field "Content" matches value "This is a free text"
     Then the field "Required" matches value "1"
     Then the field "Indent" matches value "1"
@@ -77,7 +77,7 @@ Feature: Create a character item
     Then the field "Maximum length (in characters)" matches value "40"
     And I press "Cancel"
 
-    And I follow "show_item_2"
+    And I click action "Show" on item 2
     And I select "Preview" from the "jump" singleselect
     Then I should see "II.a This is a free text"
     Then the field "id_field_character_2" matches value "simple, but longer, default"

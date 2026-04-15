@@ -85,7 +85,7 @@ Feature: Test answers are not timezone dependent
     And I press "Submit"
 
     And I press "Continue to responses list"
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
 
     Then I should see "23"
     Then I should see "8"
@@ -105,7 +105,7 @@ Feature: Test answers are not timezone dependent
     Then I should see "15"
 
     And I select "Responses" from the "jump" singleselect
-    And I follow "view_submission_row_2"
+    And I click action "Read only" on item 2
 
     Then I should see "23"
     Then I should see "8"

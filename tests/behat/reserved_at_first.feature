@@ -44,5 +44,5 @@ Feature: Access a surveypro from the second page if the first one has only reser
     And I press "Continue to responses list"
     Then I should see "1" submissions
 
-    And I follow "view_submission_row_1"
+    And I click action "Read only" on item 1
     Then I should see "Write down your email, please"

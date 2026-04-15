@@ -43,11 +43,11 @@ Feature: Test attachment report
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo11.png" file to "Upload a passport photo" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/dummyCV11.pdf" file to "Upload your CV" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/contest11.jpg" file to "Upload the picture for the contest" filemanager
     And I press "Submit"
 
@@ -55,7 +55,7 @@ Feature: Test attachment report
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo12.gif" file to "Upload a passport photo" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_2"
+    And I click action "Edit" on item 2
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/contest12.jpg" file to "Upload the picture for the contest" filemanager
     And I press "Submit"
 
@@ -69,11 +69,11 @@ Feature: Test attachment report
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo21.jpg" file to "Upload a passport photo" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/dummyCV21.pdf" file to "Upload your CV" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/contest21.jpg" file to "Upload the picture for the contest" filemanager
     And I press "Submit"
 
@@ -87,11 +87,11 @@ Feature: Test attachment report
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/photo31.jpg" file to "Upload a passport photo" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/dummyCV31.pdf" file to "Upload your CV" filemanager
     And I press "Submit"
     And I press "Continue to responses list"
-    And I follow "edit_submission_row_1"
+    And I click action "Edit" on item 1
     And I upload "mod/surveypro/report/attachments/tests/fixtures/uploads/contest31.jpg" file to "Upload the picture for the contest" filemanager
     And I press "Submit"
 

@@ -5,7 +5,7 @@ Feature: Include custom numbers into element question/content
   I create a surveypro with few boolean items, I assign a custom number to each item and I verify the text displays correctly.
 
   @javascript
-  Scenario Outline: verify that custom numbers are correctly included
+  Scenario Outline: Verify correct inclusion of custom numbers
     Given the following "courses" exist:
       | fullname              | shortname | category | groupmode |
       | Verify custom numbers | VerifyCN  | 0        | 0         |
@@ -23,7 +23,7 @@ Feature: Include custom numbers into element question/content
       | field | boolean |
     And I am on the "VerifyCN survey" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
 
-    And I follow "edit_item_1"
+    And I click action "Edit" on item 1
     And I expand all fieldsets
     And I set the following fields to these values:
       | Content        | <content>      |
