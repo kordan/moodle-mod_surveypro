@@ -49,8 +49,8 @@ Feature: Execute item actions
     # 22 searchable items: 17 + 5
     Then I should see "22" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_3')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_4')]" "xpath_element"
+    And I follow "addtosearch_item_3"
+    And I follow "addtosearch_item_4"
 
     Then I should see "0" reserved items
     Then I should see "22" available items
@@ -59,7 +59,7 @@ Feature: Execute item actions
     Then I should see "2" searchable items
     Then I should see "20" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'removefromsearch_item_3')]" "xpath_element"
+    And I follow "removefromsearch_item_3"
 
     Then I should see "0" reserved items
     Then I should see "22" available items
@@ -68,7 +68,7 @@ Feature: Execute item actions
     Then I should see "1" searchable items
     Then I should see "21" not searchable items
 
-    And I follow "makereserved_item_2"
+    And I follow "makereserved_item_1"
     And I follow "makereserved_item_2"
     And I follow "makereserved_item_3"
     And I follow "makereserved_item_4"

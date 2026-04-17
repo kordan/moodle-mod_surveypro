@@ -506,26 +506,10 @@ table.surveypro_index td span.dimmed {
     margin: 0;
 }
 
-/* Makes the div action-menu non-blocking so it doesn't break the grid */
-.surveypro-actions-grid .action-menu,
-.surveypro-actions-grid .moodle-actionmenu,
-.surveypro-actions-grid .menubar {
-    display: contents;  /* il div sparisce, i figli entrano nella griglia */
+/* Reduces the gap between Reserved/Public and AddToSearch/RemoveFromSearch icons */
+/* stylelint-disable declaration-no-important */
+#page td.availability a.action-icon {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
-
-/* The trigger button (⋮) behaves like a normal cell */
-.surveypro-actions-grid .action-menu-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-/* End of: fixed width for action icons and spacers in #manageitems */
-
-/* Reduces the excessive padding of Moodle button links within the cell */
-.path-mod-surveypro table.generaltable td.actions .btn-link {
-    padding: 0 2px;
-}
-.path-mod-surveypro table.generaltable td.actions .action-menu {
-    display: inline-flex;   /* elimina il comportamento block del div */
-}
-
+/* stylelint-enable declaration-no-important */

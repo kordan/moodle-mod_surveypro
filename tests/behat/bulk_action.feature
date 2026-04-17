@@ -58,17 +58,17 @@ Feature: Execute bulk actions
     Then I should see "22" visible items
     Then I should see "0" hidden items
 
-    And And I click action "Hide" on item 2
-    And And I click action "Hide" on item 4
-    And And I click action "Hide" on item 6
-    And And I click action "Hide" on item 8
-    And And I click action "Hide" on item 10
-    And And I click action "Hide" on item 12
-    And And I click action "Hide" on item 14
-    And And I click action "Hide" on item 16
-    And And I click action "Hide" on item 18
-    And And I click action "Hide" on item 20
-    And And I click action "Hide" on item 22
+    And I click action "Hide" on item 2
+    And I click action "Hide" on item 4
+    And I click action "Hide" on item 6
+    And I click action "Hide" on item 8
+    And I click action "Hide" on item 10
+    And I click action "Hide" on item 12
+    And I click action "Hide" on item 14
+    And I click action "Hide" on item 16
+    And I click action "Hide" on item 18
+    And I click action "Hide" on item 20
+    And I click action "Hide" on item 22
 
     Then I should see "11" visible items
     Then I should see "11" hidden items
@@ -80,11 +80,11 @@ Feature: Execute bulk actions
     Then I should see "11" visible items
     Then I should see "0" hidden items
 
-    And And I click action "Hide" on item 2
-    And And I click action "Hide" on item 4
-    And And I click action "Hide" on item 6
-    And And I click action "Hide" on item 8
-    And And I click action "Hide" on item 10
+    And I click action "Hide" on item 2
+    And I click action "Hide" on item 4
+    And I click action "Hide" on item 6
+    And I click action "Hide" on item 8
+    And I click action "Hide" on item 10
 
     And I set the field "bulkaction" to "Delete visible elements"
     And I press "Go"

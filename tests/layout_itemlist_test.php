@@ -248,8 +248,10 @@ final class layout_itemlist_test extends \advanced_testcase {
         $this->assertArrayHasKey('outdentstr', $result);
         $this->assertArrayHasKey('indentstr', $result);
         $this->assertArrayHasKey('moveherestr', $result);
-        $this->assertArrayHasKey('availablestr', $result);
+        $this->assertArrayHasKey('publicstr', $result);
         $this->assertArrayHasKey('reservedstr', $result);
+        $this->assertArrayHasKey('insearchstr', $result);
+        $this->assertArrayHasKey('notinsearchstr', $result);
         $this->assertArrayHasKey('unreservablestr', $result);
         $this->assertArrayHasKey('unsearchablestr', $result);
         $this->assertArrayHasKey('unavailablestr', $result);

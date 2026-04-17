@@ -193,7 +193,8 @@ class layout_itemlist
                 'title' => $iconset['moveherestr'],
                 'aria-label' => $iconset['moveherestr'],
             ];
-            $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
+            $moveicn = new \pix_icon('movehere', $editstr['reservedstr'], 'moodle', $iconparams);
+            $icons = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
 
             $tablerow = array_pad([$icons], count($table->columns), '');
             $table->add_data($tablerow);
@@ -243,7 +244,7 @@ class layout_itemlist
                         'title' => $iconset['moveherestr'],
                         'aria-label' => $iconset['moveherestr'],
                     ];
-                    $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
+                    $icons = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
 
                     $tablerow = array_pad([$icons], count($table->columns), '');
                     $table->add_data($tablerow);
@@ -324,7 +325,7 @@ class layout_itemlist
             'outdentstr'        => get_string('outdent', 'mod_surveypro'),
             'indentstr'         => get_string('indent', 'mod_surveypro'),
             'moveherestr'       => get_string('movehere'),
-            'availablestr'      => get_string('available_title', 'mod_surveypro'),
+            'publicstr'         => get_string('public_title', 'mod_surveypro'),
             'reservedstr'       => get_string('reserved_title', 'mod_surveypro'),
             'insearchstr'       => get_string('insearchform_title', 'mod_surveypro'),
             'notinsearchstr'    => get_string('notinsearchform_title', 'mod_surveypro'),
@@ -449,6 +450,7 @@ class layout_itemlist
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
 
                     $iconparams = [
+                        'id'          => 'reservedup_' . $sortindex,
                         'title'      => $iconset['reservedstr'],
                         'alt'        => $iconset['reservedstr'],
                         'aria-hidden' => 'true',
@@ -468,15 +470,16 @@ class layout_itemlist
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
 
                     $iconparams = [
-                        'title'      => $iconset['availablestr'],
-                        'alt'        => $iconset['availablestr'],
+                        'id'          => 'reserveddown_' . $sortindex,
+                        'title'      => $iconset['publicstr'],
+                        'alt'        => $iconset['publicstr'],
                         'aria-hidden' => 'true',
                     ];
-                    $availableicn = new \pix_icon('free', $iconset['availablestr'], 'surveypro', $iconparams);
+                    $availableicn = new \pix_icon('free', $iconset['publicstr'], 'surveypro', $iconparams);
                     $paramlink = [
                         'id'         => 'makereserved_item_' . $sortindex,
-                        'title'      => $iconset['availablestr'],
-                        'aria-label' => $iconset['availablestr'],
+                        'title'      => $iconset['publicstr'],
+                        'aria-label' => $iconset['publicstr'],
                     ];
                     $icons .= $OUTPUT->action_icon($link, $availableicn, null, $paramlink);
                 }
@@ -512,13 +515,14 @@ class layout_itemlist
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
 
                     $iconparams = [
+                        'id'          => 'searchup_' . $sortindex,
                         'title'       => $iconset['insearchstr'],
                         'alt'         => $iconset['insearchstr'],
                         'aria-hidden' => 'true',
                     ];
                     $insearchicn = new \pix_icon('insearch', $iconset['insearchstr'], 'mod_surveypro', $iconparams);
                     $paramlink = [
-                        'id'         => 'removefromsearch_item_' . $sortindex,
+                        'id'          => 'removefromsearch_item_' . $sortindex,
                         'title'      => $iconset['insearchstr'],
                         'aria-label' => $iconset['insearchstr'],
                     ];
@@ -531,8 +535,9 @@ class layout_itemlist
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
 
                     $iconparams = [
-                        'title'      => $iconset['notinsearchstr'],
-                        'alt'        => $iconset['notinsearchstr'],
+                        'id'          => 'searchdown_' . $sortindex,
+                        'title'       => $iconset['notinsearchstr'],
+                        'alt'         => $iconset['notinsearchstr'],
                         'aria-hidden' => 'true',
                     ];
                     $notinsearchicn = new \pix_icon('notinsearch', $iconset['notinsearchstr'], 'mod_surveypro', $iconparams);
@@ -548,7 +553,7 @@ class layout_itemlist
                     'unsearchable',
                     $iconset['unsearchablestr'],
                     'surveypro',
-                    ['title' => $iconset['unsearchablestr'], 'alt' => $iconset['unsearchablestr'], 'aria-hidden' => 'true']
+                    ['id' => 'searchoff_' . $sortindex, 'title' => $iconset['unsearchablestr'], 'alt' => $iconset['unsearchablestr'], 'aria-hidden' => 'true']
                 );
                 $icons .= \html_writer::tag('span', $OUTPUT->render($unsearchableicn), ['class' => 'noactionicon']);
             }
@@ -592,7 +597,7 @@ class layout_itemlist
 
         $parts = [];
 
-        // ── SLOT 1: Required toggle / forced-optional / spacer ──
+        // ── SLOT 1: Required toggle / forced-optional
         // Fixed width: the .surveypro-action-slot class ensures
         // that all items occupy the same amount of space in this slot.
         $classname = 'surveypro' . $item->get_type() . '_' . $item->get_plugin() . '\item';
@@ -620,84 +625,17 @@ class layout_itemlist
         }
         $parts[] = \html_writer::tag('span', $inner, ['class' => 'surveypro-action-slot']);
 
-        // ── SLOT 2+3+4: Indent (outdent / value / indent) ──
+        // ── SLOT 2: Indentation value
         // Here, too, each sub-slot has a fixed width.
         if ($item->get_insetupform('indent')) {
             $currentindent = $item->get_indent();
-            if ($currentindent !== false) {
-                $paramurl            = $paramurlbase;
-                $paramurl['act']     = SURVEYPRO_CHANGEINDENT;
-                $paramurl['section'] = 'itemslist';
-                $paramurl['sesskey'] = sesskey();
-
-                // Slot outdent: icona reale oppure placeholder fisso.
-                if ($currentindent > 0) {
-                    $paramurl['ind'] = $currentindent - 1;
-                    $url = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                    $lefticn = new \pix_icon(
-                        't/left',
-                        $iconset['outdentstr'],
-                        'moodle',
-                        ['title' => $iconset['outdentstr'],
-                        'alt' => $iconset['outdentstr'],
-                        'aria-hidden' => 'true']
-                    );
-                    $outdenthtml = $OUTPUT->action_icon(
-                        $url,
-                        $lefticn,
-                        null,
-                        ['id' => 'reduceindent_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['outdentstr']]
-                    );
-                } else {
-                    $outdenthtml = \html_writer::tag('span', '', [
-                        'style'       => 'display:inline-block;width:24px;',
-                        'aria-hidden' => 'true',
-                    ]);
-                }
-                $parts[] = \html_writer::tag('span', $outdenthtml, ['class' => 'surveypro-action-slot']);
-
-                // Slot valore corrente: testo fisso [n], larghezza 2ch.
-                $parts[] = \html_writer::tag('span', '[' . $currentindent . ']', [
-                    'class' => 'surveypro-action-slot text-center',
-                    'style' => 'display:inline-block;min-width:2ch;',
-                ]);
-
-                // Slot indent: icona reale oppure placeholder fisso.
-                if ($currentindent < 9) {
-                    $paramurl['ind'] = $currentindent + 1;
-                    $url = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                    $righticn = new \pix_icon(
-                        't/right',
-                        $iconset['indentstr'],
-                        'moodle',
-                        ['title' => $iconset['indentstr'], 'alt' => $iconset['indentstr'], 'aria-hidden' => 'true']
-                    );
-                    $indenthtml = $OUTPUT->action_icon(
-                        $url,
-                        $righticn,
-                        null,
-                        ['id' => 'increaseindent_item_' . $sortindex, 'class' => 'icon', 'title' => $iconset['indentstr']]
-                    );
-                } else {
-                    $indenthtml = \html_writer::tag('span', '', [
-                        'style'       => 'display:inline-block;width:24px;',
-                        'aria-hidden' => 'true',
-                    ]);
-                }
-                $parts[] = \html_writer::tag('span', $indenthtml, ['class' => 'surveypro-action-slot']);
-            }
-        } else {
-            // L'item non supporta indent: tre slot vuoti per mantenere l'allineamento.
-            $emptyslot = \html_writer::tag('span', '', [
-                'style'       => 'display:inline-block;width:24px;',
-                'aria-hidden' => 'true',
+            $parts[] = \html_writer::tag('span', '[' . $currentindent . ']', [
+                'class' => 'surveypro-action-slot text-center',
+                'style' => 'display:inline-block;min-width:2ch;',
             ]);
-            $parts[] = \html_writer::tag('span', $emptyslot, ['class' => 'surveypro-action-slot']);
-            $parts[] = \html_writer::tag('span', '', ['class' => 'surveypro-action-slot', 'style' => 'display:inline-block;min-width:2ch;']);
-            $parts[] = \html_writer::tag('span', $emptyslot, ['class' => 'surveypro-action-slot']);
         }
 
-        // ── SLOT 5: Action menu ⋮ ────────────────────────────
+        // ── SLOT 3: Action menu ⋮ ────────────────────────────
         $menu = new \action_menu();
         $menu->set_kebab_trigger(get_string('actions'));
         $menu->set_boundary('window');
@@ -744,7 +682,7 @@ class layout_itemlist
             }
         }
 
-        // Move.
+        // Move up/down.
         if ($this->itemcount > 1) {
             $paramurl            = $paramurlbase;
             $paramurl['mode']    = SURVEYPRO_CHANGEORDERASK;
@@ -761,6 +699,42 @@ class layout_itemlist
                 $iconset['reorderstr'],
                 ['id' => 'move_item_' . $sortindex]
             ));
+        }
+
+        // Outdent/Indent.
+        if ($item->get_insetupform('indent')) {
+            // $currentindent has already been defined when the [n] was written.
+            if ($currentindent !== false) {
+                // Outdent.
+                $paramurl            = $paramurlbase;
+                $paramurl['act']     = SURVEYPRO_CHANGEINDENT;
+                $paramurl['section'] = 'itemslist';
+                $paramurl['sesskey'] = sesskey();
+
+                if ($currentindent > 0) {
+                    $paramurl['ind'] = $currentindent - 1;
+                    $url = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                    $menu->add(new \action_menu_link_secondary(
+                        $url,
+                        new \pix_icon('t/left', ''),
+                        $iconset['outdentstr'],
+                        ['id' => 'reduceindent_item_' . $sortindex]
+                    ));
+                }
+
+                // Indent.
+                // $paramurl has already been defined for outdent.
+                if ($currentindent < 9) {
+                    $paramurl['ind'] = $currentindent + 1;
+                    $url = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                    $menu->add(new \action_menu_link_secondary(
+                        $url,
+                        new \pix_icon('t/right', ''),
+                        $iconset['indentstr'],
+                        ['id' => 'increaseindent_item_' . $sortindex]
+                    ));
+                }
+            }
         }
 
         // Delete.
@@ -993,7 +967,7 @@ class layout_itemlist
             case SURVEYPRO_REMOVEFROMSEARCH:
                 $this->item_removefromsearch_execute();
                 break;
-                case SURVEYPRO_HIDEALLITEMS:
+            case SURVEYPRO_HIDEALLITEMS:
                 $this->hide_all_execute();
                 break;
             case SURVEYPRO_SHOWALLITEMS:

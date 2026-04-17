@@ -63,7 +63,7 @@ Feature: Search using one and two date items
 
     # Add the second search field
     And I am on the "Date search form test" "mod_surveypro > Layout from secondary navigation" page logged in as teacher1
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'addtosearch_item_2')]" "xpath_element"
+    And I follow "addtosearch_item_2"
 
     # 2nd search for submitted records
     Given I am on the "Date search form test" "surveypro activity" page logged in as student1

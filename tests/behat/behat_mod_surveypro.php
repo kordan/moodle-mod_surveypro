@@ -247,14 +247,14 @@ class behat_mod_surveypro extends behat_base
             case 'available':
                 $xpath = "//a[contains(@id,'makereserved')] | //img[contains(@id, 'makereserved')]";
                 $nodes = $container->findAll('xpath', $xpath);
-                $rednodes = $container->findAll('xpath', "//img[contains(@title, 'Unreservable')]");
+                $rednodes = $container->findAll('xpath', "//img[contains(@title, 'unreservable')]");
                 break;
             case 'searchable':
-                $nodes = $container->findAll('xpath', "//img[contains(@id, 'removefromsearch')]");
+                $nodes = $container->findAll('xpath', "//img[contains(@id, 'searchup')]");
                 break;
             case 'not searchable':
-                $nodes = $container->findAll('xpath', "//img[contains(@id, 'addtosearch')]");
-                $rednodes = $container->findAll('xpath', "//img[contains(@title, 'Unsearchable')]");
+                $nodes    = $container->findAll('xpath', "//img[contains(@id, 'searchdown')]");
+                $rednodes = $container->findAll('xpath', "//img[contains(@id, 'searchoff')]");
                 break;
             case 'visible':
                 $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and not(contains(@class, 'dimmed'))]");
@@ -265,6 +265,7 @@ class behat_mod_surveypro extends behat_base
             default:
                 throw new Exception('Unrecognised status "' . $status . '."');
         }
+
         if (!isset($rednodes)) { // Red because red is the outline of the icons for unchangeable settings.
             $tablerows = count($nodes);
         } else {
@@ -595,9 +596,20 @@ class behat_mod_surveypro extends behat_base
      * @param int $sortindex
      * @return void
      */
-    public function i_click_action_on_item_of_the_table(string $action, int $sortindex): void {
-        $xpath = "#action-menu-toggle-$sortindex";
-        $this->execute('behat_action_menu::i_open_the_action_menu_in', [$xpath, 'css_element']);
-        $this->execute('behat_action_menu::i_choose_in_the_open_action_menu', $action);
+    public function i_click_action_on_item(string $action, int $sortindex): void {
+        $xpathwithsortindex = "//tr[contains(@id,'itemslist_r') or contains(@id,'relations_r')]"
+            . "[.//td[contains(@class,'sortindex') and normalize-space()='$sortindex']]";
+        $submissionslistxpath = "//tr[contains(@id,'submissionslist_r" . ($sortindex - 1) . "')]";
+
+        try {
+            $row = $this->find('xpath', $xpathwithsortindex);
+        } catch (\Exception $e) {
+            $row = $this->find('xpath', $submissionslistxpath);
+        }
+
+        $this->execute(
+            'behat_action_menu::i_choose_in_the_named_menu_in_container',
+            [$action, 'Actions', $row, 'NodeElement']
+        );
     }
 }
