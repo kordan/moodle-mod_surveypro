@@ -100,6 +100,7 @@ class item extends itembase
         $this->insetupform['variable'] = false;
         $this->insetupform['extranote'] = false;
         $this->insetupform['hideinstructions'] = false;
+        // $this->insetupform['insearchform'] = false;
         $this->insetupform['parentid'] = false;
         $this->insetupform['parentvalue'] = false;
 

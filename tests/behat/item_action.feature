@@ -6,14 +6,14 @@ Feature: Execute item actions
 
   Background:
     Given the following "courses" exist:
-      | fullname          | shortname | category | numsections |
-      | Test item actions | Test IA   | 0        | 3           |
+      | fullname          | shortname        | category | numsections |
+      | Test item actions | Test Item Action | 0        | 3           |
 
   @javascript
   Scenario: Test simple item actions
     Given the following "activities" exist:
-      | activity  | name                     | intro                | course  |
-      | surveypro | Test simple item actions | To test item actions | Test IA |
+      | activity  | name                     | intro                | course           |
+      | surveypro | Test simple item actions | To test item actions | Test Item Action |
     And surveypro "Test simple item actions" has the following items:
       | type   | plugin      |
       | field  | age         |
@@ -68,15 +68,15 @@ Feature: Execute item actions
     Then I should see "1" searchable items
     Then I should see "21" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_1')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_3')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_4')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_5')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_6')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_7')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_8')]" "xpath_element"
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_9')]" "xpath_element"
+    And I follow "makereserved_item_2"
+    And I follow "makereserved_item_2"
+    And I follow "makereserved_item_3"
+    And I follow "makereserved_item_4"
+    And I follow "makereserved_item_5"
+    And I follow "makereserved_item_6"
+    And I follow "makereserved_item_7"
+    And I follow "makereserved_item_8"
+    And I follow "makereserved_item_9"
 
     Then I should see "9" reserved items
     Then I should see "13" available items
@@ -125,8 +125,8 @@ Feature: Execute item actions
   @javascript @_file_upload
   Scenario: Test complex item actions
     Given the following "activities" exist:
-      | activity  | name                      | intro       | course  |
-      | surveypro | Test complex item actions | To test CIA | Test IA |
+      | activity  | name                      | intro       | course           |
+      | surveypro | Test complex item actions | To test CIA | Test Item Action |
     And I am on the "Test complex item actions" "mod_surveypro > User templates from secondary navigation" page logged in as "admin"
     # now I am in the "Manage" page
 
@@ -146,7 +146,7 @@ Feature: Execute item actions
       | id_action_0    | 1                             |
     And I press "Apply"
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
+    And I follow "makereserved_item_2"
     Then I should see "Reserving the element"
     Then I should see "Very first parent"
     Then I should see "Dependencies are the elements in position: 3, 7, 4, 8, 5, 6, 9."
@@ -159,7 +159,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "14" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_7')]" "xpath_element"
+    And I follow "makeavailable_item_7"
     Then I should see "Making available the element"
     Then I should see "Second generation, second parent question"
     Then I should see "Very first parent"
@@ -250,7 +250,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_5')]" "xpath_element"
+    And I follow "makereserved_item_5"
     Then I should see "Reserving the element"
     Then I should see "Second generation, third question"
     Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 3, 4."
@@ -263,7 +263,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_5')]" "xpath_element"
+    And I follow "makeavailable_item_5"
     Then I should see "Making available the element"
     Then I should see "Second generation, third question"
     Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 3, 4."
@@ -276,7 +276,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_2')]" "xpath_element"
+    And I follow "makereserved_item_2"
     Then I should see "Reserving the element"
     Then I should see "Simple parent"
     Then I should see "Dependencies are the elements in position: 3, 4, 5."
@@ -289,7 +289,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_2')]" "xpath_element"
+    And I follow "makeavailable_item_2"
     Then I should see "Making available the element"
     Then I should see "Simple parent"
     Then I should see "Dependencies are the elements in position: 3, 4, 5."
@@ -302,7 +302,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makereserved_item_3')]" "xpath_element"
+    And I follow "makereserved_item_3"
     Then I should see "Reserving the element"
     Then I should see "Second generation, first question"
     Then I should see "So, in addition to the chosen element, you are going to reserve the elements in position: 2, 4, 5."
@@ -315,7 +315,7 @@ Feature: Execute item actions
     Then I should see "0" searchable items
     Then I should see "5" not searchable items
 
-    And I click on "//a[contains(@class,'quickeditlink')]//img[contains(@id, 'makeavailable_item_3')]" "xpath_element"
+    And I follow "makeavailable_item_3"
     Then I should see "Making available the element"
     Then I should see "Second generation, first question"
     Then I should see "So, in addition to the chosen element, you are going to make available the elements in position: 2, 4, 5."

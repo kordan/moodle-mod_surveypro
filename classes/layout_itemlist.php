@@ -191,7 +191,7 @@ class layout_itemlist
             $paramlink = [
                 'id' => 'moveafter_0',
                 'title' => $iconset['moveherestr'],
-                'aria-label' => $iconset['hidestr'],
+                'aria-label' => $iconset['moveherestr'],
             ];
             $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
 
@@ -241,7 +241,7 @@ class layout_itemlist
                     $paramlink = [
                         'id' => 'move_item_' . $sortindex,
                         'title' => $iconset['moveherestr'],
-                        'aria-label' => $iconset['hidestr'],
+                        'aria-label' => $iconset['moveherestr'],
                     ];
                     $icons = $OUTPUT->action_icon($link, $iconset['movehereicn'], null, $paramlink);
 
@@ -326,6 +326,8 @@ class layout_itemlist
             'moveherestr'       => get_string('movehere'),
             'availablestr'      => get_string('available_title', 'mod_surveypro'),
             'reservedstr'       => get_string('reserved_title', 'mod_surveypro'),
+            'insearchstr'       => get_string('insearchform_title', 'mod_surveypro'),
+            'notinsearchstr'    => get_string('notinsearchform_title', 'mod_surveypro'),
             'unreservablestr'   => get_string('unreservable_title', 'mod_surveypro'),
             'unsearchablestr'   => get_string('unsearchable_title', 'mod_surveypro'),
             'unavailablestr'    => get_string('unavailableelement_title', 'mod_surveypro'),
@@ -420,9 +422,7 @@ class layout_itemlist
      * @return string HTML
      */
     protected function get_availability_icons(\mod_surveypro\itembase $item, array $iconset): string {
-        global $OUTPUT, $PAGE;
-
-        $renderer = $PAGE->get_renderer('core');
+        global $OUTPUT;
 
         $itemishidden = $item->get_hidden();
         $sortindex    = $item->get_sortindex();
@@ -440,51 +440,45 @@ class layout_itemlist
         if (!$itemishidden) {
             if ($item->get_insetupform('reserved')) {
                 $reserved = $item->get_reserved();
-                if ($item->item_has_children() || $item->item_is_child()) {
-                    $paramurl = $paramurlbase;
-                    if ($reserved) {
-                        $paramurl['act']       = SURVEYPRO_MAKEAVAILABLE;
-                        $paramurl['sortindex'] = $sortindex;
-                        $paramurl['section']   = 'itemslist';
-                        $paramurl['sesskey']   = sesskey();
-                        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+                $paramurl = $paramurlbase;
+                if ($reserved) {
+                    $paramurl['act']       = SURVEYPRO_MAKEAVAILABLE;
+                    $paramurl['sortindex'] = $sortindex;
+                    $paramurl['section']   = 'itemslist';
+                    $paramurl['sesskey']   = sesskey();
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
 
-                        $reservedicn = new \pix_icon(
-                            'reserved',
-                            $iconset['reservedstr'],
-                            'surveypro',
-                            ['title' => $iconset['reservedstr'], 'alt' => $iconset['reservedstr'], 'aria-hidden' => 'true']
-                        );
-                        $paramlink = [
-                            'id'         => 'makeavailable_item_' . $sortindex,
-                            'title'      => $iconset['reservedstr'],
-                            'aria-label' => $iconset['availablestr'],
-                        ];
-                        $icons .= $OUTPUT->action_icon($link, $reservedicn, null, $paramlink);
-                    } else {
-                        $paramurl['act']       = SURVEYPRO_MAKERESERVED;
-                        $paramurl['sortindex'] = $sortindex;
-                        $paramurl['section']   = 'itemslist';
-                        $paramurl['sesskey']   = sesskey();
-                        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-
-                        $availableicn = new \pix_icon(
-                            'free',
-                            $iconset['availablestr'],
-                            'surveypro',
-                            ['title' => $iconset['availablestr'], 'alt' => $iconset['availablestr'], 'aria-hidden' => 'true']
-                        );
-                        $paramlink = [
-                            'id'         => 'makereserved_item_' . $sortindex,
-                            'title'      => $iconset['availablestr'],
-                            'aria-label' => $iconset['reservedstr'],
-                        ];
-                        $icons .= $OUTPUT->action_icon($link, $availableicn, null, $paramlink);
-                    }
+                    $iconparams = [
+                        'title'      => $iconset['reservedstr'],
+                        'alt'        => $iconset['reservedstr'],
+                        'aria-hidden' => 'true',
+                    ];
+                    $reservedicn = new \pix_icon('reserved', $iconset['reservedstr'], 'surveypro', $iconparams);
+                    $paramlink = [
+                        'id'         => 'makeavailable_item_' . $sortindex,
+                        'title'      => $iconset['reservedstr'],
+                        'aria-label' => $iconset['reservedstr'],
+                    ];
+                    $icons .= $OUTPUT->action_icon($link, $reservedicn, null, $paramlink);
                 } else {
-                    $tmpl = new \mod_surveypro\local\ipe\layout_reserved($itemid, $reserved, $sortindex);
-                    $tmpl->set_type_toggle();
-                    $icons .= $renderer->render_from_template('core/inplace_editable', $tmpl->export_for_template($renderer));
+                    $paramurl['act']       = SURVEYPRO_MAKERESERVED;
+                    $paramurl['sortindex'] = $sortindex;
+                    $paramurl['section']   = 'itemslist';
+                    $paramurl['sesskey']   = sesskey();
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+                    $iconparams = [
+                        'title'      => $iconset['availablestr'],
+                        'alt'        => $iconset['availablestr'],
+                        'aria-hidden' => 'true',
+                    ];
+                    $availableicn = new \pix_icon('free', $iconset['availablestr'], 'surveypro', $iconparams);
+                    $paramlink = [
+                        'id'         => 'makereserved_item_' . $sortindex,
+                        'title'      => $iconset['availablestr'],
+                        'aria-label' => $iconset['availablestr'],
+                    ];
+                    $icons .= $OUTPUT->action_icon($link, $availableicn, null, $paramlink);
                 }
             } else {
                 $unreservableicn = new \pix_icon(
@@ -508,9 +502,47 @@ class layout_itemlist
         // Second icon: insearchform.
         if (!$itemishidden) {
             if ($item->get_insetupform('insearchform')) {
-                $tmpl = new \mod_surveypro\local\ipe\layout_insearchform($itemid, $item->get_insearchform(), $sortindex);
-                $tmpl->set_type_toggle();
-                $icons .= $renderer->render_from_template('core/inplace_editable', $tmpl->export_for_template($renderer));
+                $insearchform = $item->get_insearchform();
+                $paramurl = $paramurlbase;
+                if ($insearchform) {
+                    $paramurl['act']       = SURVEYPRO_REMOVEFROMSEARCH;
+                    $paramurl['sortindex'] = $sortindex;
+                    $paramurl['section']   = 'itemslist';
+                    $paramurl['sesskey']   = sesskey();
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+                    $iconparams = [
+                        'title'       => $iconset['insearchstr'],
+                        'alt'         => $iconset['insearchstr'],
+                        'aria-hidden' => 'true',
+                    ];
+                    $insearchicn = new \pix_icon('insearch', $iconset['insearchstr'], 'mod_surveypro', $iconparams);
+                    $paramlink = [
+                        'id'         => 'removefromsearch_item_' . $sortindex,
+                        'title'      => $iconset['insearchstr'],
+                        'aria-label' => $iconset['insearchstr'],
+                    ];
+                    $icons .= $OUTPUT->action_icon($link, $insearchicn, null, $paramlink);
+                } else {
+                    $paramurl['act']       = SURVEYPRO_ADDTOSEARCH;
+                    $paramurl['sortindex'] = $sortindex;
+                    $paramurl['section']   = 'itemslist';
+                    $paramurl['sesskey']   = sesskey();
+                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+                    $iconparams = [
+                        'title'      => $iconset['notinsearchstr'],
+                        'alt'        => $iconset['notinsearchstr'],
+                        'aria-hidden' => 'true',
+                    ];
+                    $notinsearchicn = new \pix_icon('notinsearch', $iconset['notinsearchstr'], 'mod_surveypro', $iconparams);
+                    $paramlink = [
+                        'id'         => 'addtosearch_item_' . $sortindex,
+                        'title'      => $iconset['notinsearchstr'],
+                        'aria-label' => $iconset['notinsearchstr'],
+                    ];
+                    $icons .= $OUTPUT->action_icon($link, $notinsearchicn, null, $paramlink);
+                }
             } else {
                 $unsearchableicn = new \pix_icon(
                     'unsearchable',
@@ -955,7 +987,13 @@ class layout_itemlist
             case SURVEYPRO_MAKEAVAILABLE:
                 $this->item_makeavailable_execute();
                 break;
-            case SURVEYPRO_HIDEALLITEMS:
+            case SURVEYPRO_ADDTOSEARCH:
+                $this->item_addtosearch_execute();
+                break;
+            case SURVEYPRO_REMOVEFROMSEARCH:
+                $this->item_removefromsearch_execute();
+                break;
+                case SURVEYPRO_HIDEALLITEMS:
                 $this->hide_all_execute();
                 break;
             case SURVEYPRO_SHOWALLITEMS:
@@ -990,6 +1028,12 @@ class layout_itemlist
                 if (!empty($this->surveypro->template)) {
                     $this->drop_multilang_feedback();
                 }
+                break;
+            case SURVEYPRO_ADDTOSEARCH:
+                $this->item_addtosearch_feedback();
+                break;
+            case SURVEYPRO_REMOVEFROMSEARCH:
+                $this->item_removefromsearch_feedback();
                 break;
             case SURVEYPRO_HIDEITEM:
                 $this->item_hide_feedback();
@@ -1513,6 +1557,70 @@ class layout_itemlist
                 die();
             }
         }
+    }
+
+    // MARK ITEM - add to search.
+
+    /**
+     * Set the item as searchable.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function item_addtosearch_execute() {
+        global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
+
+        $DB->set_field('surveypro_item', 'insearchform', 1, ['id' => $this->rootitemid]);
+    }
+
+    /**
+     * Provide a feedback after item_addtosearch_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function item_addtosearch_feedback() {
+        // No confirmation needed: action is immediate and reversible.
+    }
+
+    // MARK ITEM - remove from search.
+
+    /**
+     * Set the item as not searchable.
+     *
+     * Called by:
+     *     actions_execution()
+     *
+     * @return void
+     */
+    public function item_removefromsearch_execute() {
+        global $DB;
+
+        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
+            return;
+        }
+
+        $DB->set_field('surveypro_item', 'insearchform', 0, ['id' => $this->rootitemid]);
+    }
+
+    /**
+     * Provide a feedback after item_removefromsearch_execute.
+     *
+     * Called by:
+     *     actions_feedback()
+     *
+     * @return void
+     */
+    public function item_removefromsearch_feedback() {
+        // No confirmation needed: action is immediate and reversible.
     }
 
     // MARK ITEM - delete.
