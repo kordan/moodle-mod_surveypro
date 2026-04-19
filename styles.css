@@ -95,7 +95,7 @@
     vertical-align: middle;
 }
 
-.path-mod-surveypro table td.parentid {
+.path-mod-surveypro table td.parentitem {
     width: .5em;
     padding: .5em;
     margin: 0;
@@ -104,7 +104,7 @@
     text-align: center;
 }
 
-.path-mod-surveypro table td.parentid span.branch .icon {
+.path-mod-surveypro table td.parentitem span.branch .icon {
     width: 16px;
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
@@ -232,14 +232,22 @@
     text-align: center;
 }
 
+.path-mod-surveypro table#validaterelations td.content {
+    padding: 0.5em;
+    text-align: left;
+    vertical-align: middle;
+}
+
 .path-mod-surveypro table#validaterelations td.parentconstraints {
     padding: 0.5em;
     text-align: left;
+    vertical-align: middle;
     white-space: nowrap;
 }
 
 .path-mod-surveypro table#validaterelations td.status {
     padding: 0.5em;
+    vertical-align: middle;
     white-space: nowrap;
 }
 
