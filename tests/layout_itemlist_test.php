@@ -227,54 +227,6 @@ final class layout_itemlist_test extends \advanced_testcase {
     }
 
     // -------------------------------------------------------------------------
-    // Tests for get_icon_set()
-    // -------------------------------------------------------------------------
-
-    /**
-     * get_icon_set() must return an array with expected keys.
-     */
-    public function test_get_icon_set_has_expected_keys(): void {
-        $this->resetAfterTest();
-
-        [$manager] = $this->make_manager();
-        $result = $manager->call_get_icon_set();
-
-        $this->assertArrayHasKey('editstr', $result);
-        $this->assertArrayHasKey('parentelementstr', $result);
-        $this->assertArrayHasKey('reorderstr', $result);
-        $this->assertArrayHasKey('hidestr', $result);
-        $this->assertArrayHasKey('showstr', $result);
-        $this->assertArrayHasKey('deletestr', $result);
-        $this->assertArrayHasKey('outdentstr', $result);
-        $this->assertArrayHasKey('indentstr', $result);
-        $this->assertArrayHasKey('moveherestr', $result);
-        $this->assertArrayHasKey('publicstr', $result);
-        $this->assertArrayHasKey('reservedstr', $result);
-        $this->assertArrayHasKey('insearchstr', $result);
-        $this->assertArrayHasKey('notinsearchstr', $result);
-        $this->assertArrayHasKey('unreservablestr', $result);
-        $this->assertArrayHasKey('unsearchablestr', $result);
-        $this->assertArrayHasKey('unavailablestr', $result);
-        $this->assertArrayHasKey('forcedoptionalstr', $result);
-    }
-
-    /**
-     * get_icon_set() icons must be pix_icon instances.
-     */
-    public function test_get_icon_set_icons_are_pix_icon(): void {
-        $this->resetAfterTest();
-
-        [$manager] = $this->make_manager();
-        $result = $manager->call_get_icon_set();
-
-        foreach ($result as $key => $value) {
-            if (str_ends_with($key, 'icn')) {
-                $this->assertInstanceOf(\pix_icon::class, $value, "Key $key must be a pix_icon");
-            }
-        }
-    }
-
-    // -------------------------------------------------------------------------
     // Tests for get_action_icons()
     // -------------------------------------------------------------------------
 
@@ -294,8 +246,7 @@ final class layout_itemlist_test extends \advanced_testcase {
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
         $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
 
-        $iconset = $manager->call_get_icon_set();
-        $result = $manager->call_get_action_icons($item, $iconset);
+        $result = $manager->call_get_action_icons($item);
 
         $this->assertEquals('', $result);
     }
@@ -316,8 +267,7 @@ final class layout_itemlist_test extends \advanced_testcase {
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
         $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
 
-        $iconset = $manager->call_get_icon_set();
-        $result = $manager->call_get_action_icons($item, $iconset);
+        $result = $manager->call_get_action_icons($item);
 
         $this->assertIsString($result);
         $this->assertNotEmpty($result);
@@ -343,8 +293,7 @@ final class layout_itemlist_test extends \advanced_testcase {
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
         $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
 
-        $iconset = $manager->call_get_icon_set();
-        $result = $manager->call_build_item_row($item, $iconset);
+        $result = $manager->call_build_item_row($item);
 
         $this->assertIsArray($result);
         $this->assertCount(9, $result);

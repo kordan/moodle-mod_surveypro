@@ -61,44 +61,32 @@ class layout_itemlist_test_helper extends \mod_surveypro\layout_itemlist {
     }
 
     /**
-     * Public wrapper to get icon set.
-     *
-     * @return array
-     */
-    public function call_get_icon_set(): array {
-        return $this->get_icon_set();
-    }
-
-    /**
      * Public wrapper to build item row.
      *
      * @param \mod_surveypro\itembase $item
-     * @param array $iconset
      * @return array
      */
-    public function call_build_item_row(\mod_surveypro\itembase $item, array $iconset): array {
-        return $this->build_item_row($item, $iconset);
+    public function call_build_item_row(\mod_surveypro\itembase $item): array {
+        return $this->build_item_row($item);
     }
 
     /**
      * Public wrapper to get availability icons.
      *
      * @param \mod_surveypro\itembase $item
-     * @param array $iconset
      * @return array
      */
-    public function call_get_availability_icons(\mod_surveypro\itembase $item, array $iconset): string {
-        return $this->get_availability_icons($item, $iconset);
+    public function call_get_availability_icons(\mod_surveypro\itembase $item): string {
+        return $this->get_availability_icons($item);
     }
 
     /**
      * Public wrapper to get_action_icons.
      *
      * @param \mod_surveypro\itembase $item
-     * @param array $iconset
      * @return array
      */
-    public function call_get_action_icons(\mod_surveypro\itembase $item, array $iconset): string {
-        return $this->get_action_icons($item, $iconset);
+    public function call_get_action_icons(\mod_surveypro\itembase $item): string {
+        return $this->get_action_icons($item);
     }
 }
