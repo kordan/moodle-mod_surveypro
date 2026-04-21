@@ -247,7 +247,7 @@ class layout_itemlist
                     $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
                     $moveherestr = get_string('movehere');
                     $paramlink = [
-                        'id' => 'move_item_' . $sortindex,
+                        'id' => 'moveafter_' . $sortindex,
                         'title' => $moveherestr,
                         'aria-label' => $moveherestr,
                     ];

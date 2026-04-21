@@ -431,4 +431,30 @@ class behat_mod_surveypro extends behat_base
             [$action, 'Actions', $row, 'NodeElement']
         );
     }
+
+    /**
+     * Verify the given item is actually in the given position
+     *
+     * Example:
+     *   And the item in position 1 is "Text (short)"
+     *
+     * @Then /^the item in position (?P<sortindex>\d+) is "(?P<plugin>[^"]*)"$/
+     *
+     * @param int $sortindex
+     * @param string $plugin
+     * @return void
+     */
+    public function the_item_in_position_is(int $sortindex, string $plugin): void {
+        $rowid = 'itemslist_r' . ($sortindex - 1);
+        $xpath = "//tr[@id='$rowid'][.//img[@title='$plugin']]";
+
+        try {
+            $this->find('xpath', $xpath);
+        } catch (\Exception $e) {
+            throw new \Behat\Mink\Exception\ExpectationException(
+                'In position #' . $sortindex . ' there is no "' . $plugin . '" item.',
+                $this->getSession()
+            );
+        }
+    }
 }

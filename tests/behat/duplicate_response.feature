@@ -11,7 +11,6 @@ Feature: Duplicate a response
       | Duplicate response | Duplicate response | 0        | 0         |
     And the following "users" exist:
       | username | firstname | lastname | email                |
-      | teacher1 | teacher1  | teacher1 | teacher1@nowhere.net |
       | student1 | student1  | user1    | student1@nowhere.net |
     And the following "permission overrides" exist:
       | capability                            | permission | role    | contextlevel | reference          |
@@ -19,7 +18,6 @@ Feature: Duplicate a response
       | mod/surveypro:duplicateownsubmissions | Allow      | student | Course       | Duplicate response |
     And the following "course enrolments" exist:
       | user     | course             | role           |
-      | teacher1 | Duplicate response | editingteacher |
       | student1 | Duplicate response | student        |
     And the following "activities" exist:
       | activity  | name                  | intro                     | course             |
