@@ -417,7 +417,7 @@ class view_responsesubmit extends formbase
         // The first: all the answers, of the current submission, coming from disabled item.
         // The second: all the answers already saved to database but no longer valid.
         // This second type comes from the following scenario:
-        // User edits an already submitted response. He/she changes the answer to a parent item. (Yes to no or whatever).
+        // User edits an already submitted response. He/she changes the answer to a parent item. (Yes to No or whatever).
         // There may be answers already saved in the database FOR THE SAME SUBMISSION that were allowed yesterday
         // but that are not allowed now after the current change to the answer to the parent item. I have to delete them.
         $this->drop_undesired_answers();
@@ -429,7 +429,7 @@ class view_responsesubmit extends formbase
         // For each submission I need to save one 'surveypro_submission' and some 'surveypro_answer'.
 
         // Begin of: let's start by saving one record in surveypro_submission.
-        // In save_surveypro_submission method I also assign $this->submissionid.
+        // In save_surveypro_submission method I also define $this->submissionid.
         $this->save_surveypro_submission();
         // End of: let's start by saving one record in surveypro_submission.
 
@@ -474,16 +474,16 @@ class view_responsesubmit extends formbase
         // FIRST SCENARIO.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 4 pages.
-        // 2) User fills all the fields of first page and moves to page 2.
-        // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
-        // 4) At page 3 (the page the user still does not see) of the surveypro there is mandatory field.
+        // 2) User fills all the fields of the first page and moves to page 2.
+        // 3) User reads the url and understands that the formpage is passed in GET (visible in the url).
+        // 4) At page 3 (the page the user still does not see) of the surveypro there is a mandatory field.
         // 5) Because of 3) user jumps to page 4 and make the final submit.
         // A check is needed to verify that EACH mandatory surveypro field was actually saved.
 
         // SECOND SCENARIO.
         // Let's suppose the following scenario.
         // 1) User is filling a surveypro divided into 3 pages.
-        // 2) User fills all the fields of first page and moves to page 2.
+        // 2) User fills all the fields of the first page and moves to page 2.
         // 3) User reads the url and understands that the formapge is passed in GET (visible in the url).
         // 4) At page 2 of the surveypro there is a mandatory field.
         // 5) User return back to page 1 without filling the mandatory field.
