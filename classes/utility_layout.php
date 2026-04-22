@@ -613,7 +613,7 @@ class utility_layout
                 FROM {surveypro_submission} s
                     JOIN {surveypro_answer} a ON s.id = a.submissionid
                 WHERE s.surveyproid = :surveyproid
-                    AND a.itemid ' . $insql . '
+                    AND a.id ' . $insql . '
                 GROUP BY s.id';
         $whereparams = $inparams;
         $whereparams['surveyproid'] = $this->surveypro->id;

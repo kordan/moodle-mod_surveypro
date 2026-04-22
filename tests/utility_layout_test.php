@@ -753,4 +753,385 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertArrayNotHasKey('hidden', $where);
         $this->assertArrayNotHasKey('reserved', $where);
     }
+
+    // -------------------------------------------------------------------------
+    // Tests for delete_answers()
+    // -------------------------------------------------------------------------
+
+    /**
+     * delete_answers() must remove the answer from the DB.
+     */
+    public function test_delete_answers_removes_answer(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        $utility->delete_answers(['id' => $answer->id]);
+
+        $this->assertFalse($DB->record_exists('surveypro_answer', ['id' => $answer->id]));
+    }
+
+    /**
+     * delete_answers() must also delete the parent submission when no more answers exist.
+     */
+    public function test_delete_answers_removes_orphan_submission(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        $utility->delete_answers(['id' => $answer->id]);
+
+        $this->assertFalse($DB->record_exists('surveypro_submission', ['id' => $submission->id]));
+    }
+
+    /**
+     * delete_answers() must keep the submission when other answers still exist.
+     */
+    public function test_delete_answers_keeps_submission_with_remaining_answers(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid1 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $itemid2 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer1 = $this->make_answer($submission->id, $itemid1);
+        $this->make_answer($submission->id, $itemid2);
+
+        $utility->delete_answers(['id' => $answer1->id]);
+
+        $this->assertTrue($DB->record_exists('surveypro_submission', ['id' => $submission->id]));
+    }
+
+    /**
+     * delete_answers() by submissionid must remove all answers of that submission.
+     */
+    public function test_delete_answers_by_submissionid(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid1 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $itemid2 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $this->make_answer($submission->id, $itemid1);
+        $this->make_answer($submission->id, $itemid2);
+
+        $utility->delete_answers(['submissionid' => $submission->id]);
+
+        $this->assertEquals(0, $DB->count_records('surveypro_answer', ['submissionid' => $submission->id]));
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for get_user_from_answersid()
+    // -------------------------------------------------------------------------
+
+    /**
+     * get_user_from_answersid() must return the user of the submission.
+     */
+    public function test_get_user_from_answersid_basic(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $adminid = $USER->id; // Salva dopo make_utility che chiama setAdminUser()
+
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $adminid, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        $users = $utility->get_user_from_answersid([$answer->id]);
+        $usersarray = [];
+        foreach ($users as $u) {
+            $usersarray[] = $u->id;
+        }
+        $users->close();
+
+        $this->assertCount(1, $usersarray);
+        $this->assertContains($adminid, $usersarray);
+    }
+
+    /**
+     * get_user_from_answersid() with empty array must return empty array.
+     */
+    public function test_get_user_from_answersid_empty(): void {
+        $this->resetAfterTest();
+
+        [$utility] = $this->make_utility();
+
+        $users = $utility->get_user_from_answersid([]);
+        $this->assertEmpty($users);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for get_answers_idlist_from_answers()
+    // -------------------------------------------------------------------------
+
+    /**
+     * get_answers_idlist_from_answers() by submissionid must return the answer ids.
+     */
+    public function test_get_answers_idlist_from_answers_by_submissionid(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid1 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $itemid2 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer1 = $this->make_answer($submission->id, $itemid1);
+        $answer2 = $this->make_answer($submission->id, $itemid2);
+
+        $ids = $utility->get_answers_idlist_from_answers(['submissionid' => $submission->id]);
+
+        $this->assertCount(2, $ids);
+        $this->assertContains($answer1->id, $ids);
+        $this->assertContains($answer2->id, $ids);
+    }
+
+    /**
+     * get_answers_idlist_from_answers() by itemid must return the answer ids.
+     */
+    public function test_get_answers_idlist_from_answers_by_itemid(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        $ids = $utility->get_answers_idlist_from_answers(['itemid' => $itemid]);
+
+        $this->assertCount(1, $ids);
+        $this->assertContains($answer->id, $ids);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for get_submissions_idlist_from_answersid()
+    // -------------------------------------------------------------------------
+
+    /**
+     * get_submissions_idlist_from_answersid() must return the submission ids.
+     */
+    public function test_get_submissions_idlist_from_answersid_basic(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        $ids = $utility->get_submissions_idlist_from_answersid([$answer->id]);
+
+        $this->assertCount(1, $ids);
+        $this->assertContains($submission->id, $ids);
+    }
+
+    /**
+     * get_submissions_idlist_from_answersid() with empty array must return empty array.
+     */
+    public function test_get_submissions_idlist_from_answersid_empty(): void {
+        $this->resetAfterTest();
+
+        [$utility] = $this->make_utility();
+
+        $ids = $utility->get_submissions_idlist_from_answersid([]);
+        $this->assertEmpty($ids);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for get_submissionsid_from_answers()
+    // -------------------------------------------------------------------------
+
+    /**
+     * get_submissionsid_from_answers() must return submissions matching the answer criteria.
+     */
+    public function test_get_submissionsid_from_answers_by_itemid(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $this->make_answer($submission->id, $itemid);
+
+        $submissions = $utility->get_submissionsid_from_answers(['itemid' => $itemid]);
+        $ids = [];
+        foreach ($submissions as $s) {
+            $ids[] = $s->id;
+        }
+        $submissions->close();
+
+        $this->assertContains((string)$submission->id, $ids);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for drop_uploadfile_attachments()
+    // -------------------------------------------------------------------------
+
+    /**
+     * drop_uploadfile_attachments() with empty array must not throw.
+     */
+    public function test_drop_uploadfile_attachments_empty(): void {
+        $this->resetAfterTest();
+
+        [$utility] = $this->make_utility();
+
+        // Should not throw.
+        $utility->drop_uploadfile_attachments([]);
+        $this->assertTrue(true);
+    }
+
+    /**
+     * drop_uploadfile_attachments() with answer ids must not throw.
+     */
+    public function test_drop_uploadfile_attachments_with_ids(): void {
+        $this->resetAfterTest();
+
+        global $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $answer = $this->make_answer($submission->id, $itemid);
+
+        // Should not throw even if no files exist.
+        $utility->drop_uploadfile_attachments([$answer->id]);
+        $this->assertTrue(true);
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for duplicate_submissions()
+    // -------------------------------------------------------------------------
+
+    /**
+     * duplicate_submissions() must create a copy of the submission.
+     */
+    public function test_duplicate_submissions_creates_copy(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $this->make_answer($submission->id, $itemid);
+
+        $utility->duplicate_submissions(['id' => $submission->id]);
+
+        $count = $DB->count_records('surveypro_submission', ['surveyproid' => $surveypro->id]);
+        $this->assertEquals(2, $count);
+    }
+
+    /**
+     * duplicate_submissions() must also copy the answers.
+     */
+    public function test_duplicate_submissions_copies_answers(): void {
+        $this->resetAfterTest();
+
+        global $DB, $USER, $COURSE;
+
+        [$utility, $surveypro, $cm] = $this->make_utility();
+        $COURSE = get_course($cm->course);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid1 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $itemid2 = $generator->create_item_character($surveypro, ['required' => 0]);
+        $submission = $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $this->make_answer($submission->id, $itemid1);
+        $this->make_answer($submission->id, $itemid2);
+
+        $utility->duplicate_submissions(['id' => $submission->id]);
+
+        $count = $DB->count_records('surveypro_answer', ['submissionid' => $submission->id]);
+        $this->assertEquals(2, $count);
+
+        $allsubmissions = $DB->get_records('surveypro_submission', ['surveyproid' => $surveypro->id]);
+        $this->assertCount(2, $allsubmissions);
+        foreach ($allsubmissions as $sub) {
+            $this->assertEquals(2, $DB->count_records('surveypro_answer', ['submissionid' => $sub->id]));
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Tests for count_or_presence()
+    // -------------------------------------------------------------------------
+
+    /**
+     * count_or_presence() with returncount=true must return the count.
+     */
+    public function test_count_or_presence_returncount(): void {
+        $this->resetAfterTest();
+
+        global $USER;
+
+        [$utility, $surveypro] = $this->make_utility();
+        $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+        $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+
+        $result = $utility->call_count_or_presence(
+            'surveypro_submission',
+            ['surveyproid' => $surveypro->id],
+            true
+        );
+        $this->assertEquals(2, $result);
+    }
+
+    /**
+     * count_or_presence() with returncount=false must return bool.
+     */
+    public function test_count_or_presence_returnbool(): void {
+        $this->resetAfterTest();
+
+        global $USER;
+
+        [$utility, $surveypro] = $this->make_utility();
+        $this->make_submission($surveypro->id, $USER->id, SURVEYPRO_STATUSCLOSED);
+
+        $result = $utility->call_count_or_presence(
+            'surveypro_submission',
+            ['surveyproid' => $surveypro->id],
+            false
+        );
+        $this->assertTrue($result);
+    }
 }

@@ -47,4 +47,16 @@ class utility_layout_test_helper extends \mod_surveypro\utility_layout {
     ): array {
         return $this->build_has_items_whereparams($formpage, $type, $includehidden, $includereserved);
     }
+
+    /**
+     * Public wrapper for count_or_presence().
+     *
+     * @param string $table
+     * @param array $whereparams
+     * @param bool $returncount
+     * @return int|bool
+     */
+    public function call_count_or_presence(string $table, array $whereparams, bool $returncount) {
+        return $this->count_or_presence($table, $whereparams, $returncount);
+    }
 }
