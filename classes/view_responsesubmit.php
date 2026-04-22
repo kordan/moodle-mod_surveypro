@@ -559,7 +559,7 @@ class view_responsesubmit extends formbase
             }
         }
 
-        // Costruzione itemhelperinfo.
+        // Construction of itemhelperinfo.
         $surveyproid = 0;
         $itemhelperinfo = [];
         foreach ($this->formdata as $elementname => $content) {
