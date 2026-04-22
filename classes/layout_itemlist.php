@@ -160,14 +160,13 @@ class layout_itemlist
      *
      * @return void
      */
-    public function display_items_table() {
+    public function display_items_table(): void {
         global $CFG, $DB, $OUTPUT;
 
         require_once($CFG->libdir . '/tablelib.php');
 
         $table = $this->setup_items_table();
 
-        // Build $paramurlmove.
         $paramurlmove = [
             's'   => $this->cm->instance,
             'act' => SURVEYPRO_CHANGEORDER,
@@ -178,32 +177,12 @@ class layout_itemlist
         $orderby = ($this->mode == SURVEYPRO_CHANGEORDERASK) ? 'sortindex ASC' : $table->get_sql_sort();
         $itemseeds = $DB->get_recordset_select('surveypro_item', $where, $params, $orderby, 'id as itemid, type, plugin');
 
+        $columncount = count($table->columns);
+
         // Draw the very first moveherebox if needed.
         if (($this->mode == SURVEYPRO_CHANGEORDERASK) && (!$this->parentid)) {
             $drawmoveherebox = true;
-            $paramurl = $paramurlmove;
-            $paramurl['lib'] = 0;
-            $paramurl['section'] = 'itemslist';
-            $paramurl['sesskey'] = sesskey();
-
-            $link = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            $moveherestr = get_string('movehere');
-            $paramlink = [
-                'id' => 'moveafter_0',
-                'title' => $moveherestr,
-                'aria-label' => $moveherestr,
-            ];
-            $iconparams = [
-                'id'          => 'icomoveafter_0',
-                'title'       => $moveherestr,
-                'alt'         => $moveherestr,
-                'aria-hidden' => 'true',
-            ];
-            $moveicn = new \pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
-            $icons = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
-
-            $tablerow = array_pad([$icons], count($table->columns), '');
-            $table->add_data($tablerow);
+            $this->draw_moveherebox_row(0, $paramurlmove, $columncount, $table);
         } else {
             $drawmoveherebox = false;
         }
@@ -239,23 +218,7 @@ class layout_itemlist
                 }
 
                 if (!empty($drawmoveherebox)) {
-                    $paramurl = $paramurlmove;
-                    $paramurl['lib'] = $sortindex;
-                    $paramurl['section'] = 'itemslist';
-                    $paramurl['sesskey'] = sesskey();
-
-                    $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-                    $moveherestr = get_string('movehere');
-                    $paramlink = [
-                        'id' => 'moveafter_' . $sortindex,
-                        'title' => $moveherestr,
-                        'aria-label' => $moveherestr,
-                    ];
-                    $icon = new \pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
-                    $icons = $OUTPUT->action_icon($link, $icon, null, $paramlink);
-
-                    $tablerow = array_pad([$icons], count($table->columns), '');
-                    $table->add_data($tablerow);
+                    $this->draw_moveherebox_row($sortindex, $paramurlmove, $columncount, $table);
                 }
             }
         }
@@ -446,197 +409,31 @@ class layout_itemlist
     }
 
     /**
-     * Draw the "reserved" icon (item is reserved, click to make it available).
+     * Get the recursive list of children of a specific item.
+     * This method counts children and children of children for as much generation as it founds.
      *
-     * @param array $paramurlbase
-     * @param int $sortindex
-     * @return string HTML fragment
-     */
-    protected function draw_reserved_icon(array $paramurlbase, int $sortindex): string {
-        global $OUTPUT;
-
-        $paramurl = $paramurlbase;
-        $paramurl['act']       = SURVEYPRO_MAKEAVAILABLE;
-        $paramurl['sortindex'] = $sortindex;
-        $paramurl['section']   = 'itemslist';
-        $paramurl['sesskey']   = sesskey();
-        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-
-        $reservedstr = get_string('reserved_title', 'mod_surveypro');
-        $iconparams = [
-            'id'          => 'reservedup_' . $sortindex,
-            'title'       => $reservedstr,
-            'alt'         => $reservedstr,
-            'aria-hidden' => 'true',
-        ];
-        $icon = new \pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
-        $paramlink = [
-            'id'         => 'makeavailable_item_' . $sortindex,
-            'title'      => $reservedstr,
-            'aria-label' => $reservedstr,
-        ];
-
-        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
-    }
-
-    /**
-     * Draw the "public/available" icon (item is public, click to make it reserved).
+     * Called by:
+     *     item_hide_execute()
+     *     item_hide_feedback()
+     *     item_makereserved_execute()
+     *     item_makereserved_feedback()
+     *     item_makeavailable_execute()
+     *     item_makeavailable_feedback()
+     *     item_delete_execute()
+     *     item_delete_feedback()
      *
-     * @param array $paramurlbase
-     * @param int $sortindex
-     * @return string HTML fragment
+     * @param int $baseitemid the id of the root item for the tree of children to get
+     * @param array $where permanent condition needed to filter target items
+     * @return object $childrenitems
      */
-    protected function draw_public_icon(array $paramurlbase, int $sortindex): string {
-        global $OUTPUT;
+    public function get_children($baseitemid = null, $where = null) {
+        global $DB;
 
-        $paramurl = $paramurlbase;
-        $paramurl['act']       = SURVEYPRO_MAKERESERVED;
-        $paramurl['sortindex'] = $sortindex;
-        $paramurl['section']   = 'itemslist';
-        $paramurl['sesskey']   = sesskey();
-        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+        [$baseitemid, $where] = $this->normalize_children_request($baseitemid, $where);
+        $idscontainer = [$baseitemid];
+        $childrenitems = $DB->get_records('surveypro_item', ['id' => $baseitemid], 'sortindex', 'id, parentid, sortindex');
 
-        $publicstr = get_string('public_title', 'mod_surveypro');
-        $iconparams = [
-            'id'          => 'reserveddown_' . $sortindex,
-            'title'       => $publicstr,
-            'alt'         => $publicstr,
-            'aria-hidden' => 'true',
-        ];
-        $icon = new \pix_icon('free', $publicstr, 'surveypro', $iconparams);
-        $paramlink = [
-            'id'         => 'makereserved_item_' . $sortindex,
-            'title'      => $publicstr,
-            'aria-label' => $publicstr,
-        ];
-
-        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
-    }
-
-    /**
-     * Draw the "unreservable" icon (item cannot be reserved).
-     *
-     * @return string \html_writer
-     */
-    protected function draw_unreservable_icon(): string {
-        global $OUTPUT;
-
-        $unreservablestr = get_string('unreservable_title', 'mod_surveypro');
-        $icon = new \pix_icon(
-            'unreservable',
-            $unreservablestr,
-            'surveypro',
-            ['title' => $unreservablestr, 'alt' => $unreservablestr, 'aria-hidden' => 'true']
-        );
-
-        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
-    }
-
-    /**
-     * Draw the "unavailable" icon (item is hidden).
-     *
-     * @return string \html_writer
-     */
-    protected function draw_unavailable_icon(): string {
-        global $OUTPUT;
-
-        $unavailablestr = get_string('unavailableelement_title', 'mod_surveypro');
-        $icon = new \pix_icon(
-            'unavailable',
-            $unavailablestr,
-            'surveypro',
-            ['title' => $unavailablestr, 'alt' => $unavailablestr, 'aria-hidden' => 'true']
-        );
-
-        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
-    }
-
-    /**
-     * Draw the "remove from search" icon (item is in search form, click to remove it).
-     *
-     * @param array $paramurlbase
-     * @param int $sortindex
-     * @return string HTML fragment
-     */
-    protected function draw_removefromsearch_icon(array $paramurlbase, int $sortindex): string {
-        global $OUTPUT;
-
-        $paramurl = $paramurlbase;
-        $paramurl['act']       = SURVEYPRO_REMOVEFROMSEARCH;
-        $paramurl['sortindex'] = $sortindex;
-        $paramurl['section']   = 'itemslist';
-        $paramurl['sesskey']   = sesskey();
-        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-
-        $insearchstr = get_string('insearchform_title', 'mod_surveypro');
-        $iconparams = [
-            'id'          => 'searchup_' . $sortindex,
-            'title'       => $insearchstr,
-            'alt'         => $insearchstr,
-            'aria-hidden' => 'true',
-        ];
-        $icon = new \pix_icon('insearch', $insearchstr, 'mod_surveypro', $iconparams);
-        $paramlink = [
-            'id'         => 'removefromsearch_item_' . $sortindex,
-            'title'      => $insearchstr,
-            'aria-label' => $insearchstr,
-        ];
-
-        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
-    }
-
-    /**
-     * Draw the "add to search" icon (item is not in search form, click to add it).
-     *
-     * @param array $paramurlbase
-     * @param int $sortindex
-     * @return string HTML fragment
-     */
-    protected function draw_addtosearch_icon(array $paramurlbase, int $sortindex): string {
-        global $OUTPUT;
-
-        $paramurl = $paramurlbase;
-        $paramurl['act']       = SURVEYPRO_ADDTOSEARCH;
-        $paramurl['sortindex'] = $sortindex;
-        $paramurl['section']   = 'itemslist';
-        $paramurl['sesskey']   = sesskey();
-        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
-
-        $notinsearchstr = get_string('notinsearchform_title', 'mod_surveypro');
-        $iconparams = [
-            'id'          => 'searchdown_' . $sortindex,
-            'title'       => $notinsearchstr,
-            'alt'         => $notinsearchstr,
-            'aria-hidden' => 'true',
-        ];
-        $icon = new \pix_icon('notinsearch', $notinsearchstr, 'mod_surveypro', $iconparams);
-        $paramlink = [
-            'id'         => 'addtosearch_item_' . $sortindex,
-            'title'      => $notinsearchstr,
-            'aria-label' => $notinsearchstr,
-        ];
-
-        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
-    }
-
-    /**
-     * Draw the "unsearchable" icon (item cannot be added to search form).
-     *
-     * @param int $sortindex
-     * @return \html_writer
-     */
-    protected function draw_unsearchable_icon(int $sortindex): string {
-        global $OUTPUT;
-
-        $unsearchablestr = get_string('unsearchable_title', 'mod_surveypro');
-        $icon = new \pix_icon(
-            'unsearchable',
-            $unsearchablestr,
-            'surveypro',
-            ['id' => 'searchoff_' . $sortindex, 'title' => $unsearchablestr, 'alt' => $unsearchablestr, 'aria-hidden' => 'true']
-        );
-
-        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
+        return $this->collect_children_items($childrenitems, $idscontainer, $where);
     }
 
     /**
@@ -837,6 +634,239 @@ class layout_itemlist
     }
 
     /**
+     * Draw the "reserved" icon (item is reserved, click to make it available).
+     *
+     * @param array $paramurlbase
+     * @param int $sortindex
+     * @return string HTML fragment
+     */
+    protected function draw_reserved_icon(array $paramurlbase, int $sortindex): string {
+        global $OUTPUT;
+
+        $paramurl = $paramurlbase;
+        $paramurl['act']       = SURVEYPRO_MAKEAVAILABLE;
+        $paramurl['sortindex'] = $sortindex;
+        $paramurl['section']   = 'itemslist';
+        $paramurl['sesskey']   = sesskey();
+        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+        $reservedstr = get_string('reserved_title', 'mod_surveypro');
+        $iconparams = [
+            'id'          => 'reservedup_' . $sortindex,
+            'title'       => $reservedstr,
+            'alt'         => $reservedstr,
+            'aria-hidden' => 'true',
+        ];
+        $icon = new \pix_icon('reserved', $reservedstr, 'surveypro', $iconparams);
+        $paramlink = [
+            'id'         => 'makeavailable_item_' . $sortindex,
+            'title'      => $reservedstr,
+            'aria-label' => $reservedstr,
+        ];
+
+        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
+    }
+
+    /**
+     * Draw the "public/available" icon (item is public, click to make it reserved).
+     *
+     * @param array $paramurlbase
+     * @param int $sortindex
+     * @return string HTML fragment
+     */
+    protected function draw_public_icon(array $paramurlbase, int $sortindex): string {
+        global $OUTPUT;
+
+        $paramurl = $paramurlbase;
+        $paramurl['act']       = SURVEYPRO_MAKERESERVED;
+        $paramurl['sortindex'] = $sortindex;
+        $paramurl['section']   = 'itemslist';
+        $paramurl['sesskey']   = sesskey();
+        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+        $publicstr = get_string('public_title', 'mod_surveypro');
+        $iconparams = [
+            'id'          => 'reserveddown_' . $sortindex,
+            'title'       => $publicstr,
+            'alt'         => $publicstr,
+            'aria-hidden' => 'true',
+        ];
+        $icon = new \pix_icon('free', $publicstr, 'surveypro', $iconparams);
+        $paramlink = [
+            'id'         => 'makereserved_item_' . $sortindex,
+            'title'      => $publicstr,
+            'aria-label' => $publicstr,
+        ];
+
+        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
+    }
+
+    /**
+     * Draw the "unreservable" icon (item cannot be reserved).
+     *
+     * @return string \html_writer
+     */
+    protected function draw_unreservable_icon(): string {
+        global $OUTPUT;
+
+        $unreservablestr = get_string('unreservable_title', 'mod_surveypro');
+        $icon = new \pix_icon(
+            'unreservable',
+            $unreservablestr,
+            'surveypro',
+            ['title' => $unreservablestr, 'alt' => $unreservablestr, 'aria-hidden' => 'true']
+        );
+
+        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
+    }
+
+    /**
+     * Draw the "unavailable" icon (item is hidden).
+     *
+     * @return string \html_writer
+     */
+    protected function draw_unavailable_icon(): string {
+        global $OUTPUT;
+
+        $unavailablestr = get_string('unavailableelement_title', 'mod_surveypro');
+        $icon = new \pix_icon(
+            'unavailable',
+            $unavailablestr,
+            'surveypro',
+            ['title' => $unavailablestr, 'alt' => $unavailablestr, 'aria-hidden' => 'true']
+        );
+
+        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
+    }
+
+    /**
+     * Draw the "remove from search" icon (item is in search form, click to remove it).
+     *
+     * @param array $paramurlbase
+     * @param int $sortindex
+     * @return string HTML fragment
+     */
+    protected function draw_removefromsearch_icon(array $paramurlbase, int $sortindex): string {
+        global $OUTPUT;
+
+        $paramurl = $paramurlbase;
+        $paramurl['act']       = SURVEYPRO_REMOVEFROMSEARCH;
+        $paramurl['sortindex'] = $sortindex;
+        $paramurl['section']   = 'itemslist';
+        $paramurl['sesskey']   = sesskey();
+        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+        $insearchstr = get_string('insearchform_title', 'mod_surveypro');
+        $iconparams = [
+            'id'          => 'searchup_' . $sortindex,
+            'title'       => $insearchstr,
+            'alt'         => $insearchstr,
+            'aria-hidden' => 'true',
+        ];
+        $icon = new \pix_icon('insearch', $insearchstr, 'mod_surveypro', $iconparams);
+        $paramlink = [
+            'id'         => 'removefromsearch_item_' . $sortindex,
+            'title'      => $insearchstr,
+            'aria-label' => $insearchstr,
+        ];
+
+        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
+    }
+
+    /**
+     * Draw the "add to search" icon (item is not in search form, click to add it).
+     *
+     * @param array $paramurlbase
+     * @param int $sortindex
+     * @return string HTML fragment
+     */
+    protected function draw_addtosearch_icon(array $paramurlbase, int $sortindex): string {
+        global $OUTPUT;
+
+        $paramurl = $paramurlbase;
+        $paramurl['act']       = SURVEYPRO_ADDTOSEARCH;
+        $paramurl['sortindex'] = $sortindex;
+        $paramurl['section']   = 'itemslist';
+        $paramurl['sesskey']   = sesskey();
+        $link = new \moodle_url('/mod/surveypro/layout.php#sortindex_' . $sortindex, $paramurl);
+
+        $notinsearchstr = get_string('notinsearchform_title', 'mod_surveypro');
+        $iconparams = [
+            'id'          => 'searchdown_' . $sortindex,
+            'title'       => $notinsearchstr,
+            'alt'         => $notinsearchstr,
+            'aria-hidden' => 'true',
+        ];
+        $icon = new \pix_icon('notinsearch', $notinsearchstr, 'mod_surveypro', $iconparams);
+        $paramlink = [
+            'id'         => 'addtosearch_item_' . $sortindex,
+            'title'      => $notinsearchstr,
+            'aria-label' => $notinsearchstr,
+        ];
+
+        return $OUTPUT->action_icon($link, $icon, null, $paramlink);
+    }
+
+    /**
+     * Draw the "unsearchable" icon (item cannot be added to search form).
+     *
+     * @param int $sortindex
+     * @return \html_writer
+     */
+    protected function draw_unsearchable_icon(int $sortindex): string {
+        global $OUTPUT;
+
+        $unsearchablestr = get_string('unsearchable_title', 'mod_surveypro');
+        $icon = new \pix_icon(
+            'unsearchable',
+            $unsearchablestr,
+            'surveypro',
+            ['id' => 'searchoff_' . $sortindex, 'title' => $unsearchablestr, 'alt' => $unsearchablestr, 'aria-hidden' => 'true']
+        );
+
+        return \html_writer::tag('span', $OUTPUT->render($icon), ['class' => 'noactionicon']);
+    }
+
+    /**
+     * Draw a "move here" box after a given position.
+     *
+     * @param int $sortindex Position after which the box is drawn (0 = before first item).
+     * @param array $paramurlmove Base URL parameters for the move action.
+     * @param int $columncount Number of columns in the table.
+     * @param flexible_table $table The table to add the row to.
+     * @return void
+     */
+    protected function draw_moveherebox_row(int $sortindex, array $paramurlmove, int $columncount, \flexible_table $table): void {
+        global $OUTPUT;
+
+        $paramurl = $paramurlmove;
+        $paramurl['lib']     = $sortindex;
+        $paramurl['section'] = 'itemslist';
+        $paramurl['sesskey'] = sesskey();
+
+        $anchor = $sortindex ? '#sortindex_' . $sortindex : '';
+        $link = new \moodle_url('/mod/surveypro/layout.php' . $anchor, $paramurl);
+
+        $moveherestr = get_string('movehere');
+        $iconparams = [
+            'id'          => 'icomoveafter_' . $sortindex,
+            'title'       => $moveherestr,
+            'alt'         => $moveherestr,
+            'aria-hidden' => 'true',
+        ];
+        $paramlink = [
+            'id'         => 'moveafter_' . $sortindex,
+            'title'      => $moveherestr,
+            'aria-label' => $moveherestr,
+        ];
+        $moveicn = new \pix_icon('movehere', $moveherestr, 'moodle', $iconparams);
+        $icons = $OUTPUT->action_icon($link, $moveicn, null, $paramlink);
+
+        $tablerow = array_pad([$icons], $columncount, '');
+        $table->add_data($tablerow);
+    }
+
+    /**
      * Adds elements to an array starting from initial conditions.
      *
      * Called by:
@@ -874,34 +904,6 @@ class layout_itemlist
         }
 
         return $nodelist;
-    }
-
-    /**
-     * Get the recursive list of children of a specific item.
-     * This method counts children and children of children for as much generation as it founds.
-     *
-     * Called by:
-     *     item_hide_execute()
-     *     item_hide_feedback()
-     *     item_makereserved_execute()
-     *     item_makereserved_feedback()
-     *     item_makeavailable_execute()
-     *     item_makeavailable_feedback()
-     *     item_delete_execute()
-     *     item_delete_feedback()
-     *
-     * @param int $baseitemid the id of the root item for the tree of children to get
-     * @param array $where permanent condition needed to filter target items
-     * @return object $childrenitems
-     */
-    public function get_children($baseitemid = null, $where = null) {
-        global $DB;
-
-        [$baseitemid, $where] = $this->normalize_children_request($baseitemid, $where);
-        $idscontainer = [$baseitemid];
-        $childrenitems = $DB->get_records('surveypro_item', ['id' => $baseitemid], 'sortindex', 'id, parentid, sortindex');
-
-        return $this->collect_children_items($childrenitems, $idscontainer, $where);
     }
 
     /**
