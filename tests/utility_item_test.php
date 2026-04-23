@@ -186,6 +186,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_valid_date(): void {
         $this->resetAfterTest();
+
         $this->assertTrue(utility_item::date_is_valid(15, 6, 2024));
     }
 
@@ -194,6 +195,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_invalid_day(): void {
         $this->resetAfterTest();
+
         $this->assertFalse(utility_item::date_is_valid(32, 1, 2024));
     }
 
@@ -202,6 +204,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_invalid_month(): void {
         $this->resetAfterTest();
+
         $this->assertFalse(utility_item::date_is_valid(15, 13, 2024));
     }
 
@@ -210,6 +213,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_feb29_leap_year(): void {
         $this->resetAfterTest();
+
         $this->assertTrue(utility_item::date_is_valid(29, 2, 2024));
     }
 
@@ -218,6 +222,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_feb29_non_leap_year(): void {
         $this->resetAfterTest();
+
         $this->assertFalse(utility_item::date_is_valid(29, 2, 2023));
     }
 
@@ -226,6 +231,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_feb30(): void {
         $this->resetAfterTest();
+
         $this->assertFalse(utility_item::date_is_valid(30, 2, 2024));
     }
 
@@ -234,6 +240,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_day_zero(): void {
         $this->resetAfterTest();
+
         $this->assertFalse(utility_item::date_is_valid(0, 1, 2024));
     }
 
@@ -242,6 +249,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_date_is_valid_default_year(): void {
         $this->resetAfterTest();
+
         $this->assertTrue(utility_item::date_is_valid(15, 6));
     }
 
@@ -254,6 +262,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_regexp_returns_string(): void {
         $this->resetAfterTest();
+
         $result = utility_item::get_regexp();
         $this->assertIsString($result);
         $this->assertNotEmpty($result);
@@ -264,6 +273,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_regexp_is_valid_regex(): void {
         $this->resetAfterTest();
+
         $result = utility_item::get_regexp();
         $this->assertNotFalse(@preg_match($result, ''));
     }
@@ -277,6 +287,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_valid_field_element(): void {
         $this->resetAfterTest();
+
         $elementname = SURVEYPRO_ITEMPREFIX . '_' . SURVEYPRO_TYPEFIELD . '_character_101';
         $match = utility_item::get_item_parts($elementname);
 
@@ -292,6 +303,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_valid_field_element_with_option(): void {
         $this->resetAfterTest();
+
         $elementname = SURVEYPRO_ITEMPREFIX . '_' . SURVEYPRO_TYPEFIELD . '_datetime_102_day';
         $match = utility_item::get_item_parts($elementname);
 
@@ -305,6 +317,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_placeholder_element(): void {
         $this->resetAfterTest();
+
         $elementname = SURVEYPRO_PLACEHOLDERPREFIX . '_' . SURVEYPRO_TYPEFIELD . '_character_103_placeholder';
         $match = utility_item::get_item_parts($elementname);
 
@@ -318,6 +331,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_dontsaveme_element(): void {
         $this->resetAfterTest();
+
         $elementname = SURVEYPRO_DONTSAVEMEPREFIX . '_' . SURVEYPRO_TYPEFIELD . '_character_104';
         $match = utility_item::get_item_parts($elementname);
 
@@ -330,6 +344,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_non_item_element(): void {
         $this->resetAfterTest();
+
         $match = utility_item::get_item_parts('savebutton');
 
         $this->assertEmpty($match);
@@ -340,6 +355,7 @@ final class utility_item_test extends \advanced_testcase {
      */
     public function test_get_item_parts_format_element(): void {
         $this->resetAfterTest();
+
         $elementname = SURVEYPRO_ITEMPREFIX . '_' . SURVEYPRO_TYPEFORMAT . '_label_105';
         $match = utility_item::get_item_parts($elementname);
 
