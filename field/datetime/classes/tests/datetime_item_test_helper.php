@@ -17,7 +17,7 @@
 /**
  * Unit tests for surveyprofield_date item
  *
- * @package   surveyprofield_date
+ * @package   surveyprofield_datetime
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
