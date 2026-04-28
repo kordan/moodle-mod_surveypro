@@ -53,7 +53,7 @@ final class mastertemplate_test extends advanced_testcase
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    #[DataProvider('surveyprotemplate_get_plugin_name_provider')]
+    #[\PHPUnit\Framework\Attributes\CoversMethod(\mod_surveypro\mtemplate_save::class, 'get_plugin_name')]
     public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {
         $this->resetAfterTest();
 

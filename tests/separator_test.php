@@ -143,7 +143,7 @@ final class separator_test extends advanced_testcase
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      */
-    #[DataProvider('userform_get_separator_provider')]
+    #[\PHPUnit\Framework\Attributes\CoversMethod(\mod_surveypro\surveyprofield_radiobutton::class, 'userform_get_separator')]
     public function test_userform_get_separator($userinput, $expected): void {
         $this->resetAfterTest();
         $this->setAdminUser();
