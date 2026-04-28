@@ -24,8 +24,6 @@
 
 namespace mod_surveypro\tests;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Expose protected methods of itembase for testing via character item.
  */

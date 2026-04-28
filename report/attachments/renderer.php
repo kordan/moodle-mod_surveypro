@@ -18,8 +18,6 @@ use mod_surveypro\local\importer\preset_existing_importer;
 use mod_surveypro\manager;
 use mod_surveypro\output\view_action_bar;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Surveypro report attachments renderer.
  *

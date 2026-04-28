@@ -24,8 +24,6 @@
 
 namespace surveyprofield_recurrence\tests;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Subclass exposing protected methods for testing.
  */

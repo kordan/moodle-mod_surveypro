@@ -24,8 +24,6 @@
 
 namespace mod_surveypro\tests;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Classe helper per esporre i metodi protetti di layout_branchingvalidation.
  * Situata in classes/tests per l'autoloading.
