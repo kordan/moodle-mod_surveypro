@@ -57,7 +57,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * setup_relations_table() must return a flexible_table instance.
      *
-     * @covers ::setup_relations_table
+     * @covers \mod_surveypro\layout_branchingvalidation::setup_relations_table
      */
     public function test_setup_relations_table_returns_flexible_table(): void {
         $this->resetAfterTest();
@@ -71,7 +71,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * setup_relations_table() must use id=validaterelations.
      *
-     * @covers ::setup_relations_table
+     * @covers \mod_surveypro\layout_branchingvalidation::setup_relations_table
      */
     public function test_setup_relations_table_correct_id(): void {
         $this->resetAfterTest();
@@ -89,7 +89,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * get_relation_status_cell() without parentid must return '-'.
      *
-     * @covers ::get_relation_status_cell
+     * @covers \mod_surveypro\layout_branchingvalidation::get_relation_status_cell
      */
     public function test_get_relation_status_cell_no_parent_returns_dash(): void {
         $this->resetAfterTest();
@@ -108,7 +108,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * get_relation_status_cell() with null parentitem must return '-'.
      *
-     * @covers ::get_relation_status_cell
+     * @covers \mod_surveypro\layout_branchingvalidation::get_relation_status_cell
      */
     public function test_get_relation_status_cell_null_parentitem_returns_dash(): void {
         $this->resetAfterTest();
@@ -132,7 +132,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * get_relation_status_cell() with valid parent-child relation must return 'ok' string.
      *
-     * @covers ::get_relation_status_cell
+     * @covers \mod_surveypro\layout_branchingvalidation::get_relation_status_cell
      */
     public function test_get_relation_status_cell_valid_relation_returns_ok(): void {
         $this->resetAfterTest();
@@ -159,7 +159,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
      * get_relation_status_cell() with invalid relation and visible item
      * must return a span with class errormessage.
      *
-     * @covers ::get_relation_status_cell
+     * @covers \mod_surveypro\layout_branchingvalidation::get_relation_status_cell
      */
     public function test_get_relation_status_cell_invalid_visible_returns_span(): void {
         $this->resetAfterTest();
@@ -189,7 +189,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * build_relation_row() must return an array with exactly 8 elements.
      *
-     * @covers ::build_relation_row
+     * @covers \mod_surveypro\layout_branchingvalidation::build_relation_row
      */
     public function test_build_relation_row_returns_8_elements(): void {
         $this->resetAfterTest();
@@ -228,7 +228,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
     /**
      * build_relation_row() for an item without parent must have empty parentid cell.
      *
-     * @covers ::build_relation_row
+     * @covers \mod_surveypro\layout_branchingvalidation::build_relation_row
      */
     public function test_build_relation_row_no_parent_empty_parentid_cell(): void {
         $this->resetAfterTest();
