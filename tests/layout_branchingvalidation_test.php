@@ -26,8 +26,6 @@ namespace mod_surveypro;
 
 use mod_surveypro\tests\layout_branchingvalidation_test_helper;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Unit tests per la classe layout_branchingvalidation.
  */
