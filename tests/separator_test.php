@@ -18,8 +18,8 @@ namespace mod_surveypro;
 
 use advanced_testcase;
 use surveyprofield_radiobutton;
-use PHPUnit\Framework\Attributes\CoversFunction;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\CoversClass;
 
 defined('MOODLE_INTERNAL') || die;
 
@@ -33,8 +33,7 @@ require_once($CFG->dirroot . '/mod/surveypro/lib.php');
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[CoversClass(\mod_surveypro\surveyprofield_radiobutton::class)]
-#[CoversMethod(\mod_surveypro\surveyprofield_radiobutton::class, 'userform_get_separator')]
+#[CoversClass(\surveyprofield_radiobutton\item::class)]
 final class separator_test extends advanced_testcase
 {
     /**
@@ -142,7 +141,6 @@ final class separator_test extends advanced_testcase
      *
      * @param object $userinput The passed user input
      * @param object $expected The expected result
-     * @covers \mod_surveypro\surveyprofield_radiobutton\item::userform_get_separator
      */
     #[DataProvider('userform_get_separator_provider')]
     public function test_userform_get_separator($userinput, $expected): void {

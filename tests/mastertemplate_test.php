@@ -26,9 +26,8 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * @package   mod_surveypro
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversDefaultClass \mod_surveypro\mtemplate_save
  */
-#[CoversClass(\mod_surveypro\mtemplate_save::get_plugin_name)]
-#[CoversMethod(\mod_surveypro\mtemplate_save::get_plugin_name, 'get_plugin_name')]
 final class mastertemplate_test extends advanced_testcase
 {
     /**
@@ -53,8 +52,8 @@ final class mastertemplate_test extends advanced_testcase
      * @param object $userinput The passed user input
      * @param object $expected The expected result
      * @covers \mod_surveypro\mtemplate_save::get_plugin_name
+     * @dataProvider surveyprotemplate_get_plugin_name_provider
      */
-    #[DataProvider('surveyprotemplate_get_plugin_name_provider')]
     public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {
         $this->resetAfterTest();
 
