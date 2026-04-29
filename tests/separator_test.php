@@ -142,6 +142,7 @@ final class separator_test extends advanced_testcase
      *
      * @param object $userinput The passed user input
      * @param object $expected The expected result
+     * @covers \mod_surveypro\surveyprofield_radiobutton\item::userform_get_separator
      */
     #[DataProvider('userform_get_separator_provider')]
     public function test_userform_get_separator($userinput, $expected): void {

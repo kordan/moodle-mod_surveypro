@@ -52,6 +52,7 @@ final class mastertemplate_test extends advanced_testcase
      *
      * @param object $userinput The passed user input
      * @param object $expected The expected result
+     * @covers \mod_surveypro\mtemplate_save::get_plugin_name
      */
     #[DataProvider('surveyprotemplate_get_plugin_name_provider')]
     public function test_surveyprotemplate_get_plugin_name($userinput, $expected): void {

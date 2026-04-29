@@ -14,13 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * PHPUnit data generator tests.
- *
- * @package   mod_surveypro
- * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+namespace mod_surveypro;
 
 /**
  * The class to verify all the setup options do work as expected.
@@ -28,8 +22,9 @@
  * @package   mod_surveypro
  * @copyright 2015 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @coversNothing
  */
-final class setup_test extends advanced_testcase
+final class setup_test extends \advanced_testcase
 {
     /**
      * Test that all the global settings are stored properly and with expected defaults.
