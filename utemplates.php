@@ -191,7 +191,8 @@ if ($section == 'import') {
     $importman->setup($utemplateid);
 
     // $importman->prevent_direct_user_input();
-    // is not needed because the check has already been done here with: require_capability('mod/surveypro:importusertemplates', $context);
+    // is not needed because the check has already been done here with:
+    // require_capability('mod/surveypro:importusertemplates', $context);
 
     // Begin of: define $importutemplate return url.
     $formurl = new \moodle_url('/mod/surveypro/utemplates.php', ['s' => $cm->instance, 'section' => 'import']);

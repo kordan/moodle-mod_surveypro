@@ -257,10 +257,14 @@ class behat_mod_surveypro extends behat_base
                 $rednodes = $container->findAll('xpath', "//img[contains(@id, 'searchoff')]");
                 break;
             case 'visible':
-                $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and not(contains(@class, 'dimmed'))]");
+                $xpath = "//tr[contains(@id, 'itemslist')";
+                $xpath .= " and not(contains(@class, 'emptyrow'))";
+                $xpath .= " and not(contains(@class, 'dimmed'))]";
+                $nodes = $container->findAll('xpath', $xpath);
                 break;
             case 'hidden':
-                $nodes = $container->findAll('xpath', "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and contains(@class, 'dimmed')]");
+                $xpath = "//tr[contains(@id, 'itemslist') and not(contains(@class, 'emptyrow')) and contains(@class, 'dimmed')]";
+                $nodes = $container->findAll('xpath', $xpath);
                 break;
             default:
                 throw new Exception('Unrecognised status "' . $status . '."');

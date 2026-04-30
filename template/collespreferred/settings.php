@@ -35,7 +35,15 @@ $options = [
 
 $name = get_string('position', 'surveyprotemplate_collespreferred');
 $description = get_string('position_desc', 'surveyprotemplate_collespreferred');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collespreferred/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_collespreferred/position',
+        $name,
+        $description,
+        SURVEYPRO_POSITIONFULLWIDTH,
+        $options
+    )
+);
 
 $options = [
     SURVEYPROTEMPLATE_COLLESPREFERREDUSERADIO => get_string('useradio', 'surveyprotemplate_collespreferred'),
@@ -44,4 +52,12 @@ $options = [
 
 $name = new lang_string('useritem', 'surveyprotemplate_collespreferred');
 $description = new lang_string('useritem_desc', 'surveyprotemplate_collespreferred');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collespreferred/useritem', $name, $description, SURVEYPROTEMPLATE_COLLESPREFERREDUSERADIO, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_collespreferred/useritem',
+        $name,
+        $description,
+        SURVEYPROTEMPLATE_COLLESPREFERREDUSERADIO,
+        $options
+    )
+);

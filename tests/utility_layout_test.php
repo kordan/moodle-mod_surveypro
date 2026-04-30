@@ -394,7 +394,7 @@ final class utility_layout_test extends \advanced_testcase {
         $this->setUser($user);
 
         $utility = new utility_layout($cm, $surveypro);
-        // $next = 3 means the user already has 2 submissions.
+        // Note: $next = 3 means the user already has 2 submissions.
         $this->assertFalse($utility->is_newresponse_allowed(3));
     }
 

@@ -1717,7 +1717,8 @@ class layout_itemlist
             $this->actionfeedback = new \stdClass();
             $this->actionfeedback->chain = !empty($itemstodelete);
             $this->actionfeedback->content = $item->get_content();
-            $this->actionfeedback->pluginname = strtolower(get_string('pluginname', 'surveypro' . $this->type . '_' . $this->plugin));
+            $component = 'surveypro' . $this->type . '_' . $this->plugin;
+            $this->actionfeedback->pluginname = strtolower(get_string('pluginname', $component));
         }
     }
 
