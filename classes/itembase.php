@@ -790,7 +790,8 @@ abstract class itembase
         $DB->set_field('surveypro', 'template', null, ['id' => $surveyproid]);
 
         // Take care: I verify the existence of the english folder even if, maybe, I will ask for strings in a different language.
-        if (!file_exists($CFG->dirroot . '/mod/surveypro/template/' . $template . '/lang/en/surveyprotemplate_' . $template . '.php')) {
+        $filepath = $CFG->dirroot . '/mod/surveypro/template/' . $template . '/lang/en/surveyprotemplate_' . $template . '.php';
+        if (!file_exists($filepath)) {
             // This template does not support multilang.
             return;
         }
@@ -827,7 +828,16 @@ abstract class itembase
                 $regex = '~src="@@PLUGINFILE@@\/([^"]*)"~';
                 if (preg_match_all($regex, $this->content, $matches)) {
                     foreach ($matches[1] as $filename) {
-                        if (!$fs->get_file($this->context->id, 'mod_surveypro', SURVEYPRO_ITEMCONTENTFILEAREA, $this->itemid, '/', $filename)) {
+                        if (
+                            !$fs->get_file(
+                                $this->context->id,
+                                'mod_surveypro',
+                                SURVEYPRO_ITEMCONTENTFILEAREA,
+                                $this->itemid,
+                                '/',
+                                $filename
+                            )
+                        ) {
                             // I am using a surveypro built on a mastertemplate.
                             // Let's suppose an admin added a new lang file describing new pictures.
                             // Am I sure each new picture of the current lang file was loaded in the filearea?

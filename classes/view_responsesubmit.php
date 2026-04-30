@@ -550,7 +550,10 @@ class view_responsesubmit extends formbase
         foreach ($this->formdata as $elementname => $content) {
             if ($matches = utility_item::get_item_parts($elementname)) {
                 if ($matches['prefix'] == SURVEYPRO_PLACEHOLDERPREFIX) {
-                    $newelement = SURVEYPRO_ITEMPREFIX . '_' . $matches['type'] . '_' . $matches['plugin'] . '_' . $matches['itemid'];
+                    $newelement = SURVEYPRO_ITEMPREFIX;
+                    $newelement .= '_' . $matches['type'];
+                    $newelement .= '_' . $matches['plugin'];
+                    $newelement .= '_' . $matches['itemid'];
                     if (!isset($this->formdata->$newelement)) {
                         $this->formdata->$newelement = null;
                     }

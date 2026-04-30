@@ -35,7 +35,15 @@ $options = [
 
 $name = get_string('position', 'surveyprotemplate_attls');
 $description = get_string('position_desc', 'surveyprotemplate_attls');
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_attls/position',
+        $name,
+        $description,
+        SURVEYPRO_POSITIONFULLWIDTH,
+        $options
+    )
+);
 
 $options = [
     SURVEYPROTEMPLATE_ATTLSUSERADIO => get_string('useradio', 'surveyprotemplate_attls'),
@@ -44,4 +52,12 @@ $options = [
 
 $name = new lang_string('useritem', 'surveyprotemplate_attls');
 $description = new lang_string('useritem_desc', 'surveyprotemplate_attls');
-$settings->add(new admin_setting_configselect('surveyprotemplate_attls/useritem', $name, $description, SURVEYPROTEMPLATE_ATTLSUSERADIO, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_attls/useritem',
+        $name,
+        $description,
+        SURVEYPROTEMPLATE_ATTLSUSERADIO,
+        $options
+    )
+);

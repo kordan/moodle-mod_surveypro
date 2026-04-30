@@ -35,7 +35,15 @@ $options = [
 
 $name = get_string('position', 'surveyprotemplate_collesactual');
 $description = get_string('position_desc', 'surveyprotemplate_collesactual');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collesactual/position', $name, $description, SURVEYPRO_POSITIONFULLWIDTH, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_collesactual/position',
+        $name,
+        $description,
+        SURVEYPRO_POSITIONFULLWIDTH,
+        $options
+    )
+);
 
 $options = [
     SURVEYPROTEMPLATE_COLLESACTUALUSERADIO => get_string('useradio', 'surveyprotemplate_collesactual'),
@@ -44,4 +52,12 @@ $options = [
 
 $name = new lang_string('useritem', 'surveyprotemplate_collesactual');
 $description = new lang_string('useritem_desc', 'surveyprotemplate_collesactual');
-$settings->add(new admin_setting_configselect('surveyprotemplate_collesactual/useritem', $name, $description, SURVEYPROTEMPLATE_COLLESACTUALUSERADIO, $options));
+$settings->add(
+    new admin_setting_configselect(
+        'surveyprotemplate_collesactual/useritem',
+        $name,
+        $description,
+        SURVEYPROTEMPLATE_COLLESACTUALUSERADIO,
+        $options
+    )
+);

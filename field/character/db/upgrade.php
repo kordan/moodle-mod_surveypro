@@ -152,8 +152,10 @@ function xmldb_surveyprofield_character_upgrade($oldversion) {
                 // Strange query syntax because of https://github.com/kordan/moodle-mod_surveypro/issues/977.
                 $whereclause = 'WHERE f.itemid = {surveypro_item}.id';
                 $sql = 'UPDATE {surveypro_item}
-                        SET ' . $fieldname . ' = (SELECT f.' . $fieldname . ' FROM {surveyprofield_character} f ' . $whereclause . ')
-                        WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f ' . $whereclause . ')';
+                        SET ' . $fieldname . ' = (
+                            SELECT f.' . $fieldname . '
+                            FROM {surveyprofield_character} f ' . $whereclause . '
+                        ) WHERE EXISTS (SELECT 1 FROM {surveyprofield_character} f ' . $whereclause . ')';
                 $DB->execute($sql);
             }
 
