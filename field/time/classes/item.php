@@ -605,7 +605,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchformelementscount, $readonly) {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -720,8 +720,6 @@ EOS;
 
         // Begin of: timepicker.
         if (!$searchformelementscount && !$readonly) {
-            global $PAGE;
-
             $PAGE->requires->js_call_amd('surveyprofield_time/timepicker', 'init', [[
                 'baseid'          => $baseid,
                 'lowerboundhour'  => (int)$this->lowerboundhour,
