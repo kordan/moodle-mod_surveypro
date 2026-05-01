@@ -877,7 +877,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchformelementscount, $readonly) {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -1032,6 +1032,34 @@ EOS;
             }
         }
         // End of: mform element.
+
+        // Begin of: datepicker.
+        if (!$searchformelementscount && !$readonly) {
+            $mindate = mktime(
+                $this->lowerboundhour,
+                $this->lowerboundminute,
+                0,
+                $this->lowerboundmonth,
+                $this->lowerboundday,
+                $this->lowerboundyear
+            );
+            $maxdate = mktime(
+                $this->upperboundhour,
+                $this->upperboundminute,
+                0,
+                $this->upperboundmonth,
+                $this->upperboundday,
+                $this->upperboundyear
+            );
+
+            $PAGE->requires->js_call_amd('surveyprofield_datetime/datepicker', 'init', [[
+                'baseid'  => $baseid,
+                'mindate' => $mindate,
+                'maxdate' => $maxdate,
+                'step'    => $this->step,
+            ]]);
+        }
+        // End of: datepicker.
 
         // Begin of: default section.
         // Defaults have a serious issue.
