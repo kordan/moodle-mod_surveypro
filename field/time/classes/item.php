@@ -625,23 +625,29 @@ EOS;
 
         if ($this->lowerboundhour <= $this->upperboundhour) {
             for ($i = (int)$this->lowerboundhour; $i <= $this->upperboundhour; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $hours[$val] = $val;
             }
         } else {
-            for ($i = (int)$this->lowerboundhour; $i <= 24; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
+            for ($i = (int)$this->lowerboundhour; $i <= 23; $i++) {
+                $val = sprintf("%02d", $i);
+                $hours[$val] = $val;
             }
-            for ($i = (int)1; $i <= $this->upperboundhour; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
+            $hours['00'] = '00'; // Midnight.
+            for ($i = 1; $i <= $this->upperboundhour; $i++) {
+                $val = sprintf("%02d", $i);
+                $hours[$val] = $val;
             }
         }
         if ($this->lowerboundhour == $this->upperboundhour) {
             for ($i = $this->lowerboundminute; $i <= $this->upperboundminute; $i += $this->step) {
-                $minutes[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $minutes[$val] = $val;
             }
         } else {
             for ($i = 0; $i <= 59; $i += $this->step) {
-                $minutes[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $minutes[$val] = $val;
             }
         }
         // End of: element values.
@@ -981,7 +987,8 @@ EOS;
     }
 
     /**
-     * Starting from the info stored into $answer, this function returns the corresponding content for the export file.
+     * Starting from the info stored into $answer,
+     * this function returns the corresponding content for the export file.
      *
      * @param object $answer
      * @param string $format
