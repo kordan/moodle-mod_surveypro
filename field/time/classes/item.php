@@ -712,6 +712,22 @@ EOS;
         }
         // End of: mform element.
 
+        // Begin of: timepicker.
+        if (!$searchformelementscount && !$readonly) {
+            global $PAGE;
+
+            $PAGE->requires->js_call_amd('surveyprofield_time/timepicker', 'init', [[
+                'baseid'          => $baseid,
+                'lowerboundhour'  => (int)$this->lowerboundhour,
+                'upperboundhour'  => (int)$this->upperboundhour,
+                'lowerboundminute' => (int)$this->lowerboundminute,
+                'upperboundminute' => (int)$this->upperboundminute,
+                'step'            => (int)$this->step,
+                'wraparound'      => ($this->lowerboundhour > $this->upperboundhour) ? 1 : 0,
+            ]]);
+        }
+        // End of: timepicker.
+
         // Begin of: default section.
         // Defaults have a serious issue.
         // I need to apply the default ONLY IF
