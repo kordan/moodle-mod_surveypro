@@ -584,7 +584,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchformelementscount, $readonly) {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -685,6 +685,19 @@ EOS;
             }
         }
         // End of: mform element.
+
+        // Begin of: recurrencepicker.
+        if (!$searchformelementscount && !$readonly) {
+            $PAGE->requires->js_call_amd('surveyprofield_recurrence/datepicker', 'init', [[
+                'baseid'          => $baseid,
+                'lowerboundday'   => (int)$this->lowerboundday,
+                'upperboundday'   => (int)$this->upperboundday,
+                'lowerboundmonth' => (int)$this->lowerboundmonth,
+                'upperboundmonth' => (int)$this->upperboundmonth,
+                'wraparound'      => ($this->lowerboundmonth > $this->upperboundmonth) ? 1 : 0,
+            ]]);
+        }
+        // End of: recurrencepicker.
 
         // Begin of: default section.
         // Defaults have a serious issue.
