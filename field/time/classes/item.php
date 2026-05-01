@@ -605,7 +605,7 @@ EOS;
      * @return void
      */
     public function userform_mform_element($mform, $searchformelementscount, $readonly) {
-        global $DB, $USER;
+        global $DB, $USER, $PAGE;
 
         if ($this->position == SURVEYPRO_POSITIONLEFT) {
             $elementlabel = $this->get_contentwithnumber();
@@ -711,6 +711,20 @@ EOS;
             }
         }
         // End of: mform element.
+
+        // Begin of: timepicker.
+        if (!$searchformelementscount && !$readonly) {
+            $PAGE->requires->js_call_amd('surveyprofield_time/timepicker', 'init', [[
+                'baseid'          => $baseid,
+                'lowerboundhour'  => (int)$this->lowerboundhour,
+                'upperboundhour'  => (int)$this->upperboundhour,
+                'lowerboundminute' => (int)$this->lowerboundminute,
+                'upperboundminute' => (int)$this->upperboundminute,
+                'step'            => (int)$this->step,
+                'wraparound'      => ($this->lowerboundhour > $this->upperboundhour) ? 1 : 0,
+            ]]);
+        }
+        // End of: timepicker.
 
         // Begin of: default section.
         // Defaults have a serious issue.
