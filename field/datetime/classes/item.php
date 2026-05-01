@@ -930,11 +930,13 @@ EOS;
         $condition = $condition && ($this->lowerboundday == $this->upperboundday);
         if ($condition) {
             for ($i = $this->lowerboundhour; $i < $this->upperboundhour; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $hours[$val] = $val;
             }
         } else {
             for ($i = 0; $i < 24; $i++) {
-                $hours[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $hours[$val] = $val;
             }
         }
         // Condition limiting minutes.
@@ -945,11 +947,13 @@ EOS;
         $condition = $condition && ($this->lowerboundhour == $this->upperboundhour);
         if ($condition) {
             for ($i = $this->lowerboundminute; $i <= $this->upperboundminute; $i += $this->step) {
-                $minutes[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $minutes[$val] = $val;
             }
         } else {
             for ($i = 0; $i <= 59; $i += $this->step) {
-                $minutes[$i] = sprintf("%02d", $i);
+                $val = sprintf("%02d", $i);
+                $minutes[$val] = $val;
             }
         }
         // End of: element values.
