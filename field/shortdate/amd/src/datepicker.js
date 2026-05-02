@@ -172,7 +172,7 @@ define([], function() {
         const monthNames = [];
         for (let m = 1; m <= 12; m++) {
             monthNames.push(new Date(2000, m - 1, 1)
-                .toLocaleDateString(document.documentElement.lang || 'it', {month: 'short'}));
+                .toLocaleDateString(document.documentElement.lang || 'en', {month: 'short'}));
         }
 
         for (let m = 1; m <= 12; m++) {

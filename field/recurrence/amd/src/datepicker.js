@@ -183,7 +183,7 @@ define([], function() {
 
         const title = document.createElement('strong');
         title.textContent = new Date(2000, month - 1, 1)
-            .toLocaleDateString(document.documentElement.lang || 'it', {month: 'long'});
+            .toLocaleDateString(document.documentElement.lang || 'en', {month: 'long'});
 
         prevBtn.addEventListener('click', function() {
             const prevMonth = validMonths[currentIndex - 1];
@@ -210,7 +210,14 @@ define([], function() {
         grid.style.cssText = 'display:grid; grid-template-columns:repeat(7,32px); ' +
                              'gap:2px; text-align:center;';
 
-        ['L', 'M', 'M', 'G', 'V', 'S', 'D'].forEach(function(d) {
+        const lang = document.documentElement.lang || 'en';
+        const dayNames = [];
+        for (let d = 0; d < 7; d++) {
+            // 2023-01-02 è un lunedì - partiamo da lunedì
+            dayNames.push(new Date(2023, 0, 2 + d)
+                .toLocaleDateString(lang, {weekday: 'narrow'}));
+        }
+        dayNames.forEach(function(d) {
             const cell = document.createElement('div');
             cell.textContent = d;
             cell.style.cssText = 'font-weight:bold; font-size:0.8em; padding:2px;';

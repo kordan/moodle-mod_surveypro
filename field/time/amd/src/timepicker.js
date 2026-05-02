@@ -1,6 +1,6 @@
 // file: amd/src/timepicker.js
 
-define([], function() {
+define(['core/str'], function(Str) {
 
     /**
      * Adds a time picker button next to the minute dropdown.
@@ -174,7 +174,11 @@ define([], function() {
 
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
-        title.textContent = 'Seleziona l\'ora';
+        Str.get_string('choosethehour', 'surveyprofield_time').then(function(s) {
+            title.textContent = s;
+        }).catch(function() {
+            title.textContent = 'Choose an hour';
+        });
         container.appendChild(title);
 
         // Display ora:minuti correnti.
@@ -205,7 +209,11 @@ define([], function() {
 
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
-        title.textContent = 'Seleziona i minuti';
+        Str.get_string('choosetheminute', 'surveyprofield_time').then(function(s) {
+            title.textContent = s;
+        }).catch(function() {
+            title.textContent = 'Choose a minute';
+        });
         container.appendChild(title);
 
         const display = document.createElement('div');
@@ -224,7 +232,11 @@ define([], function() {
         const backBtn = document.createElement('button');
         backBtn.type = 'button';
         backBtn.className = 'btn btn-sm btn-secondary mt-2';
-        backBtn.textContent = '‹ Ora';
+        Str.get_string('backtohour', 'surveyprofield_time').then(function(s) {
+            backBtn.textContent = '‹ ' + s;
+        }).catch(function() {
+            backBtn.textContent = 'Back to hour';
+        });
         backBtn.addEventListener('click', function() {
             renderClockHour(container, selectedHour, selectedMinute, params, onSelect);
         });
