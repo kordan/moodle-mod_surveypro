@@ -1,18 +1,18 @@
 // file: amd/src/timepicker.js
 
-define([], function() {
+define(['core/str'], function(Str) {
 
     /**
-     * Aggiunge il pulsante timepicker accanto al select dei minuti.
+     * Adds a time picker button next to the minute dropdown.
      *
      * @param {Object} params
      * @param {string} params.baseid           - es. "id_field_time_3"
-     * @param {int}    params.lowerboundhour   - ora minima
-     * @param {int}    params.upperboundhour   - ora massima
-     * @param {int}    params.lowerboundminute - minuto minimo
-     * @param {int}    params.upperboundminute - minuto massimo
-     * @param {int}    params.step             - passo dei minuti
-     * @param {int}    params.wraparound       - 1 se l'intervallo attraversa la mezzanotte
+     * @param {int}    params.lowerboundhour   - minimum hour
+     * @param {int}    params.upperboundhour   - maximum hour
+     * @param {int}    params.lowerboundminute - minimum minute
+     * @param {int}    params.upperboundminute - maximum minute
+     * @param {int}    params.step             - minutes step
+     * @param {int}    params.wraparound       - 1 if the time span crosses midnight
      */
     function addTimeButton(params) {
         const selectHour   = document.getElementById(params.baseid + '_hour');
@@ -45,12 +45,12 @@ define([], function() {
     }
 
     /**
-     * Apre il popup con l'orologio circolare.
+     * Opens the popup with the circular clock.
      *
-     * @param {HTMLElement} selectHour   - select dell'ora
-     * @param {HTMLElement} selectMinute - select dei minuti
-     * @param {Object}      params       - parametri del timepicker
-     * @param {HTMLElement} button       - pulsante che ha aperto il picker
+     * @param {HTMLElement} selectHour   - elect for hours
+     * @param {HTMLElement} selectMinute - elect for minutes
+     * @param {Object}      params       - parameters of the timepicker
+     * @param {HTMLElement} button       - the button that opened the picker
      */
     function openTimepicker(selectHour, selectMinute, params, button) {
 
@@ -73,7 +73,7 @@ define([], function() {
             e.stopPropagation();
         });
 
-        // Inizia dalla selezione dell'ora.
+        // Start by selecting the time.
         renderClockHour(popup, currentHour, currentMinute, params,
             function(hour, minute) {
                 setSelectValue(selectHour,   hour);
@@ -89,7 +89,7 @@ define([], function() {
         popup.style.left = rect.left + 'px';
 
         /**
-         * Chiude il timepicker al click fuori dal popup.
+         * Closes the date picker when you click outside the popup.
          *
          * @param {MouseEvent} e - evento click
          */
@@ -106,10 +106,10 @@ define([], function() {
     }
 
     /**
-     * Costruisce la lista delle ore valide in base ai parametri.
+     * Generates the list of valid hours based on the parameters.
      *
-     * @param {Object} params - parametri del timepicker
-     * @returns {Array}       - array di interi con le ore valide
+     * @param {Object} params - parameters of the timepicker
+     * @returns {Array}       - array of integers with valid hours
      */
     function getValidHours(params) {
         const hours = [];
@@ -129,10 +129,10 @@ define([], function() {
     }
 
     /**
-     * Controlla se un'ora è valida in base ai parametri.
+     * Check whether a time is valid based on the parameters.
      *
-     * @param {int}    hour   - ora da verificare
-     * @param {Object} params - parametri del timepicker
+     * @param {int}    hour   - hour to check
+     * @param {Object} params - parameters of the timepicker
      * @returns {boolean}
      */
     function isHourValid(hour, params) {
@@ -140,11 +140,11 @@ define([], function() {
     }
 
     /**
-     * Controlla se un minuto è valido per una data ora.
+     * Check if a minute is valid for a given hour.
      *
-     * @param {int}    hour   - ora selezionata
-     * @param {int}    minute - minuto da verificare
-     * @param {Object} params - parametri del timepicker
+     * @param {int}    hour   - hour to check
+     * @param {int}    minute - minute to check
+     * @param {Object} params - parameters of the timepicker
      * @returns {boolean}
      */
     function isMinuteValid(hour, minute, params) {
@@ -161,12 +161,12 @@ define([], function() {
     }
 
     /**
-     * Renderizza l'orologio per la selezione dell'ora.
+     * Render the clock for selecting the time.
      *
-     * @param {HTMLElement} container      - elemento DOM contenitore
-     * @param {int}         selectedHour   - ora attualmente selezionata
-     * @param {int}         selectedMinute - minuto attualmente selezionato
-     * @param {Object}      params         - parametri del timepicker
+     * @param {HTMLElement} container      - container DOM element
+     * @param {int}         selectedHour   - currently selected hour
+     * @param {int}         selectedMinute - currently selected minute
+     * @param {Object}      params         - parameters of the timepicker
      * @param {Function}    onSelect       - callback(hour, minute)
      */
     function renderClockHour(container, selectedHour, selectedMinute, params, onSelect) {
@@ -174,7 +174,11 @@ define([], function() {
 
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
-        title.textContent = 'Seleziona l\'ora';
+        Str.get_string('choosethehour', 'surveyprofield_time').then(function(s) {
+            title.textContent = s;
+        }).catch(function() {
+            title.textContent = 'Choose an hour';
+        });
         container.appendChild(title);
 
         // Display ora:minuti correnti.
@@ -192,12 +196,12 @@ define([], function() {
     }
 
     /**
-     * Renderizza l'orologio per la selezione dei minuti.
+     * Render the clock for selecting the minutes.
      *
-     * @param {HTMLElement} container      - elemento DOM contenitore
-     * @param {int}         selectedHour   - ora selezionata
-     * @param {int}         selectedMinute - minuto attualmente selezionato
-     * @param {Object}      params         - parametri del timepicker
+     * @param {HTMLElement} container      - container DOM element
+     * @param {int}         selectedHour   - currently selected hour
+     * @param {int}         selectedMinute - currently selected minute
+     * @param {Object}      params         - parameters of the timepicker
      * @param {Function}    onSelect       - callback(hour, minute)
      */
     function renderClockMinute(container, selectedHour, selectedMinute, params, onSelect) {
@@ -205,7 +209,11 @@ define([], function() {
 
         const title = document.createElement('div');
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
-        title.textContent = 'Seleziona i minuti';
+        Str.get_string('choosetheminute', 'surveyprofield_time').then(function(s) {
+            title.textContent = s;
+        }).catch(function() {
+            title.textContent = 'Choose a minute';
+        });
         container.appendChild(title);
 
         const display = document.createElement('div');
@@ -220,11 +228,15 @@ define([], function() {
 
         container.appendChild(svg);
 
-        // Pulsante indietro per tornare alla selezione dell'ora.
+        // Back button to return to the time selection screen.
         const backBtn = document.createElement('button');
         backBtn.type = 'button';
         backBtn.className = 'btn btn-sm btn-secondary mt-2';
-        backBtn.textContent = '‹ Ora';
+        Str.get_string('backtohour', 'surveyprofield_time').then(function(s) {
+            backBtn.textContent = '‹ ' + s;
+        }).catch(function() {
+            backBtn.textContent = 'Back to hour';
+        });
         backBtn.addEventListener('click', function() {
             renderClockHour(container, selectedHour, selectedMinute, params, onSelect);
         });
@@ -232,11 +244,11 @@ define([], function() {
     }
 
     /**
-     * Renderizza il quadrante SVG dell'orologio.
+     * Render the clock's SVG face.
      *
-     * @param {int}      selected - valore attualmente selezionato (ora o minuto)
-     * @param {int|null} hour     - ora selezionata (null se stiamo scegliendo l'ora)
-     * @param {Object}   params   - parametri del timepicker
+     * @param {int}      selected - currently selected value (hour or minute)
+     * @param {int|null} hour     - current time (null if we are selecting the time)
+     * @param {Object}   params   - parameters of the timepicker
      * @param {Function} onPick   - callback(value) al click su un numero
      * @param {string}   mode     - 'hour' o 'minute'
      * @returns {SVGElement}
@@ -253,7 +265,7 @@ define([], function() {
         svg.setAttribute('height', size);
         svg.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
 
-        // Cerchio di sfondo.
+        // Background circle.
         const bg = document.createElementNS(svgNS, 'circle');
         bg.setAttribute('cx', cx);
         bg.setAttribute('cy', cy);
@@ -263,7 +275,7 @@ define([], function() {
         bg.setAttribute('stroke-width', '1');
         svg.appendChild(bg);
 
-        // Numeri da posizionare sul quadrante.
+        // Numbers to place on the dial.
         let items = [];
         if (mode === 'hour') {
             items = getValidHours(params);
@@ -283,7 +295,7 @@ define([], function() {
                 ? isHourValid(value, params)
                 : isMinuteValid(hour, value, params);
 
-            // Cerchio di sfondo per il numero selezionato.
+            // Background circle for the selected number.
             if (value === selected) {
                 const selCircle = document.createElementNS(svgNS, 'circle');
                 selCircle.setAttribute('cx', x);
@@ -293,7 +305,7 @@ define([], function() {
                 svg.appendChild(selCircle);
             }
 
-            // Linea dal centro al numero selezionato.
+            // Call the selected number.
             if (value === selected) {
                 const line = document.createElementNS(svgNS, 'line');
                 line.setAttribute('x1', cx);
@@ -305,7 +317,7 @@ define([], function() {
                 svg.appendChild(line);
             }
 
-            // Testo del numero.
+            // Text for the number.
             const text = document.createElementNS(svgNS, 'text');
             text.setAttribute('x', x);
             text.setAttribute('y', y);
@@ -317,7 +329,7 @@ define([], function() {
             text.textContent = ('0' + value).slice(-2);
             svg.appendChild(text);
 
-            // Area cliccabile trasparente sopra il testo.
+            // Transparent clickable area above the text.
             if (valid) {
                 const hit = document.createElementNS(svgNS, 'circle');
                 hit.setAttribute('cx', x);
@@ -332,7 +344,7 @@ define([], function() {
             }
         });
 
-        // Punto centrale.
+        // Central dot.
         const dot = document.createElementNS(svgNS, 'circle');
         dot.setAttribute('cx', cx);
         dot.setAttribute('cy', cy);
@@ -344,10 +356,10 @@ define([], function() {
     }
 
     /**
-     * Imposta il valore di un select cercando l'option corrispondente.
+     * Set the value of a dropdown by selecting the corresponding option.
      *
-     * @param {HTMLElement} select - elemento select da aggiornare
-     * @param {int}         value  - valore da selezionare
+     * @param {HTMLElement} select - select to update
+     * @param {int}         value  - value to set
      */
     function setSelectValue(select, value) {
         const intVal = parseInt(value);
@@ -361,16 +373,16 @@ define([], function() {
 
     return {
         /**
-         * Inizializza il timepicker per un campo time di surveypro.
+         * Initialize the timepicker for a SurveyPro time field.
          *
          * @param {Object} params
-         * @param {string} params.baseid           - base id del gruppo di select
-         * @param {int}    params.lowerboundhour   - ora minima
-         * @param {int}    params.upperboundhour   - ora massima
-         * @param {int}    params.lowerboundminute - minuto minimo
-         * @param {int}    params.upperboundminute - minuto massimo
-         * @param {int}    params.step             - passo dei minuti
-         * @param {int}    params.wraparound       - 1 se attraversa la mezzanotte
+         * @param {string} params.baseid           - base id of the group of select
+         * @param {int}    params.lowerboundhour   - minimun hour
+         * @param {int}    params.upperboundhour   - maximum hour
+         * @param {int}    params.lowerboundminute - minimun minute
+         * @param {int}    params.upperboundminute - maximum minute
+         * @param {int}    params.step             - minutes step
+         * @param {int}    params.wraparound       - 1 if the time span crosses midnight
          */
         init: function(params) {
             addTimeButton(params);
