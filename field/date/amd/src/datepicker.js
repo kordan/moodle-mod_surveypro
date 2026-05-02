@@ -3,11 +3,11 @@
 define([], function() {
 
     /**
-     * Aggiunge il pulsante calendario accanto al gruppo di select.
+     * Adds a calendar button next to the select group.
      *
      * @param {string} baseid   - es. "id_field_date_3"
-     * @param {int}    mindate  - timestamp Unix della data minima
-     * @param {int}    maxdate  - timestamp Unix della data massima
+     * @param {int}    mindate  - Unix timestamp of the minimum date/time
+     * @param {int}    maxdate  - Unix timestamp of the maximum date/time
      */
     function addCalendarButton(baseid, mindate, maxdate) {
 
@@ -25,7 +25,7 @@ define([], function() {
         button.setAttribute('aria-label', 'Apri calendario');
         button.innerHTML = '<i class="icon fa-regular fa-calendar fa-fw" aria-hidden="true"></i>';
 
-        // Inserisce il pulsante dentro lo span contenitore del select anno.
+        // Inserts the button inside the span element that contains the year select.
         const yearSpan = selectYear.closest('span');
         if (yearSpan) {
             yearSpan.style.display = 'inline-flex';
@@ -42,14 +42,14 @@ define([], function() {
     }
 
     /**
-     * Apre un mini-calendario inline sotto il pulsante.
+     * Opens a small inline calendar below the button.
      *
-     * @param {HTMLElement} selectDay   - select del giorno
-     * @param {HTMLElement} selectMonth - select del mese
-     * @param {HTMLElement} selectYear  - select dell'anno
-     * @param {int}         mindate     - timestamp Unix della data minima
-     * @param {int}         maxdate     - timestamp Unix della data massima
-     * @param {HTMLElement} button      - pulsante che ha aperto il picker
+     * @param {HTMLElement} selectDay   - select for the day
+     * @param {HTMLElement} selectMonth - select for the month
+     * @param {HTMLElement} selectYear  - select for the year
+     * @param {int}         mindate     - unix timestamp of the minimum date
+     * @param {int}         maxdate     - unix timestamp of the maximum date
+     * @param {HTMLElement} button      - the button that opened the picker
      */
     function openDatepicker(selectDay, selectMonth, selectYear, mindate, maxdate, button) {
 
@@ -69,7 +69,7 @@ define([], function() {
                               'border:1px solid #ccc; border-radius:4px; padding:8px; ' +
                               'box-shadow:0 2px 8px rgba(0,0,0,0.2);';
 
-        // Blocca la propagazione di TUTTI i click interni al popup.
+        // Block the propagation of ALL clicks within the popup.
         popup.addEventListener('click', function(e) {
             e.stopPropagation();
         });
@@ -90,9 +90,9 @@ define([], function() {
         popup.style.left = rect.left + 'px';
 
         /**
-         * Chiude il datepicker al click fuori dal popup.
+         * Close the date picker when you click outside the popup.
          *
-         * @param {MouseEvent} e - evento click
+         * @param {MouseEvent} e - event click
          */
         function closePicker(e) {
             if (!popup.contains(e.target) && e.target !== button) {
@@ -107,15 +107,15 @@ define([], function() {
     }
 
     /**
-     * Renderizza la griglia del mese dentro un contenitore.
+     * Render the monthly grid inside a container.
      *
-     * @param {HTMLElement} container  - elemento DOM che conterrà il calendario
-     * @param {int}         year       - anno da visualizzare
-     * @param {int}         month      - mese da visualizzare (1..12)
-     * @param {int}         selectedDay - giorno attualmente selezionato
-     * @param {int}         mindate    - timestamp Unix della data minima
-     * @param {int}         maxdate    - timestamp Unix della data massima
-     * @param {Function}    onSelect   - callback(day, month, year) alla selezione
+     * @param {HTMLElement} container   - DOM element that will contain the calendar
+     * @param {int}         year        - year to display
+     * @param {int}         month       - month to display (1–12)
+     * @param {int}         selectedDay - currently selected day
+     * @param {int}         mindate     - unix timestamp of the minimum date
+     * @param {int}         maxdate     - unix timestamp of the maximum date
+     * @param {Function}    onSelect    - callback(day, month, year) alla selezione
      */
     function renderCalendar(container, year, month, selectedDay, mindate, maxdate, onSelect) {
         container.innerHTML = '';
@@ -221,10 +221,10 @@ define([], function() {
     }
 
     /**
-     * Imposta il valore di un select cercando l'option corrispondente.
+     * Set the value of a dropdown by selecting the corresponding option.
      *
-     * @param {HTMLElement} select - elemento select da aggiornare
-     * @param {int}         value  - valore da selezionare
+     * @param {HTMLElement} select - select to update
+     * @param {int}         value  - valore to set
      */
     function setSelectValue(select, value) {
         const intVal = parseInt(value);
@@ -238,12 +238,12 @@ define([], function() {
 
     return {
         /**
-         * Inizializza il datepicker per un campo data di surveypro.
+         * Initialize the date picker for a surveypro date field.
          *
          * @param {Object} params
-         * @param {string} params.baseid  - base id del gruppo di select
-         * @param {int}    params.mindate - timestamp Unix della data minima
-         * @param {int}    params.maxdate - timestamp Unix della data massima
+         * @param {string} params.baseid  - base id for the group of select
+         * @param {int}    params.mindate - unix timestamp of the minimim date
+         * @param {int}    params.maxdate - unix timestamp of the maximum date
          */
         init: function(params) {
             addCalendarButton(params.baseid, params.mindate, params.maxdate);
