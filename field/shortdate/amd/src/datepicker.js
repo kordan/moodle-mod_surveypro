@@ -3,13 +3,13 @@
 define([], function() {
 
     /**
-     * Aggiunge il pulsante datepicker accanto al select dell'anno.
+     * Adds a date picker button next to the year dropdown.
      *
      * @param {string} baseid          - es. "id_field_shortdate_3"
-     * @param {int}    lowerboundmonth - mese minimo
-     * @param {int}    upperboundmonth - mese massimo
-     * @param {int}    lowerboundyear  - anno minimo
-     * @param {int}    upperboundyear  - anno massimo
+     * @param {int}    lowerboundmonth - minimum month
+     * @param {int}    upperboundmonth - maximum month
+     * @param {int}    lowerboundyear  - minimum year
+     * @param {int}    upperboundyear  - maximum year
      */
     function addDateButton(baseid, lowerboundmonth, upperboundmonth, lowerboundyear, upperboundyear) {
 
@@ -45,15 +45,15 @@ define([], function() {
     }
 
     /**
-     * Apre il popup con la griglia dei mesi.
+     * Open the pop-up window with the calendar.
      *
-     * @param {HTMLElement} selectMonth     - select del mese
-     * @param {HTMLElement} selectYear      - select dell'anno
-     * @param {int}         lowerboundmonth - mese minimo
-     * @param {int}         upperboundmonth - mese massimo
-     * @param {int}         lowerboundyear  - anno minimo
-     * @param {int}         upperboundyear  - anno massimo
-     * @param {HTMLElement} button          - pulsante che ha aperto il picker
+     * @param {HTMLElement} selectMonth     - select for the month
+     * @param {HTMLElement} selectYear      - select for the year
+     * @param {int}         lowerboundmonth - minimum month
+     * @param {int}         upperboundmonth - maximum month
+     * @param {int}         lowerboundyear  - minimum year
+     * @param {int}         upperboundyear  - maximum year
+     * @param {HTMLElement} button          - the button that opened the picker
      */
     function openDatepicker(selectMonth, selectYear,
                             lowerboundmonth, upperboundmonth,
@@ -95,9 +95,9 @@ define([], function() {
         popup.style.left = rect.left + 'px';
 
         /**
-         * Chiude il datepicker al click fuori dal popup.
+         * Close the date picker when you click outside the popup.
          *
-         * @param {MouseEvent} e - evento click
+         * @param {MouseEvent} e - event click
          */
         function closePicker(e) {
             if (!popup.contains(e.target) && e.target !== button) {
@@ -112,15 +112,15 @@ define([], function() {
     }
 
     /**
-     * Renderizza la griglia dei 12 mesi con navigazione per anno.
+     * Render the 12-month grid with navigation by year.
      *
-     * @param {HTMLElement} container       - elemento DOM contenitore
-     * @param {int}         year            - anno da visualizzare
-     * @param {int}         selectedMonth   - mese attualmente selezionato
-     * @param {int}         lowerboundmonth - mese minimo
-     * @param {int}         upperboundmonth - mese massimo
-     * @param {int}         lowerboundyear  - anno minimo
-     * @param {int}         upperboundyear  - anno massimo
+     * @param {HTMLElement} container       - DOM container
+     * @param {int}         year            - year to display
+     * @param {int}         selectedMonth   - currently selected month
+     * @param {int}         lowerboundmonth - minimum month
+     * @param {int}         upperboundmonth - maximum month
+     * @param {int}         lowerboundyear  - minimum year
+     * @param {int}         upperboundyear  - maximum year
      * @param {Function}    onSelect        - callback(month, year)
      */
     function renderMonthGrid(container, year, selectedMonth,
@@ -165,14 +165,14 @@ define([], function() {
         header.appendChild(nextBtn);
         container.appendChild(header);
 
-        // --- Griglia mesi ---
+        // Months grid.
         const grid = document.createElement('div');
         grid.style.cssText = 'display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;';
 
         const monthNames = [];
         for (let m = 1; m <= 12; m++) {
             monthNames.push(new Date(2000, m - 1, 1)
-                .toLocaleDateString(document.documentElement.lang || 'it', {month: 'short'}));
+                .toLocaleDateString(document.documentElement.lang || 'en', {month: 'short'}));
         }
 
         for (let m = 1; m <= 12; m++) {
@@ -182,9 +182,9 @@ define([], function() {
             cell.style.cssText = 'padding:6px 4px; border-radius:4px; border:none; ' +
                                  'cursor:pointer; font-size:0.85em;';
 
-            // Un mese è valido se:
-            // - non è nell'anno minimo oppure è >= lowerboundmonth
-            // - non è nell'anno massimo oppure è <= upperboundmonth
+            // A month is valid if:
+            // - is not the minimum year, or is >= lowerboundmonth
+            // - it is not in the maximum year, or it is <= upperboundmonth
             const validInYear = (year > lowerboundyear || m >= lowerboundmonth) &&
                                  (year < upperboundyear || m <= upperboundmonth);
 
@@ -208,10 +208,10 @@ define([], function() {
     }
 
     /**
-     * Imposta il valore di un select cercando l'option corrispondente.
+     * Set the value of a dropdown by selecting the corresponding option.
      *
-     * @param {HTMLElement} select - elemento select da aggiornare
-     * @param {int}         value  - valore da selezionare
+     * @param {HTMLElement} select - select to update
+     * @param {int}         value  - value to set
      */
     function setSelectValue(select, value) {
         const intVal = parseInt(value);
@@ -225,14 +225,14 @@ define([], function() {
 
     return {
         /**
-         * Inizializza il datepicker per un campo shortdate di surveypro.
+         * Initialize the date picker for a shortdate field.
          *
          * @param {Object} params
-         * @param {string} params.baseid          - base id del gruppo di select
-         * @param {int}    params.lowerboundmonth - mese minimo
-         * @param {int}    params.upperboundmonth - mese massimo
-         * @param {int}    params.lowerboundyear  - anno minimo
-         * @param {int}    params.upperboundyear  - anno massimo
+         * @param {string} params.baseid          - base id of the group of select
+         * @param {int}    params.lowerboundmonth - minimum month
+         * @param {int}    params.upperboundmonth - maximum month
+         * @param {int}    params.lowerboundyear  - minimum year
+         * @param {int}    params.upperboundyear  - maximum year
          */
         init: function(params) {
             addDateButton(params.baseid, params.lowerboundmonth, params.upperboundmonth,

@@ -3,15 +3,15 @@
 define([], function() {
 
     /**
-     * Aggiunge il pulsante calendario accanto al gruppo di select.
+     * Add a calendar button next to the select group
      *
      * @param {string} baseid   - es. "id_field_datetime_3"
-     * @param {int}    mindate  - timestamp Unix della data/ora minima
-     * @param {int}    maxdate  - timestamp Unix della data/ora massima
+     * @param {int}    mindate  - Unix timestamp of the minimum date/time
+     * @param {int}    maxdate  - Unix timestamp of the maximum date/time
      * @param {int}    step     - passo dei minuti (es. 5, 10, 15...)
      */
     function addCalendarButton(baseid, mindate, maxdate, step) {
-        step = parseInt(step); // fix: forza intero
+        step = parseInt(step); // Force integer.
 
         const selectDay    = document.getElementById(baseid + '_day');
         const selectMonth  = document.getElementById(baseid + '_month');
@@ -47,17 +47,17 @@ define([], function() {
     }
 
     /**
-     * Apre il popup con calendario e selettore ore/minuti.
+     * Open the pop-up window with the calendar and hour/minute selector.
      *
-     * @param {HTMLElement} selectDay    - select del giorno
-     * @param {HTMLElement} selectMonth  - select del mese
-     * @param {HTMLElement} selectYear   - select dell'anno
-     * @param {HTMLElement} selectHour   - select dell'ora
-     * @param {HTMLElement} selectMinute - select dei minuti
-     * @param {int}         mindate      - timestamp Unix della data/ora minima
-     * @param {int}         maxdate      - timestamp Unix della data/ora massima
-     * @param {int}         step         - passo dei minuti
-     * @param {HTMLElement} button       - pulsante che ha aperto il picker
+     * @param {HTMLElement} selectDay    - select for the day
+     * @param {HTMLElement} selectMonth  - select for the month
+     * @param {HTMLElement} selectYear   - select for the year
+     * @param {HTMLElement} selectHour   - select for the hour
+     * @param {HTMLElement} selectMinute - select for the minute
+     * @param {int}         mindate      - unix timestamp of the minimum date/time
+     * @param {int}         maxdate      - unix timestamp of the maximum date/time
+     * @param {int}         step         - step for minutes
+     * @param {HTMLElement} button       - the button that opened the picker
      */
     function openDatepicker(selectDay, selectMonth, selectYear, selectHour, selectMinute,
                             mindate, maxdate, step, button) {
@@ -103,9 +103,9 @@ define([], function() {
         popup.style.left = rect.left + 'px';
 
         /**
-         * Chiude il datepicker al click fuori dal popup.
+         * Closes the date picker when you click outside the popup.
          *
-         * @param {MouseEvent} e - evento click
+         * @param {MouseEvent} e - event click
          */
         function closePicker(e) {
             if (!popup.contains(e.target) && e.target !== button) {
@@ -120,18 +120,18 @@ define([], function() {
     }
 
     /**
-     * Renderizza il calendario e il selettore ore/minuti nel contenitore.
+     * Render the calendar and the hour/minute selector in the container.
      *
-     * @param {HTMLElement} container    - elemento DOM che conterrà il calendario
-     * @param {int}         year         - anno da visualizzare
-     * @param {int}         month        - mese da visualizzare (1..12)
-     * @param {int}         selectedDay  - giorno attualmente selezionato
-     * @param {int}         selectedHour   - ora attualmente selezionata
-     * @param {int}         selectedMinute - minuto attualmente selezionato
-     * @param {int}         mindate      - timestamp Unix della data/ora minima
-     * @param {int}         maxdate      - timestamp Unix della data/ora massima
-     * @param {int}         step         - passo dei minuti
-     * @param {Function}    onSelect     - callback(day, month, year, hour, minute)
+     * @param {HTMLElement} container      - DOM element that will contain the calendar
+     * @param {int}         year           - year to display
+     * @param {int}         month          - month to display (1–12)
+     * @param {int}         selectedDay    - currently selected day
+     * @param {int}         selectedHour   - currently selected hour
+     * @param {int}         selectedMinute - currently selected hour minute
+     * @param {int}         mindate        - unix timestamp of the minimum date/time
+     * @param {int}         maxdate        - unix timestamp of the maximum date/time
+     * @param {int}         step           - minutes step
+     * @param {Function}    onSelect       - callback(day, month, year, hour, minute)
      */
     function renderCalendar(container, year, month, selectedDay,
                             selectedHour, selectedMinute, mindate, maxdate, step, onSelect) {
@@ -170,7 +170,7 @@ define([], function() {
         nextBtn.disabled = nextFirstDay > maxFirstDay;
 
         title.textContent = new Date(year, month - 1, 1)
-            .toLocaleDateString(document.documentElement.lang || 'it', {month: 'long', year: 'numeric'});
+            .toLocaleDateString(document.documentElement.lang || 'en', {month: 'long', year: 'numeric'});
 
         prevBtn.addEventListener('click', function() {
             renderCalendar(container, prevYear, prevMonth, 0,
@@ -186,11 +186,18 @@ define([], function() {
         header.appendChild(nextBtn);
         container.appendChild(header);
 
-        // --- Griglia giorni ---
+        // Days grid.
         const grid = document.createElement('div');
         grid.style.cssText = 'display:grid; grid-template-columns:repeat(7,32px); gap:2px; text-align:center;';
 
-        ['L', 'M', 'M', 'G', 'V', 'S', 'D'].forEach(function(d) {
+        const lang = document.documentElement.lang || 'en';
+        const dayNames = [];
+        for (let d = 0; d < 7; d++) {
+            // 2023-01-02 è un lunedì - partiamo da lunedì
+            dayNames.push(new Date(2023, 0, 2 + d)
+                .toLocaleDateString(lang, {weekday: 'narrow'}));
+        }
+        dayNames.forEach(function(d) {
             const cell = document.createElement('div');
             cell.textContent = d;
             cell.style.cssText = 'font-weight:bold; font-size:0.8em; padding:2px;';
@@ -255,29 +262,29 @@ define([], function() {
 
         container.appendChild(grid);
 
-        // --- Selettore ore e minuti ---
+        // Select for hour and minute.
         renderTimeSelector(container, selectedDay, month, year,
                            selectedHour, selectedMinute, mindate, maxdate, step, onSelect);
     }
 
     /**
-     * Renderizza il selettore di ore e minuti sotto la griglia.
+     * Render the hour and minute selector below the grid.
      *
-     * @param {HTMLElement} container      - elemento DOM contenitore
-     * @param {int}         day            - giorno selezionato
-     * @param {int}         month          - mese selezionato
-     * @param {int}         year           - anno selezionato
-     * @param {int}         selectedHour   - ora attualmente selezionata
-     * @param {int}         selectedMinute - minuto attualmente selezionato
-     * @param {int}         mindate        - timestamp Unix della data/ora minima
-     * @param {int}         maxdate        - timestamp Unix della data/ora massima
-     * @param {int}         step           - passo dei minuti
+     * @param {HTMLElement} container      - DOM element that will contain the calendar
+     * @param {int}         day            - selected day
+     * @param {int}         month          - selected month
+     * @param {int}         year           - selected year
+     * @param {int}         selectedHour   - currently selected hour
+     * @param {int}         selectedMinute - currently selected minute
+     * @param {int}         mindate        - unix timestamp of the minimim date/time
+     * @param {int}         maxdate        - unix timestamp of the maximum date/time
+     * @param {int}         step           - minutes step
      * @param {Function}    onSelect       - callback(day, month, year, hour, minute)
      */
     function renderTimeSelector(container, day, month, year,
                                 selectedHour, selectedMinute, mindate, maxdate, step, onSelect) {
 
-        // Rimuovi eventuale selettore ore/minuti precedente.
+        // Remove any previous hour/minute selector.
         const existing = container.querySelector('.surveypro-timeselector');
         if (existing) {
             existing.remove();
@@ -291,13 +298,13 @@ define([], function() {
         timeDiv.style.cssText = 'margin-top:8px; border-top:1px solid #eee; padding-top:8px; ' +
                                 'display:flex; align-items:center; justify-content:center; gap:4px;';
 
-        // --- Select ore ---
+        // Select for hours.
         const hourSelect = document.createElement('select');
         hourSelect.className = 'form-select form-select-sm';
         hourSelect.style.width = 'auto';
 
         for (let h = 0; h < 24; h++) {
-            // Calcola se l'ora è nel range.
+            // Check if the time is within the range.
             const thisDateTime = new Date(year, month - 1, day, h, 0, 0);
             const minDateTime  = new Date(minDateObj.getFullYear(), minDateObj.getMonth(),
                                           minDateObj.getDate(), minDateObj.getHours(), 0, 0);
@@ -316,12 +323,12 @@ define([], function() {
             hourSelect.appendChild(opt);
         }
 
-        // --- Separatore : ---
+        // Separator.
         const colon = document.createElement('span');
         colon.textContent = ':';
         colon.style.fontWeight = 'bold';
 
-        // --- Select minuti ---
+        // Select for minutes.
         const minuteSelect = document.createElement('select');
         minuteSelect.className = 'form-select form-select-sm';
         minuteSelect.style.width = 'auto';
@@ -336,7 +343,7 @@ define([], function() {
             minuteSelect.appendChild(opt);
         }
 
-        // --- Pulsante Conferma ---
+        // Confirm button.
         const confirmBtn = document.createElement('button');
         confirmBtn.type = 'button';
         confirmBtn.className = 'btn btn-primary btn-sm ms-2';
@@ -355,10 +362,10 @@ define([], function() {
     }
 
     /**
-     * Imposta il valore di un select cercando l'option corrispondente.
+     * Set the value of a dropdown by selecting the corresponding option.
      *
-     * @param {HTMLElement} select - elemento select da aggiornare
-     * @param {int}         value  - valore da selezionare
+     * @param {HTMLElement} select - select to update
+     * @param {int}         value  - valore to set
      */
     function setSelectValue(select, value) {
         const intVal = parseInt(value);
@@ -372,12 +379,12 @@ define([], function() {
 
     return {
         /**
-         * Inizializza il datepicker per un campo datetime di surveypro.
+         * Initialize the date picker for a surveypro datetime field.
          *
          * @param {Object} params
-         * @param {string} params.baseid  - base id del gruppo di select
-         * @param {int}    params.mindate - timestamp Unix della data/ora minima
-         * @param {int}    params.maxdate - timestamp Unix della data/ora massima
+         * @param {string} params.baseid  - base id for the group of select
+         * @param {int}    params.mindate - unix timestamp of the minimim date/time
+         * @param {int}    params.maxdate - unix timestamp of the maximum date/time
          * @param {int}    params.step    - passo dei minuti
          */
         init: function(params) {

@@ -23,6 +23,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['backtohour'] = 'Back to hour';
+$string['choosethehour'] = 'Choose the hour';
+$string['choosetheminute'] = 'Choose the minute';
 $string['currenttimedefault'] = 'Current time';
 $string['customdefault'] = 'Custom';
 $string['defaultoption'] = 'Default';
