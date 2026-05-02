@@ -11,6 +11,7 @@ define([], function() {
      * @param {int}    step     - passo dei minuti (es. 5, 10, 15...)
      */
     function addCalendarButton(baseid, mindate, maxdate, step) {
+        step = parseInt(step); // fix: forza intero
 
         const selectDay    = document.getElementById(baseid + '_day');
         const selectMonth  = document.getElementById(baseid + '_month');
@@ -222,16 +223,33 @@ define([], function() {
                 cell.style.background = '#0f6cbf';
                 cell.style.color      = '#fff';
                 cell.addEventListener('click', function() {
-                    onSelect(day, month, year, selectedHour, selectedMinute);
+                    const timeDiv = container.querySelector('.surveypro-timeselector');
+                    const currentHourInPopup   = timeDiv
+                        ? parseInt(timeDiv.querySelector('select:first-of-type').value)
+                        : selectedHour;
+                    const currentMinuteInPopup = timeDiv
+                        ? parseInt(timeDiv.querySelector('select:last-of-type').value)
+                        : selectedMinute;
+
+                    renderCalendar(container, year, month, day,
+                                   currentHourInPopup, currentMinuteInPopup, mindate, maxdate, step, onSelect);
                 });
             } else {
                 cell.style.background = '#f8f9fa';
                 cell.addEventListener('click', function() {
-                    renderTimeSelector(container, day, month, year,
-                                       selectedHour, selectedMinute, mindate, maxdate, step, onSelect);
+                    // Leggi ora e minuto correnti dal selettore nel popup.
+                    const timeDiv = container.querySelector('.surveypro-timeselector');
+                    const currentHourInPopup   = timeDiv
+                        ? parseInt(timeDiv.querySelector('select:first-of-type').value)
+                        : selectedHour;
+                    const currentMinuteInPopup = timeDiv
+                        ? parseInt(timeDiv.querySelector('select:last-of-type').value)
+                        : selectedMinute;
+
+                    renderCalendar(container, year, month, day,
+                                   currentHourInPopup, currentMinuteInPopup, mindate, maxdate, step, onSelect);
                 });
             }
-
             grid.appendChild(cell);
         }
 
