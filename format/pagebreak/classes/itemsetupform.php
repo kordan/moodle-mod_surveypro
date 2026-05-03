@@ -49,10 +49,10 @@ class itemsetupform extends item_setupbaseform
         // Start with common section of the form.
         parent::definition();
 
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        // Useless: $item = $this->_customdata['item'];
 
         $this->add_item_buttons();
     }

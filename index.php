@@ -52,7 +52,7 @@ $PAGE->navbar->add($strsurveypro, new \moodle_url('/mod/surveypro/index.php', ['
 $titleparts = [$strdataplural, format_string($course->fullname)];
 $PAGE->set_title(implode(moodle_page::TITLE_SEPARATOR, $titleparts));
 $PAGE->set_heading($course->fullname);
-// Is it useful? $PAGE->add_body_class('mediumwidth');.
+// Is it useful? $PAGE->add_body_class('mediumwidth');
 
 // Output starts here.
 echo $OUTPUT->header();

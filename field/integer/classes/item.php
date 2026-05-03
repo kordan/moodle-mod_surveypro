@@ -632,7 +632,7 @@ EOS;
      * @return array
      */
     public function userform_get_parent_disabilitation_info($childparentvalue) {
-        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;.
+        $parentvalues = explode(SURVEYPRO_DBMULTICONTENTSEPARATOR, $childparentvalue); // 1;1;0;
 
         $disabilitationinfo = [];
         $mformelementinfo = new \stdClass();

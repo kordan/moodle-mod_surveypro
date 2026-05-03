@@ -1374,7 +1374,7 @@ class view_responselist
 
         $parts[] = $OUTPUT->render($menu);
 
-        // ── Wrapper flex ─────────────────────────────────────
+        // Wrapper flex.
         // gap-0 removes the extra space between slots; alignment
         // is ensured by the fixed widths of the inner spans.
         return \html_writer::tag(
@@ -2150,7 +2150,7 @@ class view_responselist
             // Second column.
             $content = $item->get_content();
             $content = $this->replace_http_url($content);
-            // I still don't understand if I need: $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');.
+            // I still don't understand if I need: $content = htmlspecialchars($content, ENT_NOQUOTES, 'UTF-8');
             $html = str_replace('@@col2@@', $content, $html);
 
             if ($template == SURVEYPRO_3COLUMNSTEMPLATE) {

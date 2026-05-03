@@ -34,9 +34,9 @@ defined('MOODLE_INTERNAL') || die();
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\view_responsesubmit::class)]
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\formbase::class)]
 final class view_responsesubmit_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Create a minimal surveypro activity and return [$cm, $surveypro, $context].
@@ -74,9 +74,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         return $manager;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for resolve_ownership()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for resolve_ownership().
+     *************************************************************************/
 
     /**
      * When submissionid is 0 (new submission), both flags must be false.
@@ -224,9 +224,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $manager->call_resolve_ownership();
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_access_allowed()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_access_allowed().
+     *************************************************************************/
 
     /**
      * NEWRESPONSEMODE: a user with submit capability must be allowed.
@@ -328,9 +328,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertFalse($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_access_allowed refactoring helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_access_allowed refactoring helpers.
+     *************************************************************************/
 
     /**
      * Edit mode helper must deny when submission is null.
@@ -420,9 +420,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertTrue($manager->call_is_readonly_access_allowed(false, true, $submission, $capabilities));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for build_itemhelperinfo()
-    // -------------------------------------------------------------------------
+    /**
+     *  Tests for build_itemhelperinfo().
+     */
 
     /**
      * A single simple element must produce one entry in itemhelperinfo
@@ -585,9 +585,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertArrayHasKey(203, $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_required_items()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_required_items().
+     *************************************************************************/
 
     /**
      * A surveypro with no items must return an empty array.
@@ -721,9 +721,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertObjectNotHasProperty('reserved', $item);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for formbase getters and setters
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for formbase getters and setters.
+     *************************************************************************/
 
     /**
      * set_submissionid() and get_submissionid() must work correctly.
@@ -809,9 +809,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertEquals(1, $manager->get_overflowpage());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_message()
-    // -------------------------------------------------------------------------
+    /**
+     *  Tests for get_message().
+     */
 
     public function test_get_message_default(): void {
         global $COURSE;
@@ -863,9 +863,9 @@ final class view_responsesubmit_test extends \advanced_testcase {
         $this->assertStringNotContainsString('{LASTNAME}', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_mode()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_mode().
+     *************************************************************************/
 
     /**
      * get_mode() must return the mode set via set_mode_for_test().

@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\utemplate_base::class)]
 final class utemplate_base_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate utemplate_base with minimal dependencies.
@@ -50,9 +50,9 @@ final class utemplate_base_test extends \advanced_testcase {
         return new utemplate_base($cm, $context, $surveypro);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_label_forcontextid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_label_forcontextid().
+     *************************************************************************/
 
     /**
      * CONTEXT_SYSTEM must return the system label.
@@ -115,9 +115,9 @@ final class utemplate_base_test extends \advanced_testcase {
         $this->assertEquals(get_string('user'), $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_sharingcontexts()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_sharingcontexts().
+     *************************************************************************/
 
     /**
      * get_sharingcontexts() must return a non-empty array.

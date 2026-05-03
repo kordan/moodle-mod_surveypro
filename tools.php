@@ -110,7 +110,7 @@ if ($section == 'export') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('tools_export', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -175,7 +175,7 @@ if ($section == 'import') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('tools_import', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.

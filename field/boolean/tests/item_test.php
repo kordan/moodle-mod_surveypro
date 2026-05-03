@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_boolean\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyprofield_boolean\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_friendlyformat()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_friendlyformat().
+     *************************************************************************/
 
     /**
      * get_friendlyformat() must return strfbool01.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('strfbool01', $item->get_friendlyformat());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_downloadformats()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_downloadformats().
+     *************************************************************************/
 
     /**
      * get_downloadformats() must return an array with 10 entries.
@@ -86,9 +86,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('strfbool01', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return an array with expected keys.
@@ -101,9 +101,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_boolean', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -115,9 +115,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for parent_encode_child_parentcontent()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for parent_encode_child_parentcontent().
+     *************************************************************************/
 
     /**
      * parent_encode_child_parentcontent() with value '0' must return '0'.
@@ -150,9 +150,9 @@ final class item_test extends \advanced_testcase {
         $this->assertStringContainsString('garbage', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for parent_decode_child_parentvalue()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for parent_decode_child_parentvalue().
+     *************************************************************************/
 
     /**
      * parent_decode_child_parentvalue() with '0' must return '0'.
@@ -187,9 +187,9 @@ final class item_test extends \advanced_testcase {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for parent_validate_child_constraints()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for parent_validate_child_constraints().
+     *************************************************************************/
 
     /**
      * parent_validate_child_constraints() with '0' must return SURVEYPRO_CONDITIONOK.
@@ -231,9 +231,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_CONDITIONMALFORMED, $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Edge cases for parent_encode_child_parentcontent()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Edge cases for parent_encode_child_parentcontent().
+     *************************************************************************/
 
     /**
      * Encoding an empty string must return an empty string.
@@ -268,9 +268,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('0', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Edge cases for parent_decode_child_parentvalue()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Edge cases for parent_decode_child_parentvalue().
+     *************************************************************************/
 
     /**
      * Decoding with garbage after '>' must include the garbage label in result.
@@ -306,9 +306,9 @@ final class item_test extends \advanced_testcase {
         $this->assertStringContainsString('garbage', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Edge cases for parent_validate_child_constraints()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Edge cases for parent_validate_child_constraints().
+     *************************************************************************/
 
     /**
      * Parentvalue with '>' and exactly 2 parts must return SURVEYPRO_CONDITIONNEVERMATCH.

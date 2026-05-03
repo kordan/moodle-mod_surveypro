@@ -33,9 +33,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\layout_itemlist::class)]
 final class layout_itemlist_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate layout_itemlist with minimal dependencies.
@@ -52,9 +52,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         return [$manager, $surveypro, $cm];
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for setters
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for setters.
+     *************************************************************************/
 
     /**
      * All setters must execute without errors.
@@ -82,9 +82,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         $this->assertTrue(true);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_children()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_children().
+     *************************************************************************/
 
     /**
      * get_children() with non-array $where must throw moodle_exception.
@@ -150,9 +150,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         $this->assertArrayHasKey($itemid, $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_children() refactoring helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_children() refactoring helpers.
+     *************************************************************************/
 
     /**
      * normalize_children_request() must fallback to rootitemid and empty where.
@@ -183,9 +183,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         $manager->call_normalize_children_request(99, 'invalid');
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for setup_items_table()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for setup_items_table().
+     *************************************************************************/
 
     /**
      * setup_items_table() must return a flexible_table instance.
@@ -226,9 +226,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         $this->assertEquals('manageitems', $table->attributes['id']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_action_icons()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_action_icons().
+     *************************************************************************/
 
     /**
      * get_action_icons() in CHANGEORDERASK mode must return empty string.
@@ -273,9 +273,9 @@ final class layout_itemlist_test extends \advanced_testcase {
         $this->assertNotEmpty($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for build_item_row()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for build_item_row().
+     *************************************************************************/
 
     /**
      * build_item_row() must return an array with exactly 9 elements.

@@ -52,7 +52,7 @@ class itemsetupform extends item_setupbaseform
         $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        // Useless: $item = $this->_customdata['item'];
 
         // Item: maxfiles.
         $fieldname = 'maxfiles';
@@ -91,7 +91,7 @@ class itemsetupform extends item_setupbaseform
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $item = $this->_customdata['item'];.
+        // Useless: $item = $this->_customdata['item'];
 
         $errors = parent::validation($data, $files);
 

@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\tools_export::class)]
 final class tools_export_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate tools_export with minimal dependencies.
@@ -72,9 +72,9 @@ final class tools_export_test extends \advanced_testcase {
         return $formdata;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_export_filename()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_export_filename().
+     *************************************************************************/
 
     /**
      * get_export_filename() must return a non-empty string.
@@ -149,9 +149,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertStringContainsString('verbose', $filename);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for are_attachments_onboard()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for are_attachments_onboard().
+     *************************************************************************/
 
     /**
      * are_attachments_onboard() must return false when no fileupload items exist.
@@ -179,9 +179,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertTrue($export->are_attachments_onboard());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for attachments_define_packagename()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for attachments_define_packagename().
+     *************************************************************************/
 
     /**
      * attachments_define_packagename() with type user must return a string ending with _by_user.
@@ -225,9 +225,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertLessThanOrEqual(80, strlen($name));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for export_add_ownerid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for export_add_ownerid().
+     *************************************************************************/
 
     /**
      * export_add_ownerid() must return userid when not anonymous.
@@ -263,9 +263,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertEmpty($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for export_add_names()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for export_add_names().
+     *************************************************************************/
 
     /**
      * export_add_names() must return names when not anonymous and includenames is set.
@@ -322,9 +322,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertEmpty($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for export_add_dates()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for export_add_dates().
+     *************************************************************************/
 
     /**
      * export_add_dates() must return empty array when includedates is not set.
@@ -410,9 +410,9 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertIsString($result['timemodified']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for export_begin_newrecord()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for export_begin_newrecord().
+     *************************************************************************/
 
     /**
      * export_begin_newrecord() must return a record with placeholders.

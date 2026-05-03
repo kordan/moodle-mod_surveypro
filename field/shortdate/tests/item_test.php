@@ -33,9 +33,9 @@ use surveyprofield_shortdate\tests\shortdate_item_test_helper;
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_shortdate\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate shortdate_item_test_helper with minimal dependencies.
@@ -51,9 +51,9 @@ final class item_test extends \advanced_testcase {
         return new shortdate_item_test_helper($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_shortdate_to_unix_time()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_shortdate_to_unix_time().
+     *************************************************************************/
 
     /**
      * item_shortdate_to_unix_time() must return an integer.
@@ -88,9 +88,9 @@ final class item_test extends \advanced_testcase {
         $this->assertGreaterThan($date1, $date2);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_composite_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_composite_fields().
+     *************************************************************************/
 
     /**
      * get_composite_fields() must return the expected fields.
@@ -105,9 +105,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('upperbound', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_friendlyformat()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_friendlyformat().
+     *************************************************************************/
 
     /**
      * get_friendlyformat() must return strftime01.
@@ -117,9 +117,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('strftime01', $item->get_friendlyformat());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_downloadformats()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_downloadformats().
+     *************************************************************************/
 
     /**
      * get_downloadformats() must return an array with 7 entries.
@@ -142,9 +142,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('unixtime', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -157,9 +157,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_shortdate', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.

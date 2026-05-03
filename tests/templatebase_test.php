@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\templatebase::class)]
 final class templatebase_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate mtemplate_base with minimal dependencies.
@@ -50,9 +50,9 @@ final class templatebase_test extends \advanced_testcase {
         return new mtemplate_base($cm, $context, $surveypro);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for set_xmlvalidationoutcome() and get_xmlvalidationoutcome()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for set_xmlvalidationoutcome() and get_xmlvalidationoutcome().
+     *************************************************************************/
 
     /**
      * set_xmlvalidationoutcome() with null must set an empty stdClass.
@@ -95,9 +95,9 @@ final class templatebase_test extends \advanced_testcase {
         $this->assertEquals('missingitemtype', $result->key);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_table_structure()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_table_structure().
+     *************************************************************************/
 
     /**
      * Without type and plugin it must return the fields of surveypro_item table.
@@ -145,9 +145,9 @@ final class templatebase_test extends \advanced_testcase {
         $this->assertEmpty($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_subplugin_versions()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_subplugin_versions().
+     *************************************************************************/
 
     /**
      * get_subplugin_versions() must return a non-empty array.
@@ -174,9 +174,9 @@ final class templatebase_test extends \advanced_testcase {
         $this->assertArrayHasKey('format_label', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for validate_xml()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for validate_xml().
+     *************************************************************************/
 
     /**
      * Valid XML must produce no validation errors.

@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\mtemplate_apply::class)]
 final class mtemplate_apply_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate mtemplate_apply with minimal dependencies.
@@ -49,9 +49,9 @@ final class mtemplate_apply_test extends \advanced_testcase {
         return new mtemplate_apply($cm, $context, $surveypro);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_mtemplates()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_mtemplates().
+     *************************************************************************/
 
     /**
      * get_mtemplates() must return an array.
@@ -98,9 +98,9 @@ final class mtemplate_apply_test extends \advanced_testcase {
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for set_mastertemplate()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for set_mastertemplate().
+     *************************************************************************/
 
     /**
      * set_mastertemplate() must execute without errors.

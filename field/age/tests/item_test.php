@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_age\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyprofield_age\item with minimal dependencies.
@@ -48,9 +48,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_age_to_unix_time()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_age_to_unix_time().
+     *************************************************************************/
 
     /**
      * item_age_to_unix_time() must return an integer.
@@ -92,9 +92,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals($month, $result['mon']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_split_unix_time()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_split_unix_time().
+     *************************************************************************/
 
     /**
      * item_split_unix_time() must return an array with year and mon keys.
@@ -124,9 +124,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(0, $result['mon']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_age_to_text()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_age_to_text().
+     *************************************************************************/
 
     /**
      * item_age_to_text() with only years must return years string.
@@ -172,9 +172,9 @@ final class item_test extends \advanced_testcase {
         $this->assertStringContainsString(get_string('months', 'surveyprofield_age'), $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_composite_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_composite_fields().
+     *************************************************************************/
 
     /**
      * get_composite_fields() must return the expected fields.
@@ -191,9 +191,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('upperbound', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return an array with surveypro_item key.
@@ -208,9 +208,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_age', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.

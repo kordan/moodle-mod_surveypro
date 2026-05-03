@@ -115,7 +115,7 @@ class filterform extends \moodleform
      */
     public function validation($data, $files) {
         // Get _customdata.
-        // Useless: $surveypro = $this->_customdata->surveypro;.
+        // Useless: $surveypro = $this->_customdata->surveypro;
 
         $errors = parent::validation($data, $files);
 

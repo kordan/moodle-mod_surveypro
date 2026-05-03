@@ -100,7 +100,7 @@ if ($section == 'save') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('mtemplate_save', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -161,7 +161,7 @@ if ($section == 'apply') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('mtemplate_apply', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
