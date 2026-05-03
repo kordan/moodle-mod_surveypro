@@ -621,7 +621,7 @@ class mtemplate_save extends mtemplate_base
             foreach ($multilangfields as $multilangfield) {
                 // 1b: Is the field that is going to be assigned belongs to the multilang fields of this plugin?
                 if (in_array($field, $multilangfield)) {
-                    $key = $plugin . '_' . $field; // For instance: boolean_content
+                    $key = $plugin . '_' . $field; // For instance: boolean_content.
 
                     if (isset($this->langtree[$key])) { // Langtree has already been defined.
                         $index = count($this->langtree[$key]);

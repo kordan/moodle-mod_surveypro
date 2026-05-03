@@ -100,11 +100,11 @@ class utemplate_applyform extends \moodleform
      * @return array $errors
      */
     public function validation($data, $files) {
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
-        // Useless: $inlineform = $this->_customdata->inlineform;.
-        // Useless: $utemplates = $this->_customdata->utemplates;.
+        // Useless: $inlineform = $this->_customdata->inlineform;
+        // Useless: $utemplates = $this->_customdata->utemplates;
 
         $errors = parent::validation($data, $files);
 

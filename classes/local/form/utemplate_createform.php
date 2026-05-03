@@ -115,11 +115,11 @@ class utemplate_createform extends \moodleform
      * @return array $errors
      */
     public function validation($data, $files) {
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
         $saveman = $this->_customdata->saveman;
-        // Useless: $defaultname = $this->_customdata->defaultname;.
+        // Useless: $defaultname = $this->_customdata->defaultname;
 
         $errors = parent::validation($data, $files);
 

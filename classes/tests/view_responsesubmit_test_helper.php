@@ -123,9 +123,9 @@ class view_responsesubmit_test_helper extends \mod_surveypro\view_responsesubmit
         $this->mode = $mode;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_message()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_message().
+     *************************************************************************/
 
     /**
      * get_message() without mailcontent must return the default newsubmissionbody string.
@@ -181,9 +181,9 @@ class view_responsesubmit_test_helper extends \mod_surveypro\view_responsesubmit
         $this->assertStringNotContainsString('{LASTNAME}', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_mode()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_mode().
+     *************************************************************************/
 
     /**
      * get_mode() must return the mode set via set_mode_for_test().

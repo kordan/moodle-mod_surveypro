@@ -148,7 +148,7 @@ if ($section == 'preview') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout_preview', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -297,7 +297,7 @@ if ($section == 'itemslist') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout_items', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -412,7 +412,7 @@ if ($section == 'itemsetup') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout_itemsetup', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Begin of: define $itemform return url.
@@ -491,7 +491,7 @@ if ($section == 'branchingvalidation') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('layout_branchingvalidation', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.

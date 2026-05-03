@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\tools_import::class)]
 final class tools_import_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate tools_import with minimal dependencies.
@@ -75,9 +75,9 @@ final class tools_import_test extends \advanced_testcase {
         return $itemhelper;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for are_headers_unique()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for are_headers_unique().
+     *************************************************************************/
 
     /**
      * are_headers_unique() must return false when all headers are unique.
@@ -108,9 +108,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals('import_duplicateheader', $result->key);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for are_headers_matching()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for are_headers_matching().
+     *************************************************************************/
 
     /**
      * are_headers_matching() must return false when no non-matching headers exist.
@@ -140,9 +140,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertStringContainsString('unknowncolumn', $result->a);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_valid_userid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_valid_userid().
+     *************************************************************************/
 
     /**
      * is_valid_userid() must return false for a valid numeric userid.
@@ -184,9 +184,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals('notanumber', $result->a);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_valid_creationtime()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_valid_creationtime().
+     *************************************************************************/
 
     /**
      * is_valid_creationtime() must return false for a valid timestamp.
@@ -227,9 +227,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals('import_invalidtimecreated', $result->key);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_valid_modificationtime()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_valid_modificationtime().
+     *************************************************************************/
 
     /**
      * is_valid_modificationtime() must return false for a valid timestamp.
@@ -267,9 +267,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals('import_invalidtimemodified', $result->key);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_default_status()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_default_status().
+     *************************************************************************/
 
     /**
      * get_default_status() must return CLOSED when all required items are provided.
@@ -316,9 +316,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_STATUSCLOSED, $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_string_notempty()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_string_notempty().
+     *************************************************************************/
 
     /**
      * is_string_notempty() must return false for a non-empty value.
@@ -367,9 +367,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals('import_noanswertorequired', $result->key);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for are_positions_valid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for are_positions_valid().
+     *************************************************************************/
 
     /**
      * are_positions_valid() must return false for a valid position.
@@ -430,9 +430,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertFalse($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for is_maxentries_respected()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for is_maxentries_respected().
+     *************************************************************************/
 
     /**
      * is_maxentries_respected() must return false when maxentries is 0 (unlimited).
@@ -520,9 +520,9 @@ final class tools_import_test extends \advanced_testcase {
         $this->assertEquals(4, $result->a->totalentries);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_columntoitemid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_columntoitemid().
+     *************************************************************************/
 
     /**
      * get_columntoitemid() must map matching headers to item ids.

@@ -31,9 +31,9 @@ use mod_surveypro\tests\layout_branchingvalidation_test_helper;
  * Unit tests per la classe layout_branchingvalidation.
  */
 final class layout_branchingvalidation_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate layout_itemlist with minimal dependencies.
@@ -50,9 +50,9 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
         return [$manager, $surveypro, $cm];
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for setup_relations_table()
-    // -------------------------------------------------------------------------
+    /**
+     *  Tests for setup_relations_table().
+     */
 
     /**
      * setup_relations_table() must return a flexible_table instance.
@@ -82,9 +82,9 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
         $this->assertEquals('validaterelations', $table->attributes['id']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_relation_status_cell()
-    // -------------------------------------------------------------------------
+    /**
+     *  Tests for get_relation_status_cell().
+     */
 
     /**
      * get_relation_status_cell() without parentid must return '-'.
@@ -182,9 +182,9 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
         $this->assertStringContainsString('class="errormessage"', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for build_relation_row()
-    // -------------------------------------------------------------------------
+    /**
+     *  Tests for build_relation_row().
+     */
 
     /**
      * build_relation_row() must return an array with exactly 8 elements.

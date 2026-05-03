@@ -212,19 +212,19 @@ class response_submitform extends \moodleform
             return [];
         }
 
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
         $cm = $this->_customdata->cm;
-        // Useless: $mode = $this->_customdata->mode;.
+        // Useless: $mode = $this->_customdata->mode;
         $surveypro = $this->_customdata->surveypro;
-        // Useless: $submissionid = $this->_customdata->submissionid;.
-        // Useless: $userformpagecount = $this->_customdata->userformpagecount;.
-        // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;.
-        // Useless: $formpage = $this->_customdata->formpage;.
-        // Useless: $userfirstpage = $this->_customdata->userfirstpage;.
-        // Useless: $userlastpage = $this->_customdata->userlastpage;.
-        // Useless: $overflowpage = $this->_customdata->overflowpage;.
+        // Useless: $submissionid = $this->_customdata->submissionid;
+        // Useless: $userformpagecount = $this->_customdata->userformpagecount;
+        // Useless: $canaccessreserveditems = $this->_customdata->canaccessreserveditems;
+        // Useless: $formpage = $this->_customdata->formpage;
+        // Useless: $userfirstpage = $this->_customdata->userfirstpage;
+        // Useless: $userlastpage = $this->_customdata->userlastpage;
+        // Useless: $overflowpage = $this->_customdata->overflowpage;
         $mode = $this->_customdata->mode;
 
         if ($mode == SURVEYPRO_PREVIEWMODE) {
@@ -275,8 +275,8 @@ class response_submitform extends \moodleform
                 }
 
                 // Otherwise...
-                // Code: echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;.
-                // Code: echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';.
+                // Code: echo 'parent item doesn\'t allow the validation of the child item '.$item->itemid;
+                // Code: echo ', plugin = '.$item->plugin.'('.$item->content.')<br>';
             }
         }
 

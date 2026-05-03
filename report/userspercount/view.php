@@ -59,7 +59,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_userspercount'));
-// Is it useful? $PAGE->add_body_class('mediumwidth');.
+// Is it useful? $PAGE->add_body_class('mediumwidth');
 
 $utilitypageman->manage_editbutton($edit);
 

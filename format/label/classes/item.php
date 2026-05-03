@@ -181,7 +181,7 @@ class item extends itembase
      */
     public function item_add_fields_default_to_child_table(&$record) {
         $record->fullwidth = 0;
-        // $record->leftlabel
+        // $record->leftlabel.
     }
 
     // MARK set.

@@ -167,7 +167,7 @@ abstract class itembase
      */
     protected $timemodified;
 
-    // Service variables
+    // Service variables.
 
     /**
      * @var string Basename of the field as it is in the out form
@@ -821,7 +821,7 @@ abstract class itembase
 
             // It may be that now $this->content contains, now, '@@PLUGINFILE@@/' that did not contain before.
             if (strpos($this->content, '@@PLUGINFILE@@/')) {
-                // Am I sure the file is already into SURVEYPRO_ITEMCONTENTFILEAREA
+                // Am I sure the file is already into SURVEYPRO_ITEMCONTENTFILEAREA.
                 $fs = get_file_storage();
                 $templateman = new templatebase($this->cm, $this->context, $this->surveypro);
 
@@ -862,7 +862,7 @@ abstract class itembase
             }
         }
 
-        // As promised at the beginning of this method:
+        // As promised at the beginning of this method.
         $DB->set_field('surveypro', 'template', $template, ['id' => $surveyproid]);
     }
 
@@ -1580,7 +1580,7 @@ abstract class itembase
      * @return the content of $hidden property
      */
     public function get_hidden() {
-        // This property is common to EACH item plugin
+        // This property is common to EACH item plugin.
         $return = ((empty($this->hidden)) || ($this->hidden == 0)) ? 0 : 1;
 
         return $return;
@@ -1592,7 +1592,7 @@ abstract class itembase
      * @return the content of $insearchform property
      */
     public function get_insearchform() {
-        // This property is common to EACH item plugin
+        // This property is common to EACH item plugin.
         $return = ((empty($this->insearchform)) || ($this->insearchform == 0)) ? 0 : 1;
 
         return $return;
@@ -1604,7 +1604,7 @@ abstract class itembase
      * @return the content of $reserved property
      */
     public function get_reserved() {
-        // This property is common to EACH item plugin
+        // This property is common to EACH item plugin.
         $return = ((empty($this->reserved)) || ($this->reserved == 0)) ? 0 : 1;
 
         return $return;
@@ -1803,7 +1803,7 @@ abstract class itembase
      * @return the content of $hideinstructions property whether defined
      */
     public function get_hideinstructions() {
-        // It may be not set in some plugin item
+        // It may be not set in some plugin item.
         if (isset($this->hideinstructions)) {
             $return = empty($this->hideinstructions) ? 0 : 1;
         } else {

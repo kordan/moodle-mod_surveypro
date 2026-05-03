@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyproformat_label\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyproformat_label\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for has_mandatoryattribute()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for has_mandatoryattribute().
+     *************************************************************************/
 
     /**
      * has_mandatoryattribute() must return false for label.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse(item::has_mandatoryattribute());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_pdf_template()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_pdf_template().
+     *************************************************************************/
 
     /**
      * get_pdf_template() must return SURVEYPRO_2COLUMNSTEMPLATE.
@@ -73,9 +73,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_2COLUMNSTEMPLATE, item::get_pdf_template());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_indent()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_indent().
+     *************************************************************************/
 
     /**
      * get_indent() must return false when fullwidth is true.
@@ -98,9 +98,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(2, $item->get_indent());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -145,9 +145,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('leftlabel', $result['surveyproformat_label']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -159,9 +159,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for getter/setter pairs
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for getter/setter pairs.
+     *************************************************************************/
 
     /**
      * set_fullwidth() and get_fullwidth() must work correctly.
@@ -183,9 +183,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('My label', $item->get_leftlabel());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for insetupform overrides
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for insetupform overrides.
+     *************************************************************************/
 
     /**
      * label must disable specific fields in insetupform.

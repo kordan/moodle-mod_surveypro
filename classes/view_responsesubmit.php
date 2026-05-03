@@ -184,7 +184,7 @@ class view_responsesubmit extends formbase
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
         // Useless: $nextbutton = isset($this->formdata->nextbutton);
         $pausebutton = isset($this->formdata->pausebutton);
-        // Useless: $prevbutton = isset($this->formdata->prevbutton);.
+        // Useless: $prevbutton = isset($this->formdata->prevbutton);
         if ($saveasnewbutton) {
             $this->formdata->submissionid = 0;
         }

@@ -76,7 +76,7 @@ $PAGE->set_cm($cm);
 $PAGE->set_title($surveypro->name);
 $PAGE->set_heading($course->shortname);
 $PAGE->navbar->add(get_string('reports', 'mod_surveypro'), $url);
-// Is it useful? $PAGE->add_body_class('mediumwidth');.
+// Is it useful? $PAGE->add_body_class('mediumwidth');
 
 // Output starts here.
 echo $OUTPUT->header();
