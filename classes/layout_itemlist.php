@@ -462,7 +462,7 @@ class layout_itemlist
 
         $parts = [];
 
-        // ── SLOT 1: Required toggle / forced-optional
+        // SLOT 1: Required toggle / forced-optional.
         $classname = 'surveypro' . $item->get_type() . '_' . $item->get_plugin() . '\item';
         if ($classname::has_mandatoryattribute()) {
             if ($item->item_canbesettomandatory()) {
@@ -488,7 +488,7 @@ class layout_itemlist
         }
         $parts[] = \html_writer::tag('span', $inner, ['class' => 'surveypro-action-slot']);
 
-        // ── SLOT 2: Indentation value
+        // SLOT 2: Indentation value.
         if ($item->get_insetupform('indent')) {
             $currentindent = $item->get_indent();
             $parts[] = \html_writer::tag('span', '[' . $currentindent . ']', [
@@ -497,7 +497,7 @@ class layout_itemlist
             ]);
         }
 
-        // ── SLOT 3: Action menu ⋮
+        // SLOT 3: Action menu ⋮.
         $menu = new \action_menu();
         $menu->set_kebab_trigger(get_string('actions'));
         $menu->set_boundary('window');
@@ -625,7 +625,7 @@ class layout_itemlist
 
         $parts[] = $OUTPUT->render($menu);
 
-        // ── Wrapper flex
+        // Wrapper flex.
         return \html_writer::tag(
             'div',
             implode('', $parts),

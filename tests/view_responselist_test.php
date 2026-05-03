@@ -33,9 +33,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\view_responselist::class)]
 final class view_responselist_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate view_responselist_test_helper with minimal dependencies.
@@ -126,9 +126,9 @@ final class view_responselist_test extends \advanced_testcase {
         return $submission;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_columns_width()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_columns_width().
+     *************************************************************************/
 
     /**
      * The sum of the three column widths must equal 100%.
@@ -141,9 +141,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertEqualsWithDelta(100.0, $col1 + $col2 + $col3, 0.01);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_header_text()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_header_text().
+     *************************************************************************/
 
     /**
      * The header text must contain the formatted timecreated date.
@@ -158,9 +158,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertStringContainsString(userdate($timecreated), $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_border_style()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_border_style().
+     *************************************************************************/
 
     /**
      * The border style must have a 'T' key with the expected sub-keys.
@@ -176,9 +176,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertArrayHasKey('color', $border['T']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_columns_html()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_columns_html().
+     *************************************************************************/
 
     /**
      * The two-column template must contain the @@col1@@ and @@col2@@ placeholders.
@@ -208,9 +208,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertStringContainsString('@@col3@@', $threecols);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_row_permissions()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_row_permissions().
+     *************************************************************************/
 
     /**
      * Owner + inprogress: view=false, edit=true, downloadpdf=false.
@@ -352,9 +352,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertCount(5, $permissions);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for submissions table refactoring helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for submissions table refactoring helpers.
+     *************************************************************************/
 
     /**
      * Table state must show owner columns when capability allows it.
@@ -503,9 +503,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertFalse($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_submissions_sql()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_submissions_sql().
+     *************************************************************************/
 
     /**
      * A student without seeotherssubmissions must get a SQL filtered on his own userid.
@@ -601,9 +601,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertEquals('Mario', $params['firstname']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_counter()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_counter().
+     *************************************************************************/
 
     /**
      * With no submissions the counters must all be zero.
@@ -711,9 +711,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertGreaterThanOrEqual(4, $counter['enrolled']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for prevent_direct_user_input()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for prevent_direct_user_input().
+     *************************************************************************/
 
     /**
      * NOACTION must return without throwing.
@@ -817,9 +817,9 @@ final class view_responselist_test extends \advanced_testcase {
         $manager->call_prevent_direct_user_input(SURVEYPRO_UNCONFIRMED);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for prevent_direct_user_input refactoring helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for prevent_direct_user_input refactoring helpers.
+     *************************************************************************/
 
     /**
      * NOACTION should skip direct user input check.
@@ -983,9 +983,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertTrue($allowed);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_submissions_overview_data()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_submissions_overview_data().
+     *************************************************************************/
 
     /**
      * With no submissions all messages must be null and allsubmissions must be 0.
@@ -1130,9 +1130,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertNotNull($data['totalmessage']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for trigger_event()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for trigger_event().
+     *************************************************************************/
 
     /**
      * trigger_event() must fire the all_submissions_viewed event.
@@ -1167,9 +1167,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertEquals($manager->get_surveypro()->id, $events[0]->objectid);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for replace_http_url()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for replace_http_url().
+     *************************************************************************/
 
     /**
      * Content without any pluginfile URL must be returned unchanged.
@@ -1229,9 +1229,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertEquals('', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_image_file()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_image_file().
+     *************************************************************************/
 
     /**
      * A URL not containing pluginfile.php must return null.
@@ -1278,9 +1278,9 @@ final class view_responselist_test extends \advanced_testcase {
         $this->assertNull($result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_sqlanswer()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_sqlanswer().
+     *************************************************************************/
 
     /**
      * get_sqlanswer() with one search restriction must return SQL with HAVING matchcount = 1.

@@ -249,7 +249,7 @@ class utemplate_save extends utemplate_base
             $this->templatename .= '.xml';
         }
         $xmlcontent = $this->write_template_content($this->formdata->visiblesonly);
-        // Debug: echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';.
+        // Debug: echo '<textarea rows="80" cols="100">'.$xmlcontent.'</textarea>';
 
         $fs = get_file_storage();
         $filerecord = new \stdClass();

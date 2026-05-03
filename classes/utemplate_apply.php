@@ -133,7 +133,7 @@ class utemplate_apply extends utemplate_base
         $templatecontent = $this->get_utemplate_content();
 
         $simplexml = new \SimpleXMLElement($templatecontent);
-        // Debug: echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';.
+        // Debug: echo '<h2>Items saved in the file ('.count($simplexml->item).')</h2>';
 
         if (!$sortindexoffset = $DB->get_field('surveypro_item', 'MAX(sortindex)', ['surveyproid' => $this->surveypro->id])) {
             $sortindexoffset = 0;
@@ -185,8 +185,8 @@ class utemplate_apply extends utemplate_base
 
                     // Tag <parent> always belong to surveypro_item table.
                     if ($xmltag == 'parent') {
-                        // Debug: $label = 'Count of attributes of the field '.$xmltag;.
-                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
+                        // Debug: $label = 'Count of attributes of the field '.$xmltag;
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';
                         foreach ($xmlfield->children() as $xmlchildattribute) {
                             $xmltag = $xmlchildattribute->getName();
                             $fieldexists = in_array($xmltag, $tablestructure);
@@ -208,7 +208,7 @@ class utemplate_apply extends utemplate_base
                         }
 
                         // Debug: $label = 'Count of attributes of the field '.$xmltag;
-                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';.
+                        // Debug: echo '<h5>'.$label.': '.count($xmlfield->children()).'</h5>';
                         foreach ($xmlfield->children() as $xmlfileattribute) {
                             $fileattributename = $xmlfileattribute->getName();
                             if ($fileattributename == 'filename') {
@@ -219,7 +219,7 @@ class utemplate_apply extends utemplate_base
                             }
                         }
 
-                        // Debug: echo 'I need to add: "'.$filename.'" to the filearea<br>';.
+                        // Debug: echo 'I need to add: "'.$filename.'" to the filearea<br>';
 
                         // Add the file described by $filename and $filecontent to filearea.
                         // Alias, add pictures found in the utemplate to filearea.

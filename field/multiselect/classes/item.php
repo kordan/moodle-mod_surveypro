@@ -614,7 +614,7 @@ EOS;
                 $mform->addGroup($elementgroup, $basename . '_group', $elementlabel, '', false, $class);
                 // Multiselect uses a special syntax
                 // that is different from all the other mform group with disabilitation chechbox syntax.
-                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
+                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
                 $mform->disabledIf($basename . '[]', $basename . '_noanswer', 'checked');
             }
         } else {
@@ -632,7 +632,7 @@ EOS;
             if (!$this->required) {
                 // Multiselect uses a special syntax
                 // that is different from all the other mform group with disabilitation chechbox syntax.
-                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');.
+                // $mform->disabledIf($basename.'_group', $basename.'_noanswer', 'checked');
                 $mform->disabledIf($basename . '[]', $basename . '_noanswer', 'checked');
             }
             $mform->disabledIf($basename . '[]', $basename . '_ignoreme', 'checked');
@@ -760,7 +760,7 @@ EOS;
             $mformelementinfo->operator = 'neq';
             $mformelementinfo->content = $indexsubset;
             $disabilitationinfo[] = $mformelementinfo;
-            // Example: $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', [0, 2]);.
+            // Example: $mform->disabledIf('surveypro_field_select_2491', 'surveypro_field_multiselect_2490[]', 'neq', [0, 2]);
         }
 
         // If this item foresees the "No answer" checkbox, provide a directive for it too.

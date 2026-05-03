@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_rate\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyprofield_rate\item with minimal dependencies.
@@ -52,9 +52,9 @@ final class item_test extends \advanced_testcase {
         return $item;
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_left_position_allowed()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_left_position_allowed().
+     *************************************************************************/
 
     /**
      * item_left_position_allowed() must return false for rate items.
@@ -64,9 +64,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->item_left_position_allowed());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_friendlyformat()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_friendlyformat().
+     *************************************************************************/
 
     /**
      * get_friendlyformat() must return SURVEYPRO_ITEMRETURNSLABELS.
@@ -76,9 +76,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_ITEMRETURNSLABELS, $item->get_friendlyformat());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_downloadformats()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_downloadformats().
+     *************************************************************************/
 
     /**
      * get_downloadformats() must return an array with 3 entries.
@@ -103,9 +103,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey(SURVEYPRO_ITEMRETURNSPOSITION, $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -130,9 +130,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('defaultvalue', $result['surveyprofield_rate']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -144,9 +144,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for insetupform overrides
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for insetupform overrides.
+     *************************************************************************/
 
     /**
      * rate must disable insearchform in insetupform.

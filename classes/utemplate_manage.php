@@ -367,7 +367,7 @@ class utemplate_manage extends utemplate_base
         $filename = $xmlfile->get_filename();
         $content = $xmlfile->get_content();
 
-        // Debug: echo '<textarea rows="10" cols="100">'.$content.'</textarea>';.
+        // Debug: echo '<textarea rows="10" cols="100">'.$content.'</textarea>';
 
         $templatename = clean_filename('temptemplate-' . gmdate("Ymd_Hi"));
         $exportsubdir = "mod_surveypro/templateexport";

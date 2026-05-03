@@ -148,7 +148,7 @@ class item extends itembase
      * @return void
      */
     public function item_add_fields_default_to_child_table(&$record) {
-        // $record->defaultstatus
+        // $record->defaultstatus.
 
         return;
     }

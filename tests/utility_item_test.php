@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\utility_item::class)]
 final class utility_item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate utility_item with minimal dependencies.
@@ -49,9 +49,9 @@ final class utility_item_test extends \advanced_testcase {
         return new utility_item($cm, $surveypro);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for multilinetext_to_array()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for multilinetext_to_array().
+     *************************************************************************/
 
     /**
      * Null input must return an empty array.
@@ -177,9 +177,9 @@ final class utility_item_test extends \advanced_testcase {
         $this->assertEquals('2' . $separator . 'two', $result[1]);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for date_is_valid()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for date_is_valid().
+     *************************************************************************/
 
     /**
      * A valid date must return true.
@@ -253,9 +253,9 @@ final class utility_item_test extends \advanced_testcase {
         $this->assertTrue(utility_item::date_is_valid(15, 6));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_regexp()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_regexp().
+     *************************************************************************/
 
     /**
      * get_regexp() must return a non-empty string.
@@ -278,9 +278,9 @@ final class utility_item_test extends \advanced_testcase {
         $this->assertNotFalse(@preg_match($result, ''));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_item_parts()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_item_parts().
+     *************************************************************************/
 
     /**
      * A valid surveypro field element name must be parsed correctly.

@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyproformat_fieldset\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyproformat_fieldset\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for has_mandatoryattribute()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for has_mandatoryattribute().
+     *************************************************************************/
 
     /**
      * has_mandatoryattribute() must return false for fieldset.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse(item::has_mandatoryattribute());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_pdf_template()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_pdf_template().
+     *************************************************************************/
 
     /**
      * get_pdf_template() must return SURVEYPRO_2COLUMNSTEMPLATE.
@@ -73,9 +73,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_2COLUMNSTEMPLATE, item::get_pdf_template());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for insetupform overrides
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for insetupform overrides.
+     *************************************************************************/
 
     /**
      * fieldset must disable many fields in insetupform.
@@ -96,9 +96,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->insetupform['parentid']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -110,9 +110,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields() - possible bug
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields() - possible bug.
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with surveypro_item key.
@@ -126,9 +126,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveypro_item', $result);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for getter/setter
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for getter/setter.
+     *************************************************************************/
 
     /**
      * set_defaultstatus() and get_defaultstatus() must work correctly.

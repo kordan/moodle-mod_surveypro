@@ -87,12 +87,12 @@ class mtemplate_applyform extends \moodleform
     public function validation($data, $files) {
         global $CFG;
 
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
         $applyman = $this->_customdata->applyman;
-        // Useless: $mtemplates = $this->_customdata->mtemplates;.
-        // Useless: $inlineform = $this->_customdata->inlineform;.
+        // Useless: $mtemplates = $this->_customdata->mtemplates;
+        // Useless: $inlineform = $this->_customdata->inlineform;
 
         $errors = parent::validation($data, $files);
 

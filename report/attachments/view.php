@@ -74,7 +74,7 @@ if ($section == 'view') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     // End of: set $PAGE deatils.
 
     $utilitypageman->manage_editbutton($edit);
@@ -152,7 +152,7 @@ if ($section == 'details') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('pluginname', 'surveyproreport_attachments'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     // End of: set $PAGE deatils.
 
     $utilitypageman->manage_editbutton($edit);

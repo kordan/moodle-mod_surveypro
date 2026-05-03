@@ -89,7 +89,7 @@ if ($section == 'cover') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('surveypro_dashboard', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -155,7 +155,7 @@ if ($section == 'submissionslist') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('surveypro_responses', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -209,17 +209,17 @@ if ($section == 'responsesubmit') {
     $formparams->mode = $mode;
     $formparams->userformpagecount = $responsesubmitman->get_userformpagecount();
     $formparams->canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
-    $formparams->userfirstpage = $responsesubmitman->get_userfirstpage(); // The user first page
-    $formparams->userlastpage = $responsesubmitman->get_userlastpage(); // The user last page
+    $formparams->userfirstpage = $responsesubmitman->get_userfirstpage(); // The user first page.
+    $formparams->userlastpage = $responsesubmitman->get_userlastpage(); // The user last page.
     $formparams->overflowpage = $overflowpage; // Went the user to a overflow page?
     // End of: prepare params for the form.
 
     if ($begin == 1) {
         $responsesubmitman->next_not_empty_page(true, 0); // True means direction = right.
-        $nextpage = $responsesubmitman->get_nextpage(); // The page of the form to select subset of fields
+        $nextpage = $responsesubmitman->get_nextpage(); // The page of the form to select subset of fields.
         $responsesubmitman->set_formpage($nextpage);
     }
-    $formparams->formpage = $responsesubmitman->get_formpage(); // The page of the form to select subset of fields
+    $formparams->formpage = $responsesubmitman->get_formpage(); // The page of the form to select subset of fields.
     // End of: prepare params for the form.
 
     $editable = ($mode == SURVEYPRO_READONLYMODE) ? false : true;
@@ -331,7 +331,7 @@ if ($section == 'responsesubmit') {
             $message = 'Unexpected $mode = ' . $mode;
             debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.
@@ -412,7 +412,7 @@ if ($section == 'responsesearch') {
     $PAGE->set_title($surveypro->name);
     $PAGE->set_heading($course->shortname);
     $PAGE->navbar->add(get_string('surveypro_view_search', 'mod_surveypro'));
-    // Is it useful? $PAGE->add_body_class('mediumwidth');.
+    // Is it useful? $PAGE->add_body_class('mediumwidth');
     $utilitypageman->manage_editbutton($edit);
 
     // Output starts here.

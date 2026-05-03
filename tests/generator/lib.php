@@ -125,9 +125,9 @@ class mod_surveypro_generator extends testing_module_generator
         // Verify there is not any item created with this generator. Cannot apply template if so.
     }
 
-    // -------------------------------------------------------------------------
-    // Private helper
-    // -------------------------------------------------------------------------
+    /**
+     *  Private helper.
+     */
 
     /**
      * Build and insert a record in surveypro_item, then return its id.
@@ -161,9 +161,9 @@ class mod_surveypro_generator extends testing_module_generator
         return $DB->insert_record('surveypro_item', $item);
     }
 
-    // -------------------------------------------------------------------------
-    // Field items (18)
-    // -------------------------------------------------------------------------
+    /**
+     *  Field items (18).
+     */
 
     /**
      * Create a field/age item.
@@ -537,9 +537,9 @@ class mod_surveypro_generator extends testing_module_generator
         return $itemid;
     }
 
-    // -------------------------------------------------------------------------
-    // Format items (4)
-    // -------------------------------------------------------------------------
+    /**
+     *  Format items (4).
+     */
 
     /**
      * Create a format/fieldset item.

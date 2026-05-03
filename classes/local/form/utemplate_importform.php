@@ -84,11 +84,11 @@ class utemplate_importform extends \moodleform
     public function validation($data, $files) {
         global $USER;
 
-        // Useless: $mform = $this->_form;.
+        // Useless: $mform = $this->_form;
 
         // Get _customdata.
         $importman = $this->_customdata->importman;
-        // Useless: $attributes = $this->_customdata->filemanager_options;.
+        // Useless: $attributes = $this->_customdata->filemanager_options;
 
         $errors = parent::validation($data, $files);
 

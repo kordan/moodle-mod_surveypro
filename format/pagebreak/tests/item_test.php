@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyproformat_pagebreak\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyproformat_pagebreak\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for has_mandatoryattribute()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for has_mandatoryattribute().
+     *************************************************************************/
 
     /**
      * has_mandatoryattribute() must return false for pagebreak.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse(item::has_mandatoryattribute());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for item_uses_form_page()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for item_uses_form_page().
+     *************************************************************************/
 
     /**
      * item_uses_form_page() must return false for pagebreak.
@@ -73,9 +73,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->item_uses_form_page());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return an empty string for pagebreak.
@@ -85,9 +85,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('', item::get_plugin_schema());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for insetupform overrides
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for insetupform overrides.
+     *************************************************************************/
 
     /**
      * pagebreak must disable all standard fields in insetupform including content.
@@ -109,9 +109,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->insetupform['parentid']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with surveypro_item key.

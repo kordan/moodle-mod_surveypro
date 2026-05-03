@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_character\item::class)]
 final class item_test extends \advanced_testcase {
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Helpers.
+     *************************************************************************/
 
     /**
      * Instantiate surveyprofield_character\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_multilang_fields()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_multilang_fields().
+     *************************************************************************/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -74,9 +74,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('defaultvalue', $result['surveyprofield_character']);
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_plugin_schema()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_plugin_schema().
+     *************************************************************************/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -88,9 +88,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for getter/setter pairs
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for getter/setter pairs.
+     *************************************************************************/
 
     /**
      * set_trimonsave() and get_trimonsave() must work correctly.
@@ -152,9 +152,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('A0a', $item->get_patterntext());
     }
 
-    // -------------------------------------------------------------------------
-    // Tests for get_generic_property()
-    // -------------------------------------------------------------------------
+    /*************************************************************************
+     * Tests for get_generic_property().
+     *************************************************************************/
 
     /**
      * get_generic_property('pattern') with FREEPATTERN must return the pattern constant.
