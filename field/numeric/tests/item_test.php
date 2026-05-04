@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_numeric\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyprofield_numeric\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    /*************************************************************************
-     * Tests for get_international_number().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_international_number().
+    ------------------------------------------------------------------------*/
 
     /**
      * Integer string must return the same value.
@@ -130,9 +130,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('42', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -145,9 +145,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_numeric', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -159,9 +159,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    /*************************************************************************
-     * Tests for getter/setter pairs.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for getter/setter pairs.
+    ------------------------------------------------------------------------*/
 
     /**
      * set_signed() and get_signed() must work correctly.

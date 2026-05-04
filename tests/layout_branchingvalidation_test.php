@@ -31,9 +31,9 @@ use mod_surveypro\tests\layout_branchingvalidation_test_helper;
  * Unit tests per la classe layout_branchingvalidation.
  */
 final class layout_branchingvalidation_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate layout_itemlist with minimal dependencies.

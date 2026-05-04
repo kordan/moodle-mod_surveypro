@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\utility_submission::class)]
 final class utility_submission_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate utility_submission with minimal dependencies.
@@ -72,9 +72,9 @@ final class utility_submission_test extends \advanced_testcase {
         return $submission;
     }
 
-    /*************************************************************************
-     * Tests for submissions_set_status().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for submissions_set_status().
+    ------------------------------------------------------------------------*/
 
     /**
      * Setting status to closed must update the DB record.
@@ -145,9 +145,9 @@ final class utility_submission_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_STATUSCLOSED, $updated->status);
     }
 
-    /*************************************************************************
-     * Tests for get_submissions_warning().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_submissions_warning().
+    ------------------------------------------------------------------------*/
 
     /**
      * The warning message must always contain the base alert string.
@@ -220,9 +220,9 @@ final class utility_submission_test extends \advanced_testcase {
         );
     }
 
-    /*************************************************************************
-     * Tests for get_used_plugin_list().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_used_plugin_list().
+    ------------------------------------------------------------------------*/
 
     /**
      * With no items the plugin list must be empty.
@@ -286,9 +286,9 @@ final class utility_submission_test extends \advanced_testcase {
         $this->assertContains('character', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_groupmates().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_groupmates().
+    ------------------------------------------------------------------------*/
 
     /**
      * A user not in any group must get an empty groupmates list.

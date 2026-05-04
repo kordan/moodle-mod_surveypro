@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\layout_itemsetup::class)]
 final class layout_itemsetup_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate layout_itemsetup with minimal dependencies.
@@ -54,9 +54,9 @@ final class layout_itemsetup_test extends \advanced_testcase {
         return new layout_itemsetup($cm, $context, $surveypro);
     }
 
-    /*************************************************************************
-     * Tests for set_type() and get_type().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for set_type() and get_type().
+    ------------------------------------------------------------------------*/
 
     /**
      * set_type() and get_type() must work correctly.
@@ -70,9 +70,9 @@ final class layout_itemsetup_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_TYPEFIELD, $manager->get_type());
     }
 
-    /*************************************************************************
-     * Tests for set_plugin() and get_plugin().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for set_plugin() and get_plugin().
+    ------------------------------------------------------------------------*/
 
     /**
      * set_plugin() and get_plugin() must work correctly.
@@ -86,9 +86,9 @@ final class layout_itemsetup_test extends \advanced_testcase {
         $this->assertEquals('character', $manager->get_plugin());
     }
 
-    /*************************************************************************
-     * Tests for set_typeplugin().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for set_typeplugin().
+    ------------------------------------------------------------------------*/
 
     /**
      * set_typeplugin() with a valid field plugin must set type and plugin correctly.
@@ -116,9 +116,9 @@ final class layout_itemsetup_test extends \advanced_testcase {
         $this->assertEquals('label', $manager->get_plugin());
     }
 
-    /*************************************************************************
-     * Tests for set_action(), set_itemcount(), set_mode(), set_hassubmissions().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for set_action(), set_itemcount(), set_mode(), set_hassubmissions().
+    ------------------------------------------------------------------------*/
 
     /**
      * set_action() must store the value correctly.
@@ -169,9 +169,9 @@ final class layout_itemsetup_test extends \advanced_testcase {
         $this->assertTrue(true);
     }
 
-    /*************************************************************************
-     * Tests for prevent_direct_user_input().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for prevent_direct_user_input().
+    ------------------------------------------------------------------------*/
 
     /**
      * prevent_direct_user_input() must not throw when surveypro has no template.

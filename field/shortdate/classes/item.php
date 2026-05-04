@@ -27,6 +27,7 @@ namespace surveyprofield_shortdate;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
+use mod_surveypro\utility_dates;
 
 require_once($CFG->dirroot . '/mod/surveypro/field/shortdate/lib.php');
 
@@ -616,14 +617,21 @@ EOS;
         $elementgroup = [];
         $attributes = [];
         $basename = $this->itemname;
-
-        $attributes['id'] = $baseid . '_month';
-        $attributes['aria-label'] = get_string('month');
-        $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
-
-        $attributes['id'] = $baseid . '_year';
-        $attributes['aria-label'] = get_string('year');
-        $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order('strftimemonthyear'); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'month':
+                    $attributes['id'] = $baseid . '_month';
+                    $attributes['aria-label'] = get_string('month');
+                    $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
+                    break;
+                case 'year':
+                    $attributes['id'] = $baseid . '_year';
+                    $attributes['aria-label'] = get_string('year');
+                    $elementgroup[] = $mform->createElement('select', $basename . '_year', '', $years, $attributes);
+            }
+        }
 
         if ($this->required) {
             if (!$searchformelementscount) {

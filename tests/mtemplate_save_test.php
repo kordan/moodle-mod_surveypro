@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\mtemplate_save::class)]
 final class mtemplate_save_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate mtemplate_save with minimal dependencies.
@@ -54,9 +54,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         return $template;
     }
 
-    /*************************************************************************
-     * Tests for replace_package().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for replace_package().
+    ------------------------------------------------------------------------*/
 
     /**
      * replace_package() must replace templatemaster with the plugin name.
@@ -99,9 +99,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->assertEquals($content, $result);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_name().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_name().
+    ------------------------------------------------------------------------*/
 
     /**
      * A normal name must be lowercased.
@@ -189,9 +189,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->assertMatchesRegularExpression('/^[a-z][a-z0-9_]*$/', $result);
     }
 
-    /*************************************************************************
-     * Tests for add_entry_in_langtree().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for add_entry_in_langtree().
+    ------------------------------------------------------------------------*/
 
     /**
      * Adding a new entry must return the correct key.
@@ -232,9 +232,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->assertEquals('boolean_content_01', $result2);
     }
 
-    /*************************************************************************
-     * Tests for get_lang_file_content().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_lang_file_content().
+    ------------------------------------------------------------------------*/
 
     /**
      * With empty langtree get_lang_file_content() must return only newlines.
@@ -275,9 +275,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->assertStringContainsString("\\'", $result);
     }
 
-    /*************************************************************************
-     * Tests for xml_get_field_content().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for xml_get_field_content().
+    ------------------------------------------------------------------------*/
 
     /**
      * xml_get_field_content() with a non-multilang field must return the field content.
@@ -345,9 +345,9 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->assertEquals('1', $result);
     }
 
-    /*************************************************************************
-     * Tests for build_langtree().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for build_langtree().
+    ------------------------------------------------------------------------*/
 
     /**
      * build_langtree() must populate langtree with content field.
