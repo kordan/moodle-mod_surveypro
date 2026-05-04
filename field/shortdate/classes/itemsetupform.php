@@ -27,6 +27,7 @@ namespace surveyprofield_shortdate;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\local\form\item_setupbaseform;
+use mod_surveypro\utility_dates;
 
 require_once($CFG->dirroot . '/lib/formslib.php');
 require_once($CFG->dirroot . '/mod/surveypro/field/shortdate/lib.php');
@@ -84,8 +85,17 @@ class itemsetupform extends item_setupbaseform
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order('strftimemonthyear'); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', null, ' ', false);
         $mform->disabledIf($fieldname . '_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
         $mform->setDefault($fieldname . 'month', '1');
@@ -105,8 +115,15 @@ class itemsetupform extends item_setupbaseform
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_shortdate');
         $mform->setDefault($fieldname . 'month', '1');
@@ -115,8 +132,15 @@ class itemsetupform extends item_setupbaseform
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_shortdate'), ' ', false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_shortdate');
         $mform->setDefault($fieldname . 'month', '12');

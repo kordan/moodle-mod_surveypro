@@ -26,6 +26,7 @@ namespace surveyprofield_datetime;
 
 defined('MOODLE_INTERNAL') || die();
 
+use mod_surveypro\utility_dates;
 use mod_surveypro\utility_item;
 use mod_surveypro\local\form\item_setupbaseform;
 
@@ -105,9 +106,20 @@ class itemsetupform extends item_setupbaseform
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order('strftimedate'); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $elementgroup[] = $mform->createElement('select', $fieldname . 'hour', '', $hours);
         $elementgroup[] = $mform->createElement('select', $fieldname . 'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname . '_group', null, $separator, false);
@@ -132,9 +144,20 @@ class itemsetupform extends item_setupbaseform
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order(); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $elementgroup[] = $mform->createElement('select', $fieldname . 'hour', '', $hours);
         $elementgroup[] = $mform->createElement('select', $fieldname . 'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_datetime'), $separator, false);
@@ -148,9 +171,20 @@ class itemsetupform extends item_setupbaseform
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order(); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+                    break;
+                case 'year':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'year', '', $years);
+            }
+        }
         $elementgroup[] = $mform->createElement('select', $fieldname . 'hour', '', $hours);
         $elementgroup[] = $mform->createElement('select', $fieldname . 'minute', '', $minutes);
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_datetime'), $separator, false);

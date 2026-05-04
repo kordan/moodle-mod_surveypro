@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_fileupload\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyprofield_fileupload\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    /*************************************************************************
-     * Tests for insetupform overrides.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for insetupform overrides.
+    ------------------------------------------------------------------------*/
 
     /**
      * fileupload must disable hideinstructions and insearchform in insetupform.
@@ -63,9 +63,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->insetupform['insearchform']);
     }
 
-    /*************************************************************************
-     * Tests for getter/setter pairs.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for getter/setter pairs.
+    ------------------------------------------------------------------------*/
 
     /**
      * set_maxfiles() and get_maxfiles() must work correctly.
@@ -97,9 +97,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('.pdf,.docx', $item->get_filetypes());
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -112,9 +112,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_fileupload', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return valid XML.

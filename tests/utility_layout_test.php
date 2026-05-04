@@ -33,9 +33,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\utility_layout::class)]
 final class utility_layout_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate utility_layout with minimal dependencies.
@@ -78,9 +78,9 @@ final class utility_layout_test extends \advanced_testcase {
         return $submission;
     }
 
-    /*************************************************************************
-     * Tests for reset_pages().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for reset_pages().
+    ------------------------------------------------------------------------*/
 
     /**
      * reset_pages() must set formpage to 0 for all items of the surveypro.
@@ -111,9 +111,9 @@ final class utility_layout_test extends \advanced_testcase {
         }
     }
 
-    /*************************************************************************
-     * Tests for assign_pages().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for assign_pages().
+    ------------------------------------------------------------------------*/
 
     /**
      * assign_pages() with no items must return 1.
@@ -172,9 +172,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEquals(2, $result);
     }
 
-    /*************************************************************************
-     * Tests for has_items().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_items().
+    ------------------------------------------------------------------------*/
 
     /**
      * With no items has_items() must return false.
@@ -242,9 +242,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertFalse($utility->has_items(0, 'format'));
     }
 
-    /*************************************************************************
-     * Tests for has_submissions().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_submissions().
+    ------------------------------------------------------------------------*/
 
     /**
      * With no submissions has_submissions() must return false.
@@ -302,9 +302,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEquals(1, $utility->has_submissions(true, SURVEYPRO_STATUSINPROGRESS));
     }
 
-    /*************************************************************************
-     * Tests for can_submit_more().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for can_submit_more().
+    ------------------------------------------------------------------------*/
 
     /**
      * A user with submit capability and no maxentries limit can always submit more.
@@ -350,9 +350,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertFalse($utility->can_submit_more($user->id));
     }
 
-    /*************************************************************************
-     * Tests for is_newresponse_allowed().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for is_newresponse_allowed().
+    ------------------------------------------------------------------------*/
 
     /**
      * A student with submit capability and items must be allowed to add a new response.
@@ -444,9 +444,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertFalse($utility->is_newresponse_allowed(1));
     }
 
-    /*************************************************************************
-     * Tests for items_reindex().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for items_reindex().
+    ------------------------------------------------------------------------*/
 
     /**
      * items_reindex() must assign sequential sortindex starting from 1.
@@ -550,9 +550,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEquals(0, $count);
     }
 
-    /*************************************************************************
-     * Tests for has_search_items().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_search_items().
+    ------------------------------------------------------------------------*/
 
     /**
      * With no search items has_search_items() must return false.
@@ -611,9 +611,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertFalse($utility->has_search_items());
     }
 
-    /*************************************************************************
-     * Tests for delete_items().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for delete_items().
+    ------------------------------------------------------------------------*/
 
     /**
      * delete_items() must remove the item and its answers from the DB.
@@ -671,9 +671,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertTrue(true);
     }
 
-    /*************************************************************************
-     * Tests for items_set_visibility().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for items_set_visibility().
+    ------------------------------------------------------------------------*/
 
     /**
      * items_set_visibility() with visibility=0 must set hidden=1 on items.
@@ -719,9 +719,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEquals(2, $visible);
     }
 
-    /*************************************************************************
-     * Tests for has_items() refactoring helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_items() refactoring helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * build_has_items_whereparams() must include defaults and visibility filters.
@@ -754,9 +754,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertArrayNotHasKey('reserved', $where);
     }
 
-    /*************************************************************************
-     * Tests for delete_answers().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for delete_answers().
+    ------------------------------------------------------------------------*/
 
     /**
      * delete_answers() must remove the answer from the DB.
@@ -842,9 +842,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEquals(0, $DB->count_records('surveypro_answer', ['submissionid' => $submission->id]));
     }
 
-    /*************************************************************************
-     * Tests for get_user_from_answersid().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_user_from_answersid().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_user_from_answersid() must return the user of the submission.
@@ -886,9 +886,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEmpty($users);
     }
 
-    /*************************************************************************
-     * Tests for get_answers_idlist_from_answers().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_answers_idlist_from_answers().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_answers_idlist_from_answers() by submissionid must return the answer ids.
@@ -935,9 +935,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertContains($answer->id, $ids);
     }
 
-    /*************************************************************************
-     * Tests for get_submissions_idlist_from_answersid().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_submissions_idlist_from_answersid().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_submissions_idlist_from_answersid() must return the submission ids.
@@ -972,9 +972,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertEmpty($ids);
     }
 
-    /*************************************************************************
-     * Tests for get_submissionsid_from_answers().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_submissionsid_from_answers().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_submissionsid_from_answers() must return submissions matching the answer criteria.
@@ -1001,9 +1001,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertContains((string)$submission->id, $ids);
     }
 
-    /*************************************************************************
-     * Tests for drop_uploadfile_attachments().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for drop_uploadfile_attachments().
+    ------------------------------------------------------------------------*/
 
     /**
      * drop_uploadfile_attachments() with empty array must not throw.
@@ -1038,9 +1038,9 @@ final class utility_layout_test extends \advanced_testcase {
         $this->assertTrue(true);
     }
 
-    /*************************************************************************
-     * Tests for duplicate_submissions().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for duplicate_submissions().
+    ------------------------------------------------------------------------*/
 
     /**
      * duplicate_submissions() must create a copy of the submission.
@@ -1092,9 +1092,9 @@ final class utility_layout_test extends \advanced_testcase {
         }
     }
 
-    /*************************************************************************
-     * Tests for count_or_presence().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for count_or_presence().
+    ------------------------------------------------------------------------*/
 
     /**
      * count_or_presence() with returncount=true must return the count.

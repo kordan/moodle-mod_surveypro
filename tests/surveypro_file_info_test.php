@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\surveypro_file_info::class)]
 final class surveypro_file_info_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveypro_file_info with minimal dependencies.
@@ -57,9 +57,9 @@ final class surveypro_file_info_test extends \advanced_testcase {
         return new surveypro_file_info($browser, $course, $cm, $context, $areas, $filearea);
     }
 
-    /*************************************************************************
-     * Tests for is_writable().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for is_writable().
+    ------------------------------------------------------------------------*/
 
     /**
      * is_writable() must always return false.
@@ -71,9 +71,9 @@ final class surveypro_file_info_test extends \advanced_testcase {
         $this->assertFalse($fileinfo->is_writable());
     }
 
-    /*************************************************************************
-     * Tests for is_directory().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for is_directory().
+    ------------------------------------------------------------------------*/
 
     /**
      * is_directory() must always return true.
@@ -85,9 +85,9 @@ final class surveypro_file_info_test extends \advanced_testcase {
         $this->assertTrue($fileinfo->is_directory());
     }
 
-    /*************************************************************************
-     * Tests for get_params().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_params().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_params() must return an array with the expected keys.
@@ -130,9 +130,9 @@ final class surveypro_file_info_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_ITEMCONTENTFILEAREA, $params['filearea']);
     }
 
-    /*************************************************************************
-     * Tests for get_visible_name().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_visible_name().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_visible_name() must return the label corresponding to the filearea.

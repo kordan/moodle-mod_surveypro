@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\view_responsesearch::class)]
 final class view_responsesearch_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate view_responsesearch with minimal dependencies.
@@ -49,9 +49,9 @@ final class view_responsesearch_test extends \advanced_testcase {
         return new view_responsesearch($cm, $context, $surveypro);
     }
 
-    /*************************************************************************
-     * Tests for get_searchparamurl().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_searchparamurl().
+    ------------------------------------------------------------------------*/
 
     /**
      * Empty formdata must return null.
