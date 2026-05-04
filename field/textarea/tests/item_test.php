@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_textarea\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyprofield_textarea\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    /*************************************************************************
-     * Tests for response_uses_format().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for response_uses_format().
+    ------------------------------------------------------------------------*/
 
     /**
      * response_uses_format() must return true for textarea.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue(item::response_uses_format());
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -76,9 +76,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_textarea', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -90,9 +90,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    /*************************************************************************
-     * Tests for getter/setter pairs.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for getter/setter pairs.
+    ------------------------------------------------------------------------*/
 
     /**
      * set_trimonsave() and get_trimonsave() must work correctly.

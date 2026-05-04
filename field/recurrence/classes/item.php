@@ -27,6 +27,7 @@ namespace surveyprofield_recurrence;
 defined('MOODLE_INTERNAL') || die();
 
 use mod_surveypro\itembase;
+use mod_surveypro\utility_dates;
 use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot . '/mod/surveypro/field/recurrence/lib.php');
@@ -629,13 +630,21 @@ EOS;
         $attributes = [];
         $basename = $this->itemname;
 
-        $attributes['id'] = $baseid . '_day';
-        $attributes['aria-label'] = get_string('day');
-        $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
-
-        $attributes['id'] = $baseid . '_month';
-        $attributes['aria-label'] = get_string('month');
-        $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order('strftimedateshort'); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $attributes['id'] = $baseid . '_day';
+                    $attributes['aria-label'] = get_string('day');
+                    $elementgroup[] = $mform->createElement('select', $basename . '_day', '', $days, $attributes);
+                    break;
+                case 'month':
+                    $attributes['id'] = $baseid . '_month';
+                    $attributes['aria-label'] = get_string('month');
+                    $elementgroup[] = $mform->createElement('select', $basename . '_month', '', $months, $attributes);
+            }
+        }
 
         if ($this->required) {
             if (!$searchformelementscount) {

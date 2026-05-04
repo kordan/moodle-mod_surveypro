@@ -35,9 +35,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\itembase::class)]
 final class itembase_test extends \advanced_testcase {
-    /*************************************************************************
-     * Tests for item_split_unix_time().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_split_unix_time().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_split_unix_time() must return an array with the expected keys.
@@ -85,9 +85,9 @@ final class itembase_test extends \advanced_testcase {
         }
     }
 
-    /*************************************************************************
-     * Tests for item_uses_form_page().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_uses_form_page().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_uses_form_page() must return true for field items.
@@ -99,9 +99,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue($item->item_uses_form_page());
     }
 
-    /*************************************************************************
-     * Tests for item_left_position_allowed().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_left_position_allowed().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_left_position_allowed() must return true by default.
@@ -113,9 +113,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue($item->item_left_position_allowed());
     }
 
-    /*************************************************************************
-     * Tests for has_mandatoryattribute().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_mandatoryattribute().
+    ------------------------------------------------------------------------*/
 
     /**
      * has_mandatoryattribute() must return true by default.
@@ -126,9 +126,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue(itembase_test_character_helper::has_mandatoryattribute());
     }
 
-    /*************************************************************************
-     * Tests for response_uses_format().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for response_uses_format().
+    ------------------------------------------------------------------------*/
 
     /**
      * response_uses_format() must return false by default.
@@ -139,9 +139,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertFalse(itembase_test_character_helper::response_uses_format());
     }
 
-    /*************************************************************************
-     * Tests for get_pdf_template().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_pdf_template().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_pdf_template() must return SURVEYPRO_3COLUMNSTEMPLATE.
@@ -152,9 +152,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_3COLUMNSTEMPLATE, itembase_test_character_helper::get_pdf_template());
     }
 
-    /*************************************************************************
-     * Tests for item_expected_null_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_expected_null_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_expected_null_fields() must return an array.
@@ -184,9 +184,9 @@ final class itembase_test extends \advanced_testcase {
         }
     }
 
-    /*************************************************************************
-     * Tests for get_base_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_base_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_base_multilang_fields() with includemetafields=true must include filename and filecontent.
@@ -217,9 +217,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertNotContains('filecontent', $result);
     }
 
-    /*************************************************************************
-     * Tests for userform_standardcontent_to_string().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for userform_standardcontent_to_string().
+    ------------------------------------------------------------------------*/
 
     /**
      * Empty content must return 'answernotsubmitted' string.
@@ -254,9 +254,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertNull($result);
     }
 
-    /*************************************************************************
-     * Tests for get_itembase_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_itembase_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_itembase_schema() must return a non-empty string.
@@ -282,9 +282,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    /*************************************************************************
-     * Tests for item_is_child().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_is_child().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_is_child() must return false when parentid is not set.
@@ -308,9 +308,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue($characteritem->item_is_child());
     }
 
-    /*************************************************************************
-     * Tests for getter/setter pairs.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for getter/setter pairs.
+    ------------------------------------------------------------------------*/
 
     /**
      * set_itemid() and get_itemid() must work correctly.
@@ -408,9 +408,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertEquals('myvar', $characteritem->get_variable());
     }
 
-    /*************************************************************************
-     * Tests for item_canbesettomandatory().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_canbesettomandatory().
+    ------------------------------------------------------------------------*/
 
     /**
      * item_canbesettomandatory() must return true when no defaultoption or noanswerdefault is set.
@@ -472,9 +472,9 @@ final class itembase_test extends \advanced_testcase {
         $this->assertTrue($checkboxitem->item_canbesettomandatory());
     }
 
-    /*************************************************************************
-     * Tests for item_validate_variablename() refactoring helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for item_validate_variablename() refactoring helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * build_variablename_candidates() without variable must fallback to plugin_001.

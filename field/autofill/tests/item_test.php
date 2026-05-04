@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_autofill\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyprofield_autofill\item with minimal dependencies.
@@ -48,9 +48,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    /*************************************************************************
-     * Tests for has_mandatoryattribute().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_mandatoryattribute().
+    ------------------------------------------------------------------------*/
 
     /**
      * autofill has_mandatoryattribute() must return false.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse(item::has_mandatoryattribute());
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return an array with expected keys.
@@ -78,9 +78,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey('surveyprofield_autofill', $result);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -94,9 +94,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    /*************************************************************************
-     * Tests for insetupform overrides.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for insetupform overrides.
+    ------------------------------------------------------------------------*/
 
     /**
      * autofill must disable required, hideinstructions and parentid in insetupform.
@@ -111,9 +111,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->insetupform['parentid']);
     }
 
-    /*************************************************************************
-     * Tests for getter/setter pairs.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for getter/setter pairs.
+    ------------------------------------------------------------------------*/
 
     /**
      * set_element01() and get_element01() must work correctly.

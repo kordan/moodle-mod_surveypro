@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyprofield_radiobutton\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyprofield_radiobutton\item with minimal dependencies.
@@ -52,9 +52,9 @@ final class item_test extends \advanced_testcase {
         return $item;
     }
 
-    /*************************************************************************
-     * Tests for get_uses_positional_answer().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_uses_positional_answer().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_uses_positional_answer() must return true.
@@ -64,9 +64,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($item->get_uses_positional_answer());
     }
 
-    /*************************************************************************
-     * Tests for get_friendlyformat().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_friendlyformat().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_friendlyformat() must return SURVEYPRO_ITEMRETURNSLABELS.
@@ -76,9 +76,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(SURVEYPRO_ITEMRETURNSLABELS, $item->get_friendlyformat());
     }
 
-    /*************************************************************************
-     * Tests for get_downloadformats().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_downloadformats().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_downloadformats() must return an array with 3 entries.
@@ -103,9 +103,9 @@ final class item_test extends \advanced_testcase {
         $this->assertArrayHasKey(SURVEYPRO_ITEMRETURNSPOSITION, $result);
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return array with expected keys.
@@ -130,9 +130,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('defaultvalue', $result['surveyprofield_radiobutton']);
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return valid XML.
@@ -144,9 +144,9 @@ final class item_test extends \advanced_testcase {
         $this->assertTrue($dom->loadXML($result));
     }
 
-    /*************************************************************************
-     * Tests for parent_encode_child_parentcontent().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for parent_encode_child_parentcontent().
+    ------------------------------------------------------------------------*/
 
     /**
      * Encoding 'first' must return index 0.
@@ -179,9 +179,9 @@ final class item_test extends \advanced_testcase {
         $this->assertStringContainsString('garbage', $result);
     }
 
-    /*************************************************************************
-     * Tests for encode/decode roundtrip.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for encode/decode roundtrip.
+    ------------------------------------------------------------------------*/
 
     /**
      * encode then decode must return the original value.
@@ -196,9 +196,9 @@ final class item_test extends \advanced_testcase {
         }
     }
 
-    /*************************************************************************
-     * Tests for parent_validate_child_constraints().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for parent_validate_child_constraints().
+    ------------------------------------------------------------------------*/
 
     /**
      * Valid index must return SURVEYPRO_CONDITIONOK.
@@ -291,9 +291,9 @@ final class item_test extends \advanced_testcase {
         $this->assertContains('garbage', $parts);
     }
 
-    /*************************************************************************
-     * Edge cases for parent_decode_child_parentvalue().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Edge cases for parent_decode_child_parentvalue().
+    ------------------------------------------------------------------------*/
 
     /**
      * Decoding with garbage after '>' must include the garbage label in result.
@@ -316,9 +316,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('99', $result);
     }
 
-    /*************************************************************************
-     * Edge cases for parent_validate_child_constraints().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Edge cases for parent_validate_child_constraints().
+    ------------------------------------------------------------------------*/
 
     /**
      * Parentvalue with '>' and exactly 2 parts without labelother must return SURVEYPRO_CONDITIONNEVERMATCH.

@@ -31,9 +31,9 @@ defined('MOODLE_INTERNAL') || die();
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\surveyproformat_fieldsetend\item::class)]
 final class item_test extends \advanced_testcase {
-    /*************************************************************************
-     * Helpers.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Helpers.
+    ------------------------------------------------------------------------*/
 
     /**
      * Instantiate surveyproformat_fieldsetend\item with minimal dependencies.
@@ -49,9 +49,9 @@ final class item_test extends \advanced_testcase {
         return new item($cm, $surveypro, 0, false);
     }
 
-    /*************************************************************************
-     * Tests for has_mandatoryattribute().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for has_mandatoryattribute().
+    ------------------------------------------------------------------------*/
 
     /**
      * has_mandatoryattribute() must return false for fieldsetend.
@@ -61,9 +61,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse(item::has_mandatoryattribute());
     }
 
-    /*************************************************************************
-     * Tests for get_pdf_template().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_pdf_template().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_pdf_template() must return 0 for fieldsetend.
@@ -73,9 +73,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals(0, item::get_pdf_template());
     }
 
-    /*************************************************************************
-     * Tests for get_plugin_schema().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_plugin_schema().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_plugin_schema() must return an empty string for fieldsetend.
@@ -85,9 +85,9 @@ final class item_test extends \advanced_testcase {
         $this->assertEquals('', item::get_plugin_schema());
     }
 
-    /*************************************************************************
-     * Tests for insetupform overrides.
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for insetupform overrides.
+    ------------------------------------------------------------------------*/
 
     /**
      * fieldsetend must disable all standard fields in insetupform including content.
@@ -109,9 +109,9 @@ final class item_test extends \advanced_testcase {
         $this->assertFalse($item->insetupform['parentid']);
     }
 
-    /*************************************************************************
-     * Tests for get_multilang_fields().
-     *************************************************************************/
+    /*------------------------------------------------------------------------
+    Tests for get_multilang_fields().
+    ------------------------------------------------------------------------*/
 
     /**
      * get_multilang_fields() must return array with surveypro_item key.

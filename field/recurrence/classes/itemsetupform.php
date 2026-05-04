@@ -26,8 +26,9 @@ namespace surveyprofield_recurrence;
 
 defined('MOODLE_INTERNAL') || die();
 
-use mod_surveypro\utility_item;
 use mod_surveypro\local\form\item_setupbaseform;
+use mod_surveypro\utility_dates;
+use mod_surveypro\utility_item;
 
 require_once($CFG->dirroot . '/lib/formslib.php');
 require_once($CFG->dirroot . '/mod/surveypro/field/recurrence/lib.php');
@@ -82,8 +83,17 @@ class itemsetupform extends item_setupbaseform
         // Item: defaultvalue.
         $fieldname = 'defaultvalue';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order(); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', null, ' ', false);
         $mform->disabledIf($fieldname . '_group', 'defaultoption', 'neq', SURVEYPRO_CUSTOMDEFAULT);
         $mform->setDefault($fieldname . 'day', '1');
@@ -103,8 +113,17 @@ class itemsetupform extends item_setupbaseform
         // Item: lowerbound.
         $fieldname = 'lowerbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        // Get the order of elements based on the current language.
+        $elementsorder = utility_dates::get_date_elements_order('strftimedateshort'); // ['day','month','year'] oppure altro ordine.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_recurrence'), ' ', false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_recurrence');
         $mform->setDefault($fieldname . 'day', '1');
@@ -113,8 +132,16 @@ class itemsetupform extends item_setupbaseform
         // Item: upperbound.
         $fieldname = 'upperbound';
         $elementgroup = [];
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
-        $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+        // Get the order of elements based on the current language.
+        foreach ($elementsorder as $element) {
+            switch ($element) {
+                case 'day':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'day', '', $days);
+                    break;
+                case 'month':
+                    $elementgroup[] = $mform->createElement('select', $fieldname . 'month', '', $months);
+            }
+        }
         $mform->addGroup($elementgroup, $fieldname . '_group', get_string($fieldname, 'surveyprofield_recurrence'), ' ', false);
         $mform->addHelpButton($fieldname . '_group', $fieldname, 'surveyprofield_recurrence');
         $mform->setDefault($fieldname . 'day', '31');
