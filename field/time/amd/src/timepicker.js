@@ -1,4 +1,4 @@
-// file: amd/src/timepicker.js
+// File: amd/src/timepicker.js
 
 define(['core/str'], function(Str) {
 
@@ -15,7 +15,7 @@ define(['core/str'], function(Str) {
      * @param {int}    params.wraparound       - 1 if the time span crosses midnight
      */
     function addTimeButton(params) {
-        const selectHour   = document.getElementById(params.baseid + '_hour');
+        const selectHour = document.getElementById(params.baseid + '_hour');
         const selectMinute = document.getElementById(params.baseid + '_minute');
 
         if (!selectHour || !selectMinute) {
@@ -60,7 +60,7 @@ define(['core/str'], function(Str) {
             return;
         }
 
-        const currentHour   = parseInt(selectHour.value)   || params.lowerboundhour;
+        const currentHour = parseInt(selectHour.value) || params.lowerboundhour;
         const currentMinute = parseInt(selectMinute.value) || params.lowerboundminute;
 
         const popup = document.createElement('div');
@@ -76,7 +76,7 @@ define(['core/str'], function(Str) {
         // Start by selecting the time.
         renderClockHour(popup, currentHour, currentMinute, params,
             function(hour, minute) {
-                setSelectValue(selectHour,   hour);
+                setSelectValue(selectHour, hour);
                 setSelectValue(selectMinute, minute);
                 popup.remove();
                 document.removeEventListener('click', closePicker);
@@ -85,7 +85,7 @@ define(['core/str'], function(Str) {
 
         document.body.appendChild(popup);
         const rect = button.getBoundingClientRect();
-        popup.style.top  = (rect.bottom + 4) + 'px';
+        popup.style.top = (rect.bottom + 4) + 'px';
         popup.style.left = rect.left + 'px';
 
         /**
@@ -176,6 +176,7 @@ define(['core/str'], function(Str) {
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
         Str.get_string('choosethehour', 'surveyprofield_time').then(function(s) {
             title.textContent = s;
+            return;
         }).catch(function() {
             title.textContent = 'Choose an hour';
         });
@@ -211,6 +212,7 @@ define(['core/str'], function(Str) {
         title.style.cssText = 'font-weight:bold; margin-bottom:8px; font-size:0.9em;';
         Str.get_string('choosetheminute', 'surveyprofield_time').then(function(s) {
             title.textContent = s;
+            return;
         }).catch(function() {
             title.textContent = 'Choose a minute';
         });
@@ -234,6 +236,7 @@ define(['core/str'], function(Str) {
         backBtn.className = 'btn btn-sm btn-secondary mt-2';
         Str.get_string('backtohour', 'surveyprofield_time').then(function(s) {
             backBtn.textContent = '‹ ' + s;
+            return;
         }).catch(function() {
             backBtn.textContent = 'Back to hour';
         });
@@ -254,14 +257,14 @@ define(['core/str'], function(Str) {
      * @returns {SVGElement}
      */
     function renderClockFace(selected, hour, params, onPick, mode) {
-        const size   = 180;
-        const cx     = size / 2;
-        const cy     = size / 2;
+        const size = 180;
+        const cx = size / 2;
+        const cy = size / 2;
         const radius = 70;
 
         const svgNS = 'http://www.w3.org/2000/svg';
-        const svg   = document.createElementNS(svgNS, 'svg');
-        svg.setAttribute('width',  size);
+        const svg = document.createElementNS(svgNS, 'svg');
+        svg.setAttribute('width', size);
         svg.setAttribute('height', size);
         svg.setAttribute('viewBox', '0 0 ' + size + ' ' + size);
 
@@ -269,7 +272,7 @@ define(['core/str'], function(Str) {
         const bg = document.createElementNS(svgNS, 'circle');
         bg.setAttribute('cx', cx);
         bg.setAttribute('cy', cy);
-        bg.setAttribute('r',  cx - 4);
+        bg.setAttribute('r', cx - 4);
         bg.setAttribute('fill', '#f8f9fa');
         bg.setAttribute('stroke', '#dee2e6');
         bg.setAttribute('stroke-width', '1');
@@ -300,7 +303,7 @@ define(['core/str'], function(Str) {
                 const selCircle = document.createElementNS(svgNS, 'circle');
                 selCircle.setAttribute('cx', x);
                 selCircle.setAttribute('cy', y);
-                selCircle.setAttribute('r',  13);
+                selCircle.setAttribute('r', 13);
                 selCircle.setAttribute('fill', '#0f6cbf');
                 svg.appendChild(selCircle);
             }
@@ -324,7 +327,15 @@ define(['core/str'], function(Str) {
             text.setAttribute('text-anchor', 'middle');
             text.setAttribute('dominant-baseline', 'central');
             text.setAttribute('font-size', '11');
-            text.setAttribute('fill', value === selected ? '#fff' : (valid ? '#333' : '#ccc'));
+            let fillColor;
+            if (value === selected) {
+                fillColor = '#fff';
+            } else if (valid) {
+                fillColor = '#333';
+            } else {
+                fillColor = '#ccc';
+            }
+            text.setAttribute('fill', fillColor);
             text.setAttribute('cursor', valid ? 'pointer' : 'not-allowed');
             text.textContent = ('0' + value).slice(-2);
             svg.appendChild(text);
@@ -334,7 +345,7 @@ define(['core/str'], function(Str) {
                 const hit = document.createElementNS(svgNS, 'circle');
                 hit.setAttribute('cx', x);
                 hit.setAttribute('cy', y);
-                hit.setAttribute('r',  13);
+                hit.setAttribute('r', 13);
                 hit.setAttribute('fill', 'transparent');
                 hit.setAttribute('cursor', 'pointer');
                 hit.addEventListener('click', function() {
@@ -348,7 +359,7 @@ define(['core/str'], function(Str) {
         const dot = document.createElementNS(svgNS, 'circle');
         dot.setAttribute('cx', cx);
         dot.setAttribute('cy', cy);
-        dot.setAttribute('r',  3);
+        dot.setAttribute('r', 3);
         dot.setAttribute('fill', '#0f6cbf');
         svg.appendChild(dot);
 

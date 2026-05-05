@@ -11,9 +11,9 @@ define([], function() {
      */
     function addCalendarButton(baseid, mindate, maxdate) {
 
-        const selectDay   = document.getElementById(baseid + '_day');
+        const selectDay = document.getElementById(baseid + '_day');
         const selectMonth = document.getElementById(baseid + '_month');
-        const selectYear  = document.getElementById(baseid + '_year');
+        const selectYear = document.getElementById(baseid + '_year');
 
         if (!selectDay || !selectMonth || !selectYear) {
             return;
@@ -59,9 +59,9 @@ define([], function() {
             return;
         }
 
-        const currentDay   = parseInt(selectDay.value)   || 1;
+        const currentDay = parseInt(selectDay.value) || 1;
         const currentMonth = parseInt(selectMonth.value) || 1;
-        const currentYear  = parseInt(selectYear.value)  || new Date().getFullYear();
+        const currentYear = parseInt(selectYear.value) || new Date().getFullYear();
 
         const popup = document.createElement('div');
         popup.id = 'surveypro-datepicker-popup';
@@ -76,9 +76,9 @@ define([], function() {
 
         renderCalendar(popup, currentYear, currentMonth, currentDay, mindate, maxdate,
             function(day, month, year) {
-                setSelectValue(selectDay,   day);
+                setSelectValue(selectDay, day);
                 setSelectValue(selectMonth, month);
-                setSelectValue(selectYear,  year);
+                setSelectValue(selectYear, year);
                 popup.remove();
                 document.removeEventListener('click', closePicker);
             }
@@ -86,7 +86,7 @@ define([], function() {
 
         document.body.appendChild(popup);
         const rect = button.getBoundingClientRect();
-        popup.style.top  = (rect.bottom + 4) + 'px';
+        popup.style.top = (rect.bottom + 4) + 'px';
         popup.style.left = rect.left + 'px';
 
         /**
@@ -144,9 +144,9 @@ define([], function() {
         const nextYear = month === 12 ? year + 1 : year;
 
         const prevFirstDay = new Date(prevYear, prevMonth - 1, 1);
-        const minFirstDay  = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), 1);
+        const minFirstDay = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), 1);
         const nextFirstDay = new Date(nextYear, nextMonth - 1, 1);
-        const maxFirstDay  = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), 1);
+        const maxFirstDay = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), 1);
 
         const prevDisabled = prevFirstDay < minFirstDay;
         const nextDisabled = nextFirstDay > maxFirstDay;

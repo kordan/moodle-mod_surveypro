@@ -105,6 +105,11 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci grunt
 
+      - name: ESLint
+        continue-on-error: true
+        if: ${{ always() }}
+        run: npx eslint plugin/mod/surveypro/field/*/amd/src/
+
       - name: PHPUnit tests
         if: ${{ always() }}
         run: moodle-plugin-ci phpunit --coverage-text
