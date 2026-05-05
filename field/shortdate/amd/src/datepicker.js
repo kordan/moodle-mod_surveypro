@@ -1,4 +1,4 @@
-// file: amd/src/datepicker.js
+// File: amd/src/datepicker.js
 
 define([], function() {
 
@@ -14,7 +14,7 @@ define([], function() {
     function addDateButton(baseid, lowerboundmonth, upperboundmonth, lowerboundyear, upperboundyear) {
 
         const selectMonth = document.getElementById(baseid + '_month');
-        const selectYear  = document.getElementById(baseid + '_year');
+        const selectYear = document.getElementById(baseid + '_year');
 
         if (!selectMonth || !selectYear) {
             return;
@@ -66,7 +66,7 @@ define([], function() {
         }
 
         const currentMonth = parseInt(selectMonth.value) || lowerboundmonth;
-        const currentYear  = parseInt(selectYear.value)  || lowerboundyear;
+        const currentYear = parseInt(selectYear.value) || lowerboundyear;
 
         const popup = document.createElement('div');
         popup.id = 'surveypro-shortdatepicker-popup';
@@ -83,7 +83,7 @@ define([], function() {
                         lowerboundyear, upperboundyear,
             function(month, year) {
                 setSelectValue(selectMonth, month);
-                setSelectValue(selectYear,  year);
+                setSelectValue(selectYear, year);
                 popup.remove();
                 document.removeEventListener('click', closePicker);
             }
@@ -91,7 +91,7 @@ define([], function() {
 
         document.body.appendChild(popup);
         const rect = button.getBoundingClientRect();
-        popup.style.top  = (rect.bottom + 4) + 'px';
+        popup.style.top = (rect.bottom + 4) + 'px';
         popup.style.left = rect.left + 'px';
 
         /**
@@ -190,15 +190,19 @@ define([], function() {
 
             if (!validInYear) {
                 cell.disabled = true;
-                cell.style.color  = '#ccc';
+                cell.style.color = '#ccc';
                 cell.style.cursor = 'not-allowed';
             } else if (m === selectedMonth) {
                 cell.style.background = '#0f6cbf';
-                cell.style.color      = '#fff';
-                cell.addEventListener('click', function() { onSelect(m, year); });
+                cell.style.color = '#fff';
+                cell.addEventListener('click', function() {
+ onSelect(m, year);
+});
             } else {
                 cell.style.background = '#f8f9fa';
-                cell.addEventListener('click', function() { onSelect(m, year); });
+                cell.addEventListener('click', function() {
+ onSelect(m, year);
+});
             }
 
             grid.appendChild(cell);

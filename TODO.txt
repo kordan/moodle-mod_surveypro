@@ -1,3 +1,4 @@
+Reflections. Thoughts. Doubts and philosophy.
 -> does it make sense the research per long text?
 -> "Manage relation" page has lots of features, but the consequence is that the page is "cluttered" with too many settings.
 Obviously a Show/Hide advanced button is needed. (thanks to JR)
@@ -8,8 +9,8 @@ as it does not mean anything to him. That is a message for Teacher, not Student.
 -> surveypro_get_post_actions()?
 -> surveypro_scale_used($surveyproid, $scaleid)?
 -> surveypro_scale_used_anywhere($scaleid)?
--> unit test (they are a must)
--> *** Crucial known issue that is not fixable in my opinion. I apply a master template.
+-> *** Crucial known issue that is not fixable in my opinion.
+Let me describe the context: I apply a master template.
 I make a surveypro with it. Tomorrow I update the master template with a newer version.
 This new version has one more item in the middle.
 Surveys built with the old plugins will stop working fine as they will find in the right position string of a different template.
