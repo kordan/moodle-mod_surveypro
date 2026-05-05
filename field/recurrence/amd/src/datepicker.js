@@ -1,4 +1,4 @@
-// file: amd/src/datepicker.js
+// File: amd/src/datepicker.js
 
 define([], function() {
 
@@ -15,7 +15,7 @@ define([], function() {
     function addCalendarButton(baseid, lowerboundday, upperboundday,
                                lowerboundmonth, upperboundmonth, wraparound) {
 
-        const selectDay   = document.getElementById(baseid + '_day');
+        const selectDay = document.getElementById(baseid + '_day');
         const selectMonth = document.getElementById(baseid + '_month');
 
         if (!selectDay || !selectMonth) {
@@ -70,7 +70,7 @@ define([], function() {
             return;
         }
 
-        const currentDay   = parseInt(selectDay.value)   || lowerboundday;
+        const currentDay = parseInt(selectDay.value) || lowerboundday;
         const currentMonth = parseInt(selectMonth.value) || lowerboundmonth;
 
         const popup = document.createElement('div');
@@ -88,7 +88,7 @@ define([], function() {
                        lowerboundmonth, upperboundmonth,
                        wraparound,
             function(day, month) {
-                setSelectValue(selectDay,   day);
+                setSelectValue(selectDay, day);
                 setSelectValue(selectMonth, month);
                 popup.remove();
                 document.removeEventListener('click', closePicker);
@@ -97,7 +97,7 @@ define([], function() {
 
         document.body.appendChild(popup);
         const rect = button.getBoundingClientRect();
-        popup.style.top  = (rect.bottom + 4) + 'px';
+        popup.style.top = (rect.bottom + 4) + 'px';
         popup.style.left = rect.left + 'px';
 
         /**
@@ -225,9 +225,9 @@ define([], function() {
         });
 
         // Let's use a non-leap year as the reference year for February.
-        const refYear  = 2001;
+        const refYear = 2001;
         const firstDay = new Date(refYear, month - 1, 1).getDay();
-        const offset   = (firstDay === 0) ? 6 : firstDay - 1;
+        const offset = (firstDay === 0) ? 6 : firstDay - 1;
         const daysInMonth = new Date(refYear, month, 0).getDate();
 
         for (let i = 0; i < offset; i++) {
@@ -245,21 +245,25 @@ define([], function() {
             // - the month is not the first valid month, or day >= lowerboundday
             // - the month is not the last valid one, or day <= upperboundday
             const isFirstMonth = (month === lowerboundmonth);
-            const isLastMonth  = (month === upperboundmonth);
+            const isLastMonth = (month === upperboundmonth);
             const validDay = (!isFirstMonth || day >= lowerboundday) &&
-                             (!isLastMonth  || day <= upperboundday);
+                             (!isLastMonth || day <= upperboundday);
 
             if (!validDay) {
                 cell.disabled = true;
-                cell.style.color  = '#ccc';
+                cell.style.color = '#ccc';
                 cell.style.cursor = 'not-allowed';
             } else if (day === selectedDay) {
                 cell.style.background = '#0f6cbf';
-                cell.style.color      = '#fff';
-                cell.addEventListener('click', function() { onSelect(day, month); });
+                cell.style.color = '#fff';
+                cell.addEventListener('click', function() {
+ onSelect(day, month);
+});
             } else {
                 cell.style.background = '#f8f9fa';
-                cell.addEventListener('click', function() { onSelect(day, month); });
+                cell.addEventListener('click', function() {
+ onSelect(day, month);
+});
             }
 
             grid.appendChild(cell);

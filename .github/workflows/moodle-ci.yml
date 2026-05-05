@@ -1,10 +1,12 @@
 name: Moodle Plugin CI
-
 on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    env:
+      MOODLEDIR: /home/runner/work/moodle-mod_surveypro/moodle-mod_surveypro/moodle/public
 
     services:
       postgres:
@@ -15,7 +17,6 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
-
       mariadb:
         image: mariadb:10
         env:
@@ -41,6 +42,7 @@ jobs:
             database: pgsql
             suite: default
             profile: chrome
+
     steps:
       - name: Check out repository code
         uses: actions/checkout@v5
@@ -112,10 +114,15 @@ jobs:
       - name: PHPUnit tests subplugins
         if: ${{ always() }}
         run: |
-          MOODLE_DIR=/home/runner/work/moodle-mod_surveypro/moodle-mod_surveypro/moodle/public
-          cd $MOODLE_DIR
+          cd ${{ env.MOODLEDIR }}
           SUITES=$(grep -r 'testsuite name="surveypro' ../phpunit.xml | grep -v 'mod_surveypro_testsuite' | sed 's/.*name="\([^"]*\)".*/\1/' | tr '\n' ',' | sed 's/,$//')
           php ../vendor/bin/phpunit --configuration ../phpunit.xml --testsuite "$SUITES"
+
+      - name: ESLint subplugins
+        if: ${{ always() }}
+        run: |
+          cd ${{ env.MOODLEDIR }}
+          npx eslint ${{ env.MOODLEDIR }}/mod/surveypro/field/*/amd/src/
 
       - name: Behat features
         if: ${{ always() }}
