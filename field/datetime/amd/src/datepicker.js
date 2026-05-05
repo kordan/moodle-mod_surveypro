@@ -1,4 +1,4 @@
-// file: amd/src/datepicker.js
+// File: amd/src/datepicker.js
 
 define([], function() {
 
@@ -13,10 +13,10 @@ define([], function() {
     function addCalendarButton(baseid, mindate, maxdate, step) {
         step = parseInt(step); // Force integer.
 
-        const selectDay    = document.getElementById(baseid + '_day');
-        const selectMonth  = document.getElementById(baseid + '_month');
-        const selectYear   = document.getElementById(baseid + '_year');
-        const selectHour   = document.getElementById(baseid + '_hour');
+        const selectDay = document.getElementById(baseid + '_day');
+        const selectMonth = document.getElementById(baseid + '_month');
+        const selectYear = document.getElementById(baseid + '_year');
+        const selectHour = document.getElementById(baseid + '_hour');
         const selectMinute = document.getElementById(baseid + '_minute');
 
         if (!selectDay || !selectMonth || !selectYear || !selectHour || !selectMinute) {
@@ -68,10 +68,10 @@ define([], function() {
             return;
         }
 
-        const currentDay    = parseInt(selectDay.value)    || 1;
-        const currentMonth  = parseInt(selectMonth.value)  || 1;
-        const currentYear   = parseInt(selectYear.value)   || new Date().getFullYear();
-        const currentHour   = parseInt(selectHour.value)   || 0;
+        const currentDay = parseInt(selectDay.value) || 1;
+        const currentMonth = parseInt(selectMonth.value) || 1;
+        const currentYear = parseInt(selectYear.value) || new Date().getFullYear();
+        const currentHour = parseInt(selectHour.value) || 0;
         const currentMinute = parseInt(selectMinute.value) || 0;
 
         const popup = document.createElement('div');
@@ -87,10 +87,10 @@ define([], function() {
         renderCalendar(popup, currentYear, currentMonth, currentDay,
                        currentHour, currentMinute, mindate, maxdate, step,
             function(day, month, year, hour, minute) {
-                setSelectValue(selectDay,    day);
-                setSelectValue(selectMonth,  month);
-                setSelectValue(selectYear,   year);
-                setSelectValue(selectHour,   hour);
+                setSelectValue(selectDay, day);
+                setSelectValue(selectMonth, month);
+                setSelectValue(selectYear, year);
+                setSelectValue(selectHour, hour);
                 setSelectValue(selectMinute, minute);
                 popup.remove();
                 document.removeEventListener('click', closePicker);
@@ -99,7 +99,7 @@ define([], function() {
 
         document.body.appendChild(popup);
         const rect = button.getBoundingClientRect();
-        popup.style.top  = (rect.bottom + 4) + 'px';
+        popup.style.top = (rect.bottom + 4) + 'px';
         popup.style.left = rect.left + 'px';
 
         /**
@@ -156,15 +156,15 @@ define([], function() {
 
         const title = document.createElement('strong');
 
-        const prevMonth = month === 1  ? 12 : month - 1;
-        const prevYear  = month === 1  ? year - 1 : year;
-        const nextMonth = month === 12 ? 1  : month + 1;
-        const nextYear  = month === 12 ? year + 1 : year;
+        const prevMonth = month === 1 ? 12 : month - 1;
+        const prevYear = month === 1 ? year - 1 : year;
+        const nextMonth = month === 12 ? 1 : month + 1;
+        const nextYear = month === 12 ? year + 1 : year;
 
         const prevFirstDay = new Date(prevYear, prevMonth - 1, 1);
-        const minFirstDay  = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), 1);
+        const minFirstDay = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), 1);
         const nextFirstDay = new Date(nextYear, nextMonth - 1, 1);
-        const maxFirstDay  = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), 1);
+        const maxFirstDay = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), 1);
 
         prevBtn.disabled = prevFirstDay < minFirstDay;
         nextBtn.disabled = nextFirstDay > maxFirstDay;
@@ -204,8 +204,8 @@ define([], function() {
             grid.appendChild(cell);
         });
 
-        const firstDay    = new Date(year, month - 1, 1).getDay();
-        const offset      = (firstDay === 0) ? 6 : firstDay - 1;
+        const firstDay = new Date(year, month - 1, 1).getDay();
+        const offset = (firstDay === 0) ? 6 : firstDay - 1;
         const daysInMonth = new Date(year, month, 0).getDate();
 
         for (let i = 0; i < offset; i++) {
@@ -219,19 +219,19 @@ define([], function() {
             cell.style.cssText = 'width:30px; height:30px; border-radius:50%; border:none; cursor:pointer; font-size:0.85em;';
 
             const thisDate = new Date(year, month - 1, day);
-            const minDay   = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), minDateObj.getDate());
-            const maxDay   = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), maxDateObj.getDate());
+            const minDay = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), minDateObj.getDate());
+            const maxDay = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), maxDateObj.getDate());
 
             if (thisDate < minDay || thisDate > maxDay) {
                 cell.disabled = true;
-                cell.style.color  = '#ccc';
+                cell.style.color = '#ccc';
                 cell.style.cursor = 'not-allowed';
             } else if (day === selectedDay) {
                 cell.style.background = '#0f6cbf';
-                cell.style.color      = '#fff';
+                cell.style.color = '#fff';
                 cell.addEventListener('click', function() {
                     const timeDiv = container.querySelector('.surveypro-timeselector');
-                    const currentHourInPopup   = timeDiv
+                    const currentHourInPopup = timeDiv
                         ? parseInt(timeDiv.querySelector('select:first-of-type').value)
                         : selectedHour;
                     const currentMinuteInPopup = timeDiv
@@ -246,7 +246,7 @@ define([], function() {
                 cell.addEventListener('click', function() {
                     // Leggi ora e minuto correnti dal selettore nel popup.
                     const timeDiv = container.querySelector('.surveypro-timeselector');
-                    const currentHourInPopup   = timeDiv
+                    const currentHourInPopup = timeDiv
                         ? parseInt(timeDiv.querySelector('select:first-of-type').value)
                         : selectedHour;
                     const currentMinuteInPopup = timeDiv
@@ -306,9 +306,9 @@ define([], function() {
         for (let h = 0; h < 24; h++) {
             // Check if the time is within the range.
             const thisDateTime = new Date(year, month - 1, day, h, 0, 0);
-            const minDateTime  = new Date(minDateObj.getFullYear(), minDateObj.getMonth(),
+            const minDateTime = new Date(minDateObj.getFullYear(), minDateObj.getMonth(),
                                           minDateObj.getDate(), minDateObj.getHours(), 0, 0);
-            const maxDateTime  = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(),
+            const maxDateTime = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(),
                                           maxDateObj.getDate(), maxDateObj.getHours(), 59, 59);
 
             const opt = document.createElement('option');
