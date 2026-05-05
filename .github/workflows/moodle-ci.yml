@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      MOODLE_DIR: /home/runner/work/moodle-mod_surveypro/moodle-mod_surveypro/moodle/public
+      MOODLEDIR: /home/runner/work/moodle-mod_surveypro/moodle-mod_surveypro/moodle/public
 
     services:
       postgres:
@@ -107,12 +107,6 @@ jobs:
         if: ${{ always() }}
         run: moodle-plugin-ci grunt
 
-      - name: ESLint subplugins
-        if: ${{ always() }}
-        run: |
-          cd ${{ env.MOODLE_DIR }}
-          npx eslint ${{ env.MOODLE_DIR }}/mod/surveypro/field/*/amd/src/
-
       - name: PHPUnit tests
         if: ${{ always() }}
         run: moodle-plugin-ci phpunit --coverage-text
@@ -120,9 +114,15 @@ jobs:
       - name: PHPUnit tests subplugins
         if: ${{ always() }}
         run: |
-          cd ${{ env.MOODLE_DIR }}
+          cd ${{ env.MOODLEDIR }}
           SUITES=$(grep -r 'testsuite name="surveypro' ../phpunit.xml | grep -v 'mod_surveypro_testsuite' | sed 's/.*name="\([^"]*\)".*/\1/' | tr '\n' ',' | sed 's/,$//')
           php ../vendor/bin/phpunit --configuration ../phpunit.xml --testsuite "$SUITES"
+
+      - name: ESLint subplugins
+        if: ${{ always() }}
+        run: |
+          cd ${{ env.MOODLEDIR }}
+          npx eslint ${{ env.MOODLEDIR }}/mod/surveypro/field/*/amd/src/
 
       - name: Behat features
         if: ${{ always() }}
