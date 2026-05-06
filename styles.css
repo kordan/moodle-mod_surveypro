@@ -212,7 +212,7 @@
     height: 16px;
     padding: 0;
     vertical-align: middle;
-    margin-right: 0;
+    margin-right: .5em;
 }
 
 .path-mod-surveypro table td.actions a.icon {
