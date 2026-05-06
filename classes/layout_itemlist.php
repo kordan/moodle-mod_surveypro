@@ -491,10 +491,12 @@ class layout_itemlist
         // SLOT 2: Indentation value.
         if ($item->get_insetupform('indent')) {
             $currentindent = $item->get_indent();
-            $parts[] = \html_writer::tag('span', '[' . $currentindent . ']', [
-                'class' => 'surveypro-action-slot text-center',
-                'style' => 'display:inline-block;min-width:2ch;',
-            ]);
+            if ($currentindent !== false) { // It is false for label in fullwidth.
+                $parts[] = \html_writer::tag('span', '[' . $currentindent . ']', [
+                    'class' => 'surveypro-action-slot text-center',
+                    'style' => 'display:inline-block;min-width:2ch;',
+                ]);
+            }
         }
 
         // SLOT 3: Action menu ⋮.
@@ -570,7 +572,7 @@ class layout_itemlist
         // Outdent/Indent.
         if ($item->get_insetupform('indent')) {
             // $currentindent has already been defined when the [n] was written.
-            if ($currentindent !== false) {
+            if ($currentindent !== false) { // It is false for label in fullwidth.
                 // Outdent.
                 $paramurl            = $paramurlbase;
                 $paramurl['act']     = SURVEYPRO_CHANGEINDENT;
