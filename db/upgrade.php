@@ -448,5 +448,37 @@ function xmldb_surveypro_upgrade($oldversion) {
         upgrade_mod_savepoint(true, 2024032700, 'surveypro');
     }
 
+    if ($oldversion < 2026051000) {
+        // Define index hidden-reserved-plugin (not unique) to be added to surveypro_item.
+        $table = new xmldb_table('surveypro_item');
+        $index = new xmldb_index('hidden-reserved-plugin', XMLDB_INDEX_NOTUNIQUE, ['hidden', 'reserved', 'plugin']);
+
+        // Conditionally launch add index hidden-reserved-plugin.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Define index surveyproid-status (not unique) to be added to surveypro_submission.
+        $table = new xmldb_table('surveypro_submission');
+        $index = new xmldb_index('surveyproid-status', XMLDB_INDEX_NOTUNIQUE, ['surveyproid', 'status']);
+
+        // Conditionally launch add index surveyproid-status.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Define index submissionid-itemid (not unique) to be added to surveypro_answer.
+        $table = new xmldb_table('surveypro_answer');
+        $index = new xmldb_index('submissionid-itemid', XMLDB_INDEX_NOTUNIQUE, ['submissionid', 'itemid']);
+
+        // Conditionally launch add index submissionid-itemid.
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Surveypro savepoint reached.
+        upgrade_mod_savepoint(true, 2026051000, 'surveypro');
+    }
+
     return true;
 }

@@ -601,4 +601,52 @@ class mod_surveypro_generator extends testing_module_generator
 
         return $DB->insert_record('surveypro_item', $item);
     }
+
+    /**
+     * Create a submission for the given surveypro and user.
+     *
+     * @param \stdClass $surveypro The surveypro instance.
+     * @param \stdClass $user      The user submitting.
+     * @param int       $status    SURVEYPRO_STATUSCLOSED or SURVEYPRO_STATUSINPROGRESS.
+     * @param array     $options   Optional overrides for any surveypro_submission field.
+     * @return \stdClass The newly created surveypro_submission record.
+     */
+    public function create_submission(\stdClass $surveypro, \stdClass $user, int $status, array $options = []): \stdClass {
+        global $DB;
+
+        $submission = new \stdClass();
+        $submission->surveyproid   = $surveypro->id;
+        $submission->userid        = $user->id;
+        $submission->status        = $status;
+        $submission->timecreated   = $options['timecreated'] ?? time();
+        $submission->timemodified  = $options['timemodified'] ?? 0;
+
+        $submission->id = $DB->insert_record('surveypro_submission', $submission);
+
+        return $submission;
+    }
+
+    /**
+     * Create an answer for the given submission and item.
+     *
+     * @param \stdClass $submission The surveypro_submission record.
+     * @param int       $itemid     The surveypro_item id.
+     * @param string    $content    The answer content.
+     * @param array     $options    Optional overrides for any surveypro_answer field.
+     * @return \stdClass The newly created surveypro_answer record.
+     */
+    public function create_answer(\stdClass $submission, int $itemid, string $content, array $options = []): \stdClass {
+        global $DB;
+
+        $answer = new \stdClass();
+        $answer->submissionid   = $submission->id;
+        $answer->itemid         = $itemid;
+        $answer->verified       = $options['verified'] ?? 1;
+        $answer->content        = $content;
+        $answer->contentformat  = $options['contentformat'] ?? FORMAT_PLAIN;
+
+        $answer->id = $DB->insert_record('surveypro_answer', $answer);
+
+        return $answer;
+    }
 }
