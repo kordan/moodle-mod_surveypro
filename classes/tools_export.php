@@ -281,12 +281,16 @@ class tools_export
             die();
         }
 
-        // CSV, TSV, XLS: i metodi gestiscono tutto internamente.
+        // CSV, TSV, XLS: delegate entirely to the output method.
         if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
-            $this->output_to_xls();
+            $error = $this->output_to_xls();
         } else {
-            $this->output_to_csv();
+            $error = $this->output_to_csv();
         }
+        if ($error) {
+            return $error;
+        }
+        die();
     }
 
     /**
@@ -371,7 +375,7 @@ class tools_export
      *
      * @return void
      */
-    public function output_to_csv(): void {
+    public function output_to_csv(): ?int {
         global $CFG, $DB;
 
         require_once($CFG->libdir . '/csvlib.class.php');
@@ -386,11 +390,10 @@ class tools_export
         // Query 1: submissions (N rows, one per each submission).
         [$submissionssql, $submissionsparams] = $this->build_submissions_sql();
         $submissions = $DB->get_records_sql($submissionssql, $submissionsparams);
-        // $submissions è keyed by submissionid (the returned 'id' field).
+        // $submissions is keyed by submissionid (the first selected field, aliased as 'id').
 
         if (empty($submissions)) {
-            $csvexport->download_file();
-            die();
+            return SURVEYPRO_NORECORDSFOUND;
         }
 
         // Query 2: answers, only for the submissions found.
@@ -424,7 +427,7 @@ class tools_export
         unset($answersbysubmission);
 
         $csvexport->download_file();
-        die();
+        return null;
     }
 
     /**
@@ -432,7 +435,7 @@ class tools_export
      *
      * @return void
      */
-    public function output_to_xls(): void {
+    public function output_to_xls(): ?int {
         global $CFG, $DB;
 
         require_once($CFG->libdir . '/excellib.class.php');
@@ -453,7 +456,7 @@ class tools_export
 
         if (empty($submissions)) {
             $workbook->close();
-            die();
+            return SURVEYPRO_NORECORDSFOUND;
         }
 
         // Query 2: answers.
@@ -482,7 +485,7 @@ class tools_export
         unset($answersbysubmission);
 
         $workbook->close();
-        die();
+        return null;
     }
 
     /**
