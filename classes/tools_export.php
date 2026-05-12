@@ -486,6 +486,45 @@ class tools_export
     }
 
     /**
+     * Fetch all fileupload files for the given answer ids in a single query.
+     *
+     * @param int[] $answerids List of surveypro_answer.id values used as filearea itemid.
+     * @return array [answerid => stored_file[]] indexed by answer id.
+     */
+    private function fetch_all_attachment_files(array $answerids): array {
+        global $DB;
+
+        if (empty($answerids)) {
+            return [];
+        }
+
+        $fs = get_file_storage();
+
+        [$insql, $inparams] = $DB->get_in_or_equal($answerids, SQL_PARAMS_NAMED, 'aid');
+        $inparams['contextid']  = $this->context->id;
+        $inparams['component']  = 'surveyprofield_fileupload';
+        $inparams['filearea']   = 'fileuploadfiles';
+
+        $sql = 'SELECT * FROM {files}
+                WHERE contextid = :contextid
+                  AND component = :component
+                  AND filearea  = :filearea
+                  AND itemid ' . $insql . "
+                  AND filename <> '.'
+                ORDER BY itemid, timemodified";
+
+        $filerecords = $DB->get_records_sql($sql, $inparams);
+
+        // Group by itemid (= answerid).
+        $result = [];
+        foreach ($filerecords as $filerecord) {
+            $result[$filerecord->itemid][] = $fs->get_file_instance($filerecord);
+        }
+
+        return $result;
+    }
+
+    /**
      * Get seeds of fields (items) of data going to be exporeted.
      *
      * @return void
@@ -723,92 +762,99 @@ class tools_export
         [$richsubmissionssql, $whereparams] = $this->get_export_sql(true);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
-        if ($richsubmissions->valid()) {
-            $packagename = $this->attachments_define_packagename('user');
+        if (!$richsubmissions->valid()) {
+            $richsubmissions->close();
+            return SURVEYPRO_NOATTACHMENTFOUND;
+        }
 
-            $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
-            $tempbasedir = $CFG->tempdir . $tempsubdir;
+        // Materialise the recordset: collect all answer ids for the batch file query,
+        // then iterate $rows to build the directory tree.
+        // File-upload answers are typically few, so holding them in memory is fine.
+        $rows = [];
+        $answerids = [];
+        foreach ($richsubmissions as $row) {
+            $rows[] = $row;
+            $answerids[] = $row->id; // surveypro_answer.id == filearea itemid
+        }
+        $richsubmissions->close();
 
-            $currentsubmissionid = 0;
-            $olduserid = 0;
-            foreach ($richsubmissions as $richsubmission) {
-                // Itemid always changes so, I look at submissionid.
-                if ($currentsubmissionid != $richsubmission->submissionid) {
-                    // New submissionid.
-                    if ($olduserid != $richsubmission->userid) {
-                        // New user.
-                        // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid.
-                        if (!empty($this->surveypro->anonymous)) {
-                            $dummyuserid++;
-                            $tempuserdir = $anonymousstr . '_' . $dummyuserid;
-                        } else {
-                            $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
-                        }
-                        $tempuserdir = str_replace(' ', '_', $tempuserdir);
-                        $temppath = $tempsubdir . '/' . $tempuserdir;
-                        make_temp_directory($temppath);
-                        $dirnames[] = $temppath;
+        // Load all attachment files in one query instead of one query per answer.
+        $allfiles = $this->fetch_all_attachment_files($answerids);
 
-                        $olduserid = $richsubmission->userid;
+        $packagename = $this->attachments_define_packagename('user');
+
+        $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
+        $tempbasedir = $CFG->tempdir . $tempsubdir;
+
+        $currentsubmissionid = 0;
+        $olduserid = 0;
+        foreach ($rows as $richsubmission) {
+            // Itemid always changes so, I look at submissionid.
+            if ($currentsubmissionid != $richsubmission->submissionid) {
+                // New submissionid.
+                if ($olduserid != $richsubmission->userid) {
+                    // New user.
+                    // Add a new folder named fullname($richsubmission).'_'.$richsubmission->userid.
+                    if (!empty($this->surveypro->anonymous)) {
+                        $dummyuserid++;
+                        $tempuserdir = $anonymousstr . '_' . $dummyuserid;
+                    } else {
+                        $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
                     }
-
-                    // Add a new folder named $richsubmission->submissionid.
-                    $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
-                    $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
-                    $temppath = $tempsubdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
+                    $tempuserdir = str_replace(' ', '_', $tempuserdir);
+                    $temppath = $tempsubdir . '/' . $tempuserdir;
                     make_temp_directory($temppath);
                     $dirnames[] = $temppath;
 
-                    $currentsubmissionid = $richsubmission->submissionid;
+                    $olduserid = $richsubmission->userid;
                 }
 
-                // Add a new folder named $itemid.
-                $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
-                $tempitemdir = str_replace(' ', '_', $tempitemdir);
-                $currentfilepath = $tempuserdir . '/' . $tempsubmissiondir . '/' . $tempitemdir;
-                $temppath = $tempsubdir . '/' . $currentfilepath;
+                // Add a new folder named $richsubmission->submissionid.
+                $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
+                $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
+                $temppath = $tempsubdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
                 make_temp_directory($temppath);
                 $dirnames[] = $temppath;
 
-                $tempfullpath = $CFG->tempdir . '/' . $temppath;
-                // Finally add the attachment.
-                $component = 'surveyprofield_fileupload';
-                $filearea = 'fileuploadfiles';
-                $itemid = $richsubmission->id;
-                if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
-                    foreach ($files as $file) {
-                        $filename = $file->get_filename();
-                        if ($filename == '.') {
-                            continue;
-                        }
+                $currentsubmissionid = $richsubmission->submissionid;
+            }
 
-                        $file->copy_content_to($tempfullpath . '/' . $filename);
-                        $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
-                    }
+            // Add a new folder named $itemid.
+            $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
+            $tempitemdir = str_replace(' ', '_', $tempitemdir);
+            $currentfilepath = $tempuserdir . '/' . $tempsubmissiondir . '/' . $tempitemdir;
+            $temppath = $tempsubdir . '/' . $currentfilepath;
+            make_temp_directory($temppath);
+            $dirnames[] = $temppath;
+
+            $tempfullpath = $CFG->tempdir . '/' . $temppath;
+            // Finally add the attachment.
+            if (!empty($allfiles[$richsubmission->id])) {
+                foreach ($allfiles[$richsubmission->id] as $file) {
+                    $filename = $file->get_filename();
+                    $file->copy_content_to($tempfullpath . '/' . $filename);
+                    $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
                 }
             }
-            $richsubmissions->close();
-
-            // Continue making zip file available ONLY IF selection was valid.
-            $exportfile = $tempbasedir . '.zip';
-            file_exists($exportfile) && unlink($exportfile);
-
-            $fp = get_file_packer('application/zip');
-            $fp->archive_to_pathname($filelist, $exportfile);
-
-            foreach ($filelist as $file) {
-                unlink($file);
-            }
-            $dirnames = array_reverse($dirnames);
-            foreach ($dirnames as $dir) {
-                rmdir($CFG->tempdir . $dir);
-            }
-            rmdir($tempbasedir);
-
-            $this->makezip_available($exportfile);
-        } else {
-            return SURVEYPRO_NOATTACHMENTFOUND;
         }
+
+        // Continue making zip file available ONLY IF selection was valid.
+        $exportfile = $tempbasedir . '.zip';
+        file_exists($exportfile) && unlink($exportfile);
+
+        $fp = get_file_packer('application/zip');
+        $fp->archive_to_pathname($filelist, $exportfile);
+
+        foreach ($filelist as $file) {
+            unlink($file);
+        }
+        $dirnames = array_reverse($dirnames);
+        foreach ($dirnames as $dir) {
+            rmdir($CFG->tempdir . $dir);
+        }
+        rmdir($tempbasedir);
+
+        $this->makezip_available($exportfile);
     }
 
     /**
@@ -832,95 +878,102 @@ class tools_export
         [$richsubmissionssql, $whereparams] = $this->get_export_sql(true);
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
-        if ($richsubmissions->valid()) {
-            $packagename = $this->attachments_define_packagename('item');
+        if (!$richsubmissions->valid()) {
+            $richsubmissions->close();
+            return SURVEYPRO_NOATTACHMENTFOUND;
+        }
 
-            $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
-            $tempbasedir = $CFG->tempdir . $tempsubdir;
+        // Materialise the recordset: collect all answer ids for the batch file query,
+        // then iterate $rows to build the directory tree.
+        // File-upload answers are typically few, so holding them in memory is fine.
+        $rows = [];
+        $answerids = [];
+        foreach ($richsubmissions as $row) {
+            $rows[] = $row;
+            $answerids[] = $row->id; // surveypro_answer.id == filearea itemid
+        }
+        $richsubmissions->close();
 
-            $olduserid = 0;
-            $olditemid = 0;
-            $forcenewuserfolder = false;
-            foreach ($richsubmissions as $richsubmission) {
-                if ($olditemid != $richsubmission->itemid) {
-                    // New item.
-                    // Add a new folder named 'element_'.$richsubmission->itemid.
-                    $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
-                    $tempitemdir = str_replace(' ', '_', $tempitemdir);
-                    $temppath = $tempsubdir . '/' . $tempitemdir;
-                    make_temp_directory($temppath);
-                    $dirnames[] = $temppath;
+        // Load all attachment files in one query instead of one query per answer.
+        $allfiles = $this->fetch_all_attachment_files($answerids);
 
-                    $olditemid = $richsubmission->itemid;
-                    $forcenewuserfolder = true;
-                }
+        $packagename = $this->attachments_define_packagename('item');
 
-                if (($olduserid != $richsubmission->userid) || ($forcenewuserfolder)) {
-                    $forcenewuserfolder = false;
+        $tempsubdir = '/mod_surveypro/attachmentsexport/' . $packagename;
+        $tempbasedir = $CFG->tempdir . $tempsubdir;
 
-                    // New user or forced by new item.
-                    // Add a new folder named $richsubmission->userid.
-                    if (!empty($this->surveypro->anonymous)) {
-                        $dummyuserid++;
-                        $tempuserdir = $anonymousstr . '_' . $dummyuserid;
-                    } else {
-                        $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
-                    }
-                    $tempuserdir = str_replace(' ', '_', $tempuserdir);
-                    $temppath = $tempsubdir . '/' . $tempitemdir . '/' . $tempuserdir;
-                    make_temp_directory($temppath);
-                    $dirnames[] = $temppath;
-
-                    $olduserid = $richsubmission->userid;
-                }
-
-                // Add a new folder named $richsubmission->submissionid.
-                $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
-                $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
-                $currentfilepath = $tempitemdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
-                $temppath = $tempsubdir . '/' . $currentfilepath;
+        $olduserid = 0;
+        $olditemid = 0;
+        $forcenewuserfolder = false;
+        foreach ($rows as $richsubmission) {
+            if ($olditemid != $richsubmission->itemid) {
+                // New item.
+                // Add a new folder named 'element_'.$richsubmission->itemid.
+                $tempitemdir = $itemstr . '_' . $richsubmission->itemid;
+                $tempitemdir = str_replace(' ', '_', $tempitemdir);
+                $temppath = $tempsubdir . '/' . $tempitemdir;
                 make_temp_directory($temppath);
                 $dirnames[] = $temppath;
 
-                $tempfullpath = $CFG->tempdir . '/' . $temppath;
-                // Finally add the attachment.
-                $component = 'surveyprofield_fileupload';
-                $filearea = 'fileuploadfiles';
-                $itemid = $richsubmission->id;
-                if ($files = $fs->get_area_files($this->context->id, $component, $filearea, $itemid, 'timemodified', false)) {
-                    foreach ($files as $file) {
-                        $filename = $file->get_filename();
-                        if ($filename == '.') {
-                            continue;
-                        }
+                $olditemid = $richsubmission->itemid;
+                $forcenewuserfolder = true;
+            }
 
-                        $file->copy_content_to($tempfullpath . '/' . $filename);
-                        $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
-                    }
+            if (($olduserid != $richsubmission->userid) || ($forcenewuserfolder)) {
+                $forcenewuserfolder = false;
+
+                // New user or forced by new item.
+                // Add a new folder named $richsubmission->userid.
+                if (!empty($this->surveypro->anonymous)) {
+                    $dummyuserid++;
+                    $tempuserdir = $anonymousstr . '_' . $dummyuserid;
+                } else {
+                    $tempuserdir = fullname($richsubmission) . '_' . $richsubmission->userid;
+                }
+                $tempuserdir = str_replace(' ', '_', $tempuserdir);
+                $temppath = $tempsubdir . '/' . $tempitemdir . '/' . $tempuserdir;
+                make_temp_directory($temppath);
+                $dirnames[] = $temppath;
+
+                $olduserid = $richsubmission->userid;
+            }
+
+            // Add a new folder named $richsubmission->submissionid.
+            $tempsubmissiondir = $submissionstr . '_' . $richsubmission->submissionid;
+            $tempsubmissiondir = str_replace(' ', '_', $tempsubmissiondir);
+            $currentfilepath = $tempitemdir . '/' . $tempuserdir . '/' . $tempsubmissiondir;
+            $temppath = $tempsubdir . '/' . $currentfilepath;
+            make_temp_directory($temppath);
+            $dirnames[] = $temppath;
+
+            $tempfullpath = $CFG->tempdir . '/' . $temppath;
+            // Finally add the attachment.
+            if (!empty($allfiles[$richsubmission->id])) {
+                foreach ($allfiles[$richsubmission->id] as $file) {
+                    $filename = $file->get_filename();
+                    $file->copy_content_to($tempfullpath . '/' . $filename);
+                    $filelist[$packagename . '/' . $currentfilepath . '/' . $filename] = $tempfullpath . '/' . $filename;
                 }
             }
-            $richsubmissions->close();
-
-            // Continue making zip file available ONLY IF selection was valid.
-            $exportfile = $tempbasedir . '.zip';
-            file_exists($exportfile) && unlink($exportfile);
-
-            $fp = get_file_packer('application/zip');
-            $fp->archive_to_pathname($filelist, $exportfile);
-
-            foreach ($filelist as $file) {
-                unlink($file);
-            }
-            $dirnames = array_reverse($dirnames, true);
-            foreach ($dirnames as $dir) {
-                rmdir($CFG->tempdir . $dir);
-            }
-            rmdir($tempbasedir);
-
-            $this->makezip_available($exportfile);
-        } else {
-            return SURVEYPRO_NOATTACHMENTFOUND;
         }
+
+        // Continue making zip file available ONLY IF selection was valid.
+        $exportfile = $tempbasedir . '.zip';
+        file_exists($exportfile) && unlink($exportfile);
+
+        $fp = get_file_packer('application/zip');
+        $fp->archive_to_pathname($filelist, $exportfile);
+
+        foreach ($filelist as $file) {
+            unlink($file);
+        }
+        $dirnames = array_reverse($dirnames, true);
+        foreach ($dirnames as $dir) {
+            rmdir($CFG->tempdir . $dir);
+        }
+        rmdir($tempbasedir);
+
+        $this->makezip_available($exportfile);
     }
 
     /**
