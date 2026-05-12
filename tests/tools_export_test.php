@@ -461,4 +461,174 @@ final class tools_export_test extends \advanced_testcase {
         $this->assertArrayHasKey(SURVEYPRO_OWNERIDLABEL, $record);
         $this->assertEquals(42, $record[SURVEYPRO_OWNERIDLABEL]);
     }
+
+    /*------------------------------------------------------------------------
+    Tests for build_submissions_sql().
+    ------------------------------------------------------------------------*/
+
+    /**
+     * build_submissions_sql() must return only submissions for the given surveypro.
+     */
+    public function test_build_submissions_sql_filters_by_surveypro(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro] = $this->make_export();
+        $export->formdata = $this->make_formdata();
+
+        // Create a second surveypro with its own submissions.
+        $course = $this->getDataGenerator()->create_course();
+        $othersurvey = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $user = $this->getDataGenerator()->create_user();
+
+        // Two submissions for our surveypro, one for the other.
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_submission($othersurvey, $user, SURVEYPRO_STATUSCLOSED);
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_submissions_sql');
+        $method->setAccessible(true);
+        [$sql, $params] = $method->invoke($export, false);
+
+        $records = $DB->get_records_sql($sql, $params);
+        $this->assertCount(2, $records);
+    }
+
+    /**
+     * build_submissions_sql() with status filter must exclude non-matching submissions.
+     */
+    public function test_build_submissions_sql_filters_by_status(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro] = $this->make_export();
+        $export->formdata = $this->make_formdata(['status' => SURVEYPRO_STATUSCLOSED]);
+
+        $user = $this->getDataGenerator()->create_user();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSINPROGRESS);
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_submissions_sql');
+        $method->setAccessible(true);
+        [$sql, $params] = $method->invoke($export, false);
+
+        $records = $DB->get_records_sql($sql, $params);
+        $this->assertCount(1, $records);
+    }
+
+    /*------------------------------------------------------------------------
+    Tests for build_answers_sql().
+    ------------------------------------------------------------------------*/
+
+    /**
+     * build_answers_sql() must return only answers for the given submission ids.
+     */
+    public function test_build_answers_sql_filters_by_submissionids(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro] = $this->make_export();
+        $export->formdata = $this->make_formdata();
+
+        $user = $this->getDataGenerator()->create_user();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+
+        $item = $generator->create_item_character($surveypro);
+        $sub1 = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $sub2 = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_answer($sub1, $item, 'answer_one');
+        $generator->create_answer($sub2, $item, 'answer_two');
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_answers_sql');
+        $method->setAccessible(true);
+        [$sql, $params] = $method->invoke($export, [$sub1->id]);
+
+        $records = $DB->get_records_sql($sql, $params);
+        $this->assertCount(1, $records);
+        $this->assertEquals('answer_one', reset($records)->content);
+    }
+
+    /**
+     * build_answers_sql() must exclude hidden items by default.
+     */
+    public function test_build_answers_sql_excludes_hidden_items(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro] = $this->make_export();
+        $export->formdata = $this->make_formdata(); // No includehidden.
+
+        $user = $this->getDataGenerator()->create_user();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+
+        $visibleitem = $generator->create_item_character($surveypro, ['hidden' => 0]);
+        $hiddenitem  = $generator->create_item_character($surveypro, ['hidden' => 1]);
+        $sub = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_answer($sub, $visibleitem, 'visible_answer');
+        $generator->create_answer($sub, $hiddenitem, 'hidden_answer');
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_answers_sql');
+        $method->setAccessible(true);
+        [$sql, $params] = $method->invoke($export, [$sub->id]);
+
+        $records = $DB->get_records_sql($sql, $params);
+        $this->assertCount(1, $records);
+        $this->assertEquals('visible_answer', reset($records)->content);
+    }
+
+    /*------------------------------------------------------------------------
+    Regression test: output_to_csv row assembly.
+    ------------------------------------------------------------------------*/
+
+    /**
+     * The number of assembled export rows must match the number of submissions.
+     * Tests the full build_submissions_sql + build_answers_sql pipeline.
+     */
+    public function test_export_row_count_matches_submission_count(): void {
+        global $DB;
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro] = $this->make_export();
+        $export->formdata = $this->make_formdata();
+
+        $user = $this->getDataGenerator()->create_user();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $item = $generator->create_item_character($surveypro);
+
+        $sub1 = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $sub2 = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $sub3 = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $generator->create_answer($sub1, $item, 'a1');
+        $generator->create_answer($sub2, $item, 'a2');
+        $generator->create_answer($sub3, $item, 'a3');
+
+        // Esegui le due query come fa output_to_csv.
+        $submissionsmethod = new \ReflectionMethod(tools_export::class, 'build_submissions_sql');
+        $submissionsmethod->setAccessible(true);
+        [$sql, $params] = $submissionsmethod->invoke($export, false);
+        $submissions = $DB->get_records_sql($sql, $params);
+
+        $answersmethod = new \ReflectionMethod(tools_export::class, 'build_answers_sql');
+        $answersmethod->setAccessible(true);
+        [$asql, $aparams] = $answersmethod->invoke($export, array_keys($submissions));
+        $answers = $DB->get_records_sql($asql, $aparams);
+
+        // Verifica che ogni submission abbia la propria answer.
+        $this->assertCount(3, $submissions);
+        $this->assertCount(3, $answers);
+
+        // Verifica che le answers siano distribuite correttamente.
+        $bysubmission = [];
+        foreach ($answers as $answer) {
+            $bysubmission[$answer->submissionid][] = $answer;
+        }
+        $this->assertCount(3, $bysubmission);
+    }
 }

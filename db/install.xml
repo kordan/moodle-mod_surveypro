@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="mod/surveypro/db" VERSION="20220426" COMMENT="XMLDB file for Moodle mod/surveypro"
+<XMLDB PATH="mod/surveypro/db" VERSION="20260511" COMMENT="XMLDB file for Moodle mod/surveypro"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -69,6 +69,9 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="surveyproid" TYPE="foreign" FIELDS="surveyproid" REFTABLE="surveypro" REFFIELDS="id"/>
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="hidden-reserved-plugin" UNIQUE="false" FIELDS="hidden, reserved, plugin" COMMENT="To speed up export"/>
+      </INDEXES>
     </TABLE>
     <TABLE NAME="surveypro_submission" COMMENT="Contents provided by users submissions">
       <FIELDS>
@@ -84,6 +87,9 @@
         <KEY NAME="surveyproid" TYPE="foreign" FIELDS="surveyproid" REFTABLE="surveypro" REFFIELDS="id"/>
         <KEY NAME="userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="surveyproid-status" UNIQUE="false" FIELDS="surveyproid, status" COMMENT="To speed up the export"/>
+      </INDEXES>
     </TABLE>
     <TABLE NAME="surveypro_answer" COMMENT="Contents provided by users submissions">
       <FIELDS>
@@ -99,6 +105,9 @@
         <KEY NAME="submissionid" TYPE="foreign" FIELDS="submissionid" REFTABLE="surveypro_submission" REFFIELDS="id"/>
         <KEY NAME="itemid" TYPE="foreign" FIELDS="itemid" REFTABLE="surveypro_item" REFFIELDS="id"/>
       </KEYS>
+      <INDEXES>
+        <INDEX NAME="submissionid-itemid" UNIQUE="false" FIELDS="submissionid, itemid" COMMENT="To speed up export"/>
+      </INDEXES>
     </TABLE>
   </TABLES>
 </XMLDB>

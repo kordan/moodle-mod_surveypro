@@ -93,81 +93,159 @@ class tools_export
     }
 
     /**
-     * Get the query to export submissions.
+     * Build the SQL query to fetch submissions for export.
      *
-     * @param bool $forceuserid
-     * @return void
+     * Returns one row per submission. User fields are included unless the
+     * survey is anonymous and $forceuserid is false.
+     *
+     * @param bool $forceuserid If true, user id is always included even on anonymous surveys.
+     * @return array [$sql, $params]
      */
-    public function get_export_sql($forceuserid = false) {
+    private function build_submissions_sql(bool $forceuserid = false): array {
         global $USER, $COURSE;
 
-        $canseeotherssubmissions = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
-        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+        $canseeothers = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $groupmode    = groups_get_activity_groupmode($this->cm, $COURSE);
 
-        $sql = 'SELECT s.id as submissionid, s.status, s.timecreated, s.timemodified, ';
-        if (empty($this->surveypro->anonymous) || ($forceuserid)) {
+        $sql = 'SELECT s.id AS submissionid, s.status, s.timecreated, s.timemodified, u.id AS userid';
+        if (empty($this->surveypro->anonymous) || $forceuserid) {
             $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
-            $sql .= 'u.id as userid' . $userfieldsapi->selects . ', ';
+            $sql .= $userfieldsapi->selects;
         }
-        $sql .= 'a.id as id, a.itemid, a.content, a.contentformat,
+        $sql .= ' FROM {surveypro_submission} s
+                  JOIN {user} u ON u.id = s.userid';
+
+        if ($canseeothers && $groupmode && !empty($this->formdata->groupid)) {
+            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
+        }
+
+        $sql .= ' WHERE s.surveyproid = :surveyproid';
+        $params = ['surveyproid' => $this->surveypro->id];
+
+        if ($this->formdata->status != SURVEYPRO_STATUSALL) {
+            $sql .= ' AND s.status = :status';
+            $params['status'] = $this->formdata->status;
+        }
+
+        if ($canseeothers) {
+            if ($groupmode && !empty($this->formdata->groupid)) {
+                $sql .= ' AND gm.groupid = :groupid';
+                $params['groupid'] = $this->formdata->groupid;
+            }
+        } else {
+            $sql .= ' AND s.userid = :userid';
+            $params['userid'] = $USER->id;
+        }
+
+        $sql .= ' ORDER BY s.id';
+
+        return [$sql, $params];
+    }
+
+    /**
+     * Build the SQL query to fetch answers for the given submission ids.
+     *
+     * Hidden and reserved items are excluded unless the corresponding
+     * formdata properties are set. File upload items are excluded unless
+     * the download type is SURVEYPRO_FILESBYUSER or SURVEYPRO_FILESBYITEM.
+     *
+     * @param int[] $submissionids List of surveypro_submission.id values to fetch answers for.
+     * @return array [$sql, $params]
+     */
+    private function build_answers_sql(array $submissionids): array {
+        global $DB;
+
+        [$insql, $inparams] = $DB->get_in_or_equal($submissionids, SQL_PARAMS_NAMED, 'sid');
+
+        $sql = 'SELECT a.id, a.submissionid, a.itemid, a.content, a.contentformat,
+                       si.sortindex, si.plugin
+                FROM {surveypro_answer} a
+                JOIN {surveypro_item} si ON si.id = a.itemid
+                WHERE a.submissionid ' . $insql;
+
+        $params = $inparams;
+
+        if (!isset($this->formdata->includehidden)) {
+            $sql .= ' AND si.hidden = :hidden';
+            $params['hidden'] = 0;
+        }
+        if (!isset($this->formdata->includereserved)) {
+            $sql .= ' AND si.reserved = :reserved';
+            $params['reserved'] = 0;
+        }
+
+        $isfiledownload = in_array($this->formdata->downloadtype, [SURVEYPRO_FILESBYUSER, SURVEYPRO_FILESBYITEM], true);
+        $sql .= $isfiledownload
+            ? ' AND si.plugin = :plugin'
+            : ' AND si.plugin <> :plugin';
+        $params['plugin'] = 'fileupload';
+
+        $sql .= ' ORDER BY a.submissionid, a.itemid';
+
+        return [$sql, $params];
+    }
+
+    /**
+     * Get the query to export submissions with their answers.
+     * Used by attachments_downloadbyuser() and attachments_downloadbyitem().
+     *
+     * @param bool $forceuserid Force inclusion of userid even on anonymous surveys.
+     * @return array [$sql, $params]
+     */
+    private function get_export_sql(bool $forceuserid = false): array {
+        global $USER, $COURSE;
+
+        $canseeothers = has_capability('mod/surveypro:seeotherssubmissions', $this->context);
+        $groupmode    = groups_get_activity_groupmode($this->cm, $COURSE);
+
+        $sql = 'SELECT s.id AS submissionid, s.status, s.timecreated, s.timemodified, ';
+        if (empty($this->surveypro->anonymous) || $forceuserid) {
+            $userfieldsapi = \core_user\fields::for_userpic()->get_sql('u');
+            $sql .= 'u.id AS userid' . $userfieldsapi->selects . ', ';
+        }
+        $sql .= 'a.id AS id, a.itemid, a.content, a.contentformat,
                  si.sortindex, si.plugin
                  FROM {surveypro_submission} s
                    JOIN {user} u ON u.id = s.userid
                    LEFT JOIN {surveypro_answer} a ON a.submissionid = s.id
                    LEFT JOIN {surveypro_item} si ON si.id = a.itemid';
 
-        // If !$canseeotherssubmissions do not overload the query with useless conditions.
-        if ($canseeotherssubmissions) {
-            if ($groupmode) { // Activity is divided into groups.
-                if (!empty($this->formdata->groupid)) {
-                    $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid ';
-                }
-            }
+        if ($canseeothers && $groupmode && !empty($this->formdata->groupid)) {
+            $sql .= ' JOIN {groups_members} gm ON gm.userid = s.userid';
         }
 
-        // Now finalise $sql.
         $sql .= ' WHERE s.surveyproid = :surveyproid';
-        $whereparams['surveyproid'] = $this->surveypro->id;
+        $params = ['surveyproid' => $this->surveypro->id];
 
-        // For IN PROGRESS submissions where no fields were filled I need the LEFT JOIN {surveypro_item}.
-        // In this case,
-        // If I add a clause for fields of UNEXISTING {surveypro_item} (because no fields was filled)
-        // I will miss the record if I do not further add OR si.xxxx IS NULL.
         if (!isset($this->formdata->includehidden)) {
             $sql .= ' AND (si.hidden = :hidden OR si.hidden IS NULL)';
-            $whereparams['hidden'] = 0;
+            $params['hidden'] = 0;
         }
         if (!isset($this->formdata->includereserved)) {
             $sql .= ' AND (si.reserved = :reserved OR si.reserved IS NULL)';
-            $whereparams['reserved'] = 0;
+            $params['reserved'] = 0;
         }
         if ($this->formdata->status != SURVEYPRO_STATUSALL) {
             $sql .= ' AND s.status = :status';
-            $whereparams['status'] = $this->formdata->status;
+            $params['status'] = $this->formdata->status;
         }
 
-        $condition = false;
-        $condition = $condition || ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER);
-        $condition = $condition || ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM);
-        if ($condition) {
-            $sql .= ' AND si.plugin = :plugin';
-        } else {
-            $sql .= ' AND si.plugin <> :plugin';
-        }
-        $whereparams['plugin'] = 'fileupload';
+        $isfiledownload = in_array(
+            $this->formdata->downloadtype,
+            [SURVEYPRO_FILESBYUSER, SURVEYPRO_FILESBYITEM],
+            true
+        );
+        $sql .= $isfiledownload ? ' AND si.plugin = :plugin' : ' AND si.plugin <> :plugin';
+        $params['plugin'] = 'fileupload';
 
-        // If !$canseeotherssubmissions do not overload the query with useless conditions.
-        if ($canseeotherssubmissions) {
-            if ($groupmode) { // Activity is divided into groups.
-                if (!empty($this->formdata->groupid)) {
-                    $sql .= ' AND gm.groupid = :groupid';
-                    $whereparams['groupid'] = $this->formdata->groupid;
-                }
+        if ($canseeothers) {
+            if ($groupmode && !empty($this->formdata->groupid)) {
+                $sql .= ' AND gm.groupid = :groupid';
+                $params['groupid'] = $this->formdata->groupid;
             }
         } else {
-            // Restrict to your submissions only.
             $sql .= ' AND s.userid = :userid';
-            $whereparams['userid'] = $USER->id;
+            $params['userid'] = $USER->id;
         }
 
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYUSER) {
@@ -178,7 +256,7 @@ class tools_export
             $sql .= ' ORDER BY submissionid';
         }
 
-        return [$sql, $whereparams];
+        return [$sql, $params];
     }
 
     /**
@@ -187,7 +265,6 @@ class tools_export
      * @return $exporterror
      */
     public function submissions_export() {
-        global $DB;
 
         // Do I need to filter groups?
 
@@ -197,7 +274,6 @@ class tools_export
             }
             die();
         }
-
         if ($this->formdata->downloadtype == SURVEYPRO_FILESBYITEM) {
             if ($errorreturned = $this->attachments_downloadbyitem()) {
                 return $errorreturned;
@@ -205,17 +281,11 @@ class tools_export
             die();
         }
 
-        [$richsubmissionssql, $whereparams] = $this->get_export_sql(false);
-        $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
-
-        if ($richsubmissions->valid()) {
-            if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
-                $this->output_to_xls($richsubmissions);
-            } else { // SURVEYPRO_DOWNLOADCSV or SURVEYPRO_DOWNLOADTSV.
-                $this->output_to_csv($richsubmissions);
-            }
+        // CSV, TSV, XLS: i metodi gestiscono tutto internamente.
+        if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADXLS) {
+            $this->output_to_xls();
         } else {
-            return SURVEYPRO_NORECORDSFOUND;
+            $this->output_to_csv();
         }
     }
 
@@ -299,46 +369,60 @@ class tools_export
     /**
      * Print given submissions to csv file and make it available.
      *
-     * @param array $richsubmissions
      * @return void
      */
-    public function output_to_csv($richsubmissions) {
-        global $CFG;
+    public function output_to_csv(): void {
+        global $CFG, $DB;
 
         require_once($CFG->libdir . '/csvlib.class.php');
 
-        if ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADCSV) {
-            $csvexport = new \csv_export_writer('comma');
-        } else {
-            $csvexport = new \csv_export_writer('tab');
-        }
-
+        $sep = ($this->formdata->downloadtype == SURVEYPRO_DOWNLOADCSV) ? 'comma' : 'tab';
+        $csvexport = new \csv_export_writer($sep);
         $csvexport->filename = $this->get_export_filename('csv');
 
-        // Get headers and placeholders.
         [$headerlabels, $placeholders] = $this->export_get_output_headers();
         $csvexport->add_data($headerlabels);
 
-        $currentsubmissionid = 0;
-        foreach ($richsubmissions as $richsubmission) {
-            if ($currentsubmissionid != $richsubmission->submissionid) {
-                if (!empty($currentsubmissionid)) { // New richsubmissionid, stop managing old record.
-                    // Write old record.
-                    $csvexport->add_data($recordtoexport);
+        // Query 1: submissions (N rows, one per each submission).
+        [$submissionssql, $submissionsparams] = $this->build_submissions_sql();
+        $submissions = $DB->get_records_sql($submissionssql, $submissionsparams);
+        // $submissions è keyed by submissionid (the returned 'id' field).
+
+        if (empty($submissions)) {
+            $csvexport->download_file();
+            die();
+        }
+
+        // Query 2: answers, only for the submissions found.
+        $submissionids = array_keys($submissions);
+
+        [$answerssql, $answersparams] = $this->build_answers_sql($submissionids);
+        $answersrs = $DB->get_recordset_sql($answerssql, $answersparams);
+
+        // Group answers by submission id.
+        // Let's use a recordset to avoid overloading the RAM when working with huge datasets.
+        $answersbysubmission = []; // [submissionid => [itemid => richsubmission_row]]
+        foreach ($answersrs as $answer) {
+            $answersbysubmission[$answer->submissionid][$answer->itemid] = $answer;
+        }
+        $answersrs->close();
+
+        // Assembly and writing.
+        foreach ($submissions as $submissionid => $submission) {
+            $recordtoexport = $this->export_begin_newrecord($submission, $placeholders);
+
+            if (isset($answersbysubmission[$submissionid])) {
+                foreach ($answersbysubmission[$submissionid] as $answer) {
+                    $this->export_populate_currentrecord($answer, $recordtoexport);
                 }
-
-                // Update the reference.
-                $currentsubmissionid = $richsubmission->submissionid;
-
-                // Begin a new record.
-                $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_populate_currentrecord($richsubmission, $recordtoexport);
+            $csvexport->add_data($recordtoexport);
         }
-        $richsubmissions->close();
 
-        $csvexport->add_data($recordtoexport);
+        // Release immediately.
+        unset($answersbysubmission);
+
         $csvexport->download_file();
         die();
     }
@@ -346,51 +430,59 @@ class tools_export
     /**
      * Print given submissions to xls file and make it available.
      *
-     * @param array $richsubmissions
      * @return void
      */
-    public function output_to_xls($richsubmissions) {
-        global $CFG;
+    public function output_to_xls(): void {
+        global $CFG, $DB;
 
         require_once($CFG->libdir . '/excellib.class.php');
 
         $filename = $this->get_export_filename('xls');
-
         $workbook = new \MoodleExcelWorkbook('-');
         $workbook->send($filename);
-
         $worksheet = [];
         $worksheet[0] = $workbook->add_worksheet(get_string('surveypro', 'mod_surveypro'));
 
-        // Get headers and placeholders.
         [$headerlabels, $placeholders] = $this->export_get_output_headers();
         $rowcounter = 0;
         $this->export_write_xlsrecord($rowcounter, $headerlabels, $worksheet);
 
-        $currentsubmissionid = 0;
-        foreach ($richsubmissions as $richsubmission) {
-            if ($currentsubmissionid != $richsubmission->submissionid) {
-                if (!empty($currentsubmissionid)) { // New richsubmissionid, stop managing old record.
-                    // Write current record.
-                    $rowcounter++;
-                    $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
+        // Query 1: submissions.
+        [$submissionssql, $submissionsparams] = $this->build_submissions_sql();
+        $submissions = $DB->get_records_sql($submissionssql, $submissionsparams);
+
+        if (empty($submissions)) {
+            $workbook->close();
+            die();
+        }
+
+        // Query 2: answers.
+        [$answerssql, $answersparams] = $this->build_answers_sql(array_keys($submissions));
+        $answersrs = $DB->get_recordset_sql($answerssql, $answersparams);
+
+        $answersbysubmission = [];
+        foreach ($answersrs as $answer) {
+            $answersbysubmission[$answer->submissionid][$answer->itemid] = $answer;
+        }
+        $answersrs->close();
+
+        foreach ($submissions as $submissionid => $submission) {
+            $recordtoexport = $this->export_begin_newrecord($submission, $placeholders);
+
+            if (isset($answersbysubmission[$submissionid])) {
+                foreach ($answersbysubmission[$submissionid] as $answer) {
+                    $this->export_populate_currentrecord($answer, $recordtoexport);
                 }
-
-                // Update the reference.
-                $currentsubmissionid = $richsubmission->submissionid;
-
-                // Begin a new record.
-                $recordtoexport = $this->export_begin_newrecord($richsubmission, $placeholders);
             }
 
-            $this->export_populate_currentrecord($richsubmission, $recordtoexport);
+            $rowcounter++;
+            $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
         }
-        $richsubmissions->close();
 
-        $rowcounter++;
-        $this->export_write_xlsrecord($rowcounter, $recordtoexport, $worksheet);
+        unset($answersbysubmission);
 
         $workbook->close();
+        die();
     }
 
     /**
@@ -738,7 +830,6 @@ class tools_export
 
         $fs = get_file_storage();
         [$richsubmissionssql, $whereparams] = $this->get_export_sql(true);
-
         $richsubmissions = $DB->get_recordset_sql($richsubmissionssql, $whereparams);
 
         if ($richsubmissions->valid()) {
