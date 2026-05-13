@@ -142,12 +142,12 @@ class form
     public function display_attachment($submissionid, $itemid) {
         global $DB, $OUTPUT, $PAGE;
 
-        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], '*', MUST_EXIST);
+        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid, 'surveyproid' => $this->surveypro->id], '*', MUST_EXIST);
         $user = $DB->get_record('user', ['id' => $submission->userid], '*', MUST_EXIST);
 
         $renderer = $PAGE->get_renderer('surveyproreport_attachments');
 
-        // Separation at the beginning.
+        // Separator at the beginning.
         echo \html_writer::tag('div', '<br>', ['id' => 'global_container', 'class' => 'mb3 row fitem']);
 
         $data = [];
