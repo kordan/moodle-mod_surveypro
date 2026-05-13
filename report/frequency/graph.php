@@ -40,6 +40,10 @@ $groupid = optional_param('groupid', 0, PARAM_INT); // Group ID.
 require_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
+if (!$DB->record_exists('surveypro_item', ['id' => $itemid, 'surveyproid' => $surveypro->id])) {
+    throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+}
+
 $reportman = new report($cm, $context, $surveypro);
 $reportman->setup();
 $reportman->prevent_direct_user_input();
@@ -57,6 +61,10 @@ foreach ($answers as $answer) {
 }
 
 $answers->close();
+
+if (empty($absolute)) {
+    throw new \moodle_exception('invalidrequest', 'error');
+}
 
 $graph = new graph(SURVEYPROREPORT_FREQUENCY_GWIDTH, SURVEYPROREPORT_FREQUENCY_GHEIGHT);
 $graph->parameter['title'] = '';
