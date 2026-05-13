@@ -131,9 +131,10 @@ class view_responsesearch
         }
 
         if ($searchfields) {
-            return serialize($searchfields);
-        } else {
-            return;
+            // JSON avoids unsafe PHP object injection possible with serialize/unserialize on request parameters.
+            return json_encode($searchfields, JSON_UNESCAPED_UNICODE);
         }
+
+        return;
     }
 }

@@ -73,6 +73,8 @@ class view_responselist
     protected $confirm;
 
     /**
+     * Encoded submission search filter (JSON). Legacy bookmarks may still use PHP serialized arrays.
+     *
      * @var string $searchquery
      */
     protected $searchquery;
@@ -270,12 +272,13 @@ class view_responselist
             // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
             $whereparams['searchquery'] = $this->searchquery;
 
-            $searchrestrictions = unserialize($this->searchquery);
+            $searchrestrictions = $this->decode_search_restrictions($this->searchquery);
+            if (count($searchrestrictions)) {
+                $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
 
-            $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
-
-            // Finally, continue writing $sql.
-            $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = ss.id';
+                // Finally, continue writing $sql.
+                $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = ss.id';
+            }
         }
 
         $debug = false;
@@ -395,12 +398,13 @@ class view_responselist
             // This will be re-send to URL for next page reload, whether requested with a sort, for instance.
             $whereparams['searchquery'] = $this->searchquery;
 
-            $searchrestrictions = unserialize($this->searchquery);
+            $searchrestrictions = $this->decode_search_restrictions($this->searchquery);
+            if (count($searchrestrictions)) {
+                $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
 
-            $sqlanswer = $this->get_sqlanswer($searchrestrictions, $whereparams);
-
-            // Finally, continue writing $sql.
-            $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = s.id';
+                // Finally, continue writing $sql.
+                $sql .= ' JOIN (' . $sqlanswer . ') a ON a.submissionid = s.id';
+            }
         }
 
         if ($groupmode && (!$canaccessallgroups)) {
@@ -458,6 +462,125 @@ class view_responselist
         $counter['allusers'] = (int) $counters->users;
 
         return $counter;
+    }
+
+    /**
+     * Decode and validate the submissions search filter from the URL parameter.
+     *
+     * New searches use JSON. Legacy bookmarks may still hold PHP-serialized arrays; those are decoded
+     * with classes disabled to prevent object injection.
+     *
+     * @param string $raw Raw query param value.
+     * @return array Non-empty itemid => restriction payload for SQL building (keys are int).
+     */
+    protected function decode_search_restrictions(string $raw): array {
+        $raw = trim($raw);
+        if ($raw === '') {
+            return [];
+        }
+
+        $data = self::decode_search_restrictions_raw($raw);
+        self::validate_search_restrictions_structure($data);
+
+        return self::normalise_search_restriction_keys($data);
+    }
+
+    /**
+     * Decode JSON or legacy serialized array from the raw parameter.
+     *
+     * @param string $raw
+     * @return array
+     */
+    protected static function decode_search_restrictions_raw(string $raw): array {
+        $fc = $raw[0] ?? '';
+
+        if ($fc === '{' || $fc === '[') {
+            $decoded = json_decode($raw, true);
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($decoded)) {
+                throw new \moodle_exception('invalidrequest', 'error');
+            }
+
+            return $decoded;
+        }
+
+        // Legacy format only (PHP serialized associative array of scalars / nested arrays).
+        $legacy = @unserialize(
+            $raw,
+            ['allowed_classes' => false]
+        );
+        if (!is_array($legacy)) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
+
+        return $legacy;
+    }
+
+    /**
+     * Ensure decoded data only contains JSON-safe values (no objects/resources).
+     *
+     * @param array $data
+     * @param int $depth Current nesting depth for arrays.
+     * @return void
+     */
+    protected static function validate_search_restrictions_structure(array $data, int $depth = 0): void {
+        if ($depth > 8) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
+
+        foreach ($data as $value) {
+            if (!self::is_allowed_search_restriction_value($value, $depth)) {
+                throw new \moodle_exception('invalidrequest', 'error');
+            }
+        }
+    }
+
+    /**
+     * Returns if search restriction value is allowed.
+     *
+     * @param mixed $value
+     * @param int $depth
+     * @return bool
+     */
+    protected static function is_allowed_search_restriction_value($value, int $depth): bool {
+        if ($value === null || is_bool($value) || is_int($value) || is_float($value) || is_string($value)) {
+            return true;
+        }
+        if (is_array($value)) {
+            if ($depth > 6) {
+                return false;
+            }
+            foreach ($value as $child) {
+                if (!self::is_allowed_search_restriction_value($child, $depth + 1)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Normalise item ids to positive integers.
+     *
+     * @param array $data
+     * @return array
+     */
+    protected static function normalise_search_restriction_keys(array $data): array {
+        $out = [];
+        foreach ($data as $itemid => $value) {
+            if (!is_string($itemid) && !is_int($itemid)) {
+                throw new \moodle_exception('invalidrequest', 'error');
+            }
+            $id = filter_var($itemid, FILTER_VALIDATE_INT);
+            if ($id === false || $id < 1) {
+                throw new \moodle_exception('invalidrequest', 'error');
+            }
+            $out[$id] = $value;
+        }
+
+        return $out;
     }
 
     /**
