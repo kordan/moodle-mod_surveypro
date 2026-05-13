@@ -72,6 +72,7 @@ class layout_variable extends \core\output\inplace_editable
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         external_api::validate_context($context);
+        require_capability('mod/surveypro:manageitems', $context);
 
         // Why was I required to move surveypro_get_itemclass from locallib.php to lib.php?
         $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemrecord->type, $itemrecord->plugin);
