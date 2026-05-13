@@ -649,4 +649,31 @@ class mod_surveypro_generator extends testing_module_generator
 
         return $answer;
     }
+
+    /**
+     * Create a file in the Moodle filestore for a fileupload answer.
+     *
+     * @param \stdClass $answer   The surveypro_answer record (id used as filearea itemid).
+     * @param \context  $context  The module context.
+     * @param string    $filename Filename to use.
+     * @param string    $content  File content.
+     * @return \stored_file
+     */
+    public function create_attachment(
+        \stdClass $answer,
+        \context $context,
+        string $filename = 'test.txt',
+        string $content = 'test content'
+    ): \stored_file {
+        $fs = get_file_storage();
+        $filerecord = [
+            'contextid' => $context->id,
+            'component' => 'surveyprofield_fileupload',
+            'filearea'  => 'fileuploadfiles',
+            'itemid'    => $answer->id,
+            'filepath'  => '/',
+            'filename'  => $filename,
+        ];
+        return $fs->create_file_from_string($filerecord, $content);
+    }
 }
