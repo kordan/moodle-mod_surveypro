@@ -631,4 +631,390 @@ final class tools_export_test extends \advanced_testcase {
         }
         $this->assertCount(3, $bysubmission);
     }
+
+    /*------------------------------------------------------------------------
+    Tests for fetch_all_attachment_files().
+    ------------------------------------------------------------------------*/
+
+    /**
+     * fetch_all_attachment_files() must return empty array for empty input.
+     */
+    public function test_fetch_all_attachment_files_empty_input(): void {
+        $this->resetAfterTest();
+
+        [$export] = $this->make_export();
+
+        $method = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($export, []);
+
+        $this->assertSame([], $result);
+    }
+
+    /**
+     * fetch_all_attachment_files() must return files grouped by answer id.
+     */
+    public function test_fetch_all_attachment_files_groups_by_answerid(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans1   = $generator->create_answer($sub, $itemid, '');
+        $ans2   = $generator->create_answer($sub, $itemid, '');
+
+        $generator->create_attachment($ans1, $context, 'file_a.txt', 'content a');
+        $generator->create_attachment($ans2, $context, 'file_b.txt', 'content b');
+
+        $method = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($export, [$ans1->id, $ans2->id]);
+
+        $this->assertArrayHasKey($ans1->id, $result);
+        $this->assertArrayHasKey($ans2->id, $result);
+        $this->assertCount(1, $result[$ans1->id]);
+        $this->assertCount(1, $result[$ans2->id]);
+        $this->assertInstanceOf(\stored_file::class, $result[$ans1->id][0]);
+        $this->assertEquals('file_a.txt', $result[$ans1->id][0]->get_filename());
+        $this->assertEquals('file_b.txt', $result[$ans2->id][0]->get_filename());
+    }
+
+    /**
+     * fetch_all_attachment_files() must not return the directory placeholder record (filename = '.').
+     */
+    public function test_fetch_all_attachment_files_excludes_dot_placeholder(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans    = $generator->create_answer($sub, $itemid, '');
+
+        // Moodle creates a '.' directory record automatically when creating a file.
+        $generator->create_attachment($ans, $context, 'real.txt', 'content');
+
+        $method = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($export, [$ans->id]);
+
+        // Solo il file reale, non il placeholder '.'.
+        $this->assertCount(1, $result[$ans->id]);
+        $this->assertEquals('real.txt', $result[$ans->id][0]->get_filename());
+    }
+
+    /**
+     * fetch_all_attachment_files() must ignore answer ids from other contexts.
+     */
+    public function test_fetch_all_attachment_files_ignores_other_contexts(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        // File in a different context (system context).
+        $othercontext = \context_system::instance();
+        $fs = get_file_storage();
+        $fs->create_file_from_string([
+            'contextid' => $othercontext->id,
+            'component' => 'surveyprofield_fileupload',
+            'filearea'  => 'fileuploadfiles',
+            'itemid'    => 9999,
+            'filepath'  => '/',
+            'filename'  => 'other.txt',
+        ], 'other content');
+
+        $method = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($export, [9999]);
+
+        $this->assertSame([], $result);
+    }
+
+    /*------------------------------------------------------------------------
+    Tests for build_filelist_byuser().
+    ------------------------------------------------------------------------*/
+
+    /**
+     * build_filelist_byuser() must return empty filelist when no files exist.
+     */
+    public function test_build_filelist_byuser_no_files(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans    = $generator->create_answer($sub, $itemid, '');
+
+        $rows = [(object)[
+            'id'                => $ans->id,
+            'submissionid'      => $sub->id,
+            'userid'            => $user->id,
+            'itemid'            => $itemid,
+            'firstname'         => $user->firstname,
+            'lastname'          => $user->lastname,
+            'firstnamephonetic' => $user->firstnamephonetic ?? '',
+            'lastnamephonetic'  => $user->lastnamephonetic ?? '',
+            'middlename'        => $user->middlename ?? '',
+            'alternatename'     => $user->alternatename ?? '',
+        ]];
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_filelist_byuser');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($export, $rows, [], 'testpackage', '/mod_surveypro/attachmentsexport/testpackage');
+
+        $this->assertSame([], $result['filelist']);
+        $this->assertNotEmpty($result['dirnames']); // Le directory vengono comunque create.
+    }
+
+    /**
+     * build_filelist_byuser() zip keys must follow the user/submission/item hierarchy.
+     */
+    public function test_build_filelist_byuser_zip_key_structure(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans    = $generator->create_answer($sub, $itemid, '');
+        $generator->create_attachment($ans, $context, 'myfile.pdf', 'pdf content');
+
+        $allfilesmethod = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $allfilesmethod->setAccessible(true);
+        $allfiles = $allfilesmethod->invoke($export, [$ans->id]);
+
+        $rows = [(object)[
+            'id'                => $ans->id,
+            'submissionid'      => $sub->id,
+            'userid'            => $user->id,
+            'itemid'            => $itemid,
+            'firstname'         => $user->firstname,
+            'lastname'          => $user->lastname,
+            'firstnamephonetic' => $user->firstnamephonetic ?? '',
+            'lastnamephonetic'  => $user->lastnamephonetic ?? '',
+            'middlename'        => $user->middlename ?? '',
+            'alternatename'     => $user->alternatename ?? '',
+        ]];
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_filelist_byuser');
+        $method->setAccessible(true);
+
+        $packagename = 'testpackage';
+        $result = $method->invoke($export, $rows, $allfiles, $packagename, '/mod_surveypro/attachmentsexport/' . $packagename);
+
+        $this->assertCount(1, $result['filelist']);
+        $zipkey = array_key_first($result['filelist']);
+
+        // La chiave deve iniziare con packagename/ e finire con /myfile.pdf.
+        $this->assertStringStartsWith($packagename . '/', $zipkey);
+        $this->assertStringEndsWith('/myfile.pdf', $zipkey);
+
+        // La struttura deve essere: packagename/user_N/submission_N/item_N/filename.
+        $parts = explode('/', $zipkey);
+        $this->assertCount(5, $parts); // packagename, userdir, submissiondir, itemdir, filename.
+    }
+
+    /**
+     * build_filelist_byuser() must group multiple submissions under the same user folder.
+     */
+    public function test_build_filelist_byuser_same_user_same_folder(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub1   = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $sub2   = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans1   = $generator->create_answer($sub1, $itemid, '');
+        $ans2   = $generator->create_answer($sub2, $itemid, '');
+        $generator->create_attachment($ans1, $context, 'file1.txt', 'c1');
+        $generator->create_attachment($ans2, $context, 'file2.txt', 'c2');
+
+        $allfilesmethod = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $allfilesmethod->setAccessible(true);
+        $allfiles = $allfilesmethod->invoke($export, [$ans1->id, $ans2->id]);
+
+        $rows = [
+            (object)[
+                'id' => $ans1->id,
+                'submissionid' => $sub1->id,
+                'userid' => $user->id,
+                'itemid' => $itemid,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'firstnamephonetic' => $user->firstnamephonetic ?? '',
+                'lastnamephonetic' => $user->lastnamephonetic ?? '',
+                'middlename' => $user->middlename ?? '',
+                'alternatename' => $user->alternatename ?? '',
+            ],
+            (object)[
+                'id' => $ans2->id,
+                'submissionid' => $sub2->id,
+                'userid' => $user->id,
+                'itemid' => $itemid,
+                'firstname' => $user->firstname,
+                'lastname' => $user->lastname,
+                'firstnamephonetic' => $user->firstnamephonetic ?? '',
+                'lastnamephonetic' => $user->lastnamephonetic ?? '',
+                'middlename' => $user->middlename ?? '',
+                'alternatename' => $user->alternatename ?? '',
+            ],
+        ];
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_filelist_byuser');
+        $method->setAccessible(true);
+        $packagename = 'testpackage';
+        $result = $method->invoke($export, $rows, $allfiles, $packagename, '/mod_surveypro/attachmentsexport/' . $packagename);
+
+        $keys = array_keys($result['filelist']);
+        // Entrambe le chiavi devono avere la stessa user-dir (secondo segmento).
+        $userdir1 = explode('/', $keys[0])[1];
+        $userdir2 = explode('/', $keys[1])[1];
+        $this->assertEquals($userdir1, $userdir2);
+    }
+
+    /*------------------------------------------------------------------------
+    Tests for build_filelist_byitem().
+    ------------------------------------------------------------------------*/
+
+    /**
+     * build_filelist_byitem() zip keys must follow the item/user/submission hierarchy.
+     */
+    public function test_build_filelist_byitem_zip_key_structure(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans    = $generator->create_answer($sub, $itemid, '');
+        $generator->create_attachment($ans, $context, 'doc.pdf', 'content');
+
+        $allfilesmethod = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $allfilesmethod->setAccessible(true);
+        $allfiles = $allfilesmethod->invoke($export, [$ans->id]);
+
+        $rows = [(object)[
+            'id'                => $ans->id,
+            'submissionid'      => $sub->id,
+            'userid'            => $user->id,
+            'itemid'            => $itemid,
+            'firstname'         => $user->firstname,
+            'lastname'          => $user->lastname,
+            'firstnamephonetic' => $user->firstnamephonetic ?? '',
+            'lastnamephonetic'  => $user->lastnamephonetic ?? '',
+            'middlename'        => $user->middlename ?? '',
+            'alternatename'     => $user->alternatename ?? '',
+        ]];
+
+        $method = new \ReflectionMethod(tools_export::class, 'build_filelist_byitem');
+        $method->setAccessible(true);
+        $packagename = 'testpackage';
+        $result = $method->invoke($export, $rows, $allfiles, $packagename, '/mod_surveypro/attachmentsexport/' . $packagename);
+
+        $this->assertCount(1, $result['filelist']);
+        $zipkey = array_key_first($result['filelist']);
+
+        $this->assertStringStartsWith($packagename . '/', $zipkey);
+        $this->assertStringEndsWith('/doc.pdf', $zipkey);
+
+        // La struttura deve essere: packagename/item_N/user_N/submission_N/filename.
+        $parts = explode('/', $zipkey);
+        $this->assertCount(5, $parts);
+    }
+
+    /**
+     * build_filelist_byitem() and build_filelist_byuser() must produce different key structures
+     * for the same data (item-first vs user-first).
+     */
+    public function test_build_filelist_byuser_vs_byitem_different_structure(): void {
+        $this->resetAfterTest();
+        $this->setAdminUser();
+
+        [$export, $surveypro, $cm, $context] = $this->make_export();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $user = $this->getDataGenerator()->create_user();
+
+        $itemid = $generator->create_item_fileupload($surveypro);
+        $sub    = $generator->create_submission($surveypro, $user, SURVEYPRO_STATUSCLOSED);
+        $ans    = $generator->create_answer($sub, $itemid, '');
+        $generator->create_attachment($ans, $context, 'f.txt', 'c');
+
+        $allfilesmethod = new \ReflectionMethod(tools_export::class, 'fetch_all_attachment_files');
+        $allfilesmethod->setAccessible(true);
+        $allfiles = $allfilesmethod->invoke($export, [$ans->id]);
+
+        $rows = [(object)[
+            'id'                => $ans->id,
+            'submissionid'      => $sub->id,
+            'userid'            => $user->id,
+            'itemid'            => $itemid,
+            'firstname'         => $user->firstname,
+            'lastname'          => $user->lastname,
+            'firstnamephonetic' => $user->firstnamephonetic ?? '',
+            'lastnamephonetic'  => $user->lastnamephonetic ?? '',
+            'middlename'        => $user->middlename ?? '',
+            'alternatename'     => $user->alternatename ?? '',
+        ]];
+
+        $byuser = new \ReflectionMethod(tools_export::class, 'build_filelist_byuser');
+        $byuser->setAccessible(true);
+        $byitem = new \ReflectionMethod(tools_export::class, 'build_filelist_byitem');
+        $byitem->setAccessible(true);
+
+        $resultuser = $byuser->invoke($export, $rows, $allfiles, 'pkg', '/mod_surveypro/attachmentsexport/pkg');
+        $resultitem = $byitem->invoke($export, $rows, $allfiles, 'pkg', '/mod_surveypro/attachmentsexport/pkg');
+
+        $keyuser = array_key_first($resultuser['filelist']);
+        $keyitem = array_key_first($resultitem['filelist']);
+
+        // Le strutture devono essere diverse (user-first vs item-first).
+        $this->assertNotEquals($keyuser, $keyitem);
+
+        // byuser: pkg/user_X/submission_Y/item_Z/f.txt  → [1] is userdir
+        // byitem: pkg/item_Z/user_X/submission_Y/f.txt  → [1] is itemdir
+        $partsuser = explode('/', $keyuser);
+        $partsitem = explode('/', $keyitem);
+
+        // byuser: pkg / userdir   / submissiondir / itemdir / filename
+        // byitem: pkg / itemdir   / userdir       / submissiondir / filename
+        // I want to test that the second segments of the two are different,
+        // and that the second segment of byitem appears as the fourth segment of byuser, and vice versa.
+        $this->assertNotEquals($partsuser[1], $partsitem[1]);
+
+        // The second segment of `byitem` must appear in the fourth position in `byuser`.
+        $this->assertEquals($partsitem[1], $partsuser[3]);
+
+        // The second segment of `byuser` must appear in the second position in `byitem`
+        // (after the first one, which is `itemdir`).
+        $this->assertEquals($partsuser[1], $partsitem[2]);
+    }
 }
