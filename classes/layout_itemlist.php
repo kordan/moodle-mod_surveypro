@@ -1182,6 +1182,8 @@ class layout_itemlist
     public function item_hide_execute() {
         global $DB;
 
+        require_sesskey();
+
         // Build tohidelist.
         // Here I must select the whole tree down.
         $itemstohide = $this->get_children(null, ['hidden' => 0]);
@@ -1274,6 +1276,8 @@ class layout_itemlist
      */
     public function item_show_execute() {
         global $DB;
+
+        require_sesskey();
 
         // Build toshowlist.
         $toshowlist = $this->add_parent_node(['hidden' => 1]);
@@ -1372,6 +1376,8 @@ class layout_itemlist
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             return;
         }
+
+        require_sesskey();
 
         // Here I must select the whole tree down.
         $itemstoreserve = $this->add_parent_node(['reserved' => 0]);
@@ -1500,6 +1506,8 @@ class layout_itemlist
             return;
         }
 
+        require_sesskey();
+
         // Build itemstoavailable.
         $itemstoavailable = $this->add_parent_node(['reserved' => 1]);
 
@@ -1624,6 +1632,8 @@ class layout_itemlist
             return;
         }
 
+        require_sesskey();
+
         $DB->set_field('surveypro_item', 'insearchform', 1, ['id' => $this->rootitemid]);
     }
 
@@ -1655,6 +1665,8 @@ class layout_itemlist
         if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
             return;
         }
+
+        require_sesskey();
 
         $DB->set_field('surveypro_item', 'insearchform', 0, ['id' => $this->rootitemid]);
     }
@@ -1688,6 +1700,8 @@ class layout_itemlist
             if (!$DB->record_exists('surveypro_item', ['id' => $this->rootitemid])) {
                 return;
             }
+
+            require_sesskey();
 
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
@@ -1811,6 +1825,8 @@ class layout_itemlist
      */
     public function show_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -1862,7 +1878,10 @@ class layout_itemlist
      */
     public function hide_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
+
             $whereparams = ['surveyproid' => $this->surveypro->id];
             $utilitylayoutman->items_set_visibility($whereparams, 0);
 
@@ -1912,6 +1931,8 @@ class layout_itemlist
      */
     public function delete_all_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -1965,6 +1986,8 @@ class layout_itemlist
      */
     public function delete_visible_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -2024,6 +2047,8 @@ class layout_itemlist
      */
     public function delete_hidden_execute() {
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
 
             $whereparams = ['surveyproid' => $this->surveypro->id];
@@ -2152,6 +2177,8 @@ class layout_itemlist
         global $DB;
 
         if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
+            require_sesskey();
+
             // Overwrite keys from the database and replace it with the actual strings.
             $template = $this->surveypro->template;
 
