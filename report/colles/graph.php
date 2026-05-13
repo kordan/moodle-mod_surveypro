@@ -49,6 +49,9 @@ require_login($course, false, $cm);
 
 $context = \context_module::instance($cm->id);
 
+$canaccessreports = has_capability('mod/surveypro:accessreports', $context);
+$canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
+
 if ($type == 'summary') {
     if (!has_capability('mod/surveypro:accessreports', $context)) {
         require_capability('mod/surveypro:accessownreports', $context);
@@ -62,9 +65,6 @@ $reportman->set_groupid($groupid);
 
 $graph = new graph(SURVEYPROREPORT_COLLES_GWIDTH, SURVEYPROREPORT_COLLES_GHEIGHT);
 if ($type == 'summary') {
-    $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
-    $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
-
     $reportman->fetch_summarydata();
 
     // Legend for $y_format_params.
