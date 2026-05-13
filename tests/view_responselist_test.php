@@ -32,6 +32,7 @@ defined('MOODLE_INTERNAL') || die();
  * Unit tests for resolve_ownership() and is_access_allowed().
  */
 #[\PHPUnit\Framework\Attributes\CoversClass(\mod_surveypro\view_responselist::class)]
+#[\PHPUnit\Framework\Attributes\Group('mod_surveypro')]
 final class view_responselist_test extends \advanced_testcase {
     /*------------------------------------------------------------------------
     Helpers.
