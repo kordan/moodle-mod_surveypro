@@ -249,7 +249,41 @@ abstract class reportbase
      * @param int $groupid
      */
     public function set_groupid($groupid) {
-        $this->groupid = $groupid;
+        global $COURSE, $USER;
+
+        $groupid = (int)$groupid;
+
+        // 1. Let's define the authorization conditions.
+        $accessallgroups = has_capability('moodle/site:accessallgroups', $this->context);
+        $viewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $this->context);
+        $groupmode = groups_get_activity_groupmode($this->cm, $COURSE);
+
+        // 2. Validation logic (throws exceptions if requirements are missing).
+        $condition = true;
+        $condition = $condition && ($groupid === -1);
+        $condition = $condition && (!$viewhiddenactivities);
+        $condition = $condition && (!$accessallgroups);
+        if ($condition) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $condition = true;
+        $condition = $condition && ($groupid > 0);
+        $condition = $condition && (!$accessallgroups);
+        $condition = $condition && $groupmode;
+        if ($condition) {
+            $mygroups = groups_get_all_groups($COURSE->id, $USER->id);
+            if (!array_key_exists($groupid, $mygroups)) {
+                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+            }
+        }
+
+        // 3. Assignment logic.
+        // Cases 0 (All participants) and -1 (No group) are always allowed if the previous checks have passed.
+        $isalwaysallowed = ($groupid === 0 || $groupid === -1);
+        $isauthorized = ($accessallgroups || $isalwaysallowed);
+
+        $this->groupid = ($groupmode && $isauthorized) ? $groupid : 0;
     }
 
     // MARK get.
