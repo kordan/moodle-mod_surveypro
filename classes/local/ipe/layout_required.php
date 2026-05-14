@@ -107,6 +107,7 @@ class layout_required extends \core\output\inplace_editable
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $surveypro->course, false, MUST_EXIST);
         $context = \context_module::instance($cm->id);
         external_api::validate_context($context);
+        require_capability('mod/surveypro:manageitems', $context);
 
         $newrequired = clean_param($newrequired, PARAM_INT);
         $DB->set_field('surveypro_item', 'required', $newrequired, ['id' => $itemid]);

@@ -72,6 +72,14 @@ class usertemplate_name extends \core\output\inplace_editable
 
         $fs = get_file_storage();
         $xmlfile = $fs->get_file_by_id($xmlfileid);
+        if (!$xmlfile) {
+            throw new \moodle_exception('filenotfound', 'error');
+        }
+
+        $context = \context::instance_by_id($xmlfile->get_contextid());
+        external_api::validate_context($context);
+        require_capability('mod/surveypro:manageusertemplates', $context);
+
         if (core_text::strlen($newtemplatename) > 0) {
             $contextid = $xmlfile->get_contextid();
             $component = 'mod_surveypro';
@@ -92,10 +100,6 @@ class usertemplate_name extends \core\output\inplace_editable
             $oldtemplatename = $xmlfile->get_filename();
             $givenname = $oldtemplatename;
         }
-
-        $filerecord = $DB->get_record('files', ['id' => $xmlfileid], 'id, contextid', MUST_EXIST);
-        $context = \context::instance_by_id($filerecord->contextid);
-        external_api::validate_context($context);
 
         return new static($xmlfileid, $givenname);
     }
