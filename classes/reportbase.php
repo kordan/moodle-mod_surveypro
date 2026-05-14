@@ -260,6 +260,14 @@ abstract class reportbase
 
         // 2. Validation logic (throws exceptions if requirements are missing).
         $condition = true;
+        $condition = $condition && $groupmode;
+        $condition = $condition && (!$accessallgroups);
+        $condition = $condition && ($groupid === 0);
+        if ($condition) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $condition = true;
         $condition = $condition && ($groupid === -1);
         $condition = $condition && (!$viewhiddenactivities);
         $condition = $condition && (!$accessallgroups);
@@ -278,12 +286,7 @@ abstract class reportbase
             }
         }
 
-        // 3. Assignment logic.
-        // Cases 0 (All participants) and -1 (No group) are always allowed if the previous checks have passed.
-        $isalwaysallowed = ($groupid === 0 || $groupid === -1);
-        $isauthorized = ($accessallgroups || $isalwaysallowed);
-
-        $this->groupid = ($groupmode && $isauthorized) ? $groupid : 0;
+        $this->groupid = $groupmode ? $groupid : 0;
     }
 
     // MARK get.
