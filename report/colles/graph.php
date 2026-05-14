@@ -49,17 +49,17 @@ require_login($course, false, $cm);
 
 $context = \context_module::instance($cm->id);
 
+$validtypes = ['summary', 'scales', 'questions'];
+if (!in_array($type, $validtypes, true)) {
+    throw new \moodle_exception('invalidrequest', 'error');
+}
+
 $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
 $canaccessownreports = has_capability('mod/surveypro:accessownreports', $context);
 
-if ($type == 'summary') {
-    if (!has_capability('mod/surveypro:accessreports', $context)) {
-        require_capability('mod/surveypro:accessownreports', $context);
-    }
-}
-
 $reportman = new report($cm, $context, $surveypro);
 $reportman->setup();
+$reportman->prevent_direct_user_input();
 $reportman->set_areaidx($areaidx);
 $reportman->set_groupid($groupid);
 
