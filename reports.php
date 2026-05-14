@@ -26,7 +26,7 @@ require_once(dirname(__FILE__) . '/../../../config.php');
 
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
-$report = optional_param('report', null, PARAM_TEXT); // Requested report. Section is the report name.
+$report = optional_param('report', null, PARAM_PLUGIN); // Requested report. Section is the report name.
 
 if (!empty($id)) {
     [$course, $cm] = get_course_and_cm_from_cmid($id, 'surveypro');
@@ -41,9 +41,15 @@ require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 if (isset($report)) {
+    $available = \core_component::get_plugin_list('surveyproreport');
+    if (!array_key_exists($report, $available)) {
+        throw new \moodle_exception('invalidrequest', 'error');
+    }
+
     $classname = 'surveyproreport_' . $report . '\report';
     $reportman = new $classname($cm, $context, $surveypro);
     $reportman->setup();
+    $reportman->prevent_direct_user_input();
 
     $reportman->set_additionalparams();
     $paramurl = $reportman->get_paramurl();
