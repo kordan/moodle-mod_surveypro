@@ -331,8 +331,10 @@ class mod_surveypro_plugin_manager
 
         // Process.
         if ($action == 'hide' && $plugin != null) {
+            require_sesskey();
             $action = $this->hide_plugin($plugin);
         } else if ($action == 'show' && $plugin != null) {
+            require_sesskey();
             $action = $this->show_plugin($plugin);
         }
 
