@@ -22,8 +22,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('NO_MOODLE_COOKIES', true); // Session not used here.
-
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
@@ -32,14 +30,24 @@ $cmid = optional_param('cmid', 0, PARAM_INT);
 $lifetime = 600;
 
 if ($surveypro = $DB->get_record('surveypro', ['id' => $id])) {
+    $cm = get_coursemodule_from_id('surveypro', $cmid, $surveypro->course, false, MUST_EXIST);
+    if ((int)$cm->instance !== (int)$surveypro->id) {
+        send_file_not_found();
+    }
+    $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
+    require_course_login($course, false, $cm);
+
     $fs = get_file_storage();
     $context = \context_module::instance($cmid);
 
     $files = $fs->get_area_files($context->id, 'mod_surveypro', SURVEYPRO_STYLEFILEAREA, 0, 'sortorder', false);
+    if (!$files) {
+        send_file_not_found();
+    }
 
     header('Last-Modified: ' . gmdate('D, d M Y H:i:s', time()) . ' GMT');
     header('Expires: ' . gmdate("D, d M Y H:i:s", time() + $lifetime) . ' GMT');
-    header('Cache-control: max_age = ' . $lifetime);
+    header('Cache-Control: max-age=' . $lifetime);
     header('Pragma: ');
     header('Content-type: text/css; charset=utf-8');  // Correct MIME type.
 
