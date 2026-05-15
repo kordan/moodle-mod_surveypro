@@ -1165,7 +1165,8 @@ class view_responselist
         global $DB;
 
         $fields = 'userid, status';
-        $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], $fields, IGNORE_MISSING);
+        $params = ['id' => $submissionid, 'surveyproid' => $this->surveypro->id];
+        $submission = $DB->get_record('surveypro_submission', $params, $fields, IGNORE_MISSING);
         if (!$submission || empty($submission->userid)) {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
@@ -2238,7 +2239,8 @@ class view_responselist
         require_once($CFG->libdir . '/tcpdf/tcpdf.php');
         require_once($CFG->libdir . '/tcpdf/config/tcpdf_config.php');
 
-        $submission = $DB->get_record('surveypro_submission', ['id' => $this->submissionid]);
+        $params = ['id' => $this->submissionid, 'surveyproid' => $this->surveypro->id];
+        $submission = $DB->get_record('surveypro_submission', $params, '*', MUST_EXIST);
         $user = $DB->get_record('user', ['id' => $submission->userid]);
         $where = ['submissionid' => $this->submissionid, 'verified' => 1];
         $userdatarecord = $DB->get_records('surveypro_answer', $where, '', 'itemid, id, content');
