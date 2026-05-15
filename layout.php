@@ -354,9 +354,9 @@ if ($section == 'itemslist') {
 // MARK itemsetup.
 if ($section == 'itemsetup') {
     // Get additional specific params.
-    $typeplugin = optional_param('typeplugin', null, PARAM_TEXT);
-    $type = optional_param('type', null, PARAM_TEXT);
-    $plugin = optional_param('plugin', null, PARAM_TEXT);
+    $typeplugin = optional_param('typeplugin', null, PARAM_ALPHANUMEXT);
+    $type = optional_param('type', null, PARAM_ALPHA);
+    $plugin = optional_param('plugin', null, PARAM_PLUGIN);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
     $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // I replaced SURVEYPRO_NEWRESPONSEMODE con SURVEYPRO_NOMODE?
@@ -387,11 +387,15 @@ if ($section == 'itemsetup') {
 
     $itemsetupman->prevent_direct_user_input();
 
-    require_once($CFG->dirroot . '/mod/surveypro/' . $itemsetupman->get_type() . '/' . $itemsetupman->get_plugin() . '/classes/itemsetupform.php');
-
-    // Begin of: get item.
     $itemtype = $itemsetupman->get_type();
     $itemplugin = $itemsetupman->get_plugin();
+    $plugins = \core_component::get_plugin_list('surveypro' . $itemtype);
+    if (!in_array($itemtype, [SURVEYPRO_TYPEFIELD, SURVEYPRO_TYPEFORMAT], true) || !array_key_exists($itemplugin, $plugins)) {
+        throw new \moodle_exception('invalidrequest', 'error');
+    }
+    require_once($CFG->dirroot . '/mod/surveypro/' . $itemtype . '/' . $itemplugin . '/classes/itemsetupform.php');
+
+    // Begin of: get item.
     $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
     // End of: get item.
 

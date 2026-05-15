@@ -1385,8 +1385,7 @@ function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plug
     if (!empty($itemid)) {
         $itemseed = $DB->get_record('surveypro_item', ['id' => $itemid], 'surveyproid, type, plugin', MUST_EXIST);
         if ($cm->instance != $itemseed->surveyproid) {
-            $message = 'Mismatch between passed itemid (' . $itemid . ') and corresponding cm->instance (' . $cm->instance . ')';
-            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
     }
 
@@ -1400,13 +1399,8 @@ function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plug
         $plugin = $itemseed->plugin;
     } else {
         if (isset($itemseed)) {
-            if ($type != $itemseed->type) {
-                $message = 'Mismatch between passed type (' . $type . ') and found type (' . $itemseed->type . ')';
-                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
-            }
-            if ($plugin != $itemseed->plugin) {
-                $message = 'Mismatch between passed plugin (' . $plugin . ') and found plugin (' . $itemseed->plugin . ')';
-                debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+            if (($type != $itemseed->type) || ($plugin != $itemseed->plugin)) {
+                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
             }
         }
     }
