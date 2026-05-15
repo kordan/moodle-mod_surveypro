@@ -222,7 +222,7 @@ class view_responsesubmit extends formbase
             // Surveypro_submission already exists.
             // And user submitted it once again.
             $submission->id = $this->formdata->submissionid;
-            $params = ['id' => $submission->id];
+            $params = ['id' => $submission->id, 'surveyproid' => $this->surveypro->id];
             $originalrecord = $DB->get_record('surveypro_submission', $params, 'status, timecreated', MUST_EXIST);
 
             // Define $submission time.
@@ -406,6 +406,14 @@ class view_responsesubmit extends formbase
      */
     public function save_user_response() {
         global $DB, $COURSE;
+
+        // Security check.
+        // Was $this->formdata->submissionid, in the hidden field of the form, altered?
+        $postedsubmissionid = isset($this->formdata->submissionid) ? (int)$this->formdata->submissionid : 0;
+        $checkedsubmissionid = (int)$this->get_submissionid();
+        if ($postedsubmissionid !== $checkedsubmissionid) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
 
         $savebutton = isset($this->formdata->savebutton);
         $saveasnewbutton = isset($this->formdata->saveasnewbutton);
@@ -1016,7 +1024,8 @@ class view_responsesubmit extends formbase
             return [false, false];
         }
 
-        if (!$submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], 'userid, status', IGNORE_MISSING)) {
+        $params = ['id' => $submissionid, 'surveyproid' => $this->surveypro->id];
+        if (!$submission = $DB->get_record('surveypro_submission', $params, 'userid, status', IGNORE_MISSING)) {
             throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
@@ -1195,7 +1204,8 @@ class view_responsesubmit extends formbase
         $submissionid = $this->get_submissionid();
         $submission = null;
         if ($submissionid) {
-            $submission = $DB->get_record('surveypro_submission', ['id' => $submissionid], 'userid, status', IGNORE_MISSING);
+            $params = ['id' => $submissionid, 'surveyproid' => $this->surveypro->id];
+            $submission = $DB->get_record('surveypro_submission', $params, 'userid, status', IGNORE_MISSING);
         }
 
         [$ismine, $mysamegroup] = $this->resolve_ownership();
