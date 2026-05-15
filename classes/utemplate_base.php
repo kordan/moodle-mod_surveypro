@@ -99,8 +99,7 @@ class utemplate_base extends templatebase
      * @return void
      */
     public function get_utemplate_name() {
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+        $xmlfile = $this->get_utemplate_file((int)$this->utemplateid);
 
         return $xmlfile->get_filename();
     }

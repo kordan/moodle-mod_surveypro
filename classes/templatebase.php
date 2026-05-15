@@ -186,13 +186,37 @@ class templatebase
      * @return void
      */
     public function get_utemplate_content($utemplateid = 0) {
-        $fs = get_file_storage();
         if (empty($utemplateid)) {
             $utemplateid = $this->utemplateid;
         }
-        $xmlfile = $fs->get_file_by_id($utemplateid);
+        $xmlfile = $this->get_utemplate_file($utemplateid);
 
         return $xmlfile->get_content();
+    }
+
+    /**
+     * Return a user-template file only if it belongs to an allowed SurveyPro template area.
+     *
+     * @param int $utemplateid
+     * @return \stored_file
+     */
+    protected function get_utemplate_file(int $utemplateid): \stored_file {
+        $fs = get_file_storage();
+        $xmlfile = $fs->get_file_by_id($utemplateid);
+        if (!$xmlfile) {
+            throw new \moodle_exception('filenotfound', 'error');
+        }
+        $allowedcontexts = array_keys($this->get_sharingcontexts());
+        $condition = false;
+        $condition = $condition || ($xmlfile->get_component() !== 'mod_surveypro');
+        $condition = $condition || ($xmlfile->get_filearea() !== SURVEYPRO_TEMPLATEFILEAREA);
+        $condition = $condition || ((int)$xmlfile->get_itemid() !== 0);
+        $condition = $condition || (!in_array($xmlfile->get_contextid(), $allowedcontexts));
+        if ($condition) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        return $xmlfile;
     }
 
     // MARK other.

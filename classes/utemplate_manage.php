@@ -195,8 +195,7 @@ class utemplate_manage extends utemplate_base
             // At log time I haven't availability of the file so I can not ask fot its name.
             $this->templatename = $this->get_utemplate_name();
 
-            $fs = get_file_storage();
-            $xmlfile = $fs->get_file_by_id($this->utemplateid);
+            $xmlfile = $this->get_utemplate_file((int)$this->utemplateid);
             $a = $xmlfile->get_filename();
 
             $xmlfile->delete();
@@ -362,8 +361,7 @@ class utemplate_manage extends utemplate_base
     public function export_utemplate() {
         global $CFG;
 
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+        $xmlfile = $this->get_utemplate_file((int)$this->utemplateid);
         $filename = $xmlfile->get_filename();
         $content = $xmlfile->get_content();
 
