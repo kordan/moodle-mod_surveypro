@@ -206,16 +206,31 @@ class templatebase
     public function validate_xml($xml) {
         global $CFG;
 
-        $debug = false; // Set $debug = true if you want to stop anyway to debug the xml template.
+        $debug = false; // Set $debug = true if you want to stop anyway to debug the uploaded xml template.
 
         $this->set_xmlvalidationoutcome();
 
         $pluginversion = self::get_subplugin_versions();
+
+        // SECURITY FIX: Prevent XXE attacks
+        // In PHP 8.0+, libxml has XXE protection enabled by default
+        // I use LIBXML_NONET to prevent network access during parsing
+        $oldvalue = libxml_use_internal_errors(true);
+        libxml_clear_errors();
+
         if ($debug) {
-            $simplexml = new \SimpleXMLElement($xml);
+            $simplexml = new \SimpleXMLElement(
+                $xml,
+                LIBXML_NONET | LIBXML_NOWARNING | LIBXML_NOERROR
+            );
         } else {
-            $simplexml = @new \SimpleXMLElement($xml);
+            $simplexml = @new \SimpleXMLElement(
+                $xml,
+                LIBXML_NONET | LIBXML_NOWARNING | LIBXML_NOERROR
+            );
         }
+        libxml_use_internal_errors($oldvalue);
+
         foreach ($simplexml->children() as $xmlitem) {
             foreach ($xmlitem->attributes() as $attribute => $value) {
                 // Example: <item type="format" plugin="label" version="2025010100">.
