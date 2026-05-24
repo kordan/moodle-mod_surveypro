@@ -134,8 +134,13 @@ if ($section == 'details') {
     $changeuser = optional_param('changeuser', 0, PARAM_TEXT);
 
     // Required capability.
+    $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
     $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
     $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
+    if (!$canaccessreports) {
+        // Check if user can only access their own reports.
+        require_capability('mod/surveypro:accessownreports', $context);
+    }
 
     // Set $PAGE params.
     $paramurl = [];
@@ -166,8 +171,22 @@ if ($section == 'details') {
     $parts = explode('_', $container);
     $userid = (int)$parts[0];
     $submissionid = (int)$parts[1];
+
+    // SECURITY FIX: Validate submission exists before allowing access.
     if (!$submissionid) {
-        $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', ['userid' => $userid, 'surveyproid' => $surveypro->id]);
+        $whereparams = ['userid' => $userid, 'surveyproid' => $surveypro->id];
+        $submissionid = $DB->get_field('surveypro_submission', 'MIN(id)', $whereparams, IGNORE_MISSING);
+        // If no submission found, deny access.
+        if (!$submissionid) {
+            throw new \moodle_exception('invalidsubmission', 'mod_surveypro');
+        }
+    } else {
+        // Verify submission exists and belongs to the specified user.
+        $whereparams = ['id' => $submissionid, 'userid' => $userid, 'surveyproid' => $surveypro->id];
+        $submission = $DB->get_record('surveypro_submission', $whereparams, 'id', IGNORE_MISSING);
+        if (!$submission) {
+            throw new \moodle_exception('invalidsubmission', 'mod_surveypro');
+        }
     }
 
     // Calculations.
