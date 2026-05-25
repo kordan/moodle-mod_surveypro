@@ -134,13 +134,8 @@ if ($section == 'details') {
     $changeuser = optional_param('changeuser', 0, PARAM_TEXT);
 
     // Required capability.
-    $canaccessreports = has_capability('mod/surveypro:accessreports', $context);
     $canaccessreserveditems = has_capability('mod/surveypro:accessreserveditems', $context);
     $canviewhiddenactivities = has_capability('moodle/course:viewhiddenactivities', $context);
-    if (!$canaccessreports) {
-        // Check if user can only access their own reports.
-        require_capability('mod/surveypro:accessownreports', $context);
-    }
 
     // Set $PAGE params.
     $paramurl = [];
