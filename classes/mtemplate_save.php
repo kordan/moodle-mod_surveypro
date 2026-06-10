@@ -558,6 +558,7 @@ class mtemplate_save extends mtemplate_base
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
 
             // Take care: some items plugin may be free of their specific table.
+
             if (!count($structure)) {
                 continue;
             }
