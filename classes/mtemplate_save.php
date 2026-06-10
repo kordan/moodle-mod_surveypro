@@ -545,18 +545,19 @@ class mtemplate_save extends mtemplate_base
                     continue;
                 }
 
-                $val = $this->xml_get_field_content($item, $field, $multilangfields);
-                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
-                if (\core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, $val);
-                } // Otherwise: It is empty, do not evaluate: jump.
+                if ($val = $this->xml_get_field_content($item, $field, $multilangfields)) {
+                    $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
+                    if (\core_text::strlen($val)) {
+                        $xmlfield = $xmltable->addChild($field, $val);
+                    } // Otherwise: It is empty, do not evaluate: jump.
+                }
             }
 
             // Child table.
             $tablename = 'surveypro' . $itemseed->type . '_' . $itemseed->plugin;
             $structure = $this->get_table_structure($itemseed->type, $itemseed->plugin);
 
-            // Take care: some items plugin may be free of their own specific table.
+            // Take care: some items plugin may be free of their specific table.
             if (!count($structure)) {
                 continue;
             }
@@ -568,15 +569,16 @@ class mtemplate_save extends mtemplate_base
                     continue;
                 }
 
-                $val = $this->xml_get_field_content($item, $field, $multilangfields);
-                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
-                if (\core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, $val);
-                } // Otherwise: It is empty, do not evaluate: jump.
+                if ($val = $this->xml_get_field_content($item, $field, $multilangfields)) {
+                    $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
+                    if (\core_text::strlen($val)) {
+                        $xmlfield = $xmltable->addChild($field, $val);
+                    } // Otherwise: It is empty, do not evaluate: jump.
+                }
             }
         }
 
-        // In the coming code, "$option == false;" if 100% waste of time and should be changed to "$option == true;"
+        // In the coming code, "$option == false;" is 100% waste of time and should be changed to "$option == true;"
         // BUT BUT BUT...
         // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
