@@ -2,7 +2,7 @@
 <items>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_01</content>
+      <content>lang:label_content_01</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -11,12 +11,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_02</content>
+      <content>lang:textarea_content_02</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -38,7 +38,7 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_03</content>
+      <content>lang:textarea_content_03</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -60,7 +60,7 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_04</content>
+      <content>lang:textarea_content_04</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -82,7 +82,7 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_05</content>
+      <content>lang:textarea_content_05</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -104,7 +104,7 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_06</content>
+      <content>lang:textarea_content_06</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>

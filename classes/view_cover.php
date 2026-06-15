@@ -94,6 +94,11 @@ class view_cover
         $addnew = $utilitylayoutman->is_newresponse_allowed($next);
         // End of: is the button to add one more response going to be displayed?
 
+        // Source if survey comes from a master template.
+        if (!empty($this->surveypro->template)) {
+            $messages[] = get_string('mtemplatesource', 'mod_surveypro', $this->surveypro->template);
+        }
+
         // Number of elements.
         // If you can not manage items, you do not want to know their number.
         if ($itemcount && $canmanageitems) {

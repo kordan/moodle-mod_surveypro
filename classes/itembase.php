@@ -214,9 +214,8 @@ abstract class itembase
      * @param object $cm
      * @param object $surveypro
      * @param int $itemid
-     * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
      */
-    public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
+    public function __construct($cm, $surveypro, $itemid) {
         $this->cm = $cm;
         $this->surveypro = $surveypro;
         $this->context = \context_module::instance($cm->id);
@@ -230,9 +229,10 @@ abstract class itembase
      *
      * @param int $itemid
      * @param bool $getparentcontent To include among item elements the 'parentcontent' too
+     * @param bool $evallangkeys True to evaluate lang keys for master templates
      * @return void
      */
-    protected function item_load($itemid, $getparentcontent) {
+    protected function item_load($itemid, $getparentcontent, $evallangkeys) {
         global $DB;
 
         if (!$itemid) {
@@ -240,7 +240,7 @@ abstract class itembase
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        // Some item, like pagebreak or fieldsetend, may do not use the plugin table.
+        // Some item, like pagebreak or fieldsetend, may not use the plugin table.
         if ($this->get_usesplugintable()) {
             $tablename = 'surveypro' . $this->type . '_' . $this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid
@@ -2065,13 +2065,23 @@ abstract class itembase
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="filename" type="xs:string"/>
-                            <xs:element name="filecontent" type="xs:base64Binary"/>
+                            <xs:element name="filecontent">
+                                <xs:simpleType>
+                                    <xs:union memberTypes="xs:base64Binary">
+                                        <xs:simpleType>
+                                            <xs:restriction base="xs:string">
+                                                <xs:pattern value="lang:[a-zA-Z0-9_]+"/>
+                                            </xs:restriction>
+                                        </xs:simpleType>
+                                    </xs:union>
+                                </xs:simpleType>
+                            </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
                 <xs:element name="contentformat" type="xs:int" minOccurs="0"/>
                 <xs:element name="required" type="xs:int" minOccurs="0"/>
-                <xs:element name="indent" type="xs:int" minOccurs="0"/>
+                <xs:element name="indent" type="xs:int" default="0" minOccurs="0"/>
                 <xs:element name="position" type="xs:int" minOccurs="0"/>
                 <xs:element name="customnumber" type="xs:string" minOccurs="0"/>
                 <xs:element name="hideinstructions" type="xs:int" minOccurs="0"/>

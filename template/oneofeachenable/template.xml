@@ -2,14 +2,14 @@
 <items>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_01</content>
+      <content>lang:boolean_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_001</variable>
-      <extranote>boolean_extranote_01</extranote>
+      <extranote>lang:boolean_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -23,14 +23,14 @@
   </item>
   <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
-      <content>age_content_01</content>
+      <content>lang:age_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>age_001</variable>
-      <extranote>age_extranote_01</extranote>
+      <extranote>lang:age_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -48,14 +48,14 @@
   </item>
   <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
-      <content>age_content_02</content>
+      <content>lang:age_content_02</content>
       <embedded>
-        <filename>age_filename_01</filename>
-        <filecontent>age_filecontent_01</filecontent>
+        <filename>lang:age_filename_01</filename>
+        <filecontent>lang:age_filecontent_01</filecontent>
       </embedded>
       <embedded>
-        <filename>age_filename_02</filename>
-        <filecontent>age_filecontent_02</filecontent>
+        <filename>lang:age_filename_02</filename>
+        <filecontent>lang:age_filecontent_02</filecontent>
       </embedded>
       <contentformat>1</contentformat>
       <required>0</required>
@@ -63,7 +63,7 @@
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>age_002</variable>
-      <extranote>age_extranote_02</extranote>
+      <extranote>lang:age_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -81,14 +81,14 @@
   </item>
   <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
-      <content>age_content_03</content>
+      <content>lang:age_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>age_003</variable>
-      <extranote>age_extranote_03</extranote>
+      <extranote>lang:age_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>1</reserved>
@@ -106,14 +106,14 @@
   </item>
   <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
-      <content>age_content_04</content>
+      <content>lang:age_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>age_004</variable>
-      <extranote>age_extranote_04</extranote>
+      <extranote>lang:age_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -131,14 +131,14 @@
   </item>
   <item type="field" plugin="age" version="2025010100">
     <surveypro_item>
-      <content>age_content_05</content>
+      <content>lang:age_content_05</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>age_005</variable>
-      <extranote>age_extranote_05</extranote>
+      <extranote>lang:age_extranote_05</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>1</reserved>
@@ -169,14 +169,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_02</content>
+      <content>lang:boolean_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_002</variable>
-      <extranote>boolean_extranote_02</extranote>
+      <extranote>lang:boolean_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -190,7 +190,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_01</content>
+      <content>lang:label_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -202,18 +202,18 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_01</content>
+      <content>lang:fieldset_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
-      <extranote>fieldset_extranote_01</extranote>
+      <extranote>lang:fieldset_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -224,14 +224,14 @@
   </item>
   <item type="field" plugin="autofill" version="2025010100">
     <surveypro_item>
-      <content>autofill_content_01</content>
+      <content>lang:autofill_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>autofill_001</variable>
-      <extranote>autofill_extranote_01</extranote>
+      <extranote>lang:autofill_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -243,14 +243,14 @@
   </item>
   <item type="field" plugin="autofill" version="2025010100">
     <surveypro_item>
-      <content>autofill_content_02</content>
+      <content>lang:autofill_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>autofill_002</variable>
-      <extranote>autofill_extranote_02</extranote>
+      <extranote>lang:autofill_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -264,14 +264,14 @@
   </item>
   <item type="field" plugin="autofill" version="2025010100">
     <surveypro_item>
-      <content>autofill_content_03</content>
+      <content>lang:autofill_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>autofill_003</variable>
-      <extranote>autofill_extranote_03</extranote>
+      <extranote>lang:autofill_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -283,13 +283,13 @@
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_02</content>
+      <content>lang:fieldset_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
-      <extranote>fieldset_extranote_02</extranote>
+      <extranote>lang:fieldset_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -300,14 +300,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_03</content>
+      <content>lang:boolean_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_003</variable>
-      <extranote>boolean_extranote_03</extranote>
+      <extranote>lang:boolean_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -325,14 +325,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_04</content>
+      <content>lang:boolean_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_004</variable>
-      <extranote>boolean_extranote_04</extranote>
+      <extranote>lang:boolean_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -350,14 +350,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_05</content>
+      <content>lang:boolean_content_05</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_005</variable>
-      <extranote>boolean_extranote_05</extranote>
+      <extranote>lang:boolean_extranote_05</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -375,13 +375,13 @@
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_03</content>
+      <content>lang:fieldset_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
-      <extranote>fieldset_extranote_03</extranote>
+      <extranote>lang:fieldset_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -392,14 +392,14 @@
   </item>
   <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
-      <content>character_content_01</content>
+      <content>lang:character_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>character_001</variable>
-      <extranote>character_extranote_01</extranote>
+      <extranote>lang:character_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -410,21 +410,21 @@
     </surveypro_item>
     <surveyprofield_character>
       <trimonsave>0</trimonsave>
-      <defaultvalue>character_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:character_defaultvalue_01</defaultvalue>
       <pattern>PATTERN_EMAIL</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
   </item>
   <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
-      <content>character_content_02</content>
+      <content>lang:character_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>character_002</variable>
-      <extranote>character_extranote_02</extranote>
+      <extranote>lang:character_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -435,7 +435,7 @@
     </surveypro_item>
     <surveyprofield_character>
       <trimonsave>0</trimonsave>
-      <defaultvalue>character_defaultvalue_02</defaultvalue>
+      <defaultvalue>lang:character_defaultvalue_02</defaultvalue>
       <pattern>00000</pattern>
       <minlength>5</minlength>
       <maxlength>5</maxlength>
@@ -443,14 +443,14 @@
   </item>
   <item type="field" plugin="character" version="2025010100">
     <surveypro_item>
-      <content>character_content_03</content>
+      <content>lang:character_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>character_003</variable>
-      <extranote>character_extranote_03</extranote>
+      <extranote>lang:character_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -461,7 +461,7 @@
     </surveypro_item>
     <surveyprofield_character>
       <trimonsave>0</trimonsave>
-      <defaultvalue>character_defaultvalue_03</defaultvalue>
+      <defaultvalue>lang:character_defaultvalue_03</defaultvalue>
       <pattern>PATTERN_URL</pattern>
       <minlength>0</minlength>
     </surveyprofield_character>
@@ -481,14 +481,14 @@
   </item>
   <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
-      <content>checkbox_content_01</content>
+      <content>lang:checkbox_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_001</variable>
-      <extranote>checkbox_extranote_01</extranote>
+      <extranote>lang:checkbox_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -498,9 +498,9 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <options>checkbox_options_01</options>
-      <labelother>checkbox_labelother_01</labelother>
-      <defaultvalue>checkbox_defaultvalue_01</defaultvalue>
+      <options>lang:checkbox_options_01</options>
+      <labelother>lang:checkbox_labelother_01</labelother>
+      <defaultvalue>lang:checkbox_defaultvalue_01</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
@@ -510,14 +510,14 @@
   </item>
   <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
-      <content>checkbox_content_02</content>
+      <content>lang:checkbox_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_002</variable>
-      <extranote>checkbox_extranote_02</extranote>
+      <extranote>lang:checkbox_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -527,9 +527,9 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <options>checkbox_options_02</options>
-      <labelother>checkbox_labelother_02</labelother>
-      <defaultvalue>checkbox_defaultvalue_02</defaultvalue>
+      <options>lang:checkbox_options_02</options>
+      <labelother>lang:checkbox_labelother_02</labelother>
+      <defaultvalue>lang:checkbox_defaultvalue_02</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
@@ -539,14 +539,14 @@
   </item>
   <item type="field" plugin="checkbox" version="2025062600">
     <surveypro_item>
-      <content>checkbox_content_03</content>
+      <content>lang:checkbox_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>checkbox_003</variable>
-      <extranote>checkbox_extranote_03</extranote>
+      <extranote>lang:checkbox_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -556,9 +556,9 @@
       </parent>
     </surveypro_item>
     <surveyprofield_checkbox>
-      <options>checkbox_options_03</options>
-      <labelother>checkbox_labelother_03</labelother>
-      <defaultvalue>checkbox_defaultvalue_03</defaultvalue>
+      <options>lang:checkbox_options_03</options>
+      <labelother>lang:checkbox_labelother_03</labelother>
+      <defaultvalue>lang:checkbox_defaultvalue_03</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>2</minimumrequired>
@@ -581,14 +581,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_06</content>
+      <content>lang:boolean_content_06</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_006</variable>
-      <extranote>boolean_extranote_06</extranote>
+      <extranote>lang:boolean_extranote_06</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -602,14 +602,14 @@
   </item>
   <item type="field" plugin="date" version="2025010100">
     <surveypro_item>
-      <content>date_content_01</content>
+      <content>lang:date_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>date_001</variable>
-      <extranote>date_extranote_01</extranote>
+      <extranote>lang:date_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -628,14 +628,14 @@
   </item>
   <item type="field" plugin="date" version="2025010100">
     <surveypro_item>
-      <content>date_content_02</content>
+      <content>lang:date_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>date_002</variable>
-      <extranote>date_extranote_02</extranote>
+      <extranote>lang:date_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -654,14 +654,14 @@
   </item>
   <item type="field" plugin="date" version="2025010100">
     <surveypro_item>
-      <content>date_content_03</content>
+      <content>lang:date_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>date_003</variable>
-      <extranote>date_extranote_03</extranote>
+      <extranote>lang:date_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -680,14 +680,14 @@
   </item>
   <item type="field" plugin="datetime" version="2025010100">
     <surveypro_item>
-      <content>datetime_content_01</content>
+      <content>lang:datetime_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>datetime_001</variable>
-      <extranote>datetime_extranote_01</extranote>
+      <extranote>lang:datetime_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -707,14 +707,14 @@
   </item>
   <item type="field" plugin="datetime" version="2025010100">
     <surveypro_item>
-      <content>datetime_content_02</content>
+      <content>lang:datetime_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>datetime_002</variable>
-      <extranote>datetime_extranote_02</extranote>
+      <extranote>lang:datetime_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -734,14 +734,14 @@
   </item>
   <item type="field" plugin="datetime" version="2025010100">
     <surveypro_item>
-      <content>datetime_content_03</content>
+      <content>lang:datetime_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>datetime_003</variable>
-      <extranote>datetime_extranote_03</extranote>
+      <extranote>lang:datetime_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -761,14 +761,14 @@
   </item>
   <item type="field" plugin="fileupload" version="2025010100">
     <surveypro_item>
-      <content>fileupload_content_01</content>
+      <content>lang:fileupload_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>fileupload_001</variable>
-      <extranote>fileupload_extranote_01</extranote>
+      <extranote>lang:fileupload_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -785,14 +785,14 @@
   </item>
   <item type="field" plugin="fileupload" version="2025010100">
     <surveypro_item>
-      <content>fileupload_content_02</content>
+      <content>lang:fileupload_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>fileupload_002</variable>
-      <extranote>fileupload_extranote_02</extranote>
+      <extranote>lang:fileupload_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -809,14 +809,14 @@
   </item>
   <item type="field" plugin="fileupload" version="2025010100">
     <surveypro_item>
-      <content>fileupload_content_03</content>
+      <content>lang:fileupload_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>fileupload_003</variable>
-      <extranote>fileupload_extranote_03</extranote>
+      <extranote>lang:fileupload_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -833,14 +833,14 @@
   </item>
   <item type="field" plugin="integer" version="2025010100">
     <surveypro_item>
-      <content>integer_content_01</content>
+      <content>lang:integer_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>integer_001</variable>
-      <extranote>integer_extranote_01</extranote>
+      <extranote>lang:integer_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -858,14 +858,14 @@
   </item>
   <item type="field" plugin="integer" version="2025010100">
     <surveypro_item>
-      <content>integer_content_02</content>
+      <content>lang:integer_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>integer_002</variable>
-      <extranote>integer_extranote_02</extranote>
+      <extranote>lang:integer_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -883,14 +883,14 @@
   </item>
   <item type="field" plugin="integer" version="2025010100">
     <surveypro_item>
-      <content>integer_content_03</content>
+      <content>lang:integer_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>integer_003</variable>
-      <extranote>integer_extranote_03</extranote>
+      <extranote>lang:integer_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -908,14 +908,14 @@
   </item>
   <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
-      <content>multiselect_content_01</content>
+      <content>lang:multiselect_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_001</variable>
-      <extranote>multiselect_extranote_01</extranote>
+      <extranote>lang:multiselect_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -925,8 +925,8 @@
       </parent>
     </surveypro_item>
     <surveyprofield_multiselect>
-      <options>multiselect_options_01</options>
-      <defaultvalue>multiselect_defaultvalue_01</defaultvalue>
+      <options>lang:multiselect_options_01</options>
+      <defaultvalue>lang:multiselect_defaultvalue_01</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>0</minimumrequired>
@@ -936,14 +936,14 @@
   </item>
   <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
-      <content>multiselect_content_02</content>
+      <content>lang:multiselect_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_002</variable>
-      <extranote>multiselect_extranote_02</extranote>
+      <extranote>lang:multiselect_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -953,8 +953,8 @@
       </parent>
     </surveypro_item>
     <surveyprofield_multiselect>
-      <options>multiselect_options_02</options>
-      <defaultvalue>multiselect_defaultvalue_02</defaultvalue>
+      <options>lang:multiselect_options_02</options>
+      <defaultvalue>lang:multiselect_defaultvalue_02</defaultvalue>
       <noanswerdefault>0</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>0</minimumrequired>
@@ -964,14 +964,14 @@
   </item>
   <item type="field" plugin="multiselect" version="2025062600">
     <surveypro_item>
-      <content>multiselect_content_03</content>
+      <content>lang:multiselect_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>multiselect_003</variable>
-      <extranote>multiselect_extranote_03</extranote>
+      <extranote>lang:multiselect_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -981,8 +981,8 @@
       </parent>
     </surveypro_item>
     <surveyprofield_multiselect>
-      <options>multiselect_options_03</options>
-      <defaultvalue>multiselect_defaultvalue_03</defaultvalue>
+      <options>lang:multiselect_options_03</options>
+      <defaultvalue>lang:multiselect_defaultvalue_03</defaultvalue>
       <noanswerdefault>1</noanswerdefault>
       <downloadformat>1</downloadformat>
       <minimumrequired>0</minimumrequired>
@@ -992,14 +992,14 @@
   </item>
   <item type="field" plugin="numeric" version="2025010100">
     <surveypro_item>
-      <content>numeric_content_01</content>
+      <content>lang:numeric_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_001</variable>
-      <extranote>numeric_extranote_01</extranote>
+      <extranote>lang:numeric_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1016,14 +1016,14 @@
   </item>
   <item type="field" plugin="numeric" version="2025010100">
     <surveypro_item>
-      <content>numeric_content_02</content>
+      <content>lang:numeric_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_002</variable>
-      <extranote>numeric_extranote_02</extranote>
+      <extranote>lang:numeric_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1042,14 +1042,14 @@
   </item>
   <item type="field" plugin="numeric" version="2025010100">
     <surveypro_item>
-      <content>numeric_content_03</content>
+      <content>lang:numeric_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>numeric_003</variable>
-      <extranote>numeric_extranote_03</extranote>
+      <extranote>lang:numeric_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1066,14 +1066,14 @@
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_01</content>
+      <content>lang:radiobutton_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_001</variable>
-      <extranote>radiobutton_extranote_01</extranote>
+      <extranote>lang:radiobutton_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1083,24 +1083,24 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_02</content>
+      <content>lang:radiobutton_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_002</variable>
-      <extranote>radiobutton_extranote_02</extranote>
+      <extranote>lang:radiobutton_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1110,24 +1110,24 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_02</options>
-      <labelother>radiobutton_labelother_02</labelother>
+      <options>lang:radiobutton_options_02</options>
+      <labelother>lang:radiobutton_labelother_02</labelother>
       <defaultoption>3</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_02</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_02</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_03</content>
+      <content>lang:radiobutton_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_003</variable>
-      <extranote>radiobutton_extranote_03</extranote>
+      <extranote>lang:radiobutton_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1137,24 +1137,24 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_03</options>
-      <labelother>radiobutton_labelother_03</labelother>
+      <options>lang:radiobutton_options_03</options>
+      <labelother>lang:radiobutton_labelother_03</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_03</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_03</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>0</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_04</content>
+      <content>lang:radiobutton_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_004</variable>
-      <extranote>radiobutton_extranote_04</extranote>
+      <extranote>lang:radiobutton_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1164,24 +1164,24 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_04</options>
-      <labelother>radiobutton_labelother_04</labelother>
+      <options>lang:radiobutton_options_04</options>
+      <labelother>lang:radiobutton_labelother_04</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_04</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_04</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_05</content>
+      <content>lang:radiobutton_content_05</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_005</variable>
-      <extranote>radiobutton_extranote_05</extranote>
+      <extranote>lang:radiobutton_extranote_05</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1191,24 +1191,24 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_05</options>
-      <labelother>radiobutton_labelother_05</labelother>
+      <options>lang:radiobutton_options_05</options>
+      <labelother>lang:radiobutton_labelother_05</labelother>
       <defaultoption>3</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_05</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_05</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_06</content>
+      <content>lang:radiobutton_content_06</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>radiobutton_006</variable>
-      <extranote>radiobutton_extranote_06</extranote>
+      <extranote>lang:radiobutton_extranote_06</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1218,10 +1218,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_06</options>
-      <labelother>radiobutton_labelother_06</labelother>
+      <options>lang:radiobutton_options_06</options>
+      <labelother>lang:radiobutton_labelother_06</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_06</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_06</defaultvalue>
       <downloadformat>1</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
@@ -1241,14 +1241,14 @@
   </item>
   <item type="field" plugin="boolean" version="2025010100">
     <surveypro_item>
-      <content>boolean_content_07</content>
+      <content>lang:boolean_content_07</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>boolean_007</variable>
-      <extranote>boolean_extranote_07</extranote>
+      <extranote>lang:boolean_extranote_07</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1262,14 +1262,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_01</content>
+      <content>lang:rate_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_001</variable>
-      <extranote>rate_extranote_01</extranote>
+      <extranote>lang:rate_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1279,10 +1279,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_01</options>
-      <rates>rate_rates_01</rates>
+      <options>lang:rate_options_01</options>
+      <rates>lang:rate_rates_01</rates>
       <defaultoption>3</defaultoption>
-      <defaultvalue>rate_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_01</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>1</style>
       <differentrates>0</differentrates>
@@ -1290,14 +1290,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_02</content>
+      <content>lang:rate_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_002</variable>
-      <extranote>rate_extranote_02</extranote>
+      <extranote>lang:rate_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1307,10 +1307,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_02</options>
-      <rates>rate_rates_02</rates>
+      <options>lang:rate_options_02</options>
+      <rates>lang:rate_rates_02</rates>
       <defaultoption>1</defaultoption>
-      <defaultvalue>rate_defaultvalue_02</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_02</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>1</style>
       <differentrates>0</differentrates>
@@ -1318,14 +1318,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_03</content>
+      <content>lang:rate_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_003</variable>
-      <extranote>rate_extranote_03</extranote>
+      <extranote>lang:rate_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1335,10 +1335,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_03</options>
-      <rates>rate_rates_03</rates>
+      <options>lang:rate_options_03</options>
+      <rates>lang:rate_rates_03</rates>
       <defaultoption>1</defaultoption>
-      <defaultvalue>rate_defaultvalue_03</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_03</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>1</style>
       <differentrates>0</differentrates>
@@ -1346,14 +1346,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_04</content>
+      <content>lang:rate_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_004</variable>
-      <extranote>rate_extranote_04</extranote>
+      <extranote>lang:rate_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1363,10 +1363,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_04</options>
-      <rates>rate_rates_04</rates>
+      <options>lang:rate_options_04</options>
+      <rates>lang:rate_rates_04</rates>
       <defaultoption>1</defaultoption>
-      <defaultvalue>rate_defaultvalue_04</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_04</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>0</style>
       <differentrates>0</differentrates>
@@ -1374,14 +1374,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_05</content>
+      <content>lang:rate_content_05</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_005</variable>
-      <extranote>rate_extranote_05</extranote>
+      <extranote>lang:rate_extranote_05</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1391,10 +1391,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_05</options>
-      <rates>rate_rates_05</rates>
+      <options>lang:rate_options_05</options>
+      <rates>lang:rate_rates_05</rates>
       <defaultoption>1</defaultoption>
-      <defaultvalue>rate_defaultvalue_05</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_05</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>0</style>
       <differentrates>0</differentrates>
@@ -1402,14 +1402,14 @@
   </item>
   <item type="field" plugin="rate" version="2025010100">
     <surveypro_item>
-      <content>rate_content_06</content>
+      <content>lang:rate_content_06</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>1</position>
       <hideinstructions>0</hideinstructions>
       <variable>rate_006</variable>
-      <extranote>rate_extranote_06</extranote>
+      <extranote>lang:rate_extranote_06</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1419,10 +1419,10 @@
       </parent>
     </surveypro_item>
     <surveyprofield_rate>
-      <options>rate_options_06</options>
-      <rates>rate_rates_06</rates>
+      <options>lang:rate_options_06</options>
+      <rates>lang:rate_rates_06</rates>
       <defaultoption>3</defaultoption>
-      <defaultvalue>rate_defaultvalue_06</defaultvalue>
+      <defaultvalue>lang:rate_defaultvalue_06</defaultvalue>
       <downloadformat>1</downloadformat>
       <style>0</style>
       <differentrates>0</differentrates>
@@ -1430,14 +1430,14 @@
   </item>
   <item type="field" plugin="recurrence" version="2025010100">
     <surveypro_item>
-      <content>recurrence_content_01</content>
+      <content>lang:recurrence_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_001</variable>
-      <extranote>recurrence_extranote_01</extranote>
+      <extranote>lang:recurrence_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1456,14 +1456,14 @@
   </item>
   <item type="field" plugin="recurrence" version="2025010100">
     <surveypro_item>
-      <content>recurrence_content_02</content>
+      <content>lang:recurrence_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_002</variable>
-      <extranote>recurrence_extranote_02</extranote>
+      <extranote>lang:recurrence_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1482,14 +1482,14 @@
   </item>
   <item type="field" plugin="recurrence" version="2025010100">
     <surveypro_item>
-      <content>recurrence_content_03</content>
+      <content>lang:recurrence_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>recurrence_003</variable>
-      <extranote>recurrence_extranote_03</extranote>
+      <extranote>lang:recurrence_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1508,14 +1508,14 @@
   </item>
   <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
-      <content>select_content_01</content>
+      <content>lang:select_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>select_001</variable>
-      <extranote>select_extranote_01</extranote>
+      <extranote>lang:select_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1525,23 +1525,23 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <options>select_options_01</options>
-      <labelother>select_labelother_01</labelother>
+      <options>lang:select_options_01</options>
+      <labelother>lang:select_labelother_01</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>select_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:select_defaultvalue_01</defaultvalue>
       <downloadformat>1</downloadformat>
     </surveyprofield_select>
   </item>
   <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
-      <content>select_content_02</content>
+      <content>lang:select_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>select_002</variable>
-      <extranote>select_extranote_02</extranote>
+      <extranote>lang:select_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1551,23 +1551,23 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <options>select_options_02</options>
-      <labelother>select_labelother_02</labelother>
+      <options>lang:select_options_02</options>
+      <labelother>lang:select_labelother_02</labelother>
       <defaultoption>3</defaultoption>
-      <defaultvalue>select_defaultvalue_02</defaultvalue>
+      <defaultvalue>lang:select_defaultvalue_02</defaultvalue>
       <downloadformat>1</downloadformat>
     </surveyprofield_select>
   </item>
   <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
-      <content>select_content_03</content>
+      <content>lang:select_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>select_003</variable>
-      <extranote>select_extranote_03</extranote>
+      <extranote>lang:select_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1577,23 +1577,23 @@
       </parent>
     </surveypro_item>
     <surveyprofield_select>
-      <options>select_options_03</options>
-      <labelother>select_labelother_03</labelother>
+      <options>lang:select_options_03</options>
+      <labelother>lang:select_labelother_03</labelother>
       <defaultoption>1</defaultoption>
-      <defaultvalue>select_defaultvalue_03</defaultvalue>
+      <defaultvalue>lang:select_defaultvalue_03</defaultvalue>
       <downloadformat>1</downloadformat>
     </surveyprofield_select>
   </item>
   <item type="field" plugin="shortdate" version="2025010100">
     <surveypro_item>
-      <content>shortdate_content_01</content>
+      <content>lang:shortdate_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_001</variable>
-      <extranote>shortdate_extranote_01</extranote>
+      <extranote>lang:shortdate_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1612,14 +1612,14 @@
   </item>
   <item type="field" plugin="shortdate" version="2025010100">
     <surveypro_item>
-      <content>shortdate_content_02</content>
+      <content>lang:shortdate_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_002</variable>
-      <extranote>shortdate_extranote_02</extranote>
+      <extranote>lang:shortdate_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1638,14 +1638,14 @@
   </item>
   <item type="field" plugin="shortdate" version="2025010100">
     <surveypro_item>
-      <content>shortdate_content_03</content>
+      <content>lang:shortdate_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>shortdate_003</variable>
-      <extranote>shortdate_extranote_03</extranote>
+      <extranote>lang:shortdate_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1664,13 +1664,13 @@
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_04</content>
+      <content>lang:fieldset_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
-      <extranote>fieldset_extranote_04</extranote>
+      <extranote>lang:fieldset_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1681,14 +1681,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_01</content>
+      <content>lang:textarea_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_001</variable>
-      <extranote>textarea_extranote_01</extranote>
+      <extranote>lang:textarea_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1707,14 +1707,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_02</content>
+      <content>lang:textarea_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_002</variable>
-      <extranote>textarea_extranote_02</extranote>
+      <extranote>lang:textarea_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1732,14 +1732,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_03</content>
+      <content>lang:textarea_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_003</variable>
-      <extranote>textarea_extranote_03</extranote>
+      <extranote>lang:textarea_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1757,14 +1757,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_04</content>
+      <content>lang:textarea_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_004</variable>
-      <extranote>textarea_extranote_04</extranote>
+      <extranote>lang:textarea_extranote_04</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1782,14 +1782,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_05</content>
+      <content>lang:textarea_content_05</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_005</variable>
-      <extranote>textarea_extranote_05</extranote>
+      <extranote>lang:textarea_extranote_05</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1807,14 +1807,14 @@
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_06</content>
+      <content>lang:textarea_content_06</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>textarea_006</variable>
-      <extranote>textarea_extranote_06</extranote>
+      <extranote>lang:textarea_extranote_06</extranote>
       <hidden>0</hidden>
       <insearchform>0</insearchform>
       <reserved>0</reserved>
@@ -1832,14 +1832,14 @@
   </item>
   <item type="field" plugin="time" version="2025010100">
     <surveypro_item>
-      <content>time_content_01</content>
+      <content>lang:time_content_01</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>time_001</variable>
-      <extranote>time_extranote_01</extranote>
+      <extranote>lang:time_extranote_01</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1859,14 +1859,14 @@
   </item>
   <item type="field" plugin="time" version="2025010100">
     <surveypro_item>
-      <content>time_content_02</content>
+      <content>lang:time_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>time_002</variable>
-      <extranote>time_extranote_02</extranote>
+      <extranote>lang:time_extranote_02</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1886,14 +1886,14 @@
   </item>
   <item type="field" plugin="time" version="2025010100">
     <surveypro_item>
-      <content>time_content_03</content>
+      <content>lang:time_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
       <position>0</position>
       <hideinstructions>0</hideinstructions>
       <variable>time_003</variable>
-      <extranote>time_extranote_03</extranote>
+      <extranote>lang:time_extranote_03</extranote>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -1913,7 +1913,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -1925,12 +1925,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_02</leftlabel>
+      <leftlabel>lang:label_leftlabel_02</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_03</content>
+      <content>lang:label_content_03</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -1942,12 +1942,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_03</leftlabel>
+      <leftlabel>lang:label_leftlabel_03</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_04</content>
+      <content>lang:label_content_04</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>
@@ -1959,7 +1959,7 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_04</leftlabel>
+      <leftlabel>lang:label_leftlabel_04</leftlabel>
     </surveyproformat_label>
   </item>
 </items>

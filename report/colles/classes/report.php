@@ -179,20 +179,6 @@ class report extends reportbase
         $childrenreports['scales'] = ['type' => 'scales'];
         $childrenreports['areaidxs'] = $questionreports;
 
-        // In order to uncomment the next code to get examples of nested navigation into admin > report block,
-        // you have to add strings corresponding to keys to $this->surveypro->template lang file.
-        // $subfourtharray = array();
-        // $subfourtharray['4.3.1'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 1];
-        // $subfourtharray['4.3.2'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 2];
-        // $subfourtharray['4.3.3'] = ['type' => 'fourth', 'foo' => 3, 'bar' => 3];
-
-        // $fourtharray = array();
-        // $fourtharray['4.1'] = ['type' => 'fourth', 'foo' => 1];
-        // $fourtharray['4.2'] = ['type' => 'fourth', 'foo' => 2];
-        // $fourtharray['4.3'] = $subfourtharray;
-
-        // $childrenreports['fourth'] = $fourtharray;
-
         return $childrenreports;
     }
 
@@ -305,7 +291,7 @@ class report extends reportbase
 
         $this->output_html($nexturl, $graphurl, 'summaryreport');
         // To debug a graph, open a new broser window and go to:
-        // http://localhost:8888/m403/mod/surveypro/report/colles/graph.php?s=xxx&type=yyy&groupid=zzz
+        // http://m502.test/mod/surveypro/report/colles/graph.php?s=xxx&type=yyy&groupid=zzz
     }
 
     /**
@@ -320,7 +306,7 @@ class report extends reportbase
 
         // Begin of: names of areas of investigation.
         for ($i = 1; $i < 7; $i++) {
-            $this->xlabels[] = get_string('fieldset_content_0' . $i, 'surveyprotemplate_' . $this->template);
+            $this->xlabels[] = get_string('lang:fieldset_content_0' . $i, 'surveyprotemplate_' . $this->template);
         }
         // End of: names of areas of investigation.
 
@@ -469,7 +455,7 @@ class report extends reportbase
     public function fetch_scalesdata($areaidx = 0) {
         global $DB, $USER;
 
-        $this->graphtitle = get_string('fieldset_content_0' . ($areaidx + 1), 'surveyprotemplate_' . $this->template);
+        $this->graphtitle = get_string('lang:fieldset_content_0' . ($areaidx + 1), 'surveyprotemplate_' . $this->template);
 
         // Begin of: names of areas of investigation.
         // Short names of questions.

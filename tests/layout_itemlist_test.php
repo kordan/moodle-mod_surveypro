@@ -244,7 +244,7 @@ final class layout_itemlist_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
-        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
+        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false, false);
 
         $result = $manager->call_get_action_icons($item);
 
@@ -265,7 +265,7 @@ final class layout_itemlist_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
-        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
+        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false, false);
 
         $result = $manager->call_get_action_icons($item);
 
@@ -291,7 +291,7 @@ final class layout_itemlist_test extends \advanced_testcase {
 
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
-        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
+        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false, false);
 
         $result = $manager->call_build_item_row($item);
 

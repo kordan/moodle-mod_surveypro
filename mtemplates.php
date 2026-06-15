@@ -24,6 +24,7 @@
 
 use mod_surveypro\utility_page;
 use mod_surveypro\utility_layout;
+use mod_surveypro\utility_mtemplate;
 use mod_surveypro\utility_submission;
 use mod_surveypro\mtemplate_apply;
 use mod_surveypro\mtemplate_save;
@@ -33,20 +34,9 @@ use mod_surveypro\local\form\mtemplate_applyform;
 require_once(dirname(__FILE__) . '/../../../config.php');
 require_once(dirname(__FILE__) . '/lib.php');
 
-$defaultsection = surveypro_get_defaults_section_per_area('mtemplates');
-
 $id = optional_param('id', 0, PARAM_INT);
 $s = optional_param('s', 0, PARAM_INT);
-$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
 $edit = optional_param('edit', -1, PARAM_BOOL);
-
-// Verify I used correct names all along the module code.
-$validsections = ['save', 'apply'];
-if (!in_array($section, $validsections)) {
-    $message = 'The section param \'' . $section . '\' is invalid.';
-    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
-}
-// End of: Verify I used correct names all along the module code.
 
 if (!empty($id)) {
     [$course, $cm] = get_course_and_cm_from_cmid($id, 'surveypro');
@@ -60,7 +50,23 @@ if (!empty($id)) {
 require_course_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
-// Utilitypage is going to be used in each section. This is the reason why I load it here.
+// Utility_mtemplate is needed to get $section for the URL of the secundary navigation.
+$utilitymtemplateman = new utility_mtemplate($cm, $surveypro);
+$defaultsection = $utilitymtemplateman->surveypro_get_defaults_section();
+$section = optional_param('section', $defaultsection, PARAM_ALPHAEXT); // The section of code to execute.
+
+// echo '$section = '.$section.'<br>';
+// die;
+
+// Verify I used correct names all along the module code.
+$validsections = ['save', 'apply'];
+if (!in_array($section, $validsections)) {
+    $message = 'The section param \'' . $section . '\' is invalid.';
+    debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+}
+// End of: Verify I used correct names all along the module code.
+
+// Utility_page is going to be used in each section. This is the reason why I load it here.
 $utilitypageman = new utility_page($cm, $surveypro);
 
 // MARK save.

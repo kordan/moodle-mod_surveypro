@@ -168,32 +168,4 @@ final class layout_itemsetup_test extends \advanced_testcase {
 
         $this->assertTrue(true);
     }
-
-    /*------------------------------------------------------------------------
-    Tests for prevent_direct_user_input().
-    ------------------------------------------------------------------------*/
-
-    /**
-     * prevent_direct_user_input() must not throw when surveypro has no template.
-     */
-    public function test_prevent_direct_user_input_no_template(): void {
-        $this->resetAfterTest();
-
-        $manager = $this->make_manager(false);
-
-        $manager->prevent_direct_user_input();
-        $this->assertTrue(true);
-    }
-
-    /**
-     * prevent_direct_user_input() must throw when surveypro has a template.
-     */
-    public function test_prevent_direct_user_input_with_template(): void {
-        $this->resetAfterTest();
-
-        $manager = $this->make_manager(true);
-
-        $this->expectException(\moodle_exception::class);
-        $manager->prevent_direct_user_input();
-    }
 }

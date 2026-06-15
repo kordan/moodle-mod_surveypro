@@ -194,7 +194,7 @@ class layout_itemlist
                 $itemseed->itemid,
                 $itemseed->type,
                 $itemseed->plugin,
-                true
+                true,
             );
 
             if (($this->mode == SURVEYPRO_CHANGEORDERASK) && ($item->get_itemid() == $this->rootitemid)) {
@@ -488,7 +488,7 @@ class layout_itemlist
         }
         $parts[] = \html_writer::tag('span', $inner, ['class' => 'surveypro-action-slot']);
 
-        // SLOT 2: Indentation value.
+        // SLOT 2: Indentation value (Read Only).
         if ($item->get_insetupform('indent')) {
             $currentindent = $item->get_indent();
             if ($currentindent !== false) { // It is false for label in fullwidth.
@@ -510,11 +510,15 @@ class layout_itemlist
         $paramurl['section'] = 'itemsetup';
         $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $editstr = get_string('edit');
+        $menulinkattributes = ['id' => 'edit_item_' . $sortindex];
+        if ($this->hassubmissions || !empty($this->surveypro->template)) {
+            $menulinkattributes['class'] = 'text-danger';
+        }
         $menu->add(new \action_menu_link_secondary(
             $url,
             new \pix_icon('t/edit', ''),
             $editstr,
-            ['id' => 'edit_item_' . $sortindex]
+            $menulinkattributes
         ));
 
         // Hide/Show.
@@ -1016,9 +1020,6 @@ class layout_itemlist
             case SURVEYPRO_DELETEITEM:
                 $this->item_delete_execute();
                 break;
-            case SURVEYPRO_DROPMULTILANG:
-                $this->drop_multilang_execute();
-                break;
             case SURVEYPRO_CHANGEORDER:
                 $this->reorder_items();
                 // After item reorder, if you reload the page whithout cleaning the url, the reorder action is performed again.
@@ -1073,9 +1074,6 @@ class layout_itemlist
     public function actions_feedback() {
         switch ($this->action) {
             case SURVEYPRO_NOACTION:
-                if (!empty($this->surveypro->template)) {
-                    $this->drop_multilang_feedback();
-                }
                 break;
             case SURVEYPRO_ADDTOSEARCH:
                 $this->item_addtosearch_feedback();
@@ -2161,127 +2159,6 @@ class layout_itemlist
             }
         }
         echo $OUTPUT->notification($message, $class);
-    }
-
-    // MARK drop multilang.
-
-    /**
-     * Drop multilang from all the item.
-     *
-     * Called by:
-     *     actions_execution()
-     *
-     * @return void
-     */
-    public function drop_multilang_execute() {
-        global $DB;
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_YES) {
-            require_sesskey();
-
-            // Overwrite keys from the database and replace it with the actual strings.
-            $template = $this->surveypro->template;
-
-            $where = ['surveyproid' => $this->surveypro->id];
-            $itemseeds = $DB->get_records('surveypro_item', $where, 'sortindex', 'id, type, plugin');
-            foreach ($itemseeds as $itemseed) {
-                $id = $itemseed->id;
-                $type = $itemseed->type;
-                $plugin = $itemseed->plugin;
-                $item = surveypro_get_itemclass($this->cm, $this->surveypro, $id, $type, $plugin);
-
-                $itemsmlfields = $item->get_multilang_fields(false);
-                if ($itemsmlfields) { // Pagebreak and fieldsetend have no multilang_fields.
-                    // SELECT content,extranote,options,labelother,defaultvalue FROM {surveyprofield_radiobutton} WHERE id = 8.
-                    foreach ($itemsmlfields as $table => $fields) { // Note: $itemmlfield is an array of arrays of fields.
-                        if (!count($fields)) {
-                            continue;
-                        }
-                        $record = new \stdClass();
-
-                        $fieldlist = implode(',', $fields);
-                        if ($table == 'surveypro_item') {
-                            $where = ['id' => $id];
-                            $savedrecord = $DB->get_record($table, $where, $fieldlist, MUST_EXIST);
-                            $record->id = $id;
-                        } else {
-                            $where = ['itemid' => $id];
-                            $savedrecord = $DB->get_record($table, $where, 'id,' . $fieldlist, MUST_EXIST);
-                            $record->id = $savedrecord->id;
-                        }
-
-                        foreach ($fields as $mlfieldname) {
-                            $stringkey = $savedrecord->{$mlfieldname};
-
-                            if (core_text::strlen($stringkey)) {
-                                $record->{$mlfieldname} = get_string($stringkey, 'surveyprotemplate_' . $template);
-                            } else {
-                                $record->{$mlfieldname} = null;
-                            }
-                        }
-
-                        $DB->update_record($table, $record);
-                    }
-                }
-            }
-            $surveypro = new \stdClass();
-            $surveypro->id = $this->surveypro->id;
-            $surveypro->template = null;
-            $DB->update_record('surveypro', $surveypro);
-
-            $paramurl = [];
-            $paramurl['s'] = $this->cm->instance;
-            $paramurl['act'] = SURVEYPRO_DROPMULTILANG;
-            $paramurl['section'] = 'itemslist';
-            $paramurl['sesskey'] = sesskey();
-            $paramurl['cnf'] = SURVEYPRO_ACTION_EXECUTED;
-            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($returnurl);
-        }
-
-        if ($this->confirm == SURVEYPRO_CONFIRMED_NO) {
-            $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
-            $returnurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
-            redirect($returnurl);
-        }
-    }
-
-    /**
-     * Provide a feedback after drop_multilang_execute.
-     *
-     * Called by:
-     *     actions_feedback()
-     *
-     * @return void
-     */
-    public function drop_multilang_feedback() {
-        global $OUTPUT;
-
-        if ($this->confirm == SURVEYPRO_UNCONFIRMED) {
-            // Ask for confirmation.
-            $message = get_string('confirm_dropmultilang', 'mod_surveypro');
-
-            $optionbase = ['s' => $this->cm->instance];
-
-            $optionsyes = $optionbase + ['section' => 'itemslist', 'act' => SURVEYPRO_DROPMULTILANG];
-            $optionsyes['cnf'] = SURVEYPRO_CONFIRMED_YES;
-            $urlyes = new \moodle_url('/mod/surveypro/layout.php', $optionsyes);
-            $buttonyes = new \single_button($urlyes, get_string('yes'));
-
-            $optionsno = $optionbase + ['section' => 'preview'];
-            $optionsno['cnf'] = SURVEYPRO_CONFIRMED_NO;
-            $urlno = new \moodle_url('/mod/surveypro/layout.php', $optionsno);
-            $buttonno = new \single_button($urlno, get_string('no'));
-
-            echo $OUTPUT->confirm($message, $buttonyes, $buttonno);
-            echo $OUTPUT->footer();
-            die();
-        }
-
-        if ($this->confirm == SURVEYPRO_ACTION_EXECUTED) {
-            $message = get_string('feedback_dropmultilang', 'mod_surveypro');
-            echo $OUTPUT->notification($message, 'notifysuccess');
-        }
     }
 
     // MARK set.

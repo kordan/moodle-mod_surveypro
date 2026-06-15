@@ -22,15 +22,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['item_parentvalue_01'] = '';
-$string['label_content_01'] = '<p>While thinking about recent events in this class, answer the questions below.</p>';
-$string['label_leftlabel_01'] = '';
 $string['pluginname'] = 'Critical Incidents';
 $string['privacy:metadata'] = 'The "Critical Incidents" template plugin does not store any personal data.';
 
+$string['lang:item_parentvalue_01'] = '';
 
-$string['textarea_content_02'] = '<p>At what moment in class were you most engaged as a learner?</p>';
-$string['textarea_content_03'] = '<p>At what moment in class were you most distanced as a learner?</p>';
-$string['textarea_content_04'] = '<p>What action from anyone in the forums did you find most affirming or helpful?</p>';
-$string['textarea_content_05'] = '<p>What action from anyone in the forums did you find most puzzling or confusing?</p>';
-$string['textarea_content_06'] = '<p>What event surprised you most?</p>';
+$string['lang:label_content_01'] = '<p>While thinking about recent events in this class, answer the questions below.</p>';
+$string['lang:label_leftlabel_01'] = '';
+
+$string['lang:textarea_content_02'] = '<p>At what moment in class were you most engaged as a learner?</p>';
+$string['lang:textarea_content_03'] = '<p>At what moment in class were you most distanced as a learner?</p>';
+$string['lang:textarea_content_04'] = '<p>What action from anyone in the forums did you find most affirming or helpful?</p>';
+$string['lang:textarea_content_05'] = '<p>What action from anyone in the forums did you find most puzzling or confusing?</p>';
+$string['lang:textarea_content_06'] = '<p>What event surprised you most?</p>';

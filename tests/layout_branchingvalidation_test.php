@@ -92,7 +92,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
         [$manager, $surveypro, $cm] = $this->make_manager();
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
-        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false);
+        $item = new \surveyprofield_character\item($cm, $surveypro, $itemid, false, false);
 
         $result = $manager->call_get_relation_status_cell($item, null);
 
@@ -114,7 +114,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
             'parentid'    => $parentid,
             'parentvalue' => '1',
         ]);
-        $item = new \surveyprofield_character\item($cm, $surveypro, $childid, false);
+        $item = new \surveyprofield_character\item($cm, $surveypro, $childid, false, false);
 
         $result = $manager->call_get_relation_status_cell($item, null);
 
@@ -137,8 +137,8 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
             'parentvalue' => '1',
         ]);
 
-        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false);
-        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, false);
+        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false, false);
+        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, false, false);
 
         $result = $manager->call_get_relation_status_cell($childitem, $parentitem);
 
@@ -162,8 +162,8 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
             'parentvalue' => '99', // Invalid value for boolean.
         ]);
 
-        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false);
-        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, true);
+        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false, false);
+        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, true, false);
 
         $result = $manager->call_get_relation_status_cell($childitem, $parentitem);
 
@@ -190,8 +190,8 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
             'parentvalue' => '1',
         ]);
 
-        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false);
-        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, true);
+        $parentitem = new \surveyprofield_boolean\item($cm, $surveypro, $parentid, false, false);
+        $childitem  = new \surveyprofield_character\item($cm, $surveypro, $childid, true, false);
 
         $editstr  = get_string('edit');
         $editicn  = new \pix_icon('t/edit', $editstr, 'moodle', ['title' => $editstr]);
@@ -221,7 +221,7 @@ final class layout_branchingvalidation_test extends \advanced_testcase {
         [$manager, $surveypro, $cm] = $this->make_manager();
         $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
         $itemid = $generator->create_item_boolean($surveypro, ['required' => 0]);
-        $item   = new \surveyprofield_boolean\item($cm, $surveypro, $itemid, false);
+        $item   = new \surveyprofield_boolean\item($cm, $surveypro, $itemid, false, false);
 
         $editstr   = get_string('edit');
         $editicn   = new \pix_icon('t/edit', $editstr, 'moodle', ['title' => $editstr]);

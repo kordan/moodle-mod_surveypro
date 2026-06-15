@@ -46,7 +46,7 @@ final class item_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-        $item = new item($cm, $surveypro, 0, false);
+        $item = new item($cm, $surveypro, 0, false, true);
         $item->set_options("first\nsecond\nthird");
         $item->set_rates("low\nmid\nhigh");
         return $item;

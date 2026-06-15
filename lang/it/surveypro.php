@@ -131,6 +131,13 @@ $string['modulenameplural'] = 'surveypro';
 $string['mtemplate'] = 'Template di sistema';
 $string['mtemplate_apply'] = 'Applica';
 $string['mtemplate_save'] = 'Salva';
+$string['mtemplateitemeditingwarning'] = 'Stai modificando i parametri di un elemento di un master template.<br>
+I master template sono multi-lingua ovvero si presentano allo studente con il contenuto delle domande, così come di eventuali altri parametri, nella lingua impostata dallo studente.<br>
+Per questo, in questa scheda non troverai il testo della domanda, ma qualcosa del tipo \'lang:{$a->plugin}_content_xx\'.<br>
+Modificando questo testo perderai la proprietà multi-lingua per questo parametro e lo sostituirai con il testo statico che scriverai.<br>
+Se effettivamente intendi modificare il contenuto del testo della domanda mantenendo la proprietà multi-ligua procedi modificando il file di lingua corrispondente in surveypro/template/{$a->mtemplatename}/lang/it/surveyprotemplate_{$a->mtemplatename}.php.<br>
+Se vuoi vedere il testo della domanda ed, eventualmente, verificarlo in tutte le lingue supportate, accedi alla sezione "{$a->preview}".';
+$string['mtemplatesource'] = 'Sorgente originale: master template {$a}';
 $string['neverstartedemail'] = 'Sollecito per i survey mai avviati';
 $string['newpageforchild'] = 'Domande condizionate nella pagina successiva';
 $string['nextformpage'] = 'Pagina successiva >>';

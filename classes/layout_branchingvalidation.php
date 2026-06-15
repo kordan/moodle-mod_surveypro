@@ -164,7 +164,7 @@ class layout_branchingvalidation
                 $itemseed->itemid,
                 $itemseed->type,
                 $itemseed->plugin,
-                true,
+                true
             );
 
             $parentitem = null;

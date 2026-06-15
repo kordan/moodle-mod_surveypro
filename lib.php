@@ -30,6 +30,7 @@
 
 use mod_surveypro\utility_layout;
 use mod_surveypro\surveypro_file_info;
+use mod_surveypro\utility_mtemplate;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -854,42 +855,42 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $PAGE, $DB;
 
-    // Surveypro.
+    // Surveypro. First menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_surveypro');
         // Do not add it. It is added by moodle core with the modulename label.
         $navnode->set_show_in_secondary_navigation(false);
     }
 
-    // Layout.
+    // Layout. Third menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('layout');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_layout');
     }
 
-    // Reports.
+    // Reports. Fourth menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('reports');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_report');
     }
 
-    // Tools.
+    // Tools. Fifth menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('tools');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_tools');
     }
 
-    // User templates. (Maybe "User presets" is better?).
+    // User templates. (Maybe "User presets" is better?). Sixth  menu. It is a child of "More".
     [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_utemplates');
     }
 
-    // Master templates. (Maybe "Master presets" is better?).
+    // Master templates. (Maybe "Master presets" is better?). Seventh  menu. It is a child of "More"
     [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates');
     if ($condition) {
-        $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
+        $surveypronode->add($label, $url, navigation_node::TYPE_SETTING, null, 'mod_surveypro_mtemplates');
     }
 }
 
@@ -905,8 +906,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
  * @return void
  */
 function surveypro_extend_navigation(navigation_node $navigation, \stdClass $course, \stdClass $surveypro, cm_info $cm) {
-    global $PAGE;
-
+    /*
     // Surveypro.
     [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
     if ($condition) {
@@ -942,6 +942,7 @@ function surveypro_extend_navigation(navigation_node $navigation, \stdClass $cou
     if ($condition) {
         $navigation->add($label, $url, navigation_node::TYPE_SETTING);
     }
+    */
 }
 
 // CUSTOM SURVEYPRO API.
@@ -953,22 +954,32 @@ function surveypro_extend_navigation(navigation_node $navigation, \stdClass $cou
  * @return array|string defaultsection
  */
 function surveypro_get_defaults_section_per_area($area) {
-    $defaultsection = [];
-    $defaultsection['surveypro'] = 'cover';
-    $defaultsection['layout'] = 'itemslist';
-    $defaultsection['reports'] = 'view'; // Default section for each report IS ALWAYS 'view'.
-    $defaultsection['tools'] = 'export';
-    $defaultsection['utemplates'] = 'manage';
-    $defaultsection['mtemplates'] = 'save';
-
-    // Verify a correct $area was requested.
-    if (!isset($defaultsection[$area])) {
-        $message = 'The requested area \'' . $area . '\' is invalid.';
-        debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+    switch ($area) {
+        case 'surveypro':
+            $section = 'cover';
+            break;
+        case 'layout':
+            $section = 'itemslist';
+            break;
+        case 'reports':
+            $section = 'view';
+            break;
+        case 'tools':
+            $section = 'export';
+            break;
+        case 'utemplates':
+            $section = 'manage';
+            break;
+        case 'mtemplates':
+            $message = 'Do not use surveypro_get_defaults_section_per_area for mtemplates. It has a separate management.';
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+            break;
+        default:
+            $message = 'Unexpected $area = ' . $area;
+            debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
     }
-    // End of: Verify a correct $area was requested.
 
-    return $defaultsection[$area];
+    return $section;
 }
 
 /**
@@ -985,18 +996,11 @@ function surveypro_get_link_and_condition($area) {
     }
 
     $context = \context_module::instance($cm->id);
+    $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 
     $pageparams = $PAGE->url->params();
 
-    $section = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
-    if (isset($pageparams['section'])) {
-        // Overwrite the default section with the passed one in the passed area ONLY.
-        if (isset($pageparams['area']) && ($pageparams['area'] == $area)) {
-            $section = $pageparams['section'];
-        }
-    }
-
-    $paramurl = ['s' => $cm->instance, 'area' => $area, 'section' => $section];
+    $paramurl = ['s' => $cm->instance, 'area' => $area];
 
     $label = '';
     $url = '';
@@ -1004,6 +1008,7 @@ function surveypro_get_link_and_condition($area) {
         case 'surveypro':
             $condition = has_capability('mod/surveypro:submit', $context);
             if ($condition) {
+                $paramurl['section'] = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
                 if (isset($pageparams['submissionid'])) {
                     $paramurl['submissionid'] = $pageparams['submissionid'];
                 }
@@ -1020,6 +1025,7 @@ function surveypro_get_link_and_condition($area) {
         case 'layout':
             $condition = has_capability('mod/surveypro:manageitems', $context);
             if ($condition) {
+                $paramurl['section'] = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
                 if (isset($pageparams['itemid'])) {
                     $paramurl['itemid'] = $pageparams['itemid'];
                 }
@@ -1049,6 +1055,7 @@ function surveypro_get_link_and_condition($area) {
                 $reportman->setup();
                 $condition = $reportman->is_report_allowed();
                 if ($condition) {
+                    $paramurl['section'] = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
                     $label = get_string('reports', 'mod_surveypro');
                     $paramurl['report'] = $reportname;
                     if (isset($pageparams['container'])) {
@@ -1070,6 +1077,7 @@ function surveypro_get_link_and_condition($area) {
 
             $condition = $canimportresponses || $canexportresponses;
             if ($condition) {
+                $paramurl['section'] = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
                 $label = get_string('tools', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/tools.php', $paramurl);
             }
@@ -1080,27 +1088,23 @@ function surveypro_get_link_and_condition($area) {
 
             $condition = $canmanageusertemplates && empty($surveypro->template);
             if ($condition) {
+                $paramurl['section'] = surveypro_get_defaults_section_per_area($area); // Here $section is a string, not an array.
                 $label = get_string('utemplate', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/utemplates.php', $paramurl);
             }
             break;
         case 'mtemplates':
-            $canapplymastertemplates = has_capability('mod/surveypro:applymastertemplates', $context);
-            $cansavemastertemplates = has_capability('mod/surveypro:savemastertemplates', $context);
-            $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
-
-            $utilitylayoutman = new utility_layout($cm, $surveypro);
-            $hassubmissions = $utilitylayoutman->has_submissions();
-
-            $riskyediting = ($surveypro->riskyeditdeadline > time());
-
-            $condition = false;
-            $condition = $condition || ($cansavemastertemplates && empty($surveypro->template));
-            $condition = $condition || ($canapplymastertemplates && (!$hassubmissions || $riskyediting));
-
-            if ($condition) {
+            // Utility_mtemplate is needed to get $section for the URL of the secundary navigation.
+            $utilitymtemplateman = new utility_mtemplate($cm, $surveypro);
+            $section = $utilitymtemplateman->surveypro_get_defaults_section();
+            if ($section) {
+                $condition = true;
+                $label = $section;
+                $paramurl['section'] = $section;
                 $label = get_string('mtemplate', 'mod_surveypro');
                 $url = new \moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
+            } else {
+                $condition = false;
             }
             break;
         default:
@@ -1377,9 +1381,18 @@ function surveypro_inplace_editable($itemtype, $id, $newvalue) {
  * @param string $type
  * @param string $plugin
  * @param bool $getparentcontent
+ * @param bool $evallangkeys
  * @return $item object
  */
-function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plugin = '', $getparentcontent = false) {
+function surveypro_get_itemclass(
+    $cm,
+    $surveypro,
+    $itemid = 0,
+    $type = '',
+    $plugin = '',
+    $getparentcontent = false,
+    $evallangkeys = true
+) {
     global $DB;
 
     if (!empty($itemid)) {
@@ -1406,7 +1419,7 @@ function surveypro_get_itemclass($cm, $surveypro, $itemid = 0, $type = '', $plug
     }
 
     $classname = 'surveypro' . $type . '_' . $plugin . '\item';
-    $item = new $classname($cm, $surveypro, $itemid, $getparentcontent);
+    $item = new $classname($cm, $surveypro, $itemid, $getparentcontent, $evallangkeys);
 
     return $item;
 }

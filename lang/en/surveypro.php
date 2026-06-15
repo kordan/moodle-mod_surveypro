@@ -85,7 +85,6 @@ $string['confirm_deletemyresponse_original'] = 'Are you sure you want to delete 
 $string['confirm_deleteotherresponse_modified'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
 $string['confirm_deleteotherresponse_original'] = 'Are you sure you want to delete the response owned by {$a->fullname}, created on {$a->timecreated} and never modified?';
 $string['confirm_deletevisibleitems'] = 'Are you sure you want to delete EACH visible element?';
-$string['confirm_dropmultilang'] = 'Current survey supports multilanguage as imported from a master template.<br>This means that the survey displays questions and labels according to the user preferred language (if available).<br>By editing this kind of survey you will lose the multilanguage support returning to the standard indifferenciated labels all along the survey.<br>Be warned that once you drop the multilanguage support even by generating again a master template, you still no longer get missed languages and, last but not least, the drop of the multilanguage support is not undoable.<br>Are you sure you want to edit this multilanguage survey?';
 $string['confirm_duplicatemyresponse_modified'] = 'Are you sure you want to duplicate the response created on {$a->timecreated} and modified on {$a->timemodified}?';
 $string['confirm_duplicatemyresponse_original'] = 'Are you sure you want to duplicate the response created on {$a->timecreated} and never modified?';
 $string['confirm_duplicateotherresponse_modified'] = 'Are you sure you want to duplicate the response owned by {$a->fullname}, created on {$a->timecreated} and modified on {$a->timemodified}?';
@@ -184,7 +183,6 @@ $string['feedback_deleteallresponses'] = 'All the responses of this survey have 
 $string['feedback_deletechainitems'] = 'The \'{$a->pluginname}\' element: {$a->content} and descending element(s) have been successfully deleted';
 $string['feedback_deletehiddenitems'] = 'All hidden elements were successfully deleted';
 $string['feedback_deletevisibleitems'] = 'All visible elements were successfully deleted';
-$string['feedback_dropmultilang'] = 'Multilang for the loaded mastertemplate was dropped. Now elements are editable.';
 $string['feedback_duplicateresponse'] = 'User response has been successfully duplicated';
 $string['feedback_hideallitems'] = 'All the elements were successfully hidden';
 $string['feedback_itemadd_ko'] = 'The new element has not been added';
@@ -311,6 +309,13 @@ $string['modulesettinghdr'] = 'Surveypro settings';
 $string['mtemplate'] = 'Master templates';
 $string['mtemplate_apply'] = 'Apply';
 $string['mtemplate_save'] = 'Save';
+$string['mtemplateitemeditingwarning'] = 'You are editing the parameters of an element in a master template.<br>
+Master templates are multilingual, meaning they display the question content, as well as some other parameters, to the student in the language selected by the student.<br>
+For this reason, you will not find the question text in this page, but rather something like \‘lang:\’ {$a->plugin}  \'_content_xx\’.<br>
+By editing this text, you will lose the multilingual property for this it and will replace it with the static text you enter.<br>
+If you actually intend to edit the question text while maintaining the multilingual property, proceed by editing the corresponding language file in surveypro/template/{$a->mtemplatename}/lang/en/surveyprotemplate_{$a->mtemplatename}.php.<br>
+If you want to view the question text and verify it in all the supported languages, go to the “{$a->preview}” section.';
+$string['mtemplatesource'] = 'Original source: master template {$a}';
 $string['mtemplatessection'] = 'Master templates section';
 $string['neverstartedemail'] = 'Email for not started survey';
 $string['neverstartedemail_help'] = 'Send a reminder email to users not starting their first submission';

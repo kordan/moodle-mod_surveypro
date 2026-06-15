@@ -29,10 +29,11 @@ Feature: Verify the deletion of old items works as expected during master templa
     Then I should see "Attitudes Towards Thinking and Learning"
 
     When I select "Elements" from the "jump" singleselect
-    And I press "Yes"
+    And I set the field "bulkaction" to "Delete all elements"
+    And I press "Go"
+    And I press "Delete each element"
 
     And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
-    # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect
     And I set the field "mastertemplate" to "COLLES (Preferred and Actual)"
@@ -41,10 +42,11 @@ Feature: Verify the deletion of old items works as expected during master templa
     Then I should see "I found that my learning focuses on issues that interest me."
 
     When I select "Elements" from the "jump" singleselect
-    And I press "Yes"
+    And I set the field "bulkaction" to "Delete all elements"
+    And I press "Go"
+    And I press "Delete each element"
 
     And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
-    # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect
     And I set the field "mastertemplate" to "COLLES (Actual)"
@@ -52,11 +54,12 @@ Feature: Verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I select "Elements" from the "jump" singleselect
-    And I press "Yes"
+    When I select "Elements" from the "jump" singleselect
+    And I set the field "bulkaction" to "Delete all elements"
+    And I press "Go"
+    And I press "Delete each element"
 
     And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
-    # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect
     And I set the field "mastertemplate" to "COLLES (Preferred)"
@@ -64,11 +67,12 @@ Feature: Verify the deletion of old items works as expected during master templa
     Then I should see "In this online unit"
     Then I should see "my learning focuses on issues that interest me"
 
-    And I select "Elements" from the "jump" singleselect
-    And I press "Yes"
+    When I select "Elements" from the "jump" singleselect
+    And I set the field "bulkaction" to "Delete all elements"
+    And I press "Go"
+    And I press "Delete each element"
 
     And I am on the "To overwrite master templates" "mod_surveypro > Master templates from secondary navigation" page
-    # now I am in the "Save" page
 
     And I select "Apply" from the "jump" singleselect
     And I set the field "mastertemplate" to "Critical Incidents"

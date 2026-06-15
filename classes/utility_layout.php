@@ -279,12 +279,20 @@ class utility_layout
     public function delete_items($whereparams) {
         global $DB;
 
+        // Get surveypro record for future use.
+        if (isset($whereparams['surveyproid'])) {
+            $surveypro = $DB->get_record('surveypro', ['id' => $whereparams['surveyproid']]);
+        } else {
+            $surveyproid = $DB->get_field('surveypro_item', 'surveyproid', ['id' => $whereparams['id']]);
+            $surveypro = $DB->get_record('surveypro', ['id' => $surveyproid]);
+        }
+
         // Verify input params integrity.
         $validanswerparams = ['id', 'surveyproid', 'type ', 'plugin', 'hidden', 'insearchform', 'reserved', 'parentid'];
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not delete answers using ' . $startingparam . '. It is not an answer attribute.';
+                $message = 'I can not delete elements using ' . $startingparam . '. It is not an element attribute.';
                 debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }
@@ -298,6 +306,14 @@ class utility_layout
         // Delete answers to this/these item/s.
         foreach ($items as $item) {
             $this->delete_answers(['itemid' => $item->id], $item);
+        }
+        $elements = $DB->get_records('surveypro_item', ['surveyproid' => $surveypro->id], '', 'id');
+
+        if (!count($elements) && !empty($surveypro->template)) {
+            $update = new \stdClass();
+            $update->id = $surveypro->id;
+            $update->template = null;
+            $DB->update_record('surveypro', $update);
         }
 
         $this->reset_pages();

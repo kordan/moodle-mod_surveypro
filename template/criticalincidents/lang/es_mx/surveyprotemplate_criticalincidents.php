@@ -23,12 +23,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$string['label_content_01'] = '<p>Mientras piensa en los eventos recientes en esta clase, responda las preguntas debajo.</p>';
 $string['pluginname'] = 'Incidentes Críticos';
-$string['textarea_content_02'] = '<p>¿En qué momento en clase estuvo más comprometido como alumno?</p>';
-$string['textarea_content_03'] = '<p>¿En qué momento en clase estuvo más distanciado como alumno?</p>';
-$string['textarea_content_04'] = '<p>\'¿Cuál acción de cualquier persona en los foros encontró Usted más afirmativa o útil?</p>';
-$string['textarea_content_05'] = '<p>\'¿Cuál acción de cualquier persona en los foros encontró Usted más extraña o confusa?</p>';
-$string['textarea_content_06'] = '<p>¿Cuál evento le sorprendió más?</p>';
+$string['privacy:metadata'] = 'The "Incidentes Críticos" template plugin does not store any personal data.';
+
+$string['lang:item_parentvalue_01'] = '';
+
+$string['lang:label_content_01'] = '<p>Mientras piensa en los eventos recientes en esta clase, responda las preguntas debajo.</p>';
+$string['lang:label_leftlabel_01'] = '';
+
+$string['lang:textarea_content_02'] = '<p>¿En qué momento en clase estuvo más comprometido como alumno?</p>';
+$string['lang:textarea_content_03'] = '<p>¿En qué momento en clase estuvo más distanciado como alumno?</p>';
+$string['lang:textarea_content_04'] = '<p>\'¿Cuál acción de cualquier persona en los foros encontró Usted más afirmativa o útil?</p>';
+$string['lang:textarea_content_05'] = '<p>\'¿Cuál acción de cualquier persona en los foros encontró Usted más extraña o confusa?</p>';
+$string['lang:textarea_content_06'] = '<p>¿Cuál evento le sorprendió más?</p>';

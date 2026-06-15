@@ -2,7 +2,7 @@
 <items>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_01</content>
+      <content>lang:label_content_01</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -11,12 +11,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>1</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_01</content>
+      <content>lang:fieldset_content_01</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -27,7 +27,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -36,12 +36,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_03</content>
+      <content>lang:radiobutton_content_03</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -52,17 +52,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_04</content>
+      <content>lang:radiobutton_content_04</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -73,17 +73,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_05</content>
+      <content>lang:radiobutton_content_05</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -94,17 +94,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_06</content>
+      <content>lang:radiobutton_content_06</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -115,17 +115,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_02</content>
+      <content>lang:fieldset_content_02</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -136,7 +136,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -145,12 +145,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_07</content>
+      <content>lang:radiobutton_content_07</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -161,17 +161,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_08</content>
+      <content>lang:radiobutton_content_08</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -182,17 +182,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_09</content>
+      <content>lang:radiobutton_content_09</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -203,17 +203,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_10</content>
+      <content>lang:radiobutton_content_10</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -224,17 +224,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_03</content>
+      <content>lang:fieldset_content_03</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -245,7 +245,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -254,12 +254,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_11</content>
+      <content>lang:radiobutton_content_11</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -270,17 +270,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_12</content>
+      <content>lang:radiobutton_content_12</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -291,17 +291,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_13</content>
+      <content>lang:radiobutton_content_13</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -312,17 +312,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_14</content>
+      <content>lang:radiobutton_content_14</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -333,17 +333,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_04</content>
+      <content>lang:fieldset_content_04</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -354,7 +354,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -363,12 +363,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_15</content>
+      <content>lang:radiobutton_content_15</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -379,17 +379,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_16</content>
+      <content>lang:radiobutton_content_16</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -400,17 +400,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_17</content>
+      <content>lang:radiobutton_content_17</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -421,17 +421,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_18</content>
+      <content>lang:radiobutton_content_18</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -442,17 +442,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_05</content>
+      <content>lang:fieldset_content_05</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -463,7 +463,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -472,12 +472,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_19</content>
+      <content>lang:radiobutton_content_19</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -488,17 +488,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_20</content>
+      <content>lang:radiobutton_content_20</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -509,17 +509,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_21</content>
+      <content>lang:radiobutton_content_21</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -530,17 +530,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_22</content>
+      <content>lang:radiobutton_content_22</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -551,17 +551,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="format" plugin="fieldset" version="2025010100">
     <surveypro_item>
-      <content>fieldset_content_06</content>
+      <content>lang:fieldset_content_06</content>
       <hidden>0</hidden>
       <insearchform>1</insearchform>
       <reserved>0</reserved>
@@ -572,7 +572,7 @@
   </item>
   <item type="format" plugin="label" version="2025010100">
     <surveypro_item>
-      <content>label_content_02</content>
+      <content>lang:label_content_02</content>
       <contentformat>1</contentformat>
       <indent>0</indent>
       <hidden>0</hidden>
@@ -581,12 +581,12 @@
     </surveypro_item>
     <surveyproformat_label>
       <fullwidth>0</fullwidth>
-      <leftlabel>label_leftlabel_01</leftlabel>
+      <leftlabel>lang:label_leftlabel_01</leftlabel>
     </surveyproformat_label>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_23</content>
+      <content>lang:radiobutton_content_23</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -597,17 +597,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_24</content>
+      <content>lang:radiobutton_content_24</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -618,17 +618,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_25</content>
+      <content>lang:radiobutton_content_25</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -639,17 +639,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="radiobutton" version="2025010100">
     <surveypro_item>
-      <content>radiobutton_content_26</content>
+      <content>lang:radiobutton_content_26</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -660,17 +660,17 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_radiobutton>
-      <options>radiobutton_options_01</options>
-      <labelother>radiobutton_labelother_01</labelother>
+      <options>lang:radiobutton_options_01</options>
+      <labelother>lang:radiobutton_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>radiobutton_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:radiobutton_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
       <adjustment>1</adjustment>
     </surveyprofield_radiobutton>
   </item>
   <item type="field" plugin="select" version="2025010100">
     <surveypro_item>
-      <content>select_content_27</content>
+      <content>lang:select_content_27</content>
       <contentformat>1</contentformat>
       <required>1</required>
       <indent>0</indent>
@@ -681,16 +681,16 @@
       <reserved>0</reserved>
     </surveypro_item>
     <surveyprofield_select>
-      <options>select_options_01</options>
-      <labelother>select_labelother_01</labelother>
+      <options>lang:select_options_01</options>
+      <labelother>lang:select_labelother_01</labelother>
       <defaultoption>2</defaultoption>
-      <defaultvalue>select_defaultvalue_01</defaultvalue>
+      <defaultvalue>lang:select_defaultvalue_01</defaultvalue>
       <downloadformat>0</downloadformat>
     </surveyprofield_select>
   </item>
   <item type="field" plugin="textarea" version="2025010100">
     <surveypro_item>
-      <content>textarea_content_28</content>
+      <content>lang:textarea_content_28</content>
       <contentformat>1</contentformat>
       <required>0</required>
       <indent>0</indent>

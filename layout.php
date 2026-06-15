@@ -225,11 +225,12 @@ if ($section == 'itemslist') {
     $riskyediting = ($surveypro->riskyeditdeadline > time());
 
     $basecondition = true;
-    $basecondition = $basecondition && empty($surveypro->template);
+    // $basecondition = $basecondition && empty($surveypro->template);
     $basecondition = $basecondition && (!$hassubmissions || $riskyediting);
 
     // Begin of: New item form.
-    $newitemcondition = $basecondition && has_capability('mod/surveypro:additems', $context);
+    $newitemcondition = $basecondition && empty($surveypro->template);
+    $newitemcondition = $newitemcondition && has_capability('mod/surveypro:additems', $context);
     if ($newitemcondition) {
         $paramurl = ['s' => $cm->instance, 'section' => 'itemsetup', 'mode' => SURVEYPRO_NEWITEM];
         $formurl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
@@ -396,7 +397,7 @@ if ($section == 'itemsetup') {
     require_once($CFG->dirroot . '/mod/surveypro/' . $itemtype . '/' . $itemplugin . '/classes/itemsetupform.php');
 
     // Begin of: get item.
-    $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemtype, $itemplugin, true);
+    $item = surveypro_get_itemclass($cm, $surveypro, $itemid, $itemtype, $itemplugin, true, false);
     // End of: get item.
 
     // Set $PAGE params.
@@ -459,6 +460,18 @@ if ($section == 'itemsetup') {
 
     $actionbar = new \mod_surveypro\output\action_bar($cm, $context, $surveypro);
     echo $actionbar->draw_layout_action_bar();
+
+    // Communication.
+    if (!empty($surveypro->template)) {
+        $fieldname = 'communication';
+        $warning = get_string('warning');
+        $a = new \StdClass();
+        $a->plugin = $item->get_plugin();
+        $a->mtemplatename = $surveypro->template;
+        $a->preview = get_string('preview');
+        $messagecontent = get_string('mtemplateitemeditingwarning', 'mod_surveypro', $a);
+        echo $OUTPUT->notification($messagecontent, 'notifyproblem');
+    }
 
     $utilitysubmissionman = new utility_submission($cm, $surveypro);
     if ($hassubmissions) {

@@ -48,7 +48,7 @@ final class item_test extends \advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
         $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
-        return new time_item_test_helper($cm, $surveypro, 0, false);
+        return new time_item_test_helper($cm, $surveypro, 0, false, true);
     }
 
     /*------------------------------------------------------------------------

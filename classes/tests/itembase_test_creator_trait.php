@@ -46,6 +46,6 @@ trait itembase_test_creator_trait {
         $surveypro = $atc->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
 
-        return new static($cm, $surveypro, 0, false);
+        return new static($cm, $surveypro, 0, false, false);
     }
 }

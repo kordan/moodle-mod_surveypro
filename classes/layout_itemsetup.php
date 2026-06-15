@@ -277,9 +277,6 @@ class layout_itemsetup
      * @return void
      */
     public function prevent_direct_user_input() {
-        if ($this->surveypro->template) {
-            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
-        }
     }
 
     /**

@@ -63,9 +63,10 @@ class item extends itembase
      * @param object $surveypro
      * @param int $itemid Optional item ID
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $evallangkeys True to evaluate lang keys for master templates
      */
-    public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
-        parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
+    public function __construct($cm, $surveypro, $itemid, $getparentcontent, $evallangkeys) {
+        parent::__construct($cm, $surveypro, $itemid, $getparentcontent, $evallangkeys);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFORMAT;
@@ -95,7 +96,7 @@ class item extends itembase
         $this->insetupform['parentvalue'] = false;
 
         if (!empty($itemid)) {
-            $this->item_load($itemid, $getparentcontent);
+            $this->item_load($itemid, $getparentcontent, $evallangkeys);
         }
     }
 
@@ -104,10 +105,11 @@ class item extends itembase
      *
      * @param int $itemid
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $evallangkeys True to evaluate lang keys for master templates
      * @return void
      */
-    public function item_load($itemid, $getparentcontent) {
-        parent::item_load($itemid, $getparentcontent);
+    public function item_load($itemid, $getparentcontent, $evallangkeys) {
+        parent::item_load($itemid, $getparentcontent, $evallangkeys);
 
         // Add $this->content as it was not found during parent::item_load execution.
         $this->content = SURVEYPROFORMAT_PAGEBREAK_CONTENT;

@@ -94,9 +94,10 @@ class item extends itembase
      * @param object $surveypro
      * @param int $itemid Optional item ID
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $evallangkeys True to evaluate lang keys for master templates
      */
-    public function __construct($cm, $surveypro, $itemid, $getparentcontent) {
-        parent::__construct($cm, $surveypro, $itemid, $getparentcontent);
+    public function __construct($cm, $surveypro, $itemid, $getparentcontent, $evallangkeys) {
+        parent::__construct($cm, $surveypro, $itemid, $getparentcontent, $evallangkeys);
 
         // List of properties set to static values.
         $this->type = SURVEYPRO_TYPEFIELD;
@@ -117,7 +118,7 @@ class item extends itembase
         // Empty list.
 
         if (!empty($itemid)) {
-            $this->item_load($itemid, $getparentcontent);
+            $this->item_load($itemid, $getparentcontent, $evallangkeys);
         }
     }
 
@@ -126,15 +127,17 @@ class item extends itembase
      *
      * @param int $itemid
      * @param bool $getparentcontent True to include $item->parentcontent (as decoded by the parent item) too, false otherwise
+     * @param bool $evallangkeys True to evaluate lang keys for master templates
      * @return void
      */
-    public function item_load($itemid, $getparentcontent) {
-        parent::item_load($itemid, $getparentcontent);
+    public function item_load($itemid, $getparentcontent, $evallangkeys) {
+        parent::item_load($itemid, $getparentcontent, $evallangkeys);
 
         // Multilang load support for builtin surveypro.
         // Whether executed, the 'content' field is ALWAYS handled.
-        $this->item_builtin_string_load_support();
-
+        if ($evallangkeys) {
+            $this->item_builtin_string_load_support();
+        }
         $this->item_custom_fields_to_form();
     }
 
@@ -372,12 +375,12 @@ class item extends itembase
     <xs:element name="surveyprofield_textarea">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="trimonsave" type="xs:int" minOccurs="0"/>
+                <xs:element name="trimonsave" type="xs:int" default="0" minOccurs="0"/>
                 <xs:element name="useeditor" type="xs:int" minOccurs="0"/>
                 <xs:element name="arearows" type="xs:int" minOccurs="0"/>
                 <xs:element name="areacols" type="xs:int" minOccurs="0"/>
                 <xs:element name="minlength" type="xs:int" minOccurs="0"/>
-                <xs:element name="maxlength" type="xs:int" minOccurs="0"/>
+                <xs:element name="maxlength" type="xs:int" default="0" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

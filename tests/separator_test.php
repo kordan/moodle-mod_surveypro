@@ -153,7 +153,7 @@ final class separator_test extends advanced_testcase
         $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
         // $context = \context_module::instance($cm->id);
 
-        $itemman = new surveyprofield_radiobutton\item($cm, $surveypro, null, false);
+        $itemman = new surveyprofield_radiobutton\item($cm, $surveypro, null, false, false);
 
         // Define parameters.
         $itemman->set_defaultoption($userinput['defaultoption']); // Needed to define $invitation.

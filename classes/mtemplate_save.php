@@ -157,7 +157,7 @@ class mtemplate_save extends mtemplate_base
                 } else {
                     $value = str_replace("\r", '', $item->get_generic_property($multilanfield) ?? '');
                 }
-                $this->langtree[$key][$key . '_' . $stringindex] = $value;
+                $this->langtree[$key]['lang:' . $key . '_' . $stringindex] = $value;
             }
         }
     }
@@ -422,7 +422,7 @@ class mtemplate_save extends mtemplate_base
      * @param string $content
      * @return string $stringindex
      */
-    public function add_entry_in_langtree($plugin, $field, $content) {
+    public function add_entry_to_langtree($plugin, $field, $content) {
         $key = $plugin . '_' . $field;
         if (isset($this->langtree[$key])) {
             $index = count($this->langtree[$key]);
@@ -430,7 +430,7 @@ class mtemplate_save extends mtemplate_base
             $index = 0;
         }
         $stringindex = sprintf('%02d', 1 + $index);
-        $val = $key . '_' . $stringindex;
+        $val = 'lang:' . $key . '_' . $stringindex;
         $this->langtree[$key][$val] = $content;
 
         return $val;
@@ -471,7 +471,6 @@ class mtemplate_save extends mtemplate_base
             $unrelevantfields = ['id', 'surveyproid', 'type', 'plugin', 'sortindex', 'formpage', 'timecreated', 'timemodified'];
             $unrelevantfields = array_merge($unrelevantfields, $item->item_expected_null_fields());
             $xmltable = $xmlitem->addChild('surveypro_item');
-
             if ($multilangfields = $item->get_multilang_fields()) { // Pagebreak and fieldsetend have no multilang_fields.
                 $this->build_langtree($multilangfields, $item);
             }
@@ -486,7 +485,6 @@ class mtemplate_save extends mtemplate_base
                     // '<img src="@@PLUGINFILE@@/img1.png" alt="MMM" width="313" height="70">'
                     // and not like:
                     // '<img src="http://localhost:8888/master/pluginfile.php/198/mod_surveypro/itemcontent/1960/img1.png" alt=...
-                    // $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
                     // $val = $DB->get_field('surveypro_item', 'content', ['id' => $itemseed->id], MUST_EXIST);
                     // if (core_text::strlen($val)) {
                     // $xmlfield = $xmltable->addChild('content', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
@@ -506,16 +504,16 @@ class mtemplate_save extends mtemplate_base
                             $xmlembedded = $xmltable->addChild('embedded');
 
                             // Add an entry in langtree for filename.
-                            $val = $this->add_entry_in_langtree($itemseed->plugin, 'filename', $filename);
+                            $val = $this->add_entry_to_langtree($itemseed->plugin, 'filename', $filename);
                             // End of: add corresponding string in langtree.
 
                             // $val = $this->xml_get_field_content($item, 'filename', $multilangfields);
                             $xmlembedded->addChild('filename', htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE));
                             // $xmlembedded->addChild('filename', $filename);
 
-                            // Add corresponding string in langtree.
+                            // Add an entry in langtree for filecontent.
                             $content = base64_encode($file->get_content());
-                            $val = $this->add_entry_in_langtree($itemseed->plugin, 'filecontent', $content);
+                            $val = $this->add_entry_to_langtree($itemseed->plugin, 'filecontent', $content);
                             // End of: add corresponding string in langtree.
 
                             // $val = $this->xml_get_field_content($item, 'filecontent', $multilangfields);
@@ -547,10 +545,8 @@ class mtemplate_save extends mtemplate_base
 
                 if ($val = $this->xml_get_field_content($item, $field, $multilangfields)) {
                     $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
-                    if (\core_text::strlen($val)) {
-                        $xmlfield = $xmltable->addChild($field, $val);
-                    } // Otherwise: It is empty, do not evaluate: jump.
                 }
+                $xmlfield = $xmltable->addChild($field, $val);
             }
 
             // Child table.
@@ -571,14 +567,12 @@ class mtemplate_save extends mtemplate_base
 
                 if ($val = $this->xml_get_field_content($item, $field, $multilangfields)) {
                     $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
-                    if (\core_text::strlen($val)) {
-                        $xmlfield = $xmltable->addChild($field, $val);
-                    } // Otherwise: It is empty, do not evaluate: jump.
                 }
+                $xmlfield = $xmltable->addChild($field, $val);
             }
         }
 
-        // In the coming code, "$option == false;" is 100% waste of time and should be changed to "$option == true;"
+        // In the coming code, "$option == false;" is 100% a waste of time and should be changed to "$option == true;"
         // BUT BUT BUT...
         // the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
@@ -621,14 +615,13 @@ class mtemplate_save extends mtemplate_base
         if (!empty($multilangfields)) { // Pagebrak and fieldsetend don't have $multilangfields.
             $plugin = $itemclass->get_plugin();
             foreach ($multilangfields as $multilangfield) {
-                // 1b: Is the field that is going to be assigned belongs to the multilang fields of this plugin?
+                // 1b: Does the field, that is going to be assigned, belong to the multilang fields of this plugin?
                 if (in_array($field, $multilangfield)) {
                     $key = $plugin . '_' . $field; // For instance: boolean_content.
-
                     if (isset($this->langtree[$key])) { // Langtree has already been defined.
                         $index = count($this->langtree[$key]);
                         $stringindex = sprintf('%02d', $index);
-                        $val = $key . '_' . $stringindex;
+                        $val = 'lang:' . $key . '_' . $stringindex;
                         return $val;
                     }
                 }

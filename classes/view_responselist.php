@@ -498,7 +498,6 @@ class view_responselist
             $decoded = json_decode($raw, true);
             if (json_last_error() !== JSON_ERROR_NONE || !is_array($decoded)) {
                 // SECURITY FIX: Log the invalid JSON attempt for security monitoring
-                debugging('Invalid JSON in search query: ' . substr($raw, 0, 100), DEBUG_DEVELOPER);
                 throw new \moodle_exception('invalidrequest', 'error');
             }
 
@@ -506,13 +505,10 @@ class view_responselist
         }
 
         // Legacy format only (PHP serialized associative array of scalars / nested arrays).
-        // SECURITY FIX: Log legacy format usage for deprecation tracking
         $legacy = @unserialize(
             $raw,
             ['allowed_classes' => false]
         );
-        // Legacy format will be removed in future versions - migrate to JSON
-        debugging('Legacy serialized format detected in search query', DEBUG_DEVELOPER);
 
         if (!is_array($legacy)) {
             throw new \moodle_exception('invalidrequest', 'error');

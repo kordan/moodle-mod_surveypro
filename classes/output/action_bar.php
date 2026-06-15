@@ -374,27 +374,28 @@ class action_bar
         $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
         $hassubmissions = $utilitylayoutman->has_submissions();
 
-        $riskyediting = ($this->surveypro->riskyeditdeadline > time());
-
         $paramurl = ['s' => $this->surveypro->id, 'area' => 'mtemplates'];
 
         // Begin of definition for urlselect.
         // Mtemplates -> save.
-        if ($cansavemastertemplates && empty($this->surveypro->template)) {
+        // This condition must reflect the ones in surveypro_get_link_and_condition in surveypro/lib.php.
+        // If it is different, this is an error.
+        if ($cansavemastertemplates && empty($this->surveypro->template)) { // Can't create mtemplates from mtemplates.
             $paramurl['section'] = 'save';
             $linktosave = new moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
             $menu[$linktosave->out(false)] = get_string('mtemplate_save', 'mod_surveypro');
         }
 
         // Mtemplates -> apply.
-        if ($canapplymastertemplates && (!$hassubmissions || $riskyediting)) {
+        // This condition must reflect the ones in surveypro_get_link_and_condition in surveypro/lib.php.
+        // If it is different, this is an error.
+        if ($canapplymastertemplates && (!$hassubmissions)) {
             $paramurl['section'] = 'apply';
             $linktoapply = new moodle_url('/mod/surveypro/mtemplates.php', $paramurl);
             $menu[$linktoapply->out(false)] = get_string('mtemplate_apply', 'mod_surveypro');
         }
 
         $activeurl = $this->currenturl;
-
         // Select the menu item according to section.
         if (strpos($this->currenturl->out(false), 'save') && isset($linktosave)) {
             $activeurl = $linktosave;

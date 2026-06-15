@@ -22,14 +22,16 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['item_parentvalue_01'] = '';
-$string['label_content_01'] = '<p>Rispondi alle seguenti domande pensando alle attività svolte recentemente in classe.</p>';
-$string['label_leftlabel_01'] = '';
 $string['pluginname'] = 'Incidenti critici';
+$string['privacy:metadata'] = 'Il plugin "Incidenti critici" non memorizza dati personali.';
 
+$string['lang:item_parentvalue_01'] = '';
 
-$string['textarea_content_02'] = '<p>In classe in quale momento sei più partecipe come studente?</p>';
-$string['textarea_content_03'] = '<p>In classe in quale momento sei meno partecipe come studente?</p>';
-$string['textarea_content_04'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi più utile?</p>';
-$string['textarea_content_05'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi disorientante e confusionaria?</p>';
-$string['textarea_content_06'] = '<p>Quale evento ti ha sorpreso di più?</p>';
+$string['lang:label_content_01'] = '<p>Rispondi alle seguenti domande pensando alle attività svolte recentemente in classe.</p>';
+$string['lang:label_leftlabel_01'] = '';
+
+$string['lang:textarea_content_02'] = '<p>In classe in quale momento sei più partecipe come studente?</p>';
+$string['lang:textarea_content_03'] = '<p>In classe in quale momento sei meno partecipe come studente?</p>';
+$string['lang:textarea_content_04'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi più utile?</p>';
+$string['lang:textarea_content_05'] = '<p>Quale azione nei forum da parte degli altri partecipanti trovi disorientante e confusionaria?</p>';
+$string['lang:textarea_content_06'] = '<p>Quale evento ti ha sorpreso di più?</p>';

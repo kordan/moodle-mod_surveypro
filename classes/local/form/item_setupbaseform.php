@@ -52,6 +52,7 @@ class item_setupbaseform extends \moodleform
 
         // Get _customdata.
         $item = $this->_customdata['item'];
+
         // $fortheeditor = $item->get_fortheeditor();
         $surveypro = $item->surveypro;
 

@@ -24,7 +24,7 @@
 
 use surveyproreport_colles\report;
 
-require_once(dirname(__FILE__) . '/../../../../../config.php');
+require_once(dirname(__FILE__) . '/../../../../config.php');
 require_once($CFG->libdir . '/graphlib.php');
 require_once($CFG->dirroot . '/mod/surveypro/report/colles/lib.php');
 
@@ -37,6 +37,7 @@ if (!empty($id)) {
     $surveypro = $DB->get_record('surveypro', ['id' => $cm->instance], '*', MUST_EXIST);
 } else {
     $surveypro = $DB->get_record('surveypro', ['id' => $s], '*', MUST_EXIST);
+    // $surveypro = $DB->get_record('surveypro', ['id' => 1], '*', MUST_EXIST);
     $course = $DB->get_record('course', ['id' => $surveypro->course], '*', MUST_EXIST);
     $cm = get_coursemodule_from_instance('surveypro', $surveypro->id, $course->id, false, MUST_EXIST);
 }
@@ -50,7 +51,7 @@ require_login($course, false, $cm);
 $context = \context_module::instance($cm->id);
 
 $validtypes = ['summary', 'scales', 'questions'];
-if (!in_array($type, $validtypes, true)) {
+if (!in_array($type, $validtypes)) {
     throw new \moodle_exception('invalidrequest', 'error');
 }
 
