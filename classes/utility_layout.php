@@ -284,7 +284,7 @@ class utility_layout
         $startingparams = array_keys($whereparams);
         foreach ($startingparams as $startingparam) {
             if (!in_array($startingparam, $validanswerparams)) {
-                $message = 'I can not delete answers using ' . $startingparam . '. It is not an answer attribute.';
+                $message = 'I can not delete elements using ' . $startingparam . '. It is not an element attribute.';
                 debugging('Error at line ' . __LINE__ . ' of file ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
             }
         }

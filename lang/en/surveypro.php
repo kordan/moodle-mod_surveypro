@@ -311,6 +311,7 @@ $string['modulesettinghdr'] = 'Surveypro settings';
 $string['mtemplate'] = 'Master templates';
 $string['mtemplate_apply'] = 'Apply';
 $string['mtemplate_save'] = 'Save';
+$string['mtemplatesource'] = 'Original source: master template {$a}';
 $string['mtemplatessection'] = 'Master templates section';
 $string['neverstartedemail'] = 'Email for not started survey';
 $string['neverstartedemail_help'] = 'Send a reminder email to users not starting their first submission';

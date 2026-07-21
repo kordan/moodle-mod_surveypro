@@ -359,7 +359,7 @@ if ($section == 'itemsetup') {
     $plugin = optional_param('plugin', null, PARAM_PLUGIN);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);
-    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // I replaced SURVEYPRO_NEWRESPONSEMODE con SURVEYPRO_NOMODE?
+    $mode = optional_param('mode', SURVEYPRO_NOMODE, PARAM_INT); // Did I replace SURVEYPRO_NEWRESPONSEMODE with SURVEYPRO_NOMODE?
 
     // Required capability.
     require_capability('mod/surveypro:additems', $context);

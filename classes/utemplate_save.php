@@ -210,11 +210,13 @@ class utemplate_save extends utemplate_base
                     continue;
                 }
 
-                $val = $item->get_generic_property($field);
-                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
-                if (core_text::strlen($val)) {
-                    $xmlfield = $xmltable->addChild($field, $val);
+                if ($val = $item->get_generic_property($field)) {
+                    $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
+                    if (\core_text::strlen($val)) {
+                        $xmlfield = $xmltable->addChild($field, $val);
+                    }
                 } // Otherwise: It is empty, do not evaluate: jump.
+                $xmlfield = $xmltable->addChild($field, $val);
             }
         }
 

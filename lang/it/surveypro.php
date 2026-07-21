@@ -131,6 +131,7 @@ $string['modulenameplural'] = 'surveypro';
 $string['mtemplate'] = 'Template di sistema';
 $string['mtemplate_apply'] = 'Applica';
 $string['mtemplate_save'] = 'Salva';
+$string['mtemplatesource'] = 'Sorgente originale: master template {$a}';
 $string['neverstartedemail'] = 'Sollecito per i survey mai avviati';
 $string['newpageforchild'] = 'Domande condizionate nella pagina successiva';
 $string['nextformpage'] = 'Pagina successiva >>';
