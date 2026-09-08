@@ -843,7 +843,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 function surveypro_extend_settings_navigation(settings_navigation $settings, navigation_node $surveypronode) {
     global $PAGE, $DB;
 
-    // Surveypro.
+    // Surveypro. First menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
@@ -851,31 +851,31 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
         $navnode->set_show_in_secondary_navigation(false);
     }
 
-    // Layout.
+    // Layout. Third menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('layout');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // Reports.
+    // Reports. Fourth menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('reports');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // Tools.
+    // Tools. Fifth menu. It is in the main bar.
     [$condition, $label, $url] = surveypro_get_link_and_condition('tools');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // User templates. (Maybe "User presets" is better?).
+    // User templates. (Maybe "User presets" is better?). Sixth  menu. It is a child of "More".
     [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
-    // Master templates. (Maybe "Master presets" is better?).
+    // Master templates. (Maybe "Master presets" is better?). Seventh  menu. It is a child of "More"
     [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates');
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);

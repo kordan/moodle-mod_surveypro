@@ -190,17 +190,17 @@ final class mtemplate_save_test extends \advanced_testcase {
     }
 
     /*------------------------------------------------------------------------
-    Tests for add_entry_in_langtree().
+    Tests for add_entry_to_langtree().
     ------------------------------------------------------------------------*/
 
     /**
      * Adding a new entry must return the correct key.
      */
-    public function test_add_entry_in_langtree_new_entry(): void {
+    public function test_add_entry_to_langtree_new_entry(): void {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $result = $template->add_entry_in_langtree('character', 'content', 'Hello world');
+        $result = $template->add_entry_to_langtree('character', 'content', 'Hello world');
 
         $this->assertEquals('character_content_01', $result);
     }
@@ -208,12 +208,12 @@ final class mtemplate_save_test extends \advanced_testcase {
     /**
      * Adding a second entry for the same key must increment the index.
      */
-    public function test_add_entry_in_langtree_second_entry(): void {
+    public function test_add_entry_to_langtree_second_entry(): void {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $template->add_entry_in_langtree('character', 'content', 'First');
-        $result = $template->add_entry_in_langtree('character', 'content', 'Second');
+        $template->add_entry_to_langtree('character', 'content', 'First');
+        $result = $template->add_entry_to_langtree('character', 'content', 'Second');
 
         $this->assertEquals('character_content_02', $result);
     }
@@ -221,12 +221,12 @@ final class mtemplate_save_test extends \advanced_testcase {
     /**
      * Adding entries for different plugins must not interfere.
      */
-    public function test_add_entry_in_langtree_different_plugins(): void {
+    public function test_add_entry_to_langtree_different_plugins(): void {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $result1 = $template->add_entry_in_langtree('character', 'content', 'Hello');
-        $result2 = $template->add_entry_in_langtree('boolean', 'content', 'World');
+        $result1 = $template->add_entry_to_langtree('character', 'content', 'Hello');
+        $result2 = $template->add_entry_to_langtree('boolean', 'content', 'World');
 
         $this->assertEquals('character_content_01', $result1);
         $this->assertEquals('boolean_content_01', $result2);
@@ -255,7 +255,7 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $template->add_entry_in_langtree('character', 'content', 'Hello world');
+        $template->add_entry_to_langtree('character', 'content', 'Hello world');
         $result = $template->get_lang_file_content();
 
         $this->assertStringContainsString('$string[', $result);
@@ -269,7 +269,7 @@ final class mtemplate_save_test extends \advanced_testcase {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $template->add_entry_in_langtree('character', 'content', "It's a test");
+        $template->add_entry_to_langtree('character', 'content', "It's a test");
         $result = $template->get_lang_file_content();
 
         $this->assertStringContainsString("\\'", $result);
@@ -369,7 +369,7 @@ final class mtemplate_save_test extends \advanced_testcase {
 
         $template->build_langtree($multilangfields, $item);
 
-        $result = $template->add_entry_in_langtree('boolean', 'content', 'extra');
+        $result = $template->add_entry_to_langtree('boolean', 'content', 'extra');
         $this->assertEquals('boolean_content_02', $result);
     }
 
@@ -391,7 +391,7 @@ final class mtemplate_save_test extends \advanced_testcase {
         $template->build_langtree($multilangfields, $item);
 
         // Nothing should have been added to langtree — first entry must still be _01.
-        $result = $template->add_entry_in_langtree('character', 'filename', 'test.png');
+        $result = $template->add_entry_to_langtree('character', 'filename', 'test.png');
         $this->assertEquals('character_filename_01', $result);
     }
 }

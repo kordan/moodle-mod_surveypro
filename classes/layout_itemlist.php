@@ -488,7 +488,7 @@ class layout_itemlist
         }
         $parts[] = \html_writer::tag('span', $inner, ['class' => 'surveypro-action-slot']);
 
-        // SLOT 2: Indentation value.
+        // SLOT 2: Indentation value (Read Only).
         if ($item->get_insetupform('indent')) {
             $currentindent = $item->get_indent();
             if ($currentindent !== false) { // It is false for label in fullwidth.
@@ -510,11 +510,15 @@ class layout_itemlist
         $paramurl['section'] = 'itemsetup';
         $url = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
         $editstr = get_string('edit');
+        $menulinkattributes = ['id' => 'edit_item_' . $sortindex];
+        if ($this->hassubmissions) {
+            $menulinkattributes['class'] = 'text-danger';
+        }
         $menu->add(new \action_menu_link_secondary(
             $url,
             new \pix_icon('t/edit', ''),
             $editstr,
-            ['id' => 'edit_item_' . $sortindex]
+            $menulinkattributes
         ));
 
         // Hide/Show.

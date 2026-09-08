@@ -240,7 +240,7 @@ abstract class itembase
             debugging($message, DEBUG_DEVELOPER);
         }
 
-        // Some item, like pagebreak or fieldsetend, may do not use the plugin table.
+        // Some item, like pagebreak or fieldsetend, may not use the plugin table.
         if ($this->get_usesplugintable()) {
             $tablename = 'surveypro' . $this->type . '_' . $this->plugin;
             $sql = 'SELECT *, i.id as itemid, p.id as pluginid

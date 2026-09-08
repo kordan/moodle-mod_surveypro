@@ -100,19 +100,19 @@ class mod_surveypro_plugin_manager
         $url = $this->pageurl;
 
         if ($action === 'delete') {
-            $url = core_plugin_manager::instance()->get_uninstall_url($this->subtype . '_' . $plugin, 'manage');
+            $url = \core_plugin_manager::instance()->get_uninstall_url($this->subtype . '_' . $plugin, 'manage');
             if (!$url) {
                 return '&nbsp;';
             }
-            return html_writer::link($url, get_string('uninstallplugin', 'core_admin'));
+            return \html_writer::link($url, get_string('uninstallplugin', 'core_admin'));
         }
 
         return $OUTPUT->action_icon(
-            new moodle_url(
+            new \moodle_url(
                 $url,
                 ['action' => $action, 'plugin' => $plugin, 'sesskey' => sesskey()]
             ),
-            new pix_icon($icon, $alt, 'moodle', ['title' => $alt]),
+            new \pix_icon($icon, $alt, 'moodle', ['title' => $alt]),
             null,
             ['title' => $alt]
         ) . ' ';
@@ -157,7 +157,7 @@ class mod_surveypro_plugin_manager
         $table->setup();
 
         $plugins = $this->get_sorted_plugins_list();
-        $shortsubtype = core_text::substr($this->subtype, core_text::strlen('surveypro'));
+        $shortsubtype = \core_text::substr($this->subtype, core_text::strlen('surveypro'));
 
         if (($this->subtype == 'surveyprofield') || ($this->subtype == 'surveyproformat')) {
             if ($this->subtype == 'surveyprofield') {

@@ -121,8 +121,8 @@ class itemsetupform extends item_setupbaseform
     public function validation($data, $files) {
         // Get _customdata.
         $item = $this->_customdata['item'];
-        $surveypro = $item->surveypro;
 
+        $surveypro = $item->surveypro;
         $cm = $item->get_cm();
 
         $errors = parent::validation($data, $files);
