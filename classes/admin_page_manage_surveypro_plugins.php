@@ -15,16 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the classes for the admin settings of the surveypro module.
+ * Admin external page that displays a list of the installed submission plugins.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_surveypro;
 
-require_once($CFG->libdir . '/adminlib.php');
+use core_admin\admin_search;
 
 /**
  * Admin external page that displays a list of the installed submission plugins.
@@ -33,7 +33,7 @@ require_once($CFG->libdir . '/adminlib.php');
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpage
+class admin_page_manage_surveypro_plugins extends \admin_externalpage
 {
     /**
      * @var string Name of plugin subtype.
@@ -70,6 +70,7 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
 
         foreach (\core_component::get_plugin_list($this->subtype) as $name => $unused) {
             if (strpos(strtolower(get_string('pluginname', $this->subtype . '_' . $name)), $query) !== false) {
+                $type = admin_search::SEARCH_MATCH_SETTING_DISPLAY_NAME;
                 $found = true;
                 break;
             }
@@ -78,6 +79,8 @@ class mod_surveypro_admin_page_manage_surveypro_plugins extends admin_externalpa
             $result = new \stdClass();
             $result->page = $this;
             $result->settings = [];
+            $result->searchmatchtype = $type;
+
             return [$this->name => $result];
         } else {
             return [];
