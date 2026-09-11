@@ -24,8 +24,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/surveypro/adminlib.php');
-
 $ADMIN->add(
     'modsettings',
     new admin_category('modsurveyprofolder', new lang_string('pluginname', 'mod_surveypro'), !$module->is_enabled())
@@ -59,7 +57,7 @@ $ADMIN->add('modsurveyprofolder', new admin_category(
     new lang_string('fieldplugin', 'surveypro'),
     !$module->is_enabled()
 ));
-$ADMIN->add('surveyprofieldplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprofield'));
+$ADMIN->add('surveyprofieldplugins', new \mod_surveypro\admin_page_manage_surveypro_plugins('surveyprofield'));
 
 // Folder 'surveypro format'.
 $ADMIN->add('modsurveyprofolder', new admin_category(
@@ -67,7 +65,7 @@ $ADMIN->add('modsurveyprofolder', new admin_category(
     new lang_string('formatplugin', 'surveypro'),
     !$module->is_enabled()
 ));
-$ADMIN->add('surveyproformatplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproformat'));
+$ADMIN->add('surveyproformatplugins', new \mod_surveypro\admin_page_manage_surveypro_plugins('surveyproformat'));
 
 // Folder 'surveypro (master) templates'.
 $ADMIN->add('modsurveyprofolder', new admin_category(
@@ -75,7 +73,7 @@ $ADMIN->add('modsurveyprofolder', new admin_category(
     new lang_string('mastertemplateplugin', 'surveypro'),
     !$module->is_enabled()
 ));
-$ADMIN->add('surveyprotemplateplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyprotemplate'));
+$ADMIN->add('surveyprotemplateplugins', new \mod_surveypro\admin_page_manage_surveypro_plugins('surveyprotemplate'));
 
 // Folder 'surveypro reports'.
 $ADMIN->add('modsurveyprofolder', new admin_category(
@@ -83,7 +81,7 @@ $ADMIN->add('modsurveyprofolder', new admin_category(
     new lang_string('reportplugin', 'surveypro'),
     !$module->is_enabled()
 ));
-$ADMIN->add('surveyproreportplugins', new mod_surveypro_admin_page_manage_surveypro_plugins('surveyproreport'));
+$ADMIN->add('surveyproreportplugins', new \mod_surveypro\admin_page_manage_surveypro_plugins('surveyproreport'));
 
 foreach (core_plugin_manager::instance()->get_plugins_of_type('surveyprofield') as $plugin) {
     $plugin->load_settings($ADMIN, 'surveyprofieldplugins', $hassiteconfig);
