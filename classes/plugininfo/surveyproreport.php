@@ -24,9 +24,7 @@
 
 namespace mod_surveypro\plugininfo;
 
-use core_text,
-
-core\plugininfo\base, core_plugin_manager, moodle_url;
+use core_text, core\plugininfo\base, core_plugin_manager, moodle_url;
 
 /**
  * The mod_surveypro report plugin class.
@@ -37,6 +35,34 @@ core\plugininfo\base, core_plugin_manager, moodle_url;
  */
 class surveyproreport extends base
 {
+    /**
+     * Enable or disable a plugin of this type.
+     *
+     * @param string $pluginname The plugin name to enable/disable.
+     * @param int $enabled Whether the plugin should be enabled (1) or disabled (0).
+     * @return bool True if the config has changed, false otherwise.
+     */
+    public static function enable_plugin(string $pluginname, int $enabled): bool {
+        $plugin = 'surveyproreport_' . $pluginname;
+        $oldvalue = get_config($plugin, 'disabled');
+        $disabled = !$enabled;
+
+        if ($oldvalue !== false && $disabled == (bool) $oldvalue) {
+            return false;
+        }
+
+        if ($disabled) {
+            set_config('disabled', 1, $plugin);
+        } else {
+            unset_config('disabled', $plugin);
+        }
+
+        add_to_config_log('disabled', $oldvalue, (int) $disabled, $plugin);
+        core_plugin_manager::reset_caches();
+
+        return true;
+    }
+
     /**
      * Finds all enabled plugins, the result may include missing plugins.
      *
