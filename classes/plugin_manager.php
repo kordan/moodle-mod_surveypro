@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains the classes for the admin settings of the surveypro module.
+ * Class that handles the display and configuration of the list of submission plugins.
  *
  * @package   mod_surveypro
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace mod_surveypro;
 
 /**
  * Class that handles the display and configuration of the list of submission plugins.
@@ -31,35 +31,30 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2013 onwards kordan <stringapiccola@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class mod_surveypro_plugin_manager
+class plugin_manager
 {
     /**
-     * @var \stdClass Url of the manage submission plugin page
+     * @var object the url of the manage submission plugin page
      */
     private $pageurl;
 
     /**
-     * @var string Any error from the current action
-     */
-    private $error = '';
-
-    /**
-     * @var string Either submission or feedback
+     * @var string either submission or feedback
      */
     private $subtype = '';
 
     /**
-     * Constructor for this surveypro plugin manager.
-     *
-     * @param string $subtype Either surveyprofield, surveyproformat, surveyprotemplate or surveyproreport
+     * Constructor for this surveypro plugin manager
+     * @param string $subtype
      */
     public function __construct($subtype) {
         $this->pageurl = new \moodle_url('/mod/surveypro/adminmanageplugins.php', ['subtype' => $subtype]);
         $this->subtype = $subtype;
     }
 
+
     /**
-     * Return a list of plugins sorted by the order defined in the admin interface.
+     * Return a list of plugins sorted by the order defined in the admin interface
      *
      * @return array The list of plugins
      */
@@ -68,7 +63,7 @@ class mod_surveypro_plugin_manager
 
         $result = [];
 
-        foreach ($names as $name => $unused) {
+        foreach ($names as $name => $path) {
             $idx = get_config($this->subtype . '_' . $name, 'sortorder');
             if (!$idx) {
                 $idx = 0;
@@ -82,6 +77,7 @@ class mod_surveypro_plugin_manager
 
         return $result;
     }
+
 
     /**
      * Util function for writing an action icon link
@@ -119,87 +115,41 @@ class mod_surveypro_plugin_manager
     /**
      * Write the HTML for the submission plugins table.
      *
-     * @return void
+     * @return None
      */
     private function view_plugins_table() {
-        global $OUTPUT, $CFG, $DB;
-
+        global $OUTPUT, $CFG;
         require_once($CFG->libdir . '/tablelib.php');
-        require_once($CFG->dirroot . '/mod/surveypro/lib.php');
 
         // Set up the table.
         $this->view_header();
         $table = new \flexible_table($this->subtype . 'pluginsadminttable');
         $table->define_baseurl($this->pageurl);
-
-        $tablecolumns = [];
-        $tablecolumns[] = 'pluginname';
-        $tablecolumns[] = 'version';
-        $tablecolumns[] = 'numinstances';
-        $tablecolumns[] = 'hideshow';
-        $tablecolumns[] = 'delete';
-        $tablecolumns[] = 'settings';
-        $table->define_columns($tablecolumns);
-
-        $tableheaders = [];
-        $tableheaders[] = get_string($this->subtype . 'pluginname', 'mod_surveypro');
-        $tableheaders[] = get_string('version');
-        $tableheaders[] = get_string('numinstances', 'mod_surveypro');
-        $tableheaders[] = get_string('hideshow', 'mod_surveypro');
-        $tableheaders[] = get_string('delete');
-        $tableheaders[] = get_string('settings');
-        $table->define_headers($tableheaders);
-
+        $table->define_columns(['pluginname', 'version', 'hideshow', 'order', 'settings', 'uninstall']);
+        $table->define_headers(
+            [get_string($this->subtype . 'pluginname', 'surveypro'),
+            get_string('version'),
+            get_string('hideshow', 'surveypro'),
+            get_string('order'),
+            get_string('settings'),
+            get_string('uninstallplugin', 'core_admin')]
+        );
         $table->set_attribute('id', $this->subtype . 'plugins');
-        $table->set_attribute('class', 'generaltable generalbox boxaligncenter boxwidthwide');
+        $table->set_attribute('class', 'admintable table generaltable');
         $table->setup();
 
         $plugins = $this->get_sorted_plugins_list();
-        $shortsubtype = \core_text::substr($this->subtype, core_text::strlen('surveypro'));
+        $shortsubtype = substr($this->subtype, strlen('surveypro'));
 
-        if (($this->subtype == 'surveyprofield') || ($this->subtype == 'surveyproformat')) {
-            if ($this->subtype == 'surveyprofield') {
-                $type = SURVEYPRO_TYPEFIELD;
-            }
-            if ($this->subtype == 'surveyproformat') {
-                $type = SURVEYPRO_TYPEFORMAT;
-            }
-            $countsql = 'SELECT plugin, COUNT(1) as numinstances
-                FROM {surveypro_item}
-                WHERE type = :type
-                GROUP BY plugin';
-            $whereparams = ['type' => $type];
-            $counts = $DB->get_records_sql($countsql, $whereparams);
-        }
-        if ($this->subtype == 'surveyprotemplate') {
-            $countsql = 'SELECT template, COUNT(1) as numinstances
-                FROM {surveypro}
-                WHERE template IS NOT NULL
-                GROUP BY template';
-            $counts = $DB->get_records_sql($countsql);
-        }
-
-        foreach ($plugins as $plugin) {
+        foreach ($plugins as $idx => $plugin) {
             $row = [];
             $class = '';
 
-            // Pluginname.
-            $icon = $OUTPUT->pix_icon('icon', $plugin, $this->subtype . '_' . $plugin, ['title' => $plugin, 'class' => 'icon']);
-
-            $row[] = $icon . get_string('pluginname', $this->subtype . '_' . $plugin);
-
-            // Version.
+            $row[] = get_string('pluginname', $this->subtype . '_' . $plugin);
             $row[] = get_config($this->subtype . '_' . $plugin, 'version');
 
-            // Number of instances.
-            if (isset($counts[$plugin])) {
-                $row[] = $counts[$plugin]->numinstances;
-            } else {
-                $row[] = 0;
-            }
-
-            // Enable/disable.
             $visible = !get_config($this->subtype . '_' . $plugin, 'disabled');
+
             if ($visible) {
                 $row[] = $this->format_icon_link('hide', $plugin, 't/hide', get_string('disable'));
             } else {
@@ -207,22 +157,28 @@ class mod_surveypro_plugin_manager
                 $class = 'dimmed_text';
             }
 
-            // Delete.
-            if (isset($counts[$plugin])) {
-                $row[] = '&nbsp;';
+            $movelinks = '';
+            if (!$idx == 0) {
+                $movelinks .= $this->format_icon_link('moveup', $plugin, 't/up', get_string('up'));
             } else {
-                $row[] = $this->format_icon_link('delete', $plugin, 't/delete', get_string('delete'));
+                $movelinks .= $OUTPUT->spacer(['width' => 16]);
             }
+            if ($idx != count($plugins) - 1) {
+                $movelinks .= $this->format_icon_link('movedown', $plugin, 't/down', get_string('down'));
+            }
+            $row[] = $movelinks;
 
             $exists = file_exists($CFG->dirroot . '/mod/surveypro/' . $shortsubtype . '/' . $plugin . '/settings.php');
             if ($row[1] != '' && $exists) {
-                $row[] = \html_writer::link(new \moodle_url(
-                    '/admin/settings.php',
-                    ['section' => $this->subtype . '_' . $plugin]
-                ), get_string('settings'));
+                $row[] = \html_writer::link(
+                    new \moodle_url('/admin/settings.php', ['section' => $this->subtype . '_' . $plugin]),
+                    get_string('settings')
+                );
             } else {
                 $row[] = '&nbsp;';
             }
+
+            $row[] = $this->format_icon_link('delete', $plugin, 't/delete', get_string('uninstallplugin', 'core_admin'));
 
             $table->add_data($row, $class);
         }
@@ -232,24 +188,25 @@ class mod_surveypro_plugin_manager
     }
 
     /**
-     * Write the page header.
+     * Write the page header
      *
-     * @return void
+     * @return None
      */
     private function view_header() {
-        global $OUTPUT;
+        global $CFG, $OUTPUT;
+
+        require_once($CFG->libdir . '/adminlib.php');
 
         admin_externalpage_setup('manage' . $this->subtype . 'plugins');
-
         // Print the page heading.
         echo $OUTPUT->header();
-        echo $OUTPUT->heading(get_string('manage' . $this->subtype . 'plugins', 'mod_surveypro'));
+        echo $OUTPUT->heading(get_string('manage' . $this->subtype . 'plugins', 'surveypro'));
     }
 
     /**
-     * Write the page footer.
+     * Write the page footer
      *
-     * @return void
+     * @return None
      */
     private function view_footer() {
         global $OUTPUT;
@@ -258,9 +215,9 @@ class mod_surveypro_plugin_manager
     }
 
     /**
-     * Check this user has permission to edit the list of installed plugins.
+     * Check this user has permission to edit the list of installed plugins
      *
-     * @return void
+     * @return None
      */
     private function check_permissions() {
         // Check permissions.
@@ -270,55 +227,86 @@ class mod_surveypro_plugin_manager
     }
 
     /**
-     * Show the page that gives the details of the plugin that was just deleted.
-     *
-     * @param string $plugin Plugin that was just deleted
-     * @return void
-     */
-    private function view_plugin_deleted($plugin) {
-        global $OUTPUT;
-
-        $this->view_header();
-        $pluginname = get_string('pluginname', $this->subtype . '_' . $plugin);
-        echo $OUTPUT->heading(get_string('deletingplugin', 'mod_surveypro', $pluginname));
-        echo $this->error;
-        $shortsubtype = core_text::substr($this->subtype, core_text::strlen('surveypro'));
-        $messageparams = ['name' => $pluginname, 'directory' => ('/mod/surveypro/' . $shortsubtype . '/' . $plugin)];
-        echo $OUTPUT->notification(get_string('plugindeletefiles', 'moodle', $messageparams), 'notifymessage');
-        echo $OUTPUT->continue_button($this->pageurl);
-        $this->view_footer();
-    }
-
-    /**
      * Hide this plugin.
      *
-     * @param string $plugin Plugin to hide
+     * @param string $plugin - The plugin to hide
      * @return string The next page to display
      */
     public function hide_plugin($plugin) {
-        set_config('disabled', 1, $this->subtype . '_' . $plugin);
+        $class = \core_plugin_manager::resolve_plugininfo_class($this->subtype);
+        $class::enable_plugin($plugin, false);
 
         return 'view';
     }
+
+    /**
+     * Change the order of this plugin.
+     *
+     * @param string $plugintomove - The plugin to move
+     * @param string $dir - up or down
+     * @return string The next page to display
+     */
+    public function move_plugin($plugintomove, $dir) {
+        // Get a list of the current plugins.
+        $plugins = $this->get_sorted_plugins_list();
+
+        $currentindex = 0;
+
+        // Throw away the keys.
+        $plugins = array_values($plugins);
+
+        // Find this plugin in the list.
+        foreach ($plugins as $key => $plugin) {
+            if ($plugin == $plugintomove) {
+                $currentindex = $key;
+                break;
+            }
+        }
+
+        // Make the switch.
+        if ($dir == 'up') {
+            if ($currentindex > 0) {
+                $tempplugin = $plugins[$currentindex - 1];
+                $plugins[$currentindex - 1] = $plugins[$currentindex];
+                $plugins[$currentindex] = $tempplugin;
+            }
+        } else if ($dir == 'down') {
+            if ($currentindex < (count($plugins) - 1)) {
+                $tempplugin = $plugins[$currentindex + 1];
+                $plugins[$currentindex + 1] = $plugins[$currentindex];
+                $plugins[$currentindex] = $tempplugin;
+            }
+        }
+
+        // Save the new normal order.
+        foreach ($plugins as $key => $plugin) {
+            set_config('sortorder', $key, $this->subtype . '_' . $plugin);
+        }
+
+        return 'view';
+    }
+
 
     /**
      * Show this plugin.
      *
-     * @param string $plugin Plugin to show
+     * @param string $plugin - The plugin to show
      * @return string The next page to display
      */
     public function show_plugin($plugin) {
-        set_config('disabled', 0, $this->subtype . '_' . $plugin);
+        $class = \core_plugin_manager::resolve_plugininfo_class($this->subtype);
+        $class::enable_plugin($plugin, true);
 
         return 'view';
     }
 
+
     /**
      * This is the entry point for this controller class.
      *
-     * @param string $action Action to perform
-     * @param string $plugin Optional name of a plugin type to perform the action on
-     * @return void
+     * @param string $action - The action to perform
+     * @param string $plugin - Optional name of a plugin type to perform the action on
+     * @return None
      */
     public function execute($action, $plugin) {
         if ($action == null) {
@@ -329,11 +317,13 @@ class mod_surveypro_plugin_manager
 
         // Process.
         if ($action == 'hide' && $plugin != null) {
-            require_sesskey();
             $action = $this->hide_plugin($plugin);
         } else if ($action == 'show' && $plugin != null) {
-            require_sesskey();
             $action = $this->show_plugin($plugin);
+        } else if ($action == 'moveup' && $plugin != null) {
+            $action = $this->move_plugin($plugin, 'up');
+        } else if ($action == 'movedown' && $plugin != null) {
+            $action = $this->move_plugin($plugin, 'down');
         }
 
         // View.
