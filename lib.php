@@ -844,7 +844,7 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     global $PAGE, $DB;
 
     // Surveypro. First menu. It is in the main bar.
-    [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('surveypro', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
         // Do not add it. It is added by moodle core with the modulename label.
@@ -852,31 +852,31 @@ function surveypro_extend_settings_navigation(settings_navigation $settings, nav
     }
 
     // Layout. Third menu. It is in the main bar.
-    [$condition, $label, $url] = surveypro_get_link_and_condition('layout');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('layout', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Reports. Fourth menu. It is in the main bar.
-    [$condition, $label, $url] = surveypro_get_link_and_condition('reports');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('reports', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Tools. Fifth menu. It is in the main bar.
-    [$condition, $label, $url] = surveypro_get_link_and_condition('tools');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('tools', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // User templates. (Maybe "User presets" is better?). Sixth  menu. It is a child of "More".
-    [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('utemplates', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
 
     // Master templates. (Maybe "Master presets" is better?). Seventh  menu. It is a child of "More"
-    [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates');
+    [$condition, $label, $url] = surveypro_get_link_and_condition('mtemplates', true);
     if ($condition) {
         $navnode = $surveypronode->add($label, $url, navigation_node::TYPE_SETTING);
     }
@@ -964,9 +964,10 @@ function surveypro_get_defaults_section_per_area($area) {
  * Define the link for "Navigation block" and "Administration block"
  *
  * @param string $area
+ * @param bool $forcenoselfmatch
  * @return array [$condition, $label, $url]
  */
-function surveypro_get_link_and_condition($area) {
+function surveypro_get_link_and_condition($area, $forcenoselfmatch = false) {
     global $PAGE, $DB;
 
     if (!$cm = $PAGE->cm) {
@@ -1095,6 +1096,17 @@ function surveypro_get_link_and_condition($area) {
         default:
             $message = 'Unexpected $linkid = ' . $linkid;
             debugging('Error at line ' . __LINE__ . ' of ' . __FILE__ . '. ' . $message, DEBUG_DEVELOPER);
+    }
+
+    // If requested, prevent this link from exactly matching $PAGE->url
+    // when the user is already on the corresponding page. This prevents
+    // Moodle from marking the node as “active” and thus including it
+    // in the breadcrumb trail, without preventing it from being visible in the parent menu
+    // (secondary navigation / administration menu).
+    if ($forcenoselfmatch && ($url instanceof \moodle_url)) {
+        if (isset($pageparams['area']) && ($pageparams['area'] == $area)) {
+            $url->remove_params('section');
+        }
     }
 
     return [$condition, $label, $url];
