@@ -701,7 +701,8 @@ EOS;
         $condition = $condition && (!$addother);
         $condition = $condition && ($mandatory);
         if ($condition) { // This message should never appear because corresponding item setupform should not allow this case.
-            $message = 'Mandatory radio buttons with only one option and with no invite, no "other" option are not allowed';
+            $message = '$item->id = ' . $this->itemid . '. ';
+            $message .= 'Mandatory radio buttons with only one option and with no invite, no "other" option are not allowed';
             debugging($message, DEBUG_DEVELOPER);
         }
 
