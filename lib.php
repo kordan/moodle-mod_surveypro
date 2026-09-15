@@ -834,7 +834,7 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 // Navigation API.
 
 /**
- * Adds module specific settings to the settings block
+ * Adds module specific settings to the administration block
  *
  * @param settings_navigation $settings
  * @param navigation_node $surveypronode
