@@ -130,7 +130,7 @@ class utility_layout
 
         if ($canmanageitems) {
             if (!$this->has_items(0, 'field', true, true, true)) {
-                $paramurl = ['s' => $this->cm->instance, 'section' => 'itemslist'];
+                $paramurl = ['s' => $this->cm->instance, 'area' => 'layout', 'section' => 'itemslist'];
                 $redirecturl = new \moodle_url('/mod/surveypro/layout.php', $paramurl);
                 redirect($redirecturl);
             }
