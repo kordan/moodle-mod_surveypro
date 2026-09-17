@@ -528,6 +528,7 @@ $string['tools'] = 'Tools';
 $string['tools_export'] = 'Export';
 $string['tools_import'] = 'Import';
 $string['top'] = 'top';
+$string['translatedmultilinestring'] = '$string[\'{$a->stringkey}\'] = \'English translation of corresponding multiline string from "{$a->userlang}" language file: {$a->multilinecontent}\';';
 $string['translatedstring'] = '$string[\'{$a->stringkey}\'] = \'English translation of corresponding string from "{$a->userlang}" language file\';';
 $string['typefield'] = 'Fields';
 $string['typeformat'] = 'Formats';
