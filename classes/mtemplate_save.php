@@ -59,7 +59,17 @@ class mtemplate_save extends mtemplate_base
                     $stringsastext[] = '$string[\'' . $k . '\'] = \'\';';
                 } else {
                     $a->stringkey = $k;
-                    $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
+                    if ($options = substr_count($originalstring, "\n")) {
+                        $a->multilinecontent = '';
+                        for ($i = 1; $i <= $options; $i++) {
+                            $a->multilinecontent .= 'line ' . $i . "\n";
+                        }
+                        $a->multilinecontent .= 'line ' . $i++;
+                        $stringsastext[] = get_string('translatedmultilinestring', 'mod_surveypro', $a);
+                        // Is unset($a->multilinecontent) needed?
+                    } else {
+                        $stringsastext[] = get_string('translatedstring', 'mod_surveypro', $a);
+                    }
                 }
             }
         }
@@ -277,7 +287,7 @@ class mtemplate_save extends mtemplate_base
             }
 
             if ($masterfileinfo['dirname'] == 'lang/en') {
-                // In which language the user is using Moodle?.
+                // In which language is the user using Moodle?.
                 $userlang = current_language();
                 $temppath = $CFG->tempdir . '/' . $datarelativedir . '/lang/' . $userlang;
 
@@ -305,7 +315,7 @@ class mtemplate_save extends mtemplate_base
 
                 // This is the folder of the language en in case the user language is different from en.
                 if ($userlang != 'en') {
-                    // Write inside all the strings in teh form: 'english translation of $string[stringxx]'.
+                    // Write inside all the strings in the form: 'english translation of $string[stringxx]'.
                     $savedstrings = $filecontent . $this->get_translated_strings($userlang);
                     $savedstrings = str_replace("\r\n", "\n", $savedstrings); // Fix line ending.
 
@@ -545,8 +555,8 @@ class mtemplate_save extends mtemplate_base
                 }
 
                 $val = $this->xml_get_field_content($item, $field, $multilangfields);
-                $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                 if (\core_text::strlen($val)) {
+                    $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                     $xmlfield = $xmltable->addChild($field, $val);
                 } // Otherwise: It is empty, do not evaluate: jump.
             }
@@ -568,7 +578,7 @@ class mtemplate_save extends mtemplate_base
                 }
 
                 if ($val = $this->xml_get_field_content($item, $field, $multilangfields)) {
-                     $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
+                    $val = htmlspecialchars($val, ENT_QUOTES | ENT_SUBSTITUTE);
                     if (\core_text::strlen($val)) {
                         $xmlfield = $xmltable->addChild($field, $val);
                     }
@@ -579,7 +589,7 @@ class mtemplate_save extends mtemplate_base
 
         // In the coming code, "$option == false;" is 100% a waste of time and should be changed to "$option == true;"
         // BUT BUT BUT...
-        // the output in the file is well written.
+        // using $option == false the output in the file is well written.
         // I prefer a more readable xml file instead of few nanoseconds saved.
         $option = false;
         if ($option) {
