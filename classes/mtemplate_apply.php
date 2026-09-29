@@ -55,7 +55,36 @@ class mtemplate_apply extends mtemplate_base
      * @return void
      */
     public function set_mastertemplate($mastertemplate) {
+        $mastertemplate = clean_param($mastertemplate, PARAM_PLUGIN);
+        $allowed = $this->get_mtemplates();
+        if (!is_string($mastertemplate) || $mastertemplate === '' || !array_key_exists($mastertemplate, $allowed)) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
         $this->mastertemplate = $mastertemplate;
+    }
+
+    /**
+     * Resolve and validate the absolute path of a master template XML file.
+     *
+     * @param string $templatename
+     * @return string Absolute path to template.xml
+     */
+    protected function get_validated_mtemplate_path($templatename) {
+        global $CFG;
+
+        $templatename = clean_param($templatename, PARAM_PLUGIN);
+        $allowed = $this->get_mtemplates();
+        if (!is_string($templatename) || $templatename === '' || !array_key_exists($templatename, $allowed)) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
+
+        $basedir = realpath($CFG->dirroot . '/mod/surveypro/template');
+        $templatepath = realpath($basedir . '/' . $templatename . '/template.xml');
+        if ($basedir === false || $templatepath === false || strpos($templatepath, $basedir . DIRECTORY_SEPARATOR) !== 0) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
+
+        return $templatepath;
     }
 
     // MARK get.
@@ -87,9 +116,7 @@ class mtemplate_apply extends mtemplate_base
      * @return void
      */
     public function lastminute_template_check() {
-        global $CFG;
-
-        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $this->mastertemplate . '/template.xml';
+        $templatepath = $this->get_validated_mtemplate_path($this->mastertemplate);
         $xml = file_get_contents($templatepath);
 
         $this->validate_xml($xml);
@@ -101,7 +128,14 @@ class mtemplate_apply extends mtemplate_base
      * @return void
      */
     public function add_items_from_template() {
-        global $CFG, $DB;
+        global $DB;
+
+        $templatename = clean_param($this->templatename, PARAM_PLUGIN);
+        $allowed = $this->get_mtemplates();
+        if (!array_key_exists($templatename, $allowed)) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
+        $this->templatename = $templatename;
 
         // Create the class to apply mastertemplate settings.
         $classname = 'surveyprotemplate_' . $this->templatename . '\template';
@@ -109,7 +143,7 @@ class mtemplate_apply extends mtemplate_base
 
         $fs = get_file_storage();
 
-        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $this->templatename . '/template.xml';
+        $templatepath = $this->get_validated_mtemplate_path($this->templatename);
         $templatecontent = file_get_contents($templatepath);
 
         $simplexml = new \SimpleXMLElement($templatecontent);
@@ -276,6 +310,12 @@ class mtemplate_apply extends mtemplate_base
         // End of: delete all existing items.
 
         $this->templatename = $this->formdata->mastertemplate;
+        // Re-validate: formdata must not bypass set_mastertemplate allowlisting.
+        $this->templatename = clean_param($this->templatename, PARAM_PLUGIN);
+        $allowed = $this->get_mtemplates();
+        if (!array_key_exists($this->templatename, $allowed)) {
+            throw new \moodle_exception('invalidrequest', 'error');
+        }
 
         $record = new \stdClass();
         $record->id = $this->surveypro->id;

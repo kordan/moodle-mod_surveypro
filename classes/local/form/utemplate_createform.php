@@ -74,14 +74,14 @@ class utemplate_createform extends \moodleform
 
         // Utemplatecreate: sharinglevel.
         $fieldname = 'sharinglevel';
-        $contexts = $saveman->get_sharingcontexts();
+        $contexts = $saveman->get_sharingcontexts(true);
         $options = [];
         foreach ($contexts as $context) {
             $options[$context->id] = $saveman->get_label_forcontextid($context->contextlevel);
         }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
-        $mform->setDefault($fieldname, CONTEXT_SYSTEM);
+        $mform->setDefault($fieldname, $saveman->get_context()->id);
 
         $this->add_action_buttons(false, get_string('save', 'mod_surveypro'));
     }
@@ -122,6 +122,12 @@ class utemplate_createform extends \moodleform
         // Useless: $defaultname = $this->_customdata->defaultname;
 
         $errors = parent::validation($data, $files);
+
+        $writablecontexts = $saveman->get_sharingcontexts(true);
+        if (!array_key_exists((int)$data['sharinglevel'], $writablecontexts)) {
+            $errors['sharinglevel'] = get_string('incorrectaccessdetected', 'mod_surveypro');
+            return $errors;
+        }
 
         // Add the extension to the file name whether missing.
         $comparename = str_replace(' ', '_', $data['templatename']);

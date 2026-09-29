@@ -81,6 +81,15 @@ class templatebase
         $this->surveypro = $surveypro;
     }
 
+    /**
+     * Return the module context.
+     *
+     * @return \context
+     */
+    public function get_context() {
+        return $this->context;
+    }
+
     // MARK set.
 
     /**
@@ -183,7 +192,7 @@ class templatebase
      * Get user template content.
      *
      * @param int $utemplateid
-     * @return void
+     * @return string
      */
     public function get_utemplate_content($utemplateid = 0) {
         $fs = get_file_storage();

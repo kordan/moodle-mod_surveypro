@@ -256,7 +256,11 @@ class utemplate_save extends utemplate_base
         $fs = get_file_storage();
         $filerecord = new \stdClass();
 
-        $contextid = $this->formdata->sharinglevel;
+        $writablecontexts = $this->get_sharingcontexts(true);
+        $contextid = (int)$this->formdata->sharinglevel;
+        if (!array_key_exists($contextid, $writablecontexts)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
         $filerecord->contextid = $contextid;
 
         $filerecord->component = 'mod_surveypro';

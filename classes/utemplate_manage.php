@@ -195,8 +195,7 @@ class utemplate_manage extends utemplate_base
             // At log time I haven't availability of the file so I can not ask fot its name.
             $this->templatename = $this->get_utemplate_name();
 
-            $fs = get_file_storage();
-            $xmlfile = $fs->get_file_by_id($this->utemplateid);
+            $xmlfile = $this->assert_utemplate_accessible($this->utemplateid, true);
             $a = $xmlfile->get_filename();
 
             $xmlfile->delete();
@@ -362,8 +361,7 @@ class utemplate_manage extends utemplate_base
     public function export_utemplate() {
         global $CFG;
 
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+        $xmlfile = $this->assert_utemplate_accessible($this->utemplateid);
         $filename = $xmlfile->get_filename();
         $content = $xmlfile->get_content();
 
@@ -403,12 +401,14 @@ class utemplate_manage extends utemplate_base
         }
         if ($this->action == SURVEYPRO_DELETEUTEMPLATE) {
             require_capability('mod/surveypro:deleteusertemplates', $this->context);
+            $this->assert_utemplate_accessible($this->utemplateid, true);
         }
         if ($this->action == SURVEYPRO_DELETEALLITEMS) {
             require_capability('mod/surveypro:manageusertemplates', $this->context);
         }
         if ($this->action == SURVEYPRO_EXPORTUTEMPLATE) {
             require_capability('mod/surveypro:downloadusertemplates', $this->context);
+            $this->assert_utemplate_accessible($this->utemplateid);
         }
     }
 }

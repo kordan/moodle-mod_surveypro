@@ -175,8 +175,8 @@ if ($section == 'preview') {
 // MARK itemslist.
 if ($section == 'itemslist') {
     // Get additional specific params.
-    $type = optional_param('type', null, PARAM_TEXT);
-    $plugin = optional_param('plugin', null, PARAM_TEXT);
+    $type = optional_param('type', null, PARAM_ALPHA);
+    $plugin = optional_param('plugin', null, PARAM_PLUGIN);
     $itemid = optional_param('itemid', 0, PARAM_INT);
     $sortindex = optional_param('sortindex', 0, PARAM_INT);
     $action = optional_param('act', SURVEYPRO_NOACTION, PARAM_INT);

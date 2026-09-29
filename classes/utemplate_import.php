@@ -85,7 +85,11 @@ class utemplate_import extends utemplate_base
      */
     public function upload_utemplate() {
         $templateoptions = $this->get_filemanager_options();
-        $contextid = $this->formdata->sharinglevel;
+        $writablecontexts = $this->get_sharingcontexts(true);
+        $contextid = (int)$this->formdata->sharinglevel;
+        if (!array_key_exists($contextid, $writablecontexts)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
         $fs = get_file_storage();
 
         // Look at what is already on board.

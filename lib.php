@@ -828,6 +828,9 @@ function surveypro_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     }
 
     // Finally send the file.
+    if ($filearea === SURVEYPRO_TEMPLATEFILEAREA) {
+        require_capability('mod/surveypro:downloadusertemplates', $context);
+    }
     send_stored_file($file, 0, 0, true); // Download MUST be forced - security!
 }
 

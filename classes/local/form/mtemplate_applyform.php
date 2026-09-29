@@ -96,8 +96,19 @@ class mtemplate_applyform extends \moodleform
 
         $errors = parent::validation($data, $files);
 
-        $templatename = $data['mastertemplate'];
-        $templatepath = $CFG->dirroot . '/mod/surveypro/template/' . $templatename . '/template.xml';
+        $templatename = clean_param($data['mastertemplate'] ?? '', PARAM_PLUGIN);
+        $allowed = $applyman->get_mtemplates();
+        if ($templatename === '' || !array_key_exists($templatename, $allowed)) {
+            $errors['mastertemplate'] = get_string('invalidrequest', 'error');
+            return $errors;
+        }
+
+        $basedir = realpath($CFG->dirroot . '/mod/surveypro/template');
+        $templatepath = realpath($basedir . '/' . $templatename . '/template.xml');
+        if ($basedir === false || $templatepath === false || strpos($templatepath, $basedir . DIRECTORY_SEPARATOR) !== 0) {
+            $errors['mastertemplate'] = get_string('invalidrequest', 'error');
+            return $errors;
+        }
         $xml = file_get_contents($templatepath);
 
         $applyman->validate_xml($xml);

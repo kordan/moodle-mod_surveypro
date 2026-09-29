@@ -62,11 +62,13 @@ final class layout_itemlist_test extends \advanced_testcase {
     public function test_setters_execute_without_errors(): void {
         $this->resetAfterTest();
 
-        [$manager] = $this->make_manager();
+        [$manager, $surveypro] = $this->make_manager();
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $itemid = $generator->create_item_character($surveypro, ['required' => 0]);
 
         $manager->set_type(SURVEYPRO_TYPEFIELD);
         $manager->set_plugin('character');
-        $manager->set_itemid(1);
+        $manager->set_itemid($itemid);
         $manager->set_sortindex(1);
         $manager->set_action(SURVEYPRO_NOACTION);
         $manager->set_mode(SURVEYPRO_NEWRESPONSEMODE);
@@ -80,6 +82,23 @@ final class layout_itemlist_test extends \advanced_testcase {
         $manager->set_itemcount(0);
 
         $this->assertTrue(true);
+    }
+
+    /**
+     * set_itemid() must reject items that belong to another surveypro.
+     */
+    public function test_set_itemid_rejects_foreign_surveypro_item(): void {
+        $this->resetAfterTest();
+
+        [$manager] = $this->make_manager();
+
+        $courseb = $this->getDataGenerator()->create_course();
+        $surveyprob = $this->getDataGenerator()->create_module('surveypro', ['course' => $courseb->id]);
+        $generator = $this->getDataGenerator()->get_plugin_generator('mod_surveypro');
+        $foreignitemid = $generator->create_item_character($surveyprob, ['required' => 0]);
+
+        $this->expectException(\moodle_exception::class);
+        $manager->set_itemid($foreignitemid);
     }
 
     /*------------------------------------------------------------------------

@@ -75,34 +75,105 @@ class utemplate_base extends templatebase
     /**
      * Get sharing level contexts.
      *
-     * @return $options
+     * Returns parent contexts (plus module and user) for listing/reading templates.
+     * When $forwrite is true, only contexts where the user can save/import are kept.
+     *
+     * @param bool $forwrite Whether the caller intends to write templates into the context
+     * @return array
      */
-    public function get_sharingcontexts() {
+    public function get_sharingcontexts($forwrite = false) {
         global $USER;
 
         $parentcontexts = $this->context->get_parent_contexts();
 
-        $usercontext = \context_module::instance($this->cm->id);
-        $usercontextid = $usercontext->id;
-        $parentcontexts[$usercontextid] = $usercontext;
+        $parentcontexts[$this->context->id] = $this->context;
 
         $usercontext = \context_user::instance($USER->id);
-        $usercontextid = $usercontext->id;
-        $parentcontexts[$usercontextid] = $usercontext;
+        $parentcontexts[$usercontext->id] = $usercontext;
 
-        return $parentcontexts;
+        if (!$forwrite) {
+            return $parentcontexts;
+        }
+
+        $capability = 'mod/surveypro:saveusertemplates';
+        $writable = [];
+        foreach ($parentcontexts as $contextid => $context) {
+            if ($context->contextlevel == CONTEXT_USER) {
+                // Own user context is always allowed for private templates.
+                if ((int)$context->instanceid === (int)$USER->id) {
+                    $writable[$contextid] = $context;
+                }
+                continue;
+            }
+            if (has_capability($capability, $context)) {
+                $writable[$contextid] = $context;
+            }
+        }
+
+        return $writable;
+    }
+
+    /**
+     * Validate that a usertemplate file id is reachable from this surveypro.
+     *
+     * @param int $utemplateid Stored file id
+     * @param bool $requireowner When true, also require the current user owns the file
+     * @return \stored_file
+     */
+    public function assert_utemplate_accessible($utemplateid, $requireowner = false) {
+        global $USER;
+
+        $utemplateid = (int)$utemplateid;
+        if (!$utemplateid) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $fs = get_file_storage();
+        $xmlfile = $fs->get_file_by_id($utemplateid);
+        if (!$xmlfile || $xmlfile->is_directory()) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        if ($xmlfile->get_component() !== 'mod_surveypro' || $xmlfile->get_filearea() !== SURVEYPRO_TEMPLATEFILEAREA) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        $allowedcontexts = $this->get_sharingcontexts();
+        if (!array_key_exists($xmlfile->get_contextid(), $allowedcontexts)) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        if ($requireowner && (int)$xmlfile->get_userid() !== (int)$USER->id) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+        }
+
+        return $xmlfile;
     }
 
     /**
      * Get user template name.
      *
-     * @return void
+     * @return string
      */
     public function get_utemplate_name() {
-        $fs = get_file_storage();
-        $xmlfile = $fs->get_file_by_id($this->utemplateid);
+        $xmlfile = $this->assert_utemplate_accessible($this->utemplateid);
 
         return $xmlfile->get_filename();
+    }
+
+    /**
+     * Get user template content.
+     *
+     * @param int $utemplateid
+     * @return string
+     */
+    public function get_utemplate_content($utemplateid = 0) {
+        if (empty($utemplateid)) {
+            $utemplateid = $this->utemplateid;
+        }
+        $xmlfile = $this->assert_utemplate_accessible($utemplateid);
+
+        return $xmlfile->get_content();
     }
 
     /**

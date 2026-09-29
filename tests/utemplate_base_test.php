@@ -164,4 +164,59 @@ final class utemplate_base_test extends \advanced_testcase {
 
         $this->assertArrayHasKey($context->id, $result);
     }
+
+    /**
+     * assert_utemplate_accessible() must reject foreign file ids.
+     */
+    public function test_assert_utemplate_accessible_rejects_foreign_file(): void {
+        $this->resetAfterTest();
+
+        $this->setAdminUser();
+        $course = $this->getDataGenerator()->create_course();
+        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
+        $context = \context_module::instance($cm->id);
+        $template = new utemplate_base($cm, $context, $surveypro);
+
+        // Create a file in another course module context.
+        $courseb = $this->getDataGenerator()->create_course();
+        $surveyprob = $this->getDataGenerator()->create_module('surveypro', ['course' => $courseb->id]);
+        $cmb = get_coursemodule_from_instance('surveypro', $surveyprob->id);
+        $contextb = \context_module::instance($cmb->id);
+
+        $fs = get_file_storage();
+        $filerecord = [
+            'contextid' => $contextb->id,
+            'component' => 'mod_surveypro',
+            'filearea' => SURVEYPRO_TEMPLATEFILEAREA,
+            'itemid' => 0,
+            'filepath' => '/',
+            'filename' => 'foreign.xml',
+        ];
+        $file = $fs->create_file_from_string($filerecord, '<surveypro></surveypro>');
+
+        $this->expectException(\moodle_exception::class);
+        $template->assert_utemplate_accessible($file->get_id());
+    }
+
+    /**
+     * Writable sharing contexts for a course teacher must not include system.
+     */
+    public function test_get_sharingcontexts_forwrite_excludes_system_for_teacher(): void {
+        $this->resetAfterTest();
+
+        $course = $this->getDataGenerator()->create_course();
+        $teacher = $this->getDataGenerator()->create_and_enrol($course, 'editingteacher');
+        $this->setUser($teacher);
+
+        $surveypro = $this->getDataGenerator()->create_module('surveypro', ['course' => $course->id]);
+        $cm = get_coursemodule_from_instance('surveypro', $surveypro->id);
+        $context = \context_module::instance($cm->id);
+        $template = new utemplate_base($cm, $context, $surveypro);
+
+        $writable = $template->get_sharingcontexts(true);
+        $systemcontext = \context_system::instance();
+        $this->assertArrayNotHasKey($systemcontext->id, $writable);
+        $this->assertArrayHasKey($context->id, $writable);
+    }
 }

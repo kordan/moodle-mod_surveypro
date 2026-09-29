@@ -103,14 +103,30 @@ final class mtemplate_apply_test extends \advanced_testcase {
     ------------------------------------------------------------------------*/
 
     /**
-     * set_mastertemplate() must execute without errors.
+     * set_mastertemplate() must accept an enabled master template plugin.
      */
     public function test_set_mastertemplate(): void {
         $this->resetAfterTest();
 
         $template = $this->make_template();
-        $template->set_mastertemplate('sometemplate');
+        $mtemplates = $template->get_mtemplates();
+        $this->assertNotEmpty($mtemplates);
+
+        $templatename = array_key_first($mtemplates);
+        $template->set_mastertemplate($templatename);
 
         $this->assertTrue(true);
+    }
+
+    /**
+     * set_mastertemplate() must reject path traversal and unknown plugins.
+     */
+    public function test_set_mastertemplate_rejects_invalid_names(): void {
+        $this->resetAfterTest();
+
+        $template = $this->make_template();
+
+        $this->expectException(\moodle_exception::class);
+        $template->set_mastertemplate('../../../lib');
     }
 }

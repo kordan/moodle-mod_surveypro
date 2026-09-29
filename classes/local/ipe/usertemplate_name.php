@@ -72,8 +72,11 @@ class usertemplate_name extends \core\output\inplace_editable
 
         $fs = get_file_storage();
         $xmlfile = $fs->get_file_by_id($xmlfileid);
-        if (!$xmlfile) {
+        if (!$xmlfile || $xmlfile->is_directory()) {
             throw new \moodle_exception('filenotfound', 'error');
+        }
+        if ($xmlfile->get_component() !== 'mod_surveypro' || $xmlfile->get_filearea() !== SURVEYPRO_TEMPLATEFILEAREA) {
+            throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
         }
 
         $context = \context::instance_by_id($xmlfile->get_contextid());

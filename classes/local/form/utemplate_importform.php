@@ -62,14 +62,14 @@ class utemplate_importform extends \moodleform
 
         // Templateimport: sharinglevel.
         $fieldname = 'sharinglevel';
-        $contexts = $importman->get_sharingcontexts();
+        $contexts = $importman->get_sharingcontexts(true);
         $options = [];
         foreach ($contexts as $k => $context) {
             $options[$k] = $importman->get_label_forcontextid($context->contextlevel);
         }
         $mform->addElement('select', $fieldname, get_string($fieldname, 'mod_surveypro'), $options);
         $mform->addHelpButton($fieldname, $fieldname, 'surveypro');
-        $mform->setDefault($fieldname, CONTEXT_SYSTEM);
+        $mform->setDefault($fieldname, $importman->get_context()->id);
 
         $this->add_action_buttons(false, get_string('import'));
     }
@@ -92,6 +92,12 @@ class utemplate_importform extends \moodleform
 
         $errors = parent::validation($data, $files);
 
+        $writablecontexts = $importman->get_sharingcontexts(true);
+        if (!array_key_exists((int)$data['sharinglevel'], $writablecontexts)) {
+            $errors['sharinglevel'] = get_string('incorrectaccessdetected', 'mod_surveypro');
+            return $errors;
+        }
+
         $fs = get_file_storage();
         $usercontext = \context_user::instance($USER->id);
         $draftitemid = file_get_submitted_draft_itemid('importfile_filemanager');
@@ -107,8 +113,7 @@ class utemplate_importform extends \moodleform
             $xmlfilename = $file->get_filename();
             $importedfiles[] = $xmlfilename;
 
-            $xmlfileid = $file->get_id();
-            $xml = $importman->get_utemplate_content($xmlfileid);
+            $xml = $file->get_content();
             $importman->validate_xml($xml);
             $errormessage = $importman->get_xmlvalidationoutcome();
             if (!empty($errormessage->key)) {

@@ -1030,7 +1030,7 @@ class layout_itemlist
                 redirect($returnurl);
                 break;
             case SURVEYPRO_CHANGEINDENT:
-                $where = ['id' => $this->rootitemid];
+                $where = ['id' => $this->rootitemid, 'surveyproid' => $this->surveypro->id];
                 $DB->set_field('surveypro_item', 'indent', $this->nextindent, $where);
                 break;
             case SURVEYPRO_MAKERESERVED:
@@ -1151,7 +1151,10 @@ class layout_itemlist
                 $searchitem--;
             }
 
-            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
+            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, [
+                'id' => $itemid,
+                'surveyproid' => $this->surveypro->id,
+            ]);
         } else {
             // Moving the item forward.
             $searchitem = $this->itemtomove + 1;
@@ -1165,7 +1168,10 @@ class layout_itemlist
                 $searchitem++;
             }
 
-            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, ['id' => $itemid]);
+            $DB->set_field('surveypro_item', 'sortindex', $replaceitem, [
+                'id' => $itemid,
+                'surveyproid' => $this->surveypro->id,
+            ]);
         }
 
         // You changed item order. Don't forget to reset the page of each items.
@@ -1196,7 +1202,10 @@ class layout_itemlist
         if (($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1)) {
             // Hide items.
             foreach ($itemstohide as $itemtohide) {
-                $DB->set_field('surveypro_item', 'hidden', 1, ['id' => $itemtohide->id]);
+                $DB->set_field('surveypro_item', 'hidden', 1, [
+                    'id' => $itemtohide->id,
+                    'surveyproid' => $this->surveypro->id,
+                ]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
@@ -1290,7 +1299,10 @@ class layout_itemlist
         if (($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1)) {
             // Show items.
             foreach ($toshowlist as $toshowitemid) {
-                $DB->set_field('surveypro_item', 'hidden', 0, ['id' => $toshowitemid]);
+                $DB->set_field('surveypro_item', 'hidden', 0, [
+                    'id' => $toshowitemid,
+                    'surveyproid' => $this->surveypro->id,
+                ]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
@@ -1396,7 +1408,10 @@ class layout_itemlist
         if (($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1)) {
             // Make items reserved.
             foreach ($itemstoreserve as $itemtoreserve) {
-                $DB->set_field('surveypro_item', 'reserved', 1, ['id' => $itemtoreserve->id]);
+                $DB->set_field('surveypro_item', 'reserved', 1, [
+                    'id' => $itemtoreserve->id,
+                    'surveyproid' => $this->surveypro->id,
+                ]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
@@ -1525,7 +1540,10 @@ class layout_itemlist
         if (($this->confirm == SURVEYPRO_CONFIRMED_YES) || ($itemstoprocess == 1)) {
             // Make items available.
             foreach ($itemstoavailable as $itemtoavailable) {
-                $DB->set_field('surveypro_item', 'reserved', 0, ['id' => $itemtoavailable->id]);
+                $DB->set_field('surveypro_item', 'reserved', 0, [
+                    'id' => $itemtoavailable->id,
+                    'surveyproid' => $this->surveypro->id,
+                ]);
             }
             $utilitylayoutman = new utility_layout($this->cm, $this->surveypro);
             $utilitylayoutman->reset_pages();
@@ -1638,7 +1656,10 @@ class layout_itemlist
 
         require_sesskey();
 
-        $DB->set_field('surveypro_item', 'insearchform', 1, ['id' => $this->rootitemid]);
+        $DB->set_field('surveypro_item', 'insearchform', 1, [
+            'id' => $this->rootitemid,
+            'surveyproid' => $this->surveypro->id,
+        ]);
     }
 
     /**
@@ -1672,7 +1693,10 @@ class layout_itemlist
 
         require_sesskey();
 
-        $DB->set_field('surveypro_item', 'insearchform', 0, ['id' => $this->rootitemid]);
+        $DB->set_field('surveypro_item', 'insearchform', 0, [
+            'id' => $this->rootitemid,
+            'surveyproid' => $this->surveypro->id,
+        ]);
     }
 
     /**
@@ -1725,7 +1749,7 @@ class layout_itemlist
             $item = surveypro_get_itemclass($this->cm, $this->surveypro, $this->rootitemid, $this->type, $this->plugin);
 
             $killedsortindex = $item->get_sortindex();
-            $whereparams = ['id' => $this->rootitemid];
+            $whereparams = ['id' => $this->rootitemid, 'surveyproid' => $this->surveypro->id];
             $utilitylayoutman->delete_items($whereparams);
 
             $utilitylayoutman->items_reindex($killedsortindex);
@@ -2326,6 +2350,15 @@ class layout_itemlist
      * @return void
      */
     public function set_itemid($itemid) {
+        global $DB;
+
+        $itemid = (int)$itemid;
+        if ($itemid) {
+            // Ensure the item belongs to the current surveypro (prevents cross-instance IDOR).
+            if (!$DB->record_exists('surveypro_item', ['id' => $itemid, 'surveyproid' => $this->surveypro->id])) {
+                throw new \moodle_exception('incorrectaccessdetected', 'mod_surveypro');
+            }
+        }
         $this->rootitemid = $itemid;
     }
 

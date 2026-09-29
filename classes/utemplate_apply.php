@@ -444,6 +444,10 @@ class utemplate_apply extends utemplate_base
         if ($this->action == SURVEYPRO_EXPORTUTEMPLATE) {
             require_capability('mod/surveypro:downloadusertemplates', $this->context);
         }
+        if (!empty($this->utemplateid)) {
+            require_capability('mod/surveypro:applyusertemplates', $this->context);
+            $this->assert_utemplate_accessible($this->utemplateid);
+        }
     }
 
     /**
