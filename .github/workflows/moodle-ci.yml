@@ -10,35 +10,41 @@ jobs:
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
           POSTGRES_USER: 'postgres'
           POSTGRES_HOST_AUTH_METHOD: 'trust'
         ports:
           - 5432:5432
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
       mariadb:
-        image: mariadb:10
+        image: mariadb:11.4
         env:
-          MYSQL_USER: 'root'
-          MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-          MYSQL_CHARACTER_SET_SERVER: "utf8mb4"
-          MYSQL_COLLATION_SERVER: "utf8mb4_unicode_ci"
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "1"
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval 10s --health-timeout 5s --health-retries 3
+        options: >-
+          --health-cmd="mariadb-admin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+          --health-start-period=20s
 
     strategy:
       fail-fast: false
       matrix:
         include:
           - php: 8.4
-            moodle-branch: MOODLE_502_STABLE
+            moodle-branch: MOODLE_503_STABLE
             database: mariadb
-            suite: classic
+            suite: default
             profile: default
-          - php: 8.3
-            moodle-branch: MOODLE_502_STABLE
+          - php: 8.4
+            moodle-branch: MOODLE_503_STABLE
             database: pgsql
             suite: default
             profile: chrome

@@ -11,7 +11,8 @@
 /* Begin of: colours alternation for #layout_preview, #view_userentry, #view_usersearch forms and read-only table */
 .path-mod-surveypro #userentry div.row:nth-of-type(odd),
 .path-mod-surveypro #usersearch div.row:nth-of-type(odd) {
-    background-color: #ededed;
+    /* background-color: #ededed; */
+    background-color: #e8e8e8;
 }
 /* End of: colours alternation for #userentry, #usersearch forms and read-only table */
 
@@ -95,7 +96,7 @@
     vertical-align: middle;
 }
 
-.path-mod-surveypro table td.parentitem {
+.path-mod-surveypro table td.parentid {
     width: .5em;
     padding: .5em;
     margin: 0;
@@ -104,7 +105,7 @@
     text-align: center;
 }
 
-.path-mod-surveypro table td.parentitem span.branch .icon {
+.path-mod-surveypro table td.parentid span.branch .icon {
     width: 16px;
     padding: 0 .1em 0 .1em;
     margin: 0 .1em 0 .1em;
@@ -224,8 +225,12 @@
 }
 
 .path-mod-surveypro table .dimmed,
+.path-mod-surveypro table .dimmed > td,
+.path-mod-surveypro table .dimmed > th,
 .path-mod-surveypro table .dimmed:hover {
-    color: #767676;
+    /* color: #6c757d; */
+    color: #595959;
+    font-style: italic;
 }
 
 .path-mod-surveypro table#validaterelations .header {
